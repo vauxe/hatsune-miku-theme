@@ -2,6 +2,8 @@
 
 > "The World is My Stage, and Code is My Song."
 
+![Theme Preview](./images/preview.png)
+
 A high-fidelity Visual Studio Code theme optimized for long-term professional use, deeply integrated with the aesthetics of **Hatsune Miku V4X**.
 
 ## 🎵 Design Philosophy: The Digital Diva
@@ -46,6 +48,22 @@ This is not just a color swap. This theme treats your IDE as a **Virtual Stage**
 | **Interface Amber** | `#FFD740` | Types, Classes, Interfaces |
 | **Tattoo Red** | `#FF5370` | Errors, deletions |
 
+## 📦 Installation
+
+### Manual Installation (.vsix)
+1.  Download the **`hatsune-miku-theme-x.x.x.vsix`** file.
+2.  Open VS Code Extensions sidebar (`Ctrl+Shift+X` / `Cmd+Shift+X`).
+3.  Click the **"..."** (Views and More Actions) menu at the top right corner of the sidebar.
+4.  Select **"Install from VSIX..."**.
+5.  Locate and select the `.vsix` file you downloaded.
+
+### 🔌 Activation
+Once installed, a popup should appear asking to set the theme. If not:
+*   Press `Ctrl+K`, then `Ctrl+T` (or `Cmd+K`, `Cmd+T` on MacOS).
+*   Select **Hatsune Miku Theme** from the list.
+
+
 ---
+
 
 *Designed for the Creators. Optimised for the Future.*
