@@ -1,0 +1,21 @@
+{
+  "name": "hatsune-miku-theme",
+  "displayName": "Hatsune Miku Theme",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.108.1"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Hatsune Miku Theme",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Hatsune Miku Theme-color-theme.json"
+      }
+    ]
+  }
+}
