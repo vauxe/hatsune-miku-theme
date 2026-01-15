@@ -2,7 +2,7 @@
   "name": "hatsune-miku-theme",
   "displayName": "Hatsune Miku Theme",
   "description": "A beautiful dark theme inspired by Hatsune Miku, featuring her signature teal and pink colors.",
-  "version": "0.0.1",
+  "version": "3.9.39",
   "engines": {
     "vscode": "^1.108.1"
   },
