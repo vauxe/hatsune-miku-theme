@@ -164,7 +164,7 @@ function writeTheme(outputPath: string): void {
 
 const outputFile = path.resolve(
   __dirname,
-  '../themes/Hatsune Miku Theme-color-theme.json'
+  '../themes/hatsune-miku-theme-color-theme.json'
 );
 
 writeTheme(outputFile);

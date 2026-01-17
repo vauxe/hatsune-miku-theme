@@ -56,7 +56,7 @@ Indent guides create a **visual audio spectrum** as code nests deeper - from dee
 - **Keywords** are **Bold** (`#39C5BB`) - the skeleton of your code
 - **Functions** are distinct (`#00BCD4`) - saturated cyan for action
 - **Types** are **Bold Ice** (`#B2EBE7`) - cool, structural emphasis
-- **Comments** are faded (`#5A7A7A`) - reduced visual noise
+- **Comments** are faded (`#6E9090`) - reduced visual noise
 
 ### 3. Interaction States (V4X/Append Voices)
 
@@ -82,54 +82,7 @@ Indent guides create a **visual audio spectrum** as code nests deeper - from dee
 
 ## Example Files
 
-The `examples/` folder contains showcase files demonstrating the theme's syntax highlighting:
-
-| File | Language | Demonstrates |
-| :--- | :--- | :--- |
-| `showcase.py` | Python | Classes, decorators, async/await, type hints |
-| `showcase.tsx` | TypeScript/React | Components, hooks, generics, JSX |
-| `showcase.rs` | Rust | Lifetimes, macros, traits, async |
-| `showcase.go` | Go | Interfaces, goroutines, generics |
-| `showcase.css` | CSS | Variables, selectors, animations |
-| `showcase.vue` | Vue 3 | Directives, components, composition API |
-| `showcase.svelte` | Svelte | Blocks, stores, reactivity |
-| `showcase.graphql` | GraphQL | Types, queries, mutations, directives |
-| `showcase.md` | Markdown | Headings, code blocks, tables |
-| `showcase.json` | JSON | Objects, arrays, nesting |
-| `showcase.yaml` | YAML | Anchors, multi-line strings, K8s |
-| `showcase.sql` | SQL | DDL, DML, CTEs, window functions |
-| `showcase.sh` | Shell/Bash | Variables, functions, control flow |
-| `showcase.html` | HTML | Tags, attributes, forms, accessibility |
-
-## Palette Reference
-
-### Core Identity
-
-| Color Name | Hex | Usage |
-| :--- | :--- | :--- |
-| **Miku Teal (V2)** | `#39C5BB` | Keywords, Identity, Borders |
-| **NT Cyan** | `#00BCD4` | Functions, Methods |
-| **Ice Teal** | `#B2EBE7` | Types, Classes, Parameters |
-| **SEKAI Pink** | `#FF6B9D` | Cursors, Find Matches |
-
-### Interaction States
-
-| Color Name | Hex | Usage |
-| :--- | :--- | :--- |
-| **Append Sweet** | `#5FCEC8` | Hover states |
-| **V4X Soft** | `#6DD4CD` | Focus states |
-| **V4X Hard** | `#2B9E96` | Active/pressed states |
-| **Append Vivid** | `#00E5D4` | Electric glow, active line |
-
-### Accents
-
-| Color Name | Hex | Usage |
-| :--- | :--- | :--- |
-| **Magenta LED** | `#E05096` | Constants, Numbers |
-| **Negi Green** | `#9CCC65` | Strings |
-| **Meta Amber** | `#FFD740` | Decorators, Macros, Warnings |
-| **Hologram Purple** | `#B388FF` | RegEx, Brackets |
-| **Error Coral** | `#FF5370` | Errors, Deletions |
+The `examples/` folder contains showcase files for Python, TypeScript, Rust, Go, CSS, Vue, Svelte, GraphQL, Markdown, JSON, YAML, SQL, Shell, and HTML.
 
 ## Installation
 

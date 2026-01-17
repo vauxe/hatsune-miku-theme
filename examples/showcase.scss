@@ -1,0 +1,307 @@
+/**
+ * Hatsune Miku Theme - SCSS Showcase
+ * All-Miku Synthesis: Every voice, one stage.
+ */
+
+// Use statement (modern Sass)
+@use 'sass:math';
+@use 'sass:color';
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:string';
+
+// Forward statement
+@forward 'variables' with (
+  $primary-color: #39C5BB !default
+);
+
+// Variables: #E05096 (Magenta LED - Rhythm)
+$canonical-color: #39C5BB;
+$secondary-color: #FF80AB;
+$accent-color: #B388FF;
+$background-dark: #1A1F24;
+$text-primary: #E8F5F5;
+
+// Variable with !default flag
+$default-bpm: 39 !default;
+$max-energy: 100 !default;
+
+// Maps: key #90B8B2, value #9CCC65
+$miku-colors: (
+  'primary': $canonical-color,
+  'secondary': $secondary-color,
+  'accent': $accent-color,
+  'dark': #1A1A2E,
+  'light': #E8F5E9
+);
+
+$voice-types: (
+  'dark': (color: #1A1A2E, weight: 700),
+  'soft': (color: #FFB7C5, weight: 300),
+  'light': (color: #E8F5E9, weight: 400),
+  'sweet': (color: #FFE0B2, weight: 400),
+  'vivid': (color: #FF4081, weight: 600),
+  'solid': (color: #3F51B5, weight: 700)
+);
+
+// Lists
+$stage-effects: hologram, particles, glow, laser;
+$breakpoints: 320px, 768px, 1024px, 1440px;
+
+// Function: #00BCD4 (NT Cyan)
+@function get-color($name) {
+  @if map.has-key($miku-colors, $name) {
+    @return map.get($miku-colors, $name);
+  } @else {
+    @warn "Color '#{$name}' not found in $miku-colors.";
+    @return $canonical-color;
+  }
+}
+
+// Function with multiple parameters
+@function calculate-energy($base, $multiplier: 1) {
+  @return math.min($base * $multiplier, $max-energy);
+}
+
+// Function using color manipulation
+@function miku-tint($color, $percentage: 20%) {
+  @return color.mix(white, $color, $percentage);
+}
+
+@function miku-shade($color, $percentage: 20%) {
+  @return color.mix(black, $color, $percentage);
+}
+
+// Mixin: #00BCD4 (NT Cyan)
+@mixin stage-lighting($color: $canonical-color) {
+  background: linear-gradient(
+    135deg,
+    $color 0%,
+    color.adjust($color, $lightness: -20%) 100%
+  );
+  box-shadow:
+    0 0 20px color.adjust($color, $alpha: -0.5),
+    0 0 40px color.adjust($color, $alpha: -0.7);
+}
+
+// Mixin with content block
+@mixin holographic-effect {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba($canonical-color, 0.1) 50%,
+      transparent 70%
+    );
+    animation: hologram-sweep 3s ease-in-out infinite;
+    @content;
+  }
+}
+
+// Mixin with arguments and defaults
+@mixin responsive($breakpoint: 768px) {
+  @media screen and (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+// Mixin with variable arguments
+@mixin box-shadow($shadows...) {
+  box-shadow: $shadows;
+}
+
+// Placeholder selector (silent class): #B2EBE7 Bold
+%flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+%miku-text-style {
+  font-family: 'Miku Gothic', 'Noto Sans JP', sans-serif;
+  color: $text-primary;
+  line-height: 1.6;
+}
+
+// Root variables
+:root {
+  --miku-primary: #{$canonical-color};
+  --miku-secondary: #{$secondary-color};
+  --miku-accent: #{$accent-color};
+  --miku-bg: #{$background-dark};
+  --energy-level: #{$default-bpm};
+}
+
+// Nested rules with parent selector: #39C5BB Bold
+.miku-stage {
+  @extend %flex-center;
+  @include stage-lighting;
+
+  width: 100%;
+  min-height: 100vh;
+  padding: 2rem;
+
+  // Nested element
+  &__performer {
+    @include holographic-effect {
+      border-radius: inherit;
+    }
+
+    position: relative;
+    padding: 2rem;
+    background: rgba($background-dark, 0.9);
+    border-radius: 1rem;
+    border: 2px solid $canonical-color;
+
+    // Deeper nesting
+    &-name {
+      @extend %miku-text-style;
+      font-size: 2rem;
+      font-weight: 700;
+
+      // BEM modifier
+      &--highlighted {
+        color: $canonical-color;
+        text-shadow: 0 0 10px $canonical-color;
+      }
+    }
+  }
+
+  // State modifier
+  &--performing {
+    animation: pulse 1s ease-in-out infinite;
+  }
+
+  &--idle {
+    opacity: 0.8;
+  }
+
+  // Pseudo-classes
+  &:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+  }
+
+  &:focus-within {
+    outline: 2px solid $canonical-color;
+    outline-offset: 4px;
+  }
+}
+
+// Each loop for voice types
+@each $type, $props in $voice-types {
+  .voice-#{$type} {
+    color: map.get($props, 'color');
+    font-weight: map.get($props, 'weight');
+
+    &::before {
+      content: '[#{string.to-upper-case($type)}]';
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+// For loop
+@for $i from 1 through 6 {
+  .energy-level-#{$i} {
+    width: math.percentage(math.div($i, 6));
+    background: color.adjust(
+      $canonical-color,
+      $lightness: ($i - 3) * 5%
+    );
+  }
+}
+
+// While loop
+$counter: 1;
+@while $counter <= 4 {
+  .stage-layer-#{$counter} {
+    z-index: $counter;
+    opacity: math.div(1, $counter);
+  }
+  $counter: $counter + 1;
+}
+
+// Conditional logic
+@mixin theme-colors($mode: 'dark') {
+  @if $mode == 'dark' {
+    background-color: $background-dark;
+    color: $text-primary;
+  } @else if $mode == 'light' {
+    background-color: #FFFFFF;
+    color: #1A1A2E;
+  } @else {
+    @error "Unknown mode: #{$mode}";
+  }
+}
+
+// Animation keyframes
+@keyframes hologram-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba($canonical-color, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba($canonical-color, 0.8);
+  }
+}
+
+// Media queries with interpolation
+@each $name, $size in (
+  'sm': 640px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1280px
+) {
+  @media (min-width: $size) {
+    .container-#{$name} {
+      max-width: $size;
+      margin-inline: auto;
+    }
+  }
+}
+
+// Attribute selector
+[data-miku-version] {
+  &[data-miku-version='v2'] {
+    --version-color: #{$canonical-color};
+  }
+
+  &[data-miku-version='nt'] {
+    --version-color: #00BCD4;
+  }
+}
+
+// Complex selectors
+.song-list {
+  > li {
+    &:nth-child(odd) {
+      background: rgba($canonical-color, 0.1);
+    }
+
+    &:first-child {
+      border-radius: 0.5rem 0.5rem 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 0.5rem 0.5rem;
+    }
+
+    + li {
+      border-top: 1px solid rgba($canonical-color, 0.2);
+    }
+  }
+}

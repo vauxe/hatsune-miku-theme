@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Hatsune Miku Theme - XML Showcase
+  All-Miku Synthesis: Every voice, one stage.
+-->
+
+<!DOCTYPE miku-config [
+  <!-- Entity declarations: #E05096 (Magenta LED) -->
+  <!ENTITY canonicalColor "#39C5BB">
+  <!ENTITY defaultBpm "39">
+  <!ENTITY modelId "CV01">
+  <!ENTITY copyright "Crypton Future Media">
+]>
+
+<!-- Root element: #39C5BB Bold (Tag) -->
+<miku-config
+    xmlns="http://mikutheme.example.com/config"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:voice="http://mikutheme.example.com/voice"
+    xsi:schemaLocation="http://mikutheme.example.com/config miku-config.xsd"
+    version="2.0">
+
+    <!-- Attribute: #4DD0E1 Italic -->
+    <!-- String value: #9CCC65 -->
+
+    <!-- Metadata section -->
+    <metadata>
+        <name>Hatsune Miku</name>
+        <model-id>&modelId;</model-id>
+        <canonical-color>&canonicalColor;</canonical-color>
+        <release-date>2007-08-31</release-date>
+        <creator>&copyright;</creator>
+    </metadata>
+
+    <!-- Voice banks configuration -->
+    <voice:banks default="v2-classic">
+        <!-- Voice bank entry with attributes -->
+        <voice:bank
+            id="v2-classic"
+            engine="VOCALOID2"
+            release-year="2007"
+            active="true">
+            <voice:name>Hatsune Miku V2</voice:name>
+            <voice:frequency-range min="80" max="1100"/>
+            <voice:character-voice>Saki Fujita</voice:character-voice>
+            <voice:description>
+                The original voice bank that started it all.
+                Features the iconic teal-colored virtual singer.
+            </voice:description>
+        </voice:bank>
+
+        <voice:bank
+            id="v3-english"
+            engine="VOCALOID3"
+            release-year="2013"
+            active="true">
+            <voice:name>Hatsune Miku V3 English</voice:name>
+            <voice:frequency-range min="80" max="1100"/>
+            <voice:languages>
+                <voice:language code="en">English</voice:language>
+                <voice:language code="ja">Japanese</voice:language>
+            </voice:languages>
+        </voice:bank>
+
+        <voice:bank
+            id="nt"
+            engine="Piapro Studio NT"
+            release-year="2020"
+            active="true">
+            <voice:name>Hatsune Miku NT</voice:name>
+            <voice:frequency-range min="55" max="1400"/>
+            <voice:features>
+                <voice:feature>AI-enhanced synthesis</voice:feature>
+                <voice:feature>Real-time rendering</voice:feature>
+                <voice:feature>Extended vocal range</voice:feature>
+            </voice:features>
+        </voice:bank>
+    </voice:banks>
+
+    <!-- Append voice types -->
+    <append-voices>
+        <append type="dark" color="#1A1A2E">Dark</append>
+        <append type="soft" color="#FFB7C5">Soft</append>
+        <append type="light" color="#E8F5E9">Light</append>
+        <append type="sweet" color="#FFE0B2">Sweet</append>
+        <append type="vivid" color="#FF4081">Vivid</append>
+        <append type="solid" color="#3F51B5">Solid</append>
+    </append-voices>
+
+    <!-- Stage configuration -->
+    <stage-config>
+        <lighting>
+            <primary-color>&canonicalColor;</primary-color>
+            <secondary-color>#FF80AB</secondary-color>
+            <accent-color>#B388FF</accent-color>
+        </lighting>
+
+        <effects enabled="true">
+            <effect name="hologram" intensity="0.8"/>
+            <effect name="particles" intensity="0.5"/>
+            <effect name="glow" intensity="0.7"/>
+        </effects>
+
+        <!-- CDATA section for script content -->
+        <initialization-script><![CDATA[
+            function initializeStage() {
+                const color = "#39C5BB";
+                console.log("Stage initialized with color: " + color);
+                return true;
+            }
+        ]]></initialization-script>
+    </stage-config>
+
+    <!-- Song database reference -->
+    <songs>
+        <song id="world-is-mine" bpm="165">
+            <title>World is Mine</title>
+            <composer>ryo (supercell)</composer>
+            <year>2008</year>
+            <duration>PT4M24S</duration>
+            <tags>
+                <tag>princess</tag>
+                <tag>iconic</tag>
+                <tag>concert</tag>
+            </tags>
+        </song>
+
+        <song id="melt" bpm="&defaultBpm;">
+            <title>Melt</title>
+            <composer>ryo (supercell)</composer>
+            <year>2007</year>
+            <duration>PT4M17S</duration>
+        </song>
+
+        <song id="love-is-war" bpm="175">
+            <title>Love is War</title>
+            <composer>ryo (supercell)</composer>
+            <year>2008</year>
+            <duration>PT3M54S</duration>
+        </song>
+    </songs>
+
+    <!-- Processing instructions -->
+    <?miku-processor version="2.0" output="json"?>
+
+    <!-- Include external configuration -->
+    <xi:include
+        xmlns:xi="http://www.w3.org/2001/XInclude"
+        href="external-config.xml"
+        xpointer="xpointer(/config/*)">
+        <xi:fallback>
+            <default-config>
+                <setting name="fallback" value="true"/>
+            </default-config>
+        </xi:fallback>
+    </xi:include>
+
+    <!-- Comments and documentation -->
+    <documentation>
+        <section title="Color Scheme">
+            <paragraph>
+                The Hatsune Miku theme uses a carefully selected color palette
+                based on the character's iconic teal color (#39C5BB).
+            </paragraph>
+            <code-sample language="css">
+                .miku-primary { color: #39C5BB; }
+                .miku-accent { color: #FF80AB; }
+            </code-sample>
+        </section>
+    </documentation>
+
+</miku-config>
