@@ -347,3 +347,170 @@ export const seasonal = {
     sand: '#FFE0B2',
   },
 } as const;
+
+// =============================================================================
+// REGIONAL / LANGUAGE VARIANTS
+// =============================================================================
+
+export const regional = {
+  /** Miku V4 English - Western market styling */
+  v4English: {
+    primary: '#39C5BB',            // Same teal
+    accent: '#00A9A5',             // Slightly different accent
+    western: '#1E88E5',            // Western blue influence
+    boxArt: '#2D9E97',             // Box art teal
+  },
+  /** Miku V4 Chinese - Shanghai collaboration */
+  v4Chinese: {
+    primary: '#39C5BB',            // Core teal
+    red: '#DE2910',                // Chinese red
+    gold: '#FFDE00',               // Lucky gold
+    accent: '#00A9A5',             // Accent teal
+  },
+  /** Regional tour colors */
+  tourColors: {
+    japan: '#BC002D',              // Hinomaru red
+    usa: '#3C3B6E',                // US navy
+    europe: '#003399',             // EU blue
+    china: '#DE2910',              // China red
+    korea: '#003478',              // Korea blue
+    taiwan: '#FE0000',             // Taiwan red
+    singapore: '#EF3340',          // Singapore red
+    indonesia: '#CE1126',          // Indonesia red
+    thailand: '#A51931',           // Thailand red
+    australia: '#00843D',          // Australia green
+    brazil: '#009B3A',             // Brazil green
+    mexico: '#006847',             // Mexico green
+  },
+} as const;
+
+// =============================================================================
+// VOCALOID ENGINE COLORS
+// =============================================================================
+
+export const vocaloidEngines = {
+  /** VOCALOID1 era (2004-2007) */
+  v1: {
+    interface: '#4A90D9',          // Blue interface
+    waveform: '#00FF00',           // Green waveform
+    background: '#1E1E1E',         // Dark background
+  },
+  /** VOCALOID2 era (2007-2011) - Miku's debut */
+  v2: {
+    interface: '#5C9EE7',          // Updated blue
+    piano: '#2D2D2D',              // Piano roll dark
+    note: '#39C5BB',               // Note color
+  },
+  /** VOCALOID3 era (2011-2014) */
+  v3: {
+    interface: '#3D3D3D',          // Darker interface
+    timeline: '#4A4A4A',           // Timeline grey
+    note: '#3BC8BE',               // Note teal
+  },
+  /** VOCALOID4 era (2014-2018) */
+  v4: {
+    interface: '#2B2B2B',          // Modern dark
+    growl: '#FF6B6B',              // Growl indicator
+    crossSynthesis: '#B388FF',     // XSY purple
+  },
+  /** VOCALOID5 era (2018-2023) */
+  v5: {
+    interface: '#1A1A1A',          // Sleek dark
+    attack: '#00E5D4',             // Attack/Release
+    emotion: '#FF80AB',            // Emotion indicator
+  },
+  /** VOCALOID6 AI era (2023+) */
+  v6: {
+    interface: '#0D0D0D',          // Deep dark
+    ai: '#00FFFF',                 // AI cyan
+    natural: '#69F0AE',            // Natural green
+    power: '#FF4081',              // Power pink
+  },
+} as const;
+
+// =============================================================================
+// CONCERT LIGHTSTICK STANDARD
+// =============================================================================
+
+export const lightstickStandard = {
+  /** Official Crypton character colors */
+  official: {
+    miku: '#39C5BB',               // Miku teal
+    rin: '#FFCC00',                // Rin orange-yellow
+    len: '#FFFF00',                // Len yellow
+    luka: '#FF8CAE',               // Luka pink
+    meiko: '#DD0000',              // MEIKO red
+    kaito: '#3366FF',              // KAITO blue
+  },
+  /** Blade/Penlight modes */
+  modes: {
+    solid: 'normal',
+    blink: 'pulse',
+    rainbow: 'cycle',
+    wave: 'sync',
+  },
+  /** Fan light colors (unofficial but common) */
+  fan: {
+    white: '#FFFFFF',              // White (all support)
+    rainbow: 'gradient',           // Rainbow mode
+    custom: 'programmable',        // Custom RGB
+  },
+} as const;
+
+// =============================================================================
+// 01 TATTOO / NUMBER SYMBOLISM
+// =============================================================================
+
+export const numberSymbolism = {
+  /** "01" - Miku's iconic arm tattoo */
+  tattoo01: {
+    digital: '#39C5BB',            // Digital teal display
+    glow: '#5DE4DB',               // Glow effect
+    background: '#1A1F24',         // Arm display bg
+  },
+  /** 39 = "Miku" / "Thank You" pun */
+  miku39: {
+    primary: '#39C5BB',            // 39 teal
+    celebration: '#FFD700',        // Thank you gold
+    heart: '#FF69B4',              // Gratitude pink
+  },
+  /** Song/version numbers */
+  versionNumbers: {
+    v2: '#39C5BB',
+    v3: '#3BC8BE',
+    v4: '#38C4BA',
+    nt: '#3ED1C8',
+    v6: '#41D9CF',
+  },
+} as const;
+
+// =============================================================================
+// NENDOROID / FIGURE COLORS
+// =============================================================================
+
+export const figureColors = {
+  /** Good Smile Company figure aesthetics */
+  goodSmile: {
+    boxOrange: '#FF6D00',          // GSC orange
+    logoBlack: '#1A1A1A',          // Logo black
+    premiumGold: '#D4AF37',        // Premium line gold
+  },
+  /** Nendoroid specific */
+  nendoroid: {
+    baseBlack: '#1A1A1A',          // Stand base
+    armClear: '#E0E0E0',           // Clear arm
+    effectBlue: '#00BCD4',         // Effect parts
+    effectPink: '#FF4081',         // Effect parts
+  },
+  /** figma line */
+  figma: {
+    jointGrey: '#757575',          // Joint color
+    standClear: '#E8E8E8',         // Clear stand
+  },
+  /** Scale figure aesthetics */
+  scaleFigure: {
+    baseMirror: '#2D2D2D',         // Mirror base
+    acrylicClear: '#F5F5F5',       // Acrylic case
+    lightingWarm: '#FFF8E1',       // Display lighting
+  },
+} as const;
