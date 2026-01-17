@@ -1,0 +1,304 @@
+# Hatsune Miku Theme - GraphQL Showcase
+# All-Miku Synthesis: Every voice, one stage.
+
+# Scalar Types: #B2EBE7 Bold (Ice Teal)
+scalar DateTime
+scalar JSON
+scalar UUID
+
+# Enum: #B2EBE7 Bold
+enum MikuVersion {
+  V2_CLASSIC
+  V3
+  V4X
+  NT
+  SEKAI
+  V6_AI
+}
+
+enum AppendType {
+  DARK
+  SOFT
+  LIGHT
+  SWEET
+  VIVID
+  SOLID
+}
+
+enum StageStatus {
+  IDLE
+  PREPARING
+  PERFORMING
+  COMPLETED
+}
+
+# Input Type: #B2EBE7 Bold
+input VoiceBankInput {
+  name: String!
+  version: MikuVersion!
+  frequencyRange: FrequencyRangeInput
+}
+
+input FrequencyRangeInput {
+  min: Int = 80
+  max: Int = 1100
+}
+
+input PerformanceFilter {
+  songTitle: String
+  minBpm: Int
+  maxBpm: Int
+  versions: [MikuVersion!]
+  dateRange: DateRangeInput
+}
+
+input DateRangeInput {
+  start: DateTime!
+  end: DateTime!
+}
+
+# Interface: #B2EBE7 Bold
+interface Node {
+  id: ID!
+}
+
+interface Timestamped {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+# Type: #B2EBE7 Bold
+# Fields: #4DD0E1 (Cyan)
+type VoiceBank implements Node & Timestamped {
+  id: ID!
+  name: String!
+  version: MikuVersion!
+  frequencyRange: FrequencyRange!
+  appendTypes: [AppendType!]!
+  performances: [Performance!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type FrequencyRange {
+  min: Int!
+  max: Int!
+}
+
+type Performance implements Node & Timestamped {
+  id: ID!
+  songTitle: String!
+  bpm: Int!
+  duration: Int!
+  voiceBank: VoiceBank!
+  status: StageStatus!
+  metadata: JSON
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Stage implements Node {
+  id: ID!
+  name: String!
+  capacity: Int!
+  currentPerformance: Performance
+  upcomingPerformances(
+    first: Int = 10
+    after: String
+  ): PerformanceConnection!
+}
+
+# Connection Types (Relay Spec)
+type PerformanceConnection {
+  edges: [PerformanceEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type PerformanceEdge {
+  node: Performance!
+  cursor: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+# Union Type: #B2EBE7 Bold
+union SearchResult = VoiceBank | Performance | Stage
+
+# Query Type
+type Query {
+  # Single entity queries
+  voiceBank(id: ID!): VoiceBank
+  performance(id: ID!): Performance
+  stage(id: ID!): Stage
+
+  # List queries with filtering
+  voiceBanks(
+    version: MikuVersion
+    first: Int = 20
+    after: String
+  ): [VoiceBank!]!
+
+  performances(
+    filter: PerformanceFilter
+    orderBy: PerformanceOrderBy = CREATED_AT_DESC
+    first: Int = 20
+    after: String
+  ): PerformanceConnection!
+
+  # Search query
+  search(query: String!, types: [SearchType!]): [SearchResult!]!
+
+  # Aggregation
+  performanceStats(
+    voiceBankId: ID
+    dateRange: DateRangeInput
+  ): PerformanceStats!
+}
+
+enum PerformanceOrderBy {
+  CREATED_AT_ASC
+  CREATED_AT_DESC
+  BPM_ASC
+  BPM_DESC
+  DURATION_ASC
+  DURATION_DESC
+}
+
+enum SearchType {
+  VOICE_BANK
+  PERFORMANCE
+  STAGE
+}
+
+type PerformanceStats {
+  totalCount: Int!
+  averageBpm: Float!
+  totalDuration: Int!
+  byVersion: [VersionStats!]!
+}
+
+type VersionStats {
+  version: MikuVersion!
+  count: Int!
+  averageBpm: Float!
+}
+
+# Mutation Type
+type Mutation {
+  # Voice Bank mutations
+  createVoiceBank(input: VoiceBankInput!): VoiceBankPayload!
+  updateVoiceBank(id: ID!, input: VoiceBankInput!): VoiceBankPayload!
+  deleteVoiceBank(id: ID!): DeletePayload!
+
+  # Performance mutations
+  startPerformance(
+    voiceBankId: ID!
+    songTitle: String!
+    bpm: Int!
+  ): PerformancePayload!
+
+  stopPerformance(id: ID!): PerformancePayload!
+
+  # Stage mutations
+  assignToStage(
+    performanceId: ID!
+    stageId: ID!
+  ): StageAssignmentPayload!
+}
+
+# Mutation Payloads
+type VoiceBankPayload {
+  voiceBank: VoiceBank
+  errors: [UserError!]!
+}
+
+type PerformancePayload {
+  performance: Performance
+  errors: [UserError!]!
+}
+
+type StageAssignmentPayload {
+  stage: Stage
+  performance: Performance
+  errors: [UserError!]!
+}
+
+type DeletePayload {
+  success: Boolean!
+  errors: [UserError!]!
+}
+
+type UserError {
+  field: String
+  message: String!
+  code: ErrorCode!
+}
+
+enum ErrorCode {
+  NOT_FOUND
+  INVALID_INPUT
+  UNAUTHORIZED
+  CONFLICT
+  INTERNAL_ERROR
+}
+
+# Subscription Type
+type Subscription {
+  # Real-time performance updates
+  performanceStarted(stageId: ID): Performance!
+  performanceEnded(stageId: ID): Performance!
+  performanceProgress(performanceId: ID!): PerformanceProgress!
+
+  # Stage updates
+  stageStatusChanged(stageId: ID!): Stage!
+}
+
+type PerformanceProgress {
+  performance: Performance!
+  currentTime: Int!
+  progress: Float!
+}
+
+# Directives: #FFD740 Italic (Meta Amber)
+directive @deprecated(
+  reason: String = "No longer supported"
+) on FIELD_DEFINITION | ENUM_VALUE
+
+directive @auth(
+  requires: Role = USER
+) on FIELD_DEFINITION | OBJECT
+
+directive @cacheControl(
+  maxAge: Int
+  scope: CacheControlScope
+) on FIELD_DEFINITION | OBJECT
+
+enum Role {
+  ADMIN
+  USER
+  GUEST
+}
+
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
+}
+
+# Example Query (Comment: #5A7A7A Italic)
+# query GetVoiceBanks {
+#   voiceBanks(version: V2_CLASSIC, first: 10) {
+#     id
+#     name
+#     version
+#     frequencyRange {
+#       min
+#       max
+#     }
+#   }
+# }

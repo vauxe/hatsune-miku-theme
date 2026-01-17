@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "_comment": "Hatsune Miku Theme - JSON Showcase",
+  "_description": "All-Miku Synthesis: Every voice, one stage.",
+
+  "theme": {
+    "name": "Hatsune Miku Theme",
+    "version": "3.9.39",
+    "type": "dark",
+    "author": "Miku Fan",
+    "license": "MIT"
+  },
+
+  "allMikuSynthesis": {
+    "description": "Every Miku version mapped to UI layers",
+    "canonicalColor": "#39C5BB",
+
+    "versionMapping": {
+      "identity": {
+        "version": "V2 Classic",
+        "color": "#39C5BB",
+        "year": 2007,
+        "role": "Keywords, Borders",
+        "isCanonical": true
+      },
+      "stage": {
+        "version": "SEKAI",
+        "color": "#33CCBB",
+        "year": 2020,
+        "role": "Secondary cursors",
+        "isCanonical": false
+      },
+      "voice": {
+        "version": "NT",
+        "color": "#00BCD4",
+        "year": 2020,
+        "role": "Functions",
+        "isCanonical": false
+      },
+      "structure": {
+        "version": "Append Light",
+        "color": "#B2EBE7",
+        "year": 2010,
+        "role": "Types, Classes",
+        "isCanonical": false
+      }
+    },
+
+    "frequencyVisualizer": {
+      "description": "Indent guides as audio spectrum",
+      "levels": [
+        { "level": 1, "name": "bass", "color": "#1E8A82", "version": "Append Dark" },
+        { "level": 2, "name": "low", "color": "#2AA69E", "version": "Append Solid" },
+        { "level": 3, "name": "mid", "color": "#39C5BB", "version": "V2 Classic" },
+        { "level": 4, "name": "high", "color": "#3ED1C8", "version": "NT" },
+        { "level": 5, "name": "peak", "color": "#00E5D4", "version": "Append Vivid" },
+        { "level": 6, "name": "ultra", "color": "#A8EBE6", "version": "Append Light" }
+      ]
+    }
+  },
+
+  "palette": {
+    "teals": {
+      "classic": "#39C5BB",
+      "sekai": "#33CCBB",
+      "neon": "#5DE4DB",
+      "ice": "#B2EBE7",
+      "deep": "#0D6B65"
+    },
+    "pinks": {
+      "sekai": "#FF6B9D",
+      "accessory": "#E05096",
+      "soft": "#FF80AB"
+    },
+    "accents": {
+      "amber": "#FFD740",
+      "green": "#9CCC65",
+      "purple": "#B388FF",
+      "coral": "#FF5370"
+    }
+  },
+
+  "voiceBanks": [
+    {
+      "id": "v2-classic",
+      "name": "Hatsune Miku V2",
+      "version": "V2",
+      "year": 2007,
+      "color": "#39C5BB",
+      "frequencyRange": {
+        "min": 80,
+        "max": 1100
+      },
+      "tags": ["classic", "original", "iconic"],
+      "isActive": true
+    },
+    {
+      "id": "append-sweet",
+      "name": "Hatsune Miku Append (Sweet)",
+      "version": "Append",
+      "year": 2010,
+      "color": "#5FCEC8",
+      "frequencyRange": {
+        "min": 100,
+        "max": 900
+      },
+      "tags": ["append", "sweet", "warm"],
+      "isActive": true
+    },
+    {
+      "id": "nt",
+      "name": "Hatsune Miku NT",
+      "version": "NT",
+      "year": 2020,
+      "color": "#3ED1C8",
+      "frequencyRange": {
+        "min": 80,
+        "max": 1200
+      },
+      "tags": ["modern", "technology", "clear"],
+      "isActive": true
+    }
+  ],
+
+  "settings": {
+    "semanticHighlighting": true,
+    "bracketPairColorization": true,
+    "indentGuides": {
+      "enabled": true,
+      "style": "frequency-visualizer"
+    },
+    "cursor": {
+      "style": "line",
+      "blinking": "smooth",
+      "color": "#FF6B9D"
+    }
+  },
+
+  "numbers": {
+    "integer": 39,
+    "float": 3.14159,
+    "negative": -42,
+    "scientific": 1.23e10,
+    "hex": "0x39C5BB",
+    "binary": "0b101010"
+  },
+
+  "booleans": {
+    "enabled": true,
+    "disabled": false
+  },
+
+  "nullValue": null,
+
+  "arrays": {
+    "empty": [],
+    "strings": ["dark", "soft", "light", "sweet", "vivid", "solid"],
+    "numbers": [1, 2, 3, 4, 5, 6],
+    "mixed": ["Miku", 39, true, null, { "nested": "object" }]
+  },
+
+  "deepNesting": {
+    "level1": {
+      "level2": {
+        "level3": {
+          "level4": {
+            "level5": {
+              "level6": {
+                "value": "Deeply nested value",
+                "color": "#A8EBE6"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

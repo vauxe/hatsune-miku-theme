@@ -1,69 +1,153 @@
-# Hatsune Miku Theme (Digital Diva Edition)
+# Hatsune Miku Theme (All-Miku Synthesis Edition)
 
 > "The World is My Stage, and Code is My Song."
 
 ![Theme Preview](./images/preview.png)
 
-A high-fidelity Visual Studio Code theme optimized for long-term professional use, deeply integrated with the aesthetics of **Hatsune Miku V4X**.
+A high-fidelity Visual Studio Code theme optimized for marathon coding sessions, deeply integrated with the aesthetics of **every Hatsune Miku version** - from V2 Classic (2007) to Project SEKAI (2020).
 
-## 🎵 Design Philosophy: The Digital Diva
+## Design Philosophy: All-Miku Synthesis
 
-This is not just a color swap. This theme treats your IDE as a **Virtual Stage**, applying strict semantic mapping to transform code into a performance.
+This theme treats your IDE as a **Virtual Stage**, mapping each Miku version to specific UI roles. The canonical identity color `#39C5BB` remains THE foundation, while other versions provide interaction states and visual depth.
+
+### Version-to-UI Mapping
+
+| Version | Color | UI Role | Reasoning |
+| :--- | :--- | :--- | :--- |
+| **V2 Classic** | `#39C5BB` | **Identity** - Keywords, Borders | THE canonical Miku teal since 2007 |
+| **SEKAI** | `#33CCBB` | **Stage** - Secondary cursors | Project SEKAI stage presence |
+| **NT** | `#00BCD4` | **Voice** - Functions | Modern, technological voice |
+| **Append Light** | `#B2EBE7` | **Structure** - Types, Classes | Airy, ice-like structure |
+| **Append Sweet** | `#5FCEC8` | **Hover** - Hover states | Warm, inviting interaction |
+| **V4X Soft** | `#6DD4CD` | **Focus** - Focus states | Gentle attention |
+| **V4X Hard** | `#2B9E96` | **Active** - Pressed states | Grounded, pressed feel |
+| **Append Vivid** | `#00E5D4` | **Electric** - Active line, glow | Electric, peak highlights |
+
+### Semantic Color Hierarchy
 
 | Concept | Element | Color | Meaning |
 | :--- | :--- | :--- | :--- |
-| **The Identity** | **Hair / Tie** | **`#39C5BB` (Teal)** | **Keywords**. The core structure and logic that holds everything together. |
-| **The Voice** | **Eyes** | **`#4DD0E1` (Cyan)** | **Functions**. The active, melodic part of the code that *does* things. |
-| **The Rhythm** | **Ribbons / LEDs** | **`#E05096` (Magenta)** | **Constants & Numbers**. The precise, unchangeable beats that drive the logic. |
-| **The Content** | **Negi (Leek)** | **`#9CCC65` (Green)** | **Strings**. The raw content and data being processed. |
-| **The Stage** | **Outfit** | **`#1A1F24` (Charcoal)** | **UI Background**. A deep, non-distracting dark grey mimics her V4X uniform fabric. |
-| **The Warning** | **"01" Tattoo** | **`#FF5370` (Red)** | **Errors & Regex**. High-visibility alerts and complex patterns. |
+| **The Identity** | Hair / Tie | `#39C5BB` (V2 Teal) | **Keywords** - The core structure |
+| **The Voice** | Eyes | `#00BCD4` (NT Cyan) | **Functions** - The melodic action |
+| **The Structure** | Hair Highlights | `#B2EBE7` (Ice Teal) | **Types & Classes** - The architecture |
+| **The Rhythm** | Ribbons / LEDs | `#E05096` (Magenta) | **Constants & Numbers** - The beat |
+| **The Content** | Negi (Leek) | `#9CCC65` (Green) | **Strings** - The raw data |
+| **The Meta** | Stage Lights | `#FFD740` (Amber) | **Decorators & Macros** - Meta-programming |
+| **The Stage** | Outfit | `#1A1F24` (Charcoal) | **UI Background** - V4X uniform fabric |
+| **The Warning** | "01" Tattoo | `#FF5370` (Red) | **Errors** - High-visibility alerts |
 
-## ✨ Key Features
+## Key Features
 
-### 1. Semantic Visual Hierarchy
--   **Keywords** are **Bold** to establish the skeleton of your code.
--   **Functions** are *Italicized* to distinguish action from data.
--   **Comments** are faded (`#455A64`) to filter out visual noise, letting you focus on the logic.
+### 1. Frequency Visualizer (Indent Guides)
 
-### 2. Global Immersion
--   **Workbench Integration**: The entire UI (Sidebars, Terminals, Inputs) matches Miku's V4X charcoal & gray outfit.
--   **Holographic UI**: Borders, selections, and focus states use transparent Teal/Pink overlays, mimicking digital hologram interfaces.
--   **Sound Wave Guides**: Indent guides use varying opacity to resemble digital sound waves.
--   **Structure Tracking**: Rainbow brackets (Pink -> Cyan -> Amber) help you track complex nested logic effortlessly.
+Indent guides create a **visual audio spectrum** as code nests deeper - from deep bass tones to airy highs:
 
-### 3. Multi-Language Adaptability
--   **Markdown**: Distinct styling for Headings (Pink/Teal Bold) vs Content.
--   **CSS/SCSS**: Classes (Teal) and IDs (Pink) are instantly recognizable.
--   **JSON/Validation**: Structural keys are Teal, separating them clearly from string values.
+| Level | Color | Version | Frequency |
+| :--- | :--- | :--- | :--- |
+| 1 | `#1E8A82` | Append Dark | Bass (deep foundation) |
+| 2 | `#2AA69E` | Append Solid | Low (grounded) |
+| 3 | `#39C5BB` | V2 Classic | Mid (identity core) |
+| 4 | `#3ED1C8` | NT | High (clarity) |
+| 5 | `#00E5D4` | Append Vivid | Peak (electric) |
+| 6 | `#A8EBE6` | Append Light | Ultra (airy transcendence) |
 
-## 🎨 Palette Reference
+### 2. Semantic Visual Hierarchy
+
+- **Keywords** are **Bold** (`#39C5BB`) - the skeleton of your code
+- **Functions** are distinct (`#00BCD4`) - saturated cyan for action
+- **Types** are **Bold Ice** (`#B2EBE7`) - cool, structural emphasis
+- **Comments** are faded (`#5A7A7A`) - reduced visual noise
+
+### 3. Interaction States (V4X/Append Voices)
+
+- **Hover**: Append Sweet `#5FCEC8` - warm, inviting
+- **Focus**: V4X Soft `#6DD4CD` - gentle attention
+- **Active**: V4X Hard `#2B9E96` - pressed/clicked feedback
+- **Electric Glow**: Append Vivid `#00E5D4` - active line numbers, ghost text
+
+### 4. SEKAI Stage Accents
+
+- **Primary Cursor**: `#FF6B9D` (SEKAI Pink)
+- **Secondary Cursors**: `#33CCBB` (SEKAI Teal)
+- **Find Matches**: `#FF6B9D` (Stage spotlight)
+- **Active Borders**: `#FF6B9D` (Performance emphasis)
+
+### 5. Multi-Language Adaptability
+
+- **TypeScript/JSX**: Components (`#B2EBE7`), Functions (`#00BCD4`)
+- **Rust**: Lifetimes (Pink), Macros (Amber Bold)
+- **Python**: Magic methods (Cyan Bold), Decorators (Amber Italic)
+- **Markdown**: H1 (Pink), H2 (Cyan), H3 (Amber), H4 (Teal)
+- **CSS/SCSS**: Classes (Teal), IDs (Pink Bold)
+
+## Example Files
+
+The `examples/` folder contains showcase files demonstrating the theme's syntax highlighting:
+
+| File | Language | Demonstrates |
+| :--- | :--- | :--- |
+| `showcase.py` | Python | Classes, decorators, async/await, type hints |
+| `showcase.tsx` | TypeScript/React | Components, hooks, generics, JSX |
+| `showcase.rs` | Rust | Lifetimes, macros, traits, async |
+| `showcase.go` | Go | Interfaces, goroutines, generics |
+| `showcase.css` | CSS | Variables, selectors, animations |
+| `showcase.vue` | Vue 3 | Directives, components, composition API |
+| `showcase.svelte` | Svelte | Blocks, stores, reactivity |
+| `showcase.graphql` | GraphQL | Types, queries, mutations, directives |
+| `showcase.md` | Markdown | Headings, code blocks, tables |
+| `showcase.json` | JSON | Objects, arrays, nesting |
+| `showcase.yaml` | YAML | Anchors, multi-line strings, K8s |
+| `showcase.sql` | SQL | DDL, DML, CTEs, window functions |
+| `showcase.sh` | Shell/Bash | Variables, functions, control flow |
+| `showcase.html` | HTML | Tags, attributes, forms, accessibility |
+
+## Palette Reference
+
+### Core Identity
 
 | Color Name | Hex | Usage |
 | :--- | :--- | :--- |
-| **Miku Teal** | `#39C5BB` | Keywords, Borders, Accents |
-| **V4X Cyan** | `#4DD0E1` | Functions, Highlights, Links |
-| **Magenta LED** | `#E05096` | Constants, Numbers, Cursors |
-| **Negi Green** | `#9CCC65` | Strings |
-| **Interface Amber** | `#FFD740` | Types, Classes, Interfaces |
-| **Tattoo Red** | `#FF5370` | Errors, deletions |
+| **Miku Teal (V2)** | `#39C5BB` | Keywords, Identity, Borders |
+| **NT Cyan** | `#00BCD4` | Functions, Methods |
+| **Ice Teal** | `#B2EBE7` | Types, Classes, Parameters |
+| **SEKAI Pink** | `#FF6B9D` | Cursors, Find Matches |
 
-## 📦 Installation
+### Interaction States
+
+| Color Name | Hex | Usage |
+| :--- | :--- | :--- |
+| **Append Sweet** | `#5FCEC8` | Hover states |
+| **V4X Soft** | `#6DD4CD` | Focus states |
+| **V4X Hard** | `#2B9E96` | Active/pressed states |
+| **Append Vivid** | `#00E5D4` | Electric glow, active line |
+
+### Accents
+
+| Color Name | Hex | Usage |
+| :--- | :--- | :--- |
+| **Magenta LED** | `#E05096` | Constants, Numbers |
+| **Negi Green** | `#9CCC65` | Strings |
+| **Meta Amber** | `#FFD740` | Decorators, Macros, Warnings |
+| **Hologram Purple** | `#B388FF` | RegEx, Brackets |
+| **Error Coral** | `#FF5370` | Errors, Deletions |
+
+## Installation
 
 ### Manual Installation (.vsix)
-1.  Download the **`hatsune-miku-theme-x.x.x.vsix`** file.
-2.  Open VS Code Extensions sidebar (`Ctrl+Shift+X` / `Cmd+Shift+X`).
-3.  Click the **"..."** (Views and More Actions) menu at the top right corner of the sidebar.
-4.  Select **"Install from VSIX..."**.
-5.  Locate and select the `.vsix` file you downloaded.
 
-### 🔌 Activation
+1. Download the **`hatsune-miku-theme-x.x.x.vsix`** file.
+2. Open VS Code Extensions sidebar (`Ctrl+Shift+X` / `Cmd+Shift+X`).
+3. Click the **"..."** (Views and More Actions) menu at the top right corner.
+4. Select **"Install from VSIX..."**.
+5. Locate and select the `.vsix` file you downloaded.
+
+### Activation
+
 Once installed, a popup should appear asking to set the theme. If not:
-*   Press `Ctrl+K`, then `Ctrl+T` (or `Cmd+K`, `Cmd+T` on MacOS).
-*   Select **Hatsune Miku Theme** from the list.
 
+- Press `Ctrl+K`, then `Ctrl+T` (or `Cmd+K`, `Cmd+T` on macOS).
+- Select **Hatsune Miku Theme** from the list.
 
 ---
 
-
-*Designed for the Creators. Optimised for the Future.*
+*All-Miku Synthesis: Every voice, one stage.*

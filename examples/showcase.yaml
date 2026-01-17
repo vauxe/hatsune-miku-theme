@@ -1,0 +1,245 @@
+# Hatsune Miku Theme - YAML Showcase
+# All-Miku Synthesis: Every voice, one stage.
+
+---
+# Document start marker
+
+# Theme metadata
+theme:
+  name: Hatsune Miku Theme
+  version: "3.9.39"
+  type: dark
+  author: Miku Fan
+  license: MIT
+  repository: https://github.com/vauxe/hatsune-miku-theme
+
+# All-Miku Synthesis configuration
+allMikuSynthesis:
+  description: Every Miku version mapped to UI layers
+  canonicalColor: "#39C5BB"
+
+  # Version mapping (Keys: #5DE4DB)
+  versionMapping:
+    identity:
+      version: V2 Classic
+      color: "#39C5BB"
+      year: 2007
+      role: Keywords, Borders
+      isCanonical: true
+
+    stage:
+      version: SEKAI
+      color: "#33CCBB"
+      year: 2020
+      role: Secondary cursors
+      isCanonical: false
+
+    voice:
+      version: NT
+      color: "#00BCD4"
+      year: 2020
+      role: Functions
+      isCanonical: false
+
+    structure:
+      version: Append Light
+      color: "#B2EBE7"
+      year: 2010
+      role: Types, Classes
+      isCanonical: false
+
+  # Frequency visualizer levels
+  frequencyVisualizer:
+    description: Indent guides as audio spectrum
+    levels:
+      - level: 1
+        name: bass
+        color: "#1E8A82"
+        version: Append Dark
+
+      - level: 2
+        name: low
+        color: "#2AA69E"
+        version: Append Solid
+
+      - level: 3
+        name: mid
+        color: "#39C5BB"
+        version: V2 Classic
+
+      - level: 4
+        name: high
+        color: "#3ED1C8"
+        version: NT
+
+      - level: 5
+        name: peak
+        color: "#00E5D4"
+        version: Append Vivid
+
+      - level: 6
+        name: ultra
+        color: "#A8EBE6"
+        version: Append Light
+
+# Color palette
+palette:
+  teals:
+    classic: "#39C5BB"
+    sekai: "#33CCBB"
+    neon: "#5DE4DB"
+    ice: "#B2EBE7"
+    deep: "#0D6B65"
+
+  pinks:
+    sekai: "#FF6B9D"
+    accessory: "#E05096"
+    soft: "#FF80AB"
+
+  accents:
+    amber: "#FFD740"
+    green: "#9CCC65"
+    purple: "#B388FF"
+    coral: "#FF5370"
+
+# Voice banks array
+voiceBanks:
+  - id: v2-classic
+    name: Hatsune Miku V2
+    version: V2
+    year: 2007
+    color: "#39C5BB"
+    frequencyRange:
+      min: 80
+      max: 1100
+    tags:
+      - classic
+      - original
+      - iconic
+    isActive: true
+
+  - id: append-sweet
+    name: Hatsune Miku Append (Sweet)
+    version: Append
+    year: 2010
+    color: "#5FCEC8"
+    frequencyRange:
+      min: 100
+      max: 900
+    tags: [append, sweet, warm]
+    isActive: true
+
+  - id: nt
+    name: Hatsune Miku NT
+    version: NT
+    year: 2020
+    color: "#3ED1C8"
+    frequencyRange:
+      min: 80
+      max: 1200
+    tags: [modern, technology, clear]
+    isActive: true
+
+# Anchor and alias
+defaults: &defaults
+  timeout: 30
+  retries: 3
+  encoding: utf-8
+
+# Merge key
+production:
+  <<: *defaults
+  timeout: 60
+  debug: false
+
+development:
+  <<: *defaults
+  debug: true
+  verbose: true
+
+# Multi-line strings
+description: |
+  Hatsune Miku Theme - All-Miku Synthesis Edition
+
+  A high-fidelity VS Code theme integrating every Miku version
+  with ergonomic color mapping for marathon coding sessions.
+
+  Features:
+  - Frequency Visualizer indent guides
+  - Version-mapped interaction states
+  - SEKAI stage accents
+
+# Folded string
+summary: >
+  This theme treats your IDE as a Virtual Stage,
+  mapping each Miku version to specific UI roles.
+  The canonical identity color #39C5BB remains
+  THE foundation.
+
+# Numbers
+numbers:
+  integer: 39
+  float: 3.14159
+  negative: -42
+  scientific: 1.23e+10
+  octal: 0o755
+  hex: 0x39C5BB
+
+# Booleans
+booleans:
+  enabled: true
+  disabled: false
+  yes_value: yes
+  no_value: no
+  on_value: on
+  off_value: off
+
+# Null values
+nullValues:
+  explicit: null
+  tilde: ~
+  empty:
+
+# Timestamps
+timestamps:
+  date: 2007-08-31
+  datetime: 2007-08-31T12:00:00Z
+  withTimezone: 2007-08-31T12:00:00+09:00
+
+# Complex nesting
+kubernetes:
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: miku-stage
+    namespace: vocaloid
+    labels:
+      app: miku-theme
+      version: v2-classic
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        app: miku-theme
+    template:
+      metadata:
+        labels:
+          app: miku-theme
+      spec:
+        containers:
+          - name: stage
+            image: miku/stage:latest
+            ports:
+              - containerPort: 8080
+            env:
+              - name: CANONICAL_COLOR
+                value: "#39C5BB"
+              - name: DEBUG
+                value: "false"
+            resources:
+              limits:
+                memory: "128Mi"
+                cpu: "500m"
+
+...
+# Document end marker

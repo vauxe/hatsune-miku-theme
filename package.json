@@ -1,7 +1,7 @@
 {
   "name": "hatsune-miku-theme",
   "displayName": "Hatsune Miku Theme",
-  "description": "A beautiful dark theme inspired by Hatsune Miku, featuring her signature teal and pink colors.",
+  "description": "All-Miku Synthesis: A high-fidelity VS Code theme integrating every Miku version (V2 to SEKAI) with ergonomic color mapping for marathon coding sessions.",
   "repository": {
     "type": "git",
     "url": "https://github.com/vauxe/hatsune-miku-theme.git"

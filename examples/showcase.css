@@ -1,0 +1,280 @@
+/**
+ * Hatsune Miku Theme - CSS Showcase
+ * All-Miku Synthesis: Every voice, one stage.
+ */
+
+/* CSS Custom Properties (Variables): #4DD0E1 */
+:root {
+  /* Miku Version Colors */
+  --miku-v2-classic: #39C5BB;     /* Identity */
+  --miku-sekai: #33CCBB;          /* Stage */
+  --miku-nt: #00BCD4;             /* Voice */
+  --miku-append-light: #B2EBE7;   /* Structure */
+  --miku-append-sweet: #5FCEC8;   /* Hover */
+  --miku-v4x-soft: #6DD4CD;       /* Focus */
+  --miku-v4x-hard: #2B9E96;       /* Active */
+  --miku-append-vivid: #00E5D4;   /* Electric */
+
+  /* Accent Colors */
+  --magenta-led: #E05096;         /* Rhythm */
+  --negi-green: #9CCC65;          /* Content */
+  --meta-amber: #FFD740;          /* Meta */
+  --hologram-purple: #B388FF;     /* Feature */
+  --error-coral: #FF5370;         /* Warning */
+
+  /* Background Layers */
+  --bg-void: #0D1114;
+  --bg-base: #1A1F24;
+  --bg-raised: #1F262D;
+  --bg-hover: #2A333C;
+
+  /* Spacing Scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+
+  /* Numbers: #E05096 */
+  --border-radius: 8px;
+  --transition-fast: 150ms;
+  --z-index-modal: 1000;
+}
+
+/* Element Selector: Tag #39C5BB Bold */
+body {
+  /* Property: #39C5BB, Value: #C8DCD9 */
+  background-color: var(--bg-base);
+  color: #C8DCD9;
+  font-family: "Inter", system-ui, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Class Selector: #39C5BB */
+.miku-stage {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  min-height: 100vh;
+}
+
+/* ID Selector: #E05096 Bold */
+#main-performance {
+  background: linear-gradient(
+    135deg,
+    var(--bg-void) 0%,
+    var(--bg-base) 100%
+  );
+  border: 1px solid var(--miku-v2-classic);
+  border-radius: var(--border-radius);
+  padding: var(--space-lg);
+}
+
+/* Pseudo-class: #4DD0E1 Italic */
+.voice-card:hover {
+  background-color: var(--miku-append-sweet);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(57, 197, 187, 0.2);
+}
+
+.voice-card:focus {
+  outline: 2px solid var(--miku-v4x-soft);
+  outline-offset: 2px;
+}
+
+.voice-card:active {
+  background-color: var(--miku-v4x-hard);
+  transform: translateY(0);
+}
+
+/* Pseudo-element: #4DD0E1 Italic */
+.stage-title::before {
+  content: "🎵";
+  margin-right: var(--space-sm);
+}
+
+.stage-title::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--miku-v2-classic),
+    var(--miku-append-vivid),
+    transparent
+  );
+  margin-top: var(--space-sm);
+}
+
+/* Attribute Selector */
+[data-version="V2"] {
+  border-left: 4px solid var(--miku-v2-classic);
+}
+
+[data-version="SEKAI"] {
+  border-left: 4px solid var(--miku-sekai);
+}
+
+[data-version="NT"] {
+  border-left: 4px solid var(--miku-nt);
+}
+
+/* Combinator Selectors */
+.miku-stage > .voice-card {
+  transition: all var(--transition-fast) ease-out;
+}
+
+.voice-card + .voice-card {
+  margin-top: var(--space-md);
+}
+
+.voice-card ~ .stage-controls {
+  opacity: 0.8;
+}
+
+/* Media Query: @keyword #E05096 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-base: #1A1F24;
+  }
+}
+
+@media (min-width: 768px) {
+  .miku-stage {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Keyframe Animation: @keyword #E05096 */
+@keyframes holographic-glow {
+  0% {
+    box-shadow: 0 0 5px var(--miku-v2-classic);
+    opacity: 0.8;
+  }
+  50% {
+    box-shadow: 0 0 20px var(--miku-append-vivid);
+    opacity: 1;
+  }
+  100% {
+    box-shadow: 0 0 5px var(--miku-v2-classic);
+    opacity: 0.8;
+  }
+}
+
+@keyframes frequency-pulse {
+  0%, 100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.holographic {
+  animation: holographic-glow 2s ease-in-out infinite;
+}
+
+/* Frequency Visualizer (matching indent guide concept) */
+.frequency-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 60px;
+}
+
+.frequency-bar span {
+  width: 4px;
+  background: var(--miku-v2-classic);
+  animation: frequency-pulse 0.5s ease-in-out infinite;
+}
+
+/* Level 1: Bass - Append Dark */
+.frequency-bar span:nth-child(6n+1) {
+  background: #1E8A82;
+  animation-delay: 0s;
+}
+
+/* Level 2: Low - Append Solid */
+.frequency-bar span:nth-child(6n+2) {
+  background: #2AA69E;
+  animation-delay: 0.1s;
+}
+
+/* Level 3: Mid - V2 Classic */
+.frequency-bar span:nth-child(6n+3) {
+  background: #39C5BB;
+  animation-delay: 0.2s;
+}
+
+/* Level 4: High - NT */
+.frequency-bar span:nth-child(6n+4) {
+  background: #3ED1C8;
+  animation-delay: 0.3s;
+}
+
+/* Level 5: Peak - Append Vivid */
+.frequency-bar span:nth-child(6n+5) {
+  background: #00E5D4;
+  animation-delay: 0.4s;
+}
+
+/* Level 6: Ultra - Append Light */
+.frequency-bar span:nth-child(6n+6) {
+  background: #A8EBE6;
+  animation-delay: 0.5s;
+}
+
+/* Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-md);
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast) ease-out;
+}
+
+.btn-primary {
+  background-color: var(--miku-v2-classic);
+  color: var(--bg-void);
+}
+
+.btn-primary:hover {
+  background-color: var(--miku-v4x-hard);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--miku-v2-classic);
+  border: 1px solid var(--miku-v2-classic);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(57, 197, 187, 0.1);
+}
+
+/* Utility Classes */
+.text-identity { color: var(--miku-v2-classic); }
+.text-voice { color: var(--miku-nt); }
+.text-structure { color: var(--miku-append-light); }
+.text-rhythm { color: var(--magenta-led); }
+.text-content { color: var(--negi-green); }
+.text-meta { color: var(--meta-amber); }
+.text-error { color: var(--error-coral); }
+
+.bg-hover { background-color: var(--miku-append-sweet); }
+.bg-focus { background-color: var(--miku-v4x-soft); }
+.bg-active { background-color: var(--miku-v4x-hard); }

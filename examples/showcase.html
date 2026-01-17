@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<!--
+  Hatsune Miku Theme - HTML Showcase
+  All-Miku Synthesis: Every voice, one stage.
+-->
+<html lang="en" data-theme="miku">
+<head>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hatsune Miku Theme - All-Miku Synthesis">
+    <meta name="theme-color" content="#39C5BB">
+    <meta name="author" content="Miku Fan">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Hatsune Miku Stage">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./images/preview.png">
+    <meta property="og:url" content="https://miku-theme.example.com">
+
+    <title>Hatsune Miku Stage - All-Miku Synthesis</title>
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/theme.css" media="(prefers-color-scheme: dark)">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+
+    <!-- Inline critical CSS -->
+    <style>
+        /* Critical CSS: #39C5BB identity */
+        :root {
+            --miku-teal: #39C5BB;
+            --miku-pink: #FF6B9D;
+            --bg-base: #1A1F24;
+            --text-primary: #C8DCD9;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: system-ui, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="miku-stage" id="app">
+    <!-- Skip link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Header: Tags #39C5BB Bold -->
+    <header class="site-header" role="banner">
+        <nav class="main-nav" aria-label="Main navigation">
+            <a href="/" class="logo" aria-label="Home">
+                <img src="./images/miku-logo.svg" alt="" width="40" height="40">
+                <span>Miku Stage</span>
+            </a>
+
+            <!-- Navigation list -->
+            <ul class="nav-list" role="menubar">
+                <li role="none">
+                    <a href="#voices" role="menuitem">Voice Banks</a>
+                </li>
+                <li role="none">
+                    <a href="#performances" role="menuitem">Performances</a>
+                </li>
+                <li role="none">
+                    <a href="#about" role="menuitem">About</a>
+                </li>
+                <li role="none">
+                    <a href="#contact" role="menuitem" class="cta-button">Contact</a>
+                </li>
+            </ul>
+
+            <!-- Mobile menu button -->
+            <button
+                type="button"
+                class="menu-toggle"
+                aria-expanded="false"
+                aria-controls="mobile-menu"
+                aria-label="Toggle navigation"
+            >
+                <span class="hamburger"></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" role="main">
+        <!-- Hero Section -->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-content">
+                <h1 id="hero-title">All-Miku Synthesis</h1>
+                <p class="hero-subtitle">Every voice, one stage.</p>
+
+                <!-- Call to action -->
+                <div class="hero-actions">
+                    <a href="#voices" class="btn btn-primary">
+                        Explore Voices
+                    </a>
+                    <a href="#demo" class="btn btn-secondary">
+                        Watch Demo
+                    </a>
+                </div>
+            </div>
+
+            <!-- Background decoration -->
+            <div class="hero-decoration" aria-hidden="true">
+                <svg viewBox="0 0 100 100" class="frequency-wave">
+                    <path d="M0,50 Q25,30 50,50 T100,50" fill="none" stroke="currentColor"/>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Voice Banks Section -->
+        <section id="voices" class="section" aria-labelledby="voices-title">
+            <div class="container">
+                <h2 id="voices-title">Voice Banks</h2>
+
+                <!-- Filter controls -->
+                <div class="filter-controls" role="group" aria-label="Filter voice banks">
+                    <label for="version-filter" class="visually-hidden">Filter by version</label>
+                    <select id="version-filter" name="version">
+                        <option value="">All Versions</option>
+                        <option value="V2">V2 Classic</option>
+                        <option value="V3">V3</option>
+                        <option value="V4X">V4X</option>
+                        <option value="NT">NT</option>
+                        <option value="SEKAI">SEKAI</option>
+                    </select>
+
+                    <input
+                        type="search"
+                        id="voice-search"
+                        name="search"
+                        placeholder="Search voices..."
+                        aria-label="Search voice banks"
+                    >
+                </div>
+
+                <!-- Voice bank grid: Attributes #4DD0E1 Italic -->
+                <div class="voice-grid" role="list">
+                    <article
+                        class="voice-card"
+                        role="listitem"
+                        data-version="V2"
+                        data-color="#39C5BB"
+                        itemscope
+                        itemtype="https://schema.org/Product"
+                    >
+                        <img
+                            src="./images/v2-classic.jpg"
+                            alt="Hatsune Miku V2 Classic"
+                            loading="lazy"
+                            width="300"
+                            height="300"
+                            itemprop="image"
+                        >
+                        <div class="voice-info">
+                            <h3 itemprop="name">V2 Classic</h3>
+                            <p itemprop="description">The original voice since 2007</p>
+                            <span class="color-badge" style="--badge-color: #39C5BB;">
+                                #39C5BB
+                            </span>
+                        </div>
+                        <button type="button" class="btn-select" data-voice-id="v2-classic">
+                            Select
+                        </button>
+                    </article>
+
+                    <article
+                        class="voice-card"
+                        role="listitem"
+                        data-version="NT"
+                        data-color="#3ED1C8"
+                    >
+                        <img
+                            src="./images/nt.jpg"
+                            alt="Hatsune Miku NT"
+                            loading="lazy"
+                            width="300"
+                            height="300"
+                        >
+                        <div class="voice-info">
+                            <h3>NT</h3>
+                            <p>Modern technology voice</p>
+                            <span class="color-badge" style="--badge-color: #3ED1C8;">
+                                #3ED1C8
+                            </span>
+                        </div>
+                        <button type="button" class="btn-select" data-voice-id="nt">
+                            Select
+                        </button>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Form -->
+        <section id="perform" class="section" aria-labelledby="perform-title">
+            <div class="container">
+                <h2 id="perform-title">Start Performance</h2>
+
+                <form
+                    id="performance-form"
+                    class="performance-form"
+                    action="/api/perform"
+                    method="POST"
+                    novalidate
+                >
+                    <div class="form-group">
+                        <label for="song-title">Song Title</label>
+                        <input
+                            type="text"
+                            id="song-title"
+                            name="songTitle"
+                            required
+                            minlength="1"
+                            maxlength="200"
+                            placeholder="Enter song title..."
+                            autocomplete="off"
+                        >
+                        <span class="error-message" role="alert" hidden></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bpm">BPM</label>
+                        <input
+                            type="number"
+                            id="bpm"
+                            name="bpm"
+                            required
+                            min="60"
+                            max="240"
+                            value="120"
+                            step="1"
+                        >
+                        <output for="bpm" class="bpm-display">120 BPM</output>
+                    </div>
+
+                    <fieldset>
+                        <legend>Voice Options</legend>
+
+                        <div class="checkbox-group">
+                            <input
+                                type="checkbox"
+                                id="auto-tune"
+                                name="autoTune"
+                                checked
+                            >
+                            <label for="auto-tune">Enable Auto-Tune</label>
+                        </div>
+
+                        <div class="radio-group">
+                            <span class="radio-label">Append Type:</span>
+                            <input type="radio" id="append-sweet" name="appendType" value="sweet" checked>
+                            <label for="append-sweet">Sweet</label>
+
+                            <input type="radio" id="append-dark" name="appendType" value="dark">
+                            <label for="append-dark">Dark</label>
+
+                            <input type="radio" id="append-soft" name="appendType" value="soft">
+                            <label for="append-soft">Soft</label>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            Start Performance
+                        </button>
+                        <button type="reset" class="btn btn-secondary">
+                            Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Table Section -->
+        <section id="stats" class="section" aria-labelledby="stats-title">
+            <div class="container">
+                <h2 id="stats-title">Version Statistics</h2>
+
+                <div class="table-wrapper" role="region" aria-labelledby="stats-title" tabindex="0">
+                    <table class="data-table">
+                        <caption class="visually-hidden">Miku version statistics</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Version</th>
+                                <th scope="col">Color</th>
+                                <th scope="col">Year</th>
+                                <th scope="col">Role</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>V2 Classic</td>
+                                <td><code>#39C5BB</code></td>
+                                <td>2007</td>
+                                <td>Identity</td>
+                            </tr>
+                            <tr>
+                                <td>NT</td>
+                                <td><code>#3ED1C8</code></td>
+                                <td>2020</td>
+                                <td>Voice</td>
+                            </tr>
+                            <tr>
+                                <td>SEKAI</td>
+                                <td><code>#33CCBB</code></td>
+                                <td>2020</td>
+                                <td>Stage</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <em>All colors are part of the All-Miku Synthesis palette</em>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <p>&copy; 2024 Miku Stage. All-Miku Synthesis: Every voice, one stage.</p>
+
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="/privacy">Privacy</a>
+                <a href="/terms">Terms</a>
+                <a href="/contact">Contact</a>
+            </nav>
+        </div>
+    </footer>
+
+    <!-- Modal/Dialog -->
+    <dialog id="voice-modal" class="modal" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <h2 id="modal-title">Voice Details</h2>
+            <div class="modal-body">
+                <!-- Dynamic content -->
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn" data-close-modal>Close</button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Template for dynamic content -->
+    <template id="voice-card-template">
+        <article class="voice-card" role="listitem">
+            <img src="" alt="" loading="lazy" width="300" height="300">
+            <div class="voice-info">
+                <h3></h3>
+                <p></p>
+            </div>
+        </article>
+    </template>
+
+    <!-- Scripts -->
+    <script type="module" src="./scripts/main.js"></script>
+    <script nomodule src="./scripts/legacy.js"></script>
+
+    <!-- Inline script for critical functionality -->
+    <script>
+        // Theme detection
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        document.documentElement.dataset.theme = prefersDark.matches ? 'dark' : 'light';
+    </script>
+</body>
+</html>
