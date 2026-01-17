@@ -3,43 +3,94 @@
 	"name": "Hatsune Miku Theme",
 	"type": "dark",
 	"semanticHighlighting": true,
-
 	"_palette": {
 		"_description": "Hatsune Miku Theme - All-Miku Synthesis (V2 → SEKAI)",
-
 		"_allMikuSynthesis": {
 			"_description": "Every Miku version mapped to UI layers - #39C5BB is THE identity",
 			"_versionMapping": {
-				"identity": { "version": "V2 Classic", "color": "#39C5BB", "reason": "THE canonical Miku teal since 2007" },
-				"stage": { "version": "SEKAI", "color": "#33CCBB", "reason": "Stage performance, multi-cursor" },
-				"functions": { "version": "NT", "color": "#00BCD4", "reason": "Modern tech voice" },
-				"types": { "version": "Append Light", "color": "#B2EBE7", "reason": "Airy structure" },
-				"hover": { "version": "Append Sweet", "color": "#5FCEC8", "reason": "Warm, inviting" },
-				"focus": { "version": "V4X Soft", "color": "#6DD4CD", "reason": "Gentle attention" },
-				"active": { "version": "V4X Hard", "color": "#2B9E96", "reason": "Pressed/clicked" }
+				"identity": {
+					"version": "V2 Classic",
+					"color": "#39C5BB",
+					"reason": "THE canonical Miku teal since 2007"
+				},
+				"stage": {
+					"version": "SEKAI",
+					"color": "#33CCBB",
+					"reason": "Stage performance, multi-cursor"
+				},
+				"functions": {
+					"version": "NT",
+					"color": "#00BCD4",
+					"reason": "Modern tech voice"
+				},
+				"types": {
+					"version": "Append Light",
+					"color": "#B2EBE7",
+					"reason": "Airy structure"
+				},
+				"hover": {
+					"version": "Append Sweet",
+					"color": "#5FCEC8",
+					"reason": "Warm, inviting"
+				},
+				"focus": {
+					"version": "V4X Soft",
+					"color": "#6DD4CD",
+					"reason": "Gentle attention"
+				},
+				"active": {
+					"version": "V4X Hard",
+					"color": "#2B9E96",
+					"reason": "Pressed/clicked"
+				}
 			},
 			"_frequencyVisualizer": {
 				"_description": "Indent guides as audio spectrum across versions",
-				"bass": { "version": "Append Dark", "color": "#1E8A82", "level": 1 },
-				"low": { "version": "Append Solid", "color": "#2AA69E", "level": 2 },
-				"mid": { "version": "V2 Classic", "color": "#39C5BB", "level": 3 },
-				"high": { "version": "NT", "color": "#3ED1C8", "level": 4 },
-				"peak": { "version": "Append Vivid", "color": "#00E5D4", "level": 5 },
-				"ultra": { "version": "Append Light", "color": "#A8EBE6", "level": 6 }
+				"bass": {
+					"version": "Append Dark",
+					"color": "#1E8A82",
+					"level": 1
+				},
+				"low": {
+					"version": "Append Solid",
+					"color": "#2AA69E",
+					"level": 2
+				},
+				"mid": {
+					"version": "V2 Classic",
+					"color": "#39C5BB",
+					"level": 3
+				},
+				"high": {
+					"version": "NT",
+					"color": "#3ED1C8",
+					"level": 4
+				},
+				"peak": {
+					"version": "Append Vivid",
+					"color": "#00E5D4",
+					"level": 5
+				},
+				"ultra": {
+					"version": "Append Light",
+					"color": "#A8EBE6",
+					"level": 6
+				}
 			}
 		},
-
 		"_sekaiReference": {
 			"_description": "SEKAI Miku colors - used for stage/performance elements",
 			"imageColor": "#33CCBB",
 			"classroomPinkHighlight": "#FF6B9D",
-			"emptyHeterochromia": { "turquoise": "#33CCBB", "pink": "#FF80AB" },
+			"emptyHeterochromia": {
+				"turquoise": "#33CCBB",
+				"pink": "#FF80AB"
+			},
 			"stageVibrancy": "COLORFUL = bold, saturated, electric",
 			"usage": "Secondary cursor, stage accents - NOT main identity"
 		},
-
 		"_character": {
-			"_hair": {
+			"hair": {
 				"root": "#1A8A82",
 				"base": "#39C5BB",
 				"shine": "#5DE4DB",
@@ -47,65 +98,64 @@
 				"highlight": "#B2EBE7",
 				"pinkStreak": "#FF6B9D"
 			},
-			"_eyes": {
+			"eyes": {
 				"iris": "#39C5BB",
 				"bright": "#5DE4DB",
 				"pupil": "#0D1114",
 				"catchlight": "#FFFFFF",
 				"heterochromiaLeft": "#FF80AB"
 			},
-			"_skin": {
+			"skin": {
 				"base": "#FFE4D6",
 				"shadow": "#E8C8BC",
 				"blush": "#FFB8C8",
 				"highlight": "#FFF5F0"
 			},
-			"_headphones": {
+			"headphones": {
 				"body": "#1A1F24",
 				"cushion": "#E05096",
 				"cushionGlow": "#FF80AB",
 				"display01": "#39C5BB"
 			},
-			"_hairTies": {
+			"hairTies": {
 				"base": "#E05096",
 				"highlight": "#FF80AB"
 			},
-			"_outfitTop": {
+			"outfitTop": {
 				"grey": "#37474F",
 				"shadow": "#263238",
 				"highlight": "#455A64",
 				"tealTrim": "#39C5BB"
 			},
-			"_armWarmers": {
+			"armWarmers": {
 				"black": "#111417",
 				"pattern": "#39C5BB",
 				"patternGlow": "#5DE4DB"
 			},
-			"_skirt": {
+			"skirt": {
 				"black": "#15191D",
 				"tealTrim": "#39C5BB"
 			},
-			"_boots": {
+			"boots": {
 				"black": "#111417",
 				"hardware": "#263238",
 				"tealAccent": "#39C5BB"
 			},
-			"_tie": {
+			"tie": {
 				"teal": "#39C5BB",
 				"shadow": "#2D9E97"
 			},
-			"_armDisplay": {
+			"armDisplay": {
 				"screen": "#39C5BB",
 				"data": "#5DE4DB",
 				"frame": "#37474F"
 			},
-			"_negi": {
+			"negi": {
 				"stalk": "#9CCC65",
 				"bright": "#69F0AE",
 				"white": "#E8F5E9"
 			}
 		},
-
 		"_versions": {
 			"v1v2": "#39C5BB",
 			"v3": "#3BC8BE",
@@ -129,123 +179,119 @@
 			"sweet": "#4DD8D0",
 			"solid": "#2EB5AD"
 		},
-
 		"_seasonal": {
-			"_sakura": {
+			"sakura": {
 				"cherry": "#FFB7C5",
 				"petal": "#FFDDE5",
 				"branch": "#8B5A5A",
 				"leaf": "#9CCC65"
 			},
-			"_snow": {
+			"snow": {
 				"ice": "#E0F7FA",
 				"frost": "#B3E5FC",
 				"glacier": "#81D4FA",
 				"snowflake": "#FFFFFF"
 			},
-			"_halloween": {
+			"halloween": {
 				"pumpkin": "#FF9800",
 				"night": "#1A1A2E",
 				"purple": "#9C27B0",
 				"ghost": "#E0E0E0"
 			},
-			"_summer": {
+			"summer": {
 				"sky": "#4FC3F7",
 				"sun": "#FFD54F",
 				"ocean": "#26C6DA",
 				"sand": "#FFE0B2"
 			}
 		},
-
 		"_snowMiku": {
-			"_description": "Snow Miku Festival (Sapporo) - Annual designs since 2010",
-			"_2010_original": {
-				"_theme": "First Snow Miku - Pure white with pale blue",
+			"y2010": {
+				"theme": "First Snow Miku - Pure white with pale blue",
 				"white": "#FFFFFF",
 				"paleBlue": "#E3F2FD",
 				"accent": "#90CAF9"
 			},
-			"_2012_strawberry": {
-				"_theme": "Strawberry White - Sweet pink winter",
+			"y2012": {
+				"theme": "Strawberry White - Sweet pink winter",
 				"strawberry": "#FF6B8A",
 				"cream": "#FFF8E7",
 				"mintAccent": "#98D9C2"
 			},
-			"_2013_magical": {
-				"_theme": "Magical Snow - Deep blue night sky",
+			"y2013": {
+				"theme": "Magical Snow - Deep blue night sky",
 				"nightBlue": "#1A237E",
 				"starlight": "#E8EAF6",
 				"aurora": "#7C4DFF"
 			},
-			"_2014_marchen": {
-				"_theme": "Marchen (Fairy Tale) - Warm storybook",
+			"y2014": {
+				"theme": "Marchen (Fairy Tale) - Warm storybook",
 				"warmWhite": "#FFF8E1",
 				"cozyRed": "#E57373",
 				"goldTrim": "#FFD54F"
 			},
-			"_2015_plant": {
-				"_theme": "Snow Bell Flower",
+			"y2015": {
+				"theme": "Snow Bell Flower",
 				"bellWhite": "#F5F5F5",
 				"leafGreen": "#81C784",
 				"flowerPink": "#F48FB1"
 			},
-			"_2016_winter_sports": {
-				"_theme": "Winter Sports - Athletic",
+			"y2016": {
+				"theme": "Winter Sports - Athletic",
 				"sportsBlue": "#2196F3",
 				"energyOrange": "#FF9800",
 				"snowWhite": "#FAFAFA"
 			},
-			"_2017_star_night": {
-				"_theme": "Starry Night Snow - Celestial",
+			"y2017": {
+				"theme": "Starry Night Snow - Celestial",
 				"midnightBlue": "#0D1B2A",
 				"starGold": "#FFD700",
 				"cosmicPurple": "#9C27B0"
 			},
-			"_2018_princess": {
-				"_theme": "Snow Princess - Elegant",
+			"y2018": {
+				"theme": "Snow Princess - Elegant",
 				"royalBlue": "#3F51B5",
 				"silverTiara": "#CFD8DC",
 				"gemPink": "#EC407A"
 			},
-			"_2019_lily": {
-				"_theme": "Lily of the Valley - Pure",
+			"y2019": {
+				"theme": "Lily of the Valley - Pure",
 				"lilyWhite": "#FAFAFA",
 				"stemGreen": "#66BB6A",
 				"blushPink": "#FFCDD2"
 			},
-			"_2020_strawberry_shirokuma": {
-				"_theme": "Strawberry Shirokuma (Polar Bear)",
+			"y2020": {
+				"theme": "Strawberry Shirokuma (Polar Bear)",
 				"polarWhite": "#FFFFFF",
 				"strawberryRed": "#EF5350",
 				"matchaGreen": "#8BC34A"
 			},
-			"_2021_glowing": {
-				"_theme": "Glowing Snow - Illuminated",
+			"y2021": {
+				"theme": "Glowing Snow - Illuminated",
 				"glowCyan": "#00E5FF",
 				"neonPink": "#FF4081",
 				"iceBlue": "#E1F5FE"
 			},
-			"_2022_grand_voyage": {
-				"_theme": "Grand Voyage - Maritime",
+			"y2022": {
+				"theme": "Grand Voyage - Maritime",
 				"navyBlue": "#1565C0",
 				"sailWhite": "#FFFFFF",
 				"compassGold": "#FFC107"
 			},
-			"_2023_illumination": {
-				"_theme": "Illumination - Light Festival",
+			"y2023": {
+				"theme": "Illumination - Light Festival",
 				"lightYellow": "#FFF59D",
 				"warmOrange": "#FFAB40",
 				"festiveRed": "#FF5252"
 			},
-			"_2024_sepia": {
-				"_theme": "Sepia Tone - Vintage warm (confirmed different from blue)",
+			"y2024": {
+				"theme": "Sepia Tone - Vintage warm",
 				"sepia": "#D4A574",
 				"cream": "#FFF8DC",
 				"warmBrown": "#8B7355",
 				"softPink": "#EBBAB9"
 			},
-			"_core": {
-				"_description": "Common Snow Miku elements across years",
+			"core": {
 				"snowflakeWhite": "#FFFFFF",
 				"iceCrystal": "#E0F7FA",
 				"winterSky": "#BBDEFB",
@@ -256,11 +302,8 @@
 				"auroraPurple": "#B388FF"
 			}
 		},
-
 		"_racingMiku": {
-			"_description": "Good Smile Racing Team - Annual designs since 2008",
-			"_team_core": {
-				"_description": "GSR Team Colors",
+			"team": {
 				"gsmGreen": "#00A94F",
 				"gsmTeal": "#00BFA5",
 				"teamWhite": "#FFFFFF",
@@ -269,93 +312,92 @@
 				"metallicSilver": "#B0BEC5",
 				"chromeSilver": "#E0E0E0"
 			},
-			"_2010_orange": {
-				"_theme": "First Racing Miku - Orange suit",
+			"y2010": {
+				"theme": "First Racing Miku - Orange suit",
 				"raceOrange": "#FF6D00",
 				"suitWhite": "#FFFFFF",
 				"trimBlack": "#212121"
 			},
-			"_2011_blue": {
-				"_theme": "Blue Racing Suit",
+			"y2011": {
+				"theme": "Blue Racing Suit",
 				"raceBlue": "#2196F3",
 				"accentWhite": "#FFFFFF",
 				"detailGold": "#FFC107"
 			},
-			"_2012_white": {
-				"_theme": "White Dominant Design",
+			"y2012": {
+				"theme": "White Dominant Design",
 				"pureWhite": "#FFFFFF",
 				"accentTeal": "#26A69A",
 				"trimBlack": "#263238"
 			},
-			"_2013_purple": {
-				"_theme": "Purple Gradient Design",
+			"y2013": {
+				"theme": "Purple Gradient Design",
 				"racePurple": "#7B1FA2",
 				"gradientPink": "#EC407A",
 				"accentWhite": "#FFFFFF"
 			},
-			"_2014_lime": {
-				"_theme": "Lime Green Energy",
+			"y2014": {
+				"theme": "Lime Green Energy",
 				"limePrimary": "#AEEA00",
 				"limeAccent": "#76FF03",
 				"contrastBlack": "#1B1B1B"
 			},
-			"_2015_blue_white": {
-				"_theme": "BMW Collaboration Style",
+			"y2015": {
+				"theme": "BMW Collaboration Style",
 				"bmwBlue": "#1E88E5",
 				"bmwWhite": "#FFFFFF",
 				"mPowerRed": "#E53935"
 			},
-			"_2016_teal": {
-				"_theme": "Teal Racing Design",
+			"y2016": {
+				"theme": "Teal Racing Design",
 				"tealPrimary": "#009688",
 				"tealLight": "#4DB6AC",
 				"accentPink": "#FF4081"
 			},
-			"_2017_gradient": {
-				"_theme": "Blue-Purple Gradient",
+			"y2017": {
+				"theme": "Blue-Purple Gradient",
 				"gradientBlue": "#2962FF",
 				"gradientPurple": "#AA00FF",
 				"highlightCyan": "#00E5FF"
 			},
-			"_2018_holographic": {
-				"_theme": "Holographic Iridescent",
+			"y2018": {
+				"theme": "Holographic Iridescent",
 				"holoBlue": "#448AFF",
 				"holoPink": "#FF80AB",
 				"holoGreen": "#69F0AE",
 				"holoSilver": "#ECEFF1"
 			},
-			"_2019_neon": {
-				"_theme": "Neon Cyber Racing",
+			"y2019": {
+				"theme": "Neon Cyber Racing",
 				"neonCyan": "#00FFFF",
 				"neonPink": "#FF00FF",
 				"darkCarbon": "#0D0D0D"
 			},
-			"_2020_anniversary": {
-				"_theme": "10th Anniversary Special",
+			"y2020": {
+				"theme": "10th Anniversary Special",
 				"goldAnniversary": "#FFD700",
 				"premiumBlack": "#1A1A1A",
 				"accentTeal": "#00BCD4"
 			},
-			"_2021_cyber": {
-				"_theme": "Cyber Circuit",
+			"y2021": {
+				"theme": "Cyber Circuit",
 				"circuitGreen": "#00E676",
 				"dataBlue": "#2979FF",
 				"gridBlack": "#121212"
 			},
-			"_2022_future": {
-				"_theme": "Future Tech Racing",
+			"y2022": {
+				"theme": "Future Tech Racing",
 				"techBlue": "#2196F3",
 				"techPurple": "#9C27B0",
 				"lightAccent": "#E1F5FE"
 			},
-			"_2023_speed": {
-				"_theme": "Speed Motion",
+			"y2023": {
+				"theme": "Speed Motion",
 				"speedRed": "#FF1744",
 				"motionBlue": "#00B0FF",
 				"trailWhite": "#FFFFFF"
 			},
-			"_sponsor_colors": {
-				"_description": "Common sponsor/partner colors",
+			"sponsors": {
 				"goodSmileOrange": "#F57C00",
 				"cryptonBlue": "#1976D2",
 				"bmwBlue": "#0066B1",
@@ -363,11 +405,8 @@
 				"raidJapanRed": "#C62828"
 			}
 		},
-
 		"_magicalMirai": {
-			"_description": "Magical Mirai Concert Series - Annual since 2013",
-			"_stage_core": {
-				"_description": "Common concert/stage colors",
+			"stage": {
 				"spotlightWhite": "#FFFFFF",
 				"stageBlack": "#0A0A0A",
 				"laserGreen": "#00FF00",
@@ -376,82 +415,81 @@
 				"laserPurple": "#9400D3",
 				"strobeWhite": "#F5F5F5"
 			},
-			"_2013_first": {
-				"_theme": "First Magical Mirai",
+			"y2013": {
+				"theme": "First Magical Mirai",
 				"primaryBlue": "#2196F3",
 				"accentPink": "#E91E63",
 				"lightCyan": "#00BCD4"
 			},
-			"_2014_osaka": {
-				"_theme": "Osaka Concert",
+			"y2014": {
+				"theme": "Osaka Concert",
 				"deepPurple": "#673AB7",
 				"vibrantPink": "#FF4081",
 				"electricBlue": "#448AFF"
 			},
-			"_2015_budokan": {
-				"_theme": "Nippon Budokan",
+			"y2015": {
+				"theme": "Nippon Budokan",
 				"royalPurple": "#7B1FA2",
 				"goldAccent": "#FFC107",
 				"pearlWhite": "#FAFAFA"
 			},
-			"_2016_makuhari": {
-				"_theme": "Makuhari Messe",
+			"y2016": {
+				"theme": "Makuhari Messe",
 				"oceanBlue": "#039BE5",
 				"sunsetOrange": "#FF7043",
 				"skyLight": "#81D4FA"
 			},
-			"_2017_5th": {
-				"_theme": "5th Anniversary",
+			"y2017": {
+				"theme": "5th Anniversary",
 				"celebrationGold": "#FFD700",
 				"deepBlue": "#1A237E",
 				"starWhite": "#FFFFFF"
 			},
-			"_2018_osaka_tokyo": {
-				"_theme": "Dual City Tour",
+			"y2018": {
+				"theme": "Dual City Tour",
 				"tokyoPurple": "#9C27B0",
 				"osakaPink": "#F48FB1",
 				"unityTeal": "#26A69A"
 			},
-			"_2019_galaxy": {
-				"_theme": "Galaxy Theme",
+			"y2019": {
+				"theme": "Galaxy Theme",
 				"galaxyPurple": "#4A148C",
 				"stardustPink": "#F8BBD9",
 				"nebulaBlue": "#1E88E5",
 				"cosmicGold": "#FFD54F"
 			},
-			"_2020_online": {
-				"_theme": "Online Concert (COVID)",
+			"y2020": {
+				"theme": "Online Concert (COVID)",
 				"digitalCyan": "#00E5FF",
 				"streamPurple": "#AA00FF",
 				"virtualPink": "#FF4081"
 			},
-			"_2021_10th": {
-				"_theme": "10th Anniversary Celebration",
+			"y2021": {
+				"theme": "10th Anniversary Celebration",
 				"tenthGold": "#FFD700",
 				"platinumWhite": "#E8E8E8",
 				"decadePurple": "#6A1B9A"
 			},
-			"_2022_connect": {
-				"_theme": "Connect Theme",
+			"y2022": {
+				"theme": "Connect Theme",
 				"connectBlue": "#2962FF",
 				"linkPink": "#FF80AB",
 				"bondGreen": "#00E676"
 			},
-			"_2023_future": {
-				"_theme": "Future Pop",
+			"y2023": {
+				"theme": "Future Pop",
 				"futureCyan": "#00BCD4",
 				"popPink": "#FF4081",
 				"neonYellow": "#FFEA00"
 			},
-			"_2024_funtrip": {
-				"_theme": "Fun Trip (ファントリップ)",
+			"y2024": {
+				"theme": "Fun Trip",
 				"tripBlue": "#42A5F5",
 				"funPink": "#EC407A",
 				"journeyGreen": "#66BB6A",
 				"adventureYellow": "#FFCA28"
 			},
-			"_lightstick": {
-				"_description": "Official lightstick/penlight colors",
+			"lightstick": {
 				"mikuTeal": "#39C5BB",
 				"rinOrange": "#FFAB40",
 				"lenYellow": "#FFEB3B",
@@ -460,54 +498,50 @@
 				"kaitoBlue": "#42A5F5"
 			}
 		},
-
 		"_mikuExpo": {
-			"_description": "Miku Expo World Tour - International concerts",
-			"_brand_core": {
-				"_description": "Core Miku Expo branding",
+			"brand": {
 				"expoCyan": "#00BCD4",
 				"expoMagenta": "#E91E63",
 				"expoBlue": "#2196F3",
 				"globalWhite": "#FFFFFF"
 			},
-			"_2014_indonesia_usa": {
-				"_theme": "First World Tour",
+			"y2014": {
+				"theme": "First World Tour",
 				"tourBlue": "#1976D2",
 				"worldPink": "#EC407A",
 				"globalTeal": "#00ACC1"
 			},
-			"_2016_north_america": {
-				"_theme": "North America Tour",
+			"y2016": {
+				"theme": "North America Tour",
 				"americaBlue": "#1565C0",
 				"redAccent": "#D32F2F",
 				"starWhite": "#FFFFFF"
 			},
-			"_2018_europe": {
-				"_theme": "European Tour",
+			"y2018": {
+				"theme": "European Tour",
 				"euroBlue": "#3F51B5",
 				"continentGold": "#FFC107",
 				"unityPurple": "#7B1FA2"
 			},
-			"_2020_online": {
-				"_theme": "Digital Stars Online",
+			"y2020": {
+				"theme": "Digital Stars Online",
 				"digitalPurple": "#9C27B0",
 				"streamCyan": "#00E5FF",
 				"onlinePink": "#FF80AB"
 			},
-			"_2021_rewind": {
-				"_theme": "Rewind - Digital Compilation",
+			"y2021": {
+				"theme": "Rewind - Digital Compilation",
 				"rewindPurple": "#7C4DFF",
 				"memoryPink": "#FF4081",
 				"timeCyan": "#18FFFF"
 			},
-			"_2024_world": {
-				"_theme": "2024 World Tour",
+			"y2024": {
+				"theme": "2024 World Tour",
 				"worldCyan": "#00BCD4",
 				"tourMagenta": "#EC407A",
 				"globalBlue": "#2962FF"
 			},
-			"_regional": {
-				"_description": "Regional event accent colors",
+			"regional": {
 				"japan": "#BC002D",
 				"usa": "#3C3B6E",
 				"europe": "#003399",
@@ -516,75 +550,63 @@
 				"southAmerica": "#009B3A"
 			}
 		},
-
 		"_projectDiva": {
-			"_description": "Project DIVA Game Series - Popular Modules",
-			"_ui": {
-				"_description": "Game UI colors",
+			"ui": {
 				"menuBlue": "#2196F3",
 				"selectPink": "#E91E63",
 				"confirmGreen": "#4CAF50",
 				"cancelRed": "#F44336",
 				"scoringGold": "#FFD700"
 			},
-			"_modules_classic": {
-				"_description": "Classic/Default Modules",
+			"classic": {
 				"default": "#39C5BB",
 				"schoolUniform": "#1A237E",
 				"casual": "#FF7043",
 				"swimsuit": "#29B6F6"
 			},
-			"_modules_gothic": {
-				"_description": "Gothic/Dark Modules",
-				"gothicBlack": "#1A1A1A",
-				"gothicPurple": "#4A148C",
-				"gothicRed": "#B71C1C",
+			"gothic": {
+				"black": "#1A1A1A",
+				"purple": "#4A148C",
+				"red": "#B71C1C",
 				"laceTrim": "#E0E0E0"
 			},
-			"_modules_princess": {
-				"_description": "Princess/Royal Modules",
+			"princess": {
 				"royalGold": "#FFD700",
-				"princessPink": "#F8BBD9",
+				"pink": "#F8BBD9",
 				"gownWhite": "#FAFAFA",
 				"crownSilver": "#CFD8DC"
 			},
-			"_modules_cyber": {
-				"_description": "Cyber/Digital Modules",
-				"cyberGreen": "#00E676",
+			"cyber": {
+				"green": "#00E676",
 				"matrixBlue": "#00BCD4",
 				"neonPink": "#FF4081",
 				"circuitBlack": "#0D0D0D"
 			},
-			"_modules_space": {
-				"_description": "Space Channel 39 / Sci-Fi",
-				"spaceOrange": "#FF6D00",
+			"space": {
+				"orange": "#FF6D00",
 				"alienGreen": "#76FF03",
 				"cosmosBlue": "#304FFE",
 				"starfieldBlack": "#0A0A0A"
 			},
-			"_modules_cat": {
-				"_description": "Cat/Neko Modules",
-				"catGrey": "#78909C",
+			"cat": {
+				"grey": "#78909C",
 				"earPink": "#F48FB1",
 				"whiskerWhite": "#FFFFFF",
 				"pawPink": "#FFAB91"
 			},
-			"_modules_traditional": {
-				"_description": "Japanese Traditional Modules",
+			"traditional": {
 				"kimonoRed": "#C62828",
 				"obiGold": "#FF8F00",
 				"fabricWhite": "#FFF8E1",
 				"sakuraPink": "#FFCDD2"
 			},
-			"_modules_idol": {
-				"_description": "Idol/Stage Modules",
-				"idolPink": "#FF4081",
+			"idol": {
+				"pink": "#FF4081",
 				"stagePurple": "#9C27B0",
 				"spotlightYellow": "#FFEB3B",
 				"micSilver": "#B0BEC5"
 			},
-			"_rating_colors": {
-				"_description": "Performance rating colors",
+			"ratings": {
 				"perfect": "#FFD700",
 				"great": "#4CAF50",
 				"good": "#2196F3",
@@ -593,52 +615,41 @@
 				"worst": "#B71C1C"
 			}
 		},
-
 		"_collaboration": {
-			"_description": "Brand collaborations and special editions",
-			"_lux": {
-				"_description": "LUX Shampoo Collaboration",
-				"luxGold": "#D4AF37",
-				"luxPink": "#FFB6C1",
-				"luxWhite": "#FFFAF0"
+			"lux": {
+				"gold": "#D4AF37",
+				"pink": "#FFB6C1",
+				"white": "#FFFAF0"
 			},
-			"_familyMart": {
-				"_description": "FamilyMart Convenience Store",
-				"fmGreen": "#00A040",
-				"fmBlue": "#0068B7",
-				"fmWhite": "#FFFFFF"
+			"familyMart": {
+				"green": "#00A040",
+				"blue": "#0068B7",
+				"white": "#FFFFFF"
 			},
-			"_dominos": {
-				"_description": "Domino's Pizza Japan",
-				"dominosRed": "#E31837",
-				"dominosBlue": "#006491",
+			"dominos": {
+				"red": "#E31837",
+				"blue": "#006491",
 				"pizzaGold": "#FFCA28"
 			},
-			"_google": {
-				"_description": "Google Chrome Miku",
-				"chromeRed": "#EA4335",
-				"chromeYellow": "#FBBC04",
-				"chromeGreen": "#34A853",
-				"chromeBlue": "#4285F4"
+			"google": {
+				"red": "#EA4335",
+				"yellow": "#FBBC04",
+				"green": "#34A853",
+				"blue": "#4285F4"
 			},
-			"_toyota": {
-				"_description": "Toyota AquaConcept",
-				"toyotaRed": "#EB0A1E",
+			"toyota": {
+				"red": "#EB0A1E",
 				"aquaBlue": "#00A0E9",
 				"ecoGreen": "#00A650"
 			},
-			"_sharp": {
-				"_description": "Sharp Electronics",
-				"sharpRed": "#C8102E",
+			"sharp": {
+				"red": "#C8102E",
 				"techSilver": "#A7A9AC",
 				"displayBlue": "#0066CC"
 			}
 		},
-
 		"_mikuNT": {
-			"_description": "Hatsune Miku NT (New Type) - 2020 redesign",
-			"_design": {
-				"_description": "NT Character Design Colors (by iXima)",
+			"design": {
 				"hairTeal": "#3ED1C8",
 				"hairHighlight": "#5DE4DB",
 				"hairShadow": "#2AA69E",
@@ -650,18 +661,15 @@
 				"accentPink": "#FF4081",
 				"trimWhite": "#ECEFF1"
 			},
-			"_ui": {
-				"_description": "NT Software UI Colors",
+			"ui": {
 				"ntCyan": "#00BCD4",
 				"ntPurple": "#9C27B0",
 				"ntPink": "#E91E63",
 				"interfaceBlue": "#2196F3"
 			}
 		},
-
 		"_sakuraMiku": {
-			"_description": "Sakura Miku - Cherry Blossom themed variant",
-			"_character": {
+			"character": {
 				"hairPink": "#FFB7C5",
 				"hairHighlight": "#FFD7E5",
 				"hairShadow": "#FF8FAB",
@@ -670,73 +678,68 @@
 				"outfitWhite": "#FFFFFF",
 				"ribbonPink": "#F48FB1"
 			},
-			"_environment": {
+			"environment": {
 				"petalPink": "#FFDDE5",
 				"branchBrown": "#8B5A5A",
 				"leafGreen": "#9CCC65",
 				"skyBlue": "#87CEEB",
 				"sunsetOrange": "#FFB366"
 			},
-			"_variants": {
-				"_description": "Different Sakura Miku versions",
+			"variants": {
 				"original": "#FFB7C5",
 				"nightSakura": "#C48B9F",
 				"fullBloom": "#FF8FB4",
 				"fallingPetals": "#FFDDE5"
 			}
 		},
-
 		"_vocaloidFamily": {
-			"_description": "Extended Vocaloid family colors (beyond Crypton)",
-			"_internet_co": {
+			"internetCo": {
 				"gumi": "#4CAF50",
 				"gumiPower": "#2E7D32",
 				"gumiSweet": "#81C784",
 				"gumiWhisper": "#C8E6C9",
 				"lily": "#9C27B0"
 			},
-			"_ah_software": {
+			"ahSoftware": {
 				"yukari": "#9C27B0",
 				"zunko": "#8BC34A",
 				"kiritan": "#E91E63",
 				"itako": "#00BCD4"
 			},
-			"_yamaha": {
+			"yamaha": {
 				"cyberDiva": "#3F51B5",
 				"vflower": "#607D8B",
 				"fukase": "#F44336"
 			},
-			"_utau": {
+			"utau": {
 				"teto": "#E91E63",
 				"momo": "#FFCDD2",
 				"defoko": "#9E9E9E",
 				"ritsu": "#F44336"
 			}
 		},
-
 		"_cryptonFamily": {
-			"_rinLen": {
+			"rinLen": {
 				"yellow": "#FFD740",
 				"orange": "#FFB74D",
 				"cream": "#FFF8E1"
 			},
-			"_luka": {
+			"luka": {
 				"pink": "#F48FB1",
 				"hotPink": "#EC407A",
 				"pale": "#FCE4EC"
 			},
-			"_kaito": {
+			"kaito": {
 				"blue": "#42A5F5",
 				"navy": "#1565C0",
 				"ice": "#BBDEFB"
 			},
-			"_meiko": {
+			"meiko": {
 				"red": "#EF5350",
 				"crimson": "#C62828",
 				"rose": "#FFCDD2"
 			}
 		},
-
 		"_stage": {
 			"spotlight": "#FFFFFF",
 			"ambientTeal": "#00BCD4",
@@ -760,7 +763,6 @@
 			"flicker": "#FFFFFF"
 		},
 		"_frequency": {
-			"_description": "Sound wave / audio visualizer metaphors",
 			"bass": "#1A8A82",
 			"low": "#2D9E97",
 			"mid": "#39C5BB",
@@ -770,7 +772,6 @@
 			"spectrum": "#B388FF",
 			"beat": "#E05096"
 		},
-
 		"_teals": {
 			"sekai": "#39C5BB",
 			"neon": "#5DE4DB",
@@ -840,7 +841,6 @@
 			"info": "#4DD0E1"
 		}
 	},
-
 	"colors": {
 		"editor.background": "#1A1F24",
 		"editor.foreground": "#C8DCD9",
@@ -919,11 +919,8 @@
 		"editorUnnecessaryCode.opacity": "#00000080",
 		"editorGhostText.foreground": "#00E5D450",
 		"editorGhostText.border": "#00E5D420",
-
 		"editor.linkedEditingBackground": "#84FFFF20",
-
 		"editorWatermark.foreground": "#5DE4DB30",
-
 		"editorOverviewRuler.bracketMatchForeground": "#84FFFFA0",
 		"editorOverviewRuler.wordHighlightForeground": "#84FFFF80",
 		"editorOverviewRuler.wordHighlightStrongForeground": "#FF6B9D90",
@@ -933,10 +930,8 @@
 		"editorOverviewRuler.infoForeground": "#4DD0E1",
 		"editorOverviewRuler.warningForeground": "#FFD740",
 		"editorOverviewRuler.errorForeground": "#FF5370",
-
 		"editorLink.activeForeground": "#4DD0E1",
 		"editorCodeLens.foreground": "#5DE4DB50",
-
 		"activityBar.background": "#111417",
 		"activityBar.foreground": "#39C5BB",
 		"activityBar.activeBorder": "#FF6B9D",
@@ -948,7 +943,6 @@
 		"activityBarTop.foreground": "#39C5BB",
 		"activityBarTop.activeBorder": "#FF6B9D",
 		"activityBarTop.inactiveForeground": "#455A64",
-
 		"sideBar.background": "#15191D",
 		"sideBar.foreground": "#A8C4C0",
 		"sideBar.border": "#39C5BB15",
@@ -957,7 +951,9 @@
 		"sideBarSectionHeader.foreground": "#39C5BB",
 		"sideBarSectionHeader.border": "#39C5BB15",
 		"sideBarTitle.foreground": "#39C5BB",
-
+		"sideBarStickyScroll.background": "#111417",
+		"sideBarStickyScroll.border": "#39C5BB20",
+		"sideBarStickyScroll.shadow": "#00000040",
 		"statusBar.background": "#0D1114",
 		"statusBar.foreground": "#C8DCD9",
 		"statusBar.border": "#39C5BB30",
@@ -978,13 +974,11 @@
 		"statusBarItem.prominentBackground": "#39C5BB20",
 		"statusBarItem.prominentForeground": "#39C5BB",
 		"statusBarItem.prominentHoverBackground": "#5FCEC835",
-
 		"titleBar.activeBackground": "#0D1114",
 		"titleBar.activeForeground": "#C8DCD9",
 		"titleBar.inactiveBackground": "#0D1114",
 		"titleBar.inactiveForeground": "#455A64",
 		"titleBar.border": "#39C5BB15",
-
 		"tab.activeBackground": "#1A1F24",
 		"tab.activeForeground": "#39C5BB",
 		"tab.activeBorderTop": "#FF6B9D",
@@ -1005,7 +999,6 @@
 		"editorGroupHeader.noTabsBackground": "#15191D",
 		"editorGroup.border": "#39C5BB25",
 		"editorGroup.dropBackground": "#39C5BB20",
-
 		"list.activeSelectionBackground": "#39C5BB30",
 		"list.activeSelectionForeground": "#FFFFFF",
 		"list.activeSelectionIconForeground": "#39C5BB",
@@ -1024,10 +1017,8 @@
 		"listFilterWidget.background": "#15191D",
 		"listFilterWidget.outline": "#39C5BB60",
 		"listFilterWidget.noMatchesOutline": "#FF5370",
-
 		"tree.indentGuidesStroke": "#39C5BB30",
 		"tree.tableColumnsBorder": "#39C5BB20",
-
 		"focusBorder": "#39C5BB60",
 		"foreground": "#C8DCD9",
 		"disabledForeground": "#455A6480",
@@ -1037,7 +1028,6 @@
 		"errorForeground": "#FF5370",
 		"icon.foreground": "#A8C4C0",
 		"sash.hoverBorder": "#5FCEC860",
-
 		"input.background": "#111417",
 		"input.foreground": "#C8DCD9",
 		"input.border": "#39C5BB40",
@@ -1055,12 +1045,10 @@
 		"inputValidation.infoBackground": "#4DD0E125",
 		"inputValidation.infoBorder": "#4DD0E1",
 		"inputValidation.infoForeground": "#4DD0E1",
-
 		"dropdown.background": "#111417",
 		"dropdown.foreground": "#C8DCD9",
 		"dropdown.border": "#39C5BB40",
 		"dropdown.listBackground": "#15191D",
-
 		"button.background": "#39C5BB",
 		"button.foreground": "#0D1114",
 		"button.hoverBackground": "#2D9E97",
@@ -1068,16 +1056,13 @@
 		"button.secondaryForeground": "#FFFFFF",
 		"button.secondaryHoverBackground": "#546E7A",
 		"button.border": "#39C5BB80",
-
 		"checkbox.background": "#111417",
 		"checkbox.foreground": "#39C5BB",
 		"checkbox.border": "#39C5BB40",
-
 		"scrollbar.shadow": "#00000040",
 		"scrollbarSlider.background": "#39C5BB15",
 		"scrollbarSlider.hoverBackground": "#5FCEC830",
 		"scrollbarSlider.activeBackground": "#FF6B9D80",
-
 		"minimap.findMatchHighlight": "#FF6B9D80",
 		"minimap.selectionHighlight": "#39C5BB60",
 		"minimap.errorHighlight": "#FF537090",
@@ -1092,14 +1077,12 @@
 		"minimapGutter.addedBackground": "#9CCC65",
 		"minimapGutter.modifiedBackground": "#FFD740",
 		"minimapGutter.deletedBackground": "#FF5370",
-
 		"breadcrumb.foreground": "#546E7A",
 		"breadcrumb.background": "#1A1F24",
 		"breadcrumb.focusForeground": "#39C5BB",
 		"breadcrumb.activeSelectionForeground": "#FF6B9D",
 		"breadcrumb.activeSelectionBackground": "#39C5BB20",
 		"breadcrumbPicker.background": "#15191D",
-
 		"terminal.background": "#1A1F24",
 		"terminal.foreground": "#C8DCD9",
 		"terminal.ansiBlack": "#1A1F24",
@@ -1133,7 +1116,6 @@
 		"terminalCommandDecoration.errorBackground": "#FF537090",
 		"terminalOverviewRuler.cursorForeground": "#FF6B9D",
 		"terminalOverviewRuler.findMatchForeground": "#FF6B9D80",
-
 		"textLink.foreground": "#4DD0E1",
 		"textLink.activeForeground": "#84FFFF",
 		"textBlockQuote.background": "#15191D",
@@ -1141,7 +1123,6 @@
 		"textCodeBlock.background": "#111417",
 		"textPreformat.foreground": "#9CCC65",
 		"textSeparator.foreground": "#39C5BB30",
-
 		"notifications.background": "#15191D",
 		"notifications.foreground": "#C8DCD9",
 		"notifications.border": "#FF6B9D50",
@@ -1153,7 +1134,6 @@
 		"notificationCenterHeader.background": "#111417",
 		"notificationCenterHeader.foreground": "#39C5BB",
 		"notificationCenter.border": "#39C5BB40",
-
 		"peekView.border": "#00E5D4",
 		"peekViewEditor.background": "#15191D",
 		"peekViewEditorGutter.background": "#111417",
@@ -1168,10 +1148,8 @@
 		"peekViewResult.matchHighlightBackground": "#FF6B9D50",
 		"peekViewEditor.matchHighlightBackground": "#FF6B9D50",
 		"peekViewEditor.matchHighlightBorder": "#FF6B9D80",
-
 		"pickerGroup.border": "#39C5BB30",
 		"pickerGroup.foreground": "#39C5BB",
-
 		"gitDecoration.addedResourceForeground": "#9CCC65",
 		"gitDecoration.modifiedResourceForeground": "#FFD740",
 		"gitDecoration.deletedResourceForeground": "#FF5370",
@@ -1182,7 +1160,6 @@
 		"gitDecoration.stageModifiedResourceForeground": "#FFD740",
 		"gitDecoration.stageDeletedResourceForeground": "#FF5370",
 		"gitDecoration.submoduleResourceForeground": "#4DD0E1",
-
 		"diffEditor.insertedTextBackground": "#9CCC6518",
 		"diffEditor.removedTextBackground": "#FF537018",
 		"diffEditor.insertedLineBackground": "#9CCC650D",
@@ -1198,7 +1175,6 @@
 		"diffEditorOverview.removedForeground": "#FF5370",
 		"multiDiffEditor.headerBackground": "#15191D",
 		"multiDiffEditor.border": "#39C5BB30",
-
 		"panel.background": "#15191D",
 		"panel.border": "#39C5BB30",
 		"panel.dropBorder": "#39C5BB60",
@@ -1211,7 +1187,6 @@
 		"panelSectionHeader.background": "#111417",
 		"panelSectionHeader.foreground": "#39C5BB",
 		"panelSectionHeader.border": "#39C5BB20",
-
 		"debugToolBar.background": "#0D1114",
 		"debugToolBar.border": "#FF6B9D60",
 		"debugIcon.breakpointForeground": "#FF6B9D",
@@ -1245,10 +1220,8 @@
 		"debugView.stateLabelForeground": "#C8DCD9",
 		"debugView.stateLabelBackground": "#39C5BB40",
 		"debugView.valueChangedHighlight": "#FFD74080",
-
 		"editor.stackFrameHighlightBackground": "#FF6B9D25",
 		"editor.focusedStackFrameHighlightBackground": "#84FFFF20",
-
 		"testing.iconFailed": "#FF5370",
 		"testing.iconErrored": "#FF5370",
 		"testing.iconPassed": "#9CCC65",
@@ -1262,7 +1235,6 @@
 		"testing.message.error.lineBackground": "#FF537015",
 		"testing.message.info.decorationForeground": "#4DD0E1",
 		"testing.message.info.lineBackground": "#4DD0E115",
-
 		"mergeEditor.change.background": "#FFD74015",
 		"mergeEditor.change.word.background": "#FFD74030",
 		"mergeEditor.conflict.handled.minimapOverViewRuler": "#9CCC65",
@@ -1272,7 +1244,6 @@
 		"mergeEditor.conflict.unhandledFocused.border": "#FF5370",
 		"mergeEditor.conflict.unhandledUnfocused.border": "#FF537080",
 		"mergeEditor.conflictingLines.background": "#FF537015",
-
 		"settings.headerForeground": "#39C5BB",
 		"settings.modifiedItemIndicator": "#FF6B9D",
 		"settings.focusedRowBackground": "#6DD4CD10",
@@ -1293,7 +1264,6 @@
 		"settings.numberInputBackground": "#111417",
 		"settings.numberInputForeground": "#C8DCD9",
 		"settings.numberInputBorder": "#39C5BB40",
-
 		"welcomePage.background": "#1A1F24",
 		"welcomePage.tileBackground": "#15191D",
 		"welcomePage.tileBorder": "#39C5BB30",
@@ -1301,7 +1271,6 @@
 		"welcomePage.progress.foreground": "#39C5BB",
 		"welcomePage.progress.background": "#111417",
 		"walkThrough.embeddedEditorBackground": "#15191D",
-
 		"extensionButton.prominentBackground": "#39C5BB",
 		"extensionButton.prominentForeground": "#0D1114",
 		"extensionButton.prominentHoverBackground": "#2D9E97",
@@ -1312,15 +1281,12 @@
 		"extensionIcon.verifiedForeground": "#9CCC65",
 		"extensionIcon.preReleaseForeground": "#FFD740",
 		"extensionIcon.sponsorForeground": "#FF6B9D",
-
 		"keybindingLabel.background": "#39C5BB20",
 		"keybindingLabel.foreground": "#39C5BB",
 		"keybindingLabel.border": "#39C5BB40",
 		"keybindingLabel.bottomBorder": "#39C5BB60",
-
 		"keybindingTable.headerBackground": "#111417",
 		"keybindingTable.rowsBackground": "#15191D",
-
 		"charts.foreground": "#C8DCD9",
 		"charts.lines": "#39C5BB60",
 		"charts.red": "#FF5370",
@@ -1329,7 +1295,6 @@
 		"charts.blue": "#4DD0E1",
 		"charts.purple": "#B388FF",
 		"charts.orange": "#FFAB40",
-
 		"menu.background": "#15191D",
 		"menu.foreground": "#C8DCD9",
 		"menu.selectionBackground": "#39C5BB30",
@@ -1340,7 +1305,6 @@
 		"menubar.selectionBackground": "#39C5BB25",
 		"menubar.selectionForeground": "#FFFFFF",
 		"menubar.selectionBorder": "#39C5BB40",
-
 		"commandCenter.foreground": "#C8DCD9",
 		"commandCenter.background": "#111417",
 		"commandCenter.border": "#39C5BB30",
@@ -1349,18 +1313,15 @@
 		"commandCenter.activeBorder": "#39C5BB60",
 		"commandCenter.inactiveForeground": "#546E7A",
 		"commandCenter.inactiveBorder": "#39C5BB20",
-
 		"quickInput.background": "#15191D",
 		"quickInput.foreground": "#C8DCD9",
 		"quickInputTitle.background": "#111417",
 		"quickInputList.focusBackground": "#6DD4CD30",
 		"quickInputList.focusForeground": "#FFFFFF",
 		"quickInputList.focusIconForeground": "#39C5BB",
-
 		"banner.background": "#15191D",
 		"banner.foreground": "#C8DCD9",
 		"banner.iconForeground": "#39C5BB",
-
 		"editorError.foreground": "#FF5370",
 		"editorError.border": "#FF537040",
 		"editorError.background": "#FF537015",
@@ -1375,22 +1336,18 @@
 		"problemsErrorIcon.foreground": "#FF5370",
 		"problemsWarningIcon.foreground": "#FFD740",
 		"problemsInfoIcon.foreground": "#4DD0E1",
-
 		"editorLightBulb.foreground": "#FFD740",
 		"editorLightBulbAutoFix.foreground": "#9CCC65",
 		"editorLightBulbAi.foreground": "#FF6B9D",
-
 		"editorInlayHint.background": "#84FFFF08",
 		"editorInlayHint.foreground": "#5DE4DB70",
 		"editorInlayHint.typeForeground": "#B2EBE760",
 		"editorInlayHint.typeBackground": "#B2EBE708",
 		"editorInlayHint.parameterForeground": "#FF80AB60",
 		"editorInlayHint.parameterBackground": "#FF80AB08",
-
 		"editorStickyScroll.background": "#15191DF0",
 		"editorStickyScroll.border": "#84FFFF30",
 		"editorStickyScrollHover.background": "#5FCEC810",
-
 		"notebook.cellBorderColor": "#39C5BB30",
 		"notebook.cellEditorBackground": "#15191D",
 		"notebook.cellHoverBackground": "#5FCEC810",
@@ -1411,7 +1368,6 @@
 		"notebookStatusErrorIcon.foreground": "#FF5370",
 		"notebookStatusRunningIcon.foreground": "#FFD740",
 		"notebookEditorOverviewRuler.runningCellForeground": "#FFD740",
-
 		"symbolIcon.arrayForeground": "#00BCD4",
 		"symbolIcon.booleanForeground": "#FF6B9D",
 		"symbolIcon.classForeground": "#B2EBE7",
@@ -1445,7 +1401,6 @@
 		"symbolIcon.typeParameterForeground": "#B2EBE7",
 		"symbolIcon.unitForeground": "#FF6B9D",
 		"symbolIcon.variableForeground": "#C8DCD9",
-
 		"inlineChat.background": "#15191D",
 		"inlineChat.border": "#39C5BB40",
 		"inlineChat.shadow": "#00000060",
@@ -1455,24 +1410,17 @@
 		"inlineChatInput.placeholderForeground": "#455A64",
 		"inlineChatDiff.inserted": "#9CCC6520",
 		"inlineChatDiff.removed": "#FF537020",
-
 		"chat.requestBackground": "#15191D",
 		"chat.requestBorder": "#39C5BB30",
-
 		"ports.iconRunningProcessForeground": "#9CCC65",
-
 		"profileBadge.background": "#39C5BB",
 		"profileBadge.foreground": "#0D1114",
-
 		"languageStatus.icon.foreground": "#39C5BB",
-
 		"searchEditor.findMatchBackground": "#FF6B9D30",
 		"searchEditor.findMatchBorder": "#FF6B9D80",
 		"searchEditor.textInputBorder": "#39C5BB40",
-
 		"editorUnicodeHighlight.border": "#FFD74080",
 		"editorUnicodeHighlight.background": "#FFD74015",
-
 		"editorSuggestWidget.background": "#15191DF8",
 		"editorSuggestWidget.border": "#00E5D450",
 		"editorSuggestWidget.foreground": "#C8DCD9",
@@ -1481,7 +1429,6 @@
 		"editorSuggestWidget.selectedForeground": "#FFFFFF",
 		"editorSuggestWidget.selectedIconForeground": "#84FFFF",
 		"editorSuggestWidget.focusHighlightForeground": "#84FFFF",
-
 		"editorMarkerNavigation.background": "#15191D",
 		"editorMarkerNavigationError.background": "#FF537030",
 		"editorMarkerNavigationWarning.background": "#FFD74030",
@@ -1489,46 +1436,32 @@
 		"editorMarkerNavigationError.headerBackground": "#FF537020",
 		"editorMarkerNavigationWarning.headerBackground": "#FFD74020",
 		"editorMarkerNavigationInfo.headerBackground": "#4DD0E120",
-
 		"actionBar.toggledBackground": "#39C5BB30",
-
-		"sideBarStickyScroll.background": "#111417",
-		"sideBarStickyScroll.border": "#39C5BB20",
-		"sideBarStickyScroll.shadow": "#00000040",
-
 		"toolbar.hoverBackground": "#5FCEC820",
 		"toolbar.hoverOutline": "#5FCEC840",
 		"toolbar.activeBackground": "#2B9E9630",
-
 		"editorActionList.background": "#15191D",
 		"editorActionList.foreground": "#C8DCD9",
 		"editorActionList.focusBackground": "#6DD4CD30",
 		"editorActionList.focusForeground": "#FFFFFF",
-
 		"editorCommentsWidget.resolvedBorder": "#9CCC6560",
 		"editorCommentsWidget.unresolvedBorder": "#FFD74060",
 		"editorCommentsWidget.rangeBackground": "#39C5BB10",
 		"editorCommentsWidget.rangeActiveBackground": "#39C5BB20",
 		"editorCommentsWidget.replyInputBackground": "#111417",
-
 		"editor.foldBackground": "#84FFFF08",
 		"editor.foldPlaceholderForeground": "#5DE4DB90",
-
 		"editor.snippetTabstopHighlightBackground": "#84FFFF18",
 		"editor.snippetTabstopHighlightBorder": "#84FFFF50",
 		"editor.snippetFinalTabstopHighlightBackground": "#FF6B9D20",
 		"editor.snippetFinalTabstopHighlightBorder": "#FF6B9D60",
-
 		"editor.symbolHighlightBackground": "#84FFFF15",
 		"editor.symbolHighlightBorder": "#84FFFF40",
-
 		"editor.hoverHighlightBackground": "#84FFFF12",
-
 		"scm.historyItemAdditionsForeground": "#9CCC65",
 		"scm.historyItemDeletionsForeground": "#FF5370",
 		"scm.historyItemStatisticsBorder": "#39C5BB30",
 		"scm.historyItemSelectedStatisticsBorder": "#39C5BB60",
-
 		"scmGraph.historyItemGroupLocal": "#39C5BB",
 		"scmGraph.historyItemGroupRemote": "#FF6B9D",
 		"scmGraph.historyItemGroupBase": "#455A64",
@@ -1543,7 +1476,6 @@
 		"scmGraph.foreground4": "#4DD0E1",
 		"scmGraph.foreground5": "#FFD740"
 	},
-
 	"tokenColors": [
 		{
 			"name": "Comments (Silent - Background Layer)",
@@ -2201,14 +2133,6 @@
 			}
 		},
 		{
-			"name": "Java/Kotlin Annotation (Amber Italic)",
-			"scope": "storage.type.annotation",
-			"settings": {
-				"foreground": "#FFD740",
-				"fontStyle": "italic"
-			}
-		},
-		{
 			"name": "Elixir Module (Ice Teal Bold)",
 			"scope": "entity.name.type.module.elixir",
 			"settings": {
@@ -2221,6 +2145,45 @@
 			"scope": "string.quoted.other.sigil.elixir",
 			"settings": {
 				"foreground": "#4DD0E1"
+			}
+		},
+		{
+			"name": "Java/Kotlin Annotation (Amber Italic)",
+			"scope": "storage.type.annotation",
+			"settings": {
+				"foreground": "#FFD740",
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"name": "Kotlin Annotation",
+			"scope": [
+				"entity.name.type.annotation.kotlin",
+				"punctuation.definition.annotation.kotlin"
+			],
+			"settings": {
+				"foreground": "#FFD740",
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"name": "Kotlin Type Parameter",
+			"scope": [
+				"entity.name.type.type-parameter.kotlin"
+			],
+			"settings": {
+				"foreground": "#B2EBE7",
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"name": "Kotlin Companion/Object",
+			"scope": [
+				"keyword.other.kotlin"
+			],
+			"settings": {
+				"foreground": "#39C5BB",
+				"fontStyle": "bold"
 			}
 		},
 		{
@@ -2638,37 +2601,6 @@
 			}
 		},
 		{
-			"name": "Kotlin Annotation",
-			"scope": [
-				"entity.name.type.annotation.kotlin",
-				"punctuation.definition.annotation.kotlin"
-			],
-			"settings": {
-				"foreground": "#FFD740",
-				"fontStyle": "italic"
-			}
-		},
-		{
-			"name": "Kotlin Type Parameter",
-			"scope": [
-				"entity.name.type.type-parameter.kotlin"
-			],
-			"settings": {
-				"foreground": "#B2EBE7",
-				"fontStyle": "italic"
-			}
-		},
-		{
-			"name": "Kotlin Companion/Object",
-			"scope": [
-				"keyword.other.kotlin"
-			],
-			"settings": {
-				"foreground": "#39C5BB",
-				"fontStyle": "bold"
-			}
-		},
-		{
 			"name": "Scala Type",
 			"scope": [
 				"entity.name.class.scala",
@@ -3050,7 +2982,6 @@
 			}
 		}
 	],
-
 	"semanticTokenColors": {
 		"function": {
 			"foreground": "#00BCD4"

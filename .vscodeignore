@@ -1,9 +1,34 @@
+# VS Code / Dev
 .vscode/**
 .vscode-test/**
+
+# Git
+.git/**
 .gitignore
+.gitattributes
+
+# Documentation (keep README, LICENSE)
 vsc-extension-quickstart.md
-examples/**
-images/**
+CHANGELOG.md
+
+# Source (only themes/ JSON needed)
+src/**
+dist/**
+tsconfig.json
+*.ts
+*.tsbuildinfo
+
+# Dependencies
+node_modules/**
+package-lock.json
+
+# Build artifacts
 **/*.vsix
 **/*.map
-.git/**
+
+# Assets (keep icon, exclude preview)
+images/preview.png
+examples/**
+
+# Environment
+.env*

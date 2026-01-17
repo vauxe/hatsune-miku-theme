@@ -1,6 +1,7 @@
 {
   "name": "hatsune-miku-theme",
   "displayName": "Hatsune Miku Theme",
+  "publisher": "vauxe",
   "description": "All-Miku Synthesis: A high-fidelity VS Code theme integrating every Miku version (V2 to SEKAI) with ergonomic color mapping for marathon coding sessions.",
   "repository": {
     "type": "git",
@@ -13,6 +14,19 @@
   "categories": [
     "Themes"
   ],
+  "scripts": {
+    "build": "tsc && node dist/generator.js",
+    "build:theme": "node dist/generator.js",
+    "watch": "tsc -w",
+    "compile": "tsc",
+    "clean": "rm -rf dist",
+    "rebuild": "npm run clean && npm run build",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.9",
+    "typescript": "^5.9.3"
+  },
   "contributes": {
     "themes": [
       {
