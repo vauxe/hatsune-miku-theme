@@ -157,6 +157,563 @@
 			}
 		},
 
+		"_snowMiku": {
+			"_description": "Snow Miku Festival (Sapporo) - Annual designs since 2010",
+			"_2010_original": {
+				"_theme": "First Snow Miku - Pure white with pale blue",
+				"white": "#FFFFFF",
+				"paleBlue": "#E3F2FD",
+				"accent": "#90CAF9"
+			},
+			"_2012_strawberry": {
+				"_theme": "Strawberry White - Sweet pink winter",
+				"strawberry": "#FF6B8A",
+				"cream": "#FFF8E7",
+				"mintAccent": "#98D9C2"
+			},
+			"_2013_magical": {
+				"_theme": "Magical Snow - Deep blue night sky",
+				"nightBlue": "#1A237E",
+				"starlight": "#E8EAF6",
+				"aurora": "#7C4DFF"
+			},
+			"_2014_marchen": {
+				"_theme": "Marchen (Fairy Tale) - Warm storybook",
+				"warmWhite": "#FFF8E1",
+				"cozyRed": "#E57373",
+				"goldTrim": "#FFD54F"
+			},
+			"_2015_plant": {
+				"_theme": "Snow Bell Flower",
+				"bellWhite": "#F5F5F5",
+				"leafGreen": "#81C784",
+				"flowerPink": "#F48FB1"
+			},
+			"_2016_winter_sports": {
+				"_theme": "Winter Sports - Athletic",
+				"sportsBlue": "#2196F3",
+				"energyOrange": "#FF9800",
+				"snowWhite": "#FAFAFA"
+			},
+			"_2017_star_night": {
+				"_theme": "Starry Night Snow - Celestial",
+				"midnightBlue": "#0D1B2A",
+				"starGold": "#FFD700",
+				"cosmicPurple": "#9C27B0"
+			},
+			"_2018_princess": {
+				"_theme": "Snow Princess - Elegant",
+				"royalBlue": "#3F51B5",
+				"silverTiara": "#CFD8DC",
+				"gemPink": "#EC407A"
+			},
+			"_2019_lily": {
+				"_theme": "Lily of the Valley - Pure",
+				"lilyWhite": "#FAFAFA",
+				"stemGreen": "#66BB6A",
+				"blushPink": "#FFCDD2"
+			},
+			"_2020_strawberry_shirokuma": {
+				"_theme": "Strawberry Shirokuma (Polar Bear)",
+				"polarWhite": "#FFFFFF",
+				"strawberryRed": "#EF5350",
+				"matchaGreen": "#8BC34A"
+			},
+			"_2021_glowing": {
+				"_theme": "Glowing Snow - Illuminated",
+				"glowCyan": "#00E5FF",
+				"neonPink": "#FF4081",
+				"iceBlue": "#E1F5FE"
+			},
+			"_2022_grand_voyage": {
+				"_theme": "Grand Voyage - Maritime",
+				"navyBlue": "#1565C0",
+				"sailWhite": "#FFFFFF",
+				"compassGold": "#FFC107"
+			},
+			"_2023_illumination": {
+				"_theme": "Illumination - Light Festival",
+				"lightYellow": "#FFF59D",
+				"warmOrange": "#FFAB40",
+				"festiveRed": "#FF5252"
+			},
+			"_2024_sepia": {
+				"_theme": "Sepia Tone - Vintage warm (confirmed different from blue)",
+				"sepia": "#D4A574",
+				"cream": "#FFF8DC",
+				"warmBrown": "#8B7355",
+				"softPink": "#EBBAB9"
+			},
+			"_core": {
+				"_description": "Common Snow Miku elements across years",
+				"snowflakeWhite": "#FFFFFF",
+				"iceCrystal": "#E0F7FA",
+				"winterSky": "#BBDEFB",
+				"frostBlue": "#90CAF9",
+				"arcticCyan": "#80DEEA",
+				"auroraGreen": "#69F0AE",
+				"auroraPink": "#FF80AB",
+				"auroraPurple": "#B388FF"
+			}
+		},
+
+		"_racingMiku": {
+			"_description": "Good Smile Racing Team - Annual designs since 2008",
+			"_team_core": {
+				"_description": "GSR Team Colors",
+				"gsmGreen": "#00A94F",
+				"gsmTeal": "#00BFA5",
+				"teamWhite": "#FFFFFF",
+				"carbonBlack": "#1A1A1A",
+				"checkeredBlack": "#212121",
+				"metallicSilver": "#B0BEC5",
+				"chromeSilver": "#E0E0E0"
+			},
+			"_2010_orange": {
+				"_theme": "First Racing Miku - Orange suit",
+				"raceOrange": "#FF6D00",
+				"suitWhite": "#FFFFFF",
+				"trimBlack": "#212121"
+			},
+			"_2011_blue": {
+				"_theme": "Blue Racing Suit",
+				"raceBlue": "#2196F3",
+				"accentWhite": "#FFFFFF",
+				"detailGold": "#FFC107"
+			},
+			"_2012_white": {
+				"_theme": "White Dominant Design",
+				"pureWhite": "#FFFFFF",
+				"accentTeal": "#26A69A",
+				"trimBlack": "#263238"
+			},
+			"_2013_purple": {
+				"_theme": "Purple Gradient Design",
+				"racePurple": "#7B1FA2",
+				"gradientPink": "#EC407A",
+				"accentWhite": "#FFFFFF"
+			},
+			"_2014_lime": {
+				"_theme": "Lime Green Energy",
+				"limePrimary": "#AEEA00",
+				"limeAccent": "#76FF03",
+				"contrastBlack": "#1B1B1B"
+			},
+			"_2015_blue_white": {
+				"_theme": "BMW Collaboration Style",
+				"bmwBlue": "#1E88E5",
+				"bmwWhite": "#FFFFFF",
+				"mPowerRed": "#E53935"
+			},
+			"_2016_teal": {
+				"_theme": "Teal Racing Design",
+				"tealPrimary": "#009688",
+				"tealLight": "#4DB6AC",
+				"accentPink": "#FF4081"
+			},
+			"_2017_gradient": {
+				"_theme": "Blue-Purple Gradient",
+				"gradientBlue": "#2962FF",
+				"gradientPurple": "#AA00FF",
+				"highlightCyan": "#00E5FF"
+			},
+			"_2018_holographic": {
+				"_theme": "Holographic Iridescent",
+				"holoBlue": "#448AFF",
+				"holoPink": "#FF80AB",
+				"holoGreen": "#69F0AE",
+				"holoSilver": "#ECEFF1"
+			},
+			"_2019_neon": {
+				"_theme": "Neon Cyber Racing",
+				"neonCyan": "#00FFFF",
+				"neonPink": "#FF00FF",
+				"darkCarbon": "#0D0D0D"
+			},
+			"_2020_anniversary": {
+				"_theme": "10th Anniversary Special",
+				"goldAnniversary": "#FFD700",
+				"premiumBlack": "#1A1A1A",
+				"accentTeal": "#00BCD4"
+			},
+			"_2021_cyber": {
+				"_theme": "Cyber Circuit",
+				"circuitGreen": "#00E676",
+				"dataBlue": "#2979FF",
+				"gridBlack": "#121212"
+			},
+			"_2022_future": {
+				"_theme": "Future Tech Racing",
+				"techBlue": "#2196F3",
+				"techPurple": "#9C27B0",
+				"lightAccent": "#E1F5FE"
+			},
+			"_2023_speed": {
+				"_theme": "Speed Motion",
+				"speedRed": "#FF1744",
+				"motionBlue": "#00B0FF",
+				"trailWhite": "#FFFFFF"
+			},
+			"_sponsor_colors": {
+				"_description": "Common sponsor/partner colors",
+				"goodSmileOrange": "#F57C00",
+				"cryptonBlue": "#1976D2",
+				"bmwBlue": "#0066B1",
+				"dunlopYellow": "#FFEB3B",
+				"raidJapanRed": "#C62828"
+			}
+		},
+
+		"_magicalMirai": {
+			"_description": "Magical Mirai Concert Series - Annual since 2013",
+			"_stage_core": {
+				"_description": "Common concert/stage colors",
+				"spotlightWhite": "#FFFFFF",
+				"stageBlack": "#0A0A0A",
+				"laserGreen": "#00FF00",
+				"laserBlue": "#00BFFF",
+				"laserPink": "#FF69B4",
+				"laserPurple": "#9400D3",
+				"strobeWhite": "#F5F5F5"
+			},
+			"_2013_first": {
+				"_theme": "First Magical Mirai",
+				"primaryBlue": "#2196F3",
+				"accentPink": "#E91E63",
+				"lightCyan": "#00BCD4"
+			},
+			"_2014_osaka": {
+				"_theme": "Osaka Concert",
+				"deepPurple": "#673AB7",
+				"vibrantPink": "#FF4081",
+				"electricBlue": "#448AFF"
+			},
+			"_2015_budokan": {
+				"_theme": "Nippon Budokan",
+				"royalPurple": "#7B1FA2",
+				"goldAccent": "#FFC107",
+				"pearlWhite": "#FAFAFA"
+			},
+			"_2016_makuhari": {
+				"_theme": "Makuhari Messe",
+				"oceanBlue": "#039BE5",
+				"sunsetOrange": "#FF7043",
+				"skyLight": "#81D4FA"
+			},
+			"_2017_5th": {
+				"_theme": "5th Anniversary",
+				"celebrationGold": "#FFD700",
+				"deepBlue": "#1A237E",
+				"starWhite": "#FFFFFF"
+			},
+			"_2018_osaka_tokyo": {
+				"_theme": "Dual City Tour",
+				"tokyoPurple": "#9C27B0",
+				"osakaPink": "#F48FB1",
+				"unityTeal": "#26A69A"
+			},
+			"_2019_galaxy": {
+				"_theme": "Galaxy Theme",
+				"galaxyPurple": "#4A148C",
+				"stardustPink": "#F8BBD9",
+				"nebulaBlue": "#1E88E5",
+				"cosmicGold": "#FFD54F"
+			},
+			"_2020_online": {
+				"_theme": "Online Concert (COVID)",
+				"digitalCyan": "#00E5FF",
+				"streamPurple": "#AA00FF",
+				"virtualPink": "#FF4081"
+			},
+			"_2021_10th": {
+				"_theme": "10th Anniversary Celebration",
+				"tenthGold": "#FFD700",
+				"platinumWhite": "#E8E8E8",
+				"decadePurple": "#6A1B9A"
+			},
+			"_2022_connect": {
+				"_theme": "Connect Theme",
+				"connectBlue": "#2962FF",
+				"linkPink": "#FF80AB",
+				"bondGreen": "#00E676"
+			},
+			"_2023_future": {
+				"_theme": "Future Pop",
+				"futureCyan": "#00BCD4",
+				"popPink": "#FF4081",
+				"neonYellow": "#FFEA00"
+			},
+			"_2024_funtrip": {
+				"_theme": "Fun Trip (ファントリップ)",
+				"tripBlue": "#42A5F5",
+				"funPink": "#EC407A",
+				"journeyGreen": "#66BB6A",
+				"adventureYellow": "#FFCA28"
+			},
+			"_lightstick": {
+				"_description": "Official lightstick/penlight colors",
+				"mikuTeal": "#39C5BB",
+				"rinOrange": "#FFAB40",
+				"lenYellow": "#FFEB3B",
+				"lukaPink": "#F48FB1",
+				"meikoRed": "#EF5350",
+				"kaitoBlue": "#42A5F5"
+			}
+		},
+
+		"_mikuExpo": {
+			"_description": "Miku Expo World Tour - International concerts",
+			"_brand_core": {
+				"_description": "Core Miku Expo branding",
+				"expoCyan": "#00BCD4",
+				"expoMagenta": "#E91E63",
+				"expoBlue": "#2196F3",
+				"globalWhite": "#FFFFFF"
+			},
+			"_2014_indonesia_usa": {
+				"_theme": "First World Tour",
+				"tourBlue": "#1976D2",
+				"worldPink": "#EC407A",
+				"globalTeal": "#00ACC1"
+			},
+			"_2016_north_america": {
+				"_theme": "North America Tour",
+				"americaBlue": "#1565C0",
+				"redAccent": "#D32F2F",
+				"starWhite": "#FFFFFF"
+			},
+			"_2018_europe": {
+				"_theme": "European Tour",
+				"euroBlue": "#3F51B5",
+				"continentGold": "#FFC107",
+				"unityPurple": "#7B1FA2"
+			},
+			"_2020_online": {
+				"_theme": "Digital Stars Online",
+				"digitalPurple": "#9C27B0",
+				"streamCyan": "#00E5FF",
+				"onlinePink": "#FF80AB"
+			},
+			"_2021_rewind": {
+				"_theme": "Rewind - Digital Compilation",
+				"rewindPurple": "#7C4DFF",
+				"memoryPink": "#FF4081",
+				"timeCyan": "#18FFFF"
+			},
+			"_2024_world": {
+				"_theme": "2024 World Tour",
+				"worldCyan": "#00BCD4",
+				"tourMagenta": "#EC407A",
+				"globalBlue": "#2962FF"
+			},
+			"_regional": {
+				"_description": "Regional event accent colors",
+				"japan": "#BC002D",
+				"usa": "#3C3B6E",
+				"europe": "#003399",
+				"asia": "#FFD700",
+				"oceania": "#00843D",
+				"southAmerica": "#009B3A"
+			}
+		},
+
+		"_projectDiva": {
+			"_description": "Project DIVA Game Series - Popular Modules",
+			"_ui": {
+				"_description": "Game UI colors",
+				"menuBlue": "#2196F3",
+				"selectPink": "#E91E63",
+				"confirmGreen": "#4CAF50",
+				"cancelRed": "#F44336",
+				"scoringGold": "#FFD700"
+			},
+			"_modules_classic": {
+				"_description": "Classic/Default Modules",
+				"default": "#39C5BB",
+				"schoolUniform": "#1A237E",
+				"casual": "#FF7043",
+				"swimsuit": "#29B6F6"
+			},
+			"_modules_gothic": {
+				"_description": "Gothic/Dark Modules",
+				"gothicBlack": "#1A1A1A",
+				"gothicPurple": "#4A148C",
+				"gothicRed": "#B71C1C",
+				"laceTrim": "#E0E0E0"
+			},
+			"_modules_princess": {
+				"_description": "Princess/Royal Modules",
+				"royalGold": "#FFD700",
+				"princessPink": "#F8BBD9",
+				"gownWhite": "#FAFAFA",
+				"crownSilver": "#CFD8DC"
+			},
+			"_modules_cyber": {
+				"_description": "Cyber/Digital Modules",
+				"cyberGreen": "#00E676",
+				"matrixBlue": "#00BCD4",
+				"neonPink": "#FF4081",
+				"circuitBlack": "#0D0D0D"
+			},
+			"_modules_space": {
+				"_description": "Space Channel 39 / Sci-Fi",
+				"spaceOrange": "#FF6D00",
+				"alienGreen": "#76FF03",
+				"cosmosBlue": "#304FFE",
+				"starfieldBlack": "#0A0A0A"
+			},
+			"_modules_cat": {
+				"_description": "Cat/Neko Modules",
+				"catGrey": "#78909C",
+				"earPink": "#F48FB1",
+				"whiskerWhite": "#FFFFFF",
+				"pawPink": "#FFAB91"
+			},
+			"_modules_traditional": {
+				"_description": "Japanese Traditional Modules",
+				"kimonoRed": "#C62828",
+				"obiGold": "#FF8F00",
+				"fabricWhite": "#FFF8E1",
+				"sakuraPink": "#FFCDD2"
+			},
+			"_modules_idol": {
+				"_description": "Idol/Stage Modules",
+				"idolPink": "#FF4081",
+				"stagePurple": "#9C27B0",
+				"spotlightYellow": "#FFEB3B",
+				"micSilver": "#B0BEC5"
+			},
+			"_rating_colors": {
+				"_description": "Performance rating colors",
+				"perfect": "#FFD700",
+				"great": "#4CAF50",
+				"good": "#2196F3",
+				"safe": "#9E9E9E",
+				"sad": "#F44336",
+				"worst": "#B71C1C"
+			}
+		},
+
+		"_collaboration": {
+			"_description": "Brand collaborations and special editions",
+			"_lux": {
+				"_description": "LUX Shampoo Collaboration",
+				"luxGold": "#D4AF37",
+				"luxPink": "#FFB6C1",
+				"luxWhite": "#FFFAF0"
+			},
+			"_familyMart": {
+				"_description": "FamilyMart Convenience Store",
+				"fmGreen": "#00A040",
+				"fmBlue": "#0068B7",
+				"fmWhite": "#FFFFFF"
+			},
+			"_dominos": {
+				"_description": "Domino's Pizza Japan",
+				"dominosRed": "#E31837",
+				"dominosBlue": "#006491",
+				"pizzaGold": "#FFCA28"
+			},
+			"_google": {
+				"_description": "Google Chrome Miku",
+				"chromeRed": "#EA4335",
+				"chromeYellow": "#FBBC04",
+				"chromeGreen": "#34A853",
+				"chromeBlue": "#4285F4"
+			},
+			"_toyota": {
+				"_description": "Toyota AquaConcept",
+				"toyotaRed": "#EB0A1E",
+				"aquaBlue": "#00A0E9",
+				"ecoGreen": "#00A650"
+			},
+			"_sharp": {
+				"_description": "Sharp Electronics",
+				"sharpRed": "#C8102E",
+				"techSilver": "#A7A9AC",
+				"displayBlue": "#0066CC"
+			}
+		},
+
+		"_mikuNT": {
+			"_description": "Hatsune Miku NT (New Type) - 2020 redesign",
+			"_design": {
+				"_description": "NT Character Design Colors (by iXima)",
+				"hairTeal": "#3ED1C8",
+				"hairHighlight": "#5DE4DB",
+				"hairShadow": "#2AA69E",
+				"eyeTeal": "#00D4C8",
+				"eyeBright": "#5FFFF5",
+				"outfitBlack": "#1A1F24",
+				"outfitGrey": "#37474F",
+				"accentCyan": "#00E5FF",
+				"accentPink": "#FF4081",
+				"trimWhite": "#ECEFF1"
+			},
+			"_ui": {
+				"_description": "NT Software UI Colors",
+				"ntCyan": "#00BCD4",
+				"ntPurple": "#9C27B0",
+				"ntPink": "#E91E63",
+				"interfaceBlue": "#2196F3"
+			}
+		},
+
+		"_sakuraMiku": {
+			"_description": "Sakura Miku - Cherry Blossom themed variant",
+			"_character": {
+				"hairPink": "#FFB7C5",
+				"hairHighlight": "#FFD7E5",
+				"hairShadow": "#FF8FAB",
+				"eyePink": "#FF80AB",
+				"outfitPink": "#FFCDD2",
+				"outfitWhite": "#FFFFFF",
+				"ribbonPink": "#F48FB1"
+			},
+			"_environment": {
+				"petalPink": "#FFDDE5",
+				"branchBrown": "#8B5A5A",
+				"leafGreen": "#9CCC65",
+				"skyBlue": "#87CEEB",
+				"sunsetOrange": "#FFB366"
+			},
+			"_variants": {
+				"_description": "Different Sakura Miku versions",
+				"original": "#FFB7C5",
+				"nightSakura": "#C48B9F",
+				"fullBloom": "#FF8FB4",
+				"fallingPetals": "#FFDDE5"
+			}
+		},
+
+		"_vocaloidFamily": {
+			"_description": "Extended Vocaloid family colors (beyond Crypton)",
+			"_internet_co": {
+				"gumi": "#4CAF50",
+				"gumiPower": "#2E7D32",
+				"gumiSweet": "#81C784",
+				"gumiWhisper": "#C8E6C9",
+				"lily": "#9C27B0"
+			},
+			"_ah_software": {
+				"yukari": "#9C27B0",
+				"zunko": "#8BC34A",
+				"kiritan": "#E91E63",
+				"itako": "#00BCD4"
+			},
+			"_yamaha": {
+				"cyberDiva": "#3F51B5",
+				"vflower": "#607D8B",
+				"fukase": "#F44336"
+			},
+			"_utau": {
+				"teto": "#E91E63",
+				"momo": "#FFCDD2",
+				"defoko": "#9E9E9E",
+				"ritsu": "#F44336"
+			}
+		},
+
 		"_cryptonFamily": {
 			"_rinLen": {
 				"yellow": "#FFD740",
@@ -388,6 +945,9 @@
 		"activityBar.border": "#39C5BB15",
 		"activityBarBadge.background": "#FF6B9D",
 		"activityBarBadge.foreground": "#FFFFFF",
+		"activityBarTop.foreground": "#39C5BB",
+		"activityBarTop.activeBorder": "#FF6B9D",
+		"activityBarTop.inactiveForeground": "#455A64",
 
 		"sideBar.background": "#15191D",
 		"sideBar.foreground": "#A8C4C0",
@@ -537,6 +1097,7 @@
 		"breadcrumb.background": "#1A1F24",
 		"breadcrumb.focusForeground": "#39C5BB",
 		"breadcrumb.activeSelectionForeground": "#FF6B9D",
+		"breadcrumb.activeSelectionBackground": "#39C5BB20",
 		"breadcrumbPicker.background": "#15191D",
 
 		"terminal.background": "#1A1F24",
@@ -635,6 +1196,8 @@
 		"diffEditorGutter.removedLineBackground": "#FF537040",
 		"diffEditorOverview.insertedForeground": "#9CCC65",
 		"diffEditorOverview.removedForeground": "#FF5370",
+		"multiDiffEditor.headerBackground": "#15191D",
+		"multiDiffEditor.border": "#39C5BB30",
 
 		"panel.background": "#15191D",
 		"panel.border": "#39C5BB30",
@@ -825,7 +1388,7 @@
 		"editorInlayHint.parameterBackground": "#FF80AB08",
 
 		"editorStickyScroll.background": "#15191DF0",
-		"editorStickyScroll.border": "#84FFFF25",
+		"editorStickyScroll.border": "#84FFFF30",
 		"editorStickyScrollHover.background": "#5FCEC810",
 
 		"notebook.cellBorderColor": "#39C5BB30",
@@ -858,7 +1421,7 @@
 		"symbolIcon.enumeratorForeground": "#B2EBE7",
 		"symbolIcon.enumeratorMemberForeground": "#FF6B9D",
 		"symbolIcon.eventForeground": "#B2EBE7",
-		"symbolIcon.fieldForeground": "#90B8B2",
+		"symbolIcon.fieldForeground": "#85ADA5",
 		"symbolIcon.fileForeground": "#C8DCD9",
 		"symbolIcon.folderForeground": "#39C5BB",
 		"symbolIcon.functionForeground": "#00BCD4",
@@ -873,7 +1436,7 @@
 		"symbolIcon.objectForeground": "#B2EBE7",
 		"symbolIcon.operatorForeground": "#39C5BB",
 		"symbolIcon.packageForeground": "#39C5BB",
-		"symbolIcon.propertyForeground": "#90B8B2",
+		"symbolIcon.propertyForeground": "#85ADA5",
 		"symbolIcon.referenceForeground": "#00BCD4",
 		"symbolIcon.snippetForeground": "#9CCC65",
 		"symbolIcon.stringForeground": "#9CCC65",
@@ -900,6 +1463,8 @@
 
 		"profileBadge.background": "#39C5BB",
 		"profileBadge.foreground": "#0D1114",
+
+		"languageStatus.icon.foreground": "#39C5BB",
 
 		"searchEditor.findMatchBackground": "#FF6B9D30",
 		"searchEditor.findMatchBorder": "#FF6B9D80",
@@ -962,7 +1527,21 @@
 		"scm.historyItemAdditionsForeground": "#9CCC65",
 		"scm.historyItemDeletionsForeground": "#FF5370",
 		"scm.historyItemStatisticsBorder": "#39C5BB30",
-		"scm.historyItemSelectedStatisticsBorder": "#39C5BB60"
+		"scm.historyItemSelectedStatisticsBorder": "#39C5BB60",
+
+		"scmGraph.historyItemGroupLocal": "#39C5BB",
+		"scmGraph.historyItemGroupRemote": "#FF6B9D",
+		"scmGraph.historyItemGroupBase": "#455A64",
+		"scmGraph.historyItemGroupHoverLabelForeground": "#FFFFFF",
+		"scmGraph.green1": "#9CCC65",
+		"scmGraph.green2": "#69F0AE",
+		"scmGraph.red1": "#FF5370",
+		"scmGraph.yellow1": "#FFD740",
+		"scmGraph.foreground1": "#39C5BB",
+		"scmGraph.foreground2": "#FF6B9D",
+		"scmGraph.foreground3": "#B388FF",
+		"scmGraph.foreground4": "#4DD0E1",
+		"scmGraph.foreground5": "#FFD740"
 	},
 
 	"tokenColors": [
@@ -974,7 +1553,7 @@
 			],
 			"settings": {
 				"fontStyle": "italic",
-				"foreground": "#5A7A7A"
+				"foreground": "#6E9090"
 			}
 		},
 		{
@@ -989,7 +1568,7 @@
 			],
 			"settings": {
 				"fontStyle": "",
-				"foreground": "#6B8A8A"
+				"foreground": "#7A9A9A"
 			}
 		},
 		{
@@ -1021,7 +1600,7 @@
 				"meta.group.braces"
 			],
 			"settings": {
-				"foreground": "#39C5BB60",
+				"foreground": "#39C5BB70",
 				"fontStyle": ""
 			}
 		},
@@ -1034,7 +1613,7 @@
 				"keyword.operator.relational"
 			],
 			"settings": {
-				"foreground": "#39C5BB80",
+				"foreground": "#39C5BB75",
 				"fontStyle": ""
 			}
 		},
@@ -1070,7 +1649,7 @@
 				"variable.other.object.property"
 			],
 			"settings": {
-				"foreground": "#90B8B2"
+				"foreground": "#85ADA5"
 			}
 		},
 		{
@@ -1136,7 +1715,7 @@
 				"punctuation.definition.template-expression"
 			],
 			"settings": {
-				"foreground": "#FF80AB"
+				"foreground": "#FF80AB90"
 			}
 		},
 		{
@@ -1984,6 +2563,491 @@
 			"settings": {
 				"foreground": "#39C5BB"
 			}
+		},
+		{
+			"name": "C# LINQ Keywords",
+			"scope": [
+				"keyword.query.linq.cs"
+			],
+			"settings": {
+				"foreground": "#39C5BB",
+				"fontStyle": "bold italic"
+			}
+		},
+		{
+			"name": "C# Async Pattern",
+			"scope": [
+				"keyword.other.await.cs",
+				"keyword.other.async.cs"
+			],
+			"settings": {
+				"foreground": "#39C5BB",
+				"fontStyle": "bold italic"
+			}
+		},
+		{
+			"name": "C# Attribute",
+			"scope": [
+				"meta.attribute.cs",
+				"entity.name.type.attribute.cs"
+			],
+			"settings": {
+				"foreground": "#FFD740",
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"name": "C# Namespace",
+			"scope": [
+				"entity.name.type.namespace.cs"
+			],
+			"settings": {
+				"foreground": "#39C5BB"
+			}
+		},
+		{
+			"name": "Swift Attribute",
+			"scope": [
+				"meta.attribute.swift",
+				"storage.modifier.attribute.swift"
+			],
+			"settings": {
+				"foreground": "#FFD740",
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"name": "Swift Type",
+			"scope": [
+				"support.type.swift",
+				"entity.name.type.swift"
+			],
+			"settings": {
+				"foreground": "#B2EBE7",
+				"fontStyle": "bold"
+			}
+		},
+		{
+			"name": "Swift Self",
+			"scope": [
+				"variable.language.swift"
+			],
+			"settings": {
+				"foreground": "#E05096",
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"name": "Kotlin Annotation",
+			"scope": [
+				"entity.name.type.annotation.kotlin",
+				"punctuation.definition.annotation.kotlin"
+			],
+			"settings": {
+				"foreground": "#FFD740",
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"name": "Kotlin Type Parameter",
+			"scope": [
+				"entity.name.type.type-parameter.kotlin"
+			],
+			"settings": {
+				"foreground": "#B2EBE7",
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"name": "Kotlin Companion/Object",
+			"scope": [
+				"keyword.other.kotlin"
+			],
+			"settings": {
+				"foreground": "#39C5BB",
+				"fontStyle": "bold"
+			}
+		},
+		{
+			"name": "Scala Type",
+			"scope": [
+				"entity.name.class.scala",
+				"entity.name.type.scala"
+			],
+			"settings": {
+				"foreground": "#B2EBE7",
+				"fontStyle": "bold"
+			}
+		},
+		{
+			"name": "Scala Annotation",
+			"scope": [
+				"meta.annotation.scala"
+			],
+			"settings": {
+				"foreground": "#FFD740",
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"name": "Scala Symbol",
+			"scope": [
+				"constant.other.symbol.scala"
+			],
+			"settings": {
+				"foreground": "#E05096"
+			}
+		},
+		{
+			"name": "PowerShell Cmdlet",
+			"scope": [
+				"support.function.powershell",
+				"entity.name.function.powershell"
+			],
+			"settings": {
+				"foreground": "#00BCD4"
+			}
+		},
+		{
+			"name": "PowerShell Variable",
+			"scope": [
+				"variable.other.readwrite.powershell",
+				"punctuation.definition.variable.powershell"
+			],
+			"settings": {
+				"foreground": "#4DD0E1"
+			}
+		},
+		{
+			"name": "PowerShell Operator",
+			"scope": [
+				"keyword.operator.comparison.powershell",
+				"keyword.operator.logical.powershell"
+			],
+			"settings": {
+				"foreground": "#39C5BB",
+				"fontStyle": "bold"
+			}
+		},
+		{
+			"name": "PowerShell Attribute",
+			"scope": [
+				"support.function.attribute.powershell",
+				"entity.other.attribute.powershell"
+			],
+			"settings": {
+				"foreground": "#FFD740",
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"name": "PowerShell Type",
+			"scope": [
+				"storage.type.powershell"
+			],
+			"settings": {
+				"foreground": "#B2EBE7",
+				"fontStyle": "bold"
+			}
+		},
+		{
+			"name": "Objective-C Method",
+			"scope": [
+				"entity.name.function.objc",
+				"meta.function-call.objc"
+			],
+			"settings": {
+				"foreground": "#00BCD4"
+			}
+		},
+		{
+			"name": "Objective-C Property",
+			"scope": [
+				"meta.property-with-attributes.objc",
+				"keyword.other.property.attribute.objc"
+			],
+			"settings": {
+				"foreground": "#FFD740",
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"name": "Objective-C Protocol",
+			"scope": [
+				"entity.name.type.protocol.objc",
+				"meta.protocol-list.objc"
+			],
+			"settings": {
+				"foreground": "#B2EBE7",
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"name": "Objective-C Category",
+			"scope": [
+				"entity.name.type.category.objc"
+			],
+			"settings": {
+				"foreground": "#B2EBE7",
+				"fontStyle": "bold"
+			}
+		},
+		{
+			"name": "Clojure Keyword",
+			"scope": [
+				"constant.keyword.clojure"
+			],
+			"settings": {
+				"foreground": "#E05096"
+			}
+		},
+		{
+			"name": "Clojure Symbol",
+			"scope": [
+				"meta.symbol.clojure"
+			],
+			"settings": {
+				"foreground": "#C8DCD9"
+			}
+		},
+		{
+			"name": "Clojure Function Definition",
+			"scope": [
+				"entity.name.function.clojure"
+			],
+			"settings": {
+				"foreground": "#00BCD4",
+				"fontStyle": "bold"
+			}
+		},
+		{
+			"name": "Clojure Macro",
+			"scope": [
+				"entity.name.function.macro.clojure"
+			],
+			"settings": {
+				"foreground": "#FFD740",
+				"fontStyle": "bold"
+			}
+		},
+		{
+			"name": "Clojure Namespace",
+			"scope": [
+				"entity.name.namespace.clojure"
+			],
+			"settings": {
+				"foreground": "#39C5BB"
+			}
+		},
+		{
+			"name": "F# Keyword",
+			"scope": [
+				"keyword.fsharp",
+				"keyword.other.fsharp"
+			],
+			"settings": {
+				"foreground": "#39C5BB",
+				"fontStyle": "bold"
+			}
+		},
+		{
+			"name": "F# Function",
+			"scope": [
+				"entity.name.function.fsharp"
+			],
+			"settings": {
+				"foreground": "#00BCD4"
+			}
+		},
+		{
+			"name": "F# Type",
+			"scope": [
+				"entity.name.type.fsharp",
+				"support.type.fsharp"
+			],
+			"settings": {
+				"foreground": "#B2EBE7",
+				"fontStyle": "bold"
+			}
+		},
+		{
+			"name": "F# Module",
+			"scope": [
+				"entity.name.section.fsharp"
+			],
+			"settings": {
+				"foreground": "#39C5BB"
+			}
+		},
+		{
+			"name": "F# Computation Expression",
+			"scope": [
+				"keyword.other.computation-expression.fsharp"
+			],
+			"settings": {
+				"foreground": "#B388FF",
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"name": "F# Attribute",
+			"scope": [
+				"support.function.attribute.fsharp"
+			],
+			"settings": {
+				"foreground": "#FFD740",
+				"fontStyle": "italic"
+			}
+		},
+		{
+			"name": "Handlebars Expression",
+			"scope": [
+				"meta.tag.template.expression.handlebars",
+				"support.constant.handlebars"
+			],
+			"settings": {
+				"foreground": "#39C5BB"
+			}
+		},
+		{
+			"name": "Handlebars Helper",
+			"scope": [
+				"entity.name.function.handlebars",
+				"support.function.builtin.handlebars"
+			],
+			"settings": {
+				"foreground": "#00BCD4"
+			}
+		},
+		{
+			"name": "Handlebars Variable",
+			"scope": [
+				"variable.parameter.handlebars"
+			],
+			"settings": {
+				"foreground": "#4DD0E1"
+			}
+		},
+		{
+			"name": "Handlebars Block",
+			"scope": [
+				"keyword.control.handlebars",
+				"keyword.other.handlebars"
+			],
+			"settings": {
+				"foreground": "#E05096"
+			}
+		},
+		{
+			"name": "EJS Delimiter",
+			"scope": [
+				"punctuation.section.embedded.ejs",
+				"entity.tag.tagbraces.ejs"
+			],
+			"settings": {
+				"foreground": "#FF6B9D"
+			}
+		},
+		{
+			"name": "EJS Control",
+			"scope": [
+				"keyword.control.ejs"
+			],
+			"settings": {
+				"foreground": "#39C5BB",
+				"fontStyle": "bold"
+			}
+		},
+		{
+			"name": "Pug Tag",
+			"scope": [
+				"entity.name.tag.pug",
+				"entity.name.tag.jade"
+			],
+			"settings": {
+				"foreground": "#39C5BB",
+				"fontStyle": "bold"
+			}
+		},
+		{
+			"name": "Pug Class",
+			"scope": [
+				"entity.other.attribute-name.class.pug",
+				"entity.other.attribute-name.class.jade"
+			],
+			"settings": {
+				"foreground": "#39C5BB"
+			}
+		},
+		{
+			"name": "Pug ID",
+			"scope": [
+				"entity.other.attribute-name.id.pug",
+				"entity.other.attribute-name.id.jade"
+			],
+			"settings": {
+				"foreground": "#E05096",
+				"fontStyle": "bold"
+			}
+		},
+		{
+			"name": "Pug Interpolation",
+			"scope": [
+				"meta.embedded.line.pug",
+				"meta.embedded.line.jade"
+			],
+			"settings": {
+				"foreground": "#4DD0E1"
+			}
+		},
+		{
+			"name": "YAML Key",
+			"scope": [
+				"entity.name.tag.yaml",
+				"support.type.property-name.yaml"
+			],
+			"settings": {
+				"foreground": "#5DE4DB"
+			}
+		},
+		{
+			"name": "YAML Anchor",
+			"scope": [
+				"entity.name.type.anchor.yaml",
+				"punctuation.definition.anchor.yaml"
+			],
+			"settings": {
+				"foreground": "#E05096"
+			}
+		},
+		{
+			"name": "YAML Alias",
+			"scope": [
+				"variable.other.alias.yaml",
+				"punctuation.definition.alias.yaml"
+			],
+			"settings": {
+				"foreground": "#FF80AB"
+			}
+		},
+		{
+			"name": "YAML Timestamp",
+			"scope": [
+				"constant.other.timestamp.yaml"
+			],
+			"settings": {
+				"foreground": "#FFD740"
+			}
+		},
+		{
+			"name": "YAML Directive",
+			"scope": [
+				"keyword.other.directive.yaml",
+				"punctuation.definition.directive.yaml"
+			],
+			"settings": {
+				"foreground": "#B388FF"
+			}
 		}
 	],
 
@@ -1992,7 +3056,7 @@
 			"foreground": "#00BCD4"
 		},
 		"function.declaration": {
-			"foreground": "#00BCD4",
+			"foreground": "#00D4C8",
 			"fontStyle": "bold"
 		},
 		"function.async": {
@@ -2000,7 +3064,7 @@
 			"fontStyle": "italic"
 		},
 		"function.async.declaration": {
-			"foreground": "#00BCD4",
+			"foreground": "#00D4C8",
 			"fontStyle": "bold italic"
 		},
 		"function.defaultLibrary": {
@@ -2010,7 +3074,7 @@
 			"foreground": "#00BCD4"
 		},
 		"method.declaration": {
-			"foreground": "#00BCD4",
+			"foreground": "#00D4C8",
 			"fontStyle": "bold"
 		},
 		"method.async": {
@@ -2018,7 +3082,7 @@
 			"fontStyle": "italic"
 		},
 		"method.async.declaration": {
-			"foreground": "#00BCD4",
+			"foreground": "#00D4C8",
 			"fontStyle": "bold italic"
 		},
 		"method.static": {
@@ -2026,7 +3090,7 @@
 			"fontStyle": "underline"
 		},
 		"method.static.declaration": {
-			"foreground": "#00BCD4",
+			"foreground": "#00D4C8",
 			"fontStyle": "bold underline"
 		},
 		"class": {
@@ -2092,7 +3156,7 @@
 		"variable.readonly": "#E05096",
 		"variable.readonly.defaultLibrary": "#E05096",
 		"variable.static": {
-			"foreground": "#90B8B2",
+			"foreground": "#85ADA5",
 			"fontStyle": "underline"
 		},
 		"variable.static.readonly": {
@@ -2102,13 +3166,13 @@
 		"variable.defaultLibrary": {
 			"foreground": "#39C5BB"
 		},
-		"property": "#90B8B2",
-		"property.declaration": "#90B8B2",
+		"property": "#85ADA5",
+		"property.declaration": "#85ADA5",
 		"property.readonly": {
 			"foreground": "#E05096"
 		},
 		"property.static": {
-			"foreground": "#90B8B2",
+			"foreground": "#85ADA5",
 			"fontStyle": "underline"
 		},
 		"property.static.readonly": {
@@ -2129,17 +3193,17 @@
 		},
 		"label": "#E05096",
 		"comment": {
-			"foreground": "#5A7A7A",
+			"foreground": "#6E9090",
 			"fontStyle": "italic"
 		},
 		"comment.documentation": {
-			"foreground": "#6B8A8A",
+			"foreground": "#7A9A9A",
 			"fontStyle": ""
 		},
 		"string": "#9CCC65",
 		"number": "#E05096",
 		"regexp": "#B388FF",
-		"operator": "#39C5BB60",
+		"operator": "#39C5BB70",
 		"keyword": {
 			"foreground": "#39C5BB",
 			"fontStyle": "bold"
@@ -2180,7 +3244,7 @@
 			"foreground": "#FF5370",
 			"fontStyle": "underline"
 		},
-		"punctuation": "#39C5BB60",
+		"punctuation": "#39C5BB70",
 		"*.mutable": {
 			"fontStyle": "underline"
 		},
