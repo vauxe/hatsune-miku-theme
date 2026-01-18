@@ -67,6 +67,8 @@ const LABELS = {
   sectionSymbolIcons: 'SYMBOL ICONS',
   sectionSettings: 'SETTINGS EDITOR',
   sectionCharts: 'CHARTS',
+  sectionDistinction: 'COLOR DISTINCTION (ΔE00)',
+  sectionSymbolDiscrimination: 'SYMBOL DISCRIMINATION (ΔE00)',
 
   summaryPass: 'Content+ (Lc60):',
   summaryLarge: 'Large/Non-text:',
@@ -237,6 +239,508 @@ function analyzeAPCA(result: APCAResult): APCAAnalysis {
 function hasAlphaChannel(hex: string): boolean {
   const len = hex.startsWith('#') ? hex.length - 1 : hex.length;
   return len === 8;
+}
+
+// =============================================================================
+// DELTA E 2000 (Perceptual Color Difference)
+// =============================================================================
+
+interface Lab {
+  L: number;
+  a: number;
+  b: number;
+}
+
+/**
+ * Convert sRGB to CIE Lab color space
+ * Required for Delta E 2000 calculation
+ */
+function rgbToLab(rgb: RGB): Lab {
+  // sRGB to linear RGB
+  const linearize = (c: number) =>
+    c > 0.04045 ? Math.pow((c + 0.055) / 1.055, 2.4) : c / 12.92;
+
+  const r = linearize(rgb.r);
+  const g = linearize(rgb.g);
+  const b = linearize(rgb.b);
+
+  // Linear RGB to XYZ (D65 illuminant)
+  const x = r * 0.4124564 + g * 0.3575761 + b * 0.1804375;
+  const y = r * 0.2126729 + g * 0.7151522 + b * 0.0721750;
+  const z = r * 0.0193339 + g * 0.1191920 + b * 0.9503041;
+
+  // XYZ to Lab (D65 reference white)
+  const refX = 0.95047;
+  const refY = 1.0;
+  const refZ = 1.08883;
+
+  const f = (t: number) =>
+    t > 0.008856 ? Math.pow(t, 1 / 3) : (903.3 * t + 16) / 116;
+
+  const fx = f(x / refX);
+  const fy = f(y / refY);
+  const fz = f(z / refZ);
+
+  return {
+    L: 116 * fy - 16,
+    a: 500 * (fx - fy),
+    b: 200 * (fy - fz),
+  };
+}
+
+function hexToLab(hex: string): Lab | null {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return null;
+  return rgbToLab(rgb);
+}
+
+/**
+ * Calculate Delta E 2000 between two Lab colors
+ * CIE DE2000 is the most perceptually uniform color difference formula
+ *
+ * Reference: "The CIEDE2000 Color-Difference Formula" (Sharma et al., 2005)
+ */
+function deltaE00(lab1: Lab, lab2: Lab): number {
+  const { L: L1, a: a1, b: b1 } = lab1;
+  const { L: L2, a: a2, b: b2 } = lab2;
+
+  // Parametric weighting factors (all 1.0 for standard conditions)
+  const kL = 1.0;
+  const kC = 1.0;
+  const kH = 1.0;
+
+  const deg2rad = Math.PI / 180;
+  const rad2deg = 180 / Math.PI;
+
+  // Step 1: Calculate C'i and h'i
+  const C1 = Math.sqrt(a1 * a1 + b1 * b1);
+  const C2 = Math.sqrt(a2 * a2 + b2 * b2);
+  const Cab = (C1 + C2) / 2;
+  const Cab7 = Math.pow(Cab, 7);
+  const G = 0.5 * (1 - Math.sqrt(Cab7 / (Cab7 + Math.pow(25, 7))));
+
+  const a1p = a1 * (1 + G);
+  const a2p = a2 * (1 + G);
+
+  const C1p = Math.sqrt(a1p * a1p + b1 * b1);
+  const C2p = Math.sqrt(a2p * a2p + b2 * b2);
+
+  const h1p = a1p === 0 && b1 === 0 ? 0 : (Math.atan2(b1, a1p) * rad2deg + 360) % 360;
+  const h2p = a2p === 0 && b2 === 0 ? 0 : (Math.atan2(b2, a2p) * rad2deg + 360) % 360;
+
+  // Step 2: Calculate ΔL', ΔC', ΔH'
+  const dLp = L2 - L1;
+  const dCp = C2p - C1p;
+
+  let dhp: number;
+  if (C1p * C2p === 0) {
+    dhp = 0;
+  } else if (Math.abs(h2p - h1p) <= 180) {
+    dhp = h2p - h1p;
+  } else if (h2p - h1p > 180) {
+    dhp = h2p - h1p - 360;
+  } else {
+    dhp = h2p - h1p + 360;
+  }
+
+  const dHp = 2 * Math.sqrt(C1p * C2p) * Math.sin((dhp / 2) * deg2rad);
+
+  // Step 3: Calculate CIEDE2000
+  const Lp = (L1 + L2) / 2;
+  const Cp = (C1p + C2p) / 2;
+
+  let hp: number;
+  if (C1p * C2p === 0) {
+    hp = h1p + h2p;
+  } else if (Math.abs(h1p - h2p) <= 180) {
+    hp = (h1p + h2p) / 2;
+  } else if (h1p + h2p < 360) {
+    hp = (h1p + h2p + 360) / 2;
+  } else {
+    hp = (h1p + h2p - 360) / 2;
+  }
+
+  const T =
+    1 -
+    0.17 * Math.cos((hp - 30) * deg2rad) +
+    0.24 * Math.cos(2 * hp * deg2rad) +
+    0.32 * Math.cos((3 * hp + 6) * deg2rad) -
+    0.20 * Math.cos((4 * hp - 63) * deg2rad);
+
+  const dTheta = 30 * Math.exp(-Math.pow((hp - 275) / 25, 2));
+  const Cp7 = Math.pow(Cp, 7);
+  const RC = 2 * Math.sqrt(Cp7 / (Cp7 + Math.pow(25, 7)));
+  const SL = 1 + (0.015 * Math.pow(Lp - 50, 2)) / Math.sqrt(20 + Math.pow(Lp - 50, 2));
+  const SC = 1 + 0.045 * Cp;
+  const SH = 1 + 0.015 * Cp * T;
+  const RT = -Math.sin(2 * dTheta * deg2rad) * RC;
+
+  const dE = Math.sqrt(
+    Math.pow(dLp / (kL * SL), 2) +
+    Math.pow(dCp / (kC * SC), 2) +
+    Math.pow(dHp / (kH * SH), 2) +
+    RT * (dCp / (kC * SC)) * (dHp / (kH * SH))
+  );
+
+  return dE;
+}
+
+/**
+ * Calculate Delta E 2000 between two hex colors.
+ * Handles transparent colors by compositing against background first.
+ * @param hex1 - First color (may include alpha)
+ * @param hex2 - Second color (may include alpha)
+ * @param bg - Background color for alpha compositing (required for accurate results with transparent colors)
+ */
+function deltaE00Hex(hex1: string, hex2: string, bg?: string): number | null {
+  // Resolve colors: composite against background if alpha present
+  const resolve = (hex: string): string => {
+    if (!hasAlphaChannel(hex)) return hex;
+    const alpha = extractAlpha(hex);
+    const base = stripAlpha(hex);
+    if (alpha >= 0.99) return base;
+    if (!bg) {
+      // No background provided - warn in development, use base color
+      console.warn(`deltaE00Hex: transparent color ${hex} without background - results may be inaccurate`);
+      return base;
+    }
+    return blendAlpha(base, bg, alpha);
+  };
+
+  const lab1 = hexToLab(resolve(hex1));
+  const lab2 = hexToLab(resolve(hex2));
+  if (!lab1 || !lab2) return null;
+  return deltaE00(lab1, lab2);
+}
+
+/**
+ * Get distinction level based on Delta E value
+ */
+type DistinctionLevel = 'Imperceptible' | 'Subtle' | 'Noticeable' | 'Clear' | 'Distinct' | 'Obvious';
+
+function getDistinctionLevel(dE: number): { level: DistinctionLevel; icon: string; pass: boolean } {
+  if (dE < 1) return { level: 'Imperceptible', icon: '❌', pass: false };
+  if (dE < 5) return { level: 'Subtle', icon: '❌', pass: false };
+  if (dE < 10) return { level: 'Noticeable', icon: '⚠️', pass: false };
+  if (dE < 20) return { level: 'Clear', icon: '⚠️', pass: true };
+  if (dE < 40) return { level: 'Distinct', icon: '✅', pass: true };
+  return { level: 'Obvious', icon: '✅', pass: true };
+}
+
+interface DistinctionPair {
+  name1: string;
+  name2: string;
+  color1: string;
+  color2: string;
+  deltaE: number;
+  level: DistinctionLevel;
+  icon: string;
+  pass: boolean;
+}
+
+type DistinctionSkipReason = 'missing' | 'fallback' | 'invalid';
+
+interface DistinctionSkippedPair {
+  name1: string;
+  name2: string;
+  reason: DistinctionSkipReason;
+}
+
+/**
+ * Adjacency pairs - elements commonly seen side-by-side in code
+ * These pairs need the most distinction for comfortable reading
+ */
+const ADJACENCY_PAIRS: Array<[string, string]> = [
+  // Function calls: func(param)
+  ['function', 'parameter'],
+  ['method', 'parameter'],
+  // Object access: obj.property
+  ['variable', 'property'],
+  // Type annotations: var: Type
+  ['variable', 'type'],
+  ['parameter', 'type'],
+  // Keywords in context
+  ['keyword', 'variable'],
+  ['keyword', 'function'],
+  // Class definitions: class Name { prop }
+  ['class', 'property'],
+  ['class', 'method'],
+  // Enum usage: Enum.Member
+  ['enum', 'enumMember'],
+  // Numbers vs other values
+  ['number', 'enumMember'],
+  ['number', 'constant'],
+  // Comments vs everything
+  ['comment', 'property'],
+  ['comment', 'variable'],
+  // Namespace/module context
+  ['namespace', 'function'],
+  ['namespace', 'class'],
+  // Operators (often transparent - tests alpha compositing)
+  ['operator', 'variable'],
+  ['operator', 'number'],
+];
+
+/**
+ * Symbol discrimination pairs - symbols that appear in autocomplete, outline, breadcrumbs
+ * These need to be distinguished by color alone (no font style in icons)
+ * Keys must match symbolIcons record (ctor, not constructor)
+ */
+const SYMBOL_DISCRIMINATION_PAIRS: Array<[string, string]> = [
+  // Core structure types (must be obviously different)
+  ['class', 'interface'],
+  ['class', 'struct'],
+  ['interface', 'struct'],
+  ['enum', 'class'],
+  ['enum', 'interface'],
+  ['object', 'class'],
+  // Functions vs other callable
+  ['function', 'method'],
+  ['function', 'ctor'],
+  ['method', 'ctor'],
+  // Variables vs properties vs fields
+  ['variable', 'field'],
+  ['property', 'field'],
+  ['variable', 'property'],
+  // Constants vs values
+  ['constant', 'variable'],
+  ['constant', 'enumMember'],
+  ['constant', 'boolean'],
+  ['boolean', 'null'],
+  // Literals
+  ['string', 'number'],
+  ['string', 'constant'],
+  ['number', 'boolean'],
+  // Type system
+  ['class', 'typeParameter'],
+  ['interface', 'typeParameter'],
+  ['struct', 'typeParameter'],
+  // Module organization
+  ['namespace', 'module'],
+  ['namespace', 'package'],
+  ['module', 'package'],
+  ['folder', 'package'],
+  // Keywords vs classes
+  ['keyword', 'class'],
+  ['keyword', 'interface'],
+  ['keyword', 'namespace'],
+  // Events and references
+  ['event', 'method'],
+  ['event', 'property'],
+  ['reference', 'variable'],
+];
+
+/**
+ * Analyze color distinction between commonly adjacent syntax elements.
+ * Handles transparent colors by compositing against background before comparison.
+ */
+function analyzeDistinction(
+  syntax: Record<string, ColorValue>,
+  comments: ColorValue,
+  bg: string
+): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
+  const pairs: DistinctionPair[] = [];
+  const skipped: DistinctionSkippedPair[] = [];
+
+  // Add comment to syntax for analysis
+  const colors: Record<string, ColorValue> = { ...syntax, comment: comments };
+
+  for (const [name1, name2] of ADJACENCY_PAIRS) {
+    const cv1 = colors[name1];
+    const cv2 = colors[name2];
+
+    if (!cv1 || !cv2) {
+      skipped.push({ name1, name2, reason: 'missing' });
+      continue;
+    }
+
+    if (cv1.fallback || cv2.fallback) {
+      skipped.push({ name1, name2, reason: 'fallback' });
+      continue;
+    }
+
+    // deltaE00Hex handles alpha compositing against bg internally
+    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
+
+    if (dE === null) {
+      skipped.push({ name1, name2, reason: 'invalid' });
+      continue;
+    }
+
+    const { level, icon, pass } = getDistinctionLevel(dE);
+    pairs.push({
+      name1,
+      name2,
+      color1: cv1.color,
+      color2: cv2.color,
+      deltaE: dE,
+      level,
+      icon,
+      pass,
+    });
+  }
+
+  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
+}
+
+interface DistinctionStats {
+  total: number;
+  pass: number;
+  warn: number;
+  fail: number;
+  skipped: number;
+}
+
+/**
+ * Print color distinction analysis section
+ */
+function printDistinctionSection(pairs: DistinctionPair[], skipped: DistinctionSkippedPair[]): DistinctionStats {
+  console.log(`\n▌ ${LABELS.sectionDistinction}`);
+  console.log('─'.repeat(OUTPUT_WIDTH));
+
+  // Header
+  const colPair = 22;
+  const colDelta = 8;
+  const colLevel = 14;
+  console.log(
+    'Pair'.padEnd(colPair) +
+    'ΔE00'.padStart(colDelta) +
+    '   ' +
+    'Level'
+  );
+  console.log('─'.repeat(OUTPUT_WIDTH));
+
+  let pass = 0;
+  let warn = 0;
+  let fail = 0;
+
+  for (const p of pairs) {
+    const pairName = `${p.name1} ↔ ${p.name2}`.substring(0, colPair - 1).padEnd(colPair);
+    const deltaStr = p.deltaE.toFixed(1).padStart(colDelta);
+    const levelStr = `${p.icon} ${p.level}`;
+
+    console.log(`${pairName}${deltaStr}   ${levelStr}`);
+
+    // Count based on icon to match visual feedback
+    if (p.icon === '✅') pass++;
+    else if (p.icon === '⚠️') warn++;
+    else fail++;
+  }
+
+  const totalPairs = ADJACENCY_PAIRS.length;
+  if (skipped.length > 0) {
+    console.log('─'.repeat(OUTPUT_WIDTH));
+    console.log(`⚠️  Skipped (${skipped.length}/${totalPairs}):`);
+    const maxList = 12;
+    for (const s of skipped.slice(0, maxList)) {
+      const pairName = `${s.name1} ↔ ${s.name2}`.substring(0, colPair - 1).padEnd(colPair);
+      console.log(`${pairName}${''.padStart(colDelta)}   ⚠️ ${s.reason}`);
+    }
+    if (skipped.length > maxList) {
+      console.log(`... and ${skipped.length - maxList} more skipped pairs`);
+    }
+  }
+
+  return { total: pairs.length, pass, warn, fail, skipped: skipped.length };
+}
+
+/**
+ * Analyze symbol discrimination using symbol icon colors
+ * These are the colors shown in autocomplete, outline, breadcrumbs, etc.
+ */
+function analyzeSymbolDiscrimination(
+  symbolIcons: Record<string, ColorValue>,
+  bg: string
+): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
+  const pairs: DistinctionPair[] = [];
+  const skipped: DistinctionSkippedPair[] = [];
+
+  for (const [name1, name2] of SYMBOL_DISCRIMINATION_PAIRS) {
+    const cv1 = symbolIcons[name1];
+    const cv2 = symbolIcons[name2];
+
+    if (!cv1 || !cv2) {
+      skipped.push({ name1, name2, reason: 'missing' });
+      continue;
+    }
+
+    if (cv1.fallback || cv2.fallback) {
+      skipped.push({ name1, name2, reason: 'fallback' });
+      continue;
+    }
+
+    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
+
+    if (dE === null) {
+      skipped.push({ name1, name2, reason: 'invalid' });
+      continue;
+    }
+
+    const { level, icon, pass } = getDistinctionLevel(dE);
+    pairs.push({
+      name1,
+      name2,
+      color1: cv1.color,
+      color2: cv2.color,
+      deltaE: dE,
+      level,
+      icon,
+      pass,
+    });
+  }
+
+  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
+}
+
+/**
+ * Print symbol discrimination analysis section
+ */
+function printSymbolDiscriminationSection(pairs: DistinctionPair[], skipped: DistinctionSkippedPair[]): DistinctionStats {
+  console.log(`\n▌ ${LABELS.sectionSymbolDiscrimination}`);
+  console.log('─'.repeat(OUTPUT_WIDTH));
+
+  // Header
+  const colPair = 22;
+  const colDelta = 8;
+  console.log(
+    'Pair'.padEnd(colPair) +
+    'ΔE00'.padStart(colDelta) +
+    '   ' +
+    'Level'
+  );
+  console.log('─'.repeat(OUTPUT_WIDTH));
+
+  let pass = 0;
+  let warn = 0;
+  let fail = 0;
+
+  for (const p of pairs) {
+    const pairName = `${p.name1} ↔ ${p.name2}`.substring(0, colPair - 1).padEnd(colPair);
+    const deltaStr = p.deltaE.toFixed(1).padStart(colDelta);
+    const levelStr = `${p.icon} ${p.level}`;
+
+    console.log(`${pairName}${deltaStr}   ${levelStr}`);
+
+    if (p.icon === '✅') pass++;
+    else if (p.icon === '⚠️') warn++;
+    else fail++;
+  }
+
+  const totalPairs = SYMBOL_DISCRIMINATION_PAIRS.length;
+  if (skipped.length > 0) {
+    console.log('─'.repeat(OUTPUT_WIDTH));
+    console.log(`⚠️  Skipped (${skipped.length}/${totalPairs}):`);
+    const maxList = 8;
+    for (const s of skipped.slice(0, maxList)) {
+      const pairName = `${s.name1} ↔ ${s.name2}`.substring(0, colPair - 1).padEnd(colPair);
+      console.log(`${pairName}${''.padStart(colDelta)}   ⚠️ ${s.reason}`);
+    }
+    if (skipped.length > maxList) {
+      console.log(`... and ${skipped.length - maxList} more skipped pairs`);
+    }
+  }
+
+  return { total: pairs.length, pass, warn, fail, skipped: skipped.length };
 }
 
 function stripAlpha(hex: string): string {
@@ -1727,6 +2231,14 @@ function runAnalysis(themePath: string): Stats {
     analyze('Foreground', c.charts.foreground, c.bg.editor),
   ], LABELS.sectionCharts, expectedPolarity));
 
+  // Color Distinction Analysis (Delta E 2000)
+  const distinction = analyzeDistinction(c.syntax, c.syntax.comment, c.bg.editor);
+  const distinctionStats = printDistinctionSection(distinction.pairs, distinction.skipped);
+
+  // Symbol Discrimination Analysis (Delta E 2000)
+  const symbolDiscrimination = analyzeSymbolDiscrimination(c.symbolIcons, c.bg.suggest);
+  const symbolStats = printSymbolDiscriminationSection(symbolDiscrimination.pairs, symbolDiscrimination.skipped);
+
   // Aggregate
   const total = allStats.reduce((acc, s) => ({
     pass: acc.pass + s.pass,
@@ -1749,6 +2261,21 @@ function runAnalysis(themePath: string): Stats {
   if (total.missing > 0) {
     console.log(`  ❓ Missing (fallback): ${total.missing}/${total.total}`);
   }
+  console.log('');
+  const totalPairs = ADJACENCY_PAIRS.length;
+  const analyzedPairs = distinctionStats.total;
+  console.log(`  ΔE Distinction (${analyzedPairs}/${totalPairs} pairs analyzed):`);
+  console.log(`  ✅ Distinct (ΔE≥20): ${distinctionStats.pass}/${analyzedPairs}`);
+  console.log(`  ⚠️  Acceptable (ΔE 5-20): ${distinctionStats.warn}/${analyzedPairs}`);
+  console.log(`  ❌ Low (ΔE<5):       ${distinctionStats.fail}/${analyzedPairs}`);
+
+  console.log('');
+  const totalSymbolPairs = SYMBOL_DISCRIMINATION_PAIRS.length;
+  const analyzedSymbolPairs = symbolStats.total;
+  console.log(`  ΔE Symbol Icons (${analyzedSymbolPairs}/${totalSymbolPairs} pairs analyzed):`);
+  console.log(`  ✅ Distinct (ΔE≥20): ${symbolStats.pass}/${analyzedSymbolPairs}`);
+  console.log(`  ⚠️  Acceptable (ΔE 5-20): ${symbolStats.warn}/${analyzedSymbolPairs}`);
+  console.log(`  ❌ Low (ΔE<5):       ${symbolStats.fail}/${analyzedSymbolPairs}`);
 
   // expectedDim elements don't count against marathon-readiness
   const ready = total.fail === 0 && total.large === 0 && total.missing === 0;
