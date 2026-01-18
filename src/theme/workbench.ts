@@ -21,6 +21,9 @@ import {
   append,
   v4xVoice,
   cryptonFamily,
+  snowMiku,
+  projectSekai,
+  mikuExpo,
 } from '../palette';
 
 // Helper for alpha channels
@@ -30,10 +33,10 @@ export const workbenchColors = {
   // ==========================================================================
   // EDITOR
   // ==========================================================================
-  'editor.background': blacks.base,
+  'editor.background': blacks.void,
   'editor.foreground': foregrounds.primary,
   'editorCursor.foreground': pinks.sekai,
-  'editorCursor.background': blacks.base,
+  'editorCursor.background': blacks.void,
   'editorMultiCursor.primary.foreground': pinks.sekai,
   'editorMultiCursor.primary.background': blacks.base,
   'editorMultiCursor.secondary.foreground': sekai.imageColor,
@@ -55,9 +58,11 @@ export const workbenchColors = {
   'editor.rangeHighlightBorder': alpha(teals.classic, '30'),
 
   // Line numbers
-  'editorLineNumber.foreground': alpha(teals.classic, '50'),
+  'editorLineNumber.foreground': alpha(teals.classic, 'DD'), // Boosted from CC for Lc ~50
   'editorLineNumber.activeForeground': append.vivid,
-  'editorLineNumber.dimmedForeground': alpha(teals.classic, '30'),
+  'editorLineNumber.dimmedForeground': alpha(teals.classic, 'AA'), // Boosted from 90 for Lc ~35
+  'editorLineNumber.warningForeground': semantic.warning,
+  'editorLineNumber.errorForeground': semantic.error,
 
   // Indent guides - Frequency visualizer concept
   'editorIndentGuide.background1': alpha(frequencyVisualizer.bass, '12'),
@@ -93,21 +98,21 @@ export const workbenchColors = {
   'editorBracketPairGuide.background4': alpha(hologram.purple, '25'),
   'editorBracketPairGuide.background5': alpha(teals.neon, '25'),
   'editorBracketPairGuide.background6': alpha(pinks.soft, '25'),
-  'editorBracketPairGuide.activeBackground1': alpha(pinks.sekai, '70'),
-  'editorBracketPairGuide.activeBackground2': alpha(teals.classic, '70'),
-  'editorBracketPairGuide.activeBackground3': alpha(cyans.ice, '70'),
-  'editorBracketPairGuide.activeBackground4': alpha(hologram.purple, '70'),
-  'editorBracketPairGuide.activeBackground5': alpha(teals.neon, '70'),
-  'editorBracketPairGuide.activeBackground6': alpha(pinks.soft, '70'),
+  'editorBracketPairGuide.activeBackground1': alpha(pinks.sekai, '50'), // Reduced from 70 to reduce visual noise
+  'editorBracketPairGuide.activeBackground2': alpha(teals.classic, '50'),
+  'editorBracketPairGuide.activeBackground3': alpha(cyans.ice, '50'),
+  'editorBracketPairGuide.activeBackground4': alpha(hologram.purple, '50'),
+  'editorBracketPairGuide.activeBackground5': alpha(teals.neon, '50'),
+  'editorBracketPairGuide.activeBackground6': alpha(pinks.soft, '50'),
 
   // Gutter
   'editorGutter.addedBackground': alpha(semantic.success, '80'),
   'editorGutter.modifiedBackground': alpha(semantic.warning, '80'),
   'editorGutter.deletedBackground': alpha(semantic.error, '80'),
-  'editorGutter.foldingControlForeground': alpha(teals.neon, '80'),
+  'editorGutter.foldingControlForeground': alpha(teals.neon, 'BB'),
 
   // Widgets
-  'editorWidget.background': blacks.outfit,
+  'editorWidget.background': blacks.base,
   'editorWidget.foreground': foregrounds.primary,
   'editorWidget.border': alpha(teals.classic, '50'),
   'editorWidget.resizeBorder': alpha(teals.classic, '60'),
@@ -117,10 +122,11 @@ export const workbenchColors = {
   'editorHoverWidget.highlightForeground': teals.classic,
   'editorHoverWidget.statusBarBackground': blacks.sleeve,
   'editorUnnecessaryCode.opacity': '#00000080',
-  'editorGhostText.foreground': alpha(append.vivid, '50'),
-  'editorGhostText.border': alpha(append.vivid, '20'),
+  'editorGhostText.foreground': alpha(append.vivid, 'BB'), // Boosted from AA for Lc ~47
+  'editorGhostText.border': alpha(append.vivid, '40'),
+  'editorGhostText.background': alpha(append.vivid, '0A'),
   'editor.linkedEditingBackground': alpha(cyans.ice, '20'),
-  'editorWatermark.foreground': alpha(teals.neon, '30'),
+  'editorWatermark.foreground': alpha(teals.neon, '70'),
 
   // Overview ruler
   'editorOverviewRuler.bracketMatchForeground': alpha(cyans.ice, 'A0'),
@@ -135,7 +141,7 @@ export const workbenchColors = {
 
   // Links and code lens
   'editorLink.activeForeground': hologram.cyan,
-  'editorCodeLens.foreground': alpha(teals.neon, '50'),
+  'editorCodeLens.foreground': alpha(teals.neon, 'CC'), // Boosted from AA for Lc ~52
 
   // ==========================================================================
   // ACTIVITY BAR
@@ -144,18 +150,18 @@ export const workbenchColors = {
   'activityBar.foreground': teals.classic,
   'activityBar.activeBorder': pinks.sekai,
   'activityBar.activeBackground': alpha(v4xVoice.hard, '20'),
-  'activityBar.inactiveForeground': greys.slate,
+  'activityBar.inactiveForeground': greys.silver,
   'activityBar.border': alpha(teals.classic, '15'),
   'activityBarBadge.background': pinks.sekai,
   'activityBarBadge.foreground': '#FFFFFF',
   'activityBarTop.foreground': teals.classic,
   'activityBarTop.activeBorder': pinks.sekai,
-  'activityBarTop.inactiveForeground': greys.slate,
+  'activityBarTop.inactiveForeground': greys.silver,
 
   // ==========================================================================
   // SIDEBAR
   // ==========================================================================
-  'sideBar.background': blacks.outfit,
+  'sideBar.background': blacks.void,
   'sideBar.foreground': '#A8C4C0',
   'sideBar.border': alpha(teals.classic, '15'),
   'sideBar.dropBackground': alpha(teals.classic, '20'),
@@ -177,7 +183,7 @@ export const workbenchColors = {
   'statusBar.debuggingForeground': '#FFFFFF',
   'statusBar.debuggingBorder': alpha(pinks.sekai, '80'),
   'statusBar.noFolderBackground': blacks.void,
-  'statusBar.noFolderForeground': greys.slate,
+  'statusBar.noFolderForeground': greys.silver,
   'statusBar.noFolderBorder': alpha(teals.classic, '20'),
   'statusBarItem.remoteBackground': teals.classic,
   'statusBarItem.remoteForeground': blacks.void,
@@ -197,7 +203,7 @@ export const workbenchColors = {
   'titleBar.activeBackground': blacks.void,
   'titleBar.activeForeground': foregrounds.primary,
   'titleBar.inactiveBackground': blacks.void,
-  'titleBar.inactiveForeground': greys.slate,
+  'titleBar.inactiveForeground': greys.silver,
   'titleBar.border': alpha(teals.classic, '15'),
 
   // ==========================================================================
@@ -208,7 +214,7 @@ export const workbenchColors = {
   'tab.activeBorderTop': pinks.sekai,
   'tab.activeBorder': alpha(teals.classic, '40'),
   'tab.inactiveBackground': blacks.outfit,
-  'tab.inactiveForeground': greys.steel,
+  'tab.inactiveForeground': greys.silver,
   'tab.border': blacks.sleeve,
   'tab.hoverBackground': alpha(versionMapping.hover, '12'),
   'tab.hoverForeground': versionMapping.hover,
@@ -217,7 +223,7 @@ export const workbenchColors = {
   'tab.unfocusedActiveForeground': '#A8C4C0',
   'tab.unfocusedActiveBorderTop': alpha(pinks.sekai, '80'),
   'tab.unfocusedInactiveBackground': blacks.outfit,
-  'tab.unfocusedInactiveForeground': greys.slate,
+  'tab.unfocusedInactiveForeground': greys.silver,
   'editorGroupHeader.tabsBackground': blacks.sleeve,
   'editorGroupHeader.tabsBorder': alpha(teals.classic, '15'),
   'editorGroupHeader.noTabsBackground': blacks.outfit,
@@ -240,8 +246,8 @@ export const workbenchColors = {
   'list.highlightForeground': pinks.sekai,
   'list.errorForeground': semantic.error,
   'list.warningForeground': semantic.warning,
-  'list.invalidItemForeground': alpha(semantic.error, '80'),
-  'list.deemphasizedForeground': greys.slate,
+  'list.invalidItemForeground': semantic.error, // Full color - removed alpha for APCA compliance
+  'list.deemphasizedForeground': greys.silver,
   'listFilterWidget.background': blacks.outfit,
   'listFilterWidget.outline': alpha(teals.classic, '60'),
   'listFilterWidget.noMatchesOutline': semantic.error,
@@ -255,10 +261,10 @@ export const workbenchColors = {
   // ==========================================================================
   'focusBorder': alpha(teals.classic, '60'),
   'foreground': foregrounds.primary,
-  'disabledForeground': alpha(greys.slate, '80'),
+  'disabledForeground': greys.silver,
   'widget.shadow': '#00000060',
   'selection.background': alpha(teals.classic, '40'),
-  'descriptionForeground': greys.steel,
+  'descriptionForeground': greys.silver,
   'errorForeground': semantic.error,
   'icon.foreground': '#A8C4C0',
   'sash.hoverBorder': alpha(versionMapping.hover, '60'),
@@ -269,7 +275,7 @@ export const workbenchColors = {
   'input.background': blacks.sleeve,
   'input.foreground': foregrounds.primary,
   'input.border': alpha(teals.classic, '40'),
-  'input.placeholderForeground': greys.slate,
+  'input.placeholderForeground': greys.silver,
   'inputOption.activeBorder': pinks.sekai,
   'inputOption.activeBackground': alpha(pinks.sekai, '30'),
   'inputOption.activeForeground': '#FFFFFF',
@@ -339,7 +345,7 @@ export const workbenchColors = {
   // ==========================================================================
   // BREADCRUMB
   // ==========================================================================
-  'breadcrumb.foreground': greys.steel,
+  'breadcrumb.foreground': foregrounds.secondary,
   'breadcrumb.background': blacks.base,
   'breadcrumb.focusForeground': teals.classic,
   'breadcrumb.activeSelectionForeground': pinks.sekai,
@@ -359,7 +365,7 @@ export const workbenchColors = {
   'terminal.ansiMagenta': pinks.sekai,
   'terminal.ansiCyan': semantic.info,
   'terminal.ansiWhite': foregrounds.bright,
-  'terminal.ansiBrightBlack': greys.slate,
+  'terminal.ansiBrightBlack': greys.silver,
   'terminal.ansiBrightRed': accents.coralGlow,
   'terminal.ansiBrightGreen': accents.greenBright,
   'terminal.ansiBrightYellow': '#FFFF8D',
@@ -419,8 +425,8 @@ export const workbenchColors = {
   'peekViewResult.selectionBackground': alpha(teals.classic, '30'),
   'peekViewResult.selectionForeground': '#FFFFFF',
   'peekViewTitle.background': blacks.void,
-  'peekViewTitleLabel.foreground': teals.classic,
-  'peekViewTitleDescription.foreground': greys.steel,
+  'peekViewTitleLabel.foreground': teals.bright,
+  'peekViewTitleDescription.foreground': greys.silver,
   'peekViewResult.fileForeground': foregrounds.primary,
   'peekViewResult.lineForeground': '#A8C4C0',
   'peekViewResult.matchHighlightBackground': alpha(pinks.sekai, '50'),
@@ -441,7 +447,7 @@ export const workbenchColors = {
   'gitDecoration.deletedResourceForeground': semantic.error,
   'gitDecoration.renamedResourceForeground': semantic.info,
   'gitDecoration.untrackedResourceForeground': teals.classic,
-  'gitDecoration.ignoredResourceForeground': greys.steel,
+  'gitDecoration.ignoredResourceForeground': greys.silver,
   'gitDecoration.conflictingResourceForeground': pinks.sekai,
   'gitDecoration.stageModifiedResourceForeground': semantic.warning,
   'gitDecoration.stageDeletedResourceForeground': semantic.error,
@@ -457,7 +463,7 @@ export const workbenchColors = {
   'diffEditor.diagonalFill': alpha(teals.classic, '15'),
   'diffEditor.border': alpha(teals.classic, '30'),
   'diffEditor.unchangedRegionBackground': blacks.outfit,
-  'diffEditor.unchangedRegionForeground': greys.steel,
+  'diffEditor.unchangedRegionForeground': greys.silver,
   'diffEditor.unchangedCodeBackground': alpha(teals.classic, '08'),
   'diffEditorGutter.insertedLineBackground': alpha(semantic.success, '40'),
   'diffEditorGutter.removedLineBackground': alpha(semantic.error, '40'),
@@ -469,11 +475,11 @@ export const workbenchColors = {
   // ==========================================================================
   // PANEL
   // ==========================================================================
-  'panel.background': blacks.outfit,
+  'panel.background': blacks.void,
   'panel.border': alpha(teals.classic, '30'),
   'panel.dropBorder': alpha(teals.classic, '60'),
   'panelTitle.activeForeground': teals.classic,
-  'panelTitle.inactiveForeground': greys.slate,
+  'panelTitle.inactiveForeground': greys.silver,
   'panelTitle.activeBorder': pinks.sekai,
   'panelInput.border': alpha(teals.classic, '40'),
   'panelSection.border': alpha(teals.classic, '25'),
@@ -504,7 +510,7 @@ export const workbenchColors = {
   'debugIcon.continueForeground': semantic.success,
   'debugConsole.infoForeground': semantic.info,
   'debugConsole.warningForeground': semantic.warning,
-  'debugConsole.errorForeground': semantic.error,
+  'debugConsole.errorForeground': accents.coralGlow,
   'debugConsole.sourceForeground': semantic.success,
   'debugConsoleInputIcon.foreground': teals.classic,
   'debugTokenExpression.name': teals.classic,
@@ -645,7 +651,7 @@ export const workbenchColors = {
   'commandCenter.activeBackground': alpha(teals.classic, '25'),
   'commandCenter.activeForeground': teals.classic,
   'commandCenter.activeBorder': alpha(teals.classic, '60'),
-  'commandCenter.inactiveForeground': greys.steel,
+  'commandCenter.inactiveForeground': greys.silver,
   'commandCenter.inactiveBorder': alpha(teals.classic, '20'),
 
   // ==========================================================================
@@ -693,12 +699,12 @@ export const workbenchColors = {
   // ==========================================================================
   // INLAY HINTS
   // ==========================================================================
-  'editorInlayHint.background': alpha(cyans.ice, '08'),
-  'editorInlayHint.foreground': alpha(teals.neon, '70'),
-  'editorInlayHint.typeForeground': alpha(versionMapping.types, '60'),
-  'editorInlayHint.typeBackground': alpha(versionMapping.types, '08'),
-  'editorInlayHint.parameterForeground': alpha(pinks.soft, '60'),
-  'editorInlayHint.parameterBackground': alpha(pinks.soft, '08'),
+  'editorInlayHint.background': alpha(cyans.ice, '12'),
+  'editorInlayHint.foreground': alpha(teals.neon, 'DD'), // Boosted from CC for better visibility
+  'editorInlayHint.typeForeground': alpha(versionMapping.types, 'CC'), // Boosted from BB
+  'editorInlayHint.typeBackground': alpha(versionMapping.types, '12'),
+  'editorInlayHint.parameterForeground': alpha(pinks.soft, 'E6'), // Boosted from CC for Lc ~48
+  'editorInlayHint.parameterBackground': alpha(pinks.soft, '12'),
 
   // ==========================================================================
   // STICKY SCROLL
@@ -732,39 +738,39 @@ export const workbenchColors = {
   'notebookEditorOverviewRuler.runningCellForeground': semantic.warning,
 
   // ==========================================================================
-  // SYMBOL ICONS
+  // SYMBOL ICONS - The Instrument Panel
   // ==========================================================================
-  'symbolIcon.arrayForeground': versionMapping.functions,
-  'symbolIcon.booleanForeground': pinks.sekai,
-  'symbolIcon.classForeground': versionMapping.types,
+  'symbolIcon.arrayForeground': teals.stage,
+  'symbolIcon.booleanForeground': pinks.hot,               // #FF4081
+  'symbolIcon.classForeground': snowMiku.y2011.winterBlue, // #87CEEB - Sky Blue, distinct from Teal
   'symbolIcon.colorForeground': pinks.sekai,
-  'symbolIcon.constantForeground': pinks.sekai,
-  'symbolIcon.constructorForeground': versionMapping.functions,
-  'symbolIcon.enumeratorForeground': versionMapping.types,
-  'symbolIcon.enumeratorMemberForeground': pinks.sekai,
-  'symbolIcon.eventForeground': versionMapping.types,
-  'symbolIcon.fieldForeground': '#85ADA5',
+  'symbolIcon.constantForeground': pinks.hot,              // #FF4081
+  'symbolIcon.constructorForeground': teals.neon,          // #5DE4DB
+  'symbolIcon.enumeratorForeground': accents.gold,         // #FFCA28
+  'symbolIcon.enumeratorMemberForeground': accents.orange, // #FFAB40
+  'symbolIcon.eventForeground': accents.gold,
+  'symbolIcon.fieldForeground': snowMiku.y2011.mittens,    // #ADD8E6 - Brighter distinct property
   'symbolIcon.fileForeground': foregrounds.primary,
   'symbolIcon.folderForeground': teals.classic,
-  'symbolIcon.functionForeground': versionMapping.functions,
-  'symbolIcon.interfaceForeground': versionMapping.types,
+  'symbolIcon.functionForeground': teals.neon,             // #5DE4DB
+  'symbolIcon.interfaceForeground': cyans.ice,             // #84FFFF
   'symbolIcon.keyForeground': teals.classic,
   'symbolIcon.keywordForeground': teals.classic,
-  'symbolIcon.methodForeground': versionMapping.functions,
-  'symbolIcon.moduleForeground': versionMapping.types,
+  'symbolIcon.methodForeground': teals.tint,               // #B2EBE7 - Pale Teal distinct from Neon Function
+  'symbolIcon.moduleForeground': foregrounds.primary,
   'symbolIcon.namespaceForeground': teals.classic,
   'symbolIcon.nullForeground': pinks.sekai,
   'symbolIcon.numberForeground': pinks.sekai,
-  'symbolIcon.objectForeground': versionMapping.types,
+  'symbolIcon.objectForeground': foregrounds.primary,
   'symbolIcon.operatorForeground': teals.classic,
   'symbolIcon.packageForeground': teals.classic,
-  'symbolIcon.propertyForeground': '#85ADA5',
-  'symbolIcon.referenceForeground': versionMapping.functions,
+  'symbolIcon.propertyForeground': snowMiku.y2011.mittens, // #ADD8E6
+  'symbolIcon.referenceForeground': teals.stage,
   'symbolIcon.snippetForeground': semantic.success,
   'symbolIcon.stringForeground': semantic.success,
-  'symbolIcon.structForeground': versionMapping.types,
+  'symbolIcon.structForeground': pinks.blush,              // #FFB8D4 - Blush Pink for safe Lc 60+
   'symbolIcon.textForeground': foregrounds.primary,
-  'symbolIcon.typeParameterForeground': versionMapping.types,
+  'symbolIcon.typeParameterForeground': accents.gold,
   'symbolIcon.unitForeground': pinks.sekai,
   'symbolIcon.variableForeground': foregrounds.primary,
 
@@ -777,7 +783,7 @@ export const workbenchColors = {
   'inlineChatInput.background': blacks.sleeve,
   'inlineChatInput.border': alpha(teals.classic, '40'),
   'inlineChatInput.focusBorder': alpha(teals.classic, '60'),
-  'inlineChatInput.placeholderForeground': greys.slate,
+  'inlineChatInput.placeholderForeground': greys.silver,
   'inlineChatDiff.inserted': alpha(semantic.success, '20'),
   'inlineChatDiff.removed': alpha(semantic.error, '20'),
 
@@ -796,7 +802,7 @@ export const workbenchColors = {
   // PROFILE BADGE
   // ==========================================================================
   'profileBadge.background': teals.classic,
-  'profileBadge.foreground': blacks.void,
+  'profileBadge.foreground': foregrounds.bright,
 
   // ==========================================================================
   // LANGUAGE STATUS
@@ -872,7 +878,7 @@ export const workbenchColors = {
   // FOLDING
   // ==========================================================================
   'editor.foldBackground': alpha(cyans.ice, '08'),
-  'editor.foldPlaceholderForeground': alpha(teals.neon, '90'),
+  'editor.foldPlaceholderForeground': alpha(teals.neon, 'AA'), // Boosted from 90 for Lc ~43
 
   // ==========================================================================
   // SNIPPETS
@@ -913,6 +919,29 @@ export const workbenchColors = {
   'scmGraph.foreground3': hologram.purple,
   'scmGraph.foreground4': semantic.info,
   'scmGraph.foreground5': semantic.warning,
+
+  // ==========================================================================
+  // FOLDING
+  // ==========================================================================
+  'editor.foldMarkerForeground': teals.neon,
+  'editor.foldMarkerBackground': alpha(teals.neon, '15'),
+
+  // ==========================================================================
+  // ADDITIONAL SYMBOL ICONS
+  // ==========================================================================
+  'symbolIcon.typeAliasForeground': versionMapping.types,
+  'symbolIcon.importForeground': teals.classic,
+
+  // ==========================================================================
+  // NOTEBOOK ADDITIONS
+  // ==========================================================================
+  'notebook.inactiveEditorBorder': alpha(teals.classic, '30'),
+
+  // ==========================================================================
+  // BRACKET MATCH ADDITIONS
+  // ==========================================================================
+  'editorBracketMatch.foreground': cyans.ice,
+  'editorBracketHighlight.unexpectedBracket.background': alpha(semantic.error, '20'),
 } as const;
 
 export type WorkbenchColors = typeof workbenchColors;
