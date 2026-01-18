@@ -38,6 +38,7 @@ const LABELS = {
   sectionText: 'TEXT',
   sectionSyntax: 'SYNTAX',
   sectionSelected: 'SELECTED TEXT',
+  sectionNavHighlights: 'NAVIGATION HIGHLIGHTS',
   sectionDiagnostics: 'DIAGNOSTICS',
   sectionComments: 'COMMENTS',
   sectionEditorUi: 'EDITOR UI',
@@ -48,6 +49,8 @@ const LABELS = {
   sectionTerminal: 'TERMINAL ANSI',
   sectionButtons: 'BUTTONS & BADGES',
   sectionDebug: 'DEBUG',
+  sectionDebugContext: 'DEBUG CONTEXT',
+  sectionLinkedEditing: 'LINKED EDITING',
   sectionLinks: 'LINKS & HIGHLIGHTS',
   sectionMisc: 'MISC UI',
   sectionDiff: 'DIFF EDITOR',
@@ -60,6 +63,10 @@ const LABELS = {
   sectionChat: 'CHAT & AI',
   sectionTesting: 'TESTING',
   sectionSearchEditor: 'SEARCH EDITOR',
+  sectionDebugConsole: 'DEBUG CONSOLE',
+  sectionSymbolIcons: 'SYMBOL ICONS',
+  sectionSettings: 'SETTINGS EDITOR',
+  sectionCharts: 'CHARTS',
 
   summaryPass: 'Content+ (Lc60):',
   summaryLarge: 'Large/Non-text:',
@@ -451,10 +458,13 @@ interface ExtractedColors {
     statusBar: string;
     tabBar: string;
     terminal: string;
+    cursorBlock: string;
+    terminalCursorBlock: string;
     panel: string;
     activityBar: string;
     input: string;
     listSelection: string;
+    listInactiveSelection: string;
     listHover: string;
     listFocus: string;
     inlayHint: string;
@@ -469,6 +479,7 @@ interface ExtractedColors {
     menu: string;
     notification: string;
     peekView: string;
+    peekViewSelection: string;
     titleBar: string;
     titleBarInactive: string;
     commandCenter: string;
@@ -498,6 +509,8 @@ interface ExtractedColors {
     selection: string;
     selectionInactive: string;
     selectionHighlight: string;
+    rangeHighlight: string;
+    symbolHighlight: string;
     terminalSelection: string;
     wordHighlight: string;
     wordHighlightStrong: string;
@@ -525,8 +538,12 @@ interface ExtractedColors {
     // Peek view editor
     peekViewEditor: string;
     // Search editor
-    searchEditor: string;
     searchEditorFindMatch: string;
+    // Debug context
+    stackFrame: string;
+    focusedStackFrame: string;
+    // Linked editing (HTML tag pairs)
+    linkedEditing: string;
   };
   fg: ColorValue;
   cursor: Record<string, ColorValue>;
@@ -544,6 +561,10 @@ interface ExtractedColors {
   scm: Record<string, ColorValue>;
   chat: Record<string, ColorValue>;
   testing: Record<string, ColorValue>;
+  debugConsole: Record<string, ColorValue>;
+  symbolIcons: Record<string, ColorValue>;
+  settings: Record<string, ColorValue>;
+  charts: Record<string, ColorValue>;
 }
 
 function resolveColor(cv: ColorValue, fallbackColor: string): ColorValue {
@@ -576,10 +597,13 @@ function extractColors(theme: ThemeJson): ExtractedColors {
       statusBar: resolveBg('statusBar.background', editorBg),
       tabBar: resolveBg('editorGroupHeader.tabsBackground', editorBg),
       terminal: resolveBg('terminal.background', panelBg),
+      cursorBlock: resolveBg('editorCursor.foreground', fg), // block cursor uses fg as background
+      terminalCursorBlock: resolveBg('terminalCursor.foreground', fg), // terminal block cursor uses fg as background
       panel: panelBg,
       activityBar: resolveBg('activityBar.background', editorBg),
       input: resolveBg('input.background', editorBg),
       listSelection: resolveBg('list.activeSelectionBackground', sidebarBg),
+      listInactiveSelection: resolveBg('list.inactiveSelectionBackground', sidebarBg),
       listHover: resolveBg('list.hoverBackground', sidebarBg),
       listFocus: resolveBg('list.focusBackground', sidebarBg),
       inlayHint: resolveBg('editorInlayHint.background', editorBg),
@@ -593,6 +617,7 @@ function extractColors(theme: ThemeJson): ExtractedColors {
       menu: resolveBg('menu.background', editorBg),
       notification: resolveBg('notifications.background', editorBg),
       peekView: resolveBg('peekViewResult.background', editorBg),
+      peekViewSelection: resolveBg('peekViewResult.selectionBackground', editorBg),
       titleBar: resolveBg('titleBar.activeBackground', editorBg),
       titleBarInactive: resolveBg('titleBar.inactiveBackground', editorBg),
       commandCenter: resolveBg('commandCenter.background', editorBg),
@@ -622,6 +647,8 @@ function extractColors(theme: ThemeJson): ExtractedColors {
       selection: resolveBg('editor.selectionBackground', editorBg),
       selectionInactive: resolveBg('editor.inactiveSelectionBackground', editorBg),
       selectionHighlight: resolveBg('editor.selectionHighlightBackground', editorBg),
+      rangeHighlight: resolveBg('editor.rangeHighlightBackground', editorBg),
+      symbolHighlight: resolveBg('editor.symbolHighlightBackground', editorBg),
       terminalSelection: resolveBg('terminal.selectionBackground', panelBg),
       wordHighlight: resolveBg('editor.wordHighlightBackground', editorBg),
       wordHighlightStrong: resolveBg('editor.wordHighlightStrongBackground', editorBg),
@@ -649,15 +676,21 @@ function extractColors(theme: ThemeJson): ExtractedColors {
       // Peek view editor
       peekViewEditor: resolveBg('peekViewEditor.background', editorBg),
       // Search editor
-      searchEditor: resolveBg('searchEditor.textInputBorder', editorBg),
       searchEditorFindMatch: resolveBg('searchEditor.findMatchBackground', editorBg),
+      // Debug context
+      stackFrame: resolveBg('editor.stackFrameHighlightBackground', editorBg),
+      focusedStackFrame: resolveBg('editor.focusedStackFrameHighlightBackground', editorBg),
+      // Linked editing (HTML tag pairs)
+      linkedEditing: resolveBg('editor.linkedEditingBackground', editorBg),
     },
     fg: fgValue,
     cursor: {
       editor: getColor(theme, 'editorCursor.foreground', fg),
+      editorBlock: getColor(theme, 'editorCursor.background', fg), // text inside block cursor
       editorMultiPrimary: getColor(theme, 'editorMultiCursor.primary.foreground', fg),
       editorMultiSecondary: getColor(theme, 'editorMultiCursor.secondary.foreground', fg),
       terminal: getColor(theme, 'terminalCursor.foreground', fg),
+      terminalBlock: getColor(theme, 'terminalCursor.background', fg), // text inside terminal block cursor
     },
     syntax: {
       // TextMate scope, semantic type
@@ -720,8 +753,10 @@ function extractColors(theme: ThemeJson): ExtractedColors {
     ui: {
       // Global
       foreground: getColor(theme, 'foreground', fg),
+      iconForeground: getColor(theme, 'icon.foreground', fg),
       // Tabs
       tabActive: getColor(theme, 'tab.activeForeground', fg),
+      tabSelected: getColor(theme, 'tab.selectedForeground', fg),
       tabInactive: getColor(theme, 'tab.inactiveForeground', fg),
       tabUnfocused: getColor(theme, 'tab.unfocusedActiveForeground', fg),
       tabUnfocusedInactive: getColor(theme, 'tab.unfocusedInactiveForeground', fg),
@@ -752,10 +787,16 @@ function extractColors(theme: ThemeJson): ExtractedColors {
       ghostText: getColor(theme, 'editorGhostText.foreground', fg),
       hint: getColor(theme, 'editorHint.foreground', fg),
       inlayHint: getColor(theme, 'editorInlayHint.foreground', fg),
+      inlayHintType: getColor(theme, 'editorInlayHint.typeForeground', fg),
+      inlayHintParam: getColor(theme, 'editorInlayHint.parameterForeground', fg),
       codeLens: getColor(theme, 'editorCodeLens.foreground', fg),
+      lightBulb: getColor(theme, 'editorLightBulb.foreground', fg),
+      lightBulbAutoFix: getColor(theme, 'editorLightBulbAutoFix.foreground', fg),
+      lightBulbAi: getColor(theme, 'editorLightBulbAi.foreground', fg),
       editorLinkActive: getColor(theme, 'editorLink.activeForeground', fg),
       whitespace: getColor(theme, 'editorWhitespace.foreground', fg),
-      stickyScroll: getColor(theme, 'editorStickyScroll.foreground', fg),
+      ruler: getColor(theme, 'editorRuler.foreground', fg),
+      foldPlaceholder: getColor(theme, 'editor.foldPlaceholderForeground', fg),
       foldControl: getColor(theme, 'editorGutter.foldingControlForeground', fg),
       // Terminal
       terminal: getColor(theme, 'terminal.foreground', fg),
@@ -763,6 +804,7 @@ function extractColors(theme: ThemeJson): ExtractedColors {
       // Panel
       panelTitle: getColor(theme, 'panelTitle.activeForeground', fg),
       panelTitleInactive: getColor(theme, 'panelTitle.inactiveForeground', fg),
+      panelTitleBadge: getColor(theme, 'panelTitleBadge.foreground', fg),
       // Activity bar
       activityBar: getColor(theme, 'activityBar.foreground', fg),
       activityBarInactive: getColor(theme, 'activityBar.inactiveForeground', fg),
@@ -777,6 +819,7 @@ function extractColors(theme: ThemeJson): ExtractedColors {
       // Lists
       listSelection: getColor(theme, 'list.activeSelectionForeground', fg),
       listSelectionIcon: getColor(theme, 'list.activeSelectionIconForeground', fg),
+      listInactiveSelectionIcon: getColor(theme, 'list.inactiveSelectionIconForeground', fg),
       listHover: getColor(theme, 'list.hoverForeground', fg),
       listFocus: getColor(theme, 'list.focusForeground', fg),
       listInvalidItem: getColor(theme, 'list.invalidItemForeground', fg),
@@ -792,6 +835,7 @@ function extractColors(theme: ThemeJson): ExtractedColors {
       findMatchHighlightForeground: getColor(theme, 'editor.findMatchHighlightForeground', ''),
       wordHighlightForeground: getColor(theme, 'editor.wordHighlightForeground', ''),
       wordHighlightStrongForeground: getColor(theme, 'editor.wordHighlightStrongForeground', ''),
+      wordHighlightTextForeground: getColor(theme, 'editor.wordHighlightTextForeground', ''),
       // Misc
       textPreformat: getColor(theme, 'textPreformat.foreground', fg),
       textLinkActive: getColor(theme, 'textLink.activeForeground', fg),
@@ -800,6 +844,8 @@ function extractColors(theme: ThemeJson): ExtractedColors {
     },
     widgets: {
       editorWidget: getColor(theme, 'editorWidget.foreground', fg),
+      actionList: getColor(theme, 'editorActionList.foreground', fg),
+      actionListFocus: getColor(theme, 'editorActionList.focusForeground', fg),
       suggest: getColor(theme, 'editorSuggestWidget.foreground', fg),
       suggestSelected: getColor(theme, 'editorSuggestWidget.selectedForeground', fg),
       suggestSelectedIcon: getColor(theme, 'editorSuggestWidget.selectedIconForeground', fg),
@@ -897,6 +943,7 @@ function extractColors(theme: ThemeJson): ExtractedColors {
       panelSectionHeader: getColor(theme, 'panelSectionHeader.foreground', fg),
       keybindingLabel: getColor(theme, 'keybindingLabel.foreground', fg),
       banner: getColor(theme, 'banner.foreground', fg),
+      bannerIcon: getColor(theme, 'banner.iconForeground', fg),
       peekViewTitle: getColor(theme, 'peekViewTitleLabel.foreground', fg),
       peekViewDescription: getColor(theme, 'peekViewTitleDescription.foreground', fg),
       peekViewFile: getColor(theme, 'peekViewResult.fileForeground', fg),
@@ -915,7 +962,7 @@ function extractColors(theme: ThemeJson): ExtractedColors {
       // Diff editor
       diffUnchangedRegion: getColor(theme, 'diffEditor.unchangedRegionForeground', fg),
       // Editor placeholder
-      editorPlaceholder: getColor(theme, 'editorPlaceholder.foreground', fg),
+      editorPlaceholder: getColor(theme, 'editor.placeholder.foreground', fg),
       // Terminal
       terminalCommandGuide: getColor(theme, 'terminalCommandGuide.foreground', fg),
       terminalInitialHint: getColor(theme, 'terminal.initialHintForeground', fg),
@@ -933,11 +980,7 @@ function extractColors(theme: ThemeJson): ExtractedColors {
       checkboxDisabled: getColor(theme, 'checkbox.disabled.foreground', fg),
     },
     scm: {
-      graph1: getColor(theme, 'scmGraph.foreground1', fg),
-      graph2: getColor(theme, 'scmGraph.foreground2', fg),
-      graph3: getColor(theme, 'scmGraph.foreground3', fg),
-      graph4: getColor(theme, 'scmGraph.foreground4', fg),
-      graph5: getColor(theme, 'scmGraph.foreground5', fg),
+      // Graph line colors (foreground1-5) removed - decorative, not text
       historyHoverLabel: getColor(theme, 'scmGraph.historyItemHoverLabelForeground', fg),
       historyHoverAdditions: getColor(theme, 'scmGraph.historyItemHoverAdditionsForeground', fg),
       historyHoverDeletions: getColor(theme, 'scmGraph.historyItemHoverDeletionsForeground', fg),
@@ -952,6 +995,56 @@ function extractColors(theme: ThemeJson): ExtractedColors {
     testing: {
       coverageBadge: getColor(theme, 'testing.coverCountBadgeForeground', fg),
       messageInfo: getColor(theme, 'testing.message.info.decorationForeground', fg),
+    },
+    debugConsole: {
+      error: getColor(theme, 'debugConsole.errorForeground', fg),
+      warning: getColor(theme, 'debugConsole.warningForeground', fg),
+      info: getColor(theme, 'debugConsole.infoForeground', fg),
+      source: getColor(theme, 'debugConsole.sourceForeground', fg),
+    },
+    symbolIcons: {
+      array: getColor(theme, 'symbolIcon.arrayForeground', fg),
+      boolean: getColor(theme, 'symbolIcon.booleanForeground', fg),
+      class: getColor(theme, 'symbolIcon.classForeground', fg),
+      constant: getColor(theme, 'symbolIcon.constantForeground', fg),
+      ctor: getColor(theme, 'symbolIcon.constructorForeground', fg),
+      enum: getColor(theme, 'symbolIcon.enumeratorForeground', fg),
+      enumMember: getColor(theme, 'symbolIcon.enumeratorMemberForeground', fg),
+      event: getColor(theme, 'symbolIcon.eventForeground', fg),
+      field: getColor(theme, 'symbolIcon.fieldForeground', fg),
+      file: getColor(theme, 'symbolIcon.fileForeground', fg),
+      folder: getColor(theme, 'symbolIcon.folderForeground', fg),
+      function: getColor(theme, 'symbolIcon.functionForeground', fg),
+      interface: getColor(theme, 'symbolIcon.interfaceForeground', fg),
+      key: getColor(theme, 'symbolIcon.keyForeground', fg),
+      keyword: getColor(theme, 'symbolIcon.keywordForeground', fg),
+      method: getColor(theme, 'symbolIcon.methodForeground', fg),
+      module: getColor(theme, 'symbolIcon.moduleForeground', fg),
+      namespace: getColor(theme, 'symbolIcon.namespaceForeground', fg),
+      null: getColor(theme, 'symbolIcon.nullForeground', fg),
+      number: getColor(theme, 'symbolIcon.numberForeground', fg),
+      object: getColor(theme, 'symbolIcon.objectForeground', fg),
+      operator: getColor(theme, 'symbolIcon.operatorForeground', fg),
+      package: getColor(theme, 'symbolIcon.packageForeground', fg),
+      property: getColor(theme, 'symbolIcon.propertyForeground', fg),
+      reference: getColor(theme, 'symbolIcon.referenceForeground', fg),
+      snippet: getColor(theme, 'symbolIcon.snippetForeground', fg),
+      string: getColor(theme, 'symbolIcon.stringForeground', fg),
+      struct: getColor(theme, 'symbolIcon.structForeground', fg),
+      text: getColor(theme, 'symbolIcon.textForeground', fg),
+      typeParameter: getColor(theme, 'symbolIcon.typeParameterForeground', fg),
+      unit: getColor(theme, 'symbolIcon.unitForeground', fg),
+      variable: getColor(theme, 'symbolIcon.variableForeground', fg),
+    },
+    settings: {
+      header: getColor(theme, 'settings.headerForeground', fg),
+      textInput: getColor(theme, 'settings.textInputForeground', fg),
+      numberInput: getColor(theme, 'settings.numberInputForeground', fg),
+      checkbox: getColor(theme, 'settings.checkboxForeground', fg),
+      dropdown: getColor(theme, 'settings.dropdownForeground', fg),
+    },
+    charts: {
+      foreground: getColor(theme, 'charts.foreground', fg),
     },
   };
 }
@@ -996,9 +1089,11 @@ const EXPECTED_DIM_ELEMENTS = new Set([
   'Ghost+Sel',       // Ghost text on selection (edge case)
   'Code Lens',       // Reference counts, clickable but not primary reading
   'Fold Control',    // Fold/unfold arrows in gutter
+  'Fold Placeholder',// "..." text when code is folded
   'Line Numbers',    // Line numbers (active line number is separate)
   'Line Num Dimmed', // Final newline marker (extra subtle)
   'Whitespace',      // Whitespace markers (dots, arrows)
+  'Ruler',           // Column guides (80-char line, etc.)
   'Git Blame',       // Inline blame annotations
   'Term Cmd Guide',  // Terminal command guide (shell integration)
   'Term Init Hint',  // Terminal initial hint ("Type to search")
@@ -1106,6 +1201,7 @@ function runAnalysis(themePath: string): Stats {
   allStats.push(printSection([
     analyze('Primary', c.fg, c.bg.editor),
     analyze('Global', c.ui.foreground, c.bg.editor),
+    analyze('Icons', c.ui.iconForeground, c.bg.editor),
   ], LABELS.sectionText, expectedPolarity));
 
   // Syntax - Core (high frequency)
@@ -1180,6 +1276,11 @@ function runAnalysis(themePath: string): Stats {
     selectedTextResults.push(analyze('Write Highl', c.ui.wordHighlightStrongForeground, c.bg.wordHighlightStrong));
   }
 
+  // Word highlight text: text search occurrences
+  if (!c.ui.wordHighlightTextForeground.fallback && c.ui.wordHighlightTextForeground.color) {
+    selectedTextResults.push(analyze('Text Highl', c.ui.wordHighlightTextForeground, c.bg.wordHighlightText));
+  }
+
   // Find match: current search match
   if (!c.ui.findMatchForeground.fallback && c.ui.findMatchForeground.color) {
     selectedTextResults.push(analyze('Find Match', c.ui.findMatchForeground, c.bg.findMatchActive));
@@ -1209,6 +1310,18 @@ function runAnalysis(themePath: string): Stats {
 
   allStats.push(printSection(selectedTextResults, LABELS.sectionSelected, expectedPolarity));
 
+  // Navigation Highlights - Go to Definition, Go to Symbol, Quick Open
+  allStats.push(printSection([
+    analyze('Range:Var', c.syntax.variable, c.bg.rangeHighlight),
+    analyze('Range:Keyword', c.syntax.keyword, c.bg.rangeHighlight),
+    analyze('Range:String', c.syntax.string, c.bg.rangeHighlight),
+    analyze('Range:Comment', c.syntax.comment, c.bg.rangeHighlight),
+    analyze('Symbol:Var', c.syntax.variable, c.bg.symbolHighlight),
+    analyze('Symbol:Keyword', c.syntax.keyword, c.bg.symbolHighlight),
+    analyze('Symbol:String', c.syntax.string, c.bg.symbolHighlight),
+    analyze('Symbol:Comment', c.syntax.comment, c.bg.symbolHighlight),
+  ], LABELS.sectionNavHighlights, expectedPolarity));
+
   // Diagnostics
   allStats.push(printSection([
     analyze('Errors', c.syntax.error, c.bg.editor),
@@ -1230,11 +1343,17 @@ function runAnalysis(themePath: string): Stats {
     analyze('Ghost Text', c.ui.ghostText, c.bg.editor),
     analyze('Hint', c.ui.hint, c.bg.editor),
     analyze('Inlay Hints', c.ui.inlayHint, c.bg.inlayHint),
+    analyze('Inlay Type', c.ui.inlayHintType, c.bg.inlayHint),
+    analyze('Inlay Param', c.ui.inlayHintParam, c.bg.inlayHint),
     analyze('Code Lens', c.ui.codeLens, c.bg.editor),
+    analyze('Lightbulb', c.ui.lightBulb, c.bg.editor),
+    analyze('Lightbulb Fix', c.ui.lightBulbAutoFix, c.bg.editor),
+    analyze('Lightbulb AI', c.ui.lightBulbAi, c.bg.editor),
     analyze('Fold Control', c.ui.foldControl, c.bg.editor),
+    analyze('Fold Placeholder', c.ui.foldPlaceholder, c.bg.editor),
     analyze('Whitespace', c.ui.whitespace, c.bg.editor),
+    analyze('Ruler', c.ui.ruler, c.bg.editor),
     analyze('Link Active', c.ui.editorLinkActive, c.bg.editor),
-    analyze('Sticky Scroll', c.ui.stickyScroll, c.bg.stickyScroll),
   ], LABELS.sectionEditorUi, expectedPolarity));
 
   // UI - Workbench
@@ -1245,6 +1364,7 @@ function runAnalysis(themePath: string): Stats {
     analyze('Cmd Ctr Active', c.ui.commandCenterActive, c.bg.commandCenter),
     analyze('Cmd Ctr Inact', c.ui.commandCenterInactive, c.bg.commandCenter),
     analyze('Tab Active', c.ui.tabActive, c.bg.tabBar),
+    analyze('Tab Selected', c.ui.tabSelected, c.bg.tabBar),
     analyze('Tab Inactive', c.ui.tabInactive, c.bg.tabBar),
     analyze('Tab Unfocused', c.ui.tabUnfocused, c.bg.tabBar),
     analyze('Tab Unfoc Inact', c.ui.tabUnfocusedInactive, c.bg.tabBar),
@@ -1268,6 +1388,7 @@ function runAnalysis(themePath: string): Stats {
     analyze('Status Hover', c.ui.statusBarItemHover, c.bg.statusBar),
     analyze('Panel Active', c.ui.panelTitle, c.bg.panel),
     analyze('Panel Inactive', c.ui.panelTitleInactive, c.bg.panel),
+    analyze('Panel Badge', c.ui.panelTitleBadge, c.bg.panel),
     analyze('Terminal', c.ui.terminal, c.bg.terminal),
     analyze('Input', c.ui.input, c.bg.input),
     analyze('Placeholder', c.ui.inputPlaceholder, c.bg.input),
@@ -1277,6 +1398,7 @@ function runAnalysis(themePath: string): Stats {
     analyze('Checkbox', c.ui.checkbox, c.bg.checkbox),
     analyze('List Selected', c.ui.listSelection, c.bg.listSelection),
     analyze('List Sel Icon', c.ui.listSelectionIcon, c.bg.listSelection),
+    analyze('List Inact Icon', c.ui.listInactiveSelectionIcon, c.bg.listInactiveSelection),
     analyze('List Hover', c.ui.listHover, c.bg.listHover),
     analyze('List Focus', c.ui.listFocus, c.bg.listFocus),
     analyze('List Invalid', c.ui.listInvalidItem, c.bg.sidebar),
@@ -1288,6 +1410,8 @@ function runAnalysis(themePath: string): Stats {
   // Widgets
   allStats.push(printSection([
     analyze('Find/Replace', c.widgets.editorWidget, c.bg.editorWidget),
+    analyze('Action List', c.widgets.actionList, c.bg.editorWidget),
+    analyze('Action Focus', c.widgets.actionListFocus, c.bg.editorWidget),
     analyze('Autocomplete', c.widgets.suggest, c.bg.suggest),
     analyze('Suggest Select', c.widgets.suggestSelected, c.bg.suggestSelected),
     analyze('Suggest Sel Icon', c.widgets.suggestSelectedIcon, c.bg.suggestSelected),
@@ -1394,12 +1518,27 @@ function runAnalysis(themePath: string): Stats {
     analyze('State Label', c.debug.stateLabel, c.bg.sidebar),
   ], LABELS.sectionDebug, expectedPolarity));
 
+  // Debug Context - syntax colors on debug highlighting backgrounds
+  allStats.push(printSection([
+    analyze('Stack:Variable', c.syntax.variable, c.bg.stackFrame),
+    analyze('Stack:Keyword', c.syntax.keyword, c.bg.stackFrame),
+    analyze('Stack:String', c.syntax.string, c.bg.stackFrame),
+    analyze('Focus:Variable', c.syntax.variable, c.bg.focusedStackFrame),
+    analyze('Focus:Keyword', c.syntax.keyword, c.bg.focusedStackFrame),
+  ], LABELS.sectionDebugContext, expectedPolarity));
+
+  // Linked Editing - HTML tag pairs, bracket linking
+  allStats.push(printSection([
+    analyze('Linked:Variable', c.syntax.variable, c.bg.linkedEditing),
+    analyze('Linked:Tag', c.syntax.tag, c.bg.linkedEditing),
+  ], LABELS.sectionLinkedEditing, expectedPolarity));
+
   // Links & Highlights
   allStats.push(printSection([
     analyze('Text Link', c.links.textLink, c.bg.editor),
     analyze('List Highlight', c.links.listHighlight, c.bg.sidebar),
     analyze('List Foc Highl', c.links.listFocusHighlight, c.bg.listFocus),
-    analyze('List Inactive', c.links.listInactiveSelection, c.bg.sidebar),
+    analyze('List Inactive', c.links.listInactiveSelection, c.bg.listInactiveSelection),
     analyze('List Error', c.links.listError, c.bg.sidebar),
     analyze('List Warning', c.links.listWarning, c.bg.sidebar),
   ], LABELS.sectionLinks, expectedPolarity));
@@ -1410,10 +1549,11 @@ function runAnalysis(themePath: string): Stats {
     analyze('Panel Section', c.misc.panelSectionHeader, c.bg.panel),
     analyze('Keybinding', c.misc.keybindingLabel, c.bg.keybindingLabel),
     analyze('Banner', c.misc.banner, c.bg.banner),
+    analyze('Banner Icon', c.misc.bannerIcon, c.bg.banner),
     analyze('Peek Title', c.misc.peekViewTitle, c.bg.peekView),
     analyze('Peek Desc', c.misc.peekViewDescription, c.bg.peekView),
     analyze('Peek File', c.misc.peekViewFile, c.bg.peekView),
-    analyze('Peek Select', c.misc.peekViewSelection, c.bg.peekView),
+    analyze('Peek Select', c.misc.peekViewSelection, c.bg.peekViewSelection),
     analyze('Problems Error', c.misc.problemsError, c.bg.sidebar),
     analyze('Problems Warn', c.misc.problemsWarning, c.bg.sidebar),
     analyze('Problems Info', c.misc.problemsInfo, c.bg.sidebar),
@@ -1467,9 +1607,11 @@ function runAnalysis(themePath: string): Stats {
   // Cursors - visibility of editor and terminal cursors
   allStats.push(printSection([
     analyze('Editor Cursor', c.cursor.editor, c.bg.editor),
+    analyze('Block Text', c.cursor.editorBlock, c.bg.cursorBlock), // text inside block cursor
     analyze('Multi Primary', c.cursor.editorMultiPrimary, c.bg.editor),
     analyze('Multi Secondary', c.cursor.editorMultiSecondary, c.bg.editor),
     analyze('Terminal Cursor', c.cursor.terminal, c.bg.terminal),
+    analyze('Term Block Text', c.cursor.terminalBlock, c.bg.terminalCursorBlock), // text inside terminal block cursor
   ], LABELS.sectionCursors, expectedPolarity));
 
   // Sticky Scroll - syntax colors on sticky scroll header background
@@ -1505,13 +1647,8 @@ function runAnalysis(themePath: string): Stats {
     analyze('Checkbox Disabled', c.inputs.checkboxDisabled, c.bg.checkbox),
   ], LABELS.sectionInputControls, expectedPolarity));
 
-  // SCM Graph - git visualization colors
+  // SCM Graph - hover labels (graph lines removed as decorative)
   allStats.push(printSection([
-    analyze('Graph 1', c.scm.graph1, c.bg.sidebar),
-    analyze('Graph 2', c.scm.graph2, c.bg.sidebar),
-    analyze('Graph 3', c.scm.graph3, c.bg.sidebar),
-    analyze('Graph 4', c.scm.graph4, c.bg.sidebar),
-    analyze('Graph 5', c.scm.graph5, c.bg.sidebar),
     analyze('Hover Label', c.scm.historyHoverLabel, c.bg.sidebar),
     analyze('Hover Add', c.scm.historyHoverAdditions, c.bg.sidebar),
     analyze('Hover Del', c.scm.historyHoverDeletions, c.bg.sidebar),
@@ -1531,6 +1668,64 @@ function runAnalysis(themePath: string): Stats {
     analyze('Coverage Badge', c.testing.coverageBadge, c.bg.editor),
     analyze('Test Msg Info', c.testing.messageInfo, c.bg.editor),
   ], LABELS.sectionTesting, expectedPolarity));
+
+  // Debug Console - frequently read output
+  allStats.push(printSection([
+    analyze('Error', c.debugConsole.error, c.bg.panel),
+    analyze('Warning', c.debugConsole.warning, c.bg.panel),
+    analyze('Info', c.debugConsole.info, c.bg.panel),
+    analyze('Source', c.debugConsole.source, c.bg.panel),
+  ], LABELS.sectionDebugConsole, expectedPolarity));
+
+  // Symbol Icons - appear in autocomplete, outline, breadcrumbs
+  allStats.push(printSection([
+    analyze('Array', c.symbolIcons.array, c.bg.suggest),
+    analyze('Boolean', c.symbolIcons.boolean, c.bg.suggest),
+    analyze('Class', c.symbolIcons.class, c.bg.suggest),
+    analyze('Constant', c.symbolIcons.constant, c.bg.suggest),
+    analyze('Constructor', c.symbolIcons.ctor, c.bg.suggest),
+    analyze('Enum', c.symbolIcons.enum, c.bg.suggest),
+    analyze('Enum Member', c.symbolIcons.enumMember, c.bg.suggest),
+    analyze('Event', c.symbolIcons.event, c.bg.suggest),
+    analyze('Field', c.symbolIcons.field, c.bg.suggest),
+    analyze('File', c.symbolIcons.file, c.bg.suggest),
+    analyze('Folder', c.symbolIcons.folder, c.bg.suggest),
+    analyze('Function', c.symbolIcons.function, c.bg.suggest),
+    analyze('Interface', c.symbolIcons.interface, c.bg.suggest),
+    analyze('Key', c.symbolIcons.key, c.bg.suggest),
+    analyze('Keyword', c.symbolIcons.keyword, c.bg.suggest),
+    analyze('Method', c.symbolIcons.method, c.bg.suggest),
+    analyze('Module', c.symbolIcons.module, c.bg.suggest),
+    analyze('Namespace', c.symbolIcons.namespace, c.bg.suggest),
+    analyze('Null', c.symbolIcons.null, c.bg.suggest),
+    analyze('Number', c.symbolIcons.number, c.bg.suggest),
+    analyze('Object', c.symbolIcons.object, c.bg.suggest),
+    analyze('Operator', c.symbolIcons.operator, c.bg.suggest),
+    analyze('Package', c.symbolIcons.package, c.bg.suggest),
+    analyze('Property', c.symbolIcons.property, c.bg.suggest),
+    analyze('Reference', c.symbolIcons.reference, c.bg.suggest),
+    analyze('Snippet', c.symbolIcons.snippet, c.bg.suggest),
+    analyze('String', c.symbolIcons.string, c.bg.suggest),
+    analyze('Struct', c.symbolIcons.struct, c.bg.suggest),
+    analyze('Text', c.symbolIcons.text, c.bg.suggest),
+    analyze('Type Param', c.symbolIcons.typeParameter, c.bg.suggest),
+    analyze('Unit', c.symbolIcons.unit, c.bg.suggest),
+    analyze('Variable', c.symbolIcons.variable, c.bg.suggest),
+  ], LABELS.sectionSymbolIcons, expectedPolarity));
+
+  // Settings Editor
+  allStats.push(printSection([
+    analyze('Header', c.settings.header, c.bg.editor),
+    analyze('Text Input', c.settings.textInput, c.bg.input),
+    analyze('Number Input', c.settings.numberInput, c.bg.input),
+    analyze('Checkbox', c.settings.checkbox, c.bg.checkbox),
+    analyze('Dropdown', c.settings.dropdown, c.bg.dropdown),
+  ], LABELS.sectionSettings, expectedPolarity));
+
+  // Charts - text labels (data colors removed as decorative)
+  allStats.push(printSection([
+    analyze('Foreground', c.charts.foreground, c.bg.editor),
+  ], LABELS.sectionCharts, expectedPolarity));
 
   // Aggregate
   const total = allStats.reduce((acc, s) => ({
