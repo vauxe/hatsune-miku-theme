@@ -16,1793 +16,56 @@
  *   npx tsx src/tools/readability.ts --test "#FG" "#BG" [name]
  */
 
-import * as fs from 'fs';
 import * as path from 'path';
 
-// =============================================================================
-// CONSTANTS
-// =============================================================================
+// Import from modules
+import {
+  OUTPUT_WIDTH,
+  COL_NAME_WIDTH,
+  COL_COLOR_WIDTH,
+  BG_KEYS,
+  LABELS,
+  EXPECTED_DIM_ELEMENTS,
+  ADJACENCY_PAIRS,
+  SYMBOL_DISCRIMINATION_PAIRS,
+} from './readability-constants';
+import type { BgKeyName } from './readability-constants';
 
-const OUTPUT_WIDTH = 72;
-const COL_NAME_WIDTH = 24;
-const COL_COLOR_WIDTH = 15;
+import {
+  isValidHex,
+  stripAlpha,
+  extractAlpha,
+  blendAlpha,
+  getAPCAContrast,
+  analyzeAPCA,
+  deltaE00Hex,
+  getDistinctionLevel,
+} from './readability-color';
 
-// Background key mappings (short name -> VS Code API key)
-const BG_KEYS = {
-  editor: 'editor.background',
-  sidebar: 'sideBar.background',
-  statusBar: 'statusBar.background',
-  tabBar: 'editorGroupHeader.tabsBackground',
-  terminal: 'terminal.background',
-  cursorBlock: 'editorCursor.foreground',
-  terminalCursorBlock: 'terminalCursor.foreground',
-  panel: 'panel.background',
-  activityBar: 'activityBar.background',
-  input: 'input.background',
-  listSelection: 'list.activeSelectionBackground',
-  listInactiveSelection: 'list.inactiveSelectionBackground',
-  listHover: 'list.hoverBackground',
-  listFocus: 'list.focusBackground',
-  inlayHint: 'editorInlayHint.background',
-  breadcrumb: 'breadcrumb.background',
-  stickyScroll: 'editorStickyScroll.background',
-  editorWidget: 'editorWidget.background',
-  suggest: 'editorSuggestWidget.background',
-  hover: 'editorHoverWidget.background',
-  quickInput: 'quickInput.background',
-  quickInputListFocus: 'quickInputList.focusBackground',
-  menu: 'menu.background',
-  notification: 'notifications.background',
-  peekView: 'peekViewResult.background',
-  peekViewSelection: 'peekViewResult.selectionBackground',
-  peekViewEditor: 'peekViewEditor.background',
-  titleBar: 'titleBar.activeBackground',
-  titleBarInactive: 'titleBar.inactiveBackground',
-  commandCenter: 'commandCenter.background',
-  suggestSelected: 'editorSuggestWidget.selectedBackground',
-  inlineChat: 'inlineChat.background',
-  button: 'button.background',
-  buttonSecondary: 'button.secondaryBackground',
-  badge: 'badge.background',
-  activityBarBadge: 'activityBarBadge.background',
-  dropdown: 'dropdown.background',
-  debugToolbar: 'debugToolBar.background',
-  banner: 'banner.background',
-  keybindingLabel: 'keybindingLabel.background',
-  checkbox: 'checkbox.background',
-  extensionButton: 'extensionButton.prominentBackground',
-  statusBarItemError: 'statusBarItem.errorBackground',
-  statusBarItemWarning: 'statusBarItem.warningBackground',
-  statusBarItemRemote: 'statusBarItem.remoteBackground',
-  statusBarItemProminent: 'statusBarItem.prominentBackground',
-  statusBarItemOffline: 'statusBarItem.offlineBackground',
-  activityWarningBadge: 'activityWarningBadge.background',
-  activityErrorBadge: 'activityErrorBadge.background',
-  selection: 'editor.selectionBackground',
-  selectionInactive: 'editor.inactiveSelectionBackground',
-  selectionHighlight: 'editor.selectionHighlightBackground',
-  rangeHighlight: 'editor.rangeHighlightBackground',
-  symbolHighlight: 'editor.symbolHighlightBackground',
-  terminalSelection: 'terminal.selectionBackground',
-  wordHighlight: 'editor.wordHighlightBackground',
-  wordHighlightStrong: 'editor.wordHighlightStrongBackground',
-  wordHighlightText: 'editor.wordHighlightTextBackground',
-  findMatch: 'editor.findMatchHighlightBackground',
-  findMatchActive: 'editor.findMatchBackground',
-  findRange: 'editor.findRangeHighlightBackground',
-  bracketMatch: 'editorBracketMatch.background',
-  terminalFindMatch: 'terminal.findMatchBackground',
-  terminalFindMatchHighlight: 'terminal.findMatchHighlightBackground',
-  diffInserted: 'diffEditor.insertedTextBackground',
-  diffRemoved: 'diffEditor.removedTextBackground',
-  diffInsertedLine: 'diffEditor.insertedLineBackground',
-  diffRemovedLine: 'diffEditor.removedLineBackground',
-  mergeCurrentContent: 'merge.currentContentBackground',
-  mergeIncomingContent: 'merge.incomingContentBackground',
-  mergeCommonContent: 'merge.commonContentBackground',
-  linkedEditing: 'editor.linkedEditingBackground',
-  stackFrame: 'editor.stackFrameHighlightBackground',
-  focusedStackFrame: 'editor.focusedStackFrameHighlightBackground',
-  searchEditorFindMatch: 'searchEditor.findMatchBackground',
-  inputValidationError: 'inputValidation.errorBackground',
-  inputValidationInfo: 'inputValidation.infoBackground',
-  inputValidationWarning: 'inputValidation.warningBackground',
-} as const;
+import {
+  loadTheme,
+  getThemeName,
+  extractColors,
+} from './readability-theme';
 
-type BgKeyName = keyof typeof BG_KEYS;
-
-const LABELS = {
-  title: 'READABILITY ANALYSIS',
-  thresholds: 'Thresholds: Fluent=Lc90  Body=Lc75  Content=Lc60  Large=Lc45',
-
-  colName: 'Name',
-  colColor: 'Color',
-  colApca: 'APCA',
-
-  sectionText: 'TEXT',
-  sectionSyntax: 'SYNTAX',
-  sectionSelected: 'SELECTED TEXT',
-  sectionNavHighlights: 'NAVIGATION HIGHLIGHTS',
-  sectionDiagnostics: 'DIAGNOSTICS',
-  sectionComments: 'COMMENTS',
-  sectionEditorUi: 'EDITOR UI',
-  sectionWorkbenchUi: 'WORKBENCH UI',
-  sectionWidgets: 'WIDGETS',
-  sectionGit: 'GIT DECORATIONS',
-  sectionBrackets: 'BRACKETS',
-  sectionTerminal: 'TERMINAL ANSI',
-  sectionButtons: 'BUTTONS & BADGES',
-  sectionDebug: 'DEBUG',
-  sectionDebugContext: 'DEBUG CONTEXT',
-  sectionLinkedEditing: 'LINKED EDITING',
-  sectionLinks: 'LINKS & HIGHLIGHTS',
-  sectionMisc: 'MISC UI',
-  sectionDiff: 'DIFF EDITOR',
-  sectionMerge: 'MERGE CONFLICTS',
-  sectionCursors: 'CURSORS',
-  sectionStickyScroll: 'STICKY SCROLL SYNTAX',
-  sectionPeekEditor: 'PEEK VIEW EDITOR',
-  sectionInputControls: 'INPUT CONTROLS',
-  sectionScm: 'SCM GRAPH',
-  sectionChat: 'CHAT & AI',
-  sectionTesting: 'TESTING',
-  sectionSearchEditor: 'SEARCH EDITOR',
-  sectionDebugConsole: 'DEBUG CONSOLE',
-  sectionSymbolIcons: 'SYMBOL ICONS',
-  sectionSettings: 'SETTINGS EDITOR',
-  sectionCharts: 'CHARTS',
-  sectionDistinction: 'COLOR DISTINCTION (ΔE00)',
-  sectionSymbolDiscrimination: 'SYMBOL DISCRIMINATION (ΔE00)',
-
-  summaryPass: 'Content+ (Lc60):',
-  summaryLarge: 'Large/Non-text:',
-  summaryFail: 'Failed (<Lc30):',
-
-  verdictReady: 'MARATHON-READY',
-  verdictWarning: 'Some colors below Lc60 - may cause eye strain',
-  verdictFail: 'Fix failed colors before marathon use',
-
-  unexpectedPolarity: 'Unexpected polarity:',
-
-  errThemeRequired: 'Error: --theme <path> is required.',
-  errThemeNotFound: (p: string) => `Error: Theme file not found: ${p}`,
-  errInvalidTheme: (p: string, e: string) => `Error: Invalid theme JSON in ${p}: ${e}`,
-  errMissingColors: 'Error: Theme missing required "colors" object.',
-  errMissingEditorBg: 'Error: Theme missing "editor.background" color.',
-  errMissingEditorFg: 'Error: Theme missing "editor.foreground" color.',
-  errInvalidColor: (c: string) => `Error: Invalid color "${c}". Use #RGB, #RRGGBB, or #RRGGBBAA`,
-} as const;
-
-// APCA constants (APCA-W3 specification)
-const APCA = {
-  sRco: 0.2126729,
-  sGco: 0.7151522,
-  sBco: 0.0721750,
-  mainTRC: 2.4,
-  normBG: 0.56,
-  normTXT: 0.57,
-  revTXT: 0.62,
-  revBG: 0.65,
-  blkThrs: 0.022,
-  blkClmp: 1.414,
-  scaleBoW: 1.14,
-  scaleWoB: 1.14,
-  loBoWoffset: 0.027,
-  loWoBoffset: 0.027,
-  loClip: 0.1,
-} as const;
+import type {
+  Polarity,
+  ColorValue,
+  ColorSource,
+  ColorResult,
+  Stats,
+  DistinctionPair,
+  DistinctionSkippedPair,
+  DistinctionStats,
+  SectionData,
+  JsonColorResult,
+  JsonOutput,
+  OutputFormat,
+} from './readability-types';
 
 // =============================================================================
-// COLOR UTILITIES (Inlined for standalone use)
+// ANALYSIS HELPERS
 // =============================================================================
-
-interface RGB {
-  r: number;
-  g: number;
-  b: number;
-}
-
-type Polarity = 'light-on-dark' | 'dark-on-light';
-type Level = 'Fluent' | 'Body' | 'Content' | 'Large' | 'Non-Text' | 'FAIL';
-
-interface ColorSource {
-  type: 'workbench' | 'textmate' | 'semantic';
-  key: string;
-  semanticKey?: string; // For syntax colors that check semantic first
-}
-
-interface ColorValue {
-  color: string;
-  fallback: boolean;
-  source?: ColorSource;
-}
-
-interface APCAAnalysis {
-  lc: number;
-  level: Level;
-  icon: string;
-  pass: boolean;
-  polarity: Polarity;
-}
-
-function isValidHex(hex: string): boolean {
-  return /^#?([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$/.test(hex);
-}
-
-function hexToRgb(hex: string): RGB | null {
-  let h = hex.replace('#', '');
-
-  if (h.length === 3) {
-    h = h.split('').map(c => c + c).join('');
-  } else if (h.length === 8) {
-    h = h.slice(0, 6);
-  }
-
-  if (h.length !== 6) return null;
-
-  const match = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h);
-  if (!match) return null;
-
-  return {
-    r: parseInt(match[1], 16) / 255,
-    g: parseInt(match[2], 16) / 255,
-    b: parseInt(match[3], 16) / 255,
-  };
-}
-
-function rgbToHex(rgb: RGB): string {
-  const toHex = (n: number) => {
-    const clamped = Math.max(0, Math.min(1, n));
-    return Math.round(clamped * 255).toString(16).padStart(2, '0');
-  };
-  return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
-}
-
-function hexAlphaToDecimal(hexAlpha: string): number {
-  return parseInt(hexAlpha, 16) / 255;
-}
-
-function blendAlpha(fg: string, bg: string, alpha: number): string {
-  const fgRgb = hexToRgb(fg);
-  const bgRgb = hexToRgb(bg);
-  if (!fgRgb || !bgRgb) throw new Error(`Invalid color: fg="${fg}", bg="${bg}"`);
-
-  const a = Math.max(0, Math.min(1, alpha));
-  return rgbToHex({
-    r: fgRgb.r * a + bgRgb.r * (1 - a),
-    g: fgRgb.g * a + bgRgb.g * (1 - a),
-    b: fgRgb.b * a + bgRgb.b * (1 - a),
-  });
-}
-
-interface APCAResult {
-  lc: number;
-  polarity: Polarity;
-}
-
-function getAPCAContrast(text: string, background: string): APCAResult {
-  const txtRgb = hexToRgb(text);
-  const bgRgb = hexToRgb(background);
-  if (!txtRgb) throw new Error(`Invalid text color: "${text}"`);
-  if (!bgRgb) throw new Error(`Invalid background color: "${background}"`);
-
-  const toY = (rgb: RGB) =>
-    APCA.sRco * Math.pow(rgb.r, APCA.mainTRC) +
-    APCA.sGco * Math.pow(rgb.g, APCA.mainTRC) +
-    APCA.sBco * Math.pow(rgb.b, APCA.mainTRC);
-
-  const softClamp = (Y: number) =>
-    Y < 0 ? 0 : Y < APCA.blkThrs ? Y + Math.pow(APCA.blkThrs - Y, APCA.blkClmp) : Y;
-
-  const txtY = softClamp(toY(txtRgb));
-  const bgY = softClamp(toY(bgRgb));
-
-  // Polarity is determined by luminance comparison, not by Lc sign
-  // (Lc can be clipped to 0, losing polarity information)
-  const polarity: Polarity = bgY > txtY ? 'dark-on-light' : 'light-on-dark';
-  let contrast: number;
-
-  if (bgY > txtY) {
-    // BoW: Black on White (dark text, light bg) → positive Lc
-    const SAPC = (Math.pow(bgY, APCA.normBG) - Math.pow(txtY, APCA.normTXT)) * APCA.scaleBoW;
-    contrast = SAPC < APCA.loClip ? 0 : SAPC - APCA.loBoWoffset;
-  } else {
-    // WoB: White on Black (light text, dark bg) → negative Lc
-    const SAPC = (Math.pow(bgY, APCA.revBG) - Math.pow(txtY, APCA.revTXT)) * APCA.scaleWoB;
-    contrast = SAPC > -APCA.loClip ? 0 : SAPC + APCA.loWoBoffset;
-  }
-
-  return { lc: contrast * 100, polarity };
-}
-
-function analyzeAPCA(result: APCAResult): APCAAnalysis {
-  const { lc, polarity } = result;
-  const absLc = Math.abs(lc);
-
-  if (absLc >= 90) return { lc, level: 'Fluent', icon: '✅', pass: true, polarity };
-  if (absLc >= 75) return { lc, level: 'Body', icon: '✅', pass: true, polarity };
-  if (absLc >= 60) return { lc, level: 'Content', icon: '✅', pass: true, polarity };
-  if (absLc >= 45) return { lc, level: 'Large', icon: '⚠️', pass: false, polarity };
-  if (absLc >= 30) return { lc, level: 'Non-Text', icon: '⚠️', pass: false, polarity };
-  return { lc, level: 'FAIL', icon: '❌', pass: false, polarity };
-}
-
-function hasAlphaChannel(hex: string): boolean {
-  const len = hex.startsWith('#') ? hex.length - 1 : hex.length;
-  return len === 8;
-}
-
-// =============================================================================
-// DELTA E 2000 (Perceptual Color Difference)
-// =============================================================================
-
-interface Lab {
-  L: number;
-  a: number;
-  b: number;
-}
-
-/**
- * Convert sRGB to CIE Lab color space
- * Required for Delta E 2000 calculation
- */
-function rgbToLab(rgb: RGB): Lab {
-  // sRGB to linear RGB
-  const linearize = (c: number) =>
-    c > 0.04045 ? Math.pow((c + 0.055) / 1.055, 2.4) : c / 12.92;
-
-  const r = linearize(rgb.r);
-  const g = linearize(rgb.g);
-  const b = linearize(rgb.b);
-
-  // Linear RGB to XYZ (D65 illuminant)
-  const x = r * 0.4124564 + g * 0.3575761 + b * 0.1804375;
-  const y = r * 0.2126729 + g * 0.7151522 + b * 0.0721750;
-  const z = r * 0.0193339 + g * 0.1191920 + b * 0.9503041;
-
-  // XYZ to Lab (D65 reference white)
-  const refX = 0.95047;
-  const refY = 1.0;
-  const refZ = 1.08883;
-
-  const f = (t: number) =>
-    t > 0.008856 ? Math.pow(t, 1 / 3) : (903.3 * t + 16) / 116;
-
-  const fx = f(x / refX);
-  const fy = f(y / refY);
-  const fz = f(z / refZ);
-
-  return {
-    L: 116 * fy - 16,
-    a: 500 * (fx - fy),
-    b: 200 * (fy - fz),
-  };
-}
-
-function hexToLab(hex: string): Lab | null {
-  const rgb = hexToRgb(hex);
-  if (!rgb) return null;
-  return rgbToLab(rgb);
-}
-
-/**
- * Calculate Delta E 2000 between two Lab colors
- * CIE DE2000 is the most perceptually uniform color difference formula
- *
- * Reference: "The CIEDE2000 Color-Difference Formula" (Sharma et al., 2005)
- */
-function deltaE00(lab1: Lab, lab2: Lab): number {
-  const { L: L1, a: a1, b: b1 } = lab1;
-  const { L: L2, a: a2, b: b2 } = lab2;
-
-  // Parametric weighting factors (all 1.0 for standard conditions)
-  const kL = 1.0;
-  const kC = 1.0;
-  const kH = 1.0;
-
-  const deg2rad = Math.PI / 180;
-  const rad2deg = 180 / Math.PI;
-
-  // Step 1: Calculate C'i and h'i
-  const C1 = Math.sqrt(a1 * a1 + b1 * b1);
-  const C2 = Math.sqrt(a2 * a2 + b2 * b2);
-  const Cab = (C1 + C2) / 2;
-  const Cab7 = Math.pow(Cab, 7);
-  const G = 0.5 * (1 - Math.sqrt(Cab7 / (Cab7 + Math.pow(25, 7))));
-
-  const a1p = a1 * (1 + G);
-  const a2p = a2 * (1 + G);
-
-  const C1p = Math.sqrt(a1p * a1p + b1 * b1);
-  const C2p = Math.sqrt(a2p * a2p + b2 * b2);
-
-  const h1p = a1p === 0 && b1 === 0 ? 0 : (Math.atan2(b1, a1p) * rad2deg + 360) % 360;
-  const h2p = a2p === 0 && b2 === 0 ? 0 : (Math.atan2(b2, a2p) * rad2deg + 360) % 360;
-
-  // Step 2: Calculate ΔL', ΔC', ΔH'
-  const dLp = L2 - L1;
-  const dCp = C2p - C1p;
-
-  let dhp: number;
-  if (C1p * C2p === 0) {
-    dhp = 0;
-  } else if (Math.abs(h2p - h1p) <= 180) {
-    dhp = h2p - h1p;
-  } else if (h2p - h1p > 180) {
-    dhp = h2p - h1p - 360;
-  } else {
-    dhp = h2p - h1p + 360;
-  }
-
-  const dHp = 2 * Math.sqrt(C1p * C2p) * Math.sin((dhp / 2) * deg2rad);
-
-  // Step 3: Calculate CIEDE2000
-  const Lp = (L1 + L2) / 2;
-  const Cp = (C1p + C2p) / 2;
-
-  let hp: number;
-  if (C1p * C2p === 0) {
-    hp = h1p + h2p;
-  } else if (Math.abs(h1p - h2p) <= 180) {
-    hp = (h1p + h2p) / 2;
-  } else if (h1p + h2p < 360) {
-    hp = (h1p + h2p + 360) / 2;
-  } else {
-    hp = (h1p + h2p - 360) / 2;
-  }
-
-  const T =
-    1 -
-    0.17 * Math.cos((hp - 30) * deg2rad) +
-    0.24 * Math.cos(2 * hp * deg2rad) +
-    0.32 * Math.cos((3 * hp + 6) * deg2rad) -
-    0.20 * Math.cos((4 * hp - 63) * deg2rad);
-
-  const dTheta = 30 * Math.exp(-Math.pow((hp - 275) / 25, 2));
-  const Cp7 = Math.pow(Cp, 7);
-  const RC = 2 * Math.sqrt(Cp7 / (Cp7 + Math.pow(25, 7)));
-  const SL = 1 + (0.015 * Math.pow(Lp - 50, 2)) / Math.sqrt(20 + Math.pow(Lp - 50, 2));
-  const SC = 1 + 0.045 * Cp;
-  const SH = 1 + 0.015 * Cp * T;
-  const RT = -Math.sin(2 * dTheta * deg2rad) * RC;
-
-  const dE = Math.sqrt(
-    Math.pow(dLp / (kL * SL), 2) +
-    Math.pow(dCp / (kC * SC), 2) +
-    Math.pow(dHp / (kH * SH), 2) +
-    RT * (dCp / (kC * SC)) * (dHp / (kH * SH))
-  );
-
-  return dE;
-}
-
-/**
- * Calculate Delta E 2000 between two hex colors.
- * Handles transparent colors by compositing against background first.
- * @param hex1 - First color (may include alpha)
- * @param hex2 - Second color (may include alpha)
- * @param bg - Background color for alpha compositing (required for accurate results with transparent colors)
- */
-function deltaE00Hex(hex1: string, hex2: string, bg?: string): number | null {
-  // Resolve colors: composite against background if alpha present
-  const resolve = (hex: string): string => {
-    if (!hasAlphaChannel(hex)) return hex;
-    const alpha = extractAlpha(hex);
-    const base = stripAlpha(hex);
-    if (alpha >= 0.99) return base;
-    if (!bg) {
-      // No background provided - warn in development, use base color
-      console.warn(`deltaE00Hex: transparent color ${hex} without background - results may be inaccurate`);
-      return base;
-    }
-    return blendAlpha(base, bg, alpha);
-  };
-
-  const lab1 = hexToLab(resolve(hex1));
-  const lab2 = hexToLab(resolve(hex2));
-  if (!lab1 || !lab2) return null;
-  return deltaE00(lab1, lab2);
-}
-
-/**
- * Get distinction level based on Delta E value
- */
-type DistinctionLevel = 'Imperceptible' | 'Subtle' | 'Noticeable' | 'Clear' | 'Distinct' | 'Obvious';
-
-function getDistinctionLevel(dE: number): { level: DistinctionLevel; icon: string; pass: boolean } {
-  if (dE < 1) return { level: 'Imperceptible', icon: '❌', pass: false };
-  if (dE < 5) return { level: 'Subtle', icon: '❌', pass: false };
-  if (dE < 10) return { level: 'Noticeable', icon: '⚠️', pass: false };
-  if (dE < 20) return { level: 'Clear', icon: '⚠️', pass: true };
-  if (dE < 40) return { level: 'Distinct', icon: '✅', pass: true };
-  return { level: 'Obvious', icon: '✅', pass: true };
-}
-
-interface DistinctionPair {
-  name1: string;
-  name2: string;
-  color1: string;
-  color2: string;
-  key1: string;
-  key2: string;
-  deltaE: number;
-  level: DistinctionLevel;
-  icon: string;
-  pass: boolean;
-}
-
-type DistinctionSkipReason = 'missing' | 'fallback' | 'invalid';
-
-interface DistinctionSkippedPair {
-  name1: string;
-  name2: string;
-  reason: DistinctionSkipReason;
-}
-
-/**
- * Adjacency pairs - elements commonly seen side-by-side in code
- * These pairs need the most distinction for comfortable reading
- */
-const ADJACENCY_PAIRS: Array<[string, string]> = [
-  // Function calls: func(param)
-  ['function', 'parameter'],
-  ['method', 'parameter'],
-  // Object access: obj.property
-  ['variable', 'property'],
-  // Type annotations: var: Type
-  ['variable', 'type'],
-  ['parameter', 'type'],
-  // Keywords in context
-  ['keyword', 'variable'],
-  ['keyword', 'function'],
-  // Class definitions: class Name { prop }
-  ['class', 'property'],
-  ['class', 'method'],
-  // Enum usage: Enum.Member
-  ['enum', 'enumMember'],
-  // Numbers vs other values
-  ['number', 'enumMember'],
-  ['number', 'constant'],
-  // Comments vs everything
-  ['comment', 'property'],
-  ['comment', 'variable'],
-  // Namespace/module context
-  ['namespace', 'function'],
-  ['namespace', 'class'],
-  // Operators (often transparent - tests alpha compositing)
-  ['operator', 'variable'],
-  ['operator', 'number'],
-];
-
-/**
- * Symbol discrimination pairs - symbols that appear in autocomplete, outline, breadcrumbs
- * These need to be distinguished by color alone (no font style in icons)
- * Keys must match symbolIcons record (ctor, not constructor)
- */
-const SYMBOL_DISCRIMINATION_PAIRS: Array<[string, string]> = [
-  // Core structure types (must be obviously different)
-  ['class', 'interface'],
-  ['class', 'struct'],
-  ['interface', 'struct'],
-  ['enum', 'class'],
-  ['enum', 'interface'],
-  ['object', 'class'],
-  // Functions vs other callable
-  ['function', 'method'],
-  ['function', 'ctor'],
-  ['method', 'ctor'],
-  // Variables vs properties vs fields
-  ['variable', 'field'],
-  ['property', 'field'],
-  ['variable', 'property'],
-  // Constants vs values
-  ['constant', 'variable'],
-  ['constant', 'enumMember'],
-  ['constant', 'boolean'],
-  ['boolean', 'null'],
-  // Literals
-  ['string', 'number'],
-  ['string', 'constant'],
-  ['number', 'boolean'],
-  // Type system
-  ['class', 'typeParameter'],
-  ['interface', 'typeParameter'],
-  ['struct', 'typeParameter'],
-  // Module organization
-  ['namespace', 'module'],
-  ['namespace', 'package'],
-  ['module', 'package'],
-  ['folder', 'package'],
-  // Keywords vs classes
-  ['keyword', 'class'],
-  ['keyword', 'interface'],
-  ['keyword', 'namespace'],
-  // Events and references
-  ['event', 'method'],
-  ['event', 'property'],
-  ['reference', 'variable'],
-];
-
-/**
- * Analyze color distinction between commonly adjacent syntax elements.
- * Handles transparent colors by compositing against background before comparison.
- */
-function analyzeDistinction(
-  syntax: Record<string, ColorValue>,
-  comments: ColorValue,
-  bg: string
-): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
-  const pairs: DistinctionPair[] = [];
-  const skipped: DistinctionSkippedPair[] = [];
-
-  // Add comment to syntax for analysis
-  const colors: Record<string, ColorValue> = { ...syntax, comment: comments };
-
-  for (const [name1, name2] of ADJACENCY_PAIRS) {
-    const cv1 = colors[name1];
-    const cv2 = colors[name2];
-
-    if (!cv1 || !cv2) {
-      skipped.push({ name1, name2, reason: 'missing' });
-      continue;
-    }
-
-    if (cv1.fallback || cv2.fallback) {
-      skipped.push({ name1, name2, reason: 'fallback' });
-      continue;
-    }
-
-    // deltaE00Hex handles alpha compositing against bg internally
-    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
-
-    if (dE === null) {
-      skipped.push({ name1, name2, reason: 'invalid' });
-      continue;
-    }
-
-    const { level, icon, pass } = getDistinctionLevel(dE);
-    pairs.push({
-      name1,
-      name2,
-      color1: cv1.color,
-      color2: cv2.color,
-      key1: cv1.source?.key ?? name1,
-      key2: cv2.source?.key ?? name2,
-      deltaE: dE,
-      level,
-      icon,
-      pass,
-    });
-  }
-
-  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
-}
-
-interface DistinctionStats {
-  total: number;
-  pass: number;
-  warn: number;
-  fail: number;
-  skipped: number;
-}
-
-/**
- * Print color distinction analysis section
- */
-function printDistinctionSection(pairs: DistinctionPair[], skipped: DistinctionSkippedPair[]): DistinctionStats {
-  console.log(`\n▌ ${LABELS.sectionDistinction}`);
-  console.log('─'.repeat(OUTPUT_WIDTH));
-
-  // Header
-  const colPair = 22;
-  const colDelta = 8;
-  const colLevel = 14;
-  console.log(
-    'Pair'.padEnd(colPair) +
-    'ΔE00'.padStart(colDelta) +
-    '   ' +
-    'Level'
-  );
-  console.log('─'.repeat(OUTPUT_WIDTH));
-
-  let pass = 0;
-  let warn = 0;
-  let fail = 0;
-
-  for (const p of pairs) {
-    const pairName = `${p.name1} ↔ ${p.name2}`.substring(0, colPair - 1).padEnd(colPair);
-    const deltaStr = p.deltaE.toFixed(1).padStart(colDelta);
-    const levelStr = `${p.icon} ${p.level}`;
-
-    console.log(`${pairName}${deltaStr}   ${levelStr}`);
-
-    // Count based on icon to match visual feedback
-    if (p.icon === '✅') pass++;
-    else if (p.icon === '⚠️') warn++;
-    else fail++;
-  }
-
-  const totalPairs = ADJACENCY_PAIRS.length;
-  if (skipped.length > 0) {
-    console.log('─'.repeat(OUTPUT_WIDTH));
-    console.log(`⚠️  Skipped (${skipped.length}/${totalPairs}):`);
-    const maxList = 12;
-    for (const s of skipped.slice(0, maxList)) {
-      const pairName = `${s.name1} ↔ ${s.name2}`.substring(0, colPair - 1).padEnd(colPair);
-      console.log(`${pairName}${''.padStart(colDelta)}   ⚠️ ${s.reason}`);
-    }
-    if (skipped.length > maxList) {
-      console.log(`... and ${skipped.length - maxList} more skipped pairs`);
-    }
-  }
-
-  return { total: pairs.length, pass, warn, fail, skipped: skipped.length };
-}
-
-/**
- * Analyze symbol discrimination using symbol icon colors
- * These are the colors shown in autocomplete, outline, breadcrumbs, etc.
- */
-function analyzeSymbolDiscrimination(
-  symbolIcons: Record<string, ColorValue>,
-  bg: string
-): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
-  const pairs: DistinctionPair[] = [];
-  const skipped: DistinctionSkippedPair[] = [];
-
-  for (const [name1, name2] of SYMBOL_DISCRIMINATION_PAIRS) {
-    const cv1 = symbolIcons[name1];
-    const cv2 = symbolIcons[name2];
-
-    if (!cv1 || !cv2) {
-      skipped.push({ name1, name2, reason: 'missing' });
-      continue;
-    }
-
-    if (cv1.fallback || cv2.fallback) {
-      skipped.push({ name1, name2, reason: 'fallback' });
-      continue;
-    }
-
-    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
-
-    if (dE === null) {
-      skipped.push({ name1, name2, reason: 'invalid' });
-      continue;
-    }
-
-    const { level, icon, pass } = getDistinctionLevel(dE);
-    pairs.push({
-      name1,
-      name2,
-      color1: cv1.color,
-      color2: cv2.color,
-      key1: cv1.source?.key ?? name1,
-      key2: cv2.source?.key ?? name2,
-      deltaE: dE,
-      level,
-      icon,
-      pass,
-    });
-  }
-
-  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
-}
-
-/**
- * Print symbol discrimination analysis section
- */
-function printSymbolDiscriminationSection(pairs: DistinctionPair[], skipped: DistinctionSkippedPair[]): DistinctionStats {
-  console.log(`\n▌ ${LABELS.sectionSymbolDiscrimination}`);
-  console.log('─'.repeat(OUTPUT_WIDTH));
-
-  // Header
-  const colPair = 22;
-  const colDelta = 8;
-  console.log(
-    'Pair'.padEnd(colPair) +
-    'ΔE00'.padStart(colDelta) +
-    '   ' +
-    'Level'
-  );
-  console.log('─'.repeat(OUTPUT_WIDTH));
-
-  let pass = 0;
-  let warn = 0;
-  let fail = 0;
-
-  for (const p of pairs) {
-    const pairName = `${p.name1} ↔ ${p.name2}`.substring(0, colPair - 1).padEnd(colPair);
-    const deltaStr = p.deltaE.toFixed(1).padStart(colDelta);
-    const levelStr = `${p.icon} ${p.level}`;
-
-    console.log(`${pairName}${deltaStr}   ${levelStr}`);
-
-    if (p.icon === '✅') pass++;
-    else if (p.icon === '⚠️') warn++;
-    else fail++;
-  }
-
-  const totalPairs = SYMBOL_DISCRIMINATION_PAIRS.length;
-  if (skipped.length > 0) {
-    console.log('─'.repeat(OUTPUT_WIDTH));
-    console.log(`⚠️  Skipped (${skipped.length}/${totalPairs}):`);
-    const maxList = 8;
-    for (const s of skipped.slice(0, maxList)) {
-      const pairName = `${s.name1} ↔ ${s.name2}`.substring(0, colPair - 1).padEnd(colPair);
-      console.log(`${pairName}${''.padStart(colDelta)}   ⚠️ ${s.reason}`);
-    }
-    if (skipped.length > maxList) {
-      console.log(`... and ${skipped.length - maxList} more skipped pairs`);
-    }
-  }
-
-  return { total: pairs.length, pass, warn, fail, skipped: skipped.length };
-}
-
-function stripAlpha(hex: string): string {
-  if (!hasAlphaChannel(hex)) return hex;
-  return hex.slice(0, hex.startsWith('#') ? 7 : 6);
-}
-
-function extractAlpha(hex: string): number {
-  if (!hasAlphaChannel(hex)) return 1.0;
-  return hexAlphaToDecimal(hex.slice(-2));
-}
-
-// =============================================================================
-// THEME TYPES
-// =============================================================================
-
-interface ThemeJson {
-  name?: string;
-  type?: 'dark' | 'light';
-  colors?: Record<string, string>;
-  tokenColors?: Array<{
-    scope?: string | string[];
-    settings?: { foreground?: string };
-  }>;
-  semanticHighlighting?: boolean;
-  semanticTokenColors?: Record<string, string | { foreground?: string }>;
-}
-
-// =============================================================================
-// THEME LOADER
-// =============================================================================
-
-function stripJsonComments(jsonc: string): string {
-  // Remove single-line comments (// ...) and multi-line comments (/* ... */)
-  // Be careful not to remove // inside strings
-  let result = '';
-  let inString = false;
-  let inSingleComment = false;
-  let inMultiComment = false;
-  let i = 0;
-
-  while (i < jsonc.length) {
-    const char = jsonc[i];
-    const next = jsonc[i + 1];
-
-    if (inSingleComment) {
-      if (char === '\n') {
-        inSingleComment = false;
-        result += char;
-      }
-      i++;
-      continue;
-    }
-
-    if (inMultiComment) {
-      if (char === '*' && next === '/') {
-        inMultiComment = false;
-        i += 2;
-        continue;
-      }
-      i++;
-      continue;
-    }
-
-    if (inString) {
-      result += char;
-      if (char === '\\' && i + 1 < jsonc.length) {
-        result += jsonc[++i];
-      } else if (char === '"') {
-        inString = false;
-      }
-      i++;
-      continue;
-    }
-
-    // Not in string or comment
-    if (char === '"') {
-      inString = true;
-      result += char;
-    } else if (char === '/' && next === '/') {
-      inSingleComment = true;
-      i++;
-    } else if (char === '/' && next === '*') {
-      inMultiComment = true;
-      i++;
-    } else {
-      result += char;
-    }
-    i++;
-  }
-
-  // Remove trailing commas before } or ]
-  return result.replace(/,(\s*[}\]])/g, '$1');
-}
-
-function loadTheme(themePath: string): ThemeJson {
-  if (!fs.existsSync(themePath)) {
-    console.error(LABELS.errThemeNotFound(themePath));
-    process.exit(1);
-  }
-
-  let theme: ThemeJson;
-  try {
-    const content = fs.readFileSync(themePath, 'utf-8');
-    theme = JSON.parse(stripJsonComments(content));
-  } catch (e) {
-    console.error(LABELS.errInvalidTheme(themePath, (e as Error).message));
-    process.exit(1);
-  }
-
-  if (!theme.colors || typeof theme.colors !== 'object') {
-    console.error(LABELS.errMissingColors);
-    process.exit(1);
-  }
-  if (!theme.colors['editor.background']) {
-    console.error(LABELS.errMissingEditorBg);
-    process.exit(1);
-  }
-  if (!theme.colors['editor.foreground']) {
-    console.error(LABELS.errMissingEditorFg);
-    process.exit(1);
-  }
-
-  // Validate required colors are valid hex
-  const requiredColors = ['editor.background', 'editor.foreground'];
-  for (const key of requiredColors) {
-    const color = theme.colors[key];
-    if (!isValidHex(color)) {
-      console.error(LABELS.errInvalidColor(color));
-      process.exit(1);
-    }
-  }
-
-  return theme;
-}
-
-function getThemeName(theme: ThemeJson, themePath: string): string {
-  if (theme.name) return theme.name;
-  let name = path.basename(themePath);
-  // Remove common extensions
-  name = name.replace(/\.(jsonc?|json5)$/i, '');
-  // Remove common suffixes
-  name = name.replace(/-color-theme$/i, '');
-  return name;
-}
-
-/**
- * Find color for a token using exact scope matching.
- *
- * Why exact matching only:
- * - VS Code's full TextMate matching requires scope stacks (e.g., "source.js meta.function variable")
- * - We only have single scope strings, can't verify parent context
- * - Prefix matching could report wrong colors for descendant selectors
- * - Better to report "unknown" than wrong contrast values
- *
- * Priority:
- * 1. Semantic token (direct key lookup)
- * 2. tokenColors (exact scope match, last definition wins)
- */
-function findTokenColor(theme: ThemeJson, textmateScope: string, semanticKey?: string): ColorValue {
-  // 1. Semantic tokens take priority (direct lookup)
-  if (semanticKey && theme.semanticHighlighting !== false && theme.semanticTokenColors) {
-    const value = theme.semanticTokenColors[semanticKey];
-    if (value) {
-      const color = typeof value === 'string' ? value : value.foreground;
-      if (color) return {
-        color,
-        fallback: false,
-        source: { type: 'semantic', key: semanticKey, semanticKey },
-      };
-    }
-  }
-
-  // 2. tokenColors with exact match (last definition wins)
-  let match: string | null = null;
-
-  for (const token of theme.tokenColors ?? []) {
-    if (!token.settings?.foreground) continue;
-
-    const scopes = Array.isArray(token.scope)
-      ? token.scope
-      : token.scope?.split(',').map(s => s.trim()) ?? [];
-
-    if (scopes.includes(textmateScope)) {
-      match = token.settings.foreground;
-    }
-  }
-
-  if (match) {
-    return {
-      color: match,
-      fallback: false,
-      source: { type: 'textmate', key: textmateScope, semanticKey },
-    };
-  }
-
-  return {
-    color: '',
-    fallback: true,
-    source: { type: 'textmate', key: textmateScope, semanticKey },
-  };
-}
-
-function getColor(theme: ThemeJson, key: string, fallback: string): ColorValue {
-  const color = theme.colors?.[key];
-  return {
-    color: color || fallback,
-    fallback: !color,
-    source: { type: 'workbench', key },
-  };
-}
-
-function getColorRaw(theme: ThemeJson, key: string, fallback: string): string {
-  return theme.colors?.[key] || fallback;
-}
-
-/**
- * Resolve transparent background: blend with underlying surface if alpha present.
- */
-function resolveTransparentBg(rawBg: string, underlyingBg: string): string {
-  if (!hasAlphaChannel(rawBg)) return rawBg;
-  const alpha = extractAlpha(rawBg);
-  if (alpha >= 0.99) return stripAlpha(rawBg);
-  return blendAlpha(stripAlpha(rawBg), underlyingBg, alpha);
-}
-
-// =============================================================================
-// COLOR EXTRACTION
-// =============================================================================
-
-interface ExtractedColors {
-  bg: {
-    editor: string;
-    sidebar: string;
-    statusBar: string;
-    tabBar: string;
-    terminal: string;
-    cursorBlock: string;
-    terminalCursorBlock: string;
-    panel: string;
-    activityBar: string;
-    input: string;
-    listSelection: string;
-    listInactiveSelection: string;
-    listHover: string;
-    listFocus: string;
-    inlayHint: string;
-    breadcrumb: string;
-    stickyScroll: string;
-    // Widgets
-    editorWidget: string;
-    suggest: string;
-    hover: string;
-    quickInput: string;
-    quickInputListFocus: string;
-    menu: string;
-    notification: string;
-    peekView: string;
-    peekViewSelection: string;
-    titleBar: string;
-    titleBarInactive: string;
-    commandCenter: string;
-    suggestSelected: string;
-    inlineChat: string;
-    // Additional
-    button: string;
-    buttonSecondary: string;
-    badge: string;
-    activityBarBadge: string;
-    dropdown: string;
-    debugToolbar: string;
-    banner: string;
-    keybindingLabel: string;
-    checkbox: string;
-    extensionButton: string;
-    // Status bar items
-    statusBarItemError: string;
-    statusBarItemWarning: string;
-    statusBarItemRemote: string;
-    statusBarItemProminent: string;
-    statusBarItemOffline: string;
-    // Activity bar badges
-    activityWarningBadge: string;
-    activityErrorBadge: string;
-    // Selection & highlights
-    selection: string;
-    selectionInactive: string;
-    selectionHighlight: string;
-    rangeHighlight: string;
-    symbolHighlight: string;
-    terminalSelection: string;
-    wordHighlight: string;
-    wordHighlightStrong: string;
-    wordHighlightText: string;
-    findMatch: string;
-    findMatchActive: string;
-    findRange: string;
-    bracketMatch: string;
-    // Terminal find
-    terminalFindMatch: string;
-    terminalFindMatchHighlight: string;
-    // Diff editor
-    diffInserted: string;
-    diffRemoved: string;
-    diffInsertedLine: string;
-    diffRemovedLine: string;
-    // Merge conflicts
-    mergeCurrentContent: string;
-    mergeIncomingContent: string;
-    mergeCommonContent: string;
-    // Input validation
-    inputValidationError: string;
-    inputValidationWarning: string;
-    inputValidationInfo: string;
-    // Peek view editor
-    peekViewEditor: string;
-    // Search editor
-    searchEditorFindMatch: string;
-    // Debug context
-    stackFrame: string;
-    focusedStackFrame: string;
-    // Linked editing (HTML tag pairs)
-    linkedEditing: string;
-  };
-  fg: ColorValue;
-  cursor: Record<string, ColorValue>;
-  syntax: Record<string, ColorValue>;
-  ui: Record<string, ColorValue>;
-  widgets: Record<string, ColorValue>;
-  git: Record<string, ColorValue>;
-  brackets: Record<string, ColorValue>;
-  terminal: Record<string, ColorValue>;
-  buttons: Record<string, ColorValue>;
-  debug: Record<string, ColorValue>;
-  links: Record<string, ColorValue>;
-  misc: Record<string, ColorValue>;
-  inputs: Record<string, ColorValue>;
-  scm: Record<string, ColorValue>;
-  chat: Record<string, ColorValue>;
-  testing: Record<string, ColorValue>;
-  debugConsole: Record<string, ColorValue>;
-  symbolIcons: Record<string, ColorValue>;
-  settings: Record<string, ColorValue>;
-  charts: Record<string, ColorValue>;
-}
-
-function resolveColor(cv: ColorValue, fallbackColor: string): ColorValue {
-  if (cv.fallback || !cv.color) {
-    return { color: fallbackColor, fallback: true, source: cv.source };
-  }
-  return cv;
-}
-
-function extractColors(theme: ThemeJson): ExtractedColors {
-  const fg = theme.colors!['editor.foreground'];
-  const editorBg = theme.colors!['editor.background'];
-  const fgValue: ColorValue = { color: fg, fallback: false };
-
-  // Helper: get color and resolve transparency against underlying surface
-  const resolveBg = (key: string, underlying: string): string => {
-    const raw = getColorRaw(theme, key, underlying);
-    return resolveTransparentBg(raw, underlying);
-  };
-
-  // Resolve all backgrounds - transparent colors blended with underlying surface
-  // Most surfaces use editorBg as underlying; sidebar-related use sidebarBg
-  const sidebarBg = resolveBg('sideBar.background', editorBg);
-  const panelBg = resolveBg('panel.background', editorBg);
-
-  return {
-    bg: {
-      editor: editorBg,
-      sidebar: sidebarBg,
-      statusBar: resolveBg('statusBar.background', editorBg),
-      tabBar: resolveBg('editorGroupHeader.tabsBackground', editorBg),
-      terminal: resolveBg('terminal.background', panelBg),
-      cursorBlock: resolveBg('editorCursor.foreground', fg), // block cursor uses fg as background
-      terminalCursorBlock: resolveBg('terminalCursor.foreground', fg), // terminal block cursor uses fg as background
-      panel: panelBg,
-      activityBar: resolveBg('activityBar.background', editorBg),
-      input: resolveBg('input.background', editorBg),
-      listSelection: resolveBg('list.activeSelectionBackground', sidebarBg),
-      listInactiveSelection: resolveBg('list.inactiveSelectionBackground', sidebarBg),
-      listHover: resolveBg('list.hoverBackground', sidebarBg),
-      listFocus: resolveBg('list.focusBackground', sidebarBg),
-      inlayHint: resolveBg('editorInlayHint.background', editorBg),
-      breadcrumb: resolveBg('breadcrumb.background', editorBg),
-      stickyScroll: resolveBg('editorStickyScroll.background', editorBg),
-      editorWidget: resolveBg('editorWidget.background', editorBg),
-      suggest: resolveBg('editorSuggestWidget.background', editorBg),
-      hover: resolveBg('editorHoverWidget.background', editorBg),
-      quickInput: resolveBg('quickInput.background', editorBg),
-      quickInputListFocus: resolveBg('quickInputList.focusBackground', editorBg),
-      menu: resolveBg('menu.background', editorBg),
-      notification: resolveBg('notifications.background', editorBg),
-      peekView: resolveBg('peekViewResult.background', editorBg),
-      peekViewSelection: resolveBg('peekViewResult.selectionBackground', editorBg),
-      titleBar: resolveBg('titleBar.activeBackground', editorBg),
-      titleBarInactive: resolveBg('titleBar.inactiveBackground', editorBg),
-      commandCenter: resolveBg('commandCenter.background', editorBg),
-      suggestSelected: resolveBg('editorSuggestWidget.selectedBackground', editorBg),
-      inlineChat: resolveBg('inlineChat.background', editorBg),
-      // Additional
-      button: resolveBg('button.background', editorBg),
-      buttonSecondary: resolveBg('button.secondaryBackground', editorBg),
-      badge: resolveBg('badge.background', editorBg),
-      activityBarBadge: resolveBg('activityBarBadge.background', editorBg),
-      dropdown: resolveBg('dropdown.background', editorBg),
-      debugToolbar: resolveBg('debugToolBar.background', editorBg),
-      banner: resolveBg('banner.background', editorBg),
-      keybindingLabel: resolveBg('keybindingLabel.background', editorBg),
-      checkbox: resolveBg('checkbox.background', editorBg),
-      extensionButton: resolveBg('extensionButton.prominentBackground', editorBg),
-      // Status bar items
-      statusBarItemError: resolveBg('statusBarItem.errorBackground', editorBg),
-      statusBarItemWarning: resolveBg('statusBarItem.warningBackground', editorBg),
-      statusBarItemRemote: resolveBg('statusBarItem.remoteBackground', editorBg),
-      statusBarItemProminent: resolveBg('statusBarItem.prominentBackground', editorBg),
-      statusBarItemOffline: resolveBg('statusBarItem.offlineBackground', editorBg),
-      // Activity bar badges
-      activityWarningBadge: resolveBg('activityWarningBadge.background', editorBg),
-      activityErrorBadge: resolveBg('activityErrorBadge.background', editorBg),
-      // Selection & highlights (typically semi-transparent, blended with editor)
-      selection: resolveBg('editor.selectionBackground', editorBg),
-      selectionInactive: resolveBg('editor.inactiveSelectionBackground', editorBg),
-      selectionHighlight: resolveBg('editor.selectionHighlightBackground', editorBg),
-      rangeHighlight: resolveBg('editor.rangeHighlightBackground', editorBg),
-      symbolHighlight: resolveBg('editor.symbolHighlightBackground', editorBg),
-      terminalSelection: resolveBg('terminal.selectionBackground', panelBg),
-      wordHighlight: resolveBg('editor.wordHighlightBackground', editorBg),
-      wordHighlightStrong: resolveBg('editor.wordHighlightStrongBackground', editorBg),
-      wordHighlightText: resolveBg('editor.wordHighlightTextBackground', editorBg),
-      findMatch: resolveBg('editor.findMatchHighlightBackground', editorBg),
-      findMatchActive: resolveBg('editor.findMatchBackground', editorBg),
-      findRange: resolveBg('editor.findRangeHighlightBackground', editorBg),
-      bracketMatch: resolveBg('editorBracketMatch.background', editorBg),
-      // Terminal find
-      terminalFindMatch: resolveBg('terminal.findMatchBackground', panelBg),
-      terminalFindMatchHighlight: resolveBg('terminal.findMatchHighlightBackground', panelBg),
-      // Diff editor
-      diffInserted: resolveBg('diffEditor.insertedTextBackground', editorBg),
-      diffRemoved: resolveBg('diffEditor.removedTextBackground', editorBg),
-      diffInsertedLine: resolveBg('diffEditor.insertedLineBackground', editorBg),
-      diffRemovedLine: resolveBg('diffEditor.removedLineBackground', editorBg),
-      // Merge conflicts
-      mergeCurrentContent: resolveBg('merge.currentContentBackground', editorBg),
-      mergeIncomingContent: resolveBg('merge.incomingContentBackground', editorBg),
-      mergeCommonContent: resolveBg('merge.commonContentBackground', editorBg),
-      // Input validation
-      inputValidationError: resolveBg('inputValidation.errorBackground', editorBg),
-      inputValidationWarning: resolveBg('inputValidation.warningBackground', editorBg),
-      inputValidationInfo: resolveBg('inputValidation.infoBackground', editorBg),
-      // Peek view editor
-      peekViewEditor: resolveBg('peekViewEditor.background', editorBg),
-      // Search editor
-      searchEditorFindMatch: resolveBg('searchEditor.findMatchBackground', editorBg),
-      // Debug context
-      stackFrame: resolveBg('editor.stackFrameHighlightBackground', editorBg),
-      focusedStackFrame: resolveBg('editor.focusedStackFrameHighlightBackground', editorBg),
-      // Linked editing (HTML tag pairs)
-      linkedEditing: resolveBg('editor.linkedEditingBackground', editorBg),
-    },
-    fg: fgValue,
-    cursor: {
-      editor: getColor(theme, 'editorCursor.foreground', fg),
-      editorBlock: getColor(theme, 'editorCursor.background', fg), // text inside block cursor
-      editorMultiPrimary: getColor(theme, 'editorMultiCursor.primary.foreground', fg),
-      editorMultiSecondary: getColor(theme, 'editorMultiCursor.secondary.foreground', fg),
-      terminal: getColor(theme, 'terminalCursor.foreground', fg),
-      terminalBlock: getColor(theme, 'terminalCursor.background', fg), // text inside terminal block cursor
-    },
-    syntax: {
-      // TextMate scope, semantic type
-      // Core tokens (high frequency in code)
-      variable: resolveColor(findTokenColor(theme, 'variable', 'variable'), fg),
-      variableLanguage: resolveColor(findTokenColor(theme, 'variable.language'), fg), // this, self, super
-      parameter: resolveColor(findTokenColor(theme, 'variable.parameter', 'parameter'), fg),
-      property: resolveColor(findTokenColor(theme, 'variable.other.property', 'property'), fg),
-      keyword: resolveColor(findTokenColor(theme, 'keyword', 'keyword'), fg),
-      operator: resolveColor(findTokenColor(theme, 'keyword.operator', 'operator'), fg),
-      storage: resolveColor(findTokenColor(theme, 'storage.type'), fg),
-      function: resolveColor(findTokenColor(theme, 'entity.name.function', 'function'), fg),
-      method: resolveColor(findTokenColor(theme, 'entity.name.function.method', 'method'), fg),
-      class: resolveColor(findTokenColor(theme, 'entity.name.class', 'class'), fg),
-      type: resolveColor(findTokenColor(theme, 'entity.name.type', 'type'), fg),
-      interface: resolveColor(findTokenColor(theme, 'entity.name.type.interface', 'interface'), fg),
-      namespace: resolveColor(findTokenColor(theme, 'entity.name.namespace', 'namespace'), fg),
-      enum: resolveColor(findTokenColor(theme, 'entity.name.type.enum', 'enum'), fg),
-      enumMember: resolveColor(findTokenColor(theme, 'variable.other.enummember', 'enumMember'), fg),
-      typeParameter: resolveColor(findTokenColor(theme, 'entity.name.type.parameter', 'typeParameter'), fg),
-      // Literals
-      number: resolveColor(findTokenColor(theme, 'constant.numeric', 'number'), fg),
-      string: resolveColor(findTokenColor(theme, 'string', 'string'), fg),
-      stringEscape: resolveColor(findTokenColor(theme, 'constant.character.escape'), fg), // \n, \t, etc.
-      constant: resolveColor(findTokenColor(theme, 'constant.language'), fg),
-      regexp: resolveColor(findTokenColor(theme, 'string.regexp', 'regexp'), fg),
-      // Markup/Web
-      tag: resolveColor(findTokenColor(theme, 'entity.name.tag'), fg),
-      attribute: resolveColor(findTokenColor(theme, 'entity.other.attribute-name'), fg),
-      // Other
-      decorator: resolveColor(findTokenColor(theme, 'entity.name.function.decorator', 'decorator'), fg),
-      link: resolveColor(findTokenColor(theme, 'markup.underline.link'), fg),
-      punctuation: resolveColor(findTokenColor(theme, 'punctuation'), fg),
-      macro: resolveColor(findTokenColor(theme, 'entity.name.function.preprocessor', 'macro'), fg),
-      struct: resolveColor(findTokenColor(theme, 'entity.name.type.struct', 'struct'), fg),
-      // Invalid/Deprecated
-      invalid: resolveColor(findTokenColor(theme, 'invalid.illegal'), fg),
-      deprecated: resolveColor(findTokenColor(theme, 'invalid.deprecated'), fg),
-      // Support (framework/library provided) - only function is distinctively styled
-      supportFunction: resolveColor(findTokenColor(theme, 'support.function'), fg),
-      // Storage modifiers
-      storageModifier: resolveColor(findTokenColor(theme, 'storage.modifier'), fg),
-      // Markup (Markdown, etc.)
-      markupHeading: resolveColor(findTokenColor(theme, 'markup.heading'), fg),
-      markupBold: resolveColor(findTokenColor(theme, 'markup.bold'), fg),
-      markupItalic: resolveColor(findTokenColor(theme, 'markup.italic'), fg),
-      markupCode: resolveColor(findTokenColor(theme, 'markup.inline.raw'), fg),
-      markupQuote: resolveColor(findTokenColor(theme, 'markup.quote'), fg),
-      // Comments
-      comment: resolveColor(findTokenColor(theme, 'comment', 'comment'), fg),
-      docComment: (() => {
-        const doc = findTokenColor(theme, 'comment.block.documentation');
-        return resolveColor(doc.fallback ? findTokenColor(theme, 'comment', 'comment') : doc, fg);
-      })(),
-      // Diagnostics
-      warning: getColor(theme, 'editorWarning.foreground', fg),
-      info: getColor(theme, 'editorInfo.foreground', fg),
-      error: getColor(theme, 'editorError.foreground', fg),
-    },
-    ui: {
-      // Global
-      foreground: getColor(theme, 'foreground', fg),
-      iconForeground: getColor(theme, 'icon.foreground', fg),
-      // Tabs
-      tabActive: getColor(theme, 'tab.activeForeground', fg),
-      tabSelected: getColor(theme, 'tab.selectedForeground', fg),
-      tabInactive: getColor(theme, 'tab.inactiveForeground', fg),
-      tabUnfocused: getColor(theme, 'tab.unfocusedActiveForeground', fg),
-      tabUnfocusedInactive: getColor(theme, 'tab.unfocusedInactiveForeground', fg),
-      tabHover: getColor(theme, 'tab.hoverForeground', fg),
-      tabUnfocusedHover: getColor(theme, 'tab.unfocusedHoverForeground', fg),
-      // Title bar
-      titleBar: getColor(theme, 'titleBar.activeForeground', fg),
-      titleBarInactive: getColor(theme, 'titleBar.inactiveForeground', fg),
-      // Breadcrumb
-      breadcrumb: getColor(theme, 'breadcrumb.foreground', fg),
-      // Sidebar
-      sidebarText: getColor(theme, 'sideBar.foreground', fg),
-      sidebarTitle: getColor(theme, 'sideBarTitle.foreground', fg),
-      // Status bar
-      statusBarText: getColor(theme, 'statusBar.foreground', fg),
-      statusBarDebug: getColor(theme, 'statusBar.debuggingForeground', fg),
-      statusBarNoFolder: getColor(theme, 'statusBar.noFolderForeground', fg),
-      statusBarItemError: getColor(theme, 'statusBarItem.errorForeground', fg),
-      statusBarItemWarning: getColor(theme, 'statusBarItem.warningForeground', fg),
-      statusBarItemRemote: getColor(theme, 'statusBarItem.remoteForeground', fg),
-      statusBarItemProminent: getColor(theme, 'statusBarItem.prominentForeground', fg),
-      statusBarItemOffline: getColor(theme, 'statusBarItem.offlineForeground', fg),
-      statusBarItemHover: getColor(theme, 'statusBarItem.hoverForeground', fg),
-      // Editor chrome
-      lineNumber: getColor(theme, 'editorLineNumber.foreground', fg),
-      lineNumberActive: getColor(theme, 'editorLineNumber.activeForeground', fg),
-      lineNumberDimmed: getColor(theme, 'editorLineNumber.dimmedForeground', fg),
-      ghostText: getColor(theme, 'editorGhostText.foreground', fg),
-      hint: getColor(theme, 'editorHint.foreground', fg),
-      inlayHint: getColor(theme, 'editorInlayHint.foreground', fg),
-      inlayHintType: getColor(theme, 'editorInlayHint.typeForeground', fg),
-      inlayHintParam: getColor(theme, 'editorInlayHint.parameterForeground', fg),
-      codeLens: getColor(theme, 'editorCodeLens.foreground', fg),
-      lightBulb: getColor(theme, 'editorLightBulb.foreground', fg),
-      lightBulbAutoFix: getColor(theme, 'editorLightBulbAutoFix.foreground', fg),
-      lightBulbAi: getColor(theme, 'editorLightBulbAi.foreground', fg),
-      editorLinkActive: getColor(theme, 'editorLink.activeForeground', fg),
-      whitespace: getColor(theme, 'editorWhitespace.foreground', fg),
-      ruler: getColor(theme, 'editorRuler.foreground', fg),
-      foldPlaceholder: getColor(theme, 'editor.foldPlaceholderForeground', fg),
-      foldControl: getColor(theme, 'editorGutter.foldingControlForeground', fg),
-      // Terminal
-      terminal: getColor(theme, 'terminal.foreground', fg),
-      terminalSelection: getColor(theme, 'terminal.selectionForeground', fg),
-      // Panel
-      panelTitle: getColor(theme, 'panelTitle.activeForeground', fg),
-      panelTitleInactive: getColor(theme, 'panelTitle.inactiveForeground', fg),
-      panelTitleBadge: getColor(theme, 'panelTitleBadge.foreground', fg),
-      // Activity bar
-      activityBar: getColor(theme, 'activityBar.foreground', fg),
-      activityBarInactive: getColor(theme, 'activityBar.inactiveForeground', fg),
-      activityBarTop: getColor(theme, 'activityBarTop.foreground', fg),
-      activityBarTopInactive: getColor(theme, 'activityBarTop.inactiveForeground', fg),
-      // Input
-      input: getColor(theme, 'input.foreground', fg),
-      inputPlaceholder: getColor(theme, 'input.placeholderForeground', fg),
-      inputValidationError: getColor(theme, 'inputValidation.errorForeground', fg),
-      inputValidationWarning: getColor(theme, 'inputValidation.warningForeground', fg),
-      inputValidationInfo: getColor(theme, 'inputValidation.infoForeground', fg),
-      // Lists
-      listSelection: getColor(theme, 'list.activeSelectionForeground', fg),
-      listSelectionIcon: getColor(theme, 'list.activeSelectionIconForeground', fg),
-      listInactiveSelectionIcon: getColor(theme, 'list.inactiveSelectionIconForeground', fg),
-      listHover: getColor(theme, 'list.hoverForeground', fg),
-      listFocus: getColor(theme, 'list.focusForeground', fg),
-      listInvalidItem: getColor(theme, 'list.invalidItemForeground', fg),
-      listDeemphasized: getColor(theme, 'list.deemphasizedForeground', fg),
-      // Command center
-      commandCenter: getColor(theme, 'commandCenter.foreground', fg),
-      commandCenterActive: getColor(theme, 'commandCenter.activeForeground', fg),
-      commandCenterInactive: getColor(theme, 'commandCenter.inactiveForeground', fg),
-      pickerGroup: getColor(theme, 'pickerGroup.foreground', fg),
-      // Selection override foregrounds (when defined, override syntax colors)
-      selectionForeground: getColor(theme, 'editor.selectionForeground', ''),
-      findMatchForeground: getColor(theme, 'editor.findMatchForeground', ''),
-      findMatchHighlightForeground: getColor(theme, 'editor.findMatchHighlightForeground', ''),
-      wordHighlightForeground: getColor(theme, 'editor.wordHighlightForeground', ''),
-      wordHighlightStrongForeground: getColor(theme, 'editor.wordHighlightStrongForeground', ''),
-      wordHighlightTextForeground: getColor(theme, 'editor.wordHighlightTextForeground', ''),
-      // Misc
-      textPreformat: getColor(theme, 'textPreformat.foreground', fg),
-      textLinkActive: getColor(theme, 'textLink.activeForeground', fg),
-      menubarSelection: getColor(theme, 'menubar.selectionForeground', fg),
-      checkbox: getColor(theme, 'checkbox.foreground', fg),
-    },
-    widgets: {
-      editorWidget: getColor(theme, 'editorWidget.foreground', fg),
-      actionList: getColor(theme, 'editorActionList.foreground', fg),
-      actionListFocus: getColor(theme, 'editorActionList.focusForeground', fg),
-      suggest: getColor(theme, 'editorSuggestWidget.foreground', fg),
-      suggestSelected: getColor(theme, 'editorSuggestWidget.selectedForeground', fg),
-      suggestSelectedIcon: getColor(theme, 'editorSuggestWidget.selectedIconForeground', fg),
-      suggestHighlight: getColor(theme, 'editorSuggestWidget.highlightForeground', fg),
-      suggestFocusHighlight: getColor(theme, 'editorSuggestWidget.focusHighlightForeground', fg),
-      hover: getColor(theme, 'editorHoverWidget.foreground', fg),
-      hoverHighlight: getColor(theme, 'editorHoverWidget.highlightForeground', fg),
-      quickInput: getColor(theme, 'quickInput.foreground', fg),
-      quickInputListFocus: getColor(theme, 'quickInputList.focusForeground', fg),
-      quickInputListFocusIcon: getColor(theme, 'quickInputList.focusIconForeground', fg),
-      menu: getColor(theme, 'menu.foreground', fg),
-      menuSelection: getColor(theme, 'menu.selectionForeground', fg),
-      notification: getColor(theme, 'notifications.foreground', fg),
-      notificationLink: getColor(theme, 'notificationLink.foreground', fg),
-      notificationHeader: getColor(theme, 'notificationCenterHeader.foreground', fg),
-      notificationErrorIcon: getColor(theme, 'notificationsErrorIcon.foreground', fg),
-      notificationWarningIcon: getColor(theme, 'notificationsWarningIcon.foreground', fg),
-      notificationInfoIcon: getColor(theme, 'notificationsInfoIcon.foreground', fg),
-      peekView: getColor(theme, 'peekViewResult.lineForeground', fg),
-      inlineChat: getColor(theme, 'inlineChat.foreground', fg),
-      inlineChatPlaceholder: getColor(theme, 'inlineChatInput.placeholderForeground', fg),
-      suggestWidgetStatus: getColor(theme, 'editorSuggestWidgetStatus.foreground', fg),
-    },
-    git: {
-      added: getColor(theme, 'gitDecoration.addedResourceForeground', fg),
-      modified: getColor(theme, 'gitDecoration.modifiedResourceForeground', fg),
-      deleted: getColor(theme, 'gitDecoration.deletedResourceForeground', fg),
-      renamed: getColor(theme, 'gitDecoration.renamedResourceForeground', fg),
-      untracked: getColor(theme, 'gitDecoration.untrackedResourceForeground', fg),
-      ignored: getColor(theme, 'gitDecoration.ignoredResourceForeground', fg),
-      conflict: getColor(theme, 'gitDecoration.conflictingResourceForeground', fg),
-      submodule: getColor(theme, 'gitDecoration.submoduleResourceForeground', fg),
-      stageModified: getColor(theme, 'gitDecoration.stageModifiedResourceForeground', fg),
-      stageDeleted: getColor(theme, 'gitDecoration.stageDeletedResourceForeground', fg),
-    },
-    brackets: {
-      bracket1: getColor(theme, 'editorBracketHighlight.foreground1', fg),
-      bracket2: getColor(theme, 'editorBracketHighlight.foreground2', fg),
-      bracket3: getColor(theme, 'editorBracketHighlight.foreground3', fg),
-      bracket4: getColor(theme, 'editorBracketHighlight.foreground4', fg),
-      bracket5: getColor(theme, 'editorBracketHighlight.foreground5', fg),
-      bracket6: getColor(theme, 'editorBracketHighlight.foreground6', fg),
-      unexpected: getColor(theme, 'editorBracketHighlight.unexpectedBracket.foreground', fg),
-    },
-    terminal: {
-      ansiBlack: getColor(theme, 'terminal.ansiBlack', fg),
-      ansiRed: getColor(theme, 'terminal.ansiRed', fg),
-      ansiGreen: getColor(theme, 'terminal.ansiGreen', fg),
-      ansiYellow: getColor(theme, 'terminal.ansiYellow', fg),
-      ansiBlue: getColor(theme, 'terminal.ansiBlue', fg),
-      ansiMagenta: getColor(theme, 'terminal.ansiMagenta', fg),
-      ansiCyan: getColor(theme, 'terminal.ansiCyan', fg),
-      ansiWhite: getColor(theme, 'terminal.ansiWhite', fg),
-      ansiBrightBlack: getColor(theme, 'terminal.ansiBrightBlack', fg),
-      ansiBrightRed: getColor(theme, 'terminal.ansiBrightRed', fg),
-      ansiBrightGreen: getColor(theme, 'terminal.ansiBrightGreen', fg),
-      ansiBrightYellow: getColor(theme, 'terminal.ansiBrightYellow', fg),
-      ansiBrightBlue: getColor(theme, 'terminal.ansiBrightBlue', fg),
-      ansiBrightMagenta: getColor(theme, 'terminal.ansiBrightMagenta', fg),
-      ansiBrightCyan: getColor(theme, 'terminal.ansiBrightCyan', fg),
-      ansiBrightWhite: getColor(theme, 'terminal.ansiBrightWhite', fg),
-    },
-    buttons: {
-      button: getColor(theme, 'button.foreground', fg),
-      buttonSecondary: getColor(theme, 'button.secondaryForeground', fg),
-      extensionButton: getColor(theme, 'extensionButton.prominentForeground', fg),
-      badge: getColor(theme, 'badge.foreground', fg),
-      activityBarBadge: getColor(theme, 'activityBarBadge.foreground', fg),
-      activityWarningBadge: getColor(theme, 'activityWarningBadge.foreground', fg),
-      activityErrorBadge: getColor(theme, 'activityErrorBadge.foreground', fg),
-      dropdown: getColor(theme, 'dropdown.foreground', fg),
-    },
-    debug: {
-      tokenName: getColor(theme, 'debugTokenExpression.name', fg),
-      tokenValue: getColor(theme, 'debugTokenExpression.value', fg),
-      tokenString: getColor(theme, 'debugTokenExpression.string', fg),
-      tokenNumber: getColor(theme, 'debugTokenExpression.number', fg),
-      tokenBoolean: getColor(theme, 'debugTokenExpression.boolean', fg),
-      tokenError: getColor(theme, 'debugTokenExpression.error', fg),
-      tokenType: getColor(theme, 'debugTokenExpression.type', fg),
-      inlineValue: getColor(theme, 'editor.inlineValuesForeground', fg),
-      exceptionLabel: getColor(theme, 'debugView.exceptionLabelForeground', fg),
-      stateLabel: getColor(theme, 'debugView.stateLabelForeground', fg),
-    },
-    links: {
-      textLink: getColor(theme, 'textLink.foreground', fg),
-      listHighlight: getColor(theme, 'list.highlightForeground', fg),
-      listFocusHighlight: getColor(theme, 'list.focusHighlightForeground', fg),
-      listInactiveSelection: getColor(theme, 'list.inactiveSelectionForeground', fg),
-      listError: getColor(theme, 'list.errorForeground', fg),
-      listWarning: getColor(theme, 'list.warningForeground', fg),
-    },
-    misc: {
-      sidebarSectionHeader: getColor(theme, 'sideBarSectionHeader.foreground', fg),
-      panelSectionHeader: getColor(theme, 'panelSectionHeader.foreground', fg),
-      keybindingLabel: getColor(theme, 'keybindingLabel.foreground', fg),
-      banner: getColor(theme, 'banner.foreground', fg),
-      bannerIcon: getColor(theme, 'banner.iconForeground', fg),
-      peekViewTitle: getColor(theme, 'peekViewTitleLabel.foreground', fg),
-      peekViewDescription: getColor(theme, 'peekViewTitleDescription.foreground', fg),
-      peekViewFile: getColor(theme, 'peekViewResult.fileForeground', fg),
-      peekViewSelection: getColor(theme, 'peekViewResult.selectionForeground', fg),
-      // Problems panel
-      problemsError: getColor(theme, 'problemsErrorIcon.foreground', fg),
-      problemsWarning: getColor(theme, 'problemsWarningIcon.foreground', fg),
-      problemsInfo: getColor(theme, 'problemsInfoIcon.foreground', fg),
-      // Search
-      searchResultsInfo: getColor(theme, 'search.resultsInfoForeground', fg),
-      // Workbench-level foregrounds
-      description: getColor(theme, 'descriptionForeground', fg),
-      disabled: getColor(theme, 'disabledForeground', fg),
-      errorFg: getColor(theme, 'errorForeground', fg),
-      gitBlame: getColor(theme, 'git.blame.editorDecorationForeground', fg),
-      // Diff editor
-      diffUnchangedRegion: getColor(theme, 'diffEditor.unchangedRegionForeground', fg),
-      // Editor placeholder
-      editorPlaceholder: getColor(theme, 'editor.placeholder.foreground', fg),
-      // Terminal
-      terminalCommandGuide: getColor(theme, 'terminalCommandGuide.foreground', fg),
-      terminalInitialHint: getColor(theme, 'terminal.initialHintForeground', fg),
-      // Walkthrough
-      walkthroughStepTitle: getColor(theme, 'walkthrough.stepTitle.foreground', fg),
-      // Welcome page
-      welcomeProgress: getColor(theme, 'welcomePage.progress.foreground', fg),
-      // Profile badge
-      profileBadge: getColor(theme, 'profileBadge.foreground', fg),
-    },
-    inputs: {
-      optionActive: getColor(theme, 'inputOption.activeForeground', fg),
-      radioActive: getColor(theme, 'radio.activeForeground', fg),
-      radioInactive: getColor(theme, 'radio.inactiveForeground', fg),
-      checkboxDisabled: getColor(theme, 'checkbox.disabled.foreground', fg),
-    },
-    scm: {
-      // Graph line colors (foreground1-5) removed - decorative, not text
-      historyHoverLabel: getColor(theme, 'scmGraph.historyItemHoverLabelForeground', fg),
-      historyHoverAdditions: getColor(theme, 'scmGraph.historyItemHoverAdditionsForeground', fg),
-      historyHoverDeletions: getColor(theme, 'scmGraph.historyItemHoverDeletionsForeground', fg),
-    },
-    chat: {
-      avatar: getColor(theme, 'chat.avatarForeground', fg),
-      linesAdded: getColor(theme, 'chat.linesAddedForeground', fg),
-      linesRemoved: getColor(theme, 'chat.linesRemovedForeground', fg),
-      slashCommand: getColor(theme, 'chat.slashCommandForeground', fg),
-      editedFile: getColor(theme, 'chat.editedFileForeground', fg),
-    },
-    testing: {
-      coverageBadge: getColor(theme, 'testing.coverCountBadgeForeground', fg),
-      messageInfo: getColor(theme, 'testing.message.info.decorationForeground', fg),
-    },
-    debugConsole: {
-      error: getColor(theme, 'debugConsole.errorForeground', fg),
-      warning: getColor(theme, 'debugConsole.warningForeground', fg),
-      info: getColor(theme, 'debugConsole.infoForeground', fg),
-      source: getColor(theme, 'debugConsole.sourceForeground', fg),
-    },
-    symbolIcons: {
-      array: getColor(theme, 'symbolIcon.arrayForeground', fg),
-      boolean: getColor(theme, 'symbolIcon.booleanForeground', fg),
-      class: getColor(theme, 'symbolIcon.classForeground', fg),
-      constant: getColor(theme, 'symbolIcon.constantForeground', fg),
-      ctor: getColor(theme, 'symbolIcon.constructorForeground', fg),
-      enum: getColor(theme, 'symbolIcon.enumeratorForeground', fg),
-      enumMember: getColor(theme, 'symbolIcon.enumeratorMemberForeground', fg),
-      event: getColor(theme, 'symbolIcon.eventForeground', fg),
-      field: getColor(theme, 'symbolIcon.fieldForeground', fg),
-      file: getColor(theme, 'symbolIcon.fileForeground', fg),
-      folder: getColor(theme, 'symbolIcon.folderForeground', fg),
-      function: getColor(theme, 'symbolIcon.functionForeground', fg),
-      interface: getColor(theme, 'symbolIcon.interfaceForeground', fg),
-      key: getColor(theme, 'symbolIcon.keyForeground', fg),
-      keyword: getColor(theme, 'symbolIcon.keywordForeground', fg),
-      method: getColor(theme, 'symbolIcon.methodForeground', fg),
-      module: getColor(theme, 'symbolIcon.moduleForeground', fg),
-      namespace: getColor(theme, 'symbolIcon.namespaceForeground', fg),
-      null: getColor(theme, 'symbolIcon.nullForeground', fg),
-      number: getColor(theme, 'symbolIcon.numberForeground', fg),
-      object: getColor(theme, 'symbolIcon.objectForeground', fg),
-      operator: getColor(theme, 'symbolIcon.operatorForeground', fg),
-      package: getColor(theme, 'symbolIcon.packageForeground', fg),
-      property: getColor(theme, 'symbolIcon.propertyForeground', fg),
-      reference: getColor(theme, 'symbolIcon.referenceForeground', fg),
-      snippet: getColor(theme, 'symbolIcon.snippetForeground', fg),
-      string: getColor(theme, 'symbolIcon.stringForeground', fg),
-      struct: getColor(theme, 'symbolIcon.structForeground', fg),
-      text: getColor(theme, 'symbolIcon.textForeground', fg),
-      typeParameter: getColor(theme, 'symbolIcon.typeParameterForeground', fg),
-      unit: getColor(theme, 'symbolIcon.unitForeground', fg),
-      variable: getColor(theme, 'symbolIcon.variableForeground', fg),
-    },
-    settings: {
-      header: getColor(theme, 'settings.headerForeground', fg),
-      textInput: getColor(theme, 'settings.textInputForeground', fg),
-      numberInput: getColor(theme, 'settings.numberInputForeground', fg),
-      checkbox: getColor(theme, 'settings.checkboxForeground', fg),
-      dropdown: getColor(theme, 'settings.dropdownForeground', fg),
-    },
-    charts: {
-      foreground: getColor(theme, 'charts.foreground', fg),
-    },
-  };
-}
-
-// =============================================================================
-// ANALYSIS
-// =============================================================================
-
-interface ColorResult {
-  name: string;
-  color: string;
-  bgColor: string;
-  bgKey: string;
-  lc: number;
-  analysis: APCAAnalysis;
-  alpha?: string;
-  fallback: boolean;
-  expectedDim?: boolean; // Elements intentionally low-contrast (ghost text, placeholders, etc.)
-  source?: ColorSource; // VS Code API key used
-}
-
-interface Stats {
-  pass: number;
-  large: number;       // Unexpected Large/Non-Text
-  expectedDim: number; // Expected dim elements (not counted against verdict)
-  fail: number;
-  missing: number;
-  total: number;
-  results: ColorResult[]; // All analyzed results for key reference
-}
-
-// =============================================================================
-// JSON OUTPUT TYPES
-// =============================================================================
-
-interface JsonColorResult {
-  name: string;
-  foreground: {
-    color: string;
-    key: string;
-    keyType: 'workbench' | 'textmate' | 'semantic';
-  };
-  background: {
-    color: string;
-    key: string;
-  };
-  lc: number;
-  level: Level;
-  pass: boolean;
-  fallback: boolean;
-  expectedDim: boolean;
-}
-
-interface JsonSection {
-  section: string;
-  results: JsonColorResult[];
-}
-
-interface JsonDistinctionPair {
-  pair: [string, string];
-  colors: [string, string];
-  keys: [string, string];
-  deltaE: number;
-  level: DistinctionLevel;
-  pass: boolean;
-}
-
-interface JsonOutput {
-  theme: string;
-  type: 'dark' | 'light';
-  sections: JsonSection[];
-  distinction: {
-    pairs: JsonDistinctionPair[];
-    skipped: Array<{ pair: [string, string]; reason: string }>;
-  };
-  symbolDiscrimination: {
-    pairs: JsonDistinctionPair[];
-    skipped: Array<{ pair: [string, string]; reason: string }>;
-  };
-  summary: {
-    pass: number;
-    large: number;
-    expectedDim: number;
-    fail: number;
-    missing: number;
-    total: number;
-    defined: number;
-    ready: boolean;
-  };
-}
-
-type OutputFormat = 'human' | 'json';
-
-/**
- * Elements that are intentionally low-contrast by design.
- * These should not count against marathon-readiness.
- *
- * Note: Names must match exactly as used in analyze() calls.
- *
- * Note on terminal colors: ANSI black/bright black are included because:
- * - Black is typically invisible on dark terminals (same as background)
- * - Bright black is conventionally used as a dim/gray color
- * Most terminal applications don't use black for primary text on dark backgrounds.
- */
-const EXPECTED_DIM_ELEMENTS = new Set([
-  // Editor gutter elements (intentionally subtle)
-  'Ghost Text',      // AI suggestions, expected to be subtle
-  'Ghost+Sel',       // Ghost text on selection (edge case)
-  'Code Lens',       // Reference counts, clickable but not primary reading
-  'Fold Control',    // Fold/unfold arrows in gutter
-  'Fold Placeholder',// "..." text when code is folded
-  'Line Numbers',    // Line numbers (active line number is separate)
-  'Line Num Dimmed', // Final newline marker (extra subtle)
-  'Whitespace',      // Whitespace markers (dots, arrows)
-  'Ruler',           // Column guides (80-char line, etc.)
-  'Git Blame',       // Inline blame annotations
-  'Term Cmd Guide',  // Terminal command guide (shell integration)
-  'Term Init Hint',  // Terminal initial hint ("Type to search")
-  // Inactive/placeholder states
-  'Placeholder',     // Input placeholders
-  'Editor Placeholder', // Empty editor placeholder
-  'Tab Inactive',    // Inactive tabs
-  'Tab Unfocused',   // Active tab in unfocused group
-  'Tab Unfoc Inact', // Inactive tabs in unfocused groups
-  'Title Inactive',  // Inactive window title bar
-  'Panel Inactive',  // Inactive panel titles
-  'Activity Inact',  // Inactive activity bar icons
-  'Act Top Inact',   // Activity bar top inactive
-  'Cmd Ctr Inact',   // Inactive command center
-  'Disabled',        // Disabled UI elements
-  'Checkbox Disabled', // Disabled checkbox
-  'Radio Inactive',  // Inactive radio button
-  'Breadcrumb',      // Breadcrumb navigation (often subdued)
-  'Description',     // Helper/description text
-  'Chat Placeholder',// Inline chat placeholder
-  // Git
-  'Ignored',         // Git ignored files
-  // Terminal (black colors are invisible/dim by design on dark backgrounds)
-  'Black',           // Terminal black
-  'Bright Black',    // Terminal dim text (ANSI bright black is gray)
-]);
 
 function analyze(name: string, fgValue: ColorValue, bg: string, bgKey = ''): ColorResult {
   const fg = fgValue.color;
@@ -1893,6 +156,119 @@ function computeStats(results: ColorResult[], expectedPolarity: Polarity): Stats
   return stats;
 }
 
+// =============================================================================
+// DISTINCTION ANALYSIS
+// =============================================================================
+
+/**
+ * Analyze color distinction between commonly adjacent syntax elements.
+ * Handles transparent colors by compositing against background before comparison.
+ */
+function analyzeDistinction(
+  syntax: Record<string, ColorValue>,
+  comments: ColorValue,
+  bg: string
+): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
+  const pairs: DistinctionPair[] = [];
+  const skipped: DistinctionSkippedPair[] = [];
+
+  // Add comment to syntax for analysis
+  const colors: Record<string, ColorValue> = { ...syntax, comment: comments };
+
+  for (const [name1, name2] of ADJACENCY_PAIRS) {
+    const cv1 = colors[name1];
+    const cv2 = colors[name2];
+
+    if (!cv1 || !cv2) {
+      skipped.push({ name1, name2, reason: 'missing' });
+      continue;
+    }
+
+    if (cv1.fallback || cv2.fallback) {
+      skipped.push({ name1, name2, reason: 'fallback' });
+      continue;
+    }
+
+    // deltaE00Hex handles alpha compositing against bg internally
+    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
+
+    if (dE === null) {
+      skipped.push({ name1, name2, reason: 'invalid' });
+      continue;
+    }
+
+    const { level, icon, pass } = getDistinctionLevel(dE);
+    pairs.push({
+      name1,
+      name2,
+      color1: cv1.color,
+      color2: cv2.color,
+      key1: cv1.source?.key ?? name1,
+      key2: cv2.source?.key ?? name2,
+      deltaE: dE,
+      level,
+      icon,
+      pass,
+    });
+  }
+
+  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
+}
+
+/**
+ * Analyze symbol discrimination using symbol icon colors
+ * These are the colors shown in autocomplete, outline, breadcrumbs, etc.
+ */
+function analyzeSymbolDiscrimination(
+  symbolIcons: Record<string, ColorValue>,
+  bg: string
+): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
+  const pairs: DistinctionPair[] = [];
+  const skipped: DistinctionSkippedPair[] = [];
+
+  for (const [name1, name2] of SYMBOL_DISCRIMINATION_PAIRS) {
+    const cv1 = symbolIcons[name1];
+    const cv2 = symbolIcons[name2];
+
+    if (!cv1 || !cv2) {
+      skipped.push({ name1, name2, reason: 'missing' });
+      continue;
+    }
+
+    if (cv1.fallback || cv2.fallback) {
+      skipped.push({ name1, name2, reason: 'fallback' });
+      continue;
+    }
+
+    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
+
+    if (dE === null) {
+      skipped.push({ name1, name2, reason: 'invalid' });
+      continue;
+    }
+
+    const { level, icon, pass } = getDistinctionLevel(dE);
+    pairs.push({
+      name1,
+      name2,
+      color1: cv1.color,
+      color2: cv2.color,
+      key1: cv1.source?.key ?? name1,
+      key2: cv2.source?.key ?? name2,
+      deltaE: dE,
+      level,
+      icon,
+      pass,
+    });
+  }
+
+  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
+}
+
+// =============================================================================
+// PRINTING FUNCTIONS
+// =============================================================================
+
 function printSection(results: ColorResult[], title: string, expectedPolarity: Polarity): Stats {
   console.log(`\n▌ ${title}`);
   console.log('─'.repeat(OUTPUT_WIDTH));
@@ -1922,15 +298,112 @@ function printSection(results: ColorResult[], title: string, expectedPolarity: P
   return computeStats(results, expectedPolarity);
 }
 
-// =============================================================================
-// MAIN
-// =============================================================================
+/**
+ * Print color distinction analysis section
+ */
+function printDistinctionSection(pairs: DistinctionPair[], skipped: DistinctionSkippedPair[]): DistinctionStats {
+  console.log(`\n▌ ${LABELS.sectionDistinction}`);
+  console.log('─'.repeat(OUTPUT_WIDTH));
 
-interface SectionData {
-  title: string;
-  results: ColorResult[];
-  stats: Stats;
+  // Header
+  const colPair = 22;
+  const colDelta = 8;
+  console.log(
+    'Pair'.padEnd(colPair) +
+    'ΔE00'.padStart(colDelta) +
+    '   ' +
+    'Level'
+  );
+  console.log('─'.repeat(OUTPUT_WIDTH));
+
+  let pass = 0;
+  let warn = 0;
+  let fail = 0;
+
+  for (const p of pairs) {
+    const pairName = `${p.name1} ↔ ${p.name2}`.substring(0, colPair - 1).padEnd(colPair);
+    const deltaStr = p.deltaE.toFixed(1).padStart(colDelta);
+    const levelStr = `${p.icon} ${p.level}`;
+
+    console.log(`${pairName}${deltaStr}   ${levelStr}`);
+
+    // Count based on icon to match visual feedback
+    if (p.icon === '✅') pass++;
+    else if (p.icon === '⚠️') warn++;
+    else fail++;
+  }
+
+  const totalPairs = ADJACENCY_PAIRS.length;
+  if (skipped.length > 0) {
+    console.log('─'.repeat(OUTPUT_WIDTH));
+    console.log(`⚠️  Skipped (${skipped.length}/${totalPairs}):`);
+    const maxList = 12;
+    for (const s of skipped.slice(0, maxList)) {
+      const pairName = `${s.name1} ↔ ${s.name2}`.substring(0, colPair - 1).padEnd(colPair);
+      console.log(`${pairName}${''.padStart(colDelta)}   ⚠️ ${s.reason}`);
+    }
+    if (skipped.length > maxList) {
+      console.log(`... and ${skipped.length - maxList} more skipped pairs`);
+    }
+  }
+
+  return { total: pairs.length, pass, warn, fail, skipped: skipped.length };
 }
+
+/**
+ * Print symbol discrimination analysis section
+ */
+function printSymbolDiscriminationSection(pairs: DistinctionPair[], skipped: DistinctionSkippedPair[]): DistinctionStats {
+  console.log(`\n▌ ${LABELS.sectionSymbolDiscrimination}`);
+  console.log('─'.repeat(OUTPUT_WIDTH));
+
+  // Header
+  const colPair = 22;
+  const colDelta = 8;
+  console.log(
+    'Pair'.padEnd(colPair) +
+    'ΔE00'.padStart(colDelta) +
+    '   ' +
+    'Level'
+  );
+  console.log('─'.repeat(OUTPUT_WIDTH));
+
+  let pass = 0;
+  let warn = 0;
+  let fail = 0;
+
+  for (const p of pairs) {
+    const pairName = `${p.name1} ↔ ${p.name2}`.substring(0, colPair - 1).padEnd(colPair);
+    const deltaStr = p.deltaE.toFixed(1).padStart(colDelta);
+    const levelStr = `${p.icon} ${p.level}`;
+
+    console.log(`${pairName}${deltaStr}   ${levelStr}`);
+
+    if (p.icon === '✅') pass++;
+    else if (p.icon === '⚠️') warn++;
+    else fail++;
+  }
+
+  const totalPairs = SYMBOL_DISCRIMINATION_PAIRS.length;
+  if (skipped.length > 0) {
+    console.log('─'.repeat(OUTPUT_WIDTH));
+    console.log(`⚠️  Skipped (${skipped.length}/${totalPairs}):`);
+    const maxList = 8;
+    for (const s of skipped.slice(0, maxList)) {
+      const pairName = `${s.name1} ↔ ${s.name2}`.substring(0, colPair - 1).padEnd(colPair);
+      console.log(`${pairName}${''.padStart(colDelta)}   ⚠️ ${s.reason}`);
+    }
+    if (skipped.length > maxList) {
+      console.log(`... and ${skipped.length - maxList} more skipped pairs`);
+    }
+  }
+
+  return { total: pairs.length, pass, warn, fail, skipped: skipped.length };
+}
+
+// =============================================================================
+// MAIN ANALYSIS
+// =============================================================================
 
 function processSection(
   results: ColorResult[],
