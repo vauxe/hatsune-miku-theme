@@ -20,10 +20,14 @@ import {
   character,
   append,
   v4xVoice,
+  versions,
   cryptonFamily,
   snowMiku,
   projectSekai,
   mikuExpo,
+  digital,
+  stage,
+  numberSymbolism,
 } from '../palette';
 
 // Helper for alpha channels
@@ -31,36 +35,39 @@ const alpha = (hex: string, opacity: string): string => `${hex}${opacity}`;
 
 export const workbenchColors = {
   // ==========================================================================
-  // EDITOR
+  // EDITOR - Character-Semantic Backgrounds
+  // Main canvas is the skirt (stage), deep attention is pupil (focus)
   // ==========================================================================
-  'editor.background': blacks.void,
+  'editor.background': character.skirt.black, // #15191D - Main stage canvas
   'editor.foreground': foregrounds.primary,
-  'editorCursor.foreground': pinks.sekai,
-  'editorCursor.background': blacks.void,
-  'editorMultiCursor.primary.foreground': pinks.sekai,
-  'editorMultiCursor.primary.background': blacks.base,
-  'editorMultiCursor.secondary.foreground': sekai.imageColor,
-  'editorMultiCursor.secondary.background': blacks.base,
-  'editor.lineHighlightBackground': alpha(teals.classic, '0A'),
+  'editorCursor.foreground': character.hairTies.base, // #E05096 - Hair ties pink cursor
+  'editorCursor.background': character.eyes.pupil,
+  'editorMultiCursor.primary.foreground': character.hairTies.base, // Hair ties pink
+  'editorMultiCursor.primary.background': character.headphones.body,
+  'editorMultiCursor.secondary.foreground': character.hairTies.highlight, // Lighter pink
+  'editorMultiCursor.secondary.background': character.headphones.body,
+  'editor.lineHighlightBackground': alpha(versionMapping.identity, '0A'),
   'editor.lineHighlightBorder': alpha(cyans.ice, '30'),
-  'editor.selectionBackground': alpha(teals.classic, '25'),
-  'editor.selectionHighlightBackground': alpha(teals.classic, '15'),
-  'editor.selectionHighlightBorder': alpha(teals.classic, '40'),
-  'editor.wordHighlightBackground': alpha(cyans.ice, '12'),
-  'editor.wordHighlightBorder': alpha(cyans.ice, '40'),
-  'editor.wordHighlightStrongBackground': alpha(pinks.sekai, '18'),
-  'editor.wordHighlightStrongBorder': alpha(pinks.sekai, '60'),
-  'editor.findMatchBackground': alpha(pinks.sekai, '50'),
-  'editor.findMatchBorder': alpha(pinks.sekai, '90'),
-  'editor.findMatchHighlightBackground': alpha(pinks.sekai, '20'),
-  'editor.findMatchHighlightBorder': alpha(pinks.sekai, '40'),
+  // SEKAI Heterochromia Selection - both eye colors
+  'editor.selectionBackground': alpha(sekai.heteroTurquoise, '35'), // #33CCBB
+  'editor.selectionHighlightBackground': alpha(sekai.heteroPink, '25'), // #FF80AB
+  'editor.selectionHighlightBorder': alpha(sekai.heteroTurquoise, '40'),
+  'editor.wordHighlightBackground': alpha(sekai.heteroTurquoise, '20'),
+  'editor.wordHighlightBorder': alpha(sekai.heteroTurquoise, '40'),
+  'editor.wordHighlightStrongBackground': alpha(sekai.heteroPink, '30'),
+  'editor.wordHighlightStrongBorder': alpha(sekai.heteroPink, '60'),
+  // 39 Number Symbolism - Find matches
+  'editor.findMatchBackground': alpha(numberSymbolism.miku39.heart, '35'), // #FF69B4
+  'editor.findMatchBorder': alpha(numberSymbolism.miku39.heart, '90'),
+  'editor.findMatchHighlightBackground': alpha(numberSymbolism.miku39.celebration, '30'), // #FFD700
+  'editor.findMatchHighlightBorder': alpha(numberSymbolism.miku39.celebration, '60'),
   'editor.rangeHighlightBackground': alpha(teals.classic, '10'),
   'editor.rangeHighlightBorder': alpha(teals.classic, '30'),
 
-  // Line numbers
-  'editorLineNumber.foreground': alpha(teals.classic, 'DD'), // Boosted from CC for Lc ~50
-  'editorLineNumber.activeForeground': append.vivid,
-  'editorLineNumber.dimmedForeground': alpha(teals.classic, 'AA'), // Boosted from 90 for Lc ~35
+  // Line numbers - Character tie colors
+  'editorLineNumber.foreground': character.tie.shadow, // #2D9E97
+  'editorLineNumber.activeForeground': character.eyes.iris, // #39C5BB
+  'editorLineNumber.dimmedForeground': alpha(character.tie.shadow, 'AA'),
   'editorLineNumber.warningForeground': semantic.warning,
   'editorLineNumber.errorForeground': semantic.error,
 
@@ -82,9 +89,9 @@ export const workbenchColors = {
   'editorRuler.foreground': alpha(teals.classic, '20'),
   'editorWhitespace.foreground': alpha(teals.classic, '0D'),
 
-  // Brackets
-  'editorBracketMatch.background': alpha(cyans.ice, '20'),
-  'editorBracketMatch.border': alpha(cyans.ice, 'CC'),
+  // Brackets - Digital data stream pattern
+  'editorBracketMatch.background': alpha(digital.dataStream, '25'), // #39C5BB
+  'editorBracketMatch.border': digital.binaryGlow, // #5DE4DB
   'editorBracketHighlight.foreground1': pinks.sekai,
   'editorBracketHighlight.foreground2': teals.classic,
   'editorBracketHighlight.foreground3': cyans.ice,
@@ -111,9 +118,9 @@ export const workbenchColors = {
   'editorGutter.deletedBackground': alpha(semantic.error, '80'),
   'editorGutter.foldingControlForeground': alpha(teals.neon, 'BB'),
 
-  // Widgets
-  'editorWidget.background': blacks.base,
-  'editorWidget.foreground': foregrounds.primary,
+  // Widgets - Boots black (grounded overlay)
+  'editorWidget.background': character.boots.black, // #111417
+  'editorWidget.foreground': versionMapping.hover,
   'editorWidget.border': alpha(teals.classic, '50'),
   'editorWidget.resizeBorder': alpha(teals.classic, '60'),
   'editorHoverWidget.background': alpha(blacks.outfit, 'F5'),
@@ -122,9 +129,10 @@ export const workbenchColors = {
   'editorHoverWidget.highlightForeground': teals.classic,
   'editorHoverWidget.statusBarBackground': blacks.sleeve,
   'editorUnnecessaryCode.opacity': '#00000080',
-  'editorGhostText.foreground': alpha(append.vivid, 'BB'), // Boosted from AA for Lc ~47
-  'editorGhostText.border': alpha(append.vivid, '40'),
-  'editorGhostText.background': alpha(append.vivid, '0A'),
+  // V6 AI - Ghost text and AI-powered features
+  'editorGhostText.foreground': alpha(versions.v6ai, 'BB'), // #41D9CF - V6 AI
+  'editorGhostText.border': alpha(versions.v6ai, '40'),
+  'editorGhostText.background': alpha(versions.v6ai, '0A'),
   'editor.linkedEditingBackground': alpha(cyans.ice, '20'),
   'editorWatermark.foreground': alpha(teals.neon, '70'),
 
@@ -144,58 +152,66 @@ export const workbenchColors = {
   'editorCodeLens.foreground': alpha(teals.neon, 'CC'), // Boosted from AA for Lc ~52
 
   // ==========================================================================
-  // ACTIVITY BAR
+  // ACTIVITY BAR - Arm warmers (interface frame)
   // ==========================================================================
-  'activityBar.background': blacks.sleeve,
+  'activityBar.background': character.armWarmers.black, // #111417
   'activityBar.foreground': teals.classic,
   'activityBar.activeBorder': pinks.sekai,
   'activityBar.activeBackground': alpha(v4xVoice.hard, '20'),
   'activityBar.inactiveForeground': greys.silver,
   'activityBar.border': alpha(teals.classic, '15'),
-  'activityBarBadge.background': pinks.sekai,
+  'activityBarBadge.background': character.hair.pinkStreak, // #FF6B9D - Pink streak
   'activityBarBadge.foreground': '#FFFFFF',
   'activityBarTop.foreground': teals.classic,
   'activityBarTop.activeBorder': pinks.sekai,
   'activityBarTop.inactiveForeground': greys.silver,
 
   // ==========================================================================
-  // SIDEBAR
+  // SIDEBAR - Headphones body (interface frame)
   // ==========================================================================
-  'sideBar.background': blacks.void,
+  'sideBar.background': character.headphones.body, // #1A1F24
   'sideBar.foreground': '#A8C4C0',
   'sideBar.border': alpha(teals.classic, '15'),
   'sideBar.dropBackground': alpha(teals.classic, '20'),
-  'sideBarSectionHeader.background': blacks.sleeve,
-  'sideBarSectionHeader.foreground': teals.classic,
-  'sideBarSectionHeader.border': alpha(teals.classic, '15'),
+  'sideBarSectionHeader.background': character.outfitTop.shadow, // #263238 - Outfit shadow
+  'sideBarSectionHeader.foreground': character.eyes.iris, // #39C5BB
+  'sideBarSectionHeader.border': alpha(character.tie.teal, '15'),
   'sideBarTitle.foreground': teals.classic,
   'sideBarStickyScroll.background': blacks.sleeve,
   'sideBarStickyScroll.border': alpha(teals.classic, '20'),
   'sideBarStickyScroll.shadow': '#00000040',
 
   // ==========================================================================
-  // STATUS BAR
+  // STATUS BAR - Data Stream Console (Cyber-Diva Information Flow)
+  // Sharp futuristic bottom panel with electric accents
   // ==========================================================================
   'statusBar.background': blacks.void,
   'statusBar.foreground': foregrounds.primary,
-  'statusBar.border': alpha(teals.classic, '30'),
-  'statusBar.debuggingBackground': pinks.sekai,
+  'statusBar.border': alpha(frequencyVisualizer.mid, '35'), // V2 Classic teal border
+  'statusBar.debuggingBackground': alpha(pinks.sekai, 'E0'), // Translucent debug mode
   'statusBar.debuggingForeground': '#FFFFFF',
-  'statusBar.debuggingBorder': alpha(pinks.sekai, '80'),
+  'statusBar.debuggingBorder': pinks.sekai,
   'statusBar.noFolderBackground': blacks.void,
   'statusBar.noFolderForeground': greys.silver,
-  'statusBar.noFolderBorder': alpha(teals.classic, '20'),
-  'statusBarItem.remoteBackground': teals.classic,
+  'statusBar.noFolderBorder': alpha(frequencyVisualizer.bass, '40'), // Dark teal when no folder
+  'statusBarItem.remoteBackground': frequencyVisualizer.mid, // #39C5BB - Identity teal
   'statusBarItem.remoteForeground': blacks.void,
-  'statusBarItem.hoverBackground': alpha(versionMapping.hover, '25'),
-  'statusBarItem.activeBackground': alpha(v4xVoice.hard, '35'),
-  'statusBarItem.errorBackground': semantic.error,
+  'statusBarItem.remoteHoverBackground': frequencyVisualizer.high, // #3ED1C8 - NT bright on hover
+  'statusBarItem.hoverBackground': alpha(append.vivid, '20'), // Electric vivid hover
+  'statusBarItem.hoverForeground': append.vivid, // #00E5D4 - Electric text on hover
+  'statusBarItem.activeBackground': alpha(v4xVoice.hard, '40'), // V4X Hard pressed
+  'statusBarItem.errorBackground': digital.glitch, // #FF5370 - Digital glitch
   'statusBarItem.errorForeground': '#FFFFFF',
-  'statusBarItem.warningBackground': semantic.warning,
+  'statusBarItem.errorHoverBackground': alpha(digital.glitch, 'CC'),
+  'statusBarItem.warningBackground': accents.amber,
   'statusBarItem.warningForeground': blacks.void,
-  'statusBarItem.prominentBackground': alpha(teals.classic, '20'),
-  'statusBarItem.prominentForeground': teals.classic,
-  'statusBarItem.prominentHoverBackground': alpha(versionMapping.hover, '35'),
+  'statusBarItem.warningHoverBackground': alpha(accents.amber, 'CC'),
+  'statusBarItem.prominentBackground': alpha(append.vivid, '25'), // Electric prominent items
+  'statusBarItem.prominentForeground': append.vivid, // #00E5D4 - Electric text
+  'statusBarItem.prominentHoverBackground': alpha(append.vivid, '40'),
+  'statusBarItem.prominentHoverForeground': '#FFFFFF',
+  'statusBarItem.compactHoverBackground': alpha(versionMapping.hover, '30'),
+  'statusBarItem.focusBorder': alpha(append.vivid, '80'), // Electric focus ring
 
   // ==========================================================================
   // TITLE BAR
@@ -244,7 +260,7 @@ export const workbenchColors = {
   'list.focusForeground': '#FFFFFF',
   'list.focusOutline': alpha(versionMapping.focus, '60'),
   'list.highlightForeground': pinks.sekai,
-  'list.errorForeground': semantic.error,
+  'list.errorForeground': digital.glitch, // #FF5370
   'list.warningForeground': semantic.warning,
   'list.invalidItemForeground': semantic.error, // Full color - removed alpha for APCA compliance
   'list.deemphasizedForeground': greys.silver,
@@ -263,9 +279,9 @@ export const workbenchColors = {
   'foreground': foregrounds.primary,
   'disabledForeground': greys.silver,
   'widget.shadow': '#00000060',
-  'selection.background': alpha(teals.classic, '40'),
+  'selection.background': alpha(versionMapping.identity, '40'),
   'descriptionForeground': greys.silver,
-  'errorForeground': semantic.error,
+  'errorForeground': digital.glitch, // #FF5370
   'icon.foreground': '#A8C4C0',
   'sash.hoverBorder': alpha(versionMapping.hover, '60'),
 
@@ -291,12 +307,12 @@ export const workbenchColors = {
   'inputValidation.infoForeground': semantic.info,
 
   // ==========================================================================
-  // DROPDOWN
+  // DROPDOWN - Boots black (grounded overlay)
   // ==========================================================================
-  'dropdown.background': blacks.sleeve,
+  'dropdown.background': character.boots.black, // #111417
   'dropdown.foreground': foregrounds.primary,
   'dropdown.border': alpha(teals.classic, '40'),
-  'dropdown.listBackground': blacks.outfit,
+  'dropdown.listBackground': character.boots.black,
 
   // ==========================================================================
   // BUTTON
@@ -317,30 +333,31 @@ export const workbenchColors = {
   'checkbox.border': alpha(teals.classic, '40'),
 
   // ==========================================================================
-  // SCROLLBAR
+  // SCROLLBAR - Hair gradient (root to tip)
   // ==========================================================================
   'scrollbar.shadow': '#00000040',
-  'scrollbarSlider.background': alpha(teals.classic, '15'),
-  'scrollbarSlider.hoverBackground': alpha(versionMapping.hover, '30'),
-  'scrollbarSlider.activeBackground': alpha(pinks.sekai, '80'),
+  'scrollbarSlider.background': alpha(character.hair.root, '30'), // #1A8A82 - Hair root
+  'scrollbarSlider.hoverBackground': alpha(character.hair.tip, '40'), // #7FEDE5 - Hair tip
+  'scrollbarSlider.activeBackground': alpha(character.hairTies.base, '80'), // Pink when active
 
   // ==========================================================================
-  // MINIMAP
+  // MINIMAP - Holographic Code Preview (Cyber-Diva Scan Display)
+  // Digital grid/scan lines with holographic glow effects
   // ==========================================================================
-  'minimap.findMatchHighlight': alpha(pinks.sekai, '80'),
-  'minimap.selectionHighlight': alpha(teals.classic, '60'),
-  'minimap.errorHighlight': alpha(semantic.error, '90'),
-  'minimap.warningHighlight': alpha(semantic.warning, '90'),
-  'minimap.background': alpha(blacks.outfit, '90'),
-  'minimap.selectionOccurrenceHighlight': alpha(cyans.ice, '50'),
-  'minimap.foregroundOpacity': '#000000C0',
-  'minimap.infoHighlight': alpha(semantic.info, '80'),
-  'minimapSlider.background': alpha(teals.classic, '15'),
-  'minimapSlider.hoverBackground': alpha(versionMapping.hover, '30'),
-  'minimapSlider.activeBackground': alpha(v4xVoice.hard, '40'),
-  'minimapGutter.addedBackground': semantic.success,
-  'minimapGutter.modifiedBackground': semantic.warning,
-  'minimapGutter.deletedBackground': semantic.error,
+  'minimap.findMatchHighlight': alpha(numberSymbolism.miku39.heart, '90'), // 39 Heart highlight
+  'minimap.selectionHighlight': alpha(hologram.cyan, '70'), // #4DD0E1 - Holographic selection
+  'minimap.errorHighlight': alpha(digital.glitch, '95'), // Glitch red for errors
+  'minimap.warningHighlight': alpha(accents.amber, '90'), // Amber warnings
+  'minimap.background': alpha(hologram.cyan, '08'), // Subtle holographic tint
+  'minimap.selectionOccurrenceHighlight': alpha(append.vivid, '50'), // #00E5D4 - Electric occurrence
+  'minimap.foregroundOpacity': '#000000BB', // Slightly more transparent for glow-through
+  'minimap.infoHighlight': alpha(hologram.cyan, '80'), // Holographic info
+  'minimapSlider.background': alpha(hologram.cyan, '25'), // Holographic slider
+  'minimapSlider.hoverBackground': alpha(append.vivid, '35'), // Electric on hover
+  'minimapSlider.activeBackground': alpha(pinks.sekai, '45'), // SEKAI pink when active
+  'minimapGutter.addedBackground': alpha(character.negi.bright, '90'), // #69F0AE - Negi green
+  'minimapGutter.modifiedBackground': alpha(accents.amber, '90'), // Amber modified
+  'minimapGutter.deletedBackground': alpha(digital.glitch, '90'), // Glitch red deleted
 
   // ==========================================================================
   // BREADCRUMB
@@ -353,9 +370,9 @@ export const workbenchColors = {
   'breadcrumbPicker.background': blacks.outfit,
 
   // ==========================================================================
-  // TERMINAL
+  // TERMINAL - Stage performance ambiance
   // ==========================================================================
-  'terminal.background': blacks.base,
+  'terminal.background': character.skirt.black, // Main stage
   'terminal.foreground': foregrounds.primary,
   'terminal.ansiBlack': blacks.base,
   'terminal.ansiRed': semantic.error,
@@ -371,7 +388,7 @@ export const workbenchColors = {
   'terminal.ansiBrightYellow': '#FFFF8D',
   'terminal.ansiBrightBlue': '#80D8FF',
   'terminal.ansiBrightMagenta': pinks.soft,
-  'terminal.ansiBrightCyan': cyans.ice,
+  'terminal.ansiBrightCyan': versions.nt2, // #40D3CA - NT2 refined
   'terminal.ansiBrightWhite': '#FFFFFF',
   'terminal.selectionBackground': alpha(teals.classic, '40'),
   'terminal.inactiveSelectionBackground': alpha(teals.classic, '25'),
@@ -379,8 +396,8 @@ export const workbenchColors = {
   'terminal.findMatchBorder': alpha(pinks.sekai, '90'),
   'terminal.findMatchHighlightBackground': alpha(pinks.sekai, '25'),
   'terminal.findMatchHighlightBorder': alpha(pinks.sekai, '50'),
-  'terminalCursor.foreground': pinks.sekai,
-  'terminalCursor.background': blacks.base,
+  'terminalCursor.foreground': character.hairTies.base, // #E05096 - Hair ties pink
+  'terminalCursor.background': character.skirt.black,
   'terminal.border': alpha(teals.classic, '30'),
   'terminal.tab.activeBorder': pinks.sekai,
   'terminalCommandDecoration.defaultBackground': alpha(teals.classic, '60'),
@@ -401,27 +418,28 @@ export const workbenchColors = {
   'textSeparator.foreground': alpha(teals.classic, '30'),
 
   // ==========================================================================
-  // NOTIFICATIONS
+  // NOTIFICATIONS - Digital Holographic System (Cyber-Diva Alerts)
+  // Translucent panels with glitch accents for futuristic feel
   // ==========================================================================
-  'notifications.background': blacks.outfit,
+  'notifications.background': alpha(blacks.outfit, 'F5'), // Translucent for holographic feel
   'notifications.foreground': foregrounds.primary,
-  'notifications.border': alpha(pinks.sekai, '50'),
-  'notificationToast.border': alpha(teals.classic, '40'),
-  'notificationsInfoIcon.foreground': semantic.info,
-  'notificationsWarningIcon.foreground': semantic.warning,
-  'notificationsErrorIcon.foreground': semantic.error,
-  'notificationLink.foreground': hologram.cyan,
-  'notificationCenterHeader.background': blacks.sleeve,
-  'notificationCenterHeader.foreground': teals.classic,
-  'notificationCenter.border': alpha(teals.classic, '40'),
+  'notifications.border': alpha(hologram.cyan, '40'), // Holographic cyan border
+  'notificationToast.border': alpha(append.vivid, '50'), // Electric vivid border
+  'notificationsInfoIcon.foreground': hologram.cyan, // #4DD0E1 - Holographic info
+  'notificationsWarningIcon.foreground': accents.amber, // #FFAB40 - Warm amber warning
+  'notificationsErrorIcon.foreground': digital.glitch, // #FF5370 - Digital glitch error
+  'notificationLink.foreground': versions.v6ai, // #41D9CF - V6 AI for links
+  'notificationCenterHeader.background': alpha(blacks.sleeve, 'F0'), // Slight transparency
+  'notificationCenterHeader.foreground': append.vivid, // #00E5D4 - Electric header
+  'notificationCenter.border': alpha(hologram.cyan, '30'), // Holographic border
 
   // ==========================================================================
   // PEEK VIEW
   // ==========================================================================
-  'peekView.border': append.vivid,
-  'peekViewEditor.background': blacks.outfit,
-  'peekViewEditorGutter.background': blacks.sleeve,
-  'peekViewResult.background': blacks.sleeve,
+  'peekView.border': character.eyes.bright, // #5DE4DB
+  'peekViewEditor.background': character.skirt.black, // #15191D
+  'peekViewEditorGutter.background': character.armWarmers.black, // #111417
+  'peekViewResult.background': character.armWarmers.black, // #111417
   'peekViewResult.selectionBackground': alpha(teals.classic, '30'),
   'peekViewResult.selectionForeground': '#FFFFFF',
   'peekViewTitle.background': blacks.void,
@@ -440,11 +458,11 @@ export const workbenchColors = {
   'pickerGroup.foreground': teals.classic,
 
   // ==========================================================================
-  // GIT
+  // GIT - Negi (success), Eyes (change), Headphones (delete)
   // ==========================================================================
-  'gitDecoration.addedResourceForeground': semantic.success,
-  'gitDecoration.modifiedResourceForeground': semantic.warning,
-  'gitDecoration.deletedResourceForeground': semantic.error,
+  'gitDecoration.addedResourceForeground': character.negi.bright, // #69F0AE
+  'gitDecoration.modifiedResourceForeground': character.armDisplay.data, // #5DE4DB
+  'gitDecoration.deletedResourceForeground': character.headphones.cushion, // #E05096
   'gitDecoration.renamedResourceForeground': semantic.info,
   'gitDecoration.untrackedResourceForeground': teals.classic,
   'gitDecoration.ignoredResourceForeground': greys.silver,
@@ -456,10 +474,10 @@ export const workbenchColors = {
   // ==========================================================================
   // DIFF EDITOR
   // ==========================================================================
-  'diffEditor.insertedTextBackground': alpha(semantic.success, '18'),
-  'diffEditor.removedTextBackground': alpha(semantic.error, '18'),
-  'diffEditor.insertedLineBackground': alpha(semantic.success, '0D'),
-  'diffEditor.removedLineBackground': alpha(semantic.error, '0D'),
+  'diffEditor.insertedTextBackground': alpha(character.negi.bright, '18'), // #69F0AE - Negi bright
+  'diffEditor.removedTextBackground': alpha(character.headphones.cushion, '18'), // #E05096 - Headphone cushion
+  'diffEditor.insertedLineBackground': alpha(character.negi.white, '10'), // #E8F5E9 - Negi white
+  'diffEditor.removedLineBackground': alpha(character.headphones.cushion, '0D'),
   'diffEditor.diagonalFill': alpha(teals.classic, '15'),
   'diffEditor.border': alpha(teals.classic, '30'),
   'diffEditor.unchangedRegionBackground': blacks.outfit,
@@ -470,6 +488,7 @@ export const workbenchColors = {
   'diffEditorOverview.insertedForeground': semantic.success,
   'diffEditorOverview.removedForeground': semantic.error,
   'multiDiffEditor.headerBackground': blacks.outfit,
+  'multiDiffEditor.background': blacks.void,
   'multiDiffEditor.border': alpha(teals.classic, '30'),
 
   // ==========================================================================
@@ -484,15 +503,15 @@ export const workbenchColors = {
   'panelInput.border': alpha(teals.classic, '40'),
   'panelSection.border': alpha(teals.classic, '25'),
   'panelSection.dropBackground': alpha(teals.classic, '20'),
-  'panelSectionHeader.background': blacks.sleeve,
-  'panelSectionHeader.foreground': teals.classic,
-  'panelSectionHeader.border': alpha(teals.classic, '20'),
+  'panelSectionHeader.background': character.outfitTop.shadow, // #263238
+  'panelSectionHeader.foreground': character.eyes.iris, // #39C5BB
+  'panelSectionHeader.border': alpha(character.tie.teal, '20'),
 
   // ==========================================================================
-  // DEBUG
+  // DEBUG - Stage lighting and performance
   // ==========================================================================
-  'debugToolBar.background': blacks.void,
-  'debugToolBar.border': alpha(pinks.sekai, '60'),
+  'debugToolBar.background': alpha(stage.ambientTeal, '20'), // #00BCD4
+  'debugToolBar.border': alpha(stage.accentPink, '60'),
   'debugIcon.breakpointForeground': pinks.sekai,
   'debugIcon.breakpointDisabledForeground': alpha(pinks.sekai, '50'),
   'debugIcon.breakpointUnverifiedForeground': semantic.warning,
@@ -508,9 +527,9 @@ export const workbenchColors = {
   'debugIcon.stepOutForeground': semantic.info,
   'debugIcon.stepBackForeground': semantic.info,
   'debugIcon.continueForeground': semantic.success,
-  'debugConsole.infoForeground': semantic.info,
-  'debugConsole.warningForeground': semantic.warning,
-  'debugConsole.errorForeground': accents.coralGlow,
+  'debugConsole.infoForeground': stage.coolBlue, // #2196F3 - Stage lighting
+  'debugConsole.warningForeground': stage.warmAmber, // #FFC107
+  'debugConsole.errorForeground': stage.accentPink, // #E91E63
   'debugConsole.sourceForeground': semantic.success,
   'debugConsoleInputIcon.foreground': teals.classic,
   'debugTokenExpression.name': teals.classic,
@@ -655,11 +674,11 @@ export const workbenchColors = {
   'commandCenter.inactiveBorder': alpha(teals.classic, '20'),
 
   // ==========================================================================
-  // QUICK INPUT
+  // QUICK INPUT - Boots black (grounded overlay)
   // ==========================================================================
-  'quickInput.background': blacks.outfit,
+  'quickInput.background': character.boots.black, // #111417
   'quickInput.foreground': foregrounds.primary,
-  'quickInputTitle.background': blacks.sleeve,
+  'quickInputTitle.background': character.armWarmers.black,
   'quickInputList.focusBackground': alpha(versionMapping.focus, '30'),
   'quickInputList.focusForeground': '#FFFFFF',
   'quickInputList.focusIconForeground': teals.classic,
@@ -672,11 +691,11 @@ export const workbenchColors = {
   'banner.iconForeground': teals.classic,
 
   // ==========================================================================
-  // ERRORS & WARNINGS
+  // ERRORS & WARNINGS - Digital glitch for errors
   // ==========================================================================
-  'editorError.foreground': semantic.error,
-  'editorError.border': alpha(semantic.error, '40'),
-  'editorError.background': alpha(semantic.error, '15'),
+  'editorError.foreground': digital.glitch, // #FF5370
+  'editorError.border': alpha(digital.glitch, '40'),
+  'editorError.background': alpha(digital.glitch, '15'),
   'editorWarning.foreground': semantic.warning,
   'editorWarning.border': alpha(semantic.warning, '40'),
   'editorWarning.background': alpha(semantic.warning, '15'),
@@ -690,11 +709,11 @@ export const workbenchColors = {
   'problemsInfoIcon.foreground': semantic.info,
 
   // ==========================================================================
-  // LIGHTBULB
+  // LIGHTBULB - NT for modern voice
   // ==========================================================================
-  'editorLightBulb.foreground': semantic.warning,
+  'editorLightBulb.foreground': versions.nt, // #3ED1C8 - NT
   'editorLightBulbAutoFix.foreground': semantic.success,
-  'editorLightBulbAi.foreground': pinks.sekai,
+  'editorLightBulbAi.foreground': versions.v6ai, // #41D9CF - V6 AI
 
   // ==========================================================================
   // INLAY HINTS
@@ -738,47 +757,47 @@ export const workbenchColors = {
   'notebookEditorOverviewRuler.runningCellForeground': semantic.warning,
 
   // ==========================================================================
-  // SYMBOL ICONS - The Instrument Panel
+  // SYMBOL ICONS - Character Design Mapping
   // ==========================================================================
   'symbolIcon.arrayForeground': teals.stage,
-  'symbolIcon.booleanForeground': pinks.hot,               // #FF4081
-  'symbolIcon.classForeground': snowMiku.y2011.winterBlue, // #87CEEB - Sky Blue, distinct from Teal
+  'symbolIcon.booleanForeground': character.hairTies.highlight, // #FF80AB
+  'symbolIcon.classForeground': character.hair.shine, // #5DE4DB
   'symbolIcon.colorForeground': pinks.sekai,
-  'symbolIcon.constantForeground': pinks.hot,              // #FF4081
-  'symbolIcon.constructorForeground': teals.neon,          // #5DE4DB
-  'symbolIcon.enumeratorForeground': accents.gold,         // #FFCA28
+  'symbolIcon.constantForeground': character.hairTies.highlight, // #FF80AB
+  'symbolIcon.constructorForeground': character.armDisplay.data, // #5DE4DB
+  'symbolIcon.enumeratorForeground': accents.gold, // #FFCA28
   'symbolIcon.enumeratorMemberForeground': accents.orange, // #FFAB40
   'symbolIcon.eventForeground': accents.gold,
-  'symbolIcon.fieldForeground': snowMiku.y2011.mittens,    // #ADD8E6 - Brighter distinct property
+  'symbolIcon.fieldForeground': character.skin.shadow, // #E8C8BC
   'symbolIcon.fileForeground': foregrounds.primary,
   'symbolIcon.folderForeground': teals.classic,
-  'symbolIcon.functionForeground': teals.neon,             // #5DE4DB
-  'symbolIcon.interfaceForeground': cyans.ice,             // #84FFFF
+  'symbolIcon.functionForeground': character.eyes.bright, // #5DE4DB
+  'symbolIcon.interfaceForeground': cyans.ice, // #84FFFF
   'symbolIcon.keyForeground': teals.classic,
   'symbolIcon.keywordForeground': teals.classic,
-  'symbolIcon.methodForeground': teals.tint,               // #B2EBE7 - Pale Teal distinct from Neon Function
+  'symbolIcon.methodForeground': character.hair.highlight, // #B2EBE7
   'symbolIcon.moduleForeground': foregrounds.primary,
-  'symbolIcon.namespaceForeground': teals.classic,
+  'symbolIcon.namespaceForeground': cryptonFamily.kaito.blue, // #42A5F5
   'symbolIcon.nullForeground': pinks.sekai,
-  'symbolIcon.numberForeground': pinks.sekai,
+  'symbolIcon.numberForeground': character.negi.bright, // #69F0AE
   'symbolIcon.objectForeground': foregrounds.primary,
   'symbolIcon.operatorForeground': teals.classic,
   'symbolIcon.packageForeground': teals.classic,
-  'symbolIcon.propertyForeground': snowMiku.y2011.mittens, // #ADD8E6
+  'symbolIcon.propertyForeground': character.skin.blush, // #FFB8C8
   'symbolIcon.referenceForeground': teals.stage,
-  'symbolIcon.snippetForeground': semantic.success,
-  'symbolIcon.stringForeground': semantic.success,
-  'symbolIcon.structForeground': pinks.blush,              // #FFB8D4 - Blush Pink for safe Lc 60+
+  'symbolIcon.snippetForeground': character.negi.stalk, // #9CCC65
+  'symbolIcon.stringForeground': character.negi.stalk, // #9CCC65
+  'symbolIcon.structForeground': pinks.blush, // #FFB8D4
   'symbolIcon.textForeground': foregrounds.primary,
   'symbolIcon.typeParameterForeground': accents.gold,
   'symbolIcon.unitForeground': pinks.sekai,
   'symbolIcon.variableForeground': foregrounds.primary,
 
   // ==========================================================================
-  // INLINE CHAT
+  // INLINE CHAT - V6 AI Features
   // ==========================================================================
-  'inlineChat.background': blacks.outfit,
-  'inlineChat.border': alpha(teals.classic, '40'),
+  'inlineChat.background': character.boots.black,
+  'inlineChat.border': alpha(versions.v6ai, '40'),
   'inlineChat.shadow': '#00000060',
   'inlineChatInput.background': blacks.sleeve,
   'inlineChatInput.border': alpha(teals.classic, '40'),
@@ -823,24 +842,24 @@ export const workbenchColors = {
   'editorUnicodeHighlight.background': alpha(semantic.warning, '15'),
 
   // ==========================================================================
-  // SUGGEST WIDGET
+  // SUGGEST WIDGET - NT/Modern voice
   // ==========================================================================
-  'editorSuggestWidget.background': alpha(blacks.outfit, 'F8'),
-  'editorSuggestWidget.border': alpha(append.vivid, '50'),
+  'editorSuggestWidget.background': alpha(character.boots.black, 'F8'),
+  'editorSuggestWidget.border': alpha(versions.nt, '50'),
   'editorSuggestWidget.foreground': foregrounds.primary,
-  'editorSuggestWidget.highlightForeground': cyans.ice,
+  'editorSuggestWidget.highlightForeground': versions.nt, // #3ED1C8 - NT modern
   'editorSuggestWidget.selectedBackground': alpha(teals.classic, '30'),
   'editorSuggestWidget.selectedForeground': '#FFFFFF',
   'editorSuggestWidget.selectedIconForeground': cyans.ice,
   'editorSuggestWidget.focusHighlightForeground': cyans.ice,
 
   // ==========================================================================
-  // MARKER NAVIGATION
+  // MARKER NAVIGATION - 01 Tattoo and Number Symbolism
   // ==========================================================================
-  'editorMarkerNavigation.background': blacks.outfit,
-  'editorMarkerNavigationError.background': alpha(semantic.error, '30'),
+  'editorMarkerNavigation.background': numberSymbolism.tattoo01.background, // #1A1F24
+  'editorMarkerNavigationError.background': alpha(digital.glitch, '30'),
   'editorMarkerNavigationWarning.background': alpha(semantic.warning, '30'),
-  'editorMarkerNavigationInfo.background': alpha(semantic.info, '30'),
+  'editorMarkerNavigationInfo.background': alpha(numberSymbolism.tattoo01.glow, '30'), // #5DE4DB
   'editorMarkerNavigationError.headerBackground': alpha(semantic.error, '20'),
   'editorMarkerNavigationWarning.headerBackground': alpha(semantic.warning, '20'),
   'editorMarkerNavigationInfo.headerBackground': alpha(semantic.info, '20'),
@@ -942,6 +961,31 @@ export const workbenchColors = {
   // ==========================================================================
   'editorBracketMatch.foreground': cyans.ice,
   'editorBracketHighlight.unexpectedBracket.background': alpha(semantic.error, '20'),
+
+  // ==========================================================================
+  // TIMELINE - Git History Sidebar (Cyber-Diva Data Stream)
+  // ==========================================================================
+  'timeline.itemBackground': blacks.outfit,
+  'timeline.itemHoverBackground': alpha(versionMapping.hover, '20'),
+
+  // ==========================================================================
+  // CHAT - Enhanced AI Copilot Integration (V6 AI Voice)
+  // ==========================================================================
+  'chat.slashCommandBackground': alpha(versions.v6ai, '20'),
+  'chat.slashCommandForeground': versions.v6ai,
+  'chat.avatarBackground': character.headphones.body,
+  'chat.avatarForeground': teals.classic,
+
+  // ==========================================================================
+  // INTERACTIVE SESSION - AI Conversation Styling
+  // ==========================================================================
+  'interactive.activeCodeBorder': alpha(versions.v6ai, '60'),
+  'interactive.inactiveCodeBorder': alpha(teals.classic, '30'),
+
+  // ==========================================================================
+  // SIMPLE FIND WIDGET
+  // ==========================================================================
+  'simpleFindWidget.selectorShadow': alpha(blacks.void, '80'),
 } as const;
 
 export type WorkbenchColors = typeof workbenchColors;

@@ -1,0 +1,122 @@
+# Hatsune Miku Theme - TOML Showcase
+# Common in Cargo.toml (Rust), pyproject.toml (Python), config files
+
+[package]
+name = "miku-synthesizer"
+version = "3.9.39"
+edition = "2021"
+authors = ["Crypton Future Media <info@crypton.co.jp>"]
+description = "Digital voice synthesis engine"
+license = "MIT"
+repository = "https://github.com/crypton/miku-synthesizer"
+keywords = ["vocaloid", "synthesis", "audio"]
+categories = ["multimedia::audio"]
+
+[lib]
+name = "miku_core"
+path = "src/lib.rs"
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "miku-cli"
+path = "src/main.rs"
+
+[features]
+default = ["std", "v4x"]
+std = []
+v4x = ["dep:v4x-engine"]
+nt = ["dep:nt-voice"]
+full = ["v4x", "nt", "append"]
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1.0", features = ["full"], optional = true }
+thiserror = "1.0"
+
+[dependencies.v4x-engine]
+version = "2.0"
+optional = true
+
+[dev-dependencies]
+criterion = "0.5"
+proptest = "1.0"
+
+[build-dependencies]
+cc = "1.0"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
+
+[profile.dev]
+opt-level = 0
+debug = true
+overflow-checks = true
+
+[workspace]
+members = [
+    "miku-core",
+    "miku-voice",
+    "miku-render",
+]
+exclude = ["examples/legacy"]
+
+# Inline table
+point = { x = 39, y = 39, z = 39 }
+
+# Array of tables
+[[voices]]
+name = "Miku V2"
+year = 2007
+color = "#39C5BB"
+default = true
+
+[[voices]]
+name = "Miku NT"
+year = 2020
+color = "#00BCD4"
+default = false
+
+# Nested tables
+[database]
+server = "192.168.1.39"
+ports = [8001, 8002, 8003]
+enabled = true
+max_connections = 5000
+
+[database.credentials]
+username = "miku"
+password = "hatsune39"
+
+# Datetime values
+[concert]
+date = 2024-03-09
+time = 19:00:00
+datetime = 2024-03-09T19:00:00+09:00
+
+# Multiline strings
+[lyrics]
+verse = """
+The world is mine
+Digital voice singing
+Through the night"""
+
+raw_path = 'C:\Users\Miku\Songs'
+regex = '\\d{4}-\\d{2}-\\d{2}'
+
+# Numbers
+[audio]
+sample_rate = 44_100
+bit_depth = 24
+channels = 2
+gain = 0.85
+frequency = 3.9e2
+hex_color = 0x39C5BB
+octal = 0o755
+binary = 0b1010
+infinity = inf
+nan = nan
+negative_infinity = -inf
