@@ -538,6 +538,22 @@ export const numberSymbolism = {
 } as const;
 
 // =============================================================================
+// APCA BOOSTED - High contrast variants for Lc 60+ on dark backgrounds
+// These are lighter versions of base colors optimized for #15191D background
+// =============================================================================
+
+export const boosted = {
+  /** Purple - from #B388FF to Lc 65+ */
+  purple: '#D4BBFF',
+  /** Pink - from #FF80AB to Lc 60+ */
+  pink: '#FFB0C4',
+  /** Coral - from #FF5370 to Lc 60+ */
+  coral: '#FFA8A0',
+  /** Coral glow - slightly brighter coral */
+  coralGlow: '#FFBAB3',
+} as const;
+
+// =============================================================================
 // NENDOROID / FIGURE COLORS
 // =============================================================================
 
