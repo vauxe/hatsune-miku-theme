@@ -1,305 +1,126 @@
 /**
  * Hatsune Miku Theme - Semantic Token Colors
  *
- * Language-aware token coloring for enhanced syntax highlighting
+ * "Extreme Spectrum" - Miku Universe
  */
 
 import {
   teals,
   pinks,
+  cyans,
+  greys,
   foregrounds,
   accents,
   semantic,
   hologram,
   versionMapping,
-  character,
+  projectSekai,
+  racingMiku,
+  snowMiku,
+  mikuNT,
+  magicalMirai,
+  mikuExpo,
+  projectDiva,
 } from '../palette';
 
 // Helper type for semantic token settings
 type SemanticTokenSetting =
   | string
   | {
-      foreground?: string;
-      fontStyle?: string;
-    };
+    foreground?: string;
+    fontStyle?: string;
+  };
 
 export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   // ===========================================================================
-  // FUNCTIONS & METHODS
+  // FUNCTIONS & METHODS - Voice & Performance
   // ===========================================================================
-  function: {
-    foreground: versionMapping.functions,
-  },
+  function: teals.neon, // #5DE4DB - User functions
   'function.declaration': {
-    foreground: '#00D4C8',
+    foreground: teals.neon,
     fontStyle: 'bold',
   },
-  'function.async': {
-    foreground: versionMapping.functions,
-    fontStyle: 'italic',
-  },
-  'function.async.declaration': {
-    foreground: '#00D4C8',
-    fontStyle: 'bold italic',
-  },
-  'function.defaultLibrary': {
-    foreground: versionMapping.functions,
-  },
-  method: {
-    foreground: versionMapping.functions,
-  },
+  'function.defaultLibrary': hologram.purple, // #B388FF - Library functions
+  method: teals.tint, // #B2EBE7 - Methods
   'method.declaration': {
-    foreground: '#00D4C8',
+    foreground: teals.tint,
     fontStyle: 'bold',
-  },
-  'method.async': {
-    foreground: versionMapping.functions,
-    fontStyle: 'italic',
-  },
-  'method.async.declaration': {
-    foreground: '#00D4C8',
-    fontStyle: 'bold italic',
   },
   'method.static': {
-    foreground: versionMapping.functions,
+    foreground: teals.tint,
     fontStyle: 'underline',
-  },
-  'method.static.declaration': {
-    foreground: '#00D4C8',
-    fontStyle: 'bold underline',
   },
 
   // ===========================================================================
-  // CLASSES & TYPES
+  // CLASSES & TYPES - Stage Structure
   // ===========================================================================
-  class: {
-    foreground: versionMapping.types,
-    fontStyle: 'bold',
-  },
+  class: snowMiku.y2011.winterBlue, // #87CEEB - User Classes
   'class.declaration': {
-    foreground: versionMapping.types,
+    foreground: snowMiku.y2011.winterBlue,
     fontStyle: 'bold',
   },
-  'class.defaultLibrary': {
-    foreground: versionMapping.types,
-    fontStyle: 'bold',
+  'class.defaultLibrary': hologram.purple, // #B388FF - Lib Classes
+  struct: pinks.blush, // #FFB8D4 - Structs
+  interface: snowMiku.y2021.glowCyan, // #00E5FF - Interfaces
+  'interface.declaration': {
+    foreground: snowMiku.y2021.glowCyan,
+    fontStyle: 'italic',
   },
-  struct: {
-    foreground: versionMapping.types,
-    fontStyle: 'bold',
-  },
-  'struct.declaration': {
-    foreground: versionMapping.types,
-    fontStyle: 'bold',
-  },
-  enum: {
-    foreground: versionMapping.types,
-    fontStyle: 'bold',
-  },
-  enumMember: character.headphones.cushion,
-  interface: {
-    foreground: versionMapping.types,
-    fontStyle: 'bold',
-  },
-  type: {
-    foreground: versionMapping.types,
-    fontStyle: 'bold',
-  },
+  type: projectSekai.leoneedMembers.ichika, // #33AAEE - Types
   'type.declaration': {
-    foreground: versionMapping.types,
-    fontStyle: 'bold',
-  },
-  'type.defaultLibrary': {
-    foreground: versionMapping.types,
+    foreground: projectSekai.leoneedMembers.ichika,
     fontStyle: 'bold',
   },
   typeParameter: {
-    foreground: versionMapping.types,
+    foreground: projectSekai.leoneedMembers.saki, // #FFDD44 - Generics
     fontStyle: 'italic',
   },
+  enum: accents.gold, // #FFCA28 - Enums
+  enumMember: accents.orange, // #FFAB40 - Enum Members
 
   // ===========================================================================
-  // NAMESPACES & MODULES
-  // ===========================================================================
-  namespace: teals.classic,
-  'namespace.declaration': {
-    foreground: teals.classic,
-    fontStyle: 'bold',
-  },
-
-  // ===========================================================================
-  // PARAMETERS
-  // ===========================================================================
-  parameter: {
-    foreground: versionMapping.types,
-    fontStyle: 'italic',
-  },
-  'parameter.declaration': {
-    foreground: versionMapping.types,
-    fontStyle: 'italic',
-  },
-
-  // ===========================================================================
-  // VARIABLES
+  // VARIABLES - Costume & Props
   // ===========================================================================
   variable: foregrounds.primary,
   'variable.declaration': foregrounds.primary,
-  'variable.readonly': character.headphones.cushion,
-  'variable.readonly.defaultLibrary': character.headphones.cushion,
-  'variable.static': {
-    foreground: '#85ADA5',
-    fontStyle: 'underline',
-  },
-  'variable.static.readonly': {
-    foreground: character.headphones.cushion,
-    fontStyle: 'underline',
-  },
-  'variable.defaultLibrary': {
-    foreground: teals.classic,
+  'variable.readonly': foregrounds.primary,
+  'variable.constant': pinks.blush, // #FFB8D4 - Constants
+  'variable.defaultLibrary': hologram.cyan, // #4DD0E1 - Lib Vars
+  property: snowMiku.y2011.mittens, // #ADD8E6 - Properties
+  'property.declaration': snowMiku.y2011.mittens,
+  parameter: {
+    foreground: pinks.blush, // #FFB8D4 - Parameters
+    fontStyle: 'italic',
   },
 
   // ===========================================================================
-  // PROPERTIES
+  // KEYWORDS & LITERALS
   // ===========================================================================
-  property: '#85ADA5',
-  'property.declaration': '#85ADA5',
-  'property.readonly': {
-    foreground: character.headphones.cushion,
+  keyword: {
+    foreground: teals.classic, // #39C5BB - Main Miku Color
+    fontStyle: 'bold',
   },
-  'property.static': {
-    foreground: '#85ADA5',
-    fontStyle: 'underline',
-  },
-  'property.static.readonly': {
-    foreground: character.headphones.cushion,
-    fontStyle: 'underline',
-  },
+  string: semantic.success, // #9CCC65
+  number: racingMiku.y2010.raceOrange, // #FF6D00
+  boolean: magicalMirai.y2014.vibrantPink, // #FF4081
 
   // ===========================================================================
-  // MACROS & DECORATORS
+  // MISC
   // ===========================================================================
+  comment: {
+    foreground: greys.platinum,
+    fontStyle: 'italic',
+  },
+  decorator: {
+    foreground: snowMiku.y2011.winterBlue, // #87CEEB
+    fontStyle: 'italic',
+  },
   macro: {
     foreground: accents.amber,
     fontStyle: 'bold',
   },
-  decorator: {
-    foreground: accents.amber,
-    fontStyle: 'italic',
-  },
-  annotation: {
-    foreground: accents.amber,
-    fontStyle: 'italic',
-  },
-
-  // ===========================================================================
-  // LABELS
-  // ===========================================================================
-  label: character.headphones.cushion,
-
-  // ===========================================================================
-  // COMMENTS
-  // ===========================================================================
-  comment: {
-    foreground: '#6E9090',
-    fontStyle: 'italic',
-  },
-  'comment.documentation': {
-    foreground: '#7A9A9A',
-    fontStyle: '',
-  },
-
-  // ===========================================================================
-  // LITERALS
-  // ===========================================================================
-  string: semantic.success,
-  number: character.headphones.cushion,
-  regexp: hologram.purple,
-  operator: `${teals.classic}70`,
-
-  // ===========================================================================
-  // KEYWORDS
-  // ===========================================================================
-  keyword: {
-    foreground: teals.classic,
-    fontStyle: 'bold',
-  },
-  'keyword.controlFlow': {
-    foreground: teals.classic,
-    fontStyle: 'bold',
-  },
-  'keyword.async': {
-    foreground: teals.classic,
-    fontStyle: 'bold italic',
-  },
-
-  // ===========================================================================
-  // SELF / THIS
-  // ===========================================================================
-  selfKeyword: {
-    foreground: character.headphones.cushion,
-    fontStyle: 'italic',
-  },
-  selfParameter: {
-    foreground: character.headphones.cushion,
-    fontStyle: 'italic',
-  },
-
-  // ===========================================================================
-  // BUILTIN
-  // ===========================================================================
-  builtinType: {
-    foreground: teals.classic,
-    fontStyle: 'bold',
-  },
-  builtinConstant: character.headphones.cushion,
-
-  // ===========================================================================
-  // RUST-SPECIFIC
-  // ===========================================================================
-  lifetime: {
-    foreground: character.headphones.cushion,
-    fontStyle: 'italic',
-  },
-  formatSpecifier: {
-    foreground: hologram.cyan,
-  },
-  escapeSequence: {
-    foreground: character.headphones.cushion,
-  },
-
-  // ===========================================================================
-  // BOOLEAN
-  // ===========================================================================
-  boolean: character.headphones.cushion,
-
-  // ===========================================================================
-  // ERRORS
-  // ===========================================================================
-  unresolvedReference: {
-    foreground: semantic.error,
-    fontStyle: 'underline',
-  },
-
-  // ===========================================================================
-  // PUNCTUATION
-  // ===========================================================================
-  punctuation: `${teals.classic}70`,
-
-  // ===========================================================================
-  // MODIFIERS
-  // ===========================================================================
-  '*.mutable': {
-    fontStyle: 'underline',
-  },
-  '*.modification': {
-    fontStyle: 'underline',
-  },
-  '*.unsafe': {
-    foreground: semantic.error,
-  },
-  '*.consuming': {
-    fontStyle: 'bold',
-  },
+  label: accents.amber,
+  operator: cyans.electric, // #00FFFF
 };
 
 export type SemanticTokenColors = typeof semanticTokenColors;
