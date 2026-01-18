@@ -141,7 +141,60 @@ export const versions = {
   v3: '#3BC8BE',
   v4x: '#38C4BA',
   nt: '#3ED1C8',
+  nt2: '#40D3CA',
+  sp: '#3AC6BC',
   v6ai: '#41D9CF',
+} as const;
+
+// =============================================================================
+// HATSUNE MIKU SP (2024) - Remastered V4X Edition
+// =============================================================================
+
+export const mikuSP = {
+  /** SP = Special/Superior - Refined VOCALOID4 for PIAPRO CHARACTERS SUPER PACK */
+  voice: {
+    primary: '#39C5BB',            // Classic teal preserved
+    enhanced: '#3DC7BE',           // Slightly refined
+    clarity: '#42CAC2',            // Enhanced clarity
+    warmth: '#37C3B9',             // Warmer undertone
+  },
+  /** SP edition UI accents */
+  ui: {
+    accent: '#39C5BB',
+    highlight: '#4DD0C6',
+    premium: '#D4AF37',            // Premium gold badge
+    superPack: '#EE286E',          // Crypton magenta
+  },
+} as const;
+
+// =============================================================================
+// PIAPRO NT2 (2025) - Next Generation Update
+// =============================================================================
+
+export const mikuNT2 = {
+  /** NT2 = March 2025 refinements to Piapro Studio */
+  voice: {
+    primary: '#3ED1C8',            // NT lineage teal
+    refined: '#40D3CA',            // Refined tone
+    natural: '#3CD0C7',            // More natural
+    expressive: '#42D5CC',         // Enhanced expression
+  },
+  /** NT2 interface colors */
+  ui: {
+    background: '#1A1F24',         // Dark workspace
+    panel: '#252D35',              // Panel background
+    accent: '#3ED1C8',             // NT teal accent
+    highlight: '#5DE4DB',          // Highlight cyan
+    waveform: '#3ED1C8',           // Waveform color
+    playhead: '#FF6B9D',           // Pink playhead
+  },
+  /** NT2 specific improvements */
+  features: {
+    aiAssist: '#00E5FF',           // AI-assisted features
+    naturalVoice: '#69F0AE',       // Natural voice indicator
+    expression: '#FF80AB',         // Expression parameter
+    dynamics: '#B388FF',           // Dynamics visualization
+  },
 } as const;
 
 // =============================================================================

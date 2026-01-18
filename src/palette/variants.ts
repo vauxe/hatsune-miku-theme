@@ -17,6 +17,15 @@ export const snowMiku = {
     paleBlue: '#E3F2FD',
     accent: '#90CAF9',
   },
+  y2011: {
+    theme: 'Winter Warmth - First official winter costume by Ui',
+    warmWhite: '#F8F8FF',
+    winterBlue: '#87CEEB',
+    mufflerGrey: '#B0C4DE',
+    earmuffPink: '#FFB6C1',
+    mittens: '#ADD8E6',
+    coatTrim: '#E6E6FA',
+  },
   y2012: {
     theme: 'Strawberry White - Sweet pink winter',
     strawberry: '#FF6B8A',
@@ -210,6 +219,22 @@ export const racingMiku = {
     motionBlue: '#00B0FF',
     trailWhite: '#FFFFFF',
   },
+  y2024: {
+    theme: 'Digital Speed - Holographic Racing',
+    holoTeal: '#00E5CC',
+    raceWhite: '#FFFFFF',
+    carbonBlack: '#1A1A1A',
+    accentPink: '#FF69B4',
+    shiftBlue: '#00BFFF',
+  },
+  y2025: {
+    theme: 'Velocity Circuit - Next Generation',
+    electricCyan: '#00FFCC',
+    raceWhite: '#FFFFFF',
+    carbonBlack: '#0D0D0D',
+    accentMagenta: '#FF00FF',
+    metallicSilver: '#C0C0C0',
+  },
   // Sponsor colors
   sponsors: {
     goodSmileOrange: '#F57C00',
@@ -310,6 +335,15 @@ export const magicalMirai = {
     journeyGreen: '#66BB6A',
     adventureYellow: '#FFCA28',
   },
+  y2025: {
+    theme: 'Resonance - Harmonic Connection',
+    resonanceCyan: '#00E5FF',      // Resonance wave cyan
+    harmonyPink: '#FF80AB',        // Harmonic pink
+    connectionPurple: '#9C27B0',   // Connection purple
+    waveformGreen: '#69F0AE',      // Sound wave green
+    echoBlue: '#448AFF',           // Echo blue
+    vibeYellow: '#FFD740',         // Energy vibe yellow
+  },
   // Official lightstick colors
   lightstick: {
     mikuTeal: '#39C5BB',
@@ -369,6 +403,32 @@ export const mikuExpo = {
     worldCyan: '#00BCD4',
     tourMagenta: '#EC407A',
     globalBlue: '#2962FF',
+  },
+  y2025: {
+    theme: '2025 Asia Tour - Art by RITAO',
+    asiaCyan: '#00E5CC',           // Vibrant Asian cyan
+    sakuraPink: '#FF8FAB',         // Cherry blossom pink
+    goldenAccent: '#FFD700',       // Asian gold
+    nightBlue: '#1A237E',          // Night concert blue
+    neonMagenta: '#FF00FF',        // Neon city magenta
+  },
+  y2026: {
+    theme: '2026 North America Tour - Art by yon',
+    americaCyan: '#00CED1',        // Dynamic cyan
+    sunsetOrange: '#FF6B35',       // West coast sunset
+    electricPurple: '#9B59B6',     // Concert purple
+    starWhite: '#F8F8FF',          // Starlight white
+    neonPink: '#FF1493',           // Neon pink
+    skyBlue: '#87CEEB',            // Open sky blue
+  },
+  // 10th Anniversary
+  tenthAnniversary: {
+    theme: '10th Anniversary - Art by Iwato',
+    anniversary: '#FFD700',        // Golden anniversary
+    decade: '#39C5BB',             // Iconic teal
+    celebration: '#FF69B4',        // Celebration pink
+    memory: '#B388FF',             // Memory purple
+    gratitude: '#69F0AE',          // Thank you green
   },
   // Regional accent colors
   regional: {
@@ -1063,6 +1123,41 @@ export const snowMiku2025 = {
 } as const;
 
 // =============================================================================
+// SNOW MIKU 2026 - Happy Patisserie (Art by Buta)
+// =============================================================================
+
+export const snowMiku2026 = {
+  theme: 'Happy Patisserie - Sweet bakery confections',
+  pastry: {
+    cream: '#FFF8DC',              // Pastry cream
+    custard: '#FFECB3',            // Custard yellow
+    meringue: '#FFFEF5',           // Meringue white
+    caramel: '#C68E17',            // Caramel drizzle
+    chocolate: '#5D3A1A',          // Chocolate ganache
+  },
+  frosting: {
+    strawberry: '#FF6B8A',         // Strawberry glaze
+    mintIcing: '#98FB98',          // Mint icing
+    blueberry: '#8B9DC3',          // Blueberry cream
+    vanilla: '#F5F5DC',            // Vanilla buttercream
+    raspberry: '#E30B5C',          // Raspberry coulis
+  },
+  bakery: {
+    warmLight: '#FFF5E6',          // Bakery warm lighting
+    woodenShelf: '#DEB887',        // Display shelf
+    apron: '#FFB6C1',              // Pink apron
+    chefHat: '#FFFFFF',            // Chef hat white
+    flourDust: '#F5F5F5',          // Flour particles
+  },
+  accents: {
+    sprinkles: '#FF69B4',          // Pink sprinkles
+    sugarCrystal: '#E0FFFF',       // Sugar crystals
+    berryRed: '#DC143C',           // Fresh berries
+    mintLeaf: '#3CB371',           // Mint garnish
+  },
+} as const;
+
+// =============================================================================
 // RACING MIKU 2024 - Latest Design
 // =============================================================================
 
@@ -1089,6 +1184,45 @@ export const racingMiku2024 = {
     speedLine: '#00FFFF',          // Speed effect
     brake: '#FF4500',              // Brake glow
     checkered: '#000000',          // Checkered pattern
+  },
+} as const;
+
+// =============================================================================
+// RACING MIKU 2025 - Velocity Circuit
+// =============================================================================
+
+export const racingMiku2025 = {
+  theme: 'Velocity Circuit - Next Generation Racing',
+  primary: {
+    electricCyan: '#00FFCC',       // Electric cyan primary
+    raceWhite: '#FFFFFF',          // Race suit white
+    carbonBlack: '#0D0D0D',        // Deep carbon black
+    accentMagenta: '#FF00FF',      // Neon magenta accent
+  },
+  iridescent: {
+    shiftCyan: '#00FFFF',          // Iridescent cyan
+    shiftViolet: '#8A2BE2',        // Iridescent violet
+    shiftGold: '#FFD700',          // Iridescent gold
+    shiftRose: '#FF007F',          // Iridescent rose
+  },
+  team: {
+    gsmGreen: '#00A94F',           // Good Smile Green
+    metallicSilver: '#C0C0C0',     // Metallic accents
+    sponsorWhite: '#FFFFFF',       // Sponsor areas
+    numberBlack: '#1A1A1A',        // Race numbers
+  },
+  effects: {
+    speedTrail: '#00FFCC',         // Speed trail effect
+    turboGlow: '#00FF00',          // Turbo boost glow
+    brakeFire: '#FF4500',          // Brake heat
+    exhaustFlame: '#FF6600',       // Exhaust flame
+    tireSmoke: '#808080',          // Tire smoke
+  },
+  livery: {
+    baseWhite: '#F8F8FF',          // Livery base
+    accentStripe: '#00FFCC',       // Racing stripe
+    sponsorArea: '#1A1A1A',        // Sponsor blocks
+    numberPlate: '#FFFF00',        // Number plate yellow
   },
 } as const;
 
