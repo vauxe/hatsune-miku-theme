@@ -23,9 +23,93 @@ import * as path from 'path';
 // CONSTANTS
 // =============================================================================
 
-const OUTPUT_WIDTH = 58;
-const COL_NAME_WIDTH = 18;
+const OUTPUT_WIDTH = 72;
+const COL_NAME_WIDTH = 24;
 const COL_COLOR_WIDTH = 15;
+
+// Background key mappings (short name -> VS Code API key)
+const BG_KEYS = {
+  editor: 'editor.background',
+  sidebar: 'sideBar.background',
+  statusBar: 'statusBar.background',
+  tabBar: 'editorGroupHeader.tabsBackground',
+  terminal: 'terminal.background',
+  cursorBlock: 'editorCursor.foreground',
+  terminalCursorBlock: 'terminalCursor.foreground',
+  panel: 'panel.background',
+  activityBar: 'activityBar.background',
+  input: 'input.background',
+  listSelection: 'list.activeSelectionBackground',
+  listInactiveSelection: 'list.inactiveSelectionBackground',
+  listHover: 'list.hoverBackground',
+  listFocus: 'list.focusBackground',
+  inlayHint: 'editorInlayHint.background',
+  breadcrumb: 'breadcrumb.background',
+  stickyScroll: 'editorStickyScroll.background',
+  editorWidget: 'editorWidget.background',
+  suggest: 'editorSuggestWidget.background',
+  hover: 'editorHoverWidget.background',
+  quickInput: 'quickInput.background',
+  quickInputListFocus: 'quickInputList.focusBackground',
+  menu: 'menu.background',
+  notification: 'notifications.background',
+  peekView: 'peekViewResult.background',
+  peekViewSelection: 'peekViewResult.selectionBackground',
+  peekViewEditor: 'peekViewEditor.background',
+  titleBar: 'titleBar.activeBackground',
+  titleBarInactive: 'titleBar.inactiveBackground',
+  commandCenter: 'commandCenter.background',
+  suggestSelected: 'editorSuggestWidget.selectedBackground',
+  inlineChat: 'inlineChat.background',
+  button: 'button.background',
+  buttonSecondary: 'button.secondaryBackground',
+  badge: 'badge.background',
+  activityBarBadge: 'activityBarBadge.background',
+  dropdown: 'dropdown.background',
+  debugToolbar: 'debugToolBar.background',
+  banner: 'banner.background',
+  keybindingLabel: 'keybindingLabel.background',
+  checkbox: 'checkbox.background',
+  extensionButton: 'extensionButton.prominentBackground',
+  statusBarItemError: 'statusBarItem.errorBackground',
+  statusBarItemWarning: 'statusBarItem.warningBackground',
+  statusBarItemRemote: 'statusBarItem.remoteBackground',
+  statusBarItemProminent: 'statusBarItem.prominentBackground',
+  statusBarItemOffline: 'statusBarItem.offlineBackground',
+  activityWarningBadge: 'activityWarningBadge.background',
+  activityErrorBadge: 'activityErrorBadge.background',
+  selection: 'editor.selectionBackground',
+  selectionInactive: 'editor.inactiveSelectionBackground',
+  selectionHighlight: 'editor.selectionHighlightBackground',
+  rangeHighlight: 'editor.rangeHighlightBackground',
+  symbolHighlight: 'editor.symbolHighlightBackground',
+  terminalSelection: 'terminal.selectionBackground',
+  wordHighlight: 'editor.wordHighlightBackground',
+  wordHighlightStrong: 'editor.wordHighlightStrongBackground',
+  wordHighlightText: 'editor.wordHighlightTextBackground',
+  findMatch: 'editor.findMatchHighlightBackground',
+  findMatchActive: 'editor.findMatchBackground',
+  findRange: 'editor.findRangeHighlightBackground',
+  bracketMatch: 'editorBracketMatch.background',
+  terminalFindMatch: 'terminal.findMatchBackground',
+  terminalFindMatchHighlight: 'terminal.findMatchHighlightBackground',
+  diffInserted: 'diffEditor.insertedTextBackground',
+  diffRemoved: 'diffEditor.removedTextBackground',
+  diffInsertedLine: 'diffEditor.insertedLineBackground',
+  diffRemovedLine: 'diffEditor.removedLineBackground',
+  mergeCurrentContent: 'merge.currentContentBackground',
+  mergeIncomingContent: 'merge.incomingContentBackground',
+  mergeCommonContent: 'merge.commonContentBackground',
+  linkedEditing: 'editor.linkedEditingBackground',
+  stackFrame: 'editor.stackFrameHighlightBackground',
+  focusedStackFrame: 'editor.focusedStackFrameHighlightBackground',
+  searchEditorFindMatch: 'searchEditor.findMatchBackground',
+  inputValidationError: 'inputValidation.errorBackground',
+  inputValidationInfo: 'inputValidation.infoBackground',
+  inputValidationWarning: 'inputValidation.warningBackground',
+} as const;
+
+type BgKeyName = keyof typeof BG_KEYS;
 
 const LABELS = {
   title: 'READABILITY ANALYSIS',
@@ -121,9 +205,16 @@ interface RGB {
 type Polarity = 'light-on-dark' | 'dark-on-light';
 type Level = 'Fluent' | 'Body' | 'Content' | 'Large' | 'Non-Text' | 'FAIL';
 
+interface ColorSource {
+  type: 'workbench' | 'textmate' | 'semantic';
+  key: string;
+  semanticKey?: string; // For syntax colors that check semantic first
+}
+
 interface ColorValue {
   color: string;
   fallback: boolean;
+  source?: ColorSource;
 }
 
 interface APCAAnalysis {
@@ -432,6 +523,8 @@ interface DistinctionPair {
   name2: string;
   color1: string;
   color2: string;
+  key1: string;
+  key2: string;
   deltaE: number;
   level: DistinctionLevel;
   icon: string;
@@ -573,6 +666,8 @@ function analyzeDistinction(
       name2,
       color1: cv1.color,
       color2: cv2.color,
+      key1: cv1.source?.key ?? name1,
+      key2: cv2.source?.key ?? name2,
       deltaE: dE,
       level,
       icon,
@@ -682,6 +777,8 @@ function analyzeSymbolDiscrimination(
       name2,
       color1: cv1.color,
       color2: cv2.color,
+      key1: cv1.source?.key ?? name1,
+      key2: cv2.source?.key ?? name2,
       deltaE: dE,
       level,
       icon,
@@ -906,7 +1003,11 @@ function findTokenColor(theme: ThemeJson, textmateScope: string, semanticKey?: s
     const value = theme.semanticTokenColors[semanticKey];
     if (value) {
       const color = typeof value === 'string' ? value : value.foreground;
-      if (color) return { color, fallback: false };
+      if (color) return {
+        color,
+        fallback: false,
+        source: { type: 'semantic', key: semanticKey, semanticKey },
+      };
     }
   }
 
@@ -926,15 +1027,27 @@ function findTokenColor(theme: ThemeJson, textmateScope: string, semanticKey?: s
   }
 
   if (match) {
-    return { color: match, fallback: false };
+    return {
+      color: match,
+      fallback: false,
+      source: { type: 'textmate', key: textmateScope, semanticKey },
+    };
   }
 
-  return { color: '', fallback: true };
+  return {
+    color: '',
+    fallback: true,
+    source: { type: 'textmate', key: textmateScope, semanticKey },
+  };
 }
 
 function getColor(theme: ThemeJson, key: string, fallback: string): ColorValue {
   const color = theme.colors?.[key];
-  return { color: color || fallback, fallback: !color };
+  return {
+    color: color || fallback,
+    fallback: !color,
+    source: { type: 'workbench', key },
+  };
 }
 
 function getColorRaw(theme: ThemeJson, key: string, fallback: string): string {
@@ -1073,7 +1186,7 @@ interface ExtractedColors {
 
 function resolveColor(cv: ColorValue, fallbackColor: string): ColorValue {
   if (cv.fallback || !cv.color) {
-    return { color: fallbackColor, fallback: true };
+    return { color: fallbackColor, fallback: true, source: cv.source };
   }
   return cv;
 }
@@ -1560,11 +1673,14 @@ function extractColors(theme: ThemeJson): ExtractedColors {
 interface ColorResult {
   name: string;
   color: string;
+  bgColor: string;
+  bgKey: string;
   lc: number;
   analysis: APCAAnalysis;
   alpha?: string;
   fallback: boolean;
   expectedDim?: boolean; // Elements intentionally low-contrast (ghost text, placeholders, etc.)
+  source?: ColorSource; // VS Code API key used
 }
 
 interface Stats {
@@ -1574,7 +1690,70 @@ interface Stats {
   fail: number;
   missing: number;
   total: number;
+  results: ColorResult[]; // All analyzed results for key reference
 }
+
+// =============================================================================
+// JSON OUTPUT TYPES
+// =============================================================================
+
+interface JsonColorResult {
+  name: string;
+  foreground: {
+    color: string;
+    key: string;
+    keyType: 'workbench' | 'textmate' | 'semantic';
+  };
+  background: {
+    color: string;
+    key: string;
+  };
+  lc: number;
+  level: Level;
+  pass: boolean;
+  fallback: boolean;
+  expectedDim: boolean;
+}
+
+interface JsonSection {
+  section: string;
+  results: JsonColorResult[];
+}
+
+interface JsonDistinctionPair {
+  pair: [string, string];
+  colors: [string, string];
+  keys: [string, string];
+  deltaE: number;
+  level: DistinctionLevel;
+  pass: boolean;
+}
+
+interface JsonOutput {
+  theme: string;
+  type: 'dark' | 'light';
+  sections: JsonSection[];
+  distinction: {
+    pairs: JsonDistinctionPair[];
+    skipped: Array<{ pair: [string, string]; reason: string }>;
+  };
+  symbolDiscrimination: {
+    pairs: JsonDistinctionPair[];
+    skipped: Array<{ pair: [string, string]; reason: string }>;
+  };
+  summary: {
+    pass: number;
+    large: number;
+    expectedDim: number;
+    fail: number;
+    missing: number;
+    total: number;
+    defined: number;
+    ready: boolean;
+  };
+}
+
+type OutputFormat = 'human' | 'json';
 
 /**
  * Elements that are intentionally low-contrast by design.
@@ -1625,7 +1804,7 @@ const EXPECTED_DIM_ELEMENTS = new Set([
   'Bright Black',    // Terminal dim text (ANSI bright black is gray)
 ]);
 
-function analyze(name: string, fgValue: ColorValue, bg: string): ColorResult {
+function analyze(name: string, fgValue: ColorValue, bg: string, bgKey = ''): ColorResult {
   const fg = fgValue.color;
   const alpha = extractAlpha(fg);
   const baseColor = stripAlpha(fg);
@@ -1635,41 +1814,72 @@ function analyze(name: string, fgValue: ColorValue, bg: string): ColorResult {
   return {
     name,
     color: effectiveColor,
+    bgColor: bg,
+    bgKey,
     lc: result.lc,
     analysis: analyzeAPCA(result),
     alpha: alphaStr,
     fallback: fgValue.fallback,
     expectedDim: EXPECTED_DIM_ELEMENTS.has(name),
+    source: fgValue.source,
   };
 }
 
-function printSection(results: ColorResult[], title: string, expectedPolarity: Polarity): Stats {
-  console.log(`\n▌ ${title}`);
-  console.log('─'.repeat(OUTPUT_WIDTH));
-  console.log(`${LABELS.colName.padEnd(COL_NAME_WIDTH)} ${LABELS.colColor.padEnd(COL_COLOR_WIDTH)} ${LABELS.colApca}`);
-  console.log('─'.repeat(OUTPUT_WIDTH));
+function formatSourceKey(source?: ColorSource): string {
+  if (!source) return '';
+  switch (source.type) {
+    case 'workbench':
+      return source.key;
+    case 'semantic':
+      return `semanticTokenColors.${source.key}`;
+    case 'textmate':
+      return source.semanticKey
+        ? `tokenColors: ${source.key} (→ ${source.semanticKey})`
+        : `tokenColors: ${source.key}`;
+  }
+}
 
-  const stats: Stats = { pass: 0, large: 0, expectedDim: 0, fail: 0, missing: 0, total: results.length };
+function getSourceKeyRaw(source?: ColorSource): string {
+  if (!source) return '';
+  switch (source.type) {
+    case 'workbench':
+      return source.key;
+    case 'semantic':
+      return source.key;
+    case 'textmate':
+      return source.key;
+  }
+}
+
+function toJsonColorResult(r: ColorResult): JsonColorResult {
+  return {
+    name: r.name,
+    foreground: {
+      color: r.color,
+      key: getSourceKeyRaw(r.source),
+      keyType: r.source?.type ?? 'workbench',
+    },
+    background: {
+      color: r.bgColor,
+      key: r.bgKey,
+    },
+    lc: Math.round(r.lc * 10) / 10,
+    level: r.analysis.level,
+    pass: r.analysis.pass,
+    fallback: r.fallback,
+    expectedDim: r.expectedDim ?? false,
+  };
+}
+
+function computeStats(results: ColorResult[], expectedPolarity: Polarity): Stats {
+  const stats: Stats = { pass: 0, large: 0, expectedDim: 0, fail: 0, missing: 0, total: results.length, results };
 
   for (const r of results) {
-    const alphaStr = r.alpha ? `(${r.alpha})` : '';
-    const fallbackStr = r.fallback ? '?' : '';
-    const dimStr = r.expectedDim ? '~' : '';
-    const colorCol = `${r.color}${alphaStr}${fallbackStr}`.padEnd(COL_COLOR_WIDTH);
-    const lcStr = r.lc.toFixed(1).padStart(6);
-    const levelStr = r.fallback ? `${r.analysis.level}?` : `${r.analysis.level}${dimStr}`;
-    console.log(`${r.name.padEnd(COL_NAME_WIDTH)} ${colorCol} Lc ${lcStr} ${r.analysis.icon} ${levelStr}`);
-
-    if (r.analysis.polarity !== expectedPolarity && !r.fallback) {
-      console.log(`    ⚠️ ${LABELS.unexpectedPolarity} ${r.analysis.polarity}`);
-    }
-
     if (r.fallback) {
       stats.missing++;
     } else if (r.analysis.pass) {
       stats.pass++;
     } else if (r.analysis.level === 'Large' || r.analysis.level === 'Non-Text') {
-      // Separate expected-dim from unexpected low-contrast
       if (r.expectedDim) {
         stats.expectedDim++;
       } else {
@@ -1683,75 +1893,137 @@ function printSection(results: ColorResult[], title: string, expectedPolarity: P
   return stats;
 }
 
+function printSection(results: ColorResult[], title: string, expectedPolarity: Polarity): Stats {
+  console.log(`\n▌ ${title}`);
+  console.log('─'.repeat(OUTPUT_WIDTH));
+  console.log(`${LABELS.colName.padEnd(COL_NAME_WIDTH)} ${LABELS.colColor.padEnd(COL_COLOR_WIDTH)} ${LABELS.colApca}`);
+  console.log('─'.repeat(OUTPUT_WIDTH));
+
+  for (const r of results) {
+    const alphaStr = r.alpha ? `(${r.alpha})` : '';
+    const fallbackStr = r.fallback ? '?' : '';
+    const dimStr = r.expectedDim ? '~' : '';
+    const colorCol = `${r.color}${alphaStr}${fallbackStr}`.padEnd(COL_COLOR_WIDTH);
+    const lcStr = r.lc.toFixed(1).padStart(6);
+    const levelStr = r.fallback ? `${r.analysis.level}?` : `${r.analysis.level}${dimStr}`;
+    console.log(`${r.name.padEnd(COL_NAME_WIDTH)} ${colorCol} Lc ${lcStr} ${r.analysis.icon} ${levelStr}`);
+
+    // Show source key on next line
+    const sourceKey = formatSourceKey(r.source);
+    if (sourceKey) {
+      console.log(`    ↳ ${sourceKey}`);
+    }
+
+    if (r.analysis.polarity !== expectedPolarity && !r.fallback) {
+      console.log(`    ⚠️ ${LABELS.unexpectedPolarity} ${r.analysis.polarity}`);
+    }
+  }
+
+  return computeStats(results, expectedPolarity);
+}
+
 // =============================================================================
 // MAIN
 // =============================================================================
 
-function runAnalysis(themePath: string): Stats {
+interface SectionData {
+  title: string;
+  results: ColorResult[];
+  stats: Stats;
+}
+
+function processSection(
+  results: ColorResult[],
+  title: string,
+  expectedPolarity: Polarity,
+  format: OutputFormat
+): SectionData {
+  const stats = computeStats(results, expectedPolarity);
+  if (format === 'human') {
+    printSection(results, title, expectedPolarity);
+  }
+  return { title, results, stats };
+}
+
+function runAnalysis(themePath: string, format: OutputFormat = 'human'): Stats {
   const theme = loadTheme(themePath);
   const name = getThemeName(theme, themePath);
   const type: 'dark' | 'light' = theme.type === 'light' ? 'light' : 'dark';
   const expectedPolarity: Polarity = type === 'dark' ? 'light-on-dark' : 'dark-on-light';
   const c = extractColors(theme);
 
-  console.log('═'.repeat(OUTPUT_WIDTH));
-  console.log(`  ${name.toUpperCase()} - ${LABELS.title} (${type.toUpperCase()})`);
-  console.log('═'.repeat(OUTPUT_WIDTH));
-  console.log(`\n${LABELS.thresholds}`);
+  if (format === 'human') {
+    console.log('═'.repeat(OUTPUT_WIDTH));
+    console.log(`  ${name.toUpperCase()} - ${LABELS.title} (${type.toUpperCase()})`);
+    console.log('═'.repeat(OUTPUT_WIDTH));
+    console.log(`\n${LABELS.thresholds}`);
+  }
 
+  const allSections: SectionData[] = [];
   const allStats: Stats[] = [];
 
+  // Helper to process a section and collect results
+  const section = (results: ColorResult[], title: string) => {
+    const data = processSection(results, title, expectedPolarity, format);
+    allSections.push(data);
+    allStats.push(data.stats);
+  };
+
+  // Helper to analyze with background key tracking
+  const a = (name: string, fgValue: ColorValue, bgKey: BgKeyName) =>
+    analyze(name, fgValue, c.bg[bgKey], BG_KEYS[bgKey]);
+
   // Text
-  allStats.push(printSection([
-    analyze('Primary', c.fg, c.bg.editor),
-    analyze('Global', c.ui.foreground, c.bg.editor),
-    analyze('Icons', c.ui.iconForeground, c.bg.editor),
-  ], LABELS.sectionText, expectedPolarity));
+  section([
+    a('Primary', c.fg, 'editor'),
+    a('Global', c.ui.foreground, 'editor'),
+    a('Icons', c.ui.iconForeground, 'editor'),
+  ], LABELS.sectionText);
 
   // Syntax - Core (high frequency)
-  allStats.push(printSection([
-    analyze('Variables', c.syntax.variable, c.bg.editor),
-    analyze('Var Language', c.syntax.variableLanguage, c.bg.editor), // this, self, super
-    analyze('Parameters', c.syntax.parameter, c.bg.editor),
-    analyze('Properties', c.syntax.property, c.bg.editor),
-    analyze('Keywords', c.syntax.keyword, c.bg.editor),
-    analyze('Operators', c.syntax.operator, c.bg.editor),
-    analyze('Storage', c.syntax.storage, c.bg.editor),
-    analyze('Functions', c.syntax.function, c.bg.editor),
-    analyze('Methods', c.syntax.method, c.bg.editor),
-    analyze('Classes', c.syntax.class, c.bg.editor),
-    analyze('Types', c.syntax.type, c.bg.editor),
-    analyze('Interfaces', c.syntax.interface, c.bg.editor),
-    analyze('Namespaces', c.syntax.namespace, c.bg.editor),
-    analyze('Enums', c.syntax.enum, c.bg.editor),
-    analyze('Enum Members', c.syntax.enumMember, c.bg.editor),
-    analyze('Type Params', c.syntax.typeParameter, c.bg.editor),
-    analyze('Numbers', c.syntax.number, c.bg.editor),
-    analyze('Strings', c.syntax.string, c.bg.editor),
-    analyze('String Escape', c.syntax.stringEscape, c.bg.editor), // \n, \t, etc.
-    analyze('Constants', c.syntax.constant, c.bg.editor),
-    analyze('Regexp', c.syntax.regexp, c.bg.editor),
-    analyze('Tags', c.syntax.tag, c.bg.editor),
-    analyze('Attributes', c.syntax.attribute, c.bg.editor),
-    analyze('Decorators', c.syntax.decorator, c.bg.editor),
-    analyze('Links', c.syntax.link, c.bg.editor),
-    analyze('Punctuation', c.syntax.punctuation, c.bg.editor),
-    analyze('Macros', c.syntax.macro, c.bg.editor),
-    analyze('Structs', c.syntax.struct, c.bg.editor),
+  section([
+    a('Variables', c.syntax.variable, 'editor'),
+    a('Var Language', c.syntax.variableLanguage, 'editor'), // this, self, super
+    a('Parameters', c.syntax.parameter, 'editor'),
+    a('Properties', c.syntax.property, 'editor'),
+    a('Keywords', c.syntax.keyword, 'editor'),
+    a('Operators', c.syntax.operator, 'editor'),
+    a('Storage', c.syntax.storage, 'editor'),
+    a('Functions', c.syntax.function, 'editor'),
+    a('Methods', c.syntax.method, 'editor'),
+    a('Classes', c.syntax.class, 'editor'),
+    a('Types', c.syntax.type, 'editor'),
+    a('Interfaces', c.syntax.interface, 'editor'),
+    a('Namespaces', c.syntax.namespace, 'editor'),
+    a('Enums', c.syntax.enum, 'editor'),
+    a('Enum Members', c.syntax.enumMember, 'editor'),
+    a('Type Params', c.syntax.typeParameter, 'editor'),
+    a('Numbers', c.syntax.number, 'editor'),
+    a('Strings', c.syntax.string, 'editor'),
+    a('String Escape', c.syntax.stringEscape, 'editor'), // \n, \t, etc.
+    a('Constants', c.syntax.constant, 'editor'),
+    a('Regexp', c.syntax.regexp, 'editor'),
+    a('Tags', c.syntax.tag, 'editor'),
+    a('Attributes', c.syntax.attribute, 'editor'),
+    a('Decorators', c.syntax.decorator, 'editor'),
+    a('Links', c.syntax.link, 'editor'),
+    a('Punctuation', c.syntax.punctuation, 'editor'),
+    a('Macros', c.syntax.macro, 'editor'),
+    a('Structs', c.syntax.struct, 'editor'),
     // Invalid/Deprecated
-    analyze('Invalid', c.syntax.invalid, c.bg.editor),
-    analyze('Deprecated', c.syntax.deprecated, c.bg.editor),
+    a('Invalid', c.syntax.invalid, 'editor'),
+    a('Deprecated', c.syntax.deprecated, 'editor'),
     // Support (framework/library)
-    analyze('Support Func', c.syntax.supportFunction, c.bg.editor),
+    a('Support Func', c.syntax.supportFunction, 'editor'),
     // Storage modifiers
-    analyze('Storage Mod', c.syntax.storageModifier, c.bg.editor),
+    a('Storage Mod', c.syntax.storageModifier, 'editor'),
     // Markup (Markdown, etc.)
-    analyze('Markup Heading', c.syntax.markupHeading, c.bg.editor),
-    analyze('Markup Bold', c.syntax.markupBold, c.bg.editor),
-    analyze('Markup Italic', c.syntax.markupItalic, c.bg.editor),
-    analyze('Markup Code', c.syntax.markupCode, c.bg.editor),
-    analyze('Markup Quote', c.syntax.markupQuote, c.bg.editor),
-  ], LABELS.sectionSyntax, expectedPolarity));
+    a('Markup Heading', c.syntax.markupHeading, 'editor'),
+    a('Markup Bold', c.syntax.markupBold, 'editor'),
+    a('Markup Italic', c.syntax.markupItalic, 'editor'),
+    a('Markup Code', c.syntax.markupCode, 'editor'),
+    a('Markup Quote', c.syntax.markupQuote, 'editor'),
+  ], LABELS.sectionSyntax);
 
   // Selected Text - tests readability when code is selected or highlighted
   // If foreground override is defined, VS Code uses it instead of syntax colors
@@ -1759,487 +2031,509 @@ function runAnalysis(themePath: string): Stats {
 
   // Selection: if selectionForeground is defined, it overrides all syntax colors
   if (!c.ui.selectionForeground.fallback && c.ui.selectionForeground.color) {
-    selectedTextResults.push(analyze('Selection', c.ui.selectionForeground, c.bg.selection));
+    selectedTextResults.push(a('Selection', c.ui.selectionForeground, 'selection'));
   } else {
     // No override - test key syntax colors against selection background
-    selectedTextResults.push(analyze('Sel:Variable', c.syntax.variable, c.bg.selection));
-    selectedTextResults.push(analyze('Sel:Keyword', c.syntax.keyword, c.bg.selection));
-    selectedTextResults.push(analyze('Sel:String', c.syntax.string, c.bg.selection));
-    selectedTextResults.push(analyze('Sel:Comment', c.syntax.comment, c.bg.selection));
+    selectedTextResults.push(a('Sel:Variable', c.syntax.variable, 'selection'));
+    selectedTextResults.push(a('Sel:Keyword', c.syntax.keyword, 'selection'));
+    selectedTextResults.push(a('Sel:String', c.syntax.string, 'selection'));
+    selectedTextResults.push(a('Sel:Comment', c.syntax.comment, 'selection'));
   }
 
   // Word highlight: symbol occurrences
   if (!c.ui.wordHighlightForeground.fallback && c.ui.wordHighlightForeground.color) {
-    selectedTextResults.push(analyze('Word Highl', c.ui.wordHighlightForeground, c.bg.wordHighlight));
+    selectedTextResults.push(a('Word Highl', c.ui.wordHighlightForeground, 'wordHighlight'));
   } else {
-    selectedTextResults.push(analyze('Highl:Var', c.syntax.variable, c.bg.wordHighlight));
+    selectedTextResults.push(a('Highl:Var', c.syntax.variable, 'wordHighlight'));
   }
 
   // Word highlight strong: write occurrences
   if (!c.ui.wordHighlightStrongForeground.fallback && c.ui.wordHighlightStrongForeground.color) {
-    selectedTextResults.push(analyze('Write Highl', c.ui.wordHighlightStrongForeground, c.bg.wordHighlightStrong));
+    selectedTextResults.push(a('Write Highl', c.ui.wordHighlightStrongForeground, 'wordHighlightStrong'));
   }
 
   // Word highlight text: text search occurrences
   if (!c.ui.wordHighlightTextForeground.fallback && c.ui.wordHighlightTextForeground.color) {
-    selectedTextResults.push(analyze('Text Highl', c.ui.wordHighlightTextForeground, c.bg.wordHighlightText));
+    selectedTextResults.push(a('Text Highl', c.ui.wordHighlightTextForeground, 'wordHighlightText'));
   }
 
   // Find match: current search match
   if (!c.ui.findMatchForeground.fallback && c.ui.findMatchForeground.color) {
-    selectedTextResults.push(analyze('Find Match', c.ui.findMatchForeground, c.bg.findMatchActive));
+    selectedTextResults.push(a('Find Match', c.ui.findMatchForeground, 'findMatchActive'));
   } else {
-    selectedTextResults.push(analyze('Find:Var', c.syntax.variable, c.bg.findMatchActive));
+    selectedTextResults.push(a('Find:Var', c.syntax.variable, 'findMatchActive'));
   }
 
   // Find match highlight: other search matches
   if (!c.ui.findMatchHighlightForeground.fallback && c.ui.findMatchHighlightForeground.color) {
-    selectedTextResults.push(analyze('Find Other', c.ui.findMatchHighlightForeground, c.bg.findMatch));
+    selectedTextResults.push(a('Find Other', c.ui.findMatchHighlightForeground, 'findMatch'));
   }
 
   // Inactive selection (window unfocused)
-  selectedTextResults.push(analyze('Inact:Var', c.syntax.variable, c.bg.selectionInactive));
+  selectedTextResults.push(a('Inact:Var', c.syntax.variable, 'selectionInactive'));
 
   // Selection highlight (other occurrences of selected text)
-  selectedTextResults.push(analyze('SelHigh:Var', c.syntax.variable, c.bg.selectionHighlight));
+  selectedTextResults.push(a('SelHigh:Var', c.syntax.variable, 'selectionHighlight'));
 
   // Word highlight text (text search occurrences)
-  selectedTextResults.push(analyze('TextHigh:Var', c.syntax.variable, c.bg.wordHighlightText));
+  selectedTextResults.push(a('TextHigh:Var', c.syntax.variable, 'wordHighlightText'));
 
   // Find in selection range
-  selectedTextResults.push(analyze('FindRange', c.syntax.variable, c.bg.findRange));
+  selectedTextResults.push(a('FindRange', c.syntax.variable, 'findRange'));
 
   // Ghost text on selection (edge case: Copilot suggestion while text selected)
-  selectedTextResults.push(analyze('Ghost+Sel', c.ui.ghostText, c.bg.selection));
+  selectedTextResults.push(a('Ghost+Sel', c.ui.ghostText, 'selection'));
 
-  allStats.push(printSection(selectedTextResults, LABELS.sectionSelected, expectedPolarity));
+  section(selectedTextResults, LABELS.sectionSelected);
 
   // Navigation Highlights - Go to Definition, Go to Symbol, Quick Open
-  allStats.push(printSection([
-    analyze('Range:Var', c.syntax.variable, c.bg.rangeHighlight),
-    analyze('Range:Keyword', c.syntax.keyword, c.bg.rangeHighlight),
-    analyze('Range:String', c.syntax.string, c.bg.rangeHighlight),
-    analyze('Range:Comment', c.syntax.comment, c.bg.rangeHighlight),
-    analyze('Symbol:Var', c.syntax.variable, c.bg.symbolHighlight),
-    analyze('Symbol:Keyword', c.syntax.keyword, c.bg.symbolHighlight),
-    analyze('Symbol:String', c.syntax.string, c.bg.symbolHighlight),
-    analyze('Symbol:Comment', c.syntax.comment, c.bg.symbolHighlight),
-  ], LABELS.sectionNavHighlights, expectedPolarity));
+  section([
+    a('Range:Var', c.syntax.variable, 'rangeHighlight'),
+    a('Range:Keyword', c.syntax.keyword, 'rangeHighlight'),
+    a('Range:String', c.syntax.string, 'rangeHighlight'),
+    a('Range:Comment', c.syntax.comment, 'rangeHighlight'),
+    a('Symbol:Var', c.syntax.variable, 'symbolHighlight'),
+    a('Symbol:Keyword', c.syntax.keyword, 'symbolHighlight'),
+    a('Symbol:String', c.syntax.string, 'symbolHighlight'),
+    a('Symbol:Comment', c.syntax.comment, 'symbolHighlight'),
+  ], LABELS.sectionNavHighlights);
 
   // Diagnostics
-  allStats.push(printSection([
-    analyze('Errors', c.syntax.error, c.bg.editor),
-    analyze('Warnings', c.syntax.warning, c.bg.editor),
-    analyze('Info', c.syntax.info, c.bg.editor),
-  ], LABELS.sectionDiagnostics, expectedPolarity));
+  section([
+    a('Errors', c.syntax.error, 'editor'),
+    a('Warnings', c.syntax.warning, 'editor'),
+    a('Info', c.syntax.info, 'editor'),
+  ], LABELS.sectionDiagnostics);
 
   // Comments
-  allStats.push(printSection([
-    analyze('Comments', c.syntax.comment, c.bg.editor),
-    analyze('Doc Comments', c.syntax.docComment, c.bg.editor),
-  ], LABELS.sectionComments, expectedPolarity));
+  section([
+    a('Comments', c.syntax.comment, 'editor'),
+    a('Doc Comments', c.syntax.docComment, 'editor'),
+  ], LABELS.sectionComments);
 
   // UI - Editor
-  allStats.push(printSection([
-    analyze('Line Numbers', c.ui.lineNumber, c.bg.editor),
-    analyze('Line Active', c.ui.lineNumberActive, c.bg.editor),
-    analyze('Line Num Dimmed', c.ui.lineNumberDimmed, c.bg.editor),
-    analyze('Ghost Text', c.ui.ghostText, c.bg.editor),
-    analyze('Hint', c.ui.hint, c.bg.editor),
-    analyze('Inlay Hints', c.ui.inlayHint, c.bg.inlayHint),
-    analyze('Inlay Type', c.ui.inlayHintType, c.bg.inlayHint),
-    analyze('Inlay Param', c.ui.inlayHintParam, c.bg.inlayHint),
-    analyze('Code Lens', c.ui.codeLens, c.bg.editor),
-    analyze('Lightbulb', c.ui.lightBulb, c.bg.editor),
-    analyze('Lightbulb Fix', c.ui.lightBulbAutoFix, c.bg.editor),
-    analyze('Lightbulb AI', c.ui.lightBulbAi, c.bg.editor),
-    analyze('Fold Control', c.ui.foldControl, c.bg.editor),
-    analyze('Fold Placeholder', c.ui.foldPlaceholder, c.bg.editor),
-    analyze('Whitespace', c.ui.whitespace, c.bg.editor),
-    analyze('Ruler', c.ui.ruler, c.bg.editor),
-    analyze('Link Active', c.ui.editorLinkActive, c.bg.editor),
-  ], LABELS.sectionEditorUi, expectedPolarity));
+  section([
+    a('Line Numbers', c.ui.lineNumber, 'editor'),
+    a('Line Active', c.ui.lineNumberActive, 'editor'),
+    a('Line Num Dimmed', c.ui.lineNumberDimmed, 'editor'),
+    a('Ghost Text', c.ui.ghostText, 'editor'),
+    a('Hint', c.ui.hint, 'editor'),
+    a('Inlay Hints', c.ui.inlayHint, 'inlayHint'),
+    a('Inlay Type', c.ui.inlayHintType, 'inlayHint'),
+    a('Inlay Param', c.ui.inlayHintParam, 'inlayHint'),
+    a('Code Lens', c.ui.codeLens, 'editor'),
+    a('Lightbulb', c.ui.lightBulb, 'editor'),
+    a('Lightbulb Fix', c.ui.lightBulbAutoFix, 'editor'),
+    a('Lightbulb AI', c.ui.lightBulbAi, 'editor'),
+    a('Fold Control', c.ui.foldControl, 'editor'),
+    a('Fold Placeholder', c.ui.foldPlaceholder, 'editor'),
+    a('Whitespace', c.ui.whitespace, 'editor'),
+    a('Ruler', c.ui.ruler, 'editor'),
+    a('Link Active', c.ui.editorLinkActive, 'editor'),
+  ], LABELS.sectionEditorUi);
 
   // UI - Workbench
-  allStats.push(printSection([
-    analyze('Title Bar', c.ui.titleBar, c.bg.titleBar),
-    analyze('Title Inactive', c.ui.titleBarInactive, c.bg.titleBarInactive),
-    analyze('Command Center', c.ui.commandCenter, c.bg.commandCenter),
-    analyze('Cmd Ctr Active', c.ui.commandCenterActive, c.bg.commandCenter),
-    analyze('Cmd Ctr Inact', c.ui.commandCenterInactive, c.bg.commandCenter),
-    analyze('Tab Active', c.ui.tabActive, c.bg.tabBar),
-    analyze('Tab Selected', c.ui.tabSelected, c.bg.tabBar),
-    analyze('Tab Inactive', c.ui.tabInactive, c.bg.tabBar),
-    analyze('Tab Unfocused', c.ui.tabUnfocused, c.bg.tabBar),
-    analyze('Tab Unfoc Inact', c.ui.tabUnfocusedInactive, c.bg.tabBar),
-    analyze('Tab Hover', c.ui.tabHover, c.bg.tabBar),
-    analyze('Tab Unfoc Hover', c.ui.tabUnfocusedHover, c.bg.tabBar),
-    analyze('Breadcrumb', c.ui.breadcrumb, c.bg.breadcrumb),
-    analyze('Sidebar', c.ui.sidebarText, c.bg.sidebar),
-    analyze('Sidebar Title', c.ui.sidebarTitle, c.bg.sidebar),
-    analyze('Activity Bar', c.ui.activityBar, c.bg.activityBar),
-    analyze('Activity Inact', c.ui.activityBarInactive, c.bg.activityBar),
-    analyze('Act Top', c.ui.activityBarTop, c.bg.activityBar),
-    analyze('Act Top Inact', c.ui.activityBarTopInactive, c.bg.activityBar),
-    analyze('Status Bar', c.ui.statusBarText, c.bg.statusBar),
-    analyze('Status Debug', c.ui.statusBarDebug, c.bg.statusBar),
-    analyze('Status NoFolder', c.ui.statusBarNoFolder, c.bg.statusBar),
-    analyze('Status Error', c.ui.statusBarItemError, c.bg.statusBarItemError),
-    analyze('Status Warning', c.ui.statusBarItemWarning, c.bg.statusBarItemWarning),
-    analyze('Status Remote', c.ui.statusBarItemRemote, c.bg.statusBarItemRemote),
-    analyze('Status Promi', c.ui.statusBarItemProminent, c.bg.statusBarItemProminent),
-    analyze('Status Offline', c.ui.statusBarItemOffline, c.bg.statusBarItemOffline),
-    analyze('Status Hover', c.ui.statusBarItemHover, c.bg.statusBar),
-    analyze('Panel Active', c.ui.panelTitle, c.bg.panel),
-    analyze('Panel Inactive', c.ui.panelTitleInactive, c.bg.panel),
-    analyze('Panel Badge', c.ui.panelTitleBadge, c.bg.panel),
-    analyze('Terminal', c.ui.terminal, c.bg.terminal),
-    analyze('Input', c.ui.input, c.bg.input),
-    analyze('Placeholder', c.ui.inputPlaceholder, c.bg.input),
-    analyze('Input Error', c.ui.inputValidationError, c.bg.inputValidationError),
-    analyze('Input Warning', c.ui.inputValidationWarning, c.bg.inputValidationWarning),
-    analyze('Input Info', c.ui.inputValidationInfo, c.bg.inputValidationInfo),
-    analyze('Checkbox', c.ui.checkbox, c.bg.checkbox),
-    analyze('List Selected', c.ui.listSelection, c.bg.listSelection),
-    analyze('List Sel Icon', c.ui.listSelectionIcon, c.bg.listSelection),
-    analyze('List Inact Icon', c.ui.listInactiveSelectionIcon, c.bg.listInactiveSelection),
-    analyze('List Hover', c.ui.listHover, c.bg.listHover),
-    analyze('List Focus', c.ui.listFocus, c.bg.listFocus),
-    analyze('List Invalid', c.ui.listInvalidItem, c.bg.sidebar),
-    analyze('List Deemph', c.ui.listDeemphasized, c.bg.sidebar),
-    analyze('Menubar Select', c.ui.menubarSelection, c.bg.menu),
-    analyze('Link Active', c.ui.textLinkActive, c.bg.editor),
-  ], LABELS.sectionWorkbenchUi, expectedPolarity));
+  section([
+    a('Title Bar', c.ui.titleBar, 'titleBar'),
+    a('Title Inactive', c.ui.titleBarInactive, 'titleBarInactive'),
+    a('Command Center', c.ui.commandCenter, 'commandCenter'),
+    a('Cmd Ctr Active', c.ui.commandCenterActive, 'commandCenter'),
+    a('Cmd Ctr Inact', c.ui.commandCenterInactive, 'commandCenter'),
+    a('Tab Active', c.ui.tabActive, 'tabBar'),
+    a('Tab Selected', c.ui.tabSelected, 'tabBar'),
+    a('Tab Inactive', c.ui.tabInactive, 'tabBar'),
+    a('Tab Unfocused', c.ui.tabUnfocused, 'tabBar'),
+    a('Tab Unfoc Inact', c.ui.tabUnfocusedInactive, 'tabBar'),
+    a('Tab Hover', c.ui.tabHover, 'tabBar'),
+    a('Tab Unfoc Hover', c.ui.tabUnfocusedHover, 'tabBar'),
+    a('Breadcrumb', c.ui.breadcrumb, 'breadcrumb'),
+    a('Sidebar', c.ui.sidebarText, 'sidebar'),
+    a('Sidebar Title', c.ui.sidebarTitle, 'sidebar'),
+    a('Activity Bar', c.ui.activityBar, 'activityBar'),
+    a('Activity Inact', c.ui.activityBarInactive, 'activityBar'),
+    a('Act Top', c.ui.activityBarTop, 'activityBar'),
+    a('Act Top Inact', c.ui.activityBarTopInactive, 'activityBar'),
+    a('Status Bar', c.ui.statusBarText, 'statusBar'),
+    a('Status Debug', c.ui.statusBarDebug, 'statusBar'),
+    a('Status NoFolder', c.ui.statusBarNoFolder, 'statusBar'),
+    a('Status Error', c.ui.statusBarItemError, 'statusBarItemError'),
+    a('Status Warning', c.ui.statusBarItemWarning, 'statusBarItemWarning'),
+    a('Status Remote', c.ui.statusBarItemRemote, 'statusBarItemRemote'),
+    a('Status Promi', c.ui.statusBarItemProminent, 'statusBarItemProminent'),
+    a('Status Offline', c.ui.statusBarItemOffline, 'statusBarItemOffline'),
+    a('Status Hover', c.ui.statusBarItemHover, 'statusBar'),
+    a('Panel Active', c.ui.panelTitle, 'panel'),
+    a('Panel Inactive', c.ui.panelTitleInactive, 'panel'),
+    a('Panel Badge', c.ui.panelTitleBadge, 'panel'),
+    a('Terminal', c.ui.terminal, 'terminal'),
+    a('Input', c.ui.input, 'input'),
+    a('Placeholder', c.ui.inputPlaceholder, 'input'),
+    a('Input Error', c.ui.inputValidationError, 'inputValidationError'),
+    a('Input Warning', c.ui.inputValidationWarning, 'inputValidationWarning'),
+    a('Input Info', c.ui.inputValidationInfo, 'inputValidationInfo'),
+    a('Checkbox', c.ui.checkbox, 'checkbox'),
+    a('List Selected', c.ui.listSelection, 'listSelection'),
+    a('List Sel Icon', c.ui.listSelectionIcon, 'listSelection'),
+    a('List Inact Icon', c.ui.listInactiveSelectionIcon, 'listInactiveSelection'),
+    a('List Hover', c.ui.listHover, 'listHover'),
+    a('List Focus', c.ui.listFocus, 'listFocus'),
+    a('List Invalid', c.ui.listInvalidItem, 'sidebar'),
+    a('List Deemph', c.ui.listDeemphasized, 'sidebar'),
+    a('Menubar Select', c.ui.menubarSelection, 'menu'),
+    a('Link Active', c.ui.textLinkActive, 'editor'),
+  ], LABELS.sectionWorkbenchUi);
 
   // Widgets
-  allStats.push(printSection([
-    analyze('Find/Replace', c.widgets.editorWidget, c.bg.editorWidget),
-    analyze('Action List', c.widgets.actionList, c.bg.editorWidget),
-    analyze('Action Focus', c.widgets.actionListFocus, c.bg.editorWidget),
-    analyze('Autocomplete', c.widgets.suggest, c.bg.suggest),
-    analyze('Suggest Select', c.widgets.suggestSelected, c.bg.suggestSelected),
-    analyze('Suggest Sel Icon', c.widgets.suggestSelectedIcon, c.bg.suggestSelected),
-    analyze('Suggest Match', c.widgets.suggestHighlight, c.bg.suggest),
-    analyze('Suggest Foc Match', c.widgets.suggestFocusHighlight, c.bg.suggestSelected),
-    analyze('Hover Tooltip', c.widgets.hover, c.bg.hover),
-    analyze('Hover Highlight', c.widgets.hoverHighlight, c.bg.hover),
-    analyze('Preformat Text', c.ui.textPreformat, c.bg.hover), // code in tooltips
-    analyze('Command Palette', c.widgets.quickInput, c.bg.quickInput),
-    analyze('Palette Focus', c.widgets.quickInputListFocus, c.bg.quickInputListFocus),
-    analyze('Palette Foc Icon', c.widgets.quickInputListFocusIcon, c.bg.quickInputListFocus),
-    analyze('Picker Group', c.ui.pickerGroup, c.bg.quickInput),
-    analyze('Menu', c.widgets.menu, c.bg.menu),
-    analyze('Menu Selection', c.widgets.menuSelection, c.bg.menu),
-    analyze('Notification', c.widgets.notification, c.bg.notification),
-    analyze('Notif Link', c.widgets.notificationLink, c.bg.notification),
-    analyze('Notif Header', c.widgets.notificationHeader, c.bg.notification),
-    analyze('Notif Error', c.widgets.notificationErrorIcon, c.bg.notification),
-    analyze('Notif Warning', c.widgets.notificationWarningIcon, c.bg.notification),
-    analyze('Notif Info', c.widgets.notificationInfoIcon, c.bg.notification),
-    analyze('Peek View', c.widgets.peekView, c.bg.peekView),
-    analyze('Inline Chat', c.widgets.inlineChat, c.bg.inlineChat),
-    analyze('Chat Placeholder', c.widgets.inlineChatPlaceholder, c.bg.inlineChat),
-    analyze('Suggest Status', c.widgets.suggestWidgetStatus, c.bg.suggest),
-  ], LABELS.sectionWidgets, expectedPolarity));
+  section([
+    a('Find/Replace', c.widgets.editorWidget, 'editorWidget'),
+    a('Action List', c.widgets.actionList, 'editorWidget'),
+    a('Action Focus', c.widgets.actionListFocus, 'editorWidget'),
+    a('Autocomplete', c.widgets.suggest, 'suggest'),
+    a('Suggest Select', c.widgets.suggestSelected, 'suggestSelected'),
+    a('Suggest Sel Icon', c.widgets.suggestSelectedIcon, 'suggestSelected'),
+    a('Suggest Match', c.widgets.suggestHighlight, 'suggest'),
+    a('Suggest Foc Match', c.widgets.suggestFocusHighlight, 'suggestSelected'),
+    a('Hover Tooltip', c.widgets.hover, 'hover'),
+    a('Hover Highlight', c.widgets.hoverHighlight, 'hover'),
+    a('Preformat Text', c.ui.textPreformat, 'hover'), // code in tooltips
+    a('Command Palette', c.widgets.quickInput, 'quickInput'),
+    a('Palette Focus', c.widgets.quickInputListFocus, 'quickInputListFocus'),
+    a('Palette Foc Icon', c.widgets.quickInputListFocusIcon, 'quickInputListFocus'),
+    a('Picker Group', c.ui.pickerGroup, 'quickInput'),
+    a('Menu', c.widgets.menu, 'menu'),
+    a('Menu Selection', c.widgets.menuSelection, 'menu'),
+    a('Notification', c.widgets.notification, 'notification'),
+    a('Notif Link', c.widgets.notificationLink, 'notification'),
+    a('Notif Header', c.widgets.notificationHeader, 'notification'),
+    a('Notif Error', c.widgets.notificationErrorIcon, 'notification'),
+    a('Notif Warning', c.widgets.notificationWarningIcon, 'notification'),
+    a('Notif Info', c.widgets.notificationInfoIcon, 'notification'),
+    a('Peek View', c.widgets.peekView, 'peekView'),
+    a('Inline Chat', c.widgets.inlineChat, 'inlineChat'),
+    a('Chat Placeholder', c.widgets.inlineChatPlaceholder, 'inlineChat'),
+    a('Suggest Status', c.widgets.suggestWidgetStatus, 'suggest'),
+  ], LABELS.sectionWidgets);
 
   // Git Decorations
-  allStats.push(printSection([
-    analyze('Added', c.git.added, c.bg.sidebar),
-    analyze('Modified', c.git.modified, c.bg.sidebar),
-    analyze('Deleted', c.git.deleted, c.bg.sidebar),
-    analyze('Renamed', c.git.renamed, c.bg.sidebar),
-    analyze('Untracked', c.git.untracked, c.bg.sidebar),
-    analyze('Ignored', c.git.ignored, c.bg.sidebar),
-    analyze('Conflict', c.git.conflict, c.bg.sidebar),
-    analyze('Submodule', c.git.submodule, c.bg.sidebar),
-    analyze('Stage Modified', c.git.stageModified, c.bg.sidebar),
-    analyze('Stage Deleted', c.git.stageDeleted, c.bg.sidebar),
-  ], LABELS.sectionGit, expectedPolarity));
+  section([
+    a('Added', c.git.added, 'sidebar'),
+    a('Modified', c.git.modified, 'sidebar'),
+    a('Deleted', c.git.deleted, 'sidebar'),
+    a('Renamed', c.git.renamed, 'sidebar'),
+    a('Untracked', c.git.untracked, 'sidebar'),
+    a('Ignored', c.git.ignored, 'sidebar'),
+    a('Conflict', c.git.conflict, 'sidebar'),
+    a('Submodule', c.git.submodule, 'sidebar'),
+    a('Stage Modified', c.git.stageModified, 'sidebar'),
+    a('Stage Deleted', c.git.stageDeleted, 'sidebar'),
+  ], LABELS.sectionGit);
 
   // Brackets
-  allStats.push(printSection([
-    analyze('Bracket 1', c.brackets.bracket1, c.bg.editor),
-    analyze('Bracket 2', c.brackets.bracket2, c.bg.editor),
-    analyze('Bracket 3', c.brackets.bracket3, c.bg.editor),
-    analyze('Bracket 4', c.brackets.bracket4, c.bg.editor),
-    analyze('Bracket 5', c.brackets.bracket5, c.bg.editor),
-    analyze('Bracket 6', c.brackets.bracket6, c.bg.editor),
-    analyze('Unexpected', c.brackets.unexpected, c.bg.editor),
-    analyze('Match BG', c.fg, c.bg.bracketMatch), // Text on bracket match highlight
-  ], LABELS.sectionBrackets, expectedPolarity));
+  section([
+    a('Bracket 1', c.brackets.bracket1, 'editor'),
+    a('Bracket 2', c.brackets.bracket2, 'editor'),
+    a('Bracket 3', c.brackets.bracket3, 'editor'),
+    a('Bracket 4', c.brackets.bracket4, 'editor'),
+    a('Bracket 5', c.brackets.bracket5, 'editor'),
+    a('Bracket 6', c.brackets.bracket6, 'editor'),
+    a('Unexpected', c.brackets.unexpected, 'editor'),
+    a('Match BG', c.fg, 'bracketMatch'), // Text on bracket match highlight
+  ], LABELS.sectionBrackets);
 
   // Terminal ANSI colors
   const terminalResults: ColorResult[] = [
-    analyze('Black', c.terminal.ansiBlack, c.bg.terminal),
-    analyze('Red', c.terminal.ansiRed, c.bg.terminal),
-    analyze('Green', c.terminal.ansiGreen, c.bg.terminal),
-    analyze('Yellow', c.terminal.ansiYellow, c.bg.terminal),
-    analyze('Blue', c.terminal.ansiBlue, c.bg.terminal),
-    analyze('Magenta', c.terminal.ansiMagenta, c.bg.terminal),
-    analyze('Cyan', c.terminal.ansiCyan, c.bg.terminal),
-    analyze('White', c.terminal.ansiWhite, c.bg.terminal),
-    analyze('Bright Black', c.terminal.ansiBrightBlack, c.bg.terminal),
-    analyze('Bright Red', c.terminal.ansiBrightRed, c.bg.terminal),
-    analyze('Bright Green', c.terminal.ansiBrightGreen, c.bg.terminal),
-    analyze('Bright Yellow', c.terminal.ansiBrightYellow, c.bg.terminal),
-    analyze('Bright Blue', c.terminal.ansiBrightBlue, c.bg.terminal),
-    analyze('Bright Magenta', c.terminal.ansiBrightMagenta, c.bg.terminal),
-    analyze('Bright Cyan', c.terminal.ansiBrightCyan, c.bg.terminal),
-    analyze('Bright White', c.terminal.ansiBrightWhite, c.bg.terminal),
+    a('Black', c.terminal.ansiBlack, 'terminal'),
+    a('Red', c.terminal.ansiRed, 'terminal'),
+    a('Green', c.terminal.ansiGreen, 'terminal'),
+    a('Yellow', c.terminal.ansiYellow, 'terminal'),
+    a('Blue', c.terminal.ansiBlue, 'terminal'),
+    a('Magenta', c.terminal.ansiMagenta, 'terminal'),
+    a('Cyan', c.terminal.ansiCyan, 'terminal'),
+    a('White', c.terminal.ansiWhite, 'terminal'),
+    a('Bright Black', c.terminal.ansiBrightBlack, 'terminal'),
+    a('Bright Red', c.terminal.ansiBrightRed, 'terminal'),
+    a('Bright Green', c.terminal.ansiBrightGreen, 'terminal'),
+    a('Bright Yellow', c.terminal.ansiBrightYellow, 'terminal'),
+    a('Bright Blue', c.terminal.ansiBrightBlue, 'terminal'),
+    a('Bright Magenta', c.terminal.ansiBrightMagenta, 'terminal'),
+    a('Bright Cyan', c.terminal.ansiBrightCyan, 'terminal'),
+    a('Bright White', c.terminal.ansiBrightWhite, 'terminal'),
   ];
   // Terminal selection foreground (if defined, overrides ANSI colors when selected)
   if (!c.ui.terminalSelection.fallback && c.ui.terminalSelection.color) {
-    terminalResults.push(analyze('Term Select', c.ui.terminalSelection, c.bg.terminalSelection));
+    terminalResults.push(a('Term Select', c.ui.terminalSelection, 'terminalSelection'));
   }
   // Terminal find match - test terminal foreground against find backgrounds
-  terminalResults.push(analyze('Find Match', c.ui.terminal, c.bg.terminalFindMatch));
-  terminalResults.push(analyze('Find Other', c.ui.terminal, c.bg.terminalFindMatchHighlight));
-  allStats.push(printSection(terminalResults, LABELS.sectionTerminal, expectedPolarity));
+  terminalResults.push(a('Find Match', c.ui.terminal, 'terminalFindMatch'));
+  terminalResults.push(a('Find Other', c.ui.terminal, 'terminalFindMatchHighlight'));
+  section(terminalResults, LABELS.sectionTerminal);
 
   // Buttons & Badges
-  allStats.push(printSection([
-    analyze('Button', c.buttons.button, c.bg.button),
-    analyze('Button 2nd', c.buttons.buttonSecondary, c.bg.buttonSecondary),
-    analyze('Ext Button', c.buttons.extensionButton, c.bg.extensionButton),
-    analyze('Badge', c.buttons.badge, c.bg.badge),
-    analyze('Activity Badge', c.buttons.activityBarBadge, c.bg.activityBarBadge),
-    analyze('Act Warn Badge', c.buttons.activityWarningBadge, c.bg.activityWarningBadge),
-    analyze('Act Err Badge', c.buttons.activityErrorBadge, c.bg.activityErrorBadge),
-    analyze('Dropdown', c.buttons.dropdown, c.bg.dropdown),
-  ], LABELS.sectionButtons, expectedPolarity));
+  section([
+    a('Button', c.buttons.button, 'button'),
+    a('Button 2nd', c.buttons.buttonSecondary, 'buttonSecondary'),
+    a('Ext Button', c.buttons.extensionButton, 'extensionButton'),
+    a('Badge', c.buttons.badge, 'badge'),
+    a('Activity Badge', c.buttons.activityBarBadge, 'activityBarBadge'),
+    a('Act Warn Badge', c.buttons.activityWarningBadge, 'activityWarningBadge'),
+    a('Act Err Badge', c.buttons.activityErrorBadge, 'activityErrorBadge'),
+    a('Dropdown', c.buttons.dropdown, 'dropdown'),
+  ], LABELS.sectionButtons);
 
   // Debug (tokens appear in debug sidebar/variables view)
-  allStats.push(printSection([
-    analyze('Token Name', c.debug.tokenName, c.bg.sidebar),
-    analyze('Token Value', c.debug.tokenValue, c.bg.sidebar),
-    analyze('Token String', c.debug.tokenString, c.bg.sidebar),
-    analyze('Token Number', c.debug.tokenNumber, c.bg.sidebar),
-    analyze('Token Boolean', c.debug.tokenBoolean, c.bg.sidebar),
-    analyze('Token Error', c.debug.tokenError, c.bg.sidebar),
-    analyze('Token Type', c.debug.tokenType, c.bg.sidebar),
-    analyze('Inline Value', c.debug.inlineValue, c.bg.editor),
-    analyze('Exception', c.debug.exceptionLabel, c.bg.sidebar),
-    analyze('State Label', c.debug.stateLabel, c.bg.sidebar),
-  ], LABELS.sectionDebug, expectedPolarity));
+  section([
+    a('Token Name', c.debug.tokenName, 'sidebar'),
+    a('Token Value', c.debug.tokenValue, 'sidebar'),
+    a('Token String', c.debug.tokenString, 'sidebar'),
+    a('Token Number', c.debug.tokenNumber, 'sidebar'),
+    a('Token Boolean', c.debug.tokenBoolean, 'sidebar'),
+    a('Token Error', c.debug.tokenError, 'sidebar'),
+    a('Token Type', c.debug.tokenType, 'sidebar'),
+    a('Inline Value', c.debug.inlineValue, 'editor'),
+    a('Exception', c.debug.exceptionLabel, 'sidebar'),
+    a('State Label', c.debug.stateLabel, 'sidebar'),
+  ], LABELS.sectionDebug);
 
   // Debug Context - syntax colors on debug highlighting backgrounds
-  allStats.push(printSection([
-    analyze('Stack:Variable', c.syntax.variable, c.bg.stackFrame),
-    analyze('Stack:Keyword', c.syntax.keyword, c.bg.stackFrame),
-    analyze('Stack:String', c.syntax.string, c.bg.stackFrame),
-    analyze('Focus:Variable', c.syntax.variable, c.bg.focusedStackFrame),
-    analyze('Focus:Keyword', c.syntax.keyword, c.bg.focusedStackFrame),
-  ], LABELS.sectionDebugContext, expectedPolarity));
+  section([
+    a('Stack:Variable', c.syntax.variable, 'stackFrame'),
+    a('Stack:Keyword', c.syntax.keyword, 'stackFrame'),
+    a('Stack:String', c.syntax.string, 'stackFrame'),
+    a('Focus:Variable', c.syntax.variable, 'focusedStackFrame'),
+    a('Focus:Keyword', c.syntax.keyword, 'focusedStackFrame'),
+  ], LABELS.sectionDebugContext);
 
   // Linked Editing - HTML tag pairs, bracket linking
-  allStats.push(printSection([
-    analyze('Linked:Variable', c.syntax.variable, c.bg.linkedEditing),
-    analyze('Linked:Tag', c.syntax.tag, c.bg.linkedEditing),
-  ], LABELS.sectionLinkedEditing, expectedPolarity));
+  section([
+    a('Linked:Variable', c.syntax.variable, 'linkedEditing'),
+    a('Linked:Tag', c.syntax.tag, 'linkedEditing'),
+  ], LABELS.sectionLinkedEditing);
 
   // Links & Highlights
-  allStats.push(printSection([
-    analyze('Text Link', c.links.textLink, c.bg.editor),
-    analyze('List Highlight', c.links.listHighlight, c.bg.sidebar),
-    analyze('List Foc Highl', c.links.listFocusHighlight, c.bg.listFocus),
-    analyze('List Inactive', c.links.listInactiveSelection, c.bg.listInactiveSelection),
-    analyze('List Error', c.links.listError, c.bg.sidebar),
-    analyze('List Warning', c.links.listWarning, c.bg.sidebar),
-  ], LABELS.sectionLinks, expectedPolarity));
+  section([
+    a('Text Link', c.links.textLink, 'editor'),
+    a('List Highlight', c.links.listHighlight, 'sidebar'),
+    a('List Foc Highl', c.links.listFocusHighlight, 'listFocus'),
+    a('List Inactive', c.links.listInactiveSelection, 'listInactiveSelection'),
+    a('List Error', c.links.listError, 'sidebar'),
+    a('List Warning', c.links.listWarning, 'sidebar'),
+  ], LABELS.sectionLinks);
 
   // Misc UI
-  allStats.push(printSection([
-    analyze('Section Header', c.misc.sidebarSectionHeader, c.bg.sidebar),
-    analyze('Panel Section', c.misc.panelSectionHeader, c.bg.panel),
-    analyze('Keybinding', c.misc.keybindingLabel, c.bg.keybindingLabel),
-    analyze('Banner', c.misc.banner, c.bg.banner),
-    analyze('Banner Icon', c.misc.bannerIcon, c.bg.banner),
-    analyze('Peek Title', c.misc.peekViewTitle, c.bg.peekView),
-    analyze('Peek Desc', c.misc.peekViewDescription, c.bg.peekView),
-    analyze('Peek File', c.misc.peekViewFile, c.bg.peekView),
-    analyze('Peek Select', c.misc.peekViewSelection, c.bg.peekViewSelection),
-    analyze('Problems Error', c.misc.problemsError, c.bg.sidebar),
-    analyze('Problems Warn', c.misc.problemsWarning, c.bg.sidebar),
-    analyze('Problems Info', c.misc.problemsInfo, c.bg.sidebar),
-    analyze('Search Info', c.misc.searchResultsInfo, c.bg.sidebar),
-    analyze('Description', c.misc.description, c.bg.editor),
-    analyze('Disabled', c.misc.disabled, c.bg.editor),
-    analyze('Error Text', c.misc.errorFg, c.bg.editor),
-    analyze('Git Blame', c.misc.gitBlame, c.bg.editor),
-    analyze('Editor Placeholder', c.misc.editorPlaceholder, c.bg.editor),
-    analyze('Term Cmd Guide', c.misc.terminalCommandGuide, c.bg.terminal),
-    analyze('Term Init Hint', c.misc.terminalInitialHint, c.bg.terminal),
-    analyze('Walkthrough Title', c.misc.walkthroughStepTitle, c.bg.editor),
-    analyze('Welcome Progress', c.misc.welcomeProgress, c.bg.editor),
-    analyze('Profile Badge', c.misc.profileBadge, c.bg.activityBar),
-  ], LABELS.sectionMisc, expectedPolarity));
+  section([
+    a('Section Header', c.misc.sidebarSectionHeader, 'sidebar'),
+    a('Panel Section', c.misc.panelSectionHeader, 'panel'),
+    a('Keybinding', c.misc.keybindingLabel, 'keybindingLabel'),
+    a('Banner', c.misc.banner, 'banner'),
+    a('Banner Icon', c.misc.bannerIcon, 'banner'),
+    a('Peek Title', c.misc.peekViewTitle, 'peekView'),
+    a('Peek Desc', c.misc.peekViewDescription, 'peekView'),
+    a('Peek File', c.misc.peekViewFile, 'peekView'),
+    a('Peek Select', c.misc.peekViewSelection, 'peekViewSelection'),
+    a('Problems Error', c.misc.problemsError, 'sidebar'),
+    a('Problems Warn', c.misc.problemsWarning, 'sidebar'),
+    a('Problems Info', c.misc.problemsInfo, 'sidebar'),
+    a('Search Info', c.misc.searchResultsInfo, 'sidebar'),
+    a('Description', c.misc.description, 'editor'),
+    a('Disabled', c.misc.disabled, 'editor'),
+    a('Error Text', c.misc.errorFg, 'editor'),
+    a('Git Blame', c.misc.gitBlame, 'editor'),
+    a('Editor Placeholder', c.misc.editorPlaceholder, 'editor'),
+    a('Term Cmd Guide', c.misc.terminalCommandGuide, 'terminal'),
+    a('Term Init Hint', c.misc.terminalInitialHint, 'terminal'),
+    a('Walkthrough Title', c.misc.walkthroughStepTitle, 'editor'),
+    a('Welcome Progress', c.misc.welcomeProgress, 'editor'),
+    a('Profile Badge', c.misc.profileBadge, 'activityBar'),
+  ], LABELS.sectionMisc);
 
   // Diff Editor - test key syntax colors against diff backgrounds
-  allStats.push(printSection([
+  section([
     // Inserted text (green background typically)
-    analyze('Ins:Variable', c.syntax.variable, c.bg.diffInserted),
-    analyze('Ins:Keyword', c.syntax.keyword, c.bg.diffInserted),
-    analyze('Ins:String', c.syntax.string, c.bg.diffInserted),
-    analyze('Ins:Comment', c.syntax.comment, c.bg.diffInserted),
+    a('Ins:Variable', c.syntax.variable, 'diffInserted'),
+    a('Ins:Keyword', c.syntax.keyword, 'diffInserted'),
+    a('Ins:String', c.syntax.string, 'diffInserted'),
+    a('Ins:Comment', c.syntax.comment, 'diffInserted'),
     // Inserted line (full line highlight)
-    analyze('InsLine:Var', c.syntax.variable, c.bg.diffInsertedLine),
+    a('InsLine:Var', c.syntax.variable, 'diffInsertedLine'),
     // Removed text (red background typically)
-    analyze('Rem:Variable', c.syntax.variable, c.bg.diffRemoved),
-    analyze('Rem:Keyword', c.syntax.keyword, c.bg.diffRemoved),
-    analyze('Rem:String', c.syntax.string, c.bg.diffRemoved),
-    analyze('Rem:Comment', c.syntax.comment, c.bg.diffRemoved),
+    a('Rem:Variable', c.syntax.variable, 'diffRemoved'),
+    a('Rem:Keyword', c.syntax.keyword, 'diffRemoved'),
+    a('Rem:String', c.syntax.string, 'diffRemoved'),
+    a('Rem:Comment', c.syntax.comment, 'diffRemoved'),
     // Removed line (full line highlight)
-    analyze('RemLine:Var', c.syntax.variable, c.bg.diffRemovedLine),
+    a('RemLine:Var', c.syntax.variable, 'diffRemovedLine'),
     // Unchanged region (collapsed diff)
-    analyze('Unchanged', c.misc.diffUnchangedRegion, c.bg.editor),
-  ], LABELS.sectionDiff, expectedPolarity));
+    a('Unchanged', c.misc.diffUnchangedRegion, 'editor'),
+  ], LABELS.sectionDiff);
 
   // Merge Conflicts - test key syntax colors against merge backgrounds
-  allStats.push(printSection([
+  section([
     // Current changes (your changes)
-    analyze('Curr:Variable', c.syntax.variable, c.bg.mergeCurrentContent),
-    analyze('Curr:Keyword', c.syntax.keyword, c.bg.mergeCurrentContent),
-    analyze('Curr:String', c.syntax.string, c.bg.mergeCurrentContent),
+    a('Curr:Variable', c.syntax.variable, 'mergeCurrentContent'),
+    a('Curr:Keyword', c.syntax.keyword, 'mergeCurrentContent'),
+    a('Curr:String', c.syntax.string, 'mergeCurrentContent'),
     // Incoming changes (their changes)
-    analyze('Inc:Variable', c.syntax.variable, c.bg.mergeIncomingContent),
-    analyze('Inc:Keyword', c.syntax.keyword, c.bg.mergeIncomingContent),
-    analyze('Inc:String', c.syntax.string, c.bg.mergeIncomingContent),
+    a('Inc:Variable', c.syntax.variable, 'mergeIncomingContent'),
+    a('Inc:Keyword', c.syntax.keyword, 'mergeIncomingContent'),
+    a('Inc:String', c.syntax.string, 'mergeIncomingContent'),
     // Common ancestor
-    analyze('Common:Var', c.syntax.variable, c.bg.mergeCommonContent),
-  ], LABELS.sectionMerge, expectedPolarity));
+    a('Common:Var', c.syntax.variable, 'mergeCommonContent'),
+  ], LABELS.sectionMerge);
 
   // Cursors - visibility of editor and terminal cursors
-  allStats.push(printSection([
-    analyze('Editor Cursor', c.cursor.editor, c.bg.editor),
-    analyze('Block Text', c.cursor.editorBlock, c.bg.cursorBlock), // text inside block cursor
-    analyze('Multi Primary', c.cursor.editorMultiPrimary, c.bg.editor),
-    analyze('Multi Secondary', c.cursor.editorMultiSecondary, c.bg.editor),
-    analyze('Terminal Cursor', c.cursor.terminal, c.bg.terminal),
-    analyze('Term Block Text', c.cursor.terminalBlock, c.bg.terminalCursorBlock), // text inside terminal block cursor
-  ], LABELS.sectionCursors, expectedPolarity));
+  section([
+    a('Editor Cursor', c.cursor.editor, 'editor'),
+    a('Block Text', c.cursor.editorBlock, 'cursorBlock'), // text inside block cursor
+    a('Multi Primary', c.cursor.editorMultiPrimary, 'editor'),
+    a('Multi Secondary', c.cursor.editorMultiSecondary, 'editor'),
+    a('Terminal Cursor', c.cursor.terminal, 'terminal'),
+    a('Term Block Text', c.cursor.terminalBlock, 'terminalCursorBlock'), // text inside terminal block cursor
+  ], LABELS.sectionCursors);
 
   // Sticky Scroll - syntax colors on sticky scroll header background
-  allStats.push(printSection([
-    analyze('Sticky:Variable', c.syntax.variable, c.bg.stickyScroll),
-    analyze('Sticky:Keyword', c.syntax.keyword, c.bg.stickyScroll),
-    analyze('Sticky:Function', c.syntax.function, c.bg.stickyScroll),
-    analyze('Sticky:String', c.syntax.string, c.bg.stickyScroll),
-    analyze('Sticky:Comment', c.syntax.comment, c.bg.stickyScroll),
-  ], LABELS.sectionStickyScroll, expectedPolarity));
+  section([
+    a('Sticky:Variable', c.syntax.variable, 'stickyScroll'),
+    a('Sticky:Keyword', c.syntax.keyword, 'stickyScroll'),
+    a('Sticky:Function', c.syntax.function, 'stickyScroll'),
+    a('Sticky:String', c.syntax.string, 'stickyScroll'),
+    a('Sticky:Comment', c.syntax.comment, 'stickyScroll'),
+  ], LABELS.sectionStickyScroll);
 
   // Peek View Editor - syntax colors in peek view editor pane
-  allStats.push(printSection([
-    analyze('Peek:Variable', c.syntax.variable, c.bg.peekViewEditor),
-    analyze('Peek:Keyword', c.syntax.keyword, c.bg.peekViewEditor),
-    analyze('Peek:Function', c.syntax.function, c.bg.peekViewEditor),
-    analyze('Peek:String', c.syntax.string, c.bg.peekViewEditor),
-    analyze('Peek:Comment', c.syntax.comment, c.bg.peekViewEditor),
-  ], LABELS.sectionPeekEditor, expectedPolarity));
+  section([
+    a('Peek:Variable', c.syntax.variable, 'peekViewEditor'),
+    a('Peek:Keyword', c.syntax.keyword, 'peekViewEditor'),
+    a('Peek:Function', c.syntax.function, 'peekViewEditor'),
+    a('Peek:String', c.syntax.string, 'peekViewEditor'),
+    a('Peek:Comment', c.syntax.comment, 'peekViewEditor'),
+  ], LABELS.sectionPeekEditor);
 
   // Search Editor - syntax in search results context
-  allStats.push(printSection([
-    analyze('Search:Variable', c.syntax.variable, c.bg.searchEditorFindMatch),
-    analyze('Search:Keyword', c.syntax.keyword, c.bg.searchEditorFindMatch),
-    analyze('Search:String', c.syntax.string, c.bg.searchEditorFindMatch),
-  ], LABELS.sectionSearchEditor, expectedPolarity));
+  section([
+    a('Search:Variable', c.syntax.variable, 'searchEditorFindMatch'),
+    a('Search:Keyword', c.syntax.keyword, 'searchEditorFindMatch'),
+    a('Search:String', c.syntax.string, 'searchEditorFindMatch'),
+  ], LABELS.sectionSearchEditor);
 
   // Input Controls - buttons, toggles, radios
-  allStats.push(printSection([
-    analyze('Option Active', c.inputs.optionActive, c.bg.input),
-    analyze('Radio Active', c.inputs.radioActive, c.bg.editor),
-    analyze('Radio Inactive', c.inputs.radioInactive, c.bg.editor),
-    analyze('Checkbox Disabled', c.inputs.checkboxDisabled, c.bg.checkbox),
-  ], LABELS.sectionInputControls, expectedPolarity));
+  section([
+    a('Option Active', c.inputs.optionActive, 'input'),
+    a('Radio Active', c.inputs.radioActive, 'editor'),
+    a('Radio Inactive', c.inputs.radioInactive, 'editor'),
+    a('Checkbox Disabled', c.inputs.checkboxDisabled, 'checkbox'),
+  ], LABELS.sectionInputControls);
 
   // SCM Graph - hover labels (graph lines removed as decorative)
-  allStats.push(printSection([
-    analyze('Hover Label', c.scm.historyHoverLabel, c.bg.sidebar),
-    analyze('Hover Add', c.scm.historyHoverAdditions, c.bg.sidebar),
-    analyze('Hover Del', c.scm.historyHoverDeletions, c.bg.sidebar),
-  ], LABELS.sectionScm, expectedPolarity));
+  section([
+    a('Hover Label', c.scm.historyHoverLabel, 'sidebar'),
+    a('Hover Add', c.scm.historyHoverAdditions, 'sidebar'),
+    a('Hover Del', c.scm.historyHoverDeletions, 'sidebar'),
+  ], LABELS.sectionScm);
 
   // Chat & AI - Copilot and inline chat
-  allStats.push(printSection([
-    analyze('Chat Avatar', c.chat.avatar, c.bg.sidebar),
-    analyze('Lines Added', c.chat.linesAdded, c.bg.editor),
-    analyze('Lines Removed', c.chat.linesRemoved, c.bg.editor),
-    analyze('Slash Command', c.chat.slashCommand, c.bg.editor),
-    analyze('Edited File', c.chat.editedFile, c.bg.sidebar),
-  ], LABELS.sectionChat, expectedPolarity));
+  section([
+    a('Chat Avatar', c.chat.avatar, 'sidebar'),
+    a('Lines Added', c.chat.linesAdded, 'editor'),
+    a('Lines Removed', c.chat.linesRemoved, 'editor'),
+    a('Slash Command', c.chat.slashCommand, 'editor'),
+    a('Edited File', c.chat.editedFile, 'sidebar'),
+  ], LABELS.sectionChat);
 
   // Testing - coverage and test results
-  allStats.push(printSection([
-    analyze('Coverage Badge', c.testing.coverageBadge, c.bg.editor),
-    analyze('Test Msg Info', c.testing.messageInfo, c.bg.editor),
-  ], LABELS.sectionTesting, expectedPolarity));
+  section([
+    a('Coverage Badge', c.testing.coverageBadge, 'editor'),
+    a('Test Msg Info', c.testing.messageInfo, 'editor'),
+  ], LABELS.sectionTesting);
 
   // Debug Console - frequently read output
-  allStats.push(printSection([
-    analyze('Error', c.debugConsole.error, c.bg.panel),
-    analyze('Warning', c.debugConsole.warning, c.bg.panel),
-    analyze('Info', c.debugConsole.info, c.bg.panel),
-    analyze('Source', c.debugConsole.source, c.bg.panel),
-  ], LABELS.sectionDebugConsole, expectedPolarity));
+  section([
+    a('Error', c.debugConsole.error, 'panel'),
+    a('Warning', c.debugConsole.warning, 'panel'),
+    a('Info', c.debugConsole.info, 'panel'),
+    a('Source', c.debugConsole.source, 'panel'),
+  ], LABELS.sectionDebugConsole);
 
   // Symbol Icons - appear in autocomplete, outline, breadcrumbs
-  allStats.push(printSection([
-    analyze('Array', c.symbolIcons.array, c.bg.suggest),
-    analyze('Boolean', c.symbolIcons.boolean, c.bg.suggest),
-    analyze('Class', c.symbolIcons.class, c.bg.suggest),
-    analyze('Constant', c.symbolIcons.constant, c.bg.suggest),
-    analyze('Constructor', c.symbolIcons.ctor, c.bg.suggest),
-    analyze('Enum', c.symbolIcons.enum, c.bg.suggest),
-    analyze('Enum Member', c.symbolIcons.enumMember, c.bg.suggest),
-    analyze('Event', c.symbolIcons.event, c.bg.suggest),
-    analyze('Field', c.symbolIcons.field, c.bg.suggest),
-    analyze('File', c.symbolIcons.file, c.bg.suggest),
-    analyze('Folder', c.symbolIcons.folder, c.bg.suggest),
-    analyze('Function', c.symbolIcons.function, c.bg.suggest),
-    analyze('Interface', c.symbolIcons.interface, c.bg.suggest),
-    analyze('Key', c.symbolIcons.key, c.bg.suggest),
-    analyze('Keyword', c.symbolIcons.keyword, c.bg.suggest),
-    analyze('Method', c.symbolIcons.method, c.bg.suggest),
-    analyze('Module', c.symbolIcons.module, c.bg.suggest),
-    analyze('Namespace', c.symbolIcons.namespace, c.bg.suggest),
-    analyze('Null', c.symbolIcons.null, c.bg.suggest),
-    analyze('Number', c.symbolIcons.number, c.bg.suggest),
-    analyze('Object', c.symbolIcons.object, c.bg.suggest),
-    analyze('Operator', c.symbolIcons.operator, c.bg.suggest),
-    analyze('Package', c.symbolIcons.package, c.bg.suggest),
-    analyze('Property', c.symbolIcons.property, c.bg.suggest),
-    analyze('Reference', c.symbolIcons.reference, c.bg.suggest),
-    analyze('Snippet', c.symbolIcons.snippet, c.bg.suggest),
-    analyze('String', c.symbolIcons.string, c.bg.suggest),
-    analyze('Struct', c.symbolIcons.struct, c.bg.suggest),
-    analyze('Text', c.symbolIcons.text, c.bg.suggest),
-    analyze('Type Param', c.symbolIcons.typeParameter, c.bg.suggest),
-    analyze('Unit', c.symbolIcons.unit, c.bg.suggest),
-    analyze('Variable', c.symbolIcons.variable, c.bg.suggest),
-  ], LABELS.sectionSymbolIcons, expectedPolarity));
+  section([
+    a('Array', c.symbolIcons.array, 'suggest'),
+    a('Boolean', c.symbolIcons.boolean, 'suggest'),
+    a('Class', c.symbolIcons.class, 'suggest'),
+    a('Constant', c.symbolIcons.constant, 'suggest'),
+    a('Constructor', c.symbolIcons.ctor, 'suggest'),
+    a('Enum', c.symbolIcons.enum, 'suggest'),
+    a('Enum Member', c.symbolIcons.enumMember, 'suggest'),
+    a('Event', c.symbolIcons.event, 'suggest'),
+    a('Field', c.symbolIcons.field, 'suggest'),
+    a('File', c.symbolIcons.file, 'suggest'),
+    a('Folder', c.symbolIcons.folder, 'suggest'),
+    a('Function', c.symbolIcons.function, 'suggest'),
+    a('Interface', c.symbolIcons.interface, 'suggest'),
+    a('Key', c.symbolIcons.key, 'suggest'),
+    a('Keyword', c.symbolIcons.keyword, 'suggest'),
+    a('Method', c.symbolIcons.method, 'suggest'),
+    a('Module', c.symbolIcons.module, 'suggest'),
+    a('Namespace', c.symbolIcons.namespace, 'suggest'),
+    a('Null', c.symbolIcons.null, 'suggest'),
+    a('Number', c.symbolIcons.number, 'suggest'),
+    a('Object', c.symbolIcons.object, 'suggest'),
+    a('Operator', c.symbolIcons.operator, 'suggest'),
+    a('Package', c.symbolIcons.package, 'suggest'),
+    a('Property', c.symbolIcons.property, 'suggest'),
+    a('Reference', c.symbolIcons.reference, 'suggest'),
+    a('Snippet', c.symbolIcons.snippet, 'suggest'),
+    a('String', c.symbolIcons.string, 'suggest'),
+    a('Struct', c.symbolIcons.struct, 'suggest'),
+    a('Text', c.symbolIcons.text, 'suggest'),
+    a('Type Param', c.symbolIcons.typeParameter, 'suggest'),
+    a('Unit', c.symbolIcons.unit, 'suggest'),
+    a('Variable', c.symbolIcons.variable, 'suggest'),
+  ], LABELS.sectionSymbolIcons);
 
   // Settings Editor
-  allStats.push(printSection([
-    analyze('Header', c.settings.header, c.bg.editor),
-    analyze('Text Input', c.settings.textInput, c.bg.input),
-    analyze('Number Input', c.settings.numberInput, c.bg.input),
-    analyze('Checkbox', c.settings.checkbox, c.bg.checkbox),
-    analyze('Dropdown', c.settings.dropdown, c.bg.dropdown),
-  ], LABELS.sectionSettings, expectedPolarity));
+  section([
+    a('Header', c.settings.header, 'editor'),
+    a('Text Input', c.settings.textInput, 'input'),
+    a('Number Input', c.settings.numberInput, 'input'),
+    a('Checkbox', c.settings.checkbox, 'checkbox'),
+    a('Dropdown', c.settings.dropdown, 'dropdown'),
+  ], LABELS.sectionSettings);
 
   // Charts - text labels (data colors removed as decorative)
-  allStats.push(printSection([
-    analyze('Foreground', c.charts.foreground, c.bg.editor),
-  ], LABELS.sectionCharts, expectedPolarity));
+  section([
+    a('Foreground', c.charts.foreground, 'editor'),
+  ], LABELS.sectionCharts);
 
   // Color Distinction Analysis (Delta E 2000)
   const distinction = analyzeDistinction(c.syntax, c.syntax.comment, c.bg.editor);
-  const distinctionStats = printDistinctionSection(distinction.pairs, distinction.skipped);
+  let distinctionStats: DistinctionStats;
+  if (format === 'human') {
+    distinctionStats = printDistinctionSection(distinction.pairs, distinction.skipped);
+  } else {
+    distinctionStats = {
+      total: distinction.pairs.length,
+      pass: distinction.pairs.filter(p => p.icon === '✅').length,
+      warn: distinction.pairs.filter(p => p.icon === '⚠️').length,
+      fail: distinction.pairs.filter(p => p.icon === '❌').length,
+      skipped: distinction.skipped.length,
+    };
+  }
 
   // Symbol Discrimination Analysis (Delta E 2000)
   const symbolDiscrimination = analyzeSymbolDiscrimination(c.symbolIcons, c.bg.suggest);
-  const symbolStats = printSymbolDiscriminationSection(symbolDiscrimination.pairs, symbolDiscrimination.skipped);
+  let symbolStats: DistinctionStats;
+  if (format === 'human') {
+    symbolStats = printSymbolDiscriminationSection(symbolDiscrimination.pairs, symbolDiscrimination.skipped);
+  } else {
+    symbolStats = {
+      total: symbolDiscrimination.pairs.length,
+      pass: symbolDiscrimination.pairs.filter(p => p.icon === '✅').length,
+      warn: symbolDiscrimination.pairs.filter(p => p.icon === '⚠️').length,
+      fail: symbolDiscrimination.pairs.filter(p => p.icon === '❌').length,
+      skipped: symbolDiscrimination.skipped.length,
+    };
+  }
 
-  // Aggregate
+  // Aggregate stats
   const total = allStats.reduce((acc, s) => ({
     pass: acc.pass + s.pass,
     large: acc.large + s.large,
@@ -2247,10 +2541,65 @@ function runAnalysis(themePath: string): Stats {
     fail: acc.fail + s.fail,
     missing: acc.missing + s.missing,
     total: acc.total + s.total,
-  }), { pass: 0, large: 0, expectedDim: 0, fail: 0, missing: 0, total: 0 });
+    results: [] as ColorResult[],
+  }), { pass: 0, large: 0, expectedDim: 0, fail: 0, missing: 0, total: 0, results: [] as ColorResult[] });
 
-  // Summary
   const defined = total.total - total.missing;
+  const ready = total.fail === 0 && total.large === 0 && total.missing === 0;
+
+  // JSON output
+  if (format === 'json') {
+    const jsonOutput: JsonOutput = {
+      theme: name,
+      type,
+      sections: allSections.map(s => ({
+        section: s.title,
+        results: s.results.map(toJsonColorResult),
+      })),
+      distinction: {
+        pairs: distinction.pairs.map(p => ({
+          pair: [p.name1, p.name2] as [string, string],
+          colors: [p.color1, p.color2] as [string, string],
+          keys: [p.key1, p.key2] as [string, string],
+          deltaE: Math.round(p.deltaE * 10) / 10,
+          level: p.level,
+          pass: p.pass,
+        })),
+        skipped: distinction.skipped.map(s => ({
+          pair: [s.name1, s.name2] as [string, string],
+          reason: s.reason,
+        })),
+      },
+      symbolDiscrimination: {
+        pairs: symbolDiscrimination.pairs.map(p => ({
+          pair: [p.name1, p.name2] as [string, string],
+          colors: [p.color1, p.color2] as [string, string],
+          keys: [p.key1, p.key2] as [string, string],
+          deltaE: Math.round(p.deltaE * 10) / 10,
+          level: p.level,
+          pass: p.pass,
+        })),
+        skipped: symbolDiscrimination.skipped.map(s => ({
+          pair: [s.name1, s.name2] as [string, string],
+          reason: s.reason,
+        })),
+      },
+      summary: {
+        pass: total.pass,
+        large: total.large,
+        expectedDim: total.expectedDim,
+        fail: total.fail,
+        missing: total.missing,
+        total: total.total,
+        defined,
+        ready,
+      },
+    };
+    console.log(JSON.stringify(jsonOutput, null, 2));
+    return total;
+  }
+
+  // Human-readable summary
   console.log('\n' + '═'.repeat(OUTPUT_WIDTH));
   console.log(`  ✅ ${LABELS.summaryPass}  ${total.pass}/${defined}`);
   console.log(`  ⚠️  ${LABELS.summaryLarge}  ${total.large}/${defined}`);
@@ -2277,8 +2626,6 @@ function runAnalysis(themePath: string): Stats {
   console.log(`  ⚠️  Acceptable (ΔE 5-20): ${symbolStats.warn}/${analyzedSymbolPairs}`);
   console.log(`  ❌ Low (ΔE<5):       ${symbolStats.fail}/${analyzedSymbolPairs}`);
 
-  // expectedDim elements don't count against marathon-readiness
-  const ready = total.fail === 0 && total.large === 0 && total.missing === 0;
   console.log('');
   if (ready) {
     console.log(`  🎉 ${LABELS.verdictReady}`);
@@ -2312,17 +2659,19 @@ VS Code Theme - Readability Analysis
 
 Usage:
   npx tsx src/tools/readability.ts --theme <path>         Analyze theme
+  npx tsx src/tools/readability.ts --theme <path> --json  JSON output (for tools)
   npx tsx src/tools/readability.ts --test FG BG [NAME]    Test single color
 
 Options:
   --theme <path>    Path to VS Code theme JSON file
+  --json            Output JSON (for LLM/agent tool calling)
   --test FG BG      Test foreground on background
   --help, -h        Show this help
 
 Examples:
   npx tsx src/tools/readability.ts --theme ./themes/my-theme.json
+  npx tsx src/tools/readability.ts --theme ./themes/my-theme.json --json
   npx tsx src/tools/readability.ts --test "#FFFFFF" "#1A1A1A" "White on dark"
-  npx tsx src/tools/readability.ts --test "#FFFFFF80" "#1A1A1A" "50% alpha"
 
 APCA Thresholds:
   Lc 90+ Fluent     Lc 45+ Large
@@ -2343,10 +2692,13 @@ if (args[0] === '--help' || args[0] === '-h') {
 } else {
   let themePath: string | undefined;
   let test: { fg: string; bg: string; name?: string } | undefined;
+  let jsonOutput = false;
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--theme' && args[i + 1]) {
       themePath = path.resolve(args[++i]);
+    } else if (args[i] === '--json') {
+      jsonOutput = true;
     } else if (args[i] === '--test' && args[i + 1] && args[i + 2]) {
       const fg = args[++i];
       const bg = args[++i];
@@ -2367,7 +2719,7 @@ if (args[0] === '--help' || args[0] === '-h') {
     }
     testColor(test.fg, test.bg, test.name);
   } else if (themePath) {
-    runAnalysis(themePath);
+    runAnalysis(themePath, jsonOutput ? 'json' : 'human');
     // Exit 0: Analysis completed successfully (LLM tool calling best practice)
     // The output text communicates whether issues were found
   } else {
