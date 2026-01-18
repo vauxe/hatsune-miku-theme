@@ -61,6 +61,7 @@ import type {
   JsonColorResult,
   JsonOutput,
   OutputFormat,
+  AnalysisOptions,
 } from './readability-types';
 
 // =============================================================================
@@ -269,13 +270,22 @@ function analyzeSymbolDiscrimination(
 // PRINTING FUNCTIONS
 // =============================================================================
 
-function printSection(results: ColorResult[], title: string, expectedPolarity: Polarity): Stats {
+function printSection(results: ColorResult[], title: string, expectedPolarity: Polarity, issuesOnly = false): Stats {
   console.log(`\n▌ ${title}`);
   console.log('─'.repeat(OUTPUT_WIDTH));
   console.log(`${LABELS.colName.padEnd(COL_NAME_WIDTH)} ${LABELS.colColor.padEnd(COL_COLOR_WIDTH)} ${LABELS.colApca}`);
   console.log('─'.repeat(OUTPUT_WIDTH));
 
-  for (const r of results) {
+  // Filter results if issuesOnly is enabled
+  const displayResults = issuesOnly
+    ? results.filter(r => !r.analysis.pass || r.fallback)
+    : results;
+
+  if (issuesOnly && displayResults.length === 0) {
+    console.log('  (all items pass)');
+  }
+
+  for (const r of displayResults) {
     const alphaStr = r.alpha ? `(${r.alpha})` : '';
     const fallbackStr = r.fallback ? '?' : '';
     const dimStr = r.expectedDim ? '~' : '';
@@ -301,7 +311,7 @@ function printSection(results: ColorResult[], title: string, expectedPolarity: P
 /**
  * Print color distinction analysis section
  */
-function printDistinctionSection(pairs: DistinctionPair[], skipped: DistinctionSkippedPair[]): DistinctionStats {
+function printDistinctionSection(pairs: DistinctionPair[], skipped: DistinctionSkippedPair[], issuesOnly = false): DistinctionStats {
   console.log(`\n▌ ${LABELS.sectionDistinction}`);
   console.log('─'.repeat(OUTPUT_WIDTH));
 
@@ -316,21 +326,33 @@ function printDistinctionSection(pairs: DistinctionPair[], skipped: DistinctionS
   );
   console.log('─'.repeat(OUTPUT_WIDTH));
 
+  // Filter pairs if issuesOnly is enabled (show non-passing pairs)
+  const displayPairs = issuesOnly
+    ? pairs.filter(p => !p.pass)
+    : pairs;
+
+  if (issuesOnly && displayPairs.length === 0) {
+    console.log('  (all pairs pass)');
+  }
+
   let pass = 0;
   let warn = 0;
   let fail = 0;
 
+  // Count all pairs for stats (not just displayed)
   for (const p of pairs) {
+    if (p.icon === '✅') pass++;
+    else if (p.icon === '⚠️') warn++;
+    else fail++;
+  }
+
+  // Display filtered pairs
+  for (const p of displayPairs) {
     const pairName = `${p.name1} ↔ ${p.name2}`.substring(0, colPair - 1).padEnd(colPair);
     const deltaStr = p.deltaE.toFixed(1).padStart(colDelta);
     const levelStr = `${p.icon} ${p.level}`;
 
     console.log(`${pairName}${deltaStr}   ${levelStr}`);
-
-    // Count based on icon to match visual feedback
-    if (p.icon === '✅') pass++;
-    else if (p.icon === '⚠️') warn++;
-    else fail++;
   }
 
   const totalPairs = ADJACENCY_PAIRS.length;
@@ -353,7 +375,7 @@ function printDistinctionSection(pairs: DistinctionPair[], skipped: DistinctionS
 /**
  * Print symbol discrimination analysis section
  */
-function printSymbolDiscriminationSection(pairs: DistinctionPair[], skipped: DistinctionSkippedPair[]): DistinctionStats {
+function printSymbolDiscriminationSection(pairs: DistinctionPair[], skipped: DistinctionSkippedPair[], issuesOnly = false): DistinctionStats {
   console.log(`\n▌ ${LABELS.sectionSymbolDiscrimination}`);
   console.log('─'.repeat(OUTPUT_WIDTH));
 
@@ -368,20 +390,33 @@ function printSymbolDiscriminationSection(pairs: DistinctionPair[], skipped: Dis
   );
   console.log('─'.repeat(OUTPUT_WIDTH));
 
+  // Filter pairs if issuesOnly is enabled (show non-passing pairs)
+  const displayPairs = issuesOnly
+    ? pairs.filter(p => !p.pass)
+    : pairs;
+
+  if (issuesOnly && displayPairs.length === 0) {
+    console.log('  (all pairs pass)');
+  }
+
   let pass = 0;
   let warn = 0;
   let fail = 0;
 
+  // Count all pairs for stats (not just displayed)
   for (const p of pairs) {
+    if (p.icon === '✅') pass++;
+    else if (p.icon === '⚠️') warn++;
+    else fail++;
+  }
+
+  // Display filtered pairs
+  for (const p of displayPairs) {
     const pairName = `${p.name1} ↔ ${p.name2}`.substring(0, colPair - 1).padEnd(colPair);
     const deltaStr = p.deltaE.toFixed(1).padStart(colDelta);
     const levelStr = `${p.icon} ${p.level}`;
 
     console.log(`${pairName}${deltaStr}   ${levelStr}`);
-
-    if (p.icon === '✅') pass++;
-    else if (p.icon === '⚠️') warn++;
-    else fail++;
   }
 
   const totalPairs = SYMBOL_DISCRIMINATION_PAIRS.length;
@@ -409,23 +444,23 @@ function processSection(
   results: ColorResult[],
   title: string,
   expectedPolarity: Polarity,
-  format: OutputFormat
+  options: AnalysisOptions
 ): SectionData {
   const stats = computeStats(results, expectedPolarity);
-  if (format === 'human') {
-    printSection(results, title, expectedPolarity);
+  if (options.format === 'human') {
+    printSection(results, title, expectedPolarity, options.issuesOnly);
   }
   return { title, results, stats };
 }
 
-function runAnalysis(themePath: string, format: OutputFormat = 'human'): Stats {
+function runAnalysis(themePath: string, options: AnalysisOptions = { format: 'human', issuesOnly: false }): Stats {
   const theme = loadTheme(themePath);
   const name = getThemeName(theme, themePath);
   const type: 'dark' | 'light' = theme.type === 'light' ? 'light' : 'dark';
   const expectedPolarity: Polarity = type === 'dark' ? 'light-on-dark' : 'dark-on-light';
   const c = extractColors(theme);
 
-  if (format === 'human') {
+  if (options.format === 'human') {
     console.log('═'.repeat(OUTPUT_WIDTH));
     console.log(`  ${name.toUpperCase()} - ${LABELS.title} (${type.toUpperCase()})`);
     console.log('═'.repeat(OUTPUT_WIDTH));
@@ -437,7 +472,7 @@ function runAnalysis(themePath: string, format: OutputFormat = 'human'): Stats {
 
   // Helper to process a section and collect results
   const section = (results: ColorResult[], title: string) => {
-    const data = processSection(results, title, expectedPolarity, format);
+    const data = processSection(results, title, expectedPolarity, options);
     allSections.push(data);
     allStats.push(data.stats);
   };
@@ -979,8 +1014,8 @@ function runAnalysis(themePath: string, format: OutputFormat = 'human'): Stats {
   // Color Distinction Analysis (Delta E 2000)
   const distinction = analyzeDistinction(c.syntax, c.syntax.comment, c.bg.editor);
   let distinctionStats: DistinctionStats;
-  if (format === 'human') {
-    distinctionStats = printDistinctionSection(distinction.pairs, distinction.skipped);
+  if (options.format === 'human') {
+    distinctionStats = printDistinctionSection(distinction.pairs, distinction.skipped, options.issuesOnly);
   } else {
     distinctionStats = {
       total: distinction.pairs.length,
@@ -994,8 +1029,8 @@ function runAnalysis(themePath: string, format: OutputFormat = 'human'): Stats {
   // Symbol Discrimination Analysis (Delta E 2000)
   const symbolDiscrimination = analyzeSymbolDiscrimination(c.symbolIcons, c.bg.suggest);
   let symbolStats: DistinctionStats;
-  if (format === 'human') {
-    symbolStats = printSymbolDiscriminationSection(symbolDiscrimination.pairs, symbolDiscrimination.skipped);
+  if (options.format === 'human') {
+    symbolStats = printSymbolDiscriminationSection(symbolDiscrimination.pairs, symbolDiscrimination.skipped, options.issuesOnly);
   } else {
     symbolStats = {
       total: symbolDiscrimination.pairs.length,
@@ -1021,16 +1056,27 @@ function runAnalysis(themePath: string, format: OutputFormat = 'human'): Stats {
   const ready = total.fail === 0 && total.large === 0 && total.missing === 0;
 
   // JSON output
-  if (format === 'json') {
+  if (options.format === 'json') {
+    // Filter helper for issuesOnly mode
+    const filterResults = (results: ColorResult[]) =>
+      options.issuesOnly
+        ? results.filter(r => !r.analysis.pass || r.fallback)
+        : results;
+
+    const filterPairs = (pairs: DistinctionPair[]) =>
+      options.issuesOnly
+        ? pairs.filter(p => !p.pass)
+        : pairs;
+
     const jsonOutput: JsonOutput = {
       theme: name,
       type,
       sections: allSections.map(s => ({
         section: s.title,
-        results: s.results.map(toJsonColorResult),
+        results: filterResults(s.results).map(toJsonColorResult),
       })),
       distinction: {
-        pairs: distinction.pairs.map(p => ({
+        pairs: filterPairs(distinction.pairs).map(p => ({
           pair: [p.name1, p.name2] as [string, string],
           colors: [p.color1, p.color2] as [string, string],
           keys: [p.key1, p.key2] as [string, string],
@@ -1044,7 +1090,7 @@ function runAnalysis(themePath: string, format: OutputFormat = 'human'): Stats {
         })),
       },
       symbolDiscrimination: {
-        pairs: symbolDiscrimination.pairs.map(p => ({
+        pairs: filterPairs(symbolDiscrimination.pairs).map(p => ({
           pair: [p.name1, p.name2] as [string, string],
           colors: [p.color1, p.color2] as [string, string],
           keys: [p.key1, p.key2] as [string, string],
@@ -1138,12 +1184,14 @@ Usage:
 Options:
   --theme <path>    Path to VS Code theme JSON file
   --json            Output JSON (for LLM/agent tool calling)
+  --issues-only     Show only items that need attention (hide passed)
   --test FG BG      Test foreground on background
   --help, -h        Show this help
 
 Examples:
   npx tsx src/tools/readability.ts --theme ./themes/my-theme.json
   npx tsx src/tools/readability.ts --theme ./themes/my-theme.json --json
+  npx tsx src/tools/readability.ts --theme ./themes/my-theme.json --issues-only
   npx tsx src/tools/readability.ts --test "#FFFFFF" "#1A1A1A" "White on dark"
 
 APCA Thresholds:
@@ -1166,12 +1214,15 @@ if (args[0] === '--help' || args[0] === '-h') {
   let themePath: string | undefined;
   let test: { fg: string; bg: string; name?: string } | undefined;
   let jsonOutput = false;
+  let issuesOnly = false;
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--theme' && args[i + 1]) {
       themePath = path.resolve(args[++i]);
     } else if (args[i] === '--json') {
       jsonOutput = true;
+    } else if (args[i] === '--issues-only') {
+      issuesOnly = true;
     } else if (args[i] === '--test' && args[i + 1] && args[i + 2]) {
       const fg = args[++i];
       const bg = args[++i];
@@ -1192,7 +1243,10 @@ if (args[0] === '--help' || args[0] === '-h') {
     }
     testColor(test.fg, test.bg, test.name);
   } else if (themePath) {
-    runAnalysis(themePath, jsonOutput ? 'json' : 'human');
+    runAnalysis(themePath, {
+      format: jsonOutput ? 'json' : 'human',
+      issuesOnly,
+    });
     // Exit 0: Analysis completed successfully (LLM tool calling best practice)
     // The output text communicates whether issues were found
   } else {

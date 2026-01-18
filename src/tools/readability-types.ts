@@ -306,3 +306,8 @@ export interface JsonOutput {
 }
 
 export type OutputFormat = 'human' | 'json';
+
+export interface AnalysisOptions {
+  format: OutputFormat;
+  issuesOnly: boolean;
+}
