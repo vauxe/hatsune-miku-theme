@@ -277,6 +277,7 @@ export interface JsonColorResult {
     color: string;
     key: string;
     keyType: 'workbench' | 'textmate' | 'semantic';
+    file: string; // Source file path for editing
   };
   background: {
     color: string;
@@ -328,6 +329,7 @@ export interface JsonOutput {
     total: number;
     defined: number;
     ready: boolean;
+    distinctionFails: number; // Count of distinction pairs with ΔE < 10
   };
 }
 

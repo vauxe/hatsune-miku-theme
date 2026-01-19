@@ -119,13 +119,29 @@ function getSourceKeyRaw(source?: ColorSource): string {
   }
 }
 
+/**
+ * Map keyType to actual source file path for easier navigation
+ */
+function getSourceFile(keyType: 'workbench' | 'textmate' | 'semantic'): string {
+  switch (keyType) {
+    case 'workbench':
+      return 'src/theme/workbench.ts';
+    case 'semantic':
+      return 'src/theme/semanticTokens.ts';
+    case 'textmate':
+      return 'src/theme/tokenColors.ts';
+  }
+}
+
 function toJsonColorResult(r: ColorResult): JsonColorResult {
+  const keyType = r.source?.type ?? 'workbench';
   return {
     name: r.name,
     foreground: {
       color: r.color,
       key: getSourceKeyRaw(r.source),
-      keyType: r.source?.type ?? 'workbench',
+      keyType,
+      file: getSourceFile(keyType),
     },
     background: {
       color: r.bgColor,
@@ -1163,12 +1179,25 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { format: 'hu
   const defined = total.total - total.missing;
   const ready = total.fail === 0 && total.large === 0 && total.missing === 0;
 
+  // Count total distinction failures across all categories
+  const distinctionFails =
+    allDistinctionStats.syntax.fail + allDistinctionStats.syntax.warn +
+    allDistinctionStats.status.fail + allDistinctionStats.status.warn +
+    allDistinctionStats.git.fail + allDistinctionStats.git.warn +
+    allDistinctionStats.state.fail + allDistinctionStats.state.warn +
+    allDistinctionStats.symbol.fail + allDistinctionStats.symbol.warn;
+
   // JSON output
   if (options.format === 'json') {
     // Filter helper for issuesOnly mode
+    // In issues-only: show items that NEED ACTION (not pass AND not expectedDim)
+    // - pass: true → skip (working fine)
+    // - pass: false, expectedDim: true → skip (intentionally dim, expected to be low)
+    // - pass: false, expectedDim: false → SHOW (real issue needing fix)
+    // Note: fallback items are excluded since they use VS Code defaults which work
     const filterResults = (results: ColorResult[]) =>
       options.issuesOnly
-        ? results.filter(r => !r.analysis.pass || r.fallback)
+        ? results.filter(r => !r.analysis.pass && !r.expectedDim && !r.fallback)
         : results;
 
     const filterPairs = (pairs: DistinctionPair[]) =>
@@ -1194,13 +1223,19 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { format: 'hu
       })),
     });
 
+    // Build sections, filtering out empty ones in issues-only mode
+    const allJsonSections = allSections.map(s => ({
+      section: s.title,
+      results: filterResults(s.results).map(toJsonColorResult),
+    }));
+    const sections = options.issuesOnly
+      ? allJsonSections.filter(s => s.results.length > 0)
+      : allJsonSections;
+
     const jsonOutput: JsonOutput = {
       theme: name,
       type,
-      sections: allSections.map(s => ({
-        section: s.title,
-        results: filterResults(s.results).map(toJsonColorResult),
-      })),
+      sections,
       distinction: {
         syntax: toJsonDistinctionCategory(syntaxDistinction),
         status: toJsonDistinctionCategory(statusDistinction),
@@ -1217,6 +1252,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { format: 'hu
         total: total.total,
         defined,
         ready,
+        distinctionFails,
       },
     };
     console.log(JSON.stringify(jsonOutput, null, 2));
