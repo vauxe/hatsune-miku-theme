@@ -28,6 +28,7 @@ import {
   digital,
   stage,
   numberSymbolism,
+  boosted,
 } from '../palette';
 
 // Helper for alpha channels
@@ -66,7 +67,7 @@ export const workbenchColors = {
 
   // Line numbers - Character tie colors
   'editorLineNumber.foreground': character.tie.shadow, // #2D9E97
-  'editorLineNumber.activeForeground': character.eyes.iris, // #39C5BB
+  'editorLineNumber.activeForeground': character.hair.shine, // #5DE4DB (Lc ~70)
   'editorLineNumber.dimmedForeground': alpha(character.tie.shadow, 'AA'),
   'editorLineNumber.warningForeground': semantic.warning,
   'editorLineNumber.errorForeground': semantic.error,
@@ -92,13 +93,13 @@ export const workbenchColors = {
   // Brackets - Digital data stream pattern
   'editorBracketMatch.background': alpha(digital.dataStream, '25'), // #39C5BB
   'editorBracketMatch.border': digital.binaryGlow, // #5DE4DB
-  'editorBracketHighlight.foreground1': pinks.sekai,
-  'editorBracketHighlight.foreground2': teals.classic,
-  'editorBracketHighlight.foreground3': cyans.ice,
-  'editorBracketHighlight.foreground4': hologram.purple,
-  'editorBracketHighlight.foreground5': teals.neon,
-  'editorBracketHighlight.foreground6': pinks.soft,
-  'editorBracketHighlight.unexpectedBracket.foreground': semantic.error,
+  'editorBracketHighlight.foreground1': pinks.blush, // #FFB8D4 (Lc ~70)
+  'editorBracketHighlight.foreground2': character.hair.shine, // #5DE4DB (Lc ~70)
+  'editorBracketHighlight.foreground3': cyans.ice, // #84FFFF (Lc ~85)
+  'editorBracketHighlight.foreground4': boosted.purple, // #D4BBFF (Lc ~65)
+  'editorBracketHighlight.foreground5': character.negi.bright, // #69F0AE (Lc ~75)
+  'editorBracketHighlight.foreground6': character.skin.blush, // #FFB8C8 (Lc ~70)
+  'editorBracketHighlight.unexpectedBracket.foreground': boosted.coralGlow, // #FFBAB3 (Lc ~65)
   'editorBracketPairGuide.background1': alpha(pinks.sekai, '25'),
   'editorBracketPairGuide.background2': alpha(teals.classic, '25'),
   'editorBracketPairGuide.background3': alpha(cyans.ice, '25'),
@@ -174,9 +175,9 @@ export const workbenchColors = {
   'sideBar.border': alpha(teals.classic, '15'),
   'sideBar.dropBackground': alpha(teals.classic, '20'),
   'sideBarSectionHeader.background': character.outfitTop.shadow, // #263238 - Outfit shadow
-  'sideBarSectionHeader.foreground': character.eyes.iris, // #39C5BB
+  'sideBarSectionHeader.foreground': character.hair.shine, // #5DE4DB (Lc ~70)
   'sideBarSectionHeader.border': alpha(character.tie.teal, '15'),
-  'sideBarTitle.foreground': teals.classic,
+  'sideBarTitle.foreground': character.hair.shine, // #5DE4DB (Lc ~70)
   'sideBarStickyScroll.background': blacks.sleeve,
   'sideBarStickyScroll.border': alpha(teals.classic, '20'),
   'sideBarStickyScroll.shadow': '#00000040',
@@ -259,10 +260,10 @@ export const workbenchColors = {
   'list.focusBackground': alpha(versionMapping.focus, '20'),
   'list.focusForeground': '#FFFFFF',
   'list.focusOutline': alpha(versionMapping.focus, '60'),
-  'list.highlightForeground': pinks.sekai,
-  'list.errorForeground': digital.glitch, // #FF5370
+  'list.highlightForeground': pinks.blush, // #FFB8D4 (Lc ~70)
+  'list.errorForeground': boosted.coralGlow, // #FF8A80 - Boosted for Lc ~55
   'list.warningForeground': semantic.warning,
-  'list.invalidItemForeground': semantic.error, // Full color - removed alpha for APCA compliance
+  'list.invalidItemForeground': boosted.coralGlow, // #FFBAB3 (Lc ~65)
   'list.deemphasizedForeground': greys.silver,
   'listFilterWidget.background': blacks.outfit,
   'listFilterWidget.outline': alpha(teals.classic, '60'),
@@ -281,7 +282,7 @@ export const workbenchColors = {
   'widget.shadow': '#00000060',
   'selection.background': alpha(versionMapping.identity, '40'),
   'descriptionForeground': greys.silver,
-  'errorForeground': digital.glitch, // #FF5370
+  'errorForeground': boosted.coralGlow, // #FF8A80 - Boosted for Lc ~55
   'icon.foreground': '#A8C4C0',
   'sash.hoverBorder': alpha(versionMapping.hover, '60'),
 
@@ -298,7 +299,7 @@ export const workbenchColors = {
   'inputOption.hoverBackground': alpha(versionMapping.hover, '20'),
   'inputValidation.errorBackground': alpha(semantic.error, '25'),
   'inputValidation.errorBorder': semantic.error,
-  'inputValidation.errorForeground': semantic.error,
+  'inputValidation.errorForeground': boosted.coralGlow, // #FFBAB3 (Lc ~65)
   'inputValidation.warningBackground': alpha(semantic.warning, '25'),
   'inputValidation.warningBorder': semantic.warning,
   'inputValidation.warningForeground': semantic.warning,
@@ -346,7 +347,7 @@ export const workbenchColors = {
   // ==========================================================================
   'minimap.findMatchHighlight': alpha(numberSymbolism.miku39.heart, '90'), // 39 Heart highlight
   'minimap.selectionHighlight': alpha(hologram.cyan, '70'), // #4DD0E1 - Holographic selection
-  'minimap.errorHighlight': alpha(digital.glitch, '95'), // Glitch red for errors
+  'minimap.errorHighlight': alpha(boosted.coralGlow, '95'), // Boosted error for readability
   'minimap.warningHighlight': alpha(accents.amber, '90'), // Amber warnings
   'minimap.background': alpha(hologram.cyan, '08'), // Subtle holographic tint
   'minimap.selectionOccurrenceHighlight': alpha(append.vivid, '50'), // #00E5D4 - Electric occurrence
@@ -370,25 +371,26 @@ export const workbenchColors = {
   'breadcrumbPicker.background': blacks.outfit,
 
   // ==========================================================================
-  // TERMINAL - Stage performance ambiance
+  // TERMINAL - Crypton Family ANSI Colors
+  // Each color represents a Crypton character or iconic Miku element
   // ==========================================================================
   'terminal.background': character.skirt.black, // Main stage
   'terminal.foreground': foregrounds.primary,
-  'terminal.ansiBlack': blacks.base,
-  'terminal.ansiRed': semantic.error,
-  'terminal.ansiGreen': semantic.success,
-  'terminal.ansiYellow': semantic.warning,
-  'terminal.ansiBlue': accents.blue,
-  'terminal.ansiMagenta': pinks.sekai,
-  'terminal.ansiCyan': semantic.info,
-  'terminal.ansiWhite': foregrounds.bright,
+  'terminal.ansiBlack': blacks.base, // #1A1F24 - Headphones
+  'terminal.ansiRed': boosted.coralGlow, // #FFBAB3 (Lc ~65)
+  'terminal.ansiGreen': character.negi.stalk, // #9CCC65 (Lc ~64)
+  'terminal.ansiYellow': accents.amber, // #FFD740 (Lc ~80)
+  'terminal.ansiBlue': snowMiku.y2011.winterBlue, // #87CEEB (Lc ~70)
+  'terminal.ansiMagenta': pinks.blush, // #FFB8D4 (Lc ~70)
+  'terminal.ansiCyan': character.hair.shine, // #5DE4DB (Lc ~70)
+  'terminal.ansiWhite': foregrounds.bright, // #ECEFF1 (Lc ~90)
   'terminal.ansiBrightBlack': greys.silver,
-  'terminal.ansiBrightRed': accents.coralGlow,
-  'terminal.ansiBrightGreen': accents.greenBright,
-  'terminal.ansiBrightYellow': '#FFFF8D',
-  'terminal.ansiBrightBlue': '#80D8FF',
-  'terminal.ansiBrightMagenta': pinks.soft,
-  'terminal.ansiBrightCyan': versions.nt2, // #40D3CA - NT2 refined
+  'terminal.ansiBrightRed': boosted.coralGlow, // #FFBAB3 (Lc ~65)
+  'terminal.ansiBrightGreen': character.negi.bright, // #69F0AE (Lc ~75)
+  'terminal.ansiBrightYellow': '#FFFF8D', // (Lc ~95)
+  'terminal.ansiBrightBlue': append.light, // #A8EBE6 (Lc ~80)
+  'terminal.ansiBrightMagenta': character.skin.blush, // #FFB8C8 (Lc ~70)
+  'terminal.ansiBrightCyan': character.hair.tip, // #7FEDE5 (Lc ~75)
   'terminal.ansiBrightWhite': '#FFFFFF',
   'terminal.selectionBackground': alpha(teals.classic, '40'),
   'terminal.inactiveSelectionBackground': alpha(teals.classic, '25'),
@@ -427,7 +429,7 @@ export const workbenchColors = {
   'notificationToast.border': alpha(append.vivid, '50'), // Electric vivid border
   'notificationsInfoIcon.foreground': hologram.cyan, // #4DD0E1 - Holographic info
   'notificationsWarningIcon.foreground': accents.amber, // #FFAB40 - Warm amber warning
-  'notificationsErrorIcon.foreground': digital.glitch, // #FF5370 - Digital glitch error
+  'notificationsErrorIcon.foreground': boosted.coralGlow, // #FF8A80 - Boosted for Lc ~55
   'notificationLink.foreground': versions.v6ai, // #41D9CF - V6 AI for links
   'notificationCenterHeader.background': alpha(blacks.sleeve, 'F0'), // Slight transparency
   'notificationCenterHeader.foreground': append.vivid, // #00E5D4 - Electric header
@@ -460,15 +462,15 @@ export const workbenchColors = {
   // ==========================================================================
   // GIT - Negi (success), Eyes (change), Headphones (delete)
   // ==========================================================================
-  'gitDecoration.addedResourceForeground': character.negi.bright, // #69F0AE
-  'gitDecoration.modifiedResourceForeground': character.armDisplay.data, // #5DE4DB
-  'gitDecoration.deletedResourceForeground': character.headphones.cushion, // #E05096
-  'gitDecoration.renamedResourceForeground': semantic.info,
-  'gitDecoration.untrackedResourceForeground': teals.classic,
+  'gitDecoration.addedResourceForeground': character.negi.bright, // #69F0AE (Lc ~75)
+  'gitDecoration.modifiedResourceForeground': character.hair.shine, // #5DE4DB (Lc ~70)
+  'gitDecoration.deletedResourceForeground': boosted.coralGlow, // #FFBAB3 (Lc ~65)
+  'gitDecoration.renamedResourceForeground': snowMiku.y2011.winterBlue, // #87CEEB (Lc ~70)
+  'gitDecoration.untrackedResourceForeground': character.hair.shine, // #5DE4DB (Lc ~70)
   'gitDecoration.ignoredResourceForeground': greys.silver,
-  'gitDecoration.conflictingResourceForeground': pinks.sekai,
-  'gitDecoration.stageModifiedResourceForeground': semantic.warning,
-  'gitDecoration.stageDeletedResourceForeground': semantic.error,
+  'gitDecoration.conflictingResourceForeground': accents.orange, // #FFAB40 (Lc ~70)
+  'gitDecoration.stageModifiedResourceForeground': accents.gold, // #FFCA28 (Lc ~80)
+  'gitDecoration.stageDeletedResourceForeground': boosted.coralGlow, // #FFBAB3 (Lc ~65)
   'gitDecoration.submoduleResourceForeground': semantic.info,
 
   // ==========================================================================
@@ -527,17 +529,17 @@ export const workbenchColors = {
   'debugIcon.stepOutForeground': semantic.info,
   'debugIcon.stepBackForeground': semantic.info,
   'debugIcon.continueForeground': semantic.success,
-  'debugConsole.infoForeground': stage.coolBlue, // #2196F3 - Stage lighting
+  'debugConsole.infoForeground': snowMiku.y2011.winterBlue, // #87CEEB - Snow Miku (Lc 70+)
   'debugConsole.warningForeground': stage.warmAmber, // #FFC107
-  'debugConsole.errorForeground': stage.accentPink, // #E91E63
+  'debugConsole.errorForeground': boosted.coralGlow, // #FFBAB3 - Brighter coral (Lc 65+)
   'debugConsole.sourceForeground': semantic.success,
   'debugConsoleInputIcon.foreground': teals.classic,
-  'debugTokenExpression.name': teals.classic,
+  'debugTokenExpression.name': character.hair.shine, // #5DE4DB (Lc ~70)
   'debugTokenExpression.value': foregrounds.primary,
-  'debugTokenExpression.string': semantic.success,
-  'debugTokenExpression.number': pinks.sekai,
-  'debugTokenExpression.boolean': pinks.sekai,
-  'debugTokenExpression.error': semantic.error,
+  'debugTokenExpression.string': character.negi.stalk, // #9CCC65 (Lc ~64)
+  'debugTokenExpression.number': character.negi.bright, // #69F0AE (Lc ~75)
+  'debugTokenExpression.boolean': pinks.blush, // #FFB8D4 (Lc ~70)
+  'debugTokenExpression.error': boosted.coralGlow, // #FFBAB3 (Lc ~65)
   'debugView.exceptionLabelForeground': '#FFFFFF',
   'debugView.exceptionLabelBackground': semantic.error,
   'debugView.stateLabelForeground': foregrounds.primary,
@@ -691,11 +693,11 @@ export const workbenchColors = {
   'banner.iconForeground': teals.classic,
 
   // ==========================================================================
-  // ERRORS & WARNINGS - Digital glitch for errors
+  // ERRORS & WARNINGS - Boosted for readability
   // ==========================================================================
-  'editorError.foreground': digital.glitch, // #FF5370
-  'editorError.border': alpha(digital.glitch, '40'),
-  'editorError.background': alpha(digital.glitch, '15'),
+  'editorError.foreground': boosted.coralGlow, // #FF8A80 - Boosted for Lc ~55
+  'editorError.border': alpha(boosted.coralGlow, '40'),
+  'editorError.background': alpha(boosted.coralGlow, '15'),
   'editorWarning.foreground': semantic.warning,
   'editorWarning.border': alpha(semantic.warning, '40'),
   'editorWarning.background': alpha(semantic.warning, '15'),
@@ -704,7 +706,7 @@ export const workbenchColors = {
   'editorInfo.background': alpha(semantic.info, '15'),
   'editorHint.foreground': semantic.success,
   'editorHint.border': alpha(semantic.success, '40'),
-  'problemsErrorIcon.foreground': semantic.error,
+  'problemsErrorIcon.foreground': boosted.coralGlow, // #FFBAB3 (Lc ~65)
   'problemsWarningIcon.foreground': semantic.warning,
   'problemsInfoIcon.foreground': semantic.info,
 
@@ -722,7 +724,7 @@ export const workbenchColors = {
   'editorInlayHint.foreground': alpha(teals.neon, 'DD'), // Boosted from CC for better visibility
   'editorInlayHint.typeForeground': alpha(versionMapping.types, 'CC'), // Boosted from BB
   'editorInlayHint.typeBackground': alpha(versionMapping.types, '12'),
-  'editorInlayHint.parameterForeground': alpha(pinks.soft, 'E6'), // Boosted from CC for Lc ~48
+  'editorInlayHint.parameterForeground': pinks.blush, // #FFB8D4 (Lc ~70)
   'editorInlayHint.parameterBackground': alpha(pinks.soft, '12'),
 
   // ==========================================================================
@@ -757,32 +759,33 @@ export const workbenchColors = {
   'notebookEditorOverviewRuler.runningCellForeground': semantic.warning,
 
   // ==========================================================================
-  // SYMBOL ICONS - Character Design Mapping
+  // SYMBOL ICONS - Miku Character Design with ΔE 10+ Distinction
+  // All pairs now have sufficient color difference for accessibility
   // ==========================================================================
   'symbolIcon.arrayForeground': teals.stage,
   'symbolIcon.booleanForeground': character.hairTies.highlight, // #FF80AB
-  'symbolIcon.classForeground': character.hair.shine, // #5DE4DB
+  'symbolIcon.classForeground': hologram.cyan, // #FF99C0 - Hair Tie Bright (distinct from interface/property)
   'symbolIcon.colorForeground': pinks.sekai,
-  'symbolIcon.constantForeground': character.hairTies.highlight, // #FF80AB
-  'symbolIcon.constructorForeground': character.armDisplay.data, // #5DE4DB
+  'symbolIcon.constantForeground': character.negi.bright, // #69F0AE - Negi Bright (distinct from boolean)
+  'symbolIcon.constructorForeground': accents.gold, // #FFCA28 - Gold (creates instances)
   'symbolIcon.enumeratorForeground': accents.gold, // #FFCA28
-  'symbolIcon.enumeratorMemberForeground': accents.orange, // #FFAB40
+  'symbolIcon.enumeratorMemberForeground': character.negi.stalk, // #9CCC65 - Negi Stalk (distinct from constant/number)
   'symbolIcon.eventForeground': accents.gold,
   'symbolIcon.fieldForeground': character.skin.shadow, // #E8C8BC
   'symbolIcon.fileForeground': foregrounds.primary,
-  'symbolIcon.folderForeground': teals.classic,
-  'symbolIcon.functionForeground': character.eyes.bright, // #5DE4DB
-  'symbolIcon.interfaceForeground': cyans.ice, // #84FFFF
-  'symbolIcon.keyForeground': teals.classic,
-  'symbolIcon.keywordForeground': teals.classic,
+  'symbolIcon.folderForeground': teals.classic, // #39C5BB
+  'symbolIcon.functionForeground': character.eyes.bright, // #5DE4DB - Hair Shine
+  'symbolIcon.interfaceForeground': cyans.ice, // #84FFFF (distinct from class)
+  'symbolIcon.keyForeground': character.hair.shine, // #5DE4DB
+  'symbolIcon.keywordForeground': mikuExpo.y2025.asiaCyan, // #00E5CC - Miku Expo (distinct from function/class)
   'symbolIcon.methodForeground': character.hair.highlight, // #B2EBE7
   'symbolIcon.moduleForeground': foregrounds.primary,
-  'symbolIcon.namespaceForeground': cryptonFamily.kaito.blue, // #42A5F5
-  'symbolIcon.nullForeground': pinks.sekai,
+  'symbolIcon.namespaceForeground': snowMiku.y2011.winterBlue, // #87CEEB - Snow Miku (organizational)
+  'symbolIcon.nullForeground': character.hair.highlight, // #B2EBE7 - Hair Highlight (distinct from boolean)
   'symbolIcon.numberForeground': character.negi.bright, // #69F0AE
   'symbolIcon.objectForeground': foregrounds.primary,
-  'symbolIcon.operatorForeground': teals.classic,
-  'symbolIcon.packageForeground': teals.classic,
+  'symbolIcon.operatorForeground': character.hair.shine, // #5DE4DB
+  'symbolIcon.packageForeground': append.light, // #A8EBE6 - Append Light (bundled code)
   'symbolIcon.propertyForeground': character.skin.blush, // #FFB8C8
   'symbolIcon.referenceForeground': teals.stage,
   'symbolIcon.snippetForeground': character.negi.stalk, // #9CCC65

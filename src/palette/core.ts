@@ -545,12 +545,14 @@ export const numberSymbolism = {
 export const boosted = {
   /** Purple - from #B388FF to Lc 65+ */
   purple: '#D4BBFF',
-  /** Pink - from #FF80AB to Lc 60+ */
-  pink: '#FFB0C4',
   /** Coral - from #FF5370 to Lc 60+ */
   coral: '#FFA8A0',
   /** Coral glow - slightly brighter coral */
   coralGlow: '#FFBAB3',
+  /** Error text - boosted from #FF5370 for Lc ~55 */
+  errorText: '#FF8A80',
+  /** Info text - boosted from #2196F3 for Lc ~55 */
+  infoText: '#64B5F6',
 } as const;
 
 // =============================================================================

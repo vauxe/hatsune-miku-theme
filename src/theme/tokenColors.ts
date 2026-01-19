@@ -1,13 +1,28 @@
 /**
  * Hatsune Miku Theme - Token Colors (Syntax Highlighting)
  *
- * Character-Semantic Mapping Strategy:
- * - Eyes → Keywords (iris #39C5BB), Functions (bright #5DE4DB)
- * - Class → Snow Miku Winter Blue (#87CEEB) - Distinct hue for token distinction
- * - Methods → Soft pink (#FF80AB) - Distinct from parameter pink
- * - Negi → Strings (stalk #9CCC65), Numbers (bright #69F0AE)
- * - Skin → Properties (blush #FFB8C8)
- * - Headphones → Errors (cushion #E05096)
+ * Pure Miku Immersion: Using existing palette colors for Lc 60+ readability
+ *
+ * Character Design:
+ * - Hair Shine (#5DE4DB, Lc ~70) → Keywords, HTML Tags
+ * - Hair Tip (#7FEDE5, Lc ~75) → Namespaces
+ * - Append Light (#A8EBE6, Lc ~80) → Doc Comments, Types
+ * - Skin Blush (#FFB8C8, Lc ~70) → Properties
+ * - Negi Stalk (#9CCC65, Lc ~64) → Strings
+ * - Negi Bright (#69F0AE, Lc ~75) → Numbers
+ *
+ * Miku Hologram & Stage:
+ * - Hologram Cyan (#4DD0E1, Lc ~70) → Classes
+ * - NT Modern (#3ED1C8, Lc ~65) → Functions
+ *
+ * Miku Events & Concerts:
+ * - Magical Mirai Gold (#FFD700, Lc ~80) → Enums/Constants
+ * - Miku Expo Cyan (#00E5CC, Lc ~70) → Operators
+ * - Racing Lime (#76FF03, Lc ~85) → Regex
+ *
+ * Iconic PVs:
+ * - Senbonzakura (#FFB7C5, Lc ~70) → Decorators
+ * - Melt (#FFB6C1, Lc ~70) → Template Strings
  */
 
 import {
@@ -17,17 +32,16 @@ import {
   greys,
   foregrounds,
   accents,
-  semantic,
   hologram,
-  versionMapping,
   character,
   append,
   boosted,
-  racingMiku,
+  versions,
   snowMiku,
   magicalMirai,
   mikuExpo,
-  projectDiva,
+  iconicPVs,
+  racingMiku,
 } from '../palette';
 
 // Helper type for token color rules
@@ -42,7 +56,7 @@ interface TokenColorRule {
 
 export const tokenColors: TokenColorRule[] = [
   // ===========================================================================
-  // COMMENTS - Outfit highlight (background detail)
+  // COMMENTS - Platinum (Quiet Guidance)
   // ===========================================================================
   {
     name: 'Comments',
@@ -60,19 +74,20 @@ export const tokenColors: TokenColorRule[] = [
       'comment.block.javadoc',
     ],
     settings: {
-      foreground: greys.platinum, // #B0BEC5 - High Contrast Doc Comments
+      foreground: append.light, // #B2EBE7 - Hair Highlight (Lc ~80)
       fontStyle: 'italic',
     },
   },
 
   // ===========================================================================
-  // KEYWORDS - Eyes iris = Soul/identity of code
+  // KEYWORDS - Hair Shine = Twin-tails Catching Stage Lights
+  // #39C5BB reserved for UI elements only
   // ===========================================================================
   {
     name: 'Control Keywords',
     scope: ['keyword.control', 'keyword.control.flow', 'keyword.control.import'],
     settings: {
-      foreground: character.eyes.iris, // #39C5BB - Identity
+      foreground: character.hair.shine, // #5DE4DB - Hair Shine (Lc ~70)
       fontStyle: 'bold',
     },
   },
@@ -88,51 +103,51 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Operators',
     scope: ['keyword.operator', 'punctuation.separator', 'punctuation.terminator'],
     settings: {
-      foreground: racingMiku.y2019.neonCyan, // #00FFFF - Electric Cyan for Math/Logic
+      foreground: mikuExpo.y2025.asiaCyan, // #00E5CC - Racing velocity
     },
   },
   {
     name: 'Special Operators',
     scope: ['keyword.operator.new', 'keyword.operator.expression'],
     settings: {
-      foreground: cyans.electric, // #26C6DA - Electric cyan for special operators
+      foreground: mikuExpo.y2025.asiaCyan, // #00E5CC - Racing holographic
       fontStyle: 'bold',
     },
   },
 
   // ===========================================================================
-  // FUNCTIONS - Eyes bright = Active expression
+  // FUNCTIONS - NT Modern Voice (2020)
   // ===========================================================================
   {
     name: 'User Functions',
     scope: ['entity.name.function', 'meta.function-call'],
     settings: {
-      foreground: character.eyes.bright, // #5DE4DB - Active expression
+      foreground: versions.nt, // #3ED1C8 - NT Modern voice
     },
   },
   {
     name: 'Library/Support Functions',
     scope: ['support.function', 'support.function.console'],
     settings: {
-      foreground: boosted.purple, // Boosted purple for Lc 65+
+      foreground: pinks.blush, // #FFB8C8 - Skin Blush (Lc ~70)
     },
   },
   {
     name: 'Methods',
     scope: ['entity.name.function.member'],
     settings: {
-      foreground: pinks.soft, // #FF80AB - Soft pink (distinct from parameter #FFB8D4)
+      foreground: character.eyes.bright, // #5DE4DB - Hair shine (active expression)
     },
   },
 
   // ===========================================================================
-  // CLASSES & TYPES - Hair = Structure & Flow
+  // CLASSES & TYPES - Hair Tie Bright (Bound Structure)
   // ===========================================================================
   {
     name: 'User Classes',
     scope: ['entity.name.type.class', 'entity.name.class'],
     settings: {
-      foreground: snowMiku.y2011.winterBlue, // #87CEEB - Snow Miku sky blue (distinct from teal)
+      foreground: hologram.cyan, // #FF99C0 - Hair Tie Bright (Lc ~60+)
       fontStyle: 'bold',
     },
   },
@@ -141,7 +156,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Structs',
     scope: ['entity.name.type.struct'],
     settings: {
-      foreground: pinks.blush, // #FFB8D4 - Blush Pink for Structs
+      foreground: pinks.pale, // #FCE4EC - Soft pale pink for Structs
       fontStyle: 'bold',
     },
   },
@@ -156,7 +171,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Interfaces',
     scope: ['entity.name.type.interface'],
     settings: {
-      foreground: snowMiku.y2021.glowCyan, // #00E5FF - Matches semantic token
+      foreground: snowMiku.y2011.winterBlue, // #87CEEB - Snow Miku sky
       fontStyle: 'bold',
     },
   },
@@ -165,7 +180,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Enums',
     scope: ['entity.name.type.enum', 'entity.name.enum'],
     settings: {
-      foreground: magicalMirai.y2017.celebrationGold, // #FFD700 - Gold for Enums
+      foreground: magicalMirai.y2017.celebrationGold, // #FFD700 - Magical Mirai celebration
     },
   },
   {
@@ -179,7 +194,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Type Parameters',
     scope: ['entity.name.type.parameter'],
     settings: {
-      foreground: accents.gold, // #FFCA28 - Gold for Generics/Type Parameters
+      foreground: accents.gold, // #FFCA28 - Miku concert gold for Generics
       fontStyle: 'italic',
     },
   },
@@ -205,7 +220,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Parameters',
     scope: ['variable.parameter'],
     settings: {
-      foreground: pinks.blush, // #FFB8D4 - Matches semantic token
+      foreground: pinks.blush, // #FFB8D4 - Hair ties bound
       fontStyle: 'italic',
     },
   },
@@ -213,7 +228,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Constants',
     scope: ['variable.other.constant', 'constant.language'],
     settings: {
-      foreground: pinks.blush, // #FFB8D4 - Matches semantic token
+      foreground: magicalMirai.y2017.celebrationGold, // #FFD700 - World is Mine royalty
       fontStyle: 'bold',
     },
   },
@@ -225,28 +240,28 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Strings',
     scope: ['string', 'string.quoted.double', 'string.quoted.single'],
     settings: {
-      foreground: character.negi.stalk, // #9CCC65 - Negi Green
+      foreground: character.negi.stalk, // #9CCC65 - Negi Green truth
     },
   },
   {
     name: 'Template Strings',
     scope: ['string.template'],
     settings: {
-      foreground: racingMiku.y2014.limeAccent, // #76FF03 - Lime for Template Literals
+      foreground: iconicPVs.melt.warmPink, // #FFB6C1 - Melt warm interpolation
     },
   },
   {
     name: 'Numbers',
     scope: ['constant.numeric'],
     settings: {
-      foreground: character.negi.bright, // #69F0AE - Bright data
+      foreground: character.negi.bright, // #69F0AE - Bright data clarity
     },
   },
   {
     name: 'Booleans',
     scope: ['constant.language.boolean'],
     settings: {
-      foreground: boosted.pink, // Boosted light pink for Lc 60+
+      foreground: pinks.blush, // Boosted light pink for Lc 60+
       fontStyle: 'bold',
     },
   },
@@ -254,7 +269,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Regex',
     scope: ['string.regexp'],
     settings: {
-      foreground: boosted.coral, // Boosted coral for Lc 60+
+      foreground: racingMiku.y2014.limeAccent, // #76FF03 - Ghost Rule neon
     },
   },
   {
@@ -266,13 +281,13 @@ export const tokenColors: TokenColorRule[] = [
   },
 
   // ===========================================================================
-  // META & DECORATORS - The Accessories
+  // META & DECORATORS - Senbonzakura Cherry
   // ===========================================================================
   {
     name: 'Decorators / Attributes',
     scope: ['meta.decorator', 'entity.other.attribute-name'],
     settings: {
-      foreground: snowMiku.y2011.winterBlue, // #87CEEB - Sky Blue for Decorators
+      foreground: iconicPVs.senbonzakura.sakuraPink, // #FFB7C5 - Senbonzakura cherry
       fontStyle: 'italic',
     },
   },
@@ -280,7 +295,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'HTML/JSX Tags',
     scope: ['entity.name.tag'],
     settings: {
-      foreground: character.eyes.iris, // #39C5BB - Identity
+      foreground: character.hair.shine, // #5DE4DB - Hair Shine (Lc ~70)
       fontStyle: 'bold',
     },
   },
@@ -288,7 +303,8 @@ export const tokenColors: TokenColorRule[] = [
     name: 'HTML/JSX Attributes',
     scope: ['entity.other.attribute-name.html', 'entity.other.attribute-name.jsx'],
     settings: {
-      foreground: projectDiva.space.cosmosBlue, // #304FFE - Cosmos Blue for Attributes
+      foreground: character.hair.tip, // #7FEDE5 - Hair Tip (Lc ~75)
+      fontStyle: 'italic',
     },
   },
 
@@ -299,7 +315,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markdown Headings',
     scope: ['markup.heading', 'entity.name.section.markdown'],
     settings: {
-      foreground: boosted.pink, // Boosted pink for Lc 60+
+      foreground: iconicPVs.senbonzakura.sakuraPink, // #FFB7C5 - Senbonzakura cherry title
       fontStyle: 'bold',
     },
   },
@@ -307,14 +323,14 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markdown Links',
     scope: ['markup.underline.link', 'string.other.link'],
     settings: {
-      foreground: mikuExpo.y2025.asiaCyan, // #00E5CC - Cyan Links
+      foreground: mikuExpo.y2025.asiaCyan, // #00E5CC - Racing connection
     },
   },
   {
     name: 'Markdown Code',
     scope: ['markup.inline.raw', 'markup.raw.block'],
     settings: {
-      foreground: semantic.success, // Negi Green
+      foreground: character.negi.stalk, // #9CCC65 - Negi code block
     },
   },
   {
@@ -323,6 +339,17 @@ export const tokenColors: TokenColorRule[] = [
     settings: {
       foreground: greys.platinum,
       fontStyle: 'italic',
+    },
+  },
+
+  // ===========================================================================
+  // NAMESPACES - Hair Tip (Structure Flow)
+  // ===========================================================================
+  {
+    name: 'Entity Name Namespace',
+    scope: ['entity.name.type.namespace', 'entity.name.namespace', 'entity.name.type.module'],
+    settings: {
+      foreground: character.hair.tip, // #7FEDE5 - Hair Tip (Lc ~75)
     },
   },
 
@@ -361,7 +388,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'C# Attribute',
     scope: ['meta.attribute.cs', 'entity.name.type.attribute.cs'],
     settings: {
-      foreground: accents.amber,
+      foreground: iconicPVs.senbonzakura.sakuraPink, // #FFB7C5 - Senbonzakura
       fontStyle: 'italic',
     },
   },
@@ -369,7 +396,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'C# Namespace',
     scope: ['entity.name.type.namespace.cs'],
     settings: {
-      foreground: snowMiku.y2011.winterBlue, // #87CEEB - Sky Blue for Class
+      foreground: character.hair.tip, // #7FEDE5 - Hair Tip (Lc ~75)
     },
   },
 
@@ -419,7 +446,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'TOML Table Header',
     scope: ['entity.name.section.toml', 'support.type.property-name.table.toml'],
     settings: {
-      foreground: character.eyes.iris, // #39C5BB - Identity
+      foreground: character.hair.shine, // #5DE4DB - Hair Shine (Lc ~70)
       fontStyle: 'bold',
     },
   },
@@ -427,7 +454,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'TOML Array of Tables',
     scope: ['entity.name.section.array.toml', 'support.type.property-name.array.toml'],
     settings: {
-      foreground: pinks.sekai, // #FF6B9D - Sekai Pink for Array Tables
+      foreground: hologram.cyan, // #FF99C0 - Hair Tie Bright
       fontStyle: 'bold',
     },
   },
@@ -449,7 +476,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'TOML Literal String',
     scope: ['string.quoted.single.literal.toml', 'string.quoted.triple.literal.toml'],
     settings: {
-      foreground: racingMiku.y2014.limeAccent, // #76FF03 - Lime for Literal Strings
+      foreground: racingMiku.y2014.limeAccent, // #76FF03 - Ghost Rule neon
     },
   },
   {
@@ -463,7 +490,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'TOML Boolean',
     scope: ['constant.language.boolean.toml'],
     settings: {
-      foreground: boosted.pink, // Boosted pink for booleans
+      foreground: pinks.blush, // Boosted pink for booleans
       fontStyle: 'bold',
     },
   },
@@ -490,7 +517,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Makefile Target',
     scope: ['entity.name.function.target.makefile'],
     settings: {
-      foreground: character.eyes.bright, // #5DE4DB - Active expression (targets are actions)
+      foreground: versions.nt, // #3ED1C8 - NT Modern (targets are actions)
       fontStyle: 'bold',
     },
   },
@@ -498,7 +525,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Makefile Prerequisite',
     scope: ['entity.name.function.prerequisite.makefile'],
     settings: {
-      foreground: pinks.soft, // #FF80AB - Dependencies in soft pink
+      foreground: character.eyes.bright, // #5DE4DB - Hair shine dependencies
     },
   },
   {
@@ -519,7 +546,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Makefile Automatic Variable',
     scope: ['variable.language.automatic.makefile'],
     settings: {
-      foreground: accents.gold, // #FFCA28 - Gold for automatic vars ($@, $<, etc.)
+      foreground: magicalMirai.y2017.celebrationGold, // #FFD700 - Gold for automatic vars
       fontStyle: 'bold',
     },
   },
@@ -527,14 +554,14 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Makefile Function',
     scope: ['support.function.makefile', 'meta.function-call.makefile'],
     settings: {
-      foreground: boosted.purple, // Boosted purple for functions
+      foreground: pinks.blush, // #FFB8C8 - Skin Blush (Lc ~70)
     },
   },
   {
     name: 'Makefile Keyword',
     scope: ['keyword.control.makefile', 'keyword.other.makefile'],
     settings: {
-      foreground: character.eyes.iris, // #39C5BB - Identity
+      foreground: character.hair.shine, // #5DE4DB - Hair Shine (Lc ~70)
       fontStyle: 'bold',
     },
   },
@@ -580,7 +607,6 @@ export const tokenColors: TokenColorRule[] = [
       'string.quoted.single',
       'string.quoted.triple',
       'string.quoted.other',
-      'string.template',
       'string.interpolated',
     ],
     settings: {
@@ -652,35 +678,28 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Entity Name Label',
     scope: ['entity.name.label', 'entity.name.statement.label'],
     settings: {
-      foreground: accents.amber,
+      foreground: pinks.blush, // #FFB0C4 - Boosted Pink (Lc ~65)
     },
   },
   {
     name: 'Entity Name Constant',
     scope: ['entity.name.constant', 'entity.name.variable.constant'],
     settings: {
-      foreground: pinks.accessory,
+      foreground: magicalMirai.y2017.celebrationGold, // #FFD700 - World is Mine
     },
   },
   {
     name: 'Entity Name Enum',
     scope: ['entity.name.type.enum', 'entity.name.enum'],
     settings: {
-      foreground: accents.gold, // #FFCA28 - Gold for Enums
+      foreground: magicalMirai.y2017.celebrationGold, // #FFD700 - Magical Mirai
     },
   },
   {
     name: 'Entity Name Interface',
     scope: ['entity.name.type.interface', 'entity.name.interface'],
     settings: {
-      foreground: snowMiku.y2021.glowCyan, // #00E5FF - Matches semantic token
-    },
-  },
-  {
-    name: 'Entity Name Namespace',
-    scope: ['entity.name.type.namespace', 'entity.name.namespace'],
-    settings: {
-      foreground: accents.blue,
+      foreground: snowMiku.y2011.winterBlue, // #87CEEB - Snow Miku sky
     },
   },
   {
@@ -692,7 +711,7 @@ export const tokenColors: TokenColorRule[] = [
   },
 
   // ===========================================================================
-  // KEYWORD DECLARATION VARIANTS - Eyes iris = Identity
+  // KEYWORD DECLARATION VARIANTS - Hair Shine
   // ===========================================================================
   {
     name: 'Keyword Declaration',
@@ -703,7 +722,7 @@ export const tokenColors: TokenColorRule[] = [
       'keyword.declaration.type',
     ],
     settings: {
-      foreground: character.eyes.iris, // #39C5BB
+      foreground: character.hair.shine, // #5DE4DB - Hair Shine (Lc ~70)
       fontStyle: 'bold',
     },
   },
@@ -711,7 +730,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Keyword Namespace/Import',
     scope: ['keyword.namespace', 'keyword.import', 'keyword.export'],
     settings: {
-      foreground: character.eyes.iris,
+      foreground: character.hair.shine, // #5DE4DB
       fontStyle: 'bold',
     },
   },
@@ -719,26 +738,26 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Keyword Type',
     scope: ['keyword.type', 'keyword.other.type'],
     settings: {
-      foreground: character.eyes.iris,
+      foreground: character.hair.shine, // #5DE4DB
       fontStyle: 'bold',
     },
   },
 
   // ===========================================================================
-  // SUPPORT VARIANTS - Eyes iris = Identity
+  // SUPPORT VARIANTS - Miku Character Colors
   // ===========================================================================
   {
     name: 'Support Variable',
     scope: ['support.variable', 'support.variable.property'],
     settings: {
-      foreground: character.eyes.iris,
+      foreground: character.hair.shine, // #5DE4DB - Hair Shine (Lc ~70)
     },
   },
   {
     name: 'Support Module',
     scope: ['support.module', 'support.module.node'],
     settings: {
-      foreground: character.eyes.iris,
+      foreground: character.hair.tip, // #7FEDE5 - Hair Tip (Lc ~75)
     },
   },
 
@@ -763,7 +782,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markup Link URL',
     scope: ['markup.underline.link.markdown', 'meta.link.inline.markdown'],
     settings: {
-      foreground: hologram.cyan,
+      foreground: mikuExpo.y2025.asiaCyan, // #00E5CC - Racing connection
       fontStyle: 'underline',
     },
   },
