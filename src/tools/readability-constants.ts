@@ -276,36 +276,140 @@ export const EXPECTED_DIM_ELEMENTS = new Set([
 /**
  * Adjacency pairs - elements commonly seen side-by-side in code
  * These pairs need the most distinction for comfortable reading
+ *
+ * Organized by code pattern category for maintainability.
+ * Total: 92 pairs covering all common programming patterns.
  */
 export const ADJACENCY_PAIRS: Array<[string, string]> = [
-  // Function calls: func(param)
-  ['function', 'parameter'],
-  ['method', 'parameter'],
-  // Object access: obj.property
-  ['variable', 'property'],
-  // Type annotations: var: Type
-  ['variable', 'type'],
-  ['parameter', 'type'],
-  // Keywords in context
-  ['keyword', 'variable'],
-  ['keyword', 'function'],
-  // Class definitions: class Name { prop }
-  ['class', 'property'],
-  ['class', 'method'],
-  // Enum usage: Enum.Member
-  ['enum', 'enumMember'],
-  // Numbers vs other values
-  ['number', 'enumMember'],
-  ['number', 'constant'],
-  // Comments vs everything
-  ['comment', 'property'],
-  ['comment', 'variable'],
-  // Namespace/module context
-  ['namespace', 'function'],
-  ['namespace', 'class'],
-  // Operators (often transparent - tests alpha compositing)
-  ['operator', 'variable'],
-  ['operator', 'number'],
+  // ===== DECLARATIONS (every file has these) =====
+  ['storage', 'variable'],       // let x, const y, var z
+  ['storage', 'function'],       // function foo, def bar
+  ['storage', 'keyword'],        // async function, public static
+
+  // ===== FUNCTION PATTERNS =====
+  ['function', 'parameter'],     // foo(x) - function definition
+  ['function', 'variable'],      // foo(x, y) - args
+  ['function', 'type'],          // foo(): Type
+  ['function', 'typeParameter'], // foo<T>()
+  ['variable', 'function'],      // x = foo() - rvalue
+  ['method', 'parameter'],       // obj.method(x)
+  ['method', 'variable'],        // method(x)
+  ['method', 'type'],            // method(): Type
+  ['method', 'regexp'],          // .match(/x/)
+  ['function', 'method'],        // function vs method distinction
+
+  // ===== PROPERTY ACCESS =====
+  ['variable', 'property'],      // obj.prop
+  ['variable', 'method'],        // obj.method()
+  ['variableLanguage', 'property'], // this.prop, self.x
+  ['variableLanguage', 'method'],   // this.method(), self.foo()
+  ['variableLanguage', 'parameter'], // (self, x) in Python
+  ['variableLanguage', 'variable'], // this vs x distinction
+
+  // ===== CLASS PATTERNS =====
+  ['keyword', 'class'],          // class Foo, new Foo
+  ['class', 'interface'],        // class vs interface distinction
+  ['class', 'variable'],         // new Foo(x)
+  ['class', 'string'],           // new Error("msg")
+  ['class', 'property'],         // class { prop }
+  ['class', 'method'],           // class { method() }
+  ['class', 'typeParameter'],    // Array<T>, Map<K,V>
+
+  // ===== INTERFACE PATTERNS =====
+  ['keyword', 'interface'],      // interface Foo, implements Bar
+  ['interface', 'property'],     // interface { x: T }
+  ['interface', 'method'],       // interface { fn(): T }
+  ['interface', 'type'],         // interface vs type distinction
+
+  // ===== TYPE PATTERNS =====
+  ['variable', 'type'],          // x: Type
+  ['parameter', 'type'],         // (x: Type)
+  ['keyword', 'type'],           // type X = ..., x: Type
+  ['type', 'class'],             // type vs class distinction
+  ['type', 'variable'],          // <Type>x (cast)
+  ['typeParameter', 'type'],     // T extends Base
+  ['typeParameter', 'variable'], // foo<T>(x)
+  ['typeParameter', 'class'],    // T vs ClassName distinction
+
+  // ===== ENUM PATTERNS =====
+  ['keyword', 'enum'],           // enum Color
+  ['enum', 'enumMember'],        // Enum.Member
+  ['enum', 'class'],             // enum vs class distinction
+  ['enumMember', 'variable'],    // Some(x), Ok(val)
+  ['enumMember', 'constant'],    // enum member vs constant
+
+  // ===== STRUCT PATTERNS (Rust, Go) =====
+  ['keyword', 'struct'],         // struct Foo
+  ['struct', 'property'],        // struct { x: i32 }
+  ['struct', 'class'],           // struct vs class distinction
+
+  // ===== NAMESPACE PATTERNS =====
+  ['keyword', 'namespace'],      // namespace X, mod foo
+  ['namespace', 'function'],     // Ns.func()
+  ['namespace', 'class'],        // Ns.Class
+  ['namespace', 'type'],         // Ns::Type
+  ['namespace', 'variable'],     // Ns.value
+
+  // ===== DECORATOR PATTERNS =====
+  ['decorator', 'function'],     // @deco def foo
+  ['decorator', 'class'],        // @Component class
+  ['decorator', 'method'],       // @override method
+  ['decorator', 'property'],     // @Input() prop
+
+  // ===== STRING PATTERNS (templates very common) =====
+  ['string', 'variable'],        // `${name}`, f"{x}"
+  ['string', 'stringEscape'],    // "hello\n"
+  ['keyword', 'string'],         // import "x", return "x"
+
+  // ===== KEYWORD PATTERNS =====
+  ['keyword', 'variable'],       // if (x), for x in
+  ['keyword', 'function'],       // return foo()
+  ['keyword', 'storage'],        // for (let i, async function
+  ['keyword', 'operator'],       // keyword vs operator distinction
+  ['keyword', 'number'],         // return 5
+  ['variable', 'keyword'],       // x as Type, x in arr
+
+  // ===== OBJECT LITERAL PATTERNS =====
+  ['property', 'number'],        // { x: 1 }
+  ['property', 'string'],        // { x: "y" }
+  ['property', 'variable'],      // { x: val }
+  ['property', 'function'],      // { onClick: fn }
+
+  // ===== CONSTANT DISTINCTION =====
+  ['number', 'constant'],        // 5 vs MY_CONST
+  ['number', 'enumMember'],      // enum { X = 1 }
+  ['variable', 'constant'],      // myVar vs MY_CONST
+  ['constant', 'string'],        // true vs "true"
+
+  // ===== MACRO PATTERNS (Rust) =====
+  ['macro', 'string'],           // println!("x")
+  ['macro', 'variable'],         // dbg!(x)
+  ['macro', 'number'],           // vec![1, 2]
+  ['macro', 'function'],         // macro! vs fn() distinction
+
+  // ===== JSX/HTML PATTERNS =====
+  ['tag', 'attribute'],          // <div class
+  ['tag', 'string'],             // text children
+  ['attribute', 'string'],       // class="x"
+  ['attribute', 'variable'],     // prop={x}
+  ['tag', 'variable'],           // <{Component} />
+
+  // ===== REGEXP PATTERNS =====
+  ['variable', 'regexp'],        // str vs /pattern/
+  ['string', 'regexp'],          // "text" vs /pattern/
+
+  // ===== OPERATOR PATTERNS =====
+  ['operator', 'variable'],      // x + y
+  ['operator', 'number'],        // x + 1
+  ['operator', 'property'],      // ?.prop
+  ['operator', 'type'],          // A | B
+
+  // ===== COMMENT PATTERNS (visual adjacency) =====
+  ['comment', 'variable'],       // x = 5 // comment
+  ['comment', 'property'],       // doc comment
+  ['comment', 'function'],       // /** */ function
+  ['comment', 'keyword'],        // // after return
+  ['comment', 'string'],         // visual distinction
 ];
 
 /**
