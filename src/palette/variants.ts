@@ -336,13 +336,13 @@ export const magicalMirai = {
     adventureYellow: '#FFCA28',
   },
   y2025: {
-    theme: 'Resonance - Harmonic Connection',
-    resonanceCyan: '#00E5FF',      // Resonance wave cyan
-    harmonyPink: '#FF80AB',        // Harmonic pink
-    connectionPurple: '#9C27B0',   // Connection purple
-    waveformGreen: '#69F0AE',      // Sound wave green
-    echoBlue: '#448AFF',           // Echo blue
-    vibeYellow: '#FFD740',         // Energy vibe yellow
+    theme: 'Seiga Itten - Starry Sky',
+    nightSky: '#0D1B2E',           // Deep night sky blue
+    starlight: '#FFD700',          // Golden starlight
+    cosmicPurple: '#4A1A6B',       // Cosmic purple
+    celestialBlue: '#1E3A5F',      // Celestial deep blue
+    starGlow: '#FFFACD',           // Star glow warm white
+    auroraViolet: '#7B68EE',       // Aurora violet accent
   },
   // Official lightstick colors
   lightstick: {
@@ -393,16 +393,30 @@ export const mikuExpo = {
     onlinePink: '#FF80AB',
   },
   y2021: {
+    theme: 'Online - Digital Connection',
+    connectionCyan: '#00E5FF',
+    virtualPink: '#FF4081',
+    streamPurple: '#7C4DFF',
+  },
+  y2022: {
     theme: 'Rewind - Digital Compilation',
     rewindPurple: '#7C4DFF',
     memoryPink: '#FF4081',
     timeCyan: '#18FFFF',
   },
+  y2023: {
+    theme: 'VR - Virtual Reality Experience',
+    vrCyan: '#00FFFF',
+    immersivePurple: '#9C27B0',
+    spatialPink: '#FF69B4',
+    digitalBlue: '#2196F3',
+  },
   y2024: {
-    theme: '2024 World Tour',
-    worldCyan: '#00BCD4',
-    tourMagenta: '#EC407A',
-    globalBlue: '#2962FF',
+    theme: '10th Anniversary - Universal Positivity',
+    anniversaryCyan: '#00BCD4',
+    positivityPink: '#EC407A',
+    universalBlue: '#2962FF',
+    celebrationGold: '#FFD700',
   },
   y2025: {
     theme: '2025 Asia Tour - Art by RITAO',
@@ -411,15 +425,6 @@ export const mikuExpo = {
     goldenAccent: '#FFD700',       // Asian gold
     nightBlue: '#1A237E',          // Night concert blue
     neonMagenta: '#FF00FF',        // Neon city magenta
-  },
-  y2026: {
-    theme: '2026 North America Tour - Art by yon',
-    americaCyan: '#00CED1',        // Dynamic cyan
-    sunsetOrange: '#FF6B35',       // West coast sunset
-    electricPurple: '#9B59B6',     // Concert purple
-    starWhite: '#F8F8FF',          // Starlight white
-    neonPink: '#FF1493',           // Neon pink
-    skyBlue: '#87CEEB',            // Open sky blue
   },
   // 10th Anniversary
   tenthAnniversary: {

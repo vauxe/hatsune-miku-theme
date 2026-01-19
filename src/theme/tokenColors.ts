@@ -80,7 +80,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Storage Types',
     scope: ['storage.type', 'storage.modifier'],
     settings: {
-      foreground: mikuExpo.y2026.skyBlue, // #87CEEB - Sky Blue for Definitions
+      foreground: cyans.hologram, // #4DD0E1 - Hologram Cyan for Definitions
       fontStyle: 'bold',
     },
   },
@@ -95,7 +95,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Special Operators',
     scope: ['keyword.operator.new', 'keyword.operator.expression'],
     settings: {
-      foreground: magicalMirai.y2025.resonanceCyan, // #00E5FF
+      foreground: cyans.electric, // #26C6DA - Electric cyan for special operators
       fontStyle: 'bold',
     },
   },
