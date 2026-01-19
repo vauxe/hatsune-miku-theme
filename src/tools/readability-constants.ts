@@ -94,6 +94,26 @@ export const BG_KEYS = {
   inputValidationError: 'inputValidation.errorBackground',
   inputValidationInfo: 'inputValidation.infoBackground',
   inputValidationWarning: 'inputValidation.warningBackground',
+  // TIER 1: Current line - where you're typing (constant focus)
+  lineHighlight: 'editor.lineHighlightBackground',
+  // TIER 2: Autocomplete - syntax colors on suggest widget
+  suggestFocus: 'editorSuggestWidget.selectedBackground',
+  // Git gutter - change indicators
+  gutterAdded: 'editorGutter.addedBackground',
+  gutterModified: 'editorGutter.modifiedBackground',
+  gutterDeleted: 'editorGutter.deletedBackground',
+  // CODE REVIEW: Diff editor contexts
+  diffUnchangedRegion: 'diffEditor.unchangedRegionBackground',
+  diffUnchangedCode: 'diffEditor.unchangedCodeBackground',
+  multiDiffHeader: 'multiDiffEditor.headerBackground',
+  multiDiffBackground: 'multiDiffEditor.background',
+  // CODE REVIEW: AI-suggested changes (Copilot inline diff)
+  inlineChatDiffInserted: 'inlineChatDiff.inserted',
+  inlineChatDiffRemoved: 'inlineChatDiff.removed',
+  // NOTEBOOKS: Jupyter cell contexts (data science)
+  notebookCell: 'notebook.cellEditorBackground',
+  notebookOutput: 'notebook.outputContainerBackgroundColor',
+  notebookSelected: 'notebook.selectedCellBackground',
 } as const;
 
 export type BgKeyName = keyof typeof BG_KEYS;
@@ -110,20 +130,29 @@ export const LABELS = {
   colColor: 'Color',
   colApca: 'APCA',
 
+  // New 12-section structure
+  sectionSyntax: 'SYNTAX',                         // 1. Token colors on editor (core)
+  sectionSyntaxContext: 'SYNTAX CONTEXT',          // 2. Tokens on selection, diff, sticky, hover
+  sectionComments: 'COMMENTS',                     // 3. Comment visibility everywhere
+  sectionDiagnostics: 'DIAGNOSTICS',               // 4. Error/warning/info visibility
+  sectionUiPrimary: 'UI PRIMARY',                  // 5. Tabs, sidebar, status bar labels
+  sectionUiSecondary: 'UI SECONDARY',              // 6. Breadcrumb, inlay hints, ghost text
+  sectionWidgets: 'WIDGETS',                       // 7. Autocomplete, hover, palette, notifications
+  sectionTerminal: 'TERMINAL',                     // 8. Foreground + key ANSI colors
+  sectionGit: 'GIT DECORATIONS',                   // 9. File decorations
+  sectionButtons: 'BUTTONS & BADGES',              // 10. Button/badge text
+  sectionDebug: 'DEBUG',                           // 11. Debug panel text
+  sectionDistinction: 'DISTINCTION (ΔE00)',        // 12. All Delta E tests unified
+  sectionCodeReview: 'CODE REVIEW',               // Diff contexts, multi-file, AI suggestions
+  sectionNotebook: 'NOTEBOOKS',                   // Jupyter cells for data science
+
+  // Legacy labels (kept for backward compatibility during transition)
   sectionText: 'TEXT',
-  sectionSyntax: 'SYNTAX',
   sectionSelected: 'SELECTED TEXT',
   sectionNavHighlights: 'NAVIGATION HIGHLIGHTS',
-  sectionDiagnostics: 'DIAGNOSTICS',
-  sectionComments: 'COMMENTS',
   sectionEditorUi: 'EDITOR UI',
   sectionWorkbenchUi: 'WORKBENCH UI',
-  sectionWidgets: 'WIDGETS',
-  sectionGit: 'GIT DECORATIONS',
   sectionBrackets: 'BRACKETS',
-  sectionTerminal: 'TERMINAL ANSI',
-  sectionButtons: 'BUTTONS & BADGES',
-  sectionDebug: 'DEBUG',
   sectionDebugContext: 'DEBUG CONTEXT',
   sectionLinkedEditing: 'LINKED EDITING',
   sectionLinks: 'LINKS & HIGHLIGHTS',
@@ -142,8 +171,8 @@ export const LABELS = {
   sectionSymbolIcons: 'SYMBOL ICONS',
   sectionSettings: 'SETTINGS EDITOR',
   sectionCharts: 'CHARTS',
-  sectionDistinction: 'COLOR DISTINCTION (ΔE00)',
   sectionSymbolDiscrimination: 'SYMBOL DISCRIMINATION (ΔE00)',
+  sectionTerminalAnsi: 'TERMINAL ANSI',
 
   summaryPass: 'Content+ (Lc60):',
   summaryLarge: 'Large/Non-text:',
@@ -326,4 +355,36 @@ export const SYMBOL_DISCRIMINATION_PAIRS: Array<[string, string]> = [
   ['event', 'method'],
   ['event', 'property'],
   ['reference', 'variable'],
+];
+
+/**
+ * Status distinction pairs - error/warning/info states need clear visual separation
+ * These are critical for quickly identifying diagnostic severity
+ */
+export const STATUS_DISTINCTION_PAIRS: Array<[string, string]> = [
+  ['error', 'warning'],
+  ['warning', 'info'],
+  ['error', 'info'],
+];
+
+/**
+ * Git distinction pairs - file states in source control
+ * Users need to quickly identify what changed without reading labels
+ */
+export const GIT_DISTINCTION_PAIRS: Array<[string, string]> = [
+  ['added', 'modified'],
+  ['deleted', 'untracked'],
+  ['modified', 'deleted'],
+  ['added', 'untracked'],
+];
+
+/**
+ * State distinction pairs - active vs inactive UI elements
+ * Tests whether users can perceive state changes
+ */
+export const STATE_DISTINCTION_PAIRS: Array<[string, string]> = [
+  ['tabActive', 'tabInactive'],
+  ['listSelected', 'listHover'],
+  ['activityActive', 'activityInactive'],
+  ['panelActive', 'panelInactive'],
 ];

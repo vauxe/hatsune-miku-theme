@@ -336,6 +336,26 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       focusedStackFrame: resolveBg('editor.focusedStackFrameHighlightBackground', editorBg),
       // Linked editing (HTML tag pairs)
       linkedEditing: resolveBg('editor.linkedEditingBackground', editorBg),
+      // TIER 1: Current line highlight - where cursor is (constant focus)
+      lineHighlight: resolveBg('editor.lineHighlightBackground', editorBg),
+      // Suggest widget focus (for selected autocomplete item)
+      suggestFocus: resolveBg('editorSuggestWidget.selectedBackground', editorBg),
+      // Git gutter backgrounds (for change indicators)
+      gutterAdded: resolveBg('editorGutter.addedBackground', editorBg),
+      gutterModified: resolveBg('editorGutter.modifiedBackground', editorBg),
+      gutterDeleted: resolveBg('editorGutter.deletedBackground', editorBg),
+      // CODE REVIEW: Diff editor contexts
+      diffUnchangedRegion: resolveBg('diffEditor.unchangedRegionBackground', editorBg),
+      diffUnchangedCode: resolveBg('diffEditor.unchangedCodeBackground', editorBg),
+      multiDiffHeader: resolveBg('multiDiffEditor.headerBackground', editorBg),
+      multiDiffBackground: resolveBg('multiDiffEditor.background', editorBg),
+      // CODE REVIEW: AI-suggested changes (Copilot inline diff)
+      inlineChatDiffInserted: resolveBg('inlineChatDiff.inserted', editorBg),
+      inlineChatDiffRemoved: resolveBg('inlineChatDiff.removed', editorBg),
+      // NOTEBOOKS: Jupyter cell contexts (data science)
+      notebookCell: resolveBg('notebook.cellEditorBackground', editorBg),
+      notebookOutput: resolveBg('notebook.outputContainerBackgroundColor', editorBg),
+      notebookSelected: resolveBg('notebook.selectedCellBackground', editorBg),
     },
     fg: fgValue,
     cursor: {
@@ -699,6 +719,17 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
     },
     charts: {
       foreground: getColor(theme, 'charts.foreground', fg),
+    },
+    // State colors for distinction testing (active vs inactive UI elements)
+    states: {
+      tabActive: getColor(theme, 'tab.activeForeground', fg),
+      tabInactive: getColor(theme, 'tab.inactiveForeground', fg),
+      listSelected: getColor(theme, 'list.activeSelectionForeground', fg),
+      listHover: getColor(theme, 'list.hoverForeground', fg),
+      activityActive: getColor(theme, 'activityBar.foreground', fg),
+      activityInactive: getColor(theme, 'activityBar.inactiveForeground', fg),
+      panelActive: getColor(theme, 'panelTitle.activeForeground', fg),
+      panelInactive: getColor(theme, 'panelTitle.inactiveForeground', fg),
     },
   };
 }

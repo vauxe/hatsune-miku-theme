@@ -21,6 +21,7 @@ export interface Lab {
 export type Polarity = 'light-on-dark' | 'dark-on-light';
 export type Level = 'Fluent' | 'Body' | 'Content' | 'Large' | 'Non-Text' | 'FAIL';
 export type DistinctionLevel = 'Imperceptible' | 'Subtle' | 'Noticeable' | 'Clear' | 'Distinct' | 'Obvious';
+export type DistinctionCategory = 'syntax' | 'status' | 'git' | 'state' | 'symbol';
 
 export interface ColorSource {
   type: 'workbench' | 'textmate' | 'semantic';
@@ -160,6 +161,26 @@ export interface ExtractedColors {
     focusedStackFrame: string;
     // Linked editing (HTML tag pairs)
     linkedEditing: string;
+    // TIER 1: Current line highlight - where cursor is (constant focus)
+    lineHighlight: string;
+    // Suggest widget focus (for selected autocomplete item)
+    suggestFocus: string;
+    // Git gutter backgrounds (for change indicators)
+    gutterAdded: string;
+    gutterModified: string;
+    gutterDeleted: string;
+    // CODE REVIEW: Diff editor contexts
+    diffUnchangedRegion: string;
+    diffUnchangedCode: string;
+    multiDiffHeader: string;
+    multiDiffBackground: string;
+    // CODE REVIEW: AI-suggested changes (Copilot inline diff)
+    inlineChatDiffInserted: string;
+    inlineChatDiffRemoved: string;
+    // NOTEBOOKS: Jupyter cell contexts (data science)
+    notebookCell: string;
+    notebookOutput: string;
+    notebookSelected: string;
   };
   fg: ColorValue;
   cursor: Record<string, ColorValue>;
@@ -181,6 +202,7 @@ export interface ExtractedColors {
   symbolIcons: Record<string, ColorValue>;
   settings: Record<string, ColorValue>;
   charts: Record<string, ColorValue>;
+  states: Record<string, ColorValue>;  // UI state colors for distinction testing
 }
 
 // =============================================================================
@@ -281,17 +303,21 @@ export interface JsonDistinctionPair {
   pass: boolean;
 }
 
+export interface JsonDistinctionCategory {
+  pairs: JsonDistinctionPair[];
+  skipped: Array<{ pair: [string, string]; reason: string }>;
+}
+
 export interface JsonOutput {
   theme: string;
   type: 'dark' | 'light';
   sections: JsonSection[];
   distinction: {
-    pairs: JsonDistinctionPair[];
-    skipped: Array<{ pair: [string, string]; reason: string }>;
-  };
-  symbolDiscrimination: {
-    pairs: JsonDistinctionPair[];
-    skipped: Array<{ pair: [string, string]; reason: string }>;
+    syntax: JsonDistinctionCategory;
+    status: JsonDistinctionCategory;
+    git: JsonDistinctionCategory;
+    state: JsonDistinctionCategory;
+    symbol: JsonDistinctionCategory;
   };
   summary: {
     pass: number;

@@ -41,14 +41,3 @@ npm install
 npm run build
 npm run check-readability
 ```
-
-See [CLAUDE.md](./CLAUDE.md) for technical details.
-
-## Credits
-
-- **Hatsune Miku** - Crypton Future Media, Inc.
-- **APCA** - Myndex
-
----
-
-*The Digital Diva approves.*

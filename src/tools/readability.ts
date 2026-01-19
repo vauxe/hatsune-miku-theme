@@ -28,6 +28,9 @@ import {
   EXPECTED_DIM_ELEMENTS,
   ADJACENCY_PAIRS,
   SYMBOL_DISCRIMINATION_PAIRS,
+  STATUS_DISTINCTION_PAIRS,
+  GIT_DISTINCTION_PAIRS,
+  STATE_DISTINCTION_PAIRS,
 } from './readability-constants';
 import type { BgKeyName } from './readability-constants';
 
@@ -60,6 +63,7 @@ import type {
   SectionData,
   JsonColorResult,
   JsonOutput,
+  JsonDistinctionCategory,
   OutputFormat,
   AnalysisOptions,
 } from './readability-types';
@@ -230,6 +234,156 @@ function analyzeSymbolDiscrimination(
   for (const [name1, name2] of SYMBOL_DISCRIMINATION_PAIRS) {
     const cv1 = symbolIcons[name1];
     const cv2 = symbolIcons[name2];
+
+    if (!cv1 || !cv2) {
+      skipped.push({ name1, name2, reason: 'missing' });
+      continue;
+    }
+
+    if (cv1.fallback || cv2.fallback) {
+      skipped.push({ name1, name2, reason: 'fallback' });
+      continue;
+    }
+
+    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
+
+    if (dE === null) {
+      skipped.push({ name1, name2, reason: 'invalid' });
+      continue;
+    }
+
+    const { level, icon, pass } = getDistinctionLevel(dE);
+    pairs.push({
+      name1,
+      name2,
+      color1: cv1.color,
+      color2: cv2.color,
+      key1: cv1.source?.key ?? name1,
+      key2: cv2.source?.key ?? name2,
+      deltaE: dE,
+      level,
+      icon,
+      pass,
+    });
+  }
+
+  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
+}
+
+/**
+ * Analyze status distinction (error/warning/info)
+ * Critical for quickly identifying diagnostic severity
+ */
+function analyzeStatusDistinction(
+  syntax: Record<string, ColorValue>,
+  bg: string
+): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
+  const pairs: DistinctionPair[] = [];
+  const skipped: DistinctionSkippedPair[] = [];
+
+  for (const [name1, name2] of STATUS_DISTINCTION_PAIRS) {
+    const cv1 = syntax[name1];
+    const cv2 = syntax[name2];
+
+    if (!cv1 || !cv2) {
+      skipped.push({ name1, name2, reason: 'missing' });
+      continue;
+    }
+
+    if (cv1.fallback || cv2.fallback) {
+      skipped.push({ name1, name2, reason: 'fallback' });
+      continue;
+    }
+
+    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
+
+    if (dE === null) {
+      skipped.push({ name1, name2, reason: 'invalid' });
+      continue;
+    }
+
+    const { level, icon, pass } = getDistinctionLevel(dE);
+    pairs.push({
+      name1,
+      name2,
+      color1: cv1.color,
+      color2: cv2.color,
+      key1: cv1.source?.key ?? name1,
+      key2: cv2.source?.key ?? name2,
+      deltaE: dE,
+      level,
+      icon,
+      pass,
+    });
+  }
+
+  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
+}
+
+/**
+ * Analyze git distinction (added/modified/deleted/untracked)
+ * Users need to quickly identify file state changes
+ */
+function analyzeGitDistinction(
+  git: Record<string, ColorValue>,
+  bg: string
+): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
+  const pairs: DistinctionPair[] = [];
+  const skipped: DistinctionSkippedPair[] = [];
+
+  for (const [name1, name2] of GIT_DISTINCTION_PAIRS) {
+    const cv1 = git[name1];
+    const cv2 = git[name2];
+
+    if (!cv1 || !cv2) {
+      skipped.push({ name1, name2, reason: 'missing' });
+      continue;
+    }
+
+    if (cv1.fallback || cv2.fallback) {
+      skipped.push({ name1, name2, reason: 'fallback' });
+      continue;
+    }
+
+    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
+
+    if (dE === null) {
+      skipped.push({ name1, name2, reason: 'invalid' });
+      continue;
+    }
+
+    const { level, icon, pass } = getDistinctionLevel(dE);
+    pairs.push({
+      name1,
+      name2,
+      color1: cv1.color,
+      color2: cv2.color,
+      key1: cv1.source?.key ?? name1,
+      key2: cv2.source?.key ?? name2,
+      deltaE: dE,
+      level,
+      icon,
+      pass,
+    });
+  }
+
+  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
+}
+
+/**
+ * Analyze state distinction (active vs inactive UI elements)
+ * Tests whether users can perceive state changes
+ */
+function analyzeStateDistinction(
+  states: Record<string, ColorValue>,
+  bg: string
+): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
+  const pairs: DistinctionPair[] = [];
+  const skipped: DistinctionSkippedPair[] = [];
+
+  for (const [name1, name2] of STATE_DISTINCTION_PAIRS) {
+    const cv1 = states[name1];
+    const cv2 = states[name2];
 
     if (!cv1 || !cv2) {
       skipped.push({ name1, name2, reason: 'missing' });
@@ -533,78 +687,116 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { format: 'hu
     a('Markup Quote', c.syntax.markupQuote, 'editor'),
   ], LABELS.sectionSyntax);
 
-  // Selected Text - tests readability when code is selected or highlighted
-  // If foreground override is defined, VS Code uses it instead of syntax colors
-  const selectedTextResults: ColorResult[] = [];
+  // SYNTAX CONTEXT - tokens on overlay backgrounds
+  // Ordered by visual attention frequency (TIER 1 first)
+  const syntaxContextResults: ColorResult[] = [
+    // TIER 1: Current line - where cursor is (CONSTANT FOCUS)
+    // This is literally where you look every second while typing
+    a('Line:Variable', c.syntax.variable, 'lineHighlight'),
+    a('Line:Keyword', c.syntax.keyword, 'lineHighlight'),
+    a('Line:Comment', c.syntax.comment, 'lineHighlight'),
+    a('Line:String', c.syntax.string, 'lineHighlight'),
+    // TIER 2: Selection - most common overlay during editing
+    a('Sel:Variable', c.syntax.variable, 'selection'),
+    a('Sel:Keyword', c.syntax.keyword, 'selection'),
+    a('Sel:Comment', c.syntax.comment, 'selection'),
+    // TIER 2: Autocomplete - syntax in suggestions (function signatures, types)
+    a('Suggest:Variable', c.syntax.variable, 'suggest'),
+    a('Suggest:Keyword', c.syntax.keyword, 'suggest'),
+    a('Suggest:Type', c.syntax.type, 'suggest'),
+    a('Suggest:Function', c.syntax.function, 'suggest'),
+    // TIER 2: Hover tooltip - checking types/docs
+    a('Hover:Variable', c.syntax.variable, 'hover'),
+    a('Hover:Keyword', c.syntax.keyword, 'hover'),
+    a('Hover:Comment', c.syntax.comment, 'hover'),
+    a('Hover:Type', c.syntax.type, 'hover'),
+    // TIER 3: Find match - search results
+    a('Find:Variable', c.syntax.variable, 'findMatchActive'),
+    a('Find:Keyword', c.syntax.keyword, 'findMatchActive'),
+    // TIER 3: Word highlight - symbol occurrences
+    a('Highl:Variable', c.syntax.variable, 'wordHighlight'),
+    // TIER 3: Sticky scroll header
+    a('Sticky:Variable', c.syntax.variable, 'stickyScroll'),
+    a('Sticky:Keyword', c.syntax.keyword, 'stickyScroll'),
+    a('Sticky:Comment', c.syntax.comment, 'stickyScroll'),
+    // TIER 4: Diff backgrounds (code review)
+    a('DiffIns:Variable', c.syntax.variable, 'diffInserted'),
+    a('DiffIns:Comment', c.syntax.comment, 'diffInserted'),
+    a('DiffRem:Variable', c.syntax.variable, 'diffRemoved'),
+    a('DiffRem:Comment', c.syntax.comment, 'diffRemoved'),
+  ];
+  section(syntaxContextResults, LABELS.sectionSyntaxContext);
 
-  // Selection: if selectionForeground is defined, it overrides all syntax colors
-  if (!c.ui.selectionForeground.fallback && c.ui.selectionForeground.color) {
-    selectedTextResults.push(a('Selection', c.ui.selectionForeground, 'selection'));
-  } else {
-    // No override - test key syntax colors against selection background
-    selectedTextResults.push(a('Sel:Variable', c.syntax.variable, 'selection'));
-    selectedTextResults.push(a('Sel:Keyword', c.syntax.keyword, 'selection'));
-    selectedTextResults.push(a('Sel:String', c.syntax.string, 'selection'));
-    selectedTextResults.push(a('Sel:Comment', c.syntax.comment, 'selection'));
-  }
-
-  // Word highlight: symbol occurrences
-  if (!c.ui.wordHighlightForeground.fallback && c.ui.wordHighlightForeground.color) {
-    selectedTextResults.push(a('Word Highl', c.ui.wordHighlightForeground, 'wordHighlight'));
-  } else {
-    selectedTextResults.push(a('Highl:Var', c.syntax.variable, 'wordHighlight'));
-  }
-
-  // Word highlight strong: write occurrences
-  if (!c.ui.wordHighlightStrongForeground.fallback && c.ui.wordHighlightStrongForeground.color) {
-    selectedTextResults.push(a('Write Highl', c.ui.wordHighlightStrongForeground, 'wordHighlightStrong'));
-  }
-
-  // Word highlight text: text search occurrences
-  if (!c.ui.wordHighlightTextForeground.fallback && c.ui.wordHighlightTextForeground.color) {
-    selectedTextResults.push(a('Text Highl', c.ui.wordHighlightTextForeground, 'wordHighlightText'));
-  }
-
-  // Find match: current search match
-  if (!c.ui.findMatchForeground.fallback && c.ui.findMatchForeground.color) {
-    selectedTextResults.push(a('Find Match', c.ui.findMatchForeground, 'findMatchActive'));
-  } else {
-    selectedTextResults.push(a('Find:Var', c.syntax.variable, 'findMatchActive'));
-  }
-
-  // Find match highlight: other search matches
-  if (!c.ui.findMatchHighlightForeground.fallback && c.ui.findMatchHighlightForeground.color) {
-    selectedTextResults.push(a('Find Other', c.ui.findMatchHighlightForeground, 'findMatch'));
-  }
-
-  // Inactive selection (window unfocused)
-  selectedTextResults.push(a('Inact:Var', c.syntax.variable, 'selectionInactive'));
-
-  // Selection highlight (other occurrences of selected text)
-  selectedTextResults.push(a('SelHigh:Var', c.syntax.variable, 'selectionHighlight'));
-
-  // Word highlight text (text search occurrences)
-  selectedTextResults.push(a('TextHigh:Var', c.syntax.variable, 'wordHighlightText'));
-
-  // Find in selection range
-  selectedTextResults.push(a('FindRange', c.syntax.variable, 'findRange'));
-
-  // Ghost text on selection (edge case: Copilot suggestion while text selected)
-  selectedTextResults.push(a('Ghost+Sel', c.ui.ghostText, 'selection'));
-
-  section(selectedTextResults, LABELS.sectionSelected);
-
-  // Navigation Highlights - Go to Definition, Go to Symbol, Quick Open
+  // NAVIGATION HIGHLIGHTS - Go to Definition, Breadcrumbs, Quick Open
+  // Critical for code navigation workflows
   section([
-    a('Range:Var', c.syntax.variable, 'rangeHighlight'),
+    a('Range:Variable', c.syntax.variable, 'rangeHighlight'),
     a('Range:Keyword', c.syntax.keyword, 'rangeHighlight'),
-    a('Range:String', c.syntax.string, 'rangeHighlight'),
     a('Range:Comment', c.syntax.comment, 'rangeHighlight'),
-    a('Symbol:Var', c.syntax.variable, 'symbolHighlight'),
+    a('Symbol:Variable', c.syntax.variable, 'symbolHighlight'),
     a('Symbol:Keyword', c.syntax.keyword, 'symbolHighlight'),
-    a('Symbol:String', c.syntax.string, 'symbolHighlight'),
-    a('Symbol:Comment', c.syntax.comment, 'symbolHighlight'),
   ], LABELS.sectionNavHighlights);
+
+  // PEEK VIEW EDITOR - Peek Definition inline windows
+  // Very common for quick code inspection without full navigation
+  section([
+    a('Peek:Variable', c.syntax.variable, 'peekViewEditor'),
+    a('Peek:Keyword', c.syntax.keyword, 'peekViewEditor'),
+    a('Peek:Comment', c.syntax.comment, 'peekViewEditor'),
+    a('Peek:Function', c.syntax.function, 'peekViewEditor'),
+  ], LABELS.sectionPeekEditor);
+
+  // MERGE CONFLICTS - 3-way merge syntax readability
+  // Critical for collaborative development
+  section([
+    a('Current:Variable', c.syntax.variable, 'mergeCurrentContent'),
+    a('Current:Keyword', c.syntax.keyword, 'mergeCurrentContent'),
+    a('Incoming:Variable', c.syntax.variable, 'mergeIncomingContent'),
+    a('Incoming:Keyword', c.syntax.keyword, 'mergeIncomingContent'),
+    a('Common:Variable', c.syntax.variable, 'mergeCommonContent'),
+  ], LABELS.sectionMerge);
+
+  // CODE REVIEW - Additional diff contexts for reviewing code changes
+  // Tests syntax on backgrounds used during PR review, multi-file diff, AI suggestions
+  section([
+    // Collapsed unchanged regions (click to expand)
+    a('Unchanged:Variable', c.syntax.variable, 'diffUnchangedRegion'),
+    a('Unchanged:Comment', c.syntax.comment, 'diffUnchangedRegion'),
+    // Unchanged code background (subtle highlight)
+    a('UnchangedCode:Var', c.syntax.variable, 'diffUnchangedCode'),
+    // Multi-file diff (PR review with multiple files)
+    a('MultiDiff:Variable', c.syntax.variable, 'multiDiffBackground'),
+    a('MultiDiff:Keyword', c.syntax.keyword, 'multiDiffBackground'),
+    // AI-suggested changes (Copilot inline diff)
+    a('AIInsert:Variable', c.syntax.variable, 'inlineChatDiffInserted'),
+    a('AIInsert:Keyword', c.syntax.keyword, 'inlineChatDiffInserted'),
+    a('AIRemove:Variable', c.syntax.variable, 'inlineChatDiffRemoved'),
+    a('AIRemove:Keyword', c.syntax.keyword, 'inlineChatDiffRemoved'),
+  ], LABELS.sectionCodeReview);
+
+  // NOTEBOOKS - Jupyter cell syntax (data science workflows)
+  // Critical for Python/data science developers using notebooks
+  section([
+    // Code cells - where you write code
+    a('Cell:Variable', c.syntax.variable, 'notebookCell'),
+    a('Cell:Keyword', c.syntax.keyword, 'notebookCell'),
+    a('Cell:String', c.syntax.string, 'notebookCell'),
+    a('Cell:Comment', c.syntax.comment, 'notebookCell'),
+    // Output cells - execution results
+    a('Output:Variable', c.syntax.variable, 'notebookOutput'),
+    a('Output:String', c.syntax.string, 'notebookOutput'),
+    // Selected cell - currently focused cell
+    a('Selected:Variable', c.syntax.variable, 'notebookSelected'),
+    a('Selected:Keyword', c.syntax.keyword, 'notebookSelected'),
+  ], LABELS.sectionNotebook);
+
+  // SEARCH EDITOR - Search result preview syntax
+  // Important for search/refactor workflows
+  section([
+    a('Search:Variable', c.syntax.variable, 'searchEditorFindMatch'),
+    a('Search:Keyword', c.syntax.keyword, 'searchEditorFindMatch'),
+    a('Search:Comment', c.syntax.comment, 'searchEditorFindMatch'),
+  ], LABELS.sectionSearchEditor);
 
   // Diagnostics
   section([
@@ -748,32 +940,21 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { format: 'hu
     a('Match BG', c.fg, 'bracketMatch'), // Text on bracket match highlight
   ], LABELS.sectionBrackets);
 
-  // Terminal ANSI colors
+  // Terminal - foreground + key ANSI colors + context backgrounds
   const terminalResults: ColorResult[] = [
-    a('Black', c.terminal.ansiBlack, 'terminal'),
+    // Primary foreground
+    a('Foreground', c.ui.terminal, 'terminal'),
+    // Key ANSI colors (simplified from 16 to 6 critical colors)
     a('Red', c.terminal.ansiRed, 'terminal'),
     a('Green', c.terminal.ansiGreen, 'terminal'),
     a('Yellow', c.terminal.ansiYellow, 'terminal'),
-    a('Blue', c.terminal.ansiBlue, 'terminal'),
-    a('Magenta', c.terminal.ansiMagenta, 'terminal'),
     a('Cyan', c.terminal.ansiCyan, 'terminal'),
     a('White', c.terminal.ansiWhite, 'terminal'),
-    a('Bright Black', c.terminal.ansiBrightBlack, 'terminal'),
-    a('Bright Red', c.terminal.ansiBrightRed, 'terminal'),
-    a('Bright Green', c.terminal.ansiBrightGreen, 'terminal'),
-    a('Bright Yellow', c.terminal.ansiBrightYellow, 'terminal'),
-    a('Bright Blue', c.terminal.ansiBrightBlue, 'terminal'),
-    a('Bright Magenta', c.terminal.ansiBrightMagenta, 'terminal'),
-    a('Bright Cyan', c.terminal.ansiBrightCyan, 'terminal'),
     a('Bright White', c.terminal.ansiBrightWhite, 'terminal'),
+    // Context backgrounds - terminal selection and find match
+    a('Selection', c.ui.terminal, 'terminalSelection'),
+    a('Find Match', c.ui.terminal, 'terminalFindMatch'),
   ];
-  // Terminal selection foreground (if defined, overrides ANSI colors when selected)
-  if (!c.ui.terminalSelection.fallback && c.ui.terminalSelection.color) {
-    terminalResults.push(a('Term Select', c.ui.terminalSelection, 'terminalSelection'));
-  }
-  // Terminal find match - test terminal foreground against find backgrounds
-  terminalResults.push(a('Find Match', c.ui.terminal, 'terminalFindMatch'));
-  terminalResults.push(a('Find Other', c.ui.terminal, 'terminalFindMatchHighlight'));
   section(terminalResults, LABELS.sectionTerminal);
 
   // Buttons & Badges
@@ -854,74 +1035,8 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { format: 'hu
     a('Profile Badge', c.misc.profileBadge, 'activityBar'),
   ], LABELS.sectionMisc);
 
-  // Diff Editor - test key syntax colors against diff backgrounds
-  section([
-    // Inserted text (green background typically)
-    a('Ins:Variable', c.syntax.variable, 'diffInserted'),
-    a('Ins:Keyword', c.syntax.keyword, 'diffInserted'),
-    a('Ins:String', c.syntax.string, 'diffInserted'),
-    a('Ins:Comment', c.syntax.comment, 'diffInserted'),
-    // Inserted line (full line highlight)
-    a('InsLine:Var', c.syntax.variable, 'diffInsertedLine'),
-    // Removed text (red background typically)
-    a('Rem:Variable', c.syntax.variable, 'diffRemoved'),
-    a('Rem:Keyword', c.syntax.keyword, 'diffRemoved'),
-    a('Rem:String', c.syntax.string, 'diffRemoved'),
-    a('Rem:Comment', c.syntax.comment, 'diffRemoved'),
-    // Removed line (full line highlight)
-    a('RemLine:Var', c.syntax.variable, 'diffRemovedLine'),
-    // Unchanged region (collapsed diff)
-    a('Unchanged', c.misc.diffUnchangedRegion, 'editor'),
-  ], LABELS.sectionDiff);
-
-  // Merge Conflicts - test key syntax colors against merge backgrounds
-  section([
-    // Current changes (your changes)
-    a('Curr:Variable', c.syntax.variable, 'mergeCurrentContent'),
-    a('Curr:Keyword', c.syntax.keyword, 'mergeCurrentContent'),
-    a('Curr:String', c.syntax.string, 'mergeCurrentContent'),
-    // Incoming changes (their changes)
-    a('Inc:Variable', c.syntax.variable, 'mergeIncomingContent'),
-    a('Inc:Keyword', c.syntax.keyword, 'mergeIncomingContent'),
-    a('Inc:String', c.syntax.string, 'mergeIncomingContent'),
-    // Common ancestor
-    a('Common:Var', c.syntax.variable, 'mergeCommonContent'),
-  ], LABELS.sectionMerge);
-
-  // Cursors - visibility of editor and terminal cursors
-  section([
-    a('Editor Cursor', c.cursor.editor, 'editor'),
-    a('Block Text', c.cursor.editorBlock, 'cursorBlock'), // text inside block cursor
-    a('Multi Primary', c.cursor.editorMultiPrimary, 'editor'),
-    a('Multi Secondary', c.cursor.editorMultiSecondary, 'editor'),
-    a('Terminal Cursor', c.cursor.terminal, 'terminal'),
-    a('Term Block Text', c.cursor.terminalBlock, 'terminalCursorBlock'), // text inside terminal block cursor
-  ], LABELS.sectionCursors);
-
-  // Sticky Scroll - syntax colors on sticky scroll header background
-  section([
-    a('Sticky:Variable', c.syntax.variable, 'stickyScroll'),
-    a('Sticky:Keyword', c.syntax.keyword, 'stickyScroll'),
-    a('Sticky:Function', c.syntax.function, 'stickyScroll'),
-    a('Sticky:String', c.syntax.string, 'stickyScroll'),
-    a('Sticky:Comment', c.syntax.comment, 'stickyScroll'),
-  ], LABELS.sectionStickyScroll);
-
-  // Peek View Editor - syntax colors in peek view editor pane
-  section([
-    a('Peek:Variable', c.syntax.variable, 'peekViewEditor'),
-    a('Peek:Keyword', c.syntax.keyword, 'peekViewEditor'),
-    a('Peek:Function', c.syntax.function, 'peekViewEditor'),
-    a('Peek:String', c.syntax.string, 'peekViewEditor'),
-    a('Peek:Comment', c.syntax.comment, 'peekViewEditor'),
-  ], LABELS.sectionPeekEditor);
-
-  // Search Editor - syntax in search results context
-  section([
-    a('Search:Variable', c.syntax.variable, 'searchEditorFindMatch'),
-    a('Search:Keyword', c.syntax.keyword, 'searchEditorFindMatch'),
-    a('Search:String', c.syntax.string, 'searchEditorFindMatch'),
-  ], LABELS.sectionSearchEditor);
+  // Note: Diff, Merge, Sticky Scroll, Peek View, Search Editor sections consolidated
+  // into SYNTAX CONTEXT above to reduce redundancy
 
   // Input Controls - buttons, toggles, radios
   section([
@@ -930,6 +1045,15 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { format: 'hu
     a('Radio Inactive', c.inputs.radioInactive, 'editor'),
     a('Checkbox Disabled', c.inputs.checkboxDisabled, 'checkbox'),
   ], LABELS.sectionInputControls);
+
+  // Settings Editor - graphical settings UI
+  section([
+    a('Header', c.settings.header, 'editor'),
+    a('Text Input', c.settings.textInput, 'input'),
+    a('Number Input', c.settings.numberInput, 'input'),
+    a('Checkbox', c.settings.checkbox, 'checkbox'),
+    a('Dropdown', c.settings.dropdown, 'dropdown'),
+  ], LABELS.sectionSettings);
 
   // SCM Graph - hover labels (graph lines removed as decorative)
   section([
@@ -961,85 +1085,69 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { format: 'hu
     a('Source', c.debugConsole.source, 'panel'),
   ], LABELS.sectionDebugConsole);
 
-  // Symbol Icons - appear in autocomplete, outline, breadcrumbs
-  section([
-    a('Array', c.symbolIcons.array, 'suggest'),
-    a('Boolean', c.symbolIcons.boolean, 'suggest'),
-    a('Class', c.symbolIcons.class, 'suggest'),
-    a('Constant', c.symbolIcons.constant, 'suggest'),
-    a('Constructor', c.symbolIcons.ctor, 'suggest'),
-    a('Enum', c.symbolIcons.enum, 'suggest'),
-    a('Enum Member', c.symbolIcons.enumMember, 'suggest'),
-    a('Event', c.symbolIcons.event, 'suggest'),
-    a('Field', c.symbolIcons.field, 'suggest'),
-    a('File', c.symbolIcons.file, 'suggest'),
-    a('Folder', c.symbolIcons.folder, 'suggest'),
-    a('Function', c.symbolIcons.function, 'suggest'),
-    a('Interface', c.symbolIcons.interface, 'suggest'),
-    a('Key', c.symbolIcons.key, 'suggest'),
-    a('Keyword', c.symbolIcons.keyword, 'suggest'),
-    a('Method', c.symbolIcons.method, 'suggest'),
-    a('Module', c.symbolIcons.module, 'suggest'),
-    a('Namespace', c.symbolIcons.namespace, 'suggest'),
-    a('Null', c.symbolIcons.null, 'suggest'),
-    a('Number', c.symbolIcons.number, 'suggest'),
-    a('Object', c.symbolIcons.object, 'suggest'),
-    a('Operator', c.symbolIcons.operator, 'suggest'),
-    a('Package', c.symbolIcons.package, 'suggest'),
-    a('Property', c.symbolIcons.property, 'suggest'),
-    a('Reference', c.symbolIcons.reference, 'suggest'),
-    a('Snippet', c.symbolIcons.snippet, 'suggest'),
-    a('String', c.symbolIcons.string, 'suggest'),
-    a('Struct', c.symbolIcons.struct, 'suggest'),
-    a('Text', c.symbolIcons.text, 'suggest'),
-    a('Type Param', c.symbolIcons.typeParameter, 'suggest'),
-    a('Unit', c.symbolIcons.unit, 'suggest'),
-    a('Variable', c.symbolIcons.variable, 'suggest'),
-  ], LABELS.sectionSymbolIcons);
+  // Note: Symbol Icons APCA section removed - icons are not readable text
+  // Symbol discrimination is still tested via Delta E below
 
-  // Settings Editor
-  section([
-    a('Header', c.settings.header, 'editor'),
-    a('Text Input', c.settings.textInput, 'input'),
-    a('Number Input', c.settings.numberInput, 'input'),
-    a('Checkbox', c.settings.checkbox, 'checkbox'),
-    a('Dropdown', c.settings.dropdown, 'dropdown'),
-  ], LABELS.sectionSettings);
+  // Note: Charts section removed - decorative, not readable text
 
-  // Charts - text labels (data colors removed as decorative)
-  section([
-    a('Foreground', c.charts.foreground, 'editor'),
-  ], LABELS.sectionCharts);
+  // ==========================================================================
+  // COLOR DISTINCTION ANALYSIS (Delta E 2000)
+  // ==========================================================================
 
-  // Color Distinction Analysis (Delta E 2000)
-  const distinction = analyzeDistinction(c.syntax, c.syntax.comment, c.bg.editor);
-  let distinctionStats: DistinctionStats;
+  // 1. Syntax adjacency - commonly side-by-side token colors
+  const syntaxDistinction = analyzeDistinction(c.syntax, c.syntax.comment, c.bg.editor);
+
+  // 2. Status distinction - error/warning/info severity
+  const statusDistinction = analyzeStatusDistinction(c.syntax, c.bg.editor);
+
+  // 3. Git distinction - file state colors
+  const gitDistinction = analyzeGitDistinction(c.git, c.bg.sidebar);
+
+  // 4. State distinction - active/inactive UI elements
+  const stateDistinction = analyzeStateDistinction(c.states, c.bg.editor);
+
+  // 5. Symbol discrimination - icon colors in autocomplete
+  const symbolDistinction = analyzeSymbolDiscrimination(c.symbolIcons, c.bg.suggest);
+
+  // Helper to compute stats
+  const computeDistinctionStats = (result: { pairs: DistinctionPair[] }): DistinctionStats => ({
+    total: result.pairs.length,
+    pass: result.pairs.filter(p => p.icon === '✅').length,
+    warn: result.pairs.filter(p => p.icon === '⚠️').length,
+    fail: result.pairs.filter(p => p.icon === '❌').length,
+    skipped: 0,
+  });
+
+  // Print human-readable distinction section (unified)
   if (options.format === 'human') {
-    distinctionStats = printDistinctionSection(distinction.pairs, distinction.skipped, options.issuesOnly);
-  } else {
-    distinctionStats = {
-      total: distinction.pairs.length,
-      pass: distinction.pairs.filter(p => p.icon === '✅').length,
-      warn: distinction.pairs.filter(p => p.icon === '⚠️').length,
-      fail: distinction.pairs.filter(p => p.icon === '❌').length,
-      skipped: distinction.skipped.length,
+    console.log(`\n▌ ${LABELS.sectionDistinction}`);
+    console.log('─'.repeat(OUTPUT_WIDTH));
+
+    const printCategory = (name: string, pairs: DistinctionPair[], issuesOnly: boolean) => {
+      const display = issuesOnly ? pairs.filter(p => !p.pass) : pairs;
+      if (display.length === 0 && issuesOnly) return;
+      console.log(`  ${name}:`);
+      for (const p of display) {
+        const pairName = `${p.name1}↔${p.name2}`.padEnd(20);
+        console.log(`    ${pairName} ΔE ${p.deltaE.toFixed(1).padStart(5)} ${p.icon} ${p.level}`);
+      }
     };
+
+    printCategory('Syntax', syntaxDistinction.pairs, options.issuesOnly);
+    printCategory('Status', statusDistinction.pairs, options.issuesOnly);
+    printCategory('Git', gitDistinction.pairs, options.issuesOnly);
+    printCategory('State', stateDistinction.pairs, options.issuesOnly);
+    printCategory('Symbol', symbolDistinction.pairs, options.issuesOnly);
   }
 
-  // Symbol Discrimination Analysis (Delta E 2000)
-  const symbolDiscrimination = analyzeSymbolDiscrimination(c.symbolIcons, c.bg.suggest);
-  let symbolStats: DistinctionStats;
-  if (options.format === 'human') {
-    symbolStats = printSymbolDiscriminationSection(symbolDiscrimination.pairs, symbolDiscrimination.skipped, options.issuesOnly);
-  } else {
-    symbolStats = {
-      total: symbolDiscrimination.pairs.length,
-      pass: symbolDiscrimination.pairs.filter(p => p.icon === '✅').length,
-      warn: symbolDiscrimination.pairs.filter(p => p.icon === '⚠️').length,
-      fail: symbolDiscrimination.pairs.filter(p => p.icon === '❌').length,
-      skipped: symbolDiscrimination.skipped.length,
-    };
-  }
+  // Collect all distinction stats for summary
+  const allDistinctionStats = {
+    syntax: computeDistinctionStats(syntaxDistinction),
+    status: computeDistinctionStats(statusDistinction),
+    git: computeDistinctionStats(gitDistinction),
+    state: computeDistinctionStats(stateDistinction),
+    symbol: computeDistinctionStats(symbolDistinction),
+  };
 
   // Aggregate stats
   const total = allStats.reduce((acc, s) => ({
@@ -1068,6 +1176,24 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { format: 'hu
         ? pairs.filter(p => !p.pass)
         : pairs;
 
+    // Helper to format distinction category for JSON
+    const toJsonDistinctionCategory = (
+      result: { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] }
+    ): JsonDistinctionCategory => ({
+      pairs: filterPairs(result.pairs).map(p => ({
+        pair: [p.name1, p.name2] as [string, string],
+        colors: [p.color1, p.color2] as [string, string],
+        keys: [p.key1, p.key2] as [string, string],
+        deltaE: Math.round(p.deltaE * 10) / 10,
+        level: p.level,
+        pass: p.pass,
+      })),
+      skipped: result.skipped.map(s => ({
+        pair: [s.name1, s.name2] as [string, string],
+        reason: s.reason,
+      })),
+    });
+
     const jsonOutput: JsonOutput = {
       theme: name,
       type,
@@ -1076,32 +1202,11 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { format: 'hu
         results: filterResults(s.results).map(toJsonColorResult),
       })),
       distinction: {
-        pairs: filterPairs(distinction.pairs).map(p => ({
-          pair: [p.name1, p.name2] as [string, string],
-          colors: [p.color1, p.color2] as [string, string],
-          keys: [p.key1, p.key2] as [string, string],
-          deltaE: Math.round(p.deltaE * 10) / 10,
-          level: p.level,
-          pass: p.pass,
-        })),
-        skipped: distinction.skipped.map(s => ({
-          pair: [s.name1, s.name2] as [string, string],
-          reason: s.reason,
-        })),
-      },
-      symbolDiscrimination: {
-        pairs: filterPairs(symbolDiscrimination.pairs).map(p => ({
-          pair: [p.name1, p.name2] as [string, string],
-          colors: [p.color1, p.color2] as [string, string],
-          keys: [p.key1, p.key2] as [string, string],
-          deltaE: Math.round(p.deltaE * 10) / 10,
-          level: p.level,
-          pass: p.pass,
-        })),
-        skipped: symbolDiscrimination.skipped.map(s => ({
-          pair: [s.name1, s.name2] as [string, string],
-          reason: s.reason,
-        })),
+        syntax: toJsonDistinctionCategory(syntaxDistinction),
+        status: toJsonDistinctionCategory(statusDistinction),
+        git: toJsonDistinctionCategory(gitDistinction),
+        state: toJsonDistinctionCategory(stateDistinction),
+        symbol: toJsonDistinctionCategory(symbolDistinction),
       },
       summary: {
         pass: total.pass,
@@ -1129,21 +1234,20 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { format: 'hu
   if (total.missing > 0) {
     console.log(`  ❓ Missing (fallback): ${total.missing}/${total.total}`);
   }
-  console.log('');
-  const totalPairs = ADJACENCY_PAIRS.length;
-  const analyzedPairs = distinctionStats.total;
-  console.log(`  ΔE Distinction (${analyzedPairs}/${totalPairs} pairs analyzed):`);
-  console.log(`  ✅ Distinct (ΔE≥20): ${distinctionStats.pass}/${analyzedPairs}`);
-  console.log(`  ⚠️  Acceptable (ΔE 5-20): ${distinctionStats.warn}/${analyzedPairs}`);
-  console.log(`  ❌ Low (ΔE<5):       ${distinctionStats.fail}/${analyzedPairs}`);
 
+  // Unified distinction summary
   console.log('');
-  const totalSymbolPairs = SYMBOL_DISCRIMINATION_PAIRS.length;
-  const analyzedSymbolPairs = symbolStats.total;
-  console.log(`  ΔE Symbol Icons (${analyzedSymbolPairs}/${totalSymbolPairs} pairs analyzed):`);
-  console.log(`  ✅ Distinct (ΔE≥20): ${symbolStats.pass}/${analyzedSymbolPairs}`);
-  console.log(`  ⚠️  Acceptable (ΔE 5-20): ${symbolStats.warn}/${analyzedSymbolPairs}`);
-  console.log(`  ❌ Low (ΔE<5):       ${symbolStats.fail}/${analyzedSymbolPairs}`);
+  console.log('  ΔE Color Distinction:');
+  const printDistinctionSummary = (name: string, stats: DistinctionStats) => {
+    if (stats.total === 0) return;
+    const statusIcon = stats.fail > 0 ? '❌' : stats.warn > 0 ? '⚠️' : '✅';
+    console.log(`    ${statusIcon} ${name.padEnd(8)} ${stats.pass}/${stats.total} distinct`);
+  };
+  printDistinctionSummary('Syntax', allDistinctionStats.syntax);
+  printDistinctionSummary('Status', allDistinctionStats.status);
+  printDistinctionSummary('Git', allDistinctionStats.git);
+  printDistinctionSummary('State', allDistinctionStats.state);
+  printDistinctionSummary('Symbol', allDistinctionStats.symbol);
 
   console.log('');
   if (ready) {
