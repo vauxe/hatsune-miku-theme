@@ -684,9 +684,9 @@ export const vocaloidFamily = {
 export const projectSekai = {
   // Unit Colors
   units: {
-    virtualSinger: '#00CCBA',      // VIRTUAL SINGER (Official: Swimmers Pool)
+    virtualSinger: '#00CCBB',      // VIRTUAL SINGER (Official: Swimmers Pool)
     leoneed: '#4455DD',            // Leo/need (Official: Warm Blue)
-    moreMoreJump: '#6CCB20',       // MORE MORE JUMP! (Official: Green High)
+    moreMoreJump: '#88DD44',       // MORE MORE JUMP! (Official: Bright Green)
     vividBadSquad: '#EE1166',      // Vivid BAD SQUAD (Official: Borderline Pink)
     wonderlandsShowtime: '#FF9900', // Wonderlands×Showtime (Official: Vitamin C)
     nightcord: '#884499',          // 25-ji, Nightcord de. (Official: Murasaki Purple)
@@ -700,40 +700,40 @@ export const projectSekai = {
   },
   // MORE MORE JUMP! Members
   moreMoreJumpMembers: {
-    minori: '#FFCDAC',             // Minori Hanasato
+    minori: '#FFCCAA',             // Minori Hanasato
     haruka: '#99CDFF',             // Haruka Kiritani
     airi: '#FFA9CC',               // Airi Momoi
     shizuku: '#9AEEDE',            // Shizuku Hinomori
   },
   // Vivid BAD SQUAD Members
   vividBadSquadMembers: {
-    kohane: '#FF679A',             // Kohane Azusawa
-    an: '#00BBDC',                 // An Shiraishi
-    akito: '#FF7721',              // Akito Shinonome
+    kohane: '#FF6699',             // Kohane Azusawa
+    an: '#00BBDD',                 // An Shiraishi
+    akito: '#FF7722',              // Akito Shinonome
     toya: '#0077DD',               // Toya Aoyagi
   },
   // Wonderlands×Showtime Members
   wonderlandsShowtimeMembers: {
     tsukasa: '#FFBB00',            // Tsukasa Tenma
-    emu: '#FF66BC',                // Emu Otori
+    emu: '#FF66BB',                // Emu Otori
     nene: '#34DD9A',               // Nene Kusanagi
-    rui: '#BB88ED',                // Rui Kamishiro
+    rui: '#BB88EE',                // Rui Kamishiro
   },
   // 25-ji, Nightcord de. Members
   nightcordMembers: {
-    kanade: '#BB6588',             // Kanade Yoisaki
-    mafuyu: '#8889CC',             // Mafuyu Asahina
+    kanade: '#BB6688',             // Kanade Yoisaki
+    mafuyu: '#8888CC',             // Mafuyu Asahina
     ena: '#CCAA87',                // Ena Shinonome
-    mizuki: '#E4A8CA',             // Mizuki Akiyama
+    mizuki: '#DDAACC',             // Mizuki Akiyama
   },
   // Virtual Singers (SEKAI versions)
   virtualSingers: {
     miku: '#33CCBB',               // Hatsune Miku
     rin: '#FFCC11',                // Kagamine Rin
-    len: '#FFEE12',                // Kagamine Len
-    luka: '#FFBACC',               // Megurine Luka
-    meiko: '#DE4444',              // MEIKO
-    kaito: '#3367CD',              // KAITO
+    len: '#FFEE11',                // Kagamine Len
+    luka: '#FFBBCC',               // Megurine Luka
+    meiko: '#DD4444',              // MEIKO
+    kaito: '#3366CC',              // KAITO
   },
   // Empty SEKAI (Miku's unique form)
   emptySekai: {
