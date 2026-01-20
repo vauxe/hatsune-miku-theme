@@ -441,6 +441,8 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       titleBarInactive: getColor(theme, 'titleBar.inactiveForeground', fg),
       // Breadcrumb
       breadcrumb: getColor(theme, 'breadcrumb.foreground', fg),
+      breadcrumbFocus: getColor(theme, 'breadcrumb.focusForeground', fg),
+      breadcrumbActive: getColor(theme, 'breadcrumb.activeSelectionForeground', fg),
       // Sidebar
       sidebarText: getColor(theme, 'sideBar.foreground', fg),
       sidebarTitle: getColor(theme, 'sideBarTitle.foreground', fg),
@@ -586,6 +588,7 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       button: getColor(theme, 'button.foreground', fg),
       buttonSecondary: getColor(theme, 'button.secondaryForeground', fg),
       extensionButton: getColor(theme, 'extensionButton.prominentForeground', fg),
+      extensionBadgeRemote: getColor(theme, 'extensionBadge.remoteForeground', fg),
       badge: getColor(theme, 'badge.foreground', fg),
       activityBarBadge: getColor(theme, 'activityBarBadge.foreground', fg),
       activityWarningBadge: getColor(theme, 'activityWarningBadge.foreground', fg),
@@ -646,6 +649,12 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       welcomeProgress: getColor(theme, 'welcomePage.progress.foreground', fg),
       // Profile badge
       profileBadge: getColor(theme, 'profileBadge.foreground', fg),
+      // Inline edit (AI suggestions)
+      inlineEditPrimary: getColor(theme, 'inlineEdit.gutterIndicator.primaryForeground', fg),
+      inlineEditSecondary: getColor(theme, 'inlineEdit.gutterIndicator.secondaryForeground', fg),
+      inlineEditSuccess: getColor(theme, 'inlineEdit.gutterIndicator.successfulForeground', fg),
+      // Editor group
+      dropPrompt: getColor(theme, 'editorGroup.dropIntoPromptForeground', fg),
     },
     inputs: {
       optionActive: getColor(theme, 'inputOption.activeForeground', fg),
@@ -658,6 +667,9 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       historyHoverLabel: getColor(theme, 'scmGraph.historyItemHoverLabelForeground', fg),
       historyHoverAdditions: getColor(theme, 'scmGraph.historyItemHoverAdditionsForeground', fg),
       historyHoverDeletions: getColor(theme, 'scmGraph.historyItemHoverDeletionsForeground', fg),
+      // SCM history stats ("+X -Y" text)
+      historyAdditions: getColor(theme, 'scm.historyItemAdditionsForeground', fg),
+      historyDeletions: getColor(theme, 'scm.historyItemDeletionsForeground', fg),
     },
     chat: {
       avatar: getColor(theme, 'chat.avatarForeground', fg),
@@ -669,6 +681,7 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
     testing: {
       coverageBadge: getColor(theme, 'testing.coverCountBadgeForeground', fg),
       messageInfo: getColor(theme, 'testing.message.info.decorationForeground', fg),
+      messageError: getColor(theme, 'testing.message.error.decorationForeground', fg),
     },
     debugConsole: {
       error: getColor(theme, 'debugConsole.errorForeground', fg),
@@ -722,14 +735,38 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
     },
     // State colors for distinction testing (active vs inactive UI elements)
     states: {
+      // Tab states
       tabActive: getColor(theme, 'tab.activeForeground', fg),
       tabInactive: getColor(theme, 'tab.inactiveForeground', fg),
+      tabHover: getColor(theme, 'tab.hoverForeground', fg),
+      // List states
       listSelected: getColor(theme, 'list.activeSelectionForeground', fg),
       listHover: getColor(theme, 'list.hoverForeground', fg),
+      listFocus: getColor(theme, 'list.focusForeground', fg),
+      // Activity bar
       activityActive: getColor(theme, 'activityBar.foreground', fg),
       activityInactive: getColor(theme, 'activityBar.inactiveForeground', fg),
+      // Panel
       panelActive: getColor(theme, 'panelTitle.activeForeground', fg),
       panelInactive: getColor(theme, 'panelTitle.inactiveForeground', fg),
+      // Line numbers
+      lineNumber: getColor(theme, 'editorLineNumber.foreground', fg),
+      lineNumberActive: getColor(theme, 'editorLineNumber.activeForeground', fg),
+      // Find match highlights
+      findMatch: getColor(theme, 'editor.findMatchHighlightForeground', ''),
+      findMatchActive: getColor(theme, 'editor.findMatchForeground', ''),
+      // Word highlights
+      wordHighlight: getColor(theme, 'editor.wordHighlightForeground', ''),
+      wordHighlightStrong: getColor(theme, 'editor.wordHighlightStrongForeground', ''),
+      // Breadcrumb
+      breadcrumb: getColor(theme, 'breadcrumb.foreground', fg),
+      breadcrumbActive: getColor(theme, 'breadcrumb.focusForeground', fg),
+      // Title bar
+      titleBar: getColor(theme, 'titleBar.activeForeground', fg),
+      titleBarInactive: getColor(theme, 'titleBar.inactiveForeground', fg),
+      // Command center
+      commandCenter: getColor(theme, 'commandCenter.foreground', fg),
+      commandCenterActive: getColor(theme, 'commandCenter.activeForeground', fg),
     },
   };
 }

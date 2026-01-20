@@ -278,13 +278,18 @@ export const EXPECTED_DIM_ELEMENTS = new Set([
  * These pairs need the most distinction for comfortable reading
  *
  * Organized by code pattern category for maintainability.
- * Total: 92 pairs covering all common programming patterns.
+ * Total: 120+ pairs covering all common programming patterns.
  */
 export const ADJACENCY_PAIRS: Array<[string, string]> = [
   // ===== DECLARATIONS (every file has these) =====
   ['storage', 'variable'],       // let x, const y, var z
   ['storage', 'function'],       // function foo, def bar
   ['storage', 'keyword'],        // async function, public static
+  ['storageModifier', 'storage'], // public static vs class
+  ['storageModifier', 'keyword'], // async vs await
+  ['storageModifier', 'function'], // async function foo, static foo()
+  ['storageModifier', 'method'],   // static method() in classes
+  ['storageModifier', 'property'], // readonly prop, static prop
 
   // ===== FUNCTION PATTERNS =====
   ['function', 'parameter'],     // foo(x) - function definition
@@ -297,6 +302,9 @@ export const ADJACENCY_PAIRS: Array<[string, string]> = [
   ['method', 'type'],            // method(): Type
   ['method', 'regexp'],          // .match(/x/)
   ['function', 'method'],        // function vs method distinction
+  ['supportFunction', 'function'], // console.log vs myFunc
+  ['supportFunction', 'method'],   // Array.map vs custom.map
+  ['supportFunction', 'variable'], // Math.PI vs myConst
 
   // ===== PROPERTY ACCESS =====
   ['variable', 'property'],      // obj.prop
@@ -322,14 +330,13 @@ export const ADJACENCY_PAIRS: Array<[string, string]> = [
   ['interface', 'type'],         // interface vs type distinction
 
   // ===== TYPE PATTERNS =====
-  ['variable', 'type'],          // x: Type
+  ['variable', 'type'],          // x: Type, <Type>x (cast)
   ['parameter', 'type'],         // (x: Type)
   ['keyword', 'type'],           // type X = ..., x: Type
   ['type', 'class'],             // type vs class distinction
-  ['type', 'variable'],          // <Type>x (cast)
   ['typeParameter', 'type'],     // T extends Base
   ['typeParameter', 'variable'], // foo<T>(x)
-  ['typeParameter', 'class'],    // T vs ClassName distinction
+  ['typeParameter', 'keyword'],  // <T extends Base> - T vs extends
 
   // ===== ENUM PATTERNS =====
   ['keyword', 'enum'],           // enum Color
@@ -362,12 +369,11 @@ export const ADJACENCY_PAIRS: Array<[string, string]> = [
   ['keyword', 'string'],         // import "x", return "x"
 
   // ===== KEYWORD PATTERNS =====
-  ['keyword', 'variable'],       // if (x), for x in
+  ['keyword', 'variable'],       // if (x), for x in, x as Type
   ['keyword', 'function'],       // return foo()
-  ['keyword', 'storage'],        // for (let i, async function
   ['keyword', 'operator'],       // keyword vs operator distinction
   ['keyword', 'number'],         // return 5
-  ['variable', 'keyword'],       // x as Type, x in arr
+  ['keyword', 'constant'],       // if (true), return null
 
   // ===== OBJECT LITERAL PATTERNS =====
   ['property', 'number'],        // { x: 1 }
@@ -380,6 +386,7 @@ export const ADJACENCY_PAIRS: Array<[string, string]> = [
   ['number', 'enumMember'],      // enum { X = 1 }
   ['variable', 'constant'],      // myVar vs MY_CONST
   ['constant', 'string'],        // true vs "true"
+  ['parameter', 'constant'],     // fn(true), fn(null)
 
   // ===== MACRO PATTERNS (Rust) =====
   ['macro', 'string'],           // println!("x")
@@ -403,6 +410,15 @@ export const ADJACENCY_PAIRS: Array<[string, string]> = [
   ['operator', 'number'],        // x + 1
   ['operator', 'property'],      // ?.prop
   ['operator', 'type'],          // A | B
+  ['parameter', 'operator'],     // (x) => ... arrow functions
+
+  // ===== PUNCTUATION PATTERNS (high frequency) =====
+  ['punctuation', 'variable'],   // {x, y}, [a, b], fn(x)
+  ['punctuation', 'keyword'],    // if (, for (, return;
+  ['punctuation', 'string'],     // "${x}", template delimiters
+  ['punctuation', 'number'],     // [1, 2, 3]
+  ['punctuation', 'property'],   // { key: val }
+  ['punctuation', 'operator'],   // => vs = distinction
 
   // ===== COMMENT PATTERNS (visual adjacency) =====
   ['comment', 'variable'],       // x = 5 // comment
@@ -410,6 +426,27 @@ export const ADJACENCY_PAIRS: Array<[string, string]> = [
   ['comment', 'function'],       // /** */ function
   ['comment', 'keyword'],        // // after return
   ['comment', 'string'],         // visual distinction
+  ['docComment', 'comment'],     // JSDoc vs regular comments
+  ['docComment', 'function'],    // /** */ above function
+
+  // ===== LINK PATTERNS =====
+  ['link', 'string'],            // URL strings vs links
+  ['link', 'variable'],          // URLs in comments vs code
+  ['link', 'comment'],           // http://... in comments
+
+  // ===== INVALID/DEPRECATED PATTERNS =====
+  ['invalid', 'variable'],       // Error-highlighted code
+  ['invalid', 'keyword'],        // Invalid syntax
+  ['deprecated', 'function'],    // Strikethrough functions
+  ['deprecated', 'variable'],    // Deprecated vars
+  ['deprecated', 'method'],      // Deprecated methods
+
+  // ===== MARKUP PATTERNS (Markdown/docs) =====
+  ['markupHeading', 'markupBold'], // # Title vs **bold**
+  ['markupHeading', 'comment'],    // Heading in docstrings
+  ['markupCode', 'string'],        // `code` vs "string"
+  ['markupQuote', 'comment'],      // > quote vs // comment
+  ['markupBold', 'markupItalic'],  // **bold** vs *italic*
 ];
 
 /**
@@ -433,6 +470,8 @@ export const SYMBOL_DISCRIMINATION_PAIRS: Array<[string, string]> = [
   ['variable', 'field'],
   ['property', 'field'],
   ['variable', 'property'],
+  ['method', 'property'],        // object members in autocomplete
+  ['ctor', 'class'],             // constructor vs class distinction
   // Constants vs values
   ['constant', 'variable'],
   ['constant', 'enumMember'],
@@ -459,6 +498,27 @@ export const SYMBOL_DISCRIMINATION_PAIRS: Array<[string, string]> = [
   ['event', 'method'],
   ['event', 'property'],
   ['reference', 'variable'],
+  // File system (explorer, breadcrumbs)
+  ['file', 'folder'],
+  ['folder', 'module'],
+  ['file', 'snippet'],
+  // Arrays and objects
+  ['array', 'object'],
+  ['array', 'variable'],
+  ['object', 'namespace'],
+  // Keys and properties (JSON, dicts)
+  ['key', 'property'],
+  ['key', 'string'],
+  // Completions
+  ['snippet', 'text'],
+  ['snippet', 'function'],
+  ['text', 'string'],
+  // Operators
+  ['operator', 'keyword'],
+  ['operator', 'function'],
+  // Units and colors
+  ['unit', 'number'],
+  ['color', 'constant'],
 ];
 
 /**
@@ -476,10 +536,26 @@ export const STATUS_DISTINCTION_PAIRS: Array<[string, string]> = [
  * Users need to quickly identify what changed without reading labels
  */
 export const GIT_DISTINCTION_PAIRS: Array<[string, string]> = [
+  // Core file states
   ['added', 'modified'],
   ['deleted', 'untracked'],
   ['modified', 'deleted'],
   ['added', 'untracked'],
+  ['added', 'deleted'],
+  ['ignored', 'untracked'],      // Important: "ignored" vs "new file"
+  // Renamed files (refactoring)
+  ['renamed', 'modified'],
+  ['renamed', 'added'],
+  // Conflict awareness (merge)
+  ['conflict', 'modified'],
+  ['conflict', 'deleted'],
+  ['conflict', 'added'],
+  // Staged states (commit preparation)
+  ['stageModified', 'modified'],
+  ['stageDeleted', 'deleted'],
+  ['stageModified', 'stageDeleted'], // Both staged, should differ
+  // Submodules
+  ['submodule', 'modified'],
 ];
 
 /**
@@ -487,8 +563,61 @@ export const GIT_DISTINCTION_PAIRS: Array<[string, string]> = [
  * Tests whether users can perceive state changes
  */
 export const STATE_DISTINCTION_PAIRS: Array<[string, string]> = [
+  // Tab states
   ['tabActive', 'tabInactive'],
+  ['tabActive', 'tabHover'],
+  // List states
   ['listSelected', 'listHover'],
+  ['listSelected', 'listFocus'],
+  ['listHover', 'listFocus'],
+  // Activity bar
   ['activityActive', 'activityInactive'],
+  // Panel
   ['panelActive', 'panelInactive'],
+  // Line numbers
+  ['lineNumber', 'lineNumberActive'],
+  // Highlights (find/word)
+  ['findMatch', 'findMatchActive'],
+  ['wordHighlight', 'wordHighlightStrong'],
+  // Breadcrumb
+  ['breadcrumb', 'breadcrumbActive'],
+  // Title bar
+  ['titleBar', 'titleBarInactive'],
+  // Command center
+  ['commandCenter', 'commandCenterActive'],
+];
+
+/**
+ * Bracket distinction pairs - rainbow brackets should be distinguishable
+ * Each adjacent bracket pair needs visual distinction for nesting clarity
+ */
+export const BRACKET_DISTINCTION_PAIRS: Array<[string, string]> = [
+  ['bracket1', 'bracket2'],
+  ['bracket2', 'bracket3'],
+  ['bracket3', 'bracket4'],
+  ['bracket4', 'bracket5'],
+  ['bracket5', 'bracket6'],
+  ['bracket6', 'bracket1'], // Wrap-around distinction
+];
+
+/**
+ * Terminal ANSI distinction pairs - critical for error vs success identification
+ * Red/green for pass/fail, yellow for warnings
+ */
+export const TERMINAL_DISTINCTION_PAIRS: Array<[string, string]> = [
+  ['ansiRed', 'ansiGreen'],       // Error vs success (critical)
+  ['ansiYellow', 'ansiRed'],      // Warning vs error
+  ['ansiYellow', 'ansiGreen'],    // Warning vs success
+  ['ansiCyan', 'ansiBlue'],       // Info colors
+  ['ansiWhite', 'ansiBrightWhite'], // Normal vs emphasized
+];
+
+/**
+ * Diff distinction pairs - added vs removed must be obvious
+ * Critical for code review workflows
+ */
+export const DIFF_DISTINCTION_PAIRS: Array<[string, string]> = [
+  ['added', 'deleted'],           // Core diff distinction
+  ['added', 'modified'],          // Git: new vs changed
+  ['modified', 'deleted'],        // Git: changed vs removed
 ];

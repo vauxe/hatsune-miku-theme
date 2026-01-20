@@ -253,14 +253,6 @@ export interface DistinctionSkippedPair {
   reason: DistinctionSkipReason;
 }
 
-export interface DistinctionStats {
-  total: number;
-  pass: number;
-  warn: number;
-  fail: number;
-  skipped: number;
-}
-
 export interface SectionData {
   title: string;
   results: ColorResult[];
@@ -268,74 +260,9 @@ export interface SectionData {
 }
 
 // =============================================================================
-// JSON OUTPUT TYPES
+// OUTPUT OPTIONS
 // =============================================================================
 
-export interface JsonColorResult {
-  name: string;
-  foreground: {
-    color: string;
-    key: string;
-    keyType: 'workbench' | 'textmate' | 'semantic';
-    file: string; // Source file path for editing
-  };
-  background: {
-    color: string;
-    key: string;
-  };
-  lc: number;
-  level: Level;
-  pass: boolean;
-  fallback: boolean;
-  expectedDim: boolean;
-}
-
-export interface JsonSection {
-  section: string;
-  results: JsonColorResult[];
-}
-
-export interface JsonDistinctionPair {
-  pair: [string, string];
-  colors: [string, string];
-  keys: [string, string];
-  deltaE: number;
-  level: DistinctionLevel;
-  pass: boolean;
-}
-
-export interface JsonDistinctionCategory {
-  pairs: JsonDistinctionPair[];
-  skipped: Array<{ pair: [string, string]; reason: string }>;
-}
-
-export interface JsonOutput {
-  theme: string;
-  type: 'dark' | 'light';
-  sections: JsonSection[];
-  distinction: {
-    syntax: JsonDistinctionCategory;
-    status: JsonDistinctionCategory;
-    git: JsonDistinctionCategory;
-    state: JsonDistinctionCategory;
-    symbol: JsonDistinctionCategory;
-  };
-  summary: {
-    pass: number;
-    large: number;
-    expectedDim: number;
-    fail: number;
-    missing: number;
-    total: number;
-    defined: number;
-    ready: boolean;
-    distinctionFails: number; // Count of distinction pairs with ΔE < 10
-  };
-}
-
-export type OutputFormat = 'human' | 'json';
-
 export interface AnalysisOptions {
-  format: OutputFormat;
   issuesOnly: boolean;
 }
