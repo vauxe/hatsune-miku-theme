@@ -376,7 +376,10 @@
       "editorOverviewRuler.commentUnresolvedForeground",
       "editorOverviewRuler.inlineChatInserted",
       "editorOverviewRuler.inlineChatRemoved",
-      "editorOverviewRuler.commentDraftForeground"
+      "editorOverviewRuler.commentDraftForeground",
+      "editorOverviewRuler.currentContentForeground",
+      "editorOverviewRuler.incomingContentForeground",
+      "editorOverviewRuler.commonContentForeground"
     ],
     "editorError": [
       "editorError.foreground",
@@ -637,9 +640,6 @@
       "merge.border",
       "merge.commonContentBackground",
       "merge.commonHeaderBackground",
-      "editorOverviewRuler.currentContentForeground",
-      "editorOverviewRuler.incomingContentForeground",
-      "editorOverviewRuler.commonContentForeground",
       "mergeEditor.change.background",
       "mergeEditor.change.word.background",
       "mergeEditor.conflict.unhandledUnfocused.border",
@@ -1079,6 +1079,8 @@
       "entity.name.function.constructor",
       "entity.name.function.destructor",
       "entity.name.function.operator",
+      "entity.name.function.member",
+      "entity.name.function.preprocessor",
       "entity.name.type",
       "entity.name.type.class",
       "entity.name.type.struct",
