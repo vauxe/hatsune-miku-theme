@@ -16,7 +16,7 @@ import {
   hologram,
   versionMapping,
   frequencyVisualizer,
-  sekai,
+
   character,
   append,
   v4xVoice,
@@ -50,13 +50,13 @@ export const workbenchColors = {
   'editor.lineHighlightBackground': alpha(versionMapping.identity, '0A'),
   'editor.lineHighlightBorder': alpha(cyans.ice, '30'),
   // SEKAI Heterochromia Selection - both eye colors
-  'editor.selectionBackground': alpha(sekai.heteroTurquoise, '35'), // #33CCBB
-  'editor.selectionHighlightBackground': alpha(sekai.heteroPink, '25'), // #FF80AB
-  'editor.selectionHighlightBorder': alpha(sekai.heteroTurquoise, '40'),
-  'editor.wordHighlightBackground': alpha(sekai.heteroTurquoise, '20'),
-  'editor.wordHighlightBorder': alpha(sekai.heteroTurquoise, '40'),
-  'editor.wordHighlightStrongBackground': alpha(sekai.heteroPink, '30'),
-  'editor.wordHighlightStrongBorder': alpha(sekai.heteroPink, '60'),
+  'editor.selectionBackground': alpha(projectSekai.emptySekai.heteroTurquoise, '35'), // #33CCBB
+  'editor.selectionHighlightBackground': alpha(projectSekai.emptySekai.heteroPink, '25'), // #FF80AB
+  'editor.selectionHighlightBorder': alpha(projectSekai.emptySekai.heteroTurquoise, '40'),
+  'editor.wordHighlightBackground': alpha(projectSekai.emptySekai.heteroTurquoise, '20'),
+  'editor.wordHighlightBorder': alpha(projectSekai.emptySekai.heteroTurquoise, '40'),
+  'editor.wordHighlightStrongBackground': alpha(projectSekai.emptySekai.heteroPink, '30'),
+  'editor.wordHighlightStrongBorder': alpha(projectSekai.emptySekai.heteroPink, '60'),
   // 39 Number Symbolism - Find matches
   'editor.findMatchBackground': alpha(numberSymbolism.miku39.heart, '35'), // #FF69B4
   'editor.findMatchBorder': alpha(numberSymbolism.miku39.heart, '90'),

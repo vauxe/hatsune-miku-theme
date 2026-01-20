@@ -45,20 +45,7 @@ export const frequencyVisualizer = {
   ultra: '#A8EBE6',
 } as const;
 
-// =============================================================================
-// SEKAI REFERENCE - Project SEKAI colors
-// =============================================================================
 
-export const sekai = {
-  /** Official SEKAI Miku image color */
-  imageColor: '#33CCBB',
-  /** Classroom pink highlight */
-  classroomPink: '#FF6B9D',
-  /** Empty SEKAI heterochromia - turquoise eye */
-  heteroTurquoise: '#33CCBB',
-  /** Empty SEKAI heterochromia - pink eye */
-  heteroPink: '#FF80AB',
-} as const;
 
 // =============================================================================
 // CHARACTER DESIGN COLORS
@@ -198,6 +185,40 @@ export const mikuNT2 = {
 } as const;
 
 // =============================================================================
+// HATSUNE MIKU V6 AI (2025-2026) - VOCALOID6 AI Engine
+// =============================================================================
+
+export const mikuV6AI = {
+  /** V6 AI = December 2025 Early Access, Full Release H1 2026 */
+  voice: {
+    primary: '#41D9CF',            // V6 AI teal (slightly brighter than classic)
+    natural: '#45DDD5',            // Natural breathing quality
+    breathy: '#4AE1DB',            // Breathy vocal texture
+    expressive: '#3FD7CD',         // Enhanced expression
+    classic: '#39C5BB',            // Classic Miku tone preserved
+  },
+  /** V6 AI interface colors (based on VOCALOID6 engine) */
+  ui: {
+    background: '#0D0D0D',         // Deep dark interface
+    panel: '#1A1A1A',              // Panel background
+    accent: '#41D9CF',             // V6 AI accent
+    aiIndicator: '#00FFFF',        // AI processing indicator
+    waveform: '#41D9CF',           // Waveform color
+    playhead: '#FF4081',           // Playhead pink
+    naturalBadge: '#69F0AE',       // Natural voice badge
+    aiBadge: '#00E5FF',            // AI feature badge
+  },
+  /** V6 AI vocal characteristics */
+  characteristics: {
+    naturalness: '#69F0AE',        // Natural/organic green
+    clarity: '#4DD0E1',            // Clear cyan
+    warmth: '#FFB74D',             // Warm amber
+    power: '#FF4081',              // Powerful pink
+    softness: '#B388FF',           // Soft purple
+  },
+} as const;
+
+// =============================================================================
 // APPEND VOICEBANKS
 // =============================================================================
 
@@ -224,6 +245,21 @@ export const v4xVoice = {
 } as const;
 
 // =============================================================================
+// OFFICIAL BRAND COLORS
+// =============================================================================
+
+export const brand = {
+  /** Official Piapro Profile Color (Greener than identity) */
+  piapro: '#33BBAD',
+  /** Widely cited hair hex */
+  hairExact: '#86CECB',
+  /** Vibrant cyan used in 16th Anniv & recent main visuals */
+  hairVibrant: '#00ddc0',
+  /** Legacy Vocaloid package teal */
+  vocaloidLegacy: '#00ddc0',
+} as const;
+
+// =============================================================================
 // CRYPTON FAMILY
 // =============================================================================
 
@@ -232,21 +268,27 @@ export const cryptonFamily = {
     yellow: '#FFD740',
     orange: '#FFB74D',
     cream: '#FFF8E1',
+    // Official brand hexes
+    brandRin: '#FFD700',
+    brandLen: '#FFA500',
   },
   luka: {
     pink: '#F48FB1',
     hotPink: '#EC407A',
     pale: '#FCE4EC',
+    brand: '#FFBBCC',
   },
   kaito: {
     blue: '#42A5F5',
     navy: '#1565C0',
     ice: '#BBDEFB',
+    brand: '#3367CD',
   },
   meiko: {
     red: '#EF5350',
     crimson: '#C62828',
     rose: '#FFCDD2',
+    brand: '#DD4444',
   },
 } as const;
 

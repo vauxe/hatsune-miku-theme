@@ -18,7 +18,7 @@ export const snowMiku = {
     accent: '#90CAF9',
   },
   y2011: {
-    theme: 'Winter Warmth - First official winter costume by Ui',
+    theme: 'Winter Warmth - Scarf and Earmuffs',
     warmWhite: '#F8F8FF',
     winterBlue: '#87CEEB',
     mufflerGrey: '#B0C4DE',
@@ -27,83 +27,95 @@ export const snowMiku = {
     coatTrim: '#E6E6FA',
   },
   y2012: {
-    theme: 'Strawberry White - Sweet pink winter',
-    strawberry: '#FF6B8A',
-    cream: '#FFF8E7',
-    mintAccent: '#98D9C2',
+    theme: 'Fluffy Coat - Ice Jewel',
+    coatBlue: '#29B6F6',
+    fluffyWhite: '#FFFFFF',
+    jewelCyan: '#00E5FF',
+    ribbonBlack: '#263238',
   },
   y2013: {
-    theme: 'Magical Snow - Deep blue night sky',
-    nightBlue: '#1A237E',
-    starlight: '#E8EAF6',
-    aurora: '#7C4DFF',
+    theme: 'Strawberry White Kimono - Wagashi',
+    kimonoWhite: '#FAFAFA',
+    strawberryRed: '#EF5350',
+    leafGreen: '#9CCC65',
+    hoodPink: '#F48FB1',
   },
   y2014: {
-    theme: 'Marchen (Fairy Tale) - Warm storybook',
-    warmWhite: '#FFF8E1',
-    cozyRed: '#E57373',
-    goldTrim: '#FFD54F',
+    theme: 'Magical Snow - Witch of the North',
+    magicBlue: '#304FFE',
+    spellPurple: '#7C4DFF',
+    goldAccent: '#FFD700',
+    bookBrown: '#8D6E63',
   },
   y2015: {
-    theme: 'Snow Bell Flower',
+    theme: 'Snow Bell - Lily of the Valley',
     bellWhite: '#F5F5F5',
     leafGreen: '#81C784',
     flowerPink: '#F48FB1',
+    stemGreen: '#66BB6A',
   },
   y2016: {
-    theme: 'Winter Sports - Athletic',
-    sportsBlue: '#2196F3',
+    theme: 'Snow Owl - Winter Sports',
+    sportBlue: '#1E88E5',
     energyOrange: '#FF9800',
     snowWhite: '#FAFAFA',
+    knitGrey: '#CFD8DC',
   },
   y2017: {
-    theme: 'Starry Night Snow - Celestial',
-    midnightBlue: '#0D1B2A',
-    starGold: '#FFD700',
-    cosmicPurple: '#9C27B0',
+    theme: 'Twinkle Snow - Starry Night',
+    midnightBlue: '#1A237E',
+    constellationGold: '#FFD700',
+    nebulaPurple: '#9C27B0',
+    starGlow: '#FFF176',
   },
   y2018: {
-    theme: 'Snow Princess - Elegant',
-    royalBlue: '#3F51B5',
-    silverTiara: '#CFD8DC',
-    gemPink: '#EC407A',
+    theme: 'Crane Priestess - Red-crowned Crane',
+    pureWhite: '#FFFFFF',
+    craneRed: '#D32F2F',
+    featherBlack: '#212121',
+    shrineGold: '#FFC107',
   },
   y2019: {
-    theme: 'Lily of the Valley - Pure',
-    lilyWhite: '#FAFAFA',
-    stemGreen: '#66BB6A',
-    blushPink: '#FFCDD2',
+    theme: 'Snow Princess - Hard Crystal',
+    dressBlue: '#448AFF',
+    tiaraSilver: '#ECEFF1',
+    royalGold: '#FFD700',
+    capeWhite: '#F8FDFF',
   },
   y2020: {
-    theme: 'Strawberry Shirokuma (Polar Bear)',
-    polarWhite: '#FFFFFF',
-    strawberryRed: '#EF5350',
-    matchaGreen: '#8BC34A',
+    theme: 'Snow Parade - Marching Band',
+    uniformBlue: '#1565C0',
+    notesGold: '#FFCA28',
+    paradeWhite: '#FFFFFF',
+    featherGreen: '#69F0AE',
   },
   y2021: {
-    theme: 'Glowing Snow - Illuminated',
-    glowCyan: '#00E5FF',
-    neonPink: '#FF4081',
-    iceBlue: '#E1F5FE',
+    theme: 'Glowing Snow - Illumination',
+    glowCyan: '#84FFFF',
+    lightLilac: '#E1BEE7',
+    candleWhite: '#FFF9C4',
+    nightNavy: '#283593',
   },
   y2022: {
-    theme: 'Grand Voyage - Maritime',
-    navyBlue: '#1565C0',
-    sailWhite: '#FFFFFF',
-    compassGold: '#FFC107',
+    theme: 'Grand Voyage - Crab Captain',
+    oceanBlue: '#0277BD',
+    whiteCap: '#FFFFFF',
+    crabRed: '#FF5252',
+    goldButtons: '#FFC107',
   },
   y2023: {
-    theme: 'Illumination - Light Festival',
-    lightYellow: '#FFF59D',
-    warmOrange: '#FFAB40',
-    festiveRed: '#FF5252',
+    theme: 'Serene Winter - Dawn Sky',
+    skyBlue: '#81D4FA',
+    dawnPink: '#F48FB1',
+    cloudWhite: '#E1F5FE',
+    sunOrange: '#FFCC80',
   },
   y2024: {
-    theme: 'Sepia Tone - Vintage warm',
-    sepia: '#D4A574',
-    cream: '#FFF8DC',
-    warmBrown: '#8B7355',
-    softPink: '#EBBAB9',
+    theme: 'Winter Delicacy - Kamui Gourmet',
+    feastBrown: '#8D6E63',
+    creamWhite: '#FFF8E1',
+    savoryOrange: '#FFAB91',
+    accentTeal: '#26A69A',
   },
   // Core elements across all years
   core: {
@@ -262,74 +274,77 @@ export const magicalMirai = {
   },
   // Annual themes
   y2013: {
-    theme: 'First Magical Mirai',
+    theme: 'First Magical Mirai - Yokohama Arena',
     primaryBlue: '#2196F3',
     accentPink: '#E91E63',
     lightCyan: '#00BCD4',
   },
   y2014: {
-    theme: 'Osaka Concert',
+    theme: 'Osaka Concert - Cube',
     deepPurple: '#673AB7',
     vibrantPink: '#FF4081',
     electricBlue: '#448AFF',
   },
   y2015: {
-    theme: 'Nippon Budokan',
+    theme: 'Nippon Budokan - Chain of Creation',
     royalPurple: '#7B1FA2',
     goldAccent: '#FFC107',
     pearlWhite: '#FAFAFA',
   },
   y2016: {
-    theme: 'Makuhari Messe',
+    theme: 'Makuhari Messe - Future Unlimited',
     oceanBlue: '#039BE5',
     sunsetOrange: '#FF7043',
     skyLight: '#81D4FA',
   },
   y2017: {
-    theme: '5th Anniversary',
+    theme: '5th Anniversary - Sand Planet',
     celebrationGold: '#FFD700',
     deepBlue: '#1A237E',
     starWhite: '#FFFFFF',
   },
   y2018: {
-    theme: 'Dual City Tour',
-    tokyoPurple: '#9C27B0',
-    osakaPink: '#F48FB1',
-    unityTeal: '#26A69A',
+    theme: 'Osaka/Tokyo Tour - Greenlights',
+    neonGreen: '#00E676',
+    vividPink: '#FF4081',
+    stageBlue: '#2979FF',
   },
   y2019: {
-    theme: 'Galaxy Theme',
-    galaxyPurple: '#4A148C',
+    theme: 'Future Circus - Galaxy',
+    circusPurple: '#4A148C',
     stardustPink: '#F8BBD9',
     nebulaBlue: '#1E88E5',
     cosmicGold: '#FFD54F',
   },
   y2020: {
-    theme: 'Online Concert (COVID)',
-    digitalCyan: '#00E5FF',
-    streamPurple: '#AA00FF',
-    virtualPink: '#FF4081',
+    theme: 'Matsuri - Summer Festival',
+    festiveRed: '#E53935',
+    matsuriBlue: '#1E88E5',
+    yukataWhite: '#F5F5F5',
+    fireworksGold: '#FFD700',
   },
   y2021: {
-    theme: '10th Anniversary Celebration',
-    tenthGold: '#FFD700',
-    platinumWhite: '#E8E8E8',
-    decadePurple: '#6A1B9A',
+    theme: 'Fairy Tale Fantasy - Merchen',
+    fantasyPurple: '#7B1FA2',
+    rosePink: '#EC407A',
+    leafGreen: '#66BB6A',
   },
   y2022: {
-    theme: 'Connect Theme',
-    connectBlue: '#2962FF',
-    linkPink: '#FF80AB',
-    bondGreen: '#00E676',
+    theme: 'Retro-Future - 10th Anniversary',
+    retroGreen: '#00E676',
+    neonPink: '#FF4081',
+    cyberYellow: '#FFEA00',
+    anniversaryHolo: '#FFFFFF',
   },
   y2023: {
-    theme: 'Future Pop',
-    futureCyan: '#00BCD4',
-    popPink: '#FF4081',
-    neonYellow: '#FFEA00',
+    theme: 'HERO - Red & Black',
+    heroRed: '#D50000',
+    heroBlack: '#121212',
+    signalWhite: '#FFFFFF',
+    powerGlow: '#FF1744',
   },
   y2024: {
-    theme: 'Fun Trip',
+    theme: 'Fan Fun Trip',
     tripBlue: '#42A5F5',
     funPink: '#EC407A',
     journeyGreen: '#66BB6A',
@@ -425,6 +440,14 @@ export const mikuExpo = {
     goldenAccent: '#FFD700',       // Asian gold
     nightBlue: '#1A237E',          // Night concert blue
     neonMagenta: '#FF00FF',        // Neon city magenta
+  },
+  y2026: {
+    theme: '2026 North America Tour - Art by yon',
+    primary: '#00BCD4',            // Expo cyan (placeholder pending official art)
+    tourCyan: '#00E5FF',           // Tour accent cyan
+    concertPink: '#FF4081',        // Concert pink
+    stageBlue: '#2962FF',          // Stage lighting blue
+    spotlightWhite: '#FFFFFF',     // Spotlight white
   },
   // 10th Anniversary
   tenthAnniversary: {
@@ -555,6 +578,18 @@ export const collaborations = {
     techSilver: '#A7A9AC',
     displayBlue: '#0066CC',
   },
+  // New Additions
+  pusheen: {
+    pastelPink: '#F4B5C8',         // Pusheen pink
+    mikuTeal: '#39C5BB',           // Miku teal
+    grey: '#808080',               // Pusheen grey
+    mint: '#B2EBE7',               // Soft mint
+  },
+  rascal: {
+    rascalOrange: '#E99317',       // Rascal orange
+    rascalBrown: '#5D3A1A',        // Rascal brown
+    cornYellow: '#FFD700',         // Corn yellow
+  },
 } as const;
 
 // =============================================================================
@@ -643,62 +678,62 @@ export const vocaloidFamily = {
 } as const;
 
 // =============================================================================
-// PROJECT SEKAI - Colorful Stage! (Complete Coverage)
+// PROJECT SEKAI - Official Colors (Verified)
 // =============================================================================
 
 export const projectSekai = {
-  // Unit Colors (Official)
+  // Unit Colors
   units: {
-    virtualSinger: '#00CCBB',      // VIRTUAL SINGER
-    leoneed: '#4455DD',            // Leo/need - Royal Blue
-    moreMoreJump: '#88DD44',       // MORE MORE JUMP! - Bright Green
-    vividBadSquad: '#EE1166',      // Vivid BAD SQUAD - Vivid Pink
-    wonderlandsShowtime: '#FF9900', // Wonderlands×Showtime - Pop Orange
-    nightcord: '#884499',          // 25-ji, Nightcord de. - Dark Purple
+    virtualSinger: '#00CCBA',      // VIRTUAL SINGER (Official: Swimmers Pool)
+    leoneed: '#4455DD',            // Leo/need (Official: Warm Blue)
+    moreMoreJump: '#6CCB20',       // MORE MORE JUMP! (Official: Green High)
+    vividBadSquad: '#EE1166',      // Vivid BAD SQUAD (Official: Borderline Pink)
+    wonderlandsShowtime: '#FF9900', // Wonderlands×Showtime (Official: Vitamin C)
+    nightcord: '#884499',          // 25-ji, Nightcord de. (Official: Murasaki Purple)
   },
   // Leo/need Members
   leoneedMembers: {
-    ichika: '#33AAEE',             // Ichika Hoshino - Sky Blue
-    saki: '#FFDD44',               // Saki Tenma - Passionfruit Yellow
-    honami: '#EE6666',             // Honami Mochizuki - Poppy Red
-    shiho: '#BBDD22',              // Shiho Hinomori - Yellow-Green
+    ichika: '#33AAEE',             // Ichika Hoshino
+    saki: '#FFDD45',               // Saki Tenma
+    honami: '#EE6666',             // Honami Mochizuki
+    shiho: '#BBDE22',              // Shiho Hinomori
   },
   // MORE MORE JUMP! Members
   moreMoreJumpMembers: {
-    minori: '#FFCCAA',             // Minori Hanasato - Apricot
-    haruka: '#99CCFF',             // Haruka Kiritani - Strong Blue
-    airi: '#FFAACC',               // Airi Momoi - Lovely Pink
-    shizuku: '#99EEDD',            // Shizuku Hinomori - Pastel Green
+    minori: '#FFCDAC',             // Minori Hanasato
+    haruka: '#99CDFF',             // Haruka Kiritani
+    airi: '#FFA9CC',               // Airi Momoi
+    shizuku: '#9AEEDE',            // Shizuku Hinomori
   },
   // Vivid BAD SQUAD Members
   vividBadSquadMembers: {
-    kohane: '#FF6699',             // Kohane Azusawa - Cerise Pink
-    an: '#00BBDD',                 // An Shiraishi - Turquoise
-    akito: '#FF7722',              // Akito Shinonome - Coral
-    toya: '#0077DD',               // Toya Aoyagi - Royal Blue
+    kohane: '#FF679A',             // Kohane Azusawa
+    an: '#00BBDC',                 // An Shiraishi
+    akito: '#FF7721',              // Akito Shinonome
+    toya: '#0077DD',               // Toya Aoyagi
   },
   // Wonderlands×Showtime Members
   wonderlandsShowtimeMembers: {
-    tsukasa: '#FFBB00',            // Tsukasa Tenma - Sunflower
-    emu: '#FF66BB',                // Emu Otori - Warm Pink
-    nene: '#33DD99',               // Nene Kusanagi - Spring Green
-    rui: '#BB88EE',                // Rui Kamishiro - Bellflower Purple
+    tsukasa: '#FFBB00',            // Tsukasa Tenma
+    emu: '#FF66BC',                // Emu Otori
+    nene: '#34DD9A',               // Nene Kusanagi
+    rui: '#BB88ED',                // Rui Kamishiro
   },
   // 25-ji, Nightcord de. Members
   nightcordMembers: {
-    kanade: '#BB6688',             // Kanade Yoisaki - Mauve
-    mafuyu: '#8888CC',             // Mafuyu Asahina - Wisteria
-    ena: '#CCAA88',                // Ena Shinonome - Caramel
-    mizuki: '#DDAACC',             // Mizuki Akiyama - Thistle
+    kanade: '#BB6588',             // Kanade Yoisaki
+    mafuyu: '#8889CC',             // Mafuyu Asahina
+    ena: '#CCAA87',                // Ena Shinonome
+    mizuki: '#E4A8CA',             // Mizuki Akiyama
   },
   // Virtual Singers (SEKAI versions)
   virtualSingers: {
     miku: '#33CCBB',               // Hatsune Miku
     rin: '#FFCC11',                // Kagamine Rin
-    len: '#FFEE11',                // Kagamine Len
-    luka: '#FFBBCC',               // Megurine Luka
-    meiko: '#DD4444',              // MEIKO
-    kaito: '#3366CC',              // KAITO
+    len: '#FFEE12',                // Kagamine Len
+    luka: '#FFBACC',               // Megurine Luka
+    meiko: '#DE4444',              // MEIKO
+    kaito: '#3367CD',              // KAITO
   },
   // Empty SEKAI (Miku's unique form)
   emptySekai: {
@@ -785,6 +820,25 @@ export const derivativeCharacters = {
     outfit: '#2F4F4F',             // Dark slate grey
     stockings: '#1A1A1A',          // Black
   },
+  // Fanloid / Derivatives Deep Cuts
+  calneCa: {
+    skeletonGrey: '#A9A9A9',       // Mechanical skeleton
+    insectRed: '#8B0000',          // Compound eye/blood
+    contaminationBlack: '#0D0D0D', // Corruption
+    bioTeal: '#2F4F4F',            // Dark biological teal
+  },
+  akitaNeru: {
+    hairYellow: '#EBCB4B',         // Signature yellow
+    tieYellow: '#FFD700',          // Accent yellow
+    greyTop: '#808080',            // Standard grey top
+    phoneYellow: '#FFEB3B',        // Flip phone color
+  },
+  yowaneHaku: {
+    hairSilver: '#D3D3D3',         // Silver/Grey hair
+    accentPurple: '#800080',       // Purple eyes/tie
+    depressionBlue: '#483D8B',     // Dark slate blue shadow
+    greySkin: '#F5F5F5',           // Pale complexion
+  },
 } as const;
 
 // =============================================================================
@@ -792,27 +846,21 @@ export const derivativeCharacters = {
 // =============================================================================
 
 export const iconicPVs = {
-  // Deep Sea Girl (深海少女) by yuuyu-P
+
+  // Deep Sea Girl (深海少女) by Yuuyu
   deepSeaGirl: {
-    deepBlue: '#0A1628',           // Abyss darkness
-    oceanBlue: '#1A3A5C',          // Deep ocean
-    waterBlue: '#2E5A88',          // Mid-depth water
-    lightRay: '#5DADE2',           // Light penetrating water
-    bubbles: '#85C1E9',            // Bubble highlights
-    seafloor: '#0D2137',           // Ocean floor
-    bioluminescent: '#00FFFF',     // Glowing creatures
-    jellyfish: '#FF69B4',          // Jellyfish pink
+    abyssBlue: '#001E43',          // Abyss depth
+    biolumAqua: '#00FFFF',         // Bioluminescent
+    coralPink: '#FF7F50',          // Coral reef
+    bubbleWhite: '#E0F7FA',        // Air bubbles
   },
   // Sand Planet (砂の惑星) by Hachi
   sandPlanet: {
-    sand: '#D4A574',               // Desert sand
-    dune: '#C9956C',               // Dune shadows
-    dust: '#E8C8A0',               // Dust particles
-    sky: '#87CEEB',                // Hazy sky
-    sunset: '#FF7F50',             // Desert sunset
-    ruins: '#8B7355',              // Abandoned structures
-    void: '#2F1810',               // Empty spaces
-    horizon: '#DEB887',            // Distant horizon
+    duneBeige: '#E3C9A6',          // Dune sand
+    hazySky: '#B0C4DE',            // Wasteland sky
+    lightningPurple: '#9C27B0',    // Purple lightning
+    maskBlack: '#1A1A1A',          // Mask/Robes
+    rustRed: '#8D6E63',            // Rusted metal
   },
   // World is Mine (ワールドイズマイン) by ryo
   worldIsMine: {
@@ -915,6 +963,87 @@ export const iconicPVs = {
 } as const;
 
 // =============================================================================
+// VIRAL HITS & TRENDING (2020s)
+// =============================================================================
+
+export const viralHits = {
+  // Mesmerizer (32ki) - Miku & Teto
+  mesmerizer: {
+    mikuTeal: '#39C5BB',           // Hypnotic Teal
+    mikuPink: '#FF69B4',           // Chaos Pink
+    mikuYellow: '#FFD700',         // Warning Yellow
+    tetoRed: '#C41E3A',            // Drill Red
+    tetoIndigo: '#3F51B5',         // Uniform Indigo
+    hypnosis: '#00FF00',           // Spiral Green
+  },
+  // Vampire (DECO*27) - Gothic Pop
+  vampire: {
+    maskWhite: '#FFFFFF',          // Mask White
+    bloodRed: '#FF0000',           // Blood Accents
+    gothicLavender: '#9575CD',     // Miku's Blouse
+    darkTeal: '#00897B',           // Darkened Hair
+    nightBlack: '#1A1A1A',         // Night Background
+  },
+  // King (Kanaria) - Royal
+  king: {
+    crownGold: '#FFD700',          // Crown
+    royalRed: '#D50000',           // Royal Robe
+    throneGrey: '#424242',         // Stone Throne
+    commandRed: '#B71C1C',         // Tyrant Red
+  },
+  // Phony (Tsumiki)
+  phony: {
+    monochrome: '#FAFAFA',         // Stark White
+    despairGrey: '#616161',        // Despair Grey
+    orangeAccent: '#FF9800',       // Graphic Orange
+  },
+} as const;
+
+// =============================================================================
+// ARTIST SIGNATURE STYLES
+// =============================================================================
+
+export const artStyles = {
+  // NOTE: 'artStyles' abstracts the *vibe* (e.g. Pop Triadic) for general theming.
+  // Specific official costumes (like Magical Mirai 2018) are in their respective event objects.
+
+  // Mika Pikazo (General Pop Style)
+  mikaPikazo: {
+    style: 'Pop Triadic',
+    primary: '#FFD700',            // Vibrant Yellow
+    secondary: '#FF1493',          // Hot Pink
+    tertiary: '#00BFFF',           // Electric Blue
+    triadicCyan: '#00E5FF',        // Pop Cyan
+    contrast: '#1A1A1A',           // Stark Black
+  },
+  // LAM (Rock Miku, Project Sekai)
+  lam: {
+    style: 'Neon Contrast',
+    shockPink: '#FF0055',          // Shocking bright pink
+    acidGreen: '#CCFF00',          // Acid green
+    crimson: '#D50000',            // Deep crimson
+    graphicBlack: '#000000',       // Bold black lines
+    skinHighlights: '#FF80AB',     // Pinkish skin tone
+  },
+  // Rella (Symphony, 16th Anniv)
+  rella: {
+    style: 'Ethereal Light',
+    pearl: '#F5F5F5',              // Pearl/Porcelain
+    light: '#FFFACD',              // Glowing light
+    transparency: '#39C5BB4D',     // Transparent teal
+    sky: '#87CEEB',                // Soft sky
+  },
+  // iXima (V3, V4X, NT)
+  ixima: {
+    style: 'Sci-Fi Clean',
+    techCyan: '#00E5FF',           // Holographic Cyan
+    sleekGrey: '#37474F',          // Sleek metal
+    interfaceWhite: '#FFFFFF',     // Clean UI
+    glow: '#B2EBF2',               // Soft tech glow
+  },
+} as const;
+
+// =============================================================================
 // 39's DAY (MIKU DAY) - March 9th Anniversary
 // =============================================================================
 
@@ -977,12 +1106,50 @@ export const mikuSymphony = {
     harp: '#FFD700',               // Golden harp
     piano: '#1C1C1C',              // Grand piano
   },
-  // Program themes
-  themes: {
-    classic: '#1A237E',            // Classical navy
-    romantic: '#880E4F',           // Romantic magenta
-    modern: '#006064',             // Modern teal
-    encore: '#FF6F00',             // Encore orange
+  // Annual Themes (2017-Present)
+  years: {
+    // 2017: Chic Black Dress (KEI)
+    y2017: {
+      dressBlack: '#1A1A1A',
+      accentTeal: '#39C5BB',
+      translucentHair: '#39C5BB80',
+    },
+    // 2018-2019: Pink & Cyan Ribbons (Rella)
+    y2018: {
+      ribbonPink: '#FF8FAB',
+      ribbonCyan: '#80DEEA',
+      gradientHair: '#39C5BB',
+    },
+    // 2019: Pearl White (Rella)
+    y2019: {
+      pearlWhite: '#F8F9FA',
+      vestBlack: '#121212',
+      shadowTeal: '#39C5BB20',
+    },
+    // 2020: 5th Anniversary Gramophone
+    y2020: {
+      gramophoneGold: '#FFD700',
+      translucentTeal: '#39C5BB60',
+      antiqueBrass: '#B5A642',
+    },
+    // 2021: KAITO 15th Anniversary
+    y2021: {
+      kaitoBlue: '#3366CC',
+      mikuTeal: '#39C5BB',
+      phantomNavy: '#1A237E',
+    },
+    // 2022: Regal Heart (Rella)
+    y2022: {
+      regalWhite: '#FFFFFF',
+      heartGold: '#FFD700',
+      etherealTeal: '#39C5BB',
+    },
+    // 2023: Classic Orchestra (Rella)
+    y2023: {
+      hatWhite: '#FFFFFF',
+      dressWhite: '#F5F5F5',
+      accentBlack: '#0D0D0D',
+    },
   },
 } as const;
 
@@ -1333,5 +1500,254 @@ export const modulesExpanded = {
     default: '#42A5F5',            // Default
     v3: '#1E88E5',                 // V3 style
     guilty: '#0D47A1',             // Guilty style
+  },
+} as const;
+
+// =============================================================================
+// CINNAMOROLL X MIKU - Sanrio Collaboration
+// =============================================================================
+
+export const cinnamorollMiku = {
+  // Official Pantone-derived Colors
+  white: '#F4F5F0',                // Milk Cloud White (Pantone 11-0601)
+  blue: '#DECDBE',                 // Peach Whisper (Pantone 13-1106 - Cinnamoroll Blue tone)
+  pink: '#D8C8BD',                 // Sugar Bloom Pink (Pantone 12-1406)
+  eyeBlue: '#4CB4F0',              // Cinnamoroll Eye Blue
+  mikuTeal: '#39C5BB',             // Miku Identity Teal
+} as const;
+
+// =============================================================================
+// PROJECT VOLTAGE - Pokémon x Hatsune Miku (18 Types)
+// =============================================================================
+
+export const projectVoltage = {
+  // Grass Type (Rillaboom theme) - Earthy green + Teal
+  grass: { primary: '#78C850', accent: '#39C5BB', dark: '#5CA43A' },
+  // Fire Type (Skeledirge theme) - Blaze orange + Teal
+  fire: { primary: '#F08030', accent: '#39C5BB', dark: '#C03028' },
+  // Water Type (Primarina theme) - Deep blue + Teal
+  water: { primary: '#6890F0', accent: '#39C5BB', dark: '#445E9C' },
+  // Electric Type (Rotom theme) - Spark yellow + Teal
+  electric: { primary: '#F8D030', accent: '#39C5BB', dark: '#A1871F' },
+  // Normal Type (Chatot theme) - Soft beige + Teal
+  normal: { primary: '#A8A878', accent: '#39C5BB', dark: '#6D6D4E' },
+  // Ice Type (Aurorus theme) - Icy cyan + Teal
+  ice: { primary: '#98D8D8', accent: '#39C5BB', dark: '#699696' },
+  // Fighting Type (Sirfetch'd theme) - Brick red + Teal
+  fighting: { primary: '#C03028', accent: '#39C5BB', dark: '#7D1F1A' },
+  // Poison Type (Toxtricity theme) - Toxic purple + Teal
+  poison: { primary: '#A040A0', accent: '#39C5BB', dark: '#682A68' },
+  // Ground Type (Flygon theme) - Sand brown + Teal
+  ground: { primary: '#E0C068', accent: '#39C5BB', dark: '#927D44' },
+  // Flying Type (Altaria theme) - Sky violet + Teal
+  flying: { primary: '#A890F0', accent: '#39C5BB', dark: '#6D5E9C' },
+  // Psychic Type (Meloetta theme) - Mystic pink + Teal
+  psychic: { primary: '#F85888', accent: '#39C5BB', dark: '#A13959' },
+  // Bug Type (Kricketune theme) - Olive green + Teal
+  bug: { primary: '#A8B820', accent: '#39C5BB', dark: '#6D7815' },
+  // Rock Type (Aurorus theme) - Hard grey + Teal
+  rock: { primary: '#B8A038', accent: '#39C5BB', dark: '#786824' },
+  // Ghost Type (Mismagius theme) - Spooky purple + Teal
+  ghost: { primary: '#705898', accent: '#39C5BB', dark: '#493963' },
+  // Dragon Type (Miraidon theme) - Royal indigo + Teal
+  dragon: { primary: '#7038F8', accent: '#39C5BB', dark: '#4924A1' },
+  // Dark Type (Obstagoon theme) - Midnight black + Teal
+  dark: { primary: '#705848', accent: '#39C5BB', dark: '#49392F' },
+  // Steel Type (Jirachi theme) - Metallic silver + Teal
+  steel: { primary: '#B8B8D0', accent: '#39C5BB', dark: '#787887' },
+  // Fairy Type (Jigglypuff theme) - Soft pink + Teal
+  fairy: { primary: '#EE99AC', accent: '#39C5BB', dark: '#9B6470' },
+} as const;
+
+// =============================================================================
+// ANNIVERSARIES - Milestone Celebrations
+// =============================================================================
+
+export const anniversaries = {
+  // 5th Anniversary (2012) - Symphony & Orchestra
+  y5th: {
+    theme: 'Symphony',
+    gold: '#FFD700',
+    translucentTeal: '#39C5BB60',
+  },
+  // 10th Anniversary (2017) - Rainbow & Celebration
+  y10th: {
+    theme: 'Memorial',
+    rainbow: ['#FFD700', '#FF69B4', '#39C5BB', '#42A5F5', '#800080'],
+    bookCover: '#1A1A1A',
+    goldRibbon: '#FFC107',
+  },
+  // 13th Anniversary (2020) - Idol Fair
+  y13th: {
+    theme: 'Idol Fair',
+    mainBlue: '#5992B0',
+    accentGold: '#E9BD54',
+    softPink: '#D4728E',
+  },
+  // 14th Anniversary (2021) - Happy Cat
+  y14th: {
+    theme: 'Happy Cat',
+    catTurquoise: '#E0F7FA',
+    basePink: '#F8BBD9',
+    outlineBlack: '#1A1A1A',
+  },
+  // 15th Anniversary (2022) - Strawberry Motif
+  y15th: {
+    theme: 'Strawberry',
+    strawberryPink: '#FF6B8A',
+    creamWhite: '#FFF8E7',
+    leafGreen: '#98D9C2',
+    goldAccent: '#FFD700',
+  },
+  // 16th Anniversary (2023) - Happy 16th Birthday (Rella)
+  y16th: {
+    theme: 'Wings of Creation',
+    pearlWhite: '#F8F9FA',
+    vibrantTeal: '#00ddc0',  // Special vibrant hex found in research
+    deepBlack: '#0D0D0D',
+    wingTranslucent: '#FFFFFF80',
+  },
+} as const;
+
+// =============================================================================
+// MIKU WITH YOU - China Tour Series
+// =============================================================================
+
+export const mikuWithYou = {
+  // 2017: First China Festival (Shanghai)
+  y2017: {
+    theme: 'First Impact',
+    chinaRed: '#DE2910',           // China red
+    futureTeal: '#39C5BB',         // Miku teal
+    stageGold: '#FFD700',          // Gold accents
+  },
+  // 2018: Journey of the Future (SanmuYYB)
+  y2018: {
+    theme: 'Space Journey',
+    spaceBlue: '#001E43',          // Deep space
+    suitWhite: '#FFFFFF',          // Spacesuit white
+    starGlow: '#00E5FF',           // Sci-fi glow
+    rocketOrange: '#FF6D00',       // Accent
+  },
+  // 2019: Dancing Fairy (Loom)
+  y2019: {
+    theme: 'Dancing Fairy',
+    natureGreen: '#66BB6A',        // Soft nature green
+    balletPink: '#F8BBD9',         // Ballet pink
+    flowerWhite: '#FFFAF0',        // Floral white
+    morningDew: '#E0F7FA',         // Dew drop blue
+  },
+  // 2020: Happy Vibe (Bison)
+  y2020: {
+    theme: 'Happy Vibe',
+    vibeYellow: '#FFEB3B',         // Energetic yellow
+    popBlue: '#2196F3',            // Pop blue
+    rhythmPink: '#FF4081',         // Rhythm pink
+  },
+  // 2021: Flower Base (Liita)
+  y2021: {
+    theme: 'Future Flower',
+    jadeGreen: '#00A86B',          // Jade
+    peonyPink: '#F06292',          // Peony
+    pollenGold: '#FDD835',         // Pollen
+    porcelainWhite: '#FAFAFA',     // Porcelain
+  },
+} as const;
+
+// =============================================================================
+// DIGITAL STARS - Club Event Series
+// =============================================================================
+
+export const digitalStars = {
+  // 2020: Cyber Sport (Wada Rco)
+  y2020: {
+    theme: 'Cyber Sport',
+    sportRed: '#D50000',           // Sporty red
+    coolBlue: '#2962FF',           // Cool blue
+    techSilver: '#B0BEC5',         // Tech silver
+    carbon: '#212121',             // Carbon fiber
+  },
+  // 2021: Neon Future (Tsunako)
+  y2021: {
+    theme: 'Neon Future',
+    neonPurple: '#AA00FF',         // Neon purple
+    neonGreen: '#00E676',          // Neon green
+    neonPink: '#FF4081',           // Neon pink
+    glitch: '#00FFFF',             // Glitch cyan
+  },
+  // 2022: Punk Metal (HxxG)
+  y2022: {
+    theme: 'Punk Metal',
+    punkPink: '#FF0055',           // Aggressive pink
+    metalBlack: '#000000',         // Metal black
+    studSilver: '#E0E0E0',         // Silver studs
+    rebelTeal: '#008080',          // Dark teal
+  },
+  // 2023: Neon Monster (Sai Izumi)
+  y2023: {
+    theme: 'Neon Monster',
+    monsterGreen: '#76FF03',       // Slime green
+    beastPurple: '#6200EA',        // Beast purple
+    clawPink: '#F50057',           // Sharp pink
+    nightCity: '#0D0221',          // Dark city background
+  },
+} as const;
+
+// =============================================================================
+// TRADITIONAL ARTS - Cho Kabuki & Wagakki
+// =============================================================================
+
+export const traditional = {
+  // Cho Kabuki (Hatsune Miku x Kodo)
+  choKabuki: {
+    emeraldHair: '#009688',        // Traditional pigment green/teal
+    kumadoriRed: '#C62828',        // Kabuki makeup red
+    kimonoPink: '#F48FB1',         // Sakura kimono
+    goldLeaf: '#C5A059',           // Gold leaf
+    indigo: '#283593',             // Japan blue
+  },
+  // Wagakki Band Style
+  wagakki: {
+    miyabiMauve: '#7E57C2',        // Elegant purple
+    crimson: '#B71C1C',            // Deep red
+    matcha: '#558B2F',             // Matcha green
+    parchment: '#F5F5DC',          // Washi paper
+  },
+} as const;
+
+// =============================================================================
+// TOURS & EVENTS
+// =============================================================================
+
+export const tours = {
+  // JAPAN TOUR 2023 ~THUNDERBOLT~ (Akiakane)
+  thunderbolt: {
+    lightningYellow: '#FFEB3B',    // Thunderbolt
+    energyBlue: '#2979FF',         // Electric Energy
+    stormGrey: '#263238',          // Storm Clouds
+    sparkWhite: '#FFFFFF',         // Sparks
+    voltageTeal: '#00E5FF',        // High Voltage Teal
+  },
+} as const;
+
+// =============================================================================
+// FIGURE SERIES
+// =============================================================================
+
+export const figureSeries = {
+  // BiCute Bunnies (Furyu)
+  biCuteBunnies: {
+    streetViolet: '#9C27B0',       // Street version violet
+    pearlWhite: '#F8F9FA',         // Pearl color version
+    bunnyBlack: '#1A1A1A',         // Black version
+    fishnet: '#000000',            // Real net material
+    cutePink: '#FF80AB',           // Pink accents
+  },
+  // Wonderland (Taito)
+  wonderland: {
+    aliceBlue: '#81D4FA',          // Alice apron
+    rapunzelPink: '#F48FB1',       // Rapunzel hair
+    redRidingHood: '#EF5350',      // Red hood
+    mermaidCyan: '#4DD0E1',        // Mermaid tail
   },
 } as const;

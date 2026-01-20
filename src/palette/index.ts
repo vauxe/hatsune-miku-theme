@@ -47,10 +47,16 @@ export const palette = {
   snowMiku2025: variants.snowMiku2025,
   // NEW: Racing Miku 2024
   racingMiku2024: variants.racingMiku2024,
+  // NEW: Racing Miku 2025
+  racingMiku2025: variants.racingMiku2025,
+  // NEW: Snow Miku 2026
+  snowMiku2026: variants.snowMiku2026,
   // NEW: Expanded Seasonal Variants
   seasonalExpanded: variants.seasonalExpanded,
   // NEW: Module Costumes Expanded
   modulesExpanded: variants.modulesExpanded,
+  // NEW: Miku V6 AI (2025-2026)
+  mikuV6AI: core.mikuV6AI,
 } as const;
 
 export type Palette = typeof palette;
