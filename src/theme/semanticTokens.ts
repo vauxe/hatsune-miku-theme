@@ -1,37 +1,61 @@
 /**
  * Hatsune Miku Theme - Semantic Token Colors
  *
- * Pure Miku Immersion: Every color traces to Miku's world
- * Using existing palette colors for both immersion and Lc 60+ readability
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * THE SEMANTIC TOKEN PHILOSOPHY
+ * ═══════════════════════════════════════════════════════════════════════════════
  *
- * Character Design (Lc 60+):
- * - Hair Shine (#5DE4DB, Lc ~70) → Keywords, Methods - twin-tails catching light
- * - Hair Tip (#7FEDE5, Lc ~75) → Namespaces - bright ends organizing flow
- * - Hair Highlight (#B2EBE7, Lc ~80) → Doc Comments - illuminated knowledge
- * - Skin Blush (#FFB8C8, Lc ~70) → Properties - warm attributes
- * - Negi Stalk (#9CCC65, Lc ~64) → Strings, EnumMembers - data truth
- * - Negi Bright (#69F0AE, Lc ~75) → Numbers - precise values
+ * Semantic tokens provide language-aware syntax highlighting, allowing VS Code
+ * to understand code structure beyond TextMate grammar rules.
  *
- * Miku Voices & Versions:
- * - NT Modern (#3ED1C8, Lc ~65) → Functions - modern execution
- * - Append Light (#A8EBE6, Lc ~80) → Types - airy structure
+ * Every color traces to Miku's character design, concert aesthetics, or event
+ * palettes. Pure Miku passion - no arbitrary colors.
  *
- * Miku Events & Concerts:
- * - Magical Mirai Gold (#FFD700, Lc ~80) → Enums/Constants - celebration
- * - Snow Miku Blue (#87CEEB, Lc ~70) → Interfaces - winter clarity
- * - Miku Expo Cyan (#00E5CC, Lc ~70) → Operators - velocity
- * - Racing Lime (#76FF03, Lc ~85) → Regex - neon pattern
+ * APCA CONTRAST STANDARD:
+ * All tokens maintain Lc 60+ against #15191D editor background for readability.
  *
- * Miku Hologram & Stage:
- * - Hologram Cyan (#4DD0E1, Lc ~70) → Classes - structural projection
- * - Hologram Pink (#FF80AB) → Booleans - binary state
+ * CHARACTER DESIGN → TOKEN MAPPING:
+ * ┌─────────────────────┬─────────────┬───────┬────────────────────────────────┐
+ * │ Origin              │ Hex         │ Lc    │ Token Type                     │
+ * ├─────────────────────┼─────────────┼───────┼────────────────────────────────┤
+ * │ Hair Shine          │ #5DE4DB     │ ~70   │ Keywords - twin-tails direct   │
+ * │ Skin Blush          │ #FFB8C8     │ ~70   │ Methods, Properties - warmth   │
+ * │ Negi Stalk          │ #9CCC65     │ ~64   │ Strings, EnumMembers - truth   │
+ * │ Negi Bright         │ #69F0AE     │ ~75   │ Numbers - precise values       │
+ * │ Primary Foreground  │ #C8DCD9     │ ~82   │ Variables - neutral base       │
+ * └─────────────────────┴─────────────┴───────┴────────────────────────────────┘
  *
- * Iconic PVs:
- * - Senbonzakura (#FFB7C5, Lc ~70) → Decorators - cherry adornment
+ * MIKU VOICES & VERSIONS:
+ * ┌─────────────────────┬─────────────┬───────┬────────────────────────────────┐
+ * │ Hologram Cyan       │ #4DD0E1     │ ~70   │ Functions - action projection  │
+ * │ Append Light        │ #A8EBE6     │ ~80   │ Parameters, Types - airy       │
+ * │ Boosted Purple      │ #D4BBFF     │ ~65   │ Namespaces, Decorators, Enums  │
+ * └─────────────────────┴─────────────┴───────┴────────────────────────────────┘
+ *
+ * MIKU EVENTS & CONCERTS:
+ * ┌─────────────────────┬─────────────┬───────┬────────────────────────────────┐
+ * │ Magical Mirai Gold  │ #FFD700     │ ~80   │ Constants - immutable royalty  │
+ * │ Snow Miku Blue      │ #87CEEB     │ ~70   │ Interfaces - winter clarity    │
+ * │ Pale Pink           │ #FCE4EC     │ ~88   │ Types, Structs - soft form     │
+ * │ Amber Gold          │ #FFD740     │ ~80   │ Classes - structural celebrate │
+ * └─────────────────────┴─────────────┴───────┴────────────────────────────────┘
+ *
+ * HOLOGRAM & BINARY STATES:
+ * ┌─────────────────────┬─────────────┬───────┬────────────────────────────────┐
+ * │ Hologram Pink       │ #FF80AB     │ ~55   │ Booleans - binary state        │
+ * │ Warm Orange         │ #FFAB40     │ ~70   │ Operators, Macros - velocity   │
+ * │ Racing Lime         │ #76FF03     │ ~85   │ Regex - speed patterns         │
+ * └─────────────────────┴─────────────┴───────┴────────────────────────────────┘
+ *
+ * COMMENTS - Snow Miku Muffler Grey (#B0C4DE, Lc ~65):
+ * Comments use Snow Miku's scarf grey to distinguish from teal-tinted code.
+ *
+ * For complete design documentation, see DESIGN_SYSTEM.md
  */
 
 import {
   pinks,
+  cyans,
   greys,
   foregrounds,
   accents,
@@ -60,74 +84,51 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   // KEYWORDS - Hair Shine (Twin-tails Catching Stage Lights)
   // character.hair.shine #5DE4DB - Lc ~70
   // ===========================================================================
-  keyword: {
-    foreground: character.hair.shine, // #5DE4DB
-    fontStyle: 'bold',
-  },
-  'keyword.control': {
-    foreground: character.hair.shine,
-    fontStyle: 'bold',
-  },
+  keyword: character.hair.shine, // #5DE4DB
+  'keyword.control': character.hair.shine,
 
   // ===========================================================================
-  // FUNCTIONS - NT Modern Voice (2020)
-  // versions.nt #3ED1C8 - Lc ~65
+  // FUNCTIONS - Hologram Cyan (Her Digital Holographic Projection)
+  // hologram.cyan #4DD0E1 - Lc ~70
   // ===========================================================================
-  function: versions.nt, // #3ED1C8 - NT Modern
+  function: hologram.cyan, // #4DD0E1 - Holographic action projection
   'function.declaration': {
-    foreground: versions.nt,
-    fontStyle: 'bold',
-  },
-  'function.defaultLibrary': pinks.blush, // #FFB8D4 - Soft helper (Lc ~70)
-
-  // ===========================================================================
-  // METHODS - Hair Shine (Active Expression)
-  // character.eyes.bright #5DE4DB - Lc ~70
-  // ===========================================================================
-  method: character.eyes.bright, // #5DE4DB - Hair shine
-  'method.declaration': {
-    foreground: character.eyes.bright,
-    fontStyle: 'bold',
-  },
-  'method.static': {
-    foreground: character.eyes.bright,
-    fontStyle: 'underline',
-  },
-
-  // ===========================================================================
-  // CLASSES - Hologram Cyan (Structural Projection)
-  // hologram.cyan #4DD0E1 - Lc ~70, distinct from pink properties
-  // ===========================================================================
-  class: hologram.cyan, // #4DD0E1 - Holographic structure
-  'class.declaration': {
     foreground: hologram.cyan,
-    fontStyle: 'bold',
   },
+  'function.defaultLibrary': character.hair.shine, // #5DE4DB - Hair shine for built-ins (distinct from user function cyan)
+
+  // ===========================================================================
+  // METHODS - Skin Blush (Distinct from functions and parameters)
+  // character.skin.blush #FFB8C8 - Lc ~70
+  // ===========================================================================
+  method: character.skin.blush, // #FFB8C8 - Skin blush for methods (distinct from parameter pink)
+  'method.declaration': {
+    foreground: character.skin.blush,
+  },
+  'method.static': character.skin.blush,
+
+  // ===========================================================================
+  // CLASSES - Magical Mirai Gold (Structural Celebration)
+  // accents.amber #FFD740 - Lc ~80
+  // ===========================================================================
+  class: accents.amber, // #FFD740 - Structural declaration celebration
+  'class.declaration': accents.amber,
   'class.defaultLibrary': boosted.purple, // #D4BBFF - Lc 65+
 
   // ===========================================================================
-  // INTERFACES - Snow Miku Winter Sky
+  // INTERFACES - Snow Miku Winter Blue (Winter Clarity)
   // snowMiku.y2011.winterBlue #87CEEB - Lc ~70
   // ===========================================================================
-  interface: snowMiku.y2011.winterBlue, // #87CEEB - Snow Miku sky
-  'interface.declaration': {
-    foreground: snowMiku.y2011.winterBlue,
-    fontStyle: 'bold',
-  },
+  interface: snowMiku.y2011.winterBlue, // #87CEEB - Winter clarity (distinct from keyword teal)
+  'interface.declaration': snowMiku.y2011.winterBlue,
 
   // ===========================================================================
-  // TYPES - Append Light (Airy Structure)
-  // append.light #A8EBE6 - Lc ~80
+  // TYPES - Pale Pink (Distinct from cyan keywords and interfaces)
+  // pinks.pale #FCE4EC - Lc ~88
   // ===========================================================================
-  type: append.light, // #A8EBE6 - Append Light for types
-  'type.declaration': {
-    foreground: append.light,
-    fontStyle: 'bold',
-  },
-  typeParameter: {
-    foreground: accents.gold, // #FFCA28 - Miku concert gold
-    fontStyle: 'italic',
-  },
+  type: pinks.pale, // #FCE4EC - Pale pink for types
+  'type.declaration': pinks.pale,
+  typeParameter: boosted.purple, // #D4BBFF - Purple for generics (distinct from function gold)
 
   // ===========================================================================
   // STRUCTS - Pinks Pale (Soft Structure)
@@ -136,18 +137,18 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   struct: pinks.pale, // #FCE4EC - Soft pale pink
 
   // ===========================================================================
-  // ENUMS - Magical Mirai Gold (Celebration)
-  // magicalMirai.y2017.celebrationGold #FFD700 - Lc ~80
+  // ENUMS - Boosted Purple (Distinct from class gold)
+  // boosted.purple #D4BBFF - Lc ~65
   // ===========================================================================
-  enum: magicalMirai.y2017.celebrationGold, // #FFD700 - Magical Mirai
+  enum: boosted.purple, // #D4BBFF - Purple for enum type declarations
   enumMember: character.negi.stalk, // #9CCC65 - Negi stalk (like strings - literal values)
 
   // ===========================================================================
-  // NAMESPACES & MODULES - Hair Tip (Organized Flow)
-  // character.hair.tip #7FEDE5 - Lc ~75
+  // NAMESPACES & MODULES - Boosted Purple (Organizational Structure)
+  // boosted.purple #D4BBFF - Lc ~65 (distinct from types/functions)
   // ===========================================================================
-  namespace: character.hair.tip, // #7FEDE5 - Hair Tip
-  module: character.hair.tip,
+  namespace: boosted.purple, // #D4BBFF - Boosted purple for organizational structure
+  module: boosted.purple,
 
   // ===========================================================================
   // VARIABLES - Neutral Foreground
@@ -167,13 +168,10 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   'property.declaration': character.skin.blush,
 
   // ===========================================================================
-  // PARAMETERS - Pinks Blush (Bound Input)
-  // pinks.blush #FFB8D4 - Lc ~70
+  // PARAMETERS - Append Light (Lighter teal, distinct from function cyan)
+  // append.light #A8EBE6 - Lc ~80
   // ===========================================================================
-  parameter: {
-    foreground: pinks.blush, // #FFB8D4 - Tied input
-    fontStyle: 'italic',
-  },
+  parameter: append.light, // #A8EBE6 - Lighter teal (distinct from function hologram cyan)
 
   // ===========================================================================
   // STRINGS - Negi Stalk (Data Truth)
@@ -194,23 +192,22 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   number: character.negi.bright, // #69F0AE - Numeric clarity
 
   // ===========================================================================
-  // BOOLEANS - Hologram Pink (Binary State)
-  // hologram.pink #FF80AB - Lc ~55 (acceptable for keywords)
+  // BOOLEANS - Pinks Blush (Binary State, Boosted for Readability)
+  // pinks.blush #FFB8D4 - Lc ~70 (boosted from hologram.pink for APCA compliance)
   // ===========================================================================
-  boolean: hologram.pink, // #FF80AB - Binary state
+  boolean: pinks.blush, // #FFB8D4 - Binary state (boosted from #FF80AB)
 
   // ===========================================================================
-  // OPERATORS - Miku Expo Cyan (Velocity Logic)
-  // mikuExpo.y2025.asiaCyan #00E5CC - Lc ~70
+  // OPERATORS - Warm Orange (Velocity Logic, distinct from keywords)
+  // accents.orange #FFAB40 - Lc ~70
   // ===========================================================================
-  operator: mikuExpo.y2025.asiaCyan, // #00E5CC - Racing velocity
+  operator: accents.orange, // #FFAB40 - Warm orange for operators
 
   // ===========================================================================
-  // COMMENTS - Platinum (Quiet Guidance)
-  // greys.platinum #B0BEC5 - Lc ~60
+  // COMMENTS - Blue-tinted gray (distinct from teal-tinted variable)
   // ===========================================================================
   comment: {
-    foreground: greys.platinum, // #B0BEC5 - Quiet guidance
+    foreground: snowMiku.y2011.mufflerGrey, // #B0C4DE - Snow Miku's scarf (Lc ~65, distinct from teal)
     fontStyle: 'italic',
   },
 
@@ -224,13 +221,10 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   },
 
   // ===========================================================================
-  // DECORATORS - Senbonzakura Cherry (Adornment)
-  // iconicPVs.senbonzakura.sakuraPink #FFB7C5 - Lc ~70
+  // DECORATORS - Boosted Purple (Meta-programming stands apart from properties)
+  // boosted.purple #D4BBFF - Lc ~65
   // ===========================================================================
-  decorator: {
-    foreground: iconicPVs.senbonzakura.sakuraPink, // #FFB7C5 - Senbonzakura
-    fontStyle: 'italic',
-  },
+  decorator: boosted.purple, // #D4BBFF - Purple for decorators (distinct from property pink)
 
   // ===========================================================================
   // MACROS - Accents Orange (Spark Expansion)
@@ -238,7 +232,6 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   // ===========================================================================
   macro: {
     foreground: accents.orange, // #FFAB40 - Hibana spark
-    fontStyle: 'bold',
   },
 
   // ===========================================================================

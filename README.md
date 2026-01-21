@@ -25,7 +25,7 @@ A VS Code dark theme inspired by Hatsune Miku, optimized for long coding session
 
 ## Supported Languages
 
-TypeScript, JavaScript, TSX, HTML, CSS, SCSS, JSON, Rust, Go, C, C++, Java, C#, Python, Ruby, PHP, SQL, YAML, XML, Dockerfile, Shell, Makefile, TOML, Markdown
+TypeScript, JavaScript, TSX, HTML, CSS, SCSS, JSON, Rust, Go, C, C++, Java, C#, Python, Ruby, PHP, SQL, YAML, XML, Dockerfile, Shell, Makefile, Markdown
 
 ## Install
 

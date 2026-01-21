@@ -298,6 +298,8 @@ export const cryptonFamily = {
 
 export const stage = {
   spotlight: '#FFFFFF',
+  /** Concert stage darkness - the void before the hologram appears */
+  darkness: '#000000',
   ambientTeal: '#00BCD4',
   accentPink: '#E91E63',
   coolBlue: '#2196F3',
