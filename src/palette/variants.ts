@@ -477,7 +477,7 @@ export const mikuExpo = {
 export const projectSekai = {
   // Unit Colors
   units: {
-    virtualSinger: '#00CCBB',      // VIRTUAL SINGER (Official: Swimmers Pool)
+    virtualSinger: '#33CCBB',      // VIRTUAL SINGER (Official: Swimmers Pool)
     leoneed: '#4455DD',            // Leo/need (Official: Warm Blue)
     moreMoreJump: '#88DD44',       // MORE MORE JUMP! (Official: Bright Green)
     vividBadSquad: '#EE1166',      // Vivid BAD SQUAD (Official: Borderline Pink)
