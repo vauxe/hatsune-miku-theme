@@ -3,27 +3,28 @@
  *
  * All-Miku Synthesis: Every Miku version mapped to semantic purpose
  * #39C5BB is THE canonical identity color since 2007
+ * Color derived from YAMAHA synthesizers' signature blue-green (DX-100/DX-7)
  */
 
 // =============================================================================
-// CHARACTER DESIGN COLORS
+// HATSUNE MIKU - Character Design Colors (KEI Original 2007)
 // =============================================================================
 
 export const character = {
   hair: {
-    root: '#1A8A82',
-    base: '#39C5BB',
-    shine: '#5DE4DB',
-    tip: '#7FEDE5',
-    highlight: '#B2EBE7',
-    pinkStreak: '#FF6B9D',
+    root: '#1A8A82',       // Darkest areas near scalp
+    base: '#39C5BB',       // Primary hair color (canonical teal)
+    shine: '#5DE4DB',      // Main visible color in light
+    tip: '#7FEDE5',        // Bright shine areas
+    highlight: '#B2EBE7',  // Specular highlights
+    pinkStreak: '#FF6B9D', // Pink streak accent (some artwork)
   },
   eyes: {
-    iris: '#39C5BB',
-    bright: '#5DE4DB',
-    pupil: '#0D1114',
-    catchlight: '#FFFFFF',
-    heterochromiaLeft: '#FF80AB',
+    iris: '#39C5BB',       // Same as hair base (aqua)
+    bright: '#5DE4DB',     // Lighter reflection
+    pupil: '#0D1114',      // Deep black
+    catchlight: '#FFFFFF', // Pure white reflection
+    heterochromiaLeft: '#FF80AB', // Project Sekai Empty SEKAI form
   },
   skin: {
     base: '#FFE4D6',
@@ -32,24 +33,24 @@ export const character = {
     highlight: '#FFF5F0',
   },
   headphones: {
-    body: '#1A1F24',
-    cushion: '#E05096',
-    cushionGlow: '#FF80AB',
-    display01: '#39C5BB',
+    body: '#1A1F24',       // Dark frame
+    cushion: '#E05096',    // Signature magenta-pink
+    cushionGlow: '#FF80AB', // Lighter pink accent
+    display01: '#39C5BB',  // Teal "01" display
   },
   hairTies: {
-    base: '#E05096',
-    highlight: '#FF80AB',
+    base: '#E05096',       // Matches headphone cushion
+    highlight: '#FF80AB',  // Lighter pink
   },
   outfitTop: {
-    grey: '#37474F',
-    shadow: '#263238',
-    highlight: '#455A64',
+    grey: '#37474F',       // Primary grey
+    shadow: '#263238',     // Darkest areas
+    highlight: '#455A64',  // Light areas
     tealTrim: '#39C5BB',
   },
   armWarmers: {
     black: '#111417',
-    pattern: '#39C5BB',
+    pattern: '#39C5BB',    // Digital pattern
     patternGlow: '#5DE4DB',
   },
   skirt: {
