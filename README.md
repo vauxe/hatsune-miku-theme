@@ -11,18 +11,6 @@ A VS Code dark theme inspired by Hatsune Miku, optimized for long coding session
 - **Cyber-Diva UI** - Holographic notifications, data stream status bar
 - **24 languages** with dedicated syntax highlighting
 
-## Color Philosophy
-
-| Element | Color | Source |
-|---------|-------|--------|
-| Keywords | `#39C5BB` | Miku V2 Classic (identity) |
-| Functions | `#5DE4DB` | Eyes bright (expression) |
-| Classes | `#87CEEB` | Snow Miku (winter blue) |
-| Methods | `#FF80AB` | Soft pink (flow) |
-| Types | `#A8EBE6` | Append Light (structure) |
-| Strings | `#9CCC65` | Negi green (content) |
-| Numbers | `#69F0AE` | Negi bright (data) |
-
 ## Supported Languages
 
 TypeScript, JavaScript, TSX, HTML, CSS, SCSS, JSON, Rust, Go, C, C++, Java, C#, Python, Ruby, PHP, SQL, YAML, XML, Dockerfile, Shell, Makefile, Markdown
