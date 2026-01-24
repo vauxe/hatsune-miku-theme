@@ -33,6 +33,10 @@ export const mikuAppend = {
     headphones: '#2D2D2D',
     glow: '#00FFFF',       // Cyan glow accents
   },
+
+  marks: {
+    tattoo: '#E60033',
+  },
 } as const;
 
 // =============================================================================
@@ -62,8 +66,15 @@ export const mikuV3 = {
 
   accessories: {
     headphones: '#1A1F24',
-    hairTies: '#E05096',   // Magenta pink
+    hairTies: {
+      base: '#1A1F24',
+      outline: '#E05096',
+    },
     tie: '#39C5BB',
+  },
+
+  marks: {
+    tattoo: '#E60033',
   },
 } as const;
 
@@ -146,6 +157,10 @@ export const mikuV4Chinese = {
   accessories: {
     hairOrnament: '#FFD700',
   },
+
+  marks: {
+    tattoo: '#E60033',
+  },
 } as const;
 
 // =============================================================================
@@ -176,6 +191,14 @@ export const mikuNT = {
   accessories: {
     headphones: '#1A1F24',
     microphone: '#39C5BB',
+    hairTies: {
+      base: '#F8F9FA',    // White/Silver
+      outline: '#E05096', // Pink accent
+    },
+  },
+
+  marks: {
+    tattoo: '#E60033',
   },
 } as const;
 

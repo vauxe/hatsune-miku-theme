@@ -28,6 +28,12 @@ export const character = {
     shadow: '#E8C8BC',
     blush: '#FFB8C8',
     highlight: '#FFF5F0',  // Skin highlight
+    nails: '#39C5BB',      // Teal nail polish
+  },
+
+  // Marks - Signature 01 Tattoo
+  marks: {
+    tattoo: '#E60033', // Miku Red
   },
 
   // Headphones - signature accessory
@@ -37,10 +43,10 @@ export const character = {
     display: '#39C5BB',       // Teal "01" display
   },
 
-  // Hair ties - cube-shaped
+  // Hair ties - cube-shaped (Black with magenta border)
   hairTies: {
-    base: '#E05096',          // Matches headphone cushion
-    highlight: '#FF80AB',
+    base: '#111417',          // Black/Dark Grey body
+    outline: '#E05096',       // Magenta pink border
   },
 
   // Top - grey sleeveless with teal trim
@@ -54,12 +60,14 @@ export const character = {
   armWarmers: {
     base: '#111417',
     pattern: '#39C5BB',
+    trim: '#39C5BB',       // Teal cuff trim
   },
 
   // Skirt - black pleated with teal trim
   skirt: {
     base: '#15191D',
     trim: '#39C5BB',
+    accessory: '#A1B3B6',  // Wallet chain (Silver)
   },
 
   // Boots - thigh-high black
@@ -67,6 +75,7 @@ export const character = {
     base: '#111417',
     hardware: '#263238',   // Boot hardware
     accent: '#39C5BB',
+    soles: '#39C5BB',      // Teal soles
   },
 
   // Tie - teal necktie
@@ -82,10 +91,20 @@ export const character = {
     frame: '#37474F',
   },
 
-  // Negi (leek) - iconic prop
   negi: {
     stalk: '#9CCC65',
     bright: '#69F0AE',
     white: '#E8F5E9',
   },
+} as const;
+
+/**
+ * Official Piapro Color Specification
+ * The legally registered color by Crypton Future Media
+ */
+export const piapro = {
+  hair: {
+    base: '#33BBAD', // Official Piapro Turquoise
+  },
+  // Re-export other core values if needed, or consumers can merge
 } as const;
