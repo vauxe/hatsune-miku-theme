@@ -1,134 +1,169 @@
 /**
  * Snow Miku - Sapporo Snow Festival (Annual since 2010)
  *
- * Official winter collaboration with Sapporo Snow Festival
- * Each year features a unique design chosen by fan vote
+ * Snow Miku's signature feature: white/silver hair instead of teal
+ * Each year has a unique costume theme
  */
 
+// Core Snow Miku characteristics (shared across years)
+export const snowMikuCore = {
+  // Hair - white/silver instead of teal
+  hair: {
+    base: '#FFFFFF',       // Pure white
+    tint: '#E8F4F8',       // Very pale blue
+    icyBlue: '#B8E0E8',    // Light icy blue variant
+  },
+
+  // Eyes - usually light blue
+  eyes: {
+    iris: '#87CEEB',       // Sky blue
+  },
+
+  // Companion Yukine (rabbit, appears 2014+)
+  yukine: {
+    body: '#FFFFFF',
+    accent: '#B8E0E8',
+  },
+} as const;
+
+// Annual designs - character costume colors only
 export const snowMiku = {
-  // Annual Designs
-  y2010: {
-    theme: 'First Snow Miku - Pure white with pale blue',
-    white: '#FFFFFF',
-    paleBlue: '#E3F2FD',
-    accent: '#90CAF9',
-  },
-  y2011: {
-    theme: 'Winter Warmth - Scarf and Earmuffs',
-    warmWhite: '#F8F8FF',
-    winterBlue: '#87CEEB',
-    mufflerGrey: '#B0C4DE',
-    earmuffPink: '#FFB6C1',
-    mittens: '#ADD8E6',
-    coatTrim: '#E6E6FA',
-  },
   y2012: {
-    theme: 'Fluffy Coat - Ice Jewel',
-    coatBlue: '#29B6F6',
-    fluffyWhite: '#FFFFFF',
-    jewelCyan: '#00E5FF',
-    ribbonBlack: '#263238',
+    // Fluffy Coat design
+    hair: '#FFFFFF',
+    outfit: {
+      coat: '#29B6F6',     // Light blue coat
+      pompoms: '#B3E5FC',  // Pale blue pom-poms
+      ribbon: '#263238',   // Dark ribbon
+    },
   },
+
   y2013: {
-    theme: 'Strawberry White Kimono - Wagashi',
-    kimonoWhite: '#FAFAFA',
-    strawberryRed: '#EF5350',
-    leafGreen: '#9CCC65',
-    hoodPink: '#F48FB1',
+    // Strawberry White Kimono
+    hair: '#FFFFFF',
+    outfit: {
+      kimono: '#FAFAFA',   // White kimono
+      obi: '#EF5350',      // Strawberry red
+      hood: '#F48FB1',     // Pink hood
+    },
+    accessories: {
+      leafAccent: '#9CCC65',
+    },
   },
+
   y2014: {
-    theme: 'Magical Snow - Witch of the North',
-    magicBlue: '#304FFE',
-    spellPurple: '#7C4DFF',
-    goldAccent: '#FFD700',
-    bookBrown: '#8D6E63',
+    // Magical Girl
+    hair: '#E8F4F8',
+    outfit: {
+      dress: '#304FFE',    // Magic blue
+      cape: '#7C4DFF',     // Spell purple
+      trim: '#FFD700',     // Gold
+    },
   },
+
   y2015: {
-    theme: 'Snow Bell - Lily of the Valley',
-    bellWhite: '#F5F5F5',
-    leafGreen: '#81C784',
-    flowerPink: '#F48FB1',
-    stemGreen: '#66BB6A',
+    // Lily of the Valley
+    hair: '#FFFFFF',
+    outfit: {
+      dress: '#F5F5F5',    // White bell dress
+      leafAccent: '#81C784',
+      flowerPink: '#F48FB1',
+    },
   },
-  y2016: {
-    theme: 'Snow Owl - Winter Sports',
-    sportBlue: '#1E88E5',
-    energyOrange: '#FF9800',
-    snowWhite: '#FAFAFA',
-    knitGrey: '#CFD8DC',
-  },
+
   y2017: {
-    theme: 'Twinkle Snow - Starry Night',
-    midnightBlue: '#1A237E',
-    constellationGold: '#FFD700',
-    nebulaPurple: '#9C27B0',
-    starGlow: '#FFF176',
+    // Twinkle Snow - Starry Night
+    hair: '#E8F4F8',
+    outfit: {
+      dress: '#1A237E',    // Midnight blue
+      frills: '#B8E0E8',   // Pale blue
+      ribbons: '#1A237E',
+    },
+    accessories: {
+      stars: '#FFD700',    // Gold stars
+      snowflakes: '#FFFFFF',
+    },
   },
+
   y2018: {
-    theme: 'Crane Priestess - Red-crowned Crane',
-    pureWhite: '#FFFFFF',
-    craneRed: '#D32F2F',
-    featherBlack: '#212121',
-    shrineGold: '#FFC107',
+    // Crane Priestess
+    hair: '#FFFFFF',
+    outfit: {
+      robe: '#FFFFFF',     // Pure white
+      accent: '#D32F2F',   // Crane red
+      trim: '#212121',     // Black feather
+    },
+    accessories: {
+      ornament: '#FFC107', // Shrine gold
+    },
   },
+
   y2019: {
-    theme: 'Snow Princess - Hard Crystal',
-    dressBlue: '#448AFF',
-    tiaraSilver: '#ECEFF1',
-    royalGold: '#FFD700',
-    capeWhite: '#F8FDFF',
+    // Snow Princess
+    hair: '#E8F4F8',
+    outfit: {
+      dress: '#448AFF',    // Blue dress
+      cape: '#F8FDFF',     // White cape
+    },
+    accessories: {
+      tiara: '#ECEFF1',    // Silver
+      trim: '#FFD700',     // Gold
+    },
   },
-  y2020: {
-    theme: 'Snow Parade - Marching Band',
-    uniformBlue: '#1565C0',
-    notesGold: '#FFCA28',
-    paradeWhite: '#FFFFFF',
-    featherGreen: '#69F0AE',
-  },
+
   y2021: {
-    theme: 'Glowing Snow - Illumination',
-    glowCyan: '#84FFFF',
-    lightLilac: '#E1BEE7',
-    candleWhite: '#FFF9C4',
-    nightNavy: '#283593',
+    // Glowing Snow - Illumination
+    hair: '#B8E0E8',       // Turquoise tint
+    outfit: {
+      dress: '#E1BEE7',    // Lilac dress
+      cape: '#B3E5FC',     // Pale blue
+      beret: '#B8E0E8',
+    },
+    accessories: {
+      musicNote: '#FFD700',
+      bow: '#84FFFF',      // Cyan glow
+    },
   },
+
   y2022: {
-    theme: 'Grand Voyage - Crab Captain',
-    oceanBlue: '#0277BD',
-    whiteCap: '#FFFFFF',
-    crabRed: '#FF5252',
-    goldButtons: '#FFC107',
+    // Grand Voyage - Captain
+    hair: '#FFFFFF',
+    outfit: {
+      jacket: '#FFFFFF',   // White jacket
+      shorts: '#1A1A1A',   // Black
+      legwear: '#FF5252',  // Red stripes
+    },
+    accessories: {
+      hat: '#FFFFFF',
+      buttons: '#FFC107',  // Gold
+      gloves: '#1A1A1A',
+    },
   },
-  y2023: {
-    theme: 'Serene Winter - Dawn Sky',
-    skyBlue: '#81D4FA',
-    dawnPink: '#F48FB1',
-    cloudWhite: '#E1F5FE',
-    sunOrange: '#FFCC80',
-  },
+
   y2024: {
-    theme: 'Winter Delicacy - Kamui Gourmet (15th Anniversary)',
-    feastBrown: '#8D6E63',
-    creamWhite: '#FFF8E1',
-    savoryOrange: '#FFAB91',
-    accentTeal: '#26A69A',
+    // Winter Delicacy - Wa-maid
+    hair: '#FFFFFF',
+    outfit: {
+      dress: '#FFF8E1',    // Cream
+      apron: '#FFFFFF',    // White frilled
+      sleeves: '#8D6E63',  // Brown accents
+    },
+    accessories: {
+      headpiece: '#FFAB91',
+      trim: '#26A69A',     // Teal accent
+    },
   },
+
   y2025: {
-    theme: 'Sparkling Snow Material - by tokki',
-    sparkleWhite: '#FFFFFF',
-    crystalBlue: '#B3E5FC',
-    shimmerSilver: '#E0E0E0',
-    accentPink: '#F8BBD9',
-  },
-  // Core elements across all years
-  core: {
-    snowflakeWhite: '#FFFFFF',
-    iceCrystal: '#E0F7FA',
-    winterSky: '#BBDEFB',
-    frostBlue: '#90CAF9',
-    arcticCyan: '#80DEEA',
-    auroraGreen: '#69F0AE',
-    auroraPink: '#FF80AB',
-    auroraPurple: '#B388FF',
+    // Sparkling Snow Material
+    hair: '#FFFFFF',
+    outfit: {
+      dress: '#B3E5FC',    // Crystal blue
+      trim: '#E0E0E0',     // Silver shimmer
+    },
+    accessories: {
+      snowflakes: '#FFFFFF',
+      accent: '#F8BBD9',   // Pink
+    },
   },
 } as const;

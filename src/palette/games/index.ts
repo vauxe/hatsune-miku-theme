@@ -1,161 +1,195 @@
 /**
- * Games - Project Sekai, Project DIVA, and Game Crossovers
+ * Games - Project DIVA Modules and Project Sekai
  *
- * Miku's appearances in video games and interactive media
+ * Iconic costume designs from Miku's game appearances
  */
 
 // =============================================================================
-// PROJECT SEKAI - Miku in SEKAI (Verified from SEGA/Colorful Palette)
+// PROJECT SEKAI - Miku's appearance in game
 // =============================================================================
 
 export const projectSekai = {
-  // Miku's Official Image Color in Project SEKAI
-  miku: {
-    imageColor: '#33CCBB',         // Official Miku image color in SEKAI
-    virtualSingerUnit: '#00CCBB',  // VIRTUAL SINGER unit color
+  // Standard SEKAI Miku
+  standard: {
+    hair: '#33CCBB',       // Slightly different from original
+    eyes: '#33CCBB',
   },
-  // Empty SEKAI (Miku's unique form in game story)
-  // Special heterochromia form representing loneliness/connection
+
+  // Empty SEKAI form - heterochromia
   emptySekai: {
-    heteroTurquoise: '#33CCBB',    // Left eye - teal
-    heteroPink: '#FF80AB',         // Right eye - pink
-    classroomPink: '#FF6B9D',      // Classroom highlights
-    loneliness: '#1A1F24',         // Empty void background
-    desks: '#2A2A2A',              // Empty classroom desks
-  },
-  // Different SEKAI world Miku appearances
-  sekaiWorlds: {
-    leoneedSchool: '#4455DD',      // School rooftop SEKAI - blue tint
-    mmjStage: '#88DD44',           // Idol stage SEKAI - green spotlights
-    vbsStreet: '#EE1166',          // Street SEKAI - pink neon
-    wxsWonderland: '#FF9900',      // Wonderland SEKAI - orange carnival
-    nightcordRoom: '#884499',      // Nightcord SEKAI - purple darkness
+    hair: '#33CCBB',
+    eyeLeft: '#33CCBB',    // Teal
+    eyeRight: '#FF80AB',   // Pink - represents loneliness/connection
   },
 } as const;
 
 // =============================================================================
-// PROJECT DIVA - Iconic Modules/Costumes
+// PROJECT DIVA MODULES - Iconic Song Costumes
 // =============================================================================
 
-export const projectDiva = {
-  // Append Miku (2010) - Darker mature version
-  append: {
-    theme: 'Append - Dark Futuristic',
-    darkTeal: '#1A3A4A',
-    metallicSilver: '#A1B3B6',
-    bodysuit: '#1A1A1A',
-    glowCyan: '#00D4D4',
-    circuitPattern: '#39C5BB',
+export const deepSeaGirl = {
+  // Hair - teal with darker tips
+  hair: {
+    base: '#39C5BB',
+    tip: '#0A3044',        // Fades to deep navy
   },
-  // Deep Sea Girl / Shinkai Shoujo (yuuyu-P)
-  deepSeaGirl: {
-    theme: 'Deep Sea Girl - Ocean',
-    oceanDeep: '#0A2540',
-    aquamarine: '#4AC9C9',
-    pearlWhite: '#E8F0F0',
-    darkNavy: '#0D1B2A',
-    bioluminescent: '#00CED1',
+
+  // Outfit - deep sea dress
+  outfit: {
+    dress: '#0A3044',      // Deep navy blue
+    underskirt: '#4EC5C1', // Aqua frills
+    ribbon: '#5FCFCF',     // Turquoise ribbons
   },
-  // Cat Ears / Nekomimi Switch
-  catEars: {
-    theme: 'Nekomimi - Playful Cat',
-    classicTeal: '#39C5BB',
-    softPink: '#FFB6C1',
-    creamWhite: '#FFFDD0',
-    catBlack: '#1A1A1A',
-    bellGold: '#FFD700',
-  },
-  // Melt (ryo/supercell)
-  melt: {
-    theme: 'Melt - Summer Warmth',
-    warmCream: '#F5DEB3',
-    softOrange: '#FFCC99',
-    lightBrown: '#D2B48C',
-    gentleYellow: '#FFFACD',
-  },
-  // Love is War (ryo/supercell)
-  loveIsWar: {
-    theme: 'Love is War - Military',
-    uniformBlack: '#1A1A1A',
-    uniformWhite: '#FFFFFF',
-    bloodRed: '#DC143C',
-    mutedGray: '#848F96',
-  },
-  // Rolling Girl (wowaka)
-  rollingGirl: {
-    theme: 'Rolling Girl - School',
-    uniformNavy: '#1E3050',
-    shirtWhite: '#FFFFFF',
-    tieRed: '#CD5C5C',
-    bandageWhite: '#F5F5F5',
-  },
-  // World is Mine (ryo/supercell)
-  worldIsMine: {
-    theme: 'World is Mine - Princess',
-    royalBlack: '#1A1A1A',
-    elegantWhite: '#FFFFFF',
-    goldTrim: '#FFD700',
-    roseRed: '#C41E3A',
-    crownSilver: '#C0C0C0',
-  },
-  // Senbonzakura (Kurousa-P)
-  senbonzakura: {
-    theme: 'Senbonzakura - Taisho Military',
-    militaryGreen: '#8B8B00',
-    imperialRed: '#8B0000',
-    goldAccent: '#FFD700',
-    uniformBlack: '#1A1A1A',
-  },
-  // Gothic/Dark Angel
-  gothic: {
-    theme: 'Gothic - Dark Angel',
-    deepPurple: '#4B0082',
-    gothicBlack: '#000000',
-    wingGray: '#C0C0C0',
-    crimsonAccent: '#DC143C',
-  },
-  // 2D Dream Fever / Alien Alien
-  alienAlien: {
-    theme: 'Alien Alien - Psychedelic',
-    neonGreen: '#39FF14',
-    hotPink: '#FF69B4',
-    electricBlue: '#00FFFF',
-    spaceBlack: '#000000',
+
+  accessories: {
+    beads: '#E8F4F8',      // Pearl/shell decorations
+    shoes: '#0D1B2A',      // Dark navy
   },
 } as const;
 
-// =============================================================================
-// GAME CROSSOVERS - Guest Appearances in Other Games
-// =============================================================================
+export const catEars = {
+  hair: {
+    base: '#39C5BB',
+  },
 
-export const gameCrossovers = {
-  // Persona 4: Dancing All Night (2015) - Soejima design
-  persona4dan: {
-    theme: 'Persona 4 Dancing All Night',
-    designer: 'Shigenori Soejima',
-    year: 2015,
-    turtleneckWhite: '#FFFFFF',
-    skirtBlack: '#1A1A1A',
-    buttonBlack: '#000000',
-    headphonePink: '#FF69B4',
-    mikuTeal: '#39C5BB',
+  // Outfit - black cat hoodie
+  outfit: {
+    hoodie: '#1A1A1A',     // Black
+    trim: '#39C5BB',       // Teal trim
+    skirt: '#1A1A1A',
   },
-  // 7th Dragon 2020 - Shirow Miwa design
-  dragon2020: {
-    theme: '7th Dragon 2020',
-    designer: 'Shirow Miwa',
-    year: 2011,
-    mikuTeal: '#39C5BB',
-    futuristicWhite: '#F0F0F0',
-    militaryGray: '#4A4A4A',
-    accentRed: '#CC3333',
+
+  accessories: {
+    ears: '#1A1A1A',       // Black cat ears
+    earInner: '#FFB6C1',   // Pink inner
+    pawGloves: '#FFFEF0',  // Cream paws
+    pawPads: '#FF9EB5',    // Pink pads
+    bell: '#FFD700',       // Gold bell
+    collar: '#CC3333',     // Red collar
+    tail: '#1A1A1A',
   },
-  // Ninjala Collaboration (2021)
-  ninjala: {
-    theme: 'Ninjala x Hatsune Miku',
-    year: 2021,
-    mikuTeal: '#39C5BB',
-    ninjaBlack: '#1A1A1A',
-    actionPink: '#FF4081',
+} as const;
+
+export const loveIsWar = {
+  hair: {
+    base: '#39C5BB',
+  },
+
+  // Outfit - military uniform
+  outfit: {
+    jacket: '#FFFFFF',     // White military jacket
+    jacketTrim: '#000000', // Black piping
+    undershirt: '#1A1A1A',
+    skirt: '#1A1A1A',
+  },
+
+  accessories: {
+    epaulettes: '#D4AF37', // Gold
+    armband: '#DC143C',    // Red heart
+    megaphone: '#FFFFFF',
+    megaphoneCross: '#DC143C',
+    boots: '#1A1A1A',
+    hairRibbons: '#1A1A1A',
+  },
+} as const;
+
+export const worldIsMine = {
+  hair: {
+    base: '#39C5BB',
+  },
+
+  // Outfit - princess dress
+  outfit: {
+    bodice: '#1A1A1A',     // Black corset
+    skirt: '#FFFFFF',      // White tulle
+    skirtTrim: '#1A1A1A',  // Black lace
+    ribbon: '#1A1A1A',
+  },
+
+  accessories: {
+    crown: '#C0C0C0',      // Silver crown
+    gloves: '#FFFFFF',     // White gloves
+    rose: '#8B0000',       // Deep red rose
+    shoes: '#1A1A1A',
+    hairBows: '#1A1A1A',   // Large black bows
+  },
+} as const;
+
+export const senbonzakura = {
+  hair: {
+    base: '#39C5BB',
+  },
+
+  // Outfit - Taisho era military
+  outfit: {
+    cap: '#556B2F',        // Olive green
+    capBand: '#D4AF37',    // Gold
+    jacket: '#6B8E23',     // Army olive
+    jacketButtons: '#D4AF37',
+    epaulettes: '#8B0000', // Burgundy
+    hakama: '#722F37',     // Maroon
+    obi: '#D4AF37',        // Gold sash
+  },
+
+  accessories: {
+    boots: '#1A1A1A',
+    hairOrnament: '#FFB7C5', // Cherry blossom
+    hairOrnamentGold: '#D4AF37',
+  },
+} as const;
+
+export const gothic = {
+  hair: {
+    base: '#39C5BB',
+  },
+
+  // Outfit - dark angel
+  outfit: {
+    dress: '#1A0A2E',      // Deep purple-black
+    corset: '#0A0A0A',     // Black
+    corsetLacing: '#4B0082', // Purple
+    skirtLayers: '#2D0A4E',
+    wings: '#4A4A4A',      // Dark gray feathers
+    wingHighlight: '#8A8A8A',
+  },
+
+  accessories: {
+    headpiece: '#0A0A0A',
+    gems: '#663399',       // Amethyst
+    jewelry: '#C0C0C0',    // Silver crosses
+    roses: '#8B0000',      // Blood red
+    stockings: '#0A0A0A',
+    boots: '#0A0A0A',
+  },
+} as const;
+
+export const melt = {
+  hair: {
+    base: '#39C5BB',
+  },
+
+  // Outfit - summer casual
+  outfit: {
+    dress: '#F5DEB3',      // Warm cream
+    accent: '#FFCC99',     // Soft orange
+    trim: '#D2B48C',       // Light brown
+  },
+} as const;
+
+export const rollingGirl = {
+  hair: {
+    base: '#39C5BB',
+  },
+
+  // Outfit - school uniform
+  outfit: {
+    blazer: '#1E3050',     // Navy
+    shirt: '#FFFFFF',
+    tie: '#CD5C5C',        // Red
+    skirt: '#1E3050',
+  },
+
+  accessories: {
+    bandages: '#F5F5F5',   // White bandages
   },
 } as const;

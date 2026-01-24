@@ -1,185 +1,171 @@
 /**
  * Racing Miku - Good Smile Racing (Annual since 2008)
  *
- * Official mascot of Good Smile Racing team in Super GT series
- * Each year features a unique race queen design
+ * Race queen costume designs - hair stays standard teal
+ * Each year features a unique race queen outfit
  */
 
 export const racingMiku = {
-  // Team core colors (Good Smile Racing)
-  team: {
-    gsmGreen: '#00A94F',       // Good Smile Racing green
-    gsmTeal: '#39C5BB',        // Miku's signature teal
-    teamWhite: '#FFFFFF',
-    carbonBlack: '#1A1A1A',
-    checkeredBlack: '#212121',
-    metallicSilver: '#B0BEC5',
-    chromeSilver: '#E0E0E0',
-  },
-  // Annual designs
-  y2008: {
-    theme: 'First Racing Miku - RQ Ver.',
-    designer: 'Initial design',
-    suitWhite: '#FFFFFF',
-    accentTeal: '#39C5BB',
-    trimBlack: '#1A1A1A',
-  },
-  y2009: {
-    theme: 'Early Racing Design',
-    suitWhite: '#FFFFFF',
-    accentTeal: '#39C5BB',
-    trimBlack: '#1A1A1A',
-  },
+  // Standard across all years
+  hair: '#39C5BB',
+  eyes: '#39C5BB',
+
   y2010: {
-    theme: 'Orange Mechanic - by redjuice',
-    designer: 'redjuice',
-    raceOrange: '#FF6B00',
-    suitWhite: '#FFFFFF',
-    redAccent: '#FF0000',
-    trimBlack: '#212121',
+    // by redjuice - Mechanic style
+    outfit: {
+      suit: '#FFFFFF',     // White center
+      panels: '#FF6B00',   // Orange side panels
+      trim: '#FF0000',     // Red trim
+    },
   },
+
   y2011: {
-    theme: 'White & Black - by Yuichi Murakami',
-    designer: 'Yuichi Murakami',
-    suitWhite: '#FFFFFF',
-    sideBlack: '#000000',
-    accentTeal: '#39C5BB',
+    // by Yuichi Murakami - Cyber race queen
+    outfit: {
+      suit: '#FFFFFF',     // White high-leg
+      panels: '#000000',   // Black sides
+      accent: '#39C5BB',   // Teal lines
+    },
   },
+
   y2012: {
-    theme: 'BMW Style - by GAN',
-    designer: 'GAN',
-    pureWhite: '#FFFFFF',
-    accentTeal: '#39C5BB',
-    trimBlack: '#1A1A1A',
+    // by GAN - BMW inspired
+    outfit: {
+      suit: '#FFFFFF',     // White with mesh
+      accent: '#39C5BB',   // Teal
+      boots: '#1A1A1A',    // Black/white split
+    },
   },
+
   y2013: {
-    theme: 'Leotard Style - by Saitom',
-    designer: 'Saitom, Shimazaki Mari',
-    suitWhite: '#FFFFFF',
-    armBlack: '#000000',
-    accentTeal: '#39C5BB',
+    // by Saitom/Mari Shimazaki - Leotard style
+    outfit: {
+      leotard: '#FFFFFF',  // White
+      armCovers: '#000000', // Black
+      accent: '#39C5BB',
+    },
   },
+
   y2014: {
-    theme: 'Mechanical Turbine - by Oguchi',
-    designer: 'Oguchi',
-    suitWhite: '#FFFFFF',
-    metallicSilver: '#C0C0C0',
-    turbineAccent: '#39C5BB',
+    // by Oguchi - Turbine mechanic
+    outfit: {
+      suit: '#FFFFFF',
+      metallic: '#C0C0C0', // Silver mechanical parts
+      accent: '#39C5BB',
+    },
   },
+
   y2015: {
-    theme: 'Princess Knight - by Taiki',
-    designer: 'Taiki',
-    suitWhite: '#FFFFFF',
-    gradientAqua: '#00FFFF',
-    gradientGreen: '#00FF7F',
-    goldFrills: '#FFD700',
+    // by Taiki - Princess Knight
+    hair: {
+      base: '#39C5BB',
+      gradient: '#00FF7F', // Cyan to green gradient
+    },
+    outfit: {
+      dress: '#FFFFFF',
+      frills: '#FFD700',   // Gold frills
+      accent: '#00FFFF',   // Aqua
+    },
   },
+
   y2016: {
-    theme: 'Victory Phoenix - by Mai Yoneyama',
-    designer: 'Mai Yoneyama',
-    flameOrange: '#FF6B00',
-    flameRed: '#FF0000',
-    flameYellow: '#FFD700',
-    accentTeal: '#39C5BB',
+    // Victory Phoenix - flame design
+    outfit: {
+      suit: '#FFFFFF',
+      flames: '#FF6B00',   // Orange
+      flameRed: '#FF0000',
+      flameYellow: '#FFD700',
+    },
   },
+
   y2017: {
-    theme: 'Fairy Wings - by Tony',
-    designer: 'Tony',
-    freshGreen: '#32CD32',
-    wingWhite: '#FFFFFF',
-    transparentGreen: '#00FF0080',
+    // by Tony - Fairy
+    outfit: {
+      dress: '#FFFFFF',
+      wings: '#32CD32',    // Fresh green
+      wingTranslucent: '#00FF0080',
+    },
   },
+
   y2018: {
-    theme: 'Fluffy White - by Kanzaki Hiro',
-    designer: 'Kanzaki Hiro',
-    fluffyWhite: '#FFFFFF',
-    creamWhite: '#FFFAF0',
-    accentTeal: '#39C5BB',
+    // by Kanzaki Hiro - Fluffy
+    outfit: {
+      dress: '#FFFFFF',
+      fluff: '#FFFAF0',    // Cream white
+      accent: '#39C5BB',
+    },
   },
+
   y2019: {
-    theme: 'Idol Style - Turquoise & Pink',
-    idolTeal: '#39C5BB',
-    idolPink: '#FF69B4',
-    suitWhite: '#FFFFFF',
+    // Idol style
+    outfit: {
+      dress: '#39C5BB',    // Teal dress
+      accent: '#FF69B4',   // Pink
+      trim: '#FFFFFF',
+    },
   },
+
   y2020: {
-    theme: '10th Anniversary Special',
-    goldAnniversary: '#FFD700',
-    premiumBlack: '#1A1A1A',
-    accentTeal: '#39C5BB',
+    // 10th Anniversary - Mechanic revival
+    outfit: {
+      suit: '#FFFFFF',
+      accent: '#39C5BB',
+      trim: '#FFD700',     // Anniversary gold
+    },
+    accessories: {
+      boots: '#1A1A1A',
+    },
   },
-  y2021: {
-    theme: 'Cyber Circuit',
-    circuitGreen: '#00E676',
-    dataBlue: '#2979FF',
-    gridBlack: '#121212',
-  },
+
   y2022: {
-    theme: 'Future Tech Racing',
-    techBlue: '#2196F3',
-    techPurple: '#9C27B0',
-    lightAccent: '#E1F5FE',
+    // Athletic style
+    outfit: {
+      bodysuit: '#1A1A1A', // Black
+      jacket: '#FFFFFF',
+      accent: '#76FF03',   // Yellow-green
+    },
   },
-  y2023: {
-    theme: 'Adventure Style',
-    adventureWhite: '#FFFFFF',
-    accentTeal: '#39C5BB',
-    accentPink: '#FF69B4',
-  },
+
   y2024: {
-    theme: 'White Witch - Magic Broom',
-    witchWhite: '#FFFFFF',
-    magicPurple: '#9932CC',
-    broomBrown: '#8B4513',
-    accentTeal: '#39C5BB',
+    // White Witch
+    outfit: {
+      dress: '#FFFFFF',
+      cape: '#9932CC',     // Purple
+      accent: '#39C5BB',
+    },
+    accessories: {
+      broom: '#8B4513',    // Brown
+      hat: '#FFFFFF',
+    },
   },
+
   y2025: {
-    theme: 'Cheerleading Squad - 15th Anniversary Rhapsody',
-    cheerWhite: '#FFFFFF',
-    cheerTeal: '#39C5BB',
-    cheerPink: '#FF69B4',
-    pompomGold: '#FFD700',
-  },
-  // Sponsor colors
-  sponsors: {
-    goodSmileOrange: '#F57C00',
-    cryptonBlue: '#1976D2',
-    bmwBlue: '#0066B1',
-    dunlopYellow: '#FFEB3B',
-    raidJapanRed: '#C62828',
+    // Cheerleader - 15th Anniversary
+    outfit: {
+      uniform: '#FFFFFF',
+      accent: '#39C5BB',
+      trim: '#FF69B4',     // Pink
+    },
+    accessories: {
+      pompoms: '#FFD700',  // Gold
+    },
   },
 } as const;
 
 /**
- * Thai Racing Miku - Tanned/Sun-kissed Variant
- *
- * Southeast Asian race variant with wheat-colored skin
- * Started as Sepang Ver. (2013 Malaysia), became Thai Ver. (2014+)
+ * Thai Racing Miku - Tanned variant
+ * Appears at Southeast Asian races (Malaysia, Thailand)
  */
 export const thaiRacingMiku = {
-  // Thai Version core
-  core: {
-    theme: 'Thai Racing Miku - Tanned Variant',
-    firstYear: 2013,
-    // Wheat-colored skin
-    skinBase: '#D4B896',
-    skinHighlight: '#E0C8A8',
-    skinShadow: '#C9A080',
-    // Standard Miku colors remain
-    hairTeal: '#39C5BB',
-    eyeTeal: '#39C5BB',
+  hair: '#39C5BB',
+  eyes: '#39C5BB',
+
+  // Distinctive wheat-colored skin
+  skin: {
+    base: '#D4B896',
+    highlight: '#E0C8A8',
+    shadow: '#C9A080',
   },
-  // Year variants
-  years: {
-    y2013: { theme: 'Sepang Ver. (Malaysia)', skin: '#D4B896' },
-    y2014: { theme: 'Thai Ver. Chang Circuit', skin: '#D4B896' },
-    y2015: { theme: 'Thai Ver.', skin: '#CFA397' },
-    y2016: { theme: 'Thai Ver.', skin: '#D4B896' },
-    y2017: { theme: 'Thai Ver.', skin: '#C9A080' },
-    y2018: { theme: 'Thai Ver.', skin: '#D4B896' },
-    y2019: { theme: 'Thai Ver.', skin: '#CFA397' },
-    y2020: { theme: 'Thai Ver.', skin: '#D4B896' },
-    y2022: { theme: 'Thai Ver.', skin: '#D4B896' },
-    y2023: { theme: 'Thai Ver.', skin: '#CFA397' },
-  },
+
+  // Outfits follow same design as regular Racing Miku each year
 } as const;

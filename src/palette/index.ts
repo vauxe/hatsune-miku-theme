@@ -1,110 +1,104 @@
 /**
- * Hatsune Miku Theme - Palette Index
+ * Hatsune Miku Theme - Character Design Palette
  *
- * Central export for all color palettes
- * Comprehensive collection of official Hatsune Miku design colors
+ * Official Miku character designs with colors extracted from her actual appearance
+ * (hair, eyes, outfit, accessories) - NOT brand/venue/atmospheric colors
  */
 
-// Core palette exports
-export * from './core';
+// Core character design
+export { character } from './core';
 
-// Event palettes
-export * from './events/snowMiku';
-export * from './events/racingMiku';
-export * from './events/concerts';
+// Special variants (different base appearance)
+export {
+  sakuraMiku,
+  mikuAppend,
+  mikuNT,
+  mikuV4X,
+  mikuV4Chinese,
+} from './special';
 
-// Game palettes
-export * from './games';
+// Event costumes
+export { snowMikuCore, snowMiku } from './events/snowMiku';
+export { racingMiku, thaiRacingMiku } from './events/racingMiku';
+export { magicalMirai } from './events/concerts';
 
-// Special variants
-export * from './special';
+// Game modules
+export {
+  projectSekai,
+  deepSeaGirl,
+  catEars,
+  loveIsWar,
+  worldIsMine,
+  senbonzakura,
+  gothic,
+  melt,
+  rollingGirl,
+} from './games';
 
-// Collaborations
-export * from './collaborations';
-
-// Re-export everything as a unified palette object for convenience
+// Unified palette object
 import { character } from './core';
-import { snowMiku } from './events/snowMiku';
+import {
+  sakuraMiku,
+  mikuAppend,
+  mikuNT,
+  mikuV4X,
+  mikuV4Chinese,
+} from './special';
+import { snowMikuCore, snowMiku } from './events/snowMiku';
 import { racingMiku, thaiRacingMiku } from './events/racingMiku';
+import { magicalMirai } from './events/concerts';
 import {
-  magicalMirai,
-  mikuExpo,
-  mikuSymphony,
-  mikuWithYou,
-  digitalStars,
-  anniversaries,
-  mikuDay,
-} from './events/concerts';
-import { projectSekai, projectDiva, gameCrossovers } from './games';
-import { sakuraMiku, mikuVersions, iconicPVs } from './special';
-import {
-  collaborations,
-  convenienceStores,
-  culturalEvents,
-  transportation,
-} from './collaborations';
+  projectSekai,
+  deepSeaGirl,
+  catEars,
+  loveIsWar,
+  worldIsMine,
+  senbonzakura,
+  gothic,
+  melt,
+  rollingGirl,
+} from './games';
 
 export const palette = {
   // ==========================================================================
-  // CORE - Miku Character Design (KEI 2007)
+  // CORE - Original KEI Design (2007)
   // ==========================================================================
   character,
 
   // ==========================================================================
-  // VOICEBANK VERSIONS - Software Release Designs
+  // VOICEBANK VARIANTS - Different software versions
   // ==========================================================================
-  mikuVersions, // V2, Append, V3, V4X, V4 Chinese, NT
-
-  // ==========================================================================
-  // ANNUAL EVENT SERIES
-  // ==========================================================================
-  snowMiku,         // Sapporo Snow Festival (2010-2025)
-  racingMiku,       // Good Smile Racing (2008-2025)
-  thaiRacingMiku,   // Thai/Tanned variant (2013-2023)
-  magicalMirai,     // Concert Series (2013-2025)
-  mikuExpo,         // World Tour (2014-2026)
-  mikuSymphony,     // Orchestra Concert Series (2017-present)
-  mikuWithYou,      // China Tour (2017-2021)
-  digitalStars,     // Club Event Series (2020-2023)
-  anniversaries,    // Milestone Celebrations (5th, 10th, 15th, 16th)
-  mikuDay,          // March 9th (39) Celebration
-
-  // ==========================================================================
-  // GAMES & MEDIA
-  // ==========================================================================
-  projectSekai,     // Project SEKAI - Miku in SEKAI worlds
-  projectDiva,      // Iconic modules/costumes from Project DIVA
-  gameCrossovers,   // Persona 4 DAN, 7th Dragon, Ninjala
-
-  // ==========================================================================
-  // ICONIC PV/SONG DESIGNS
-  // ==========================================================================
-  iconicPVs,        // Tell Your World, Ghost Rule, Sand Planet, etc.
+  mikuAppend,      // Dark futuristic (2010)
+  mikuNT,          // Organic flowing (2020)
+  mikuV4X,         // Voice variant colors (2016)
+  mikuV4Chinese,   // Chinese dress (2016)
 
   // ==========================================================================
   // SPECIAL VARIANTS
   // ==========================================================================
-  sakuraMiku,       // Cherry Blossom version
+  sakuraMiku,      // Cherry blossom pink version
 
   // ==========================================================================
-  // BRAND COLLABORATIONS
+  // ANNUAL EVENT COSTUMES
   // ==========================================================================
-  collaborations,   // Brand partnerships (LV, Toyota, Google, OPPO, etc.)
+  snowMikuCore,    // Shared Snow Miku traits (white hair)
+  snowMiku,        // Yearly costumes (2012-2025)
+  racingMiku,      // Good Smile Racing costumes (2010-2025)
+  thaiRacingMiku,  // Tanned variant
+  magicalMirai,    // Concert costumes (2015-2025)
 
   // ==========================================================================
-  // CONVENIENCE STORE & FOOD COLLABORATIONS
+  // GAME MODULES - Project DIVA Costumes
   // ==========================================================================
-  convenienceStores, // Lawson, FamilyMart, Domino's
-
-  // ==========================================================================
-  // CULTURAL EVENTS & APPEARANCES
-  // ==========================================================================
-  culturalEvents,   // Coachella, Letterman, Lady Gaga, LV Opera
-
-  // ==========================================================================
-  // TRANSPORTATION COLLABORATIONS
-  // ==========================================================================
-  transportation,   // Snow Miku Streetcar, JR Yamanote, Sapporo Station
+  projectSekai,    // SEKAI appearance + Empty SEKAI
+  deepSeaGirl,     // Ocean dress
+  catEars,         // Nekomimi outfit
+  loveIsWar,       // Military uniform
+  worldIsMine,     // Princess dress
+  senbonzakura,    // Taisho military
+  gothic,          // Dark angel
+  melt,            // Summer casual
+  rollingGirl,     // School uniform
 } as const;
 
 export type Palette = typeof palette;
