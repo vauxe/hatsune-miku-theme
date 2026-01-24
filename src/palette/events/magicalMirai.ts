@@ -9,6 +9,32 @@ export const magicalMirai = {
   hair: '#39C5BB',
   eyes: '#39C5BB',
 
+  y2013: {
+    // First Magical Mirai - Launch design
+    outfit: {
+      dress: '#39C5BB',    // Teal primary
+      skirt: '#FFFFFF',    // White layered
+      trim: '#1A1A1A',     // Black accents
+    },
+    accessories: {
+      headphones: '#1A1A1A',
+      ribbons: '#FF69B4',  // Pink
+    },
+  },
+
+  y2014: {
+    // Digital Star - Circuit pattern
+    outfit: {
+      dress: '#00BCD4',    // Cyan blue
+      circuit: '#39C5BB',  // Teal circuit lines
+      trim: '#FFD700',     // Gold highlights
+    },
+    accessories: {
+      headpiece: '#00BCD4',
+      armWear: '#1A1A1A',
+    },
+  },
+
   y2015: {
     // by Hoshima/Shikimi - Hexagon Chain
     outfit: {
@@ -91,20 +117,23 @@ export const magicalMirai = {
   },
 
   y2024: {
-    // by Tama - Fantour Trip
+    // by Tama - Fan-Fun-Trip / Fanfare
     outfit: {
-      dress: '#42A5F5',    // Trip blue
-      accent: '#EC407A',   // Fun pink
-      trim: '#66BB6A',     // Journey green
+      dress: '#4169E1',    // Royal Trip Blue
+      accent: '#FFD700',   // Celebration Gold
+      ribbon: '#EC407A',   // Rose Pink
+      trim: '#FFFFFF',
     },
   },
 
   y2025: {
-    // by Tiv - Seiga Itten (Starry Sky)
+    // by Tiv - Starry River in the Sky (Seiga Itten)
+    // CMY (Cyan-Magenta-Yellow) aesthetic
     outfit: {
-      dress: '#0D1B2E',    // Night sky
-      trim: '#FFD700',     // Starlight gold
-      accent: '#7B68EE',   // Aurora violet
+      dress: '#00E5FF',    // Vivid Cyan
+      ribbon: '#FF4081',   // Magenta Pink
+      accent: '#FFEA00',   // Lemon Yellow
+      dark: '#1A0033',     // Deep night purple contrast
     },
   },
 } as const;

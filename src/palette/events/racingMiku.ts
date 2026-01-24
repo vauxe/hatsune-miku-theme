@@ -10,6 +10,32 @@ export const racingMiku = {
   hair: '#39C5BB',
   eyes: '#39C5BB',
 
+  y2008: {
+    // First Racing Miku - Simple race queen
+    outfit: {
+      suit: '#FFFFFF',     // White bodysuit
+      accent: '#39C5BB',   // Teal stripe
+      trim: '#000000',     // Black details
+    },
+    accessories: {
+      boots: '#FFFFFF',
+      gloves: '#FFFFFF',
+    },
+  },
+
+  y2009: {
+    // Early race queen design
+    outfit: {
+      suit: '#FFFFFF',     // White
+      panels: '#00B8D4',   // Cyan panels
+      trim: '#1A1A1A',     // Black
+    },
+    accessories: {
+      boots: '#FFFFFF',
+      visor: '#00B8D4',
+    },
+  },
+
   y2010: {
     // by redjuice - Mechanic style
     outfit: {
@@ -117,37 +143,76 @@ export const racingMiku = {
     },
   },
 
-  y2022: {
-    // Athletic style
+  y2021: {
+    // by En Morikura - Private/Roller Girl
     outfit: {
-      bodysuit: '#1A1A1A', // Black
+      jacket: '#E6E6FA',   // Pale lavender/white
+      skirt: '#FFB7C5',    // Sakura pink
+      accent: '#98FB98',   // Pale green (roller theme)
+    },
+    accessories: {
+      beret: '#1A1A1A',
+      sunglasses: '#FF69B4',
+    },
+  },
+
+  y2022: {
+    // by neco - Space/Modern Tech
+    // Distinctive flag bearer design
+    outfit: {
+      bodysuit: '#212121', // Dark grey/black techwear
       jacket: '#FFFFFF',
-      accent: '#76FF03',   // Yellow-green
+      accent: '#C6FF00',   // Chartreuse/Lime green
+      mechanics: '#424242',
+    },
+    accessories: {
+      flag: '#39C5BB',
+      visor: '#1A1A1A',
+    },
+  },
+
+  y2023: {
+    // by Toridamono - Alchemist/Traveler
+    // "Atelier" series artist style
+    outfit: {
+      dress: '#FFFFFF',    // White base
+      skirt: '#D32F2F',    // Deep red accents
+      thighhighs: '#1A1A1A',
+      trim: '#FFD700',     // Gold
+    },
+    accessories: {
+      beret: '#FFFFFF',    // White beret
+      bag: '#8D6E63',      // Leather brown
     },
   },
 
   y2024: {
-    // White Witch
+    // by Mogumo - Witch of the Circuit
+    // 15th Anniversary - Magic/Idol theme
     outfit: {
       dress: '#FFFFFF',
-      cape: '#9932CC',     // Purple
-      accent: '#39C5BB',
+      cape: '#6200EA',     // Deep royal purple
+      accent: '#FF1744',   // Vivid red
+      magic: '#00E5FF',    // Cyan glow effects
     },
     accessories: {
-      broom: '#8B4513',    // Brown
-      hat: '#FFFFFF',
+      broom: '#1A1A1A',    // Black mechanical broom
+      hat: '#FFFFFF',      // White witch hat
     },
   },
 
   y2025: {
-    // Cheerleader - 15th Anniversary
+    // by Kei Mochizuki - Formula/Cyber
+    // Sharp, angular, high-speed design
     outfit: {
-      uniform: '#FFFFFF',
-      accent: '#39C5BB',
-      trim: '#FF69B4',     // Pink
+      suit: '#121212',     // Matte black
+      jacket: '#FFFFFF',
+      accent: '#FF0000',   // Racing red
+      neon: '#39C5BB',     // Miku teal glow
     },
     accessories: {
-      pompoms: '#FFD700',  // Gold
+      gloves: '#FF0000',   // Red gloves
+      headset: '#1A1A1A',
     },
   },
 } as const;

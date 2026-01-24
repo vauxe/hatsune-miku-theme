@@ -27,6 +27,7 @@ export const character = {
     base: '#FFE4D6',
     shadow: '#E8C8BC',
     blush: '#FFB8C8',
+    highlight: '#FFF5F0',  // Skin highlight
   },
 
   // Headphones - signature accessory
@@ -64,6 +65,7 @@ export const character = {
   // Boots - thigh-high black
   boots: {
     base: '#111417',
+    hardware: '#263238',   // Boot hardware
     accent: '#39C5BB',
   },
 
@@ -76,6 +78,14 @@ export const character = {
   // Arm display - digital readout
   armDisplay: {
     screen: '#39C5BB',
+    data: '#5DE4DB',       // Data display color
     frame: '#37474F',
+  },
+
+  // Negi (leek) - iconic prop
+  negi: {
+    stalk: '#9CCC65',
+    bright: '#69F0AE',
+    white: '#E8F5E9',
   },
 } as const;
