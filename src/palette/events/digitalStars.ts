@@ -11,72 +11,75 @@ export const digitalStars = {
     eyes: '#39C5BB',
 
     y2020: {
-        // Artist: apapico
-        // Theme: DJ / Club Energy
+        // Artist: rcowada (Wada Arco)
+        // Theme: DJ / Club Sporty
+        // Miku wears a sporty white/silver jacket with red accents.
         outfit: {
-            jacket: '#FFF100', // Hazard yellow
-            shirt: '#000000', // Sleek black
-            accent: '#FFFFFF', // White graphic text
+            jacket: '#E0E0E0', // Silver/White
+            inner: '#1A1A1A',  // Black crop top
+            accent: '#FF3333', // Vibrant red
+            shorts: '#1A1A1A',
         },
         accessories: {
-            headphones: '#000000',
-            visor: '#FFF100',
+            headset: '#FFFFFF',
+            kicks: '#FF3333',
         },
     },
 
     y2021: {
         // Artist: Tsunako
-        // Theme: Digital Cyber
+        // Theme: Digital Cyber / Cute Pastel
         outfit: {
             dress: '#FFFFFF',
-            accent: '#00AEEF', // Cyber blue
-            trim: '#EC0087',   // Data magenta
-            details: '#C0C0C0', // Brushed silver
+            accent: '#4DD9E6', // Pastel Cyber blue
+            trim: '#FF69B4',   // Pastel Pink/Magenta
+            details: '#E6E6FA', // Lavender/Soft silver
         },
     },
 
     y2022: {
         // Artist: HxxG
-        // Theme: Neon Night
+        // Theme: Neon Night / Speaker Mountain
         outfit: {
-            jacket: '#8A2BE2', // Deep violet
+            jacket: '#4B0082', // Deep indigo/violet
             shorts: '#000000',
-            accent: '#39FF14', // Lime neon
-            glow: '#FF1493',   // Hot pink
+            accent: '#39FF14', // Lime neon (Flag color)
+            glow: '#FF00FF',   // Neon magenta
         },
     },
 
     y2023: {
-        // Artist: Tomioka
-        // Theme: Arcade / Retro Tech
+        // Artist: Sai Izumi
+        // Theme: Neon Monster
         outfit: {
-            jacket: '#0033FF', // Cobalt blue
-            accent: '#FF0033', // Retro gaming red
-            base: '#FFFFFF',   // UI white
+            jacket: '#000033', // Dark Navy/Black
+            accent: '#FF0055', // Neon Red/Pink
+            contrast: '#00FFFF', // Cyan neon
+            tail: '#333333',   // Mechanical parts
         },
         accessories: {
-            controller: '#FF0033',
+            horns: '#FF0055',
         },
     },
 
     y2024: {
-        // Artist: meshite
-        // Theme: Glitch Pop Party
+        // Artist: BUNBUN
+        // Theme: Glitch x DJ
         outfit: {
-            dress: '#4B0082', // Indigo shadow
-            accent: '#FF69B4', // Hyper-pop pink
-            highlight: '#7FFF00', // Acid green
-            trim: '#F0E68C',   // Khaki/Yellow
+            jacket: '#F0F0F0', // White/Light Grey base
+            contrast: '#111111', // Dark contrast
+            glitchLeft: '#00FFFF', // Cyan (Glitch effect)
+            glitchRight: '#FF00FF', // Magenta (Glitch effect)
         },
     },
 
     y2025: {
         // Artist: lack
-        // Theme: Cyber Blast
+        // Theme: Cyber Blast / Retro Game
         outfit: {
-            suit: '#101010',   // Matte black armor
-            accent: '#FF4500', // Flame orange
-            glow: '#00FFFF',   // Electric cyan
+            suit: '#151515',   // Matte black
+            accent: '#FF5500', // Retro Orange/Flame
+            glow: '#00FFCC',   // Teal/Cyan
             trim: '#FFFFFF',
         },
     },

@@ -17,7 +17,6 @@ export { mikuSymphony } from './mikuSymphony';
 export {
   coachella2024,
   kodoTaiko,
-  pokemonVoltage,
   lawsonLive,
   projectMirai,
 } from './specialEvents';
