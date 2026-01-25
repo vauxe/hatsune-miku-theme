@@ -6,25 +6,53 @@
  */
 
 export const mikuSymphony = {
-  // Standard Miku colors maintained
-  hair: '#39C5BB',
-  eyes: '#39C5BB',
-
   y2016: {
     // Inaugural Concert - Tokyo International Forum
+    // Illustrator: KEI
+    illustrator: 'KEI',
+    character: {
+      hair: '#64D2E5',       // Signature bright cyan
+      hairShadow: '#2B95A5', // Teal shading
+      eyes: '#1D8E9C',       // Deep teal
+      skin: '#FFF3E0',       // Pale fair skin
+    },
     outfit: {
-      dress: '#1A237E',      // Deep navy (orchestral)
-      accent: '#FFD700',     // Gold trim
-      trim: '#FFFFFF',       // White accents
+      jacket: '#222222',     // Formal black conductor tailcoat
+      shirt: '#FFFFFF',      // White dress shirt
+      bowTie: '#4FC3F7',     // Cyan bowtie
+      skirt: '#151515',      // Black pleated skirt
+      skirtAccent: '#5DDCF2',// Cyan piano-key motifs/trim
+      socks: '#1A1A1A',      // Black glossy thigh-highs
+      sockTrim: '#00BCD4',   // Cyan rim
+    },
+    accessories: {
+      hairOrnament: '#E91E63', // Magenta pink hair clips
+      baton: '#F5F5F5',        // Silver/White conductor baton
     },
   },
 
   y2017: {
     // Osaka and Tokyo
+    // Illustrator: KEI
+    illustrator: 'KEI',
+    character: {
+      hair: '#64D2E5',       // Signature bright cyan
+      hairShadow: '#26A69A', // Teal shading
+      eyes: '#00838F',       // Deep teal-blue
+      skin: '#FFF3E0',       // Pale fair skin
+    },
     outfit: {
-      dress: '#311B92',      // Deep purple
-      accent: '#FFD700',     // Gold
-      trim: '#E8EAF6',       // Silver-white
+      dressMain: '#101010',  // Elegant black formal gown
+      dressRibbon: '#1A1A1A',// Black satin waist bow
+      chestBow: '#4DD0E1',   // Cyan accent bow
+      hemFrills: '#4DD0E1',  // Cyan ruffled hem
+      petticoat: '#80DEEA',  // Pale cyan inner layers
+    },
+    accessories: {
+      hairBows: '#1A1A1A',   // Black hair ribbons
+      hairRose: '#E91E63',   // Magenta rose accent
+      violin: '#C2185B',     // Distinctive deep rose/magenta violin
+      bow: '#5D4037',        // Violin bow
     },
   },
 
