@@ -10,8 +10,10 @@ export const digitalStars = {
         // Artist: Tsunako
         // Theme: Pastel Starry Night / Keyboard Stage
         // Palette extracted from 2021 Digital Stars Main Visual
+        hair: '#4FE0E6',       // Bright Cyan (Hair)
+        eyes: '#2A9DF4',       // Deep Sky Blue
+        skin: '#FFF0E8',       // Light Skin Tone
         outfit: {
-            primary: '#4FE0E6',    // Bright Cyan (Hair)
             gradient: '#9D95E3',   // Lavender Hair Tips
             jacket: '#F8F5FC',     // Pale Lilac/White Hoodie
             jacketShadow: '#DDD6F0', // Lavender Shadow
@@ -29,8 +31,10 @@ export const digitalStars = {
         // Event: Digital Stars feat. MIKU & GUMI
         // Description: The first official Hatsune Miku × GUMI (Megpoid) collaboration project.
         // Artist: nou
+        hair: '#66D9EB',       // Pastel Cyan (Hair)
+        eyes: '#5DADEC',       // Soft Blue
+        skin: '#FFF5F0',       // Pale Skin Tone
         outfit: {
-            primary: '#66D9EB',   // Pastel Cyan (Hair)
             gradient: '#BFAAF0',  // Soft Lavender (Hair tips)
             jacket: '#F5F6FA',    // Purity White (Oversized Hoodie)
             jacketShadow: '#E2DDF0', // Pale Violet Shadow
@@ -49,8 +53,10 @@ export const digitalStars = {
         // Artist: HxxG
         // Theme: Street Rock / Flag Bearer
         // Palette extracted from 2022 Digital Stars Main Visual
+        hair: '#B2EBE0',       // Pale Mint (Hair)
+        eyes: '#39C5BB',       // Teal Green
+        skin: '#FFF1EB',       // Light Warm Skin
         outfit: {
-            primary: '#B2EBE0',   // Pale Mint (Hair)
             hairShadow: '#85C9BD', // Darker Mint Shadow
             jacket: '#252529',    // Charcoal Black (Outerwear)
             jacketLining: '#4A4058', // Muted Purple Grey (Lining)
@@ -67,13 +73,16 @@ export const digitalStars = {
         // Artist: Sai Izumi
         // Theme: Neon Monster
         // Palette extracted from 2023 Digital Stars Main Visual
+        hair: '#39C7B7',       // Teal Green (Hair)
+        eyes: '#FF3399',       // Hot Pink (Left Eye / Accent)
+        eyesRight: '#00F2FF',  // Cyan (Right Eye / Accent)
+        skin: '#FFEFE5',       // Pale Skin
         outfit: {
-            primary: '#39C7B7',   // Teal Green (Hair)
             hairShadow: '#2DA899', // Darker Teal Shadow
             jacket: '#DBAFEB',    // Lavender Hoodie
             jacketLining: '#BE1C50', // Deep Magenta Lining
             inner: '#222222',     // Matte Black (Dress/Tail)
-            skirt: '#FFFFFF',     // White Frills
+            skirt: '#FFFFFF',     // White Fills
             neonPink: '#FF3399',  // Hot Neon Pink (Cables/Glow)
             neonCyan: '#00F2FF',  // Bright Neon Cyan (Cables/Glow)
             horns: '#1A1A1A',     // Black Mechanical Ears
@@ -86,8 +95,10 @@ export const digitalStars = {
         // Artist: BUNBUN
         // Theme: Cyber Sporty / Glitch
         // Palette extracted from 2024 Digital Stars Main Visual
+        hair: '#00D1D1',       // Vivid Cyan (Hair)
+        eyes: '#0055FF',       // Deep Vivid Blue
+        skin: '#FFF4EE',       // Fair Skin
         outfit: {
-            primary: '#00D1D1',   // Vivid Cyan (Hair)
             hairShadow: '#008F99', // Darker Cyan Shadow
             jacket: '#2A2A2E',    // Matte Black/Dark Grey (Jacket/Shorts)
             accent: '#D0FF14',    // Neon Lime Green (Zip/Lining/Sole)
@@ -104,8 +115,10 @@ export const digitalStars = {
         // Artist: lack
         // Theme: Retro Game / 8-bit Pop
         // Palette extracted from 2025 Digital Stars Main Visual
+        hair: '#5CDDD6',       // Bright Cyan (Hair)
+        eyes: '#00BFA5',       // Emerald/Teal Gradient
+        skin: '#FFF2E8',       // Light Skin Tone
         outfit: {
-            primary: '#5CDDD6',   // Bright Cyan (Hair)
             jacket: '#FFB833',    // Golden Orange (Oversized Jacket)
             top: '#F8F8FF',       // Crisped White (Crop Top)
             shorts: '#EEEEEE',    // Light Grey Denim
