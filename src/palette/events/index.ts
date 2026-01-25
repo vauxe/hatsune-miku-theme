@@ -9,7 +9,7 @@
  */
 
 export { snowMiku } from './snowMiku';
-export { racingMiku } from './racingMiku';
+// export { racingMiku } from './racingMiku';
 export { magicalMirai } from './magicalMirai';
 export { mikuExpo } from './mikuExpo';
-export { mikuSymphony } from './mikuSymphony';
+// export { mikuSymphony } from './mikuSymphony';

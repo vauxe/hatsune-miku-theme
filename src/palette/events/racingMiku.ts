@@ -6,10 +6,6 @@
  */
 
 export const racingMiku = {
-  // Standard across all years
-  hair: '#39C5BB',
-  eyes: '#39C5BB',
-
   y2008: {
     // First Racing Miku - Simple race queen
     outfit: {
