@@ -1,36 +1,8 @@
 /**
  * Snow Miku - Sapporo Snow Festival (Annual since 2010)
  *
- * Snow Miku's signature feature: white/silver hair instead of teal
- * Each year has a unique costume theme
  */
 
-// Core Snow Miku characteristics (shared across years)
-// Official colors: 白・薄青・銀 (white, pale blue, silver)
-export const snowMikuCore = {
-  // Hair - pale blue tinted (薄青), NOT pure white
-  hair: {
-    base: '#E8F4F8',       // Pale blue (薄青) - primary color
-    highlight: '#FFFFFF',  // Pure white - highlights only
-    silver: '#D0E0E8',     // Silver shimmer (銀)
-    shadow: '#B8E0E8',     // Icy blue for depth
-  },
-
-  // Eyes - light blue
-  eyes: {
-    iris: '#87CEEB',       // Sky blue
-    highlight: '#FFFFFF',
-  },
-
-  // Companion Yukine (rabbit, appears 2014+)
-  yukine: {
-    body: '#FFFFFF',
-    accent: '#B8E0E8',
-  },
-} as const;
-
-// Annual designs - character costume colors only
-// Note: Hair uses pale blue base (#E8F4F8) per official spec
 export const snowMiku = {
   y2010: {
     // First Snow Miku - Simple winter outfit

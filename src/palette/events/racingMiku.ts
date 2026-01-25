@@ -216,21 +216,3 @@ export const racingMiku = {
     },
   },
 } as const;
-
-/**
- * Thai Racing Miku - Tanned variant
- * Appears at Southeast Asian races (Malaysia, Thailand)
- */
-export const thaiRacingMiku = {
-  hair: '#39C5BB',
-  eyes: '#39C5BB',
-
-  // Distinctive wheat-colored skin
-  skin: {
-    base: '#D4B896',
-    highlight: '#E0C8A8',
-    shadow: '#C9A080',
-  },
-
-  // Outfits follow same design as regular Racing Miku each year
-} as const;
