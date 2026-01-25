@@ -32,202 +32,264 @@ export const snowMiku = {
   },
 
   y2012: {
-    // Fluffy Coat design
-    hair: '#E8F4F8',       // Pale blue
+    // Fluffy Coat (Fuwa-fuwa) - Jewels that glitter in the ice
+    hair: '#8FDEEE',       // Icy Cyan Blue
+    eyes: '#0D679E',       // Deep Winter Blue
     outfit: {
-      coat: '#29B6F6',     // Light blue coat
-      pompoms: '#B3E5FC',  // Pale blue pom-poms
-      ribbon: '#263238',   // Dark ribbon
+      coat: '#5DADEC',     // Vibrant Sky Blue
+      collar: '#FFFFFF',   // Fluffy White Trim
+      skirt: '#1B4D8E',    // Deep Royal Blue
+      boots: '#1B4D8E',    // Matching Dark Blue
     },
+    accessories: {
+      headRibbon: '#1B4D8E', // Dark Blue Ribbon with Gem
+      gem: '#D1F2FD',        // Diamond/Ice Gem
+      snowflakes: '#E1F5FE', // Ice Crystals
+    }
   },
 
   y2013: {
-    // Strawberry White Kimono
-    hair: '#E8F4F8',       // Pale blue
+    // Strawberry White Kimono (Shiromuku) - Sweets and Snow
+    hair: '#76D6E9',       // Soft Icy Cyan
+    eyes: '#5F7DAF',       // Gentle Winter Blue
     outfit: {
-      kimono: '#FAFAFA',   // White kimono
-      obi: '#EF5350',      // Strawberry red
-      hood: '#F48FB1',     // Pink hood
+      kimono: '#FFFFFF',   // Pure White Shiromuku
+      lining: '#CC2838',   // Strawberry Red Lining
+      obi: '#D3404E',      // Matching Red Sash
+      hoodInner: '#CC2838', // Red Inner Hood
     },
     accessories: {
-      leafAccent: '#9CCC65',
-    },
+      leaves: '#598E45',   // Camellia/Leaf Green
+      hairClip: '#CC2838', // Red Berry Accent
+      snowflakes: '#81D4FA', // Light Blue Crystal
+    }
   },
 
   y2014: {
-    // Magical Girl - icier blue for magical theme
-    hair: '#D8EEF4',       // Icy blue (more saturated)
+    // Magical Snow - Wonderland of Snow and Magic
+    hair: '#E6EBF0',       // Platinum Silver/White
+    eyes: '#2962FF',       // Vivid Magic Blue
     outfit: {
-      dress: '#304FFE',    // Magic blue
-      cape: '#7C4DFF',     // Spell purple
-      trim: '#FFD700',     // Gold
+      dress: '#FFFFFF',    // White Base
+      vest: '#81D4FA',     // Light Blue Vest
+      cape: '#7E57C2',     // Magical Purple Lining
+      hat: '#E0F7FA',      // White/Ice Hat Base
     },
+    accessories: {
+      ribbon: '#311B92',   // Deep Violet
+      staff: '#B3E5FC',    // Ice Staff
+      book: '#1A237E',     // Spellbook (Dark Blue)
+      gold: '#FDD835',     // Gold Accents
+    }
   },
 
   y2015: {
-    // Lily of the Valley
-    hair: '#E8F4F8',       // Pale blue
+    // Snow Bell - Plant Life in Winter
+    hair: '#64C5CE',       // Fresh Teal Green
+    eyes: '#5AC2CF',       // Matching Teal
     outfit: {
-      dress: '#F5F5F5',    // White bell dress
-      leafAccent: '#81C784',
-      flowerPink: '#F48FB1',
+      dress: '#FFFFFF',    // White Bell Flower
+      leafTrim: '#8BC34A', // Fresh Green Leaves
+      berries: '#EF5350',  // Red Holly Berries
+      boots: '#A1887F',    // Natural Brown
     },
+    accessories: {
+      headset: '#FFFFFF',  // White Birch
+      stem: '#AED581',     // Plant Stem Green
+      snowflakes: '#E0F7FA', // Ice Crystals
+    }
   },
 
   y2016: {
-    // Snow Owl - Wise owl theme (warmer tint for owl aesthetic)
-    hair: '#EEF4F2',       // Warmer white (less blue, complements brown)
+    // Snow Owl - Enjoying Winter Sports
+    hair: '#5BD3DA',       // Bright Energetic Teal
+    eyes: '#5BD3DA',       // Matching Teal (often similar in this design)
     outfit: {
-      cape: '#5C4033',       // Brown owl feathers
-      dress: '#FFF8E1',      // Cream white
-      trim: '#8D6E63',       // Warm brown
+      jacket: '#FFFFFF',   // White Snow Gear
+      vest: '#1565C0',     // Sporty Blue
+      skirt: '#006064',    // Deep Teal
+      leggings: '#37474F', // Dark Grey protective wear
     },
     accessories: {
-      owlMask: '#D7CCC8',    // Pale feather
-      feathers: '#5D4037',   // Brown
-      wings: '#795548',
-    },
+      goggles: '#FFA000',  // Amber/Gold Lens
+      hat: '#FFFFFF',      // White Owl Knit Cap
+      scarf: '#FFFFFF',    // White
+      accents: '#E91E63',  // Hot Pink Highlights
+      snowboard: '#1976D2',// Blue Board
+    }
   },
 
   y2017: {
-    // Twinkle Snow - Starry Night (icier for night sky theme)
-    hair: '#E0F0F8',       // Ice blue
+    // Twinkle Snow - Starry Sky/Constellation
+    hair: '#82B1FF',       // Soft Starry Blue
+    eyes: '#2962FF',       // Deep Galactic Blue
     outfit: {
-      dress: '#1A237E',    // Midnight blue
-      frills: '#B8E0E8',   // Pale blue
-      ribbons: '#1A237E',
+      dress: '#1A237E',    // Midnight Blue Base
+      sheer: '#E8EAF6',    // Translucent Mist
+      ribbon: '#304FFE',   // Celestial Blue
+      constellation: '#FFF59D', // Glowing Star Lines
     },
     accessories: {
-      stars: '#FFD700',    // Gold stars
-      snowflakes: '#FFFFFF',
-    },
+      stars: '#FFD700',    // Gold Star Ornaments
+      baton: '#FFD700',    // Star Baton
+      hairTie: '#1A237E',  // Dark Blue
+    }
   },
 
   y2018: {
-    // Crane Priestess
-    hair: '#E8F4F8',       // Pale blue
+    // Crane Priestess - Red-crowned Crane
+    hair: '#E0F2F7',       // Mystical Silver-Blue
+    eyes: '#1976D2',       // Clear Blue
     outfit: {
-      robe: '#FFFFFF',     // Pure white
-      accent: '#D32F2F',   // Crane red
-      trim: '#212121',     // Black feather
+      hood: '#FFFFFF',     // White Crane Hood
+      robe: '#FFFFFF',     // White Kimono Base
+      sleeves: '#263238',  // Black Crane Wing Tips
+      hakama: '#263238',   // Dark Skirt
+      obi: '#B71C1C',      // Deep Red
     },
     accessories: {
-      ornament: '#FFC107', // Shrine gold
-    },
+      ribbon: '#B71C1C',   // Red Tassels
+      bell: '#FFD700',     // Golden Kagura Suzu
+      gold: '#FBC02D',     // Gold Patterns
+    }
   },
 
   y2019: {
-    // Snow Princess (silver-blue tint befitting royalty)
-    hair: '#E4F2F8',       // Silver-blue
+    // Snow Princess - Princess of the Winter Night
+    hair: '#E1F5FE',       // Crystalline Silver-Blue
+    eyes: '#2979FF',       // Royal Blue
     outfit: {
-      dress: '#448AFF',    // Blue dress
-      cape: '#F8FDFF',     // White cape
+      dress: '#FFFFFF',    // Layered Frill Dress
+      corset: '#1A237E',   // Deep Royal Blue
+      pane: '#81D4FA',     // Stained Glass Blue
+      shimmer: '#E0F7FA',  // Crystal Shimmer
     },
     accessories: {
-      tiara: '#ECEFF1',    // Silver
-      trim: '#FFD700',     // Gold
-    },
+      tiara: '#B0BEC5',    // Silver/Platinum
+      scepter: '#ECEFF1',  // Crystal Staff
+      gold: '#FDD835',     // Royal Gold Accents
+    }
   },
 
   y2020: {
-    // Strawberry White - Sweet dessert theme
-    hair: '#E8F4F8',       // Pale blue
+    // Snow Parade - Marching Band/Musical Instrument
+    hair: '#39C5BB',       // Vivid Turquoise
+    eyes: '#2196F3',       // Clear Blue
     outfit: {
-      dress: '#FFE4E1',    // Misty rose
-      apron: '#FFFFFF',    // White frilled apron
-      trim: '#FF6B6B',     // Strawberry red
+      jacket: '#1A237E',   // Navy Blue Uniform
+      skirt: '#FFFFFF',    // White Pleated
+      boots: '#E0F7FA',    // White Marching Boots
+      braid: '#FFD700',    // Gold Aiguillette
     },
     accessories: {
-      headpiece: '#FFB7C5', // Pink strawberry hat
-      bow: '#FF69B4',       // Hot pink
-      berries: '#DC143C',   // Crimson strawberries
-    },
+      hat: '#1A237E',      // Navy Marching Hat
+      bow: '#EF5350',      // Red Tie
+      instrument: '#FBC02D', // Gold French Horn
+      feather: '#FFFFFF',  // White Plume
+    }
   },
 
   y2021: {
-    // Glowing Snow - Illumination
-    hair: '#B8E0E8',       // Turquoise tint
+    // Glowing Snow - Illumination & Clock Tower
+    hair: '#4DD0E1',       // Bright Cyan
+    eyes: '#1E88E5',       // Deep Clear Blue
     outfit: {
-      dress: '#E1BEE7',    // Lilac dress
-      cape: '#B3E5FC',     // Pale blue
-      beret: '#B8E0E8',
+      dressTop: '#FFFFFF', // White Choir Robe Base
+      skirt: '#1A237E',    // Midnight Blue with Lights
+      cape: '#FFFFFF',     // White Shawl
+      boots: '#FFFFFF',    // White Boots with Navy
     },
     accessories: {
-      musicNote: '#FFD700',
-      bow: '#84FFFF',      // Cyan glow
-    },
+      beret: '#FFFFFF',    // White Beret with Navy Ribbon
+      gold: '#FFD700',     // Clock/Chain Accents
+      lights: '#FFF59D',   // Illumination Glow
+    }
   },
 
   y2022: {
-    // Grand Voyage - Captain
-    hair: '#E8F4F8',       // Pale blue
+    // Grand Voyage - Ocean/Sea Captain
+    hair: '#B2EBF2',       // Ocean Blue
+    eyes: '#F06292',       // Coral Pink
     outfit: {
-      jacket: '#FFFFFF',   // White jacket
-      shorts: '#1A1A1A',   // Black
-      legwear: '#FF5252',  // Red stripes
+      coat: '#1A237E',     // Navy Captain Coat
+      shorts: '#263238',   // Dark Shorts
+      socks: '#D32F2F',    // Red/White Stripes
+      boots: '#37474F',    // Dark Boots
     },
     accessories: {
-      hat: '#FFFFFF',
-      buttons: '#FFC107',  // Gold
-      gloves: '#1A1A1A',
-    },
+      hat: '#FFFFFF',      // White Captain Hat
+      wheel: '#8D6E63',    // Wooden Ship Wheel
+      compass: '#FFD700',  // Gold Accents
+      crab: '#F44336',     // Red Crab Friend
+    }
   },
 
   y2023: {
-    // Luminous Fluffy Snow - Cotton candy theme
-    hair: '#E8F4F8',       // Pale blue
+    // Serene Winter - Sky Pattern/Winter Dawn
+    hair: '#9EAFE8',       // Periwinkle/Dawn Sky Blue
+    eyes: '#42A5F5',       // Bright Sky Blue
     outfit: {
-      dress: '#E1BEE7',    // Soft lavender
-      fluff: '#FFFFFF',    // White fluffy trim
-      accent: '#B3E5FC',   // Pale blue
+      kimono: '#9FA8DA',   // Lavender/Stormy Sky
+      sash: '#F06292',     // Dawn Pink
+      trim: '#FFFFFF',     // Cloud Fluff
+      gloves: '#1A237E',   // Dark Night Blue
     },
     accessories: {
-      bow: '#F8BBD9',      // Pink
-      snowflakes: '#FFFFFF',
-      stars: '#FFD700',    // Golden
-    },
+      brush: '#5D4037',    // Giant Paintbrush
+      ribbon: '#1A237E',   // Navy Ribbons
+      clouds: '#E1F5FE',   // Stylized Cloud Accents
+      paint: '#F48FB1',    // Pink Paint
+    }
   },
 
   y2024: {
-    // Winter Delicacy - Wa-maid
-    hair: '#E8F4F8',       // Pale blue
+    // Winter Delicacy - Feast/Hokkaido Food
+    hair: '#609E9F',       // Muted Turquoise
+    eyes: '#376F70',       // Deep Teal
     outfit: {
-      dress: '#FFF8E1',    // Cream
-      apron: '#FFFFFF',    // White frilled
-      sleeves: '#8D6E63',  // Brown accents
+      kimono: '#FFF3E0',   // Cream/Bisque Base
+      apron: '#FFFFFF',    // White Salon Apron
+      obi: '#D84315',      // Spicy Orange/Red Ribbon
+      skirt: '#5D4037',    // Dark Brown Hem
     },
     accessories: {
-      headpiece: '#FFAB91',
-      trim: '#26A69A',     // Teal accent
-    },
+      headband: '#D7CCC8', // Beige/Napkin
+      shrimp: '#FF8A65',   // Shrimp Motif Accent
+      accents: '#8D6E63',  // Brown Food Themes
+    }
   },
 
   y2025: {
-    // Sparkling Snow Material
-    hair: '#E8F4F8',       // Pale blue
+    // Sparkling Snow Material - Shining Snow & Prism
+    hair: '#5C6BC0',       // Prism Blue/Indigo
+    eyes: '#7986CB',       // Soft Indigo
     outfit: {
-      dress: '#B3E5FC',    // Crystal blue
-      trim: '#E0E0E0',     // Silver shimmer
+      dress: '#283593',    // Deep Indigo Base
+      layers: '#E8EAF6',   // Crystalline White Layers
+      ribbon: '#1A237E',   // Midnight Blue Ribbon
+      boots: '#1A237E',    // Dark Navy
     },
     accessories: {
-      snowflakes: '#FFFFFF',
-      accent: '#F8BBD9',   // Pink
-    },
+      crystal: '#81D4FA',  // Ice Prism
+      pearls: '#FFFFFF',   // Pearl Accents
+      staff: '#B3E5FC',    // Crystal Staff
+    }
   },
 
   y2026: {
-    // Sparkling Snow Material / Pâtisserie of Happiness
-    // Main Visual: Kuroboshi Kohaku | Design Winner: Abujaku
-    hair: '#E0F7FA',       // Icy blue-white
+    // Pâtisserie of Happiness (Shiawase Patisserie) - Winter Sweets
+    hair: '#70D6D1',       // Fresh Mint/Turquoise
+    eyes: '#4DB6AC',       // Teacup Green/Blue
     outfit: {
-      dress: '#FFFFFF',      // White chef base
-      skirt: '#E6E6FA',      // Lavender frosting
-      accent: '#81D4FA',     // Ice blue
-      ribbon: '#F48FB1',     // Sweet pink
+      dress: '#4FC3F7',    // Light Blue Wrapper
+      apron: '#FFF9C4',    // Custard Cream
+      ribbon: '#F48FB1',   // Berry Pink Tie
+      boots: '#5D4037',    // Chocolate Brown
     },
     accessories: {
-      hat: '#FFFFFF',        // Chef hat with snowflakes
-      whisk: '#FFD700',      // Gold accent
-    },
+      beret: '#5D4037',    // Chocolate Sponge Hat
+      whippedCream: '#FFFFFF', // Toppings
+      cookie: '#D7CCC8',   // Biscuit Accents
+    }
   },
 } as const;
