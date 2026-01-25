@@ -6,10 +6,6 @@
  */
 
 export const mikuExpo = {
-  // Standard Miku colors maintained
-  hair: '#39C5BB',
-  eyes: '#39C5BB',
-
   y2014: {
     // First MIKU EXPO - Indonesia, Los Angeles, New York
     // Key Visual: apapico

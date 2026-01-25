@@ -1,8 +1,8 @@
 /**
  * Hatsune Miku Theme - Core Character Design
  *
- * Original KEI design (2007) - CV01
- * Canonical teal: #39C5BB (derived from YAMAHA DX-7 synthesizer blue-green)
+ * Based mainly on V3/V4X "Standard" designs
+ * Canonical teal: #39C5BB (Standard Miku Teal)
  */
 
 export const character = {
@@ -100,11 +100,11 @@ export const character = {
 
 /**
  * Official Piapro Color Specification
- * The legally registered color by Crypton Future Media
+ * Common brand color associated with Piapro Studio interface
  */
 export const piapro = {
   hair: {
-    base: '#33BBAD', // Official Piapro Turquoise
+    base: '#33BBAD',       // Official Piapro Turquoise (Blue-Green)
   },
   // Re-export other core values if needed, or consumers can merge
 } as const;

@@ -5,33 +5,55 @@
  */
 
 // =============================================================================
+// MIKU V2 (2007) - The Original
+// Designer: KEI
+// =============================================================================
+
+export const mikuV2 = {
+  // Hair - A slightly softer, more turquoise green than V3
+  hair: {
+    base: '#86CECB',       // Official V2 Turquoise (Kei), close to Piapro's #33BBAD
+    shadow: '#39A09D',
+    highlight: '#A2E2DF',
+  },
+  eyes: {
+    iris: '#86CECB',
+  },
+  outfit: {
+    top: '#93A4A9',        // Cooler grey
+    skirt: '#15191D',
+    trim: '#86CECB',
+  },
+} as const;
+
+// =============================================================================
 // MIKU APPEND (2010) - Dark Futuristic Design
 // =============================================================================
 
 export const mikuAppend = {
-  // Hair - darker, more green-shifted teal
+  // Hair - lighter turquoise than standard, very sleek
   hair: {
-    base: '#00CED1',       // Darker cyan-teal
-    shadow: '#008B8B',     // Deep teal
-    highlight: '#40E0D0',  // Turquoise highlight
+    base: '#00B2A9',       // Vivid Turquoise (Corrected from green)
+    shadow: '#008C84',     // Deeper turquoise
+    highlight: '#65E3A3',  // Retaining some green tint in highlights as seen in art
   },
 
   // Eyes
   eyes: {
-    iris: '#00CED1',
+    iris: '#00B2A9',
   },
 
   // Bodysuit - black with metallic accents
   bodysuit: {
     base: '#1A1A1A',
     metallic: '#A1B3B6',   // Silver panels
-    circuit: '#00D4D4',    // Glowing circuit lines
+    circuit: '#2BBF7A',    // Glowing circuit lines matches hair
   },
 
   // Accessories
   accessories: {
     headphones: '#2D2D2D',
-    glow: '#00FFFF',       // Cyan glow accents
+    glow: '#89F6D3',       // Cyan-ish glow accents
   },
 
   marks: {
@@ -79,62 +101,46 @@ export const mikuV3 = {
 } as const;
 
 // =============================================================================
-// MIKU V3 ENGLISH (2013) - English Voicebank
-// Same visual design as V3
+// MIKU V3 ENGLISH (2013) - Western Release
+// Designer: Zain
 // =============================================================================
 
 export const mikuV3English = {
-  // Same design as V3
+  // Hair - slightly more blue/cyan than standard V3
   hair: {
-    base: '#39C5BB',
-    highlight: '#5DE4DB',
+    base: '#00C2B2',       // Vibrant Cyan-Turquoise
+    shadow: '#008F84',
+    highlight: '#A2EBE7',
   },
 
   eyes: {
-    iris: '#39C5BB',
+    iris: '#00C2B2',
   },
 
-  // Outfit matches V3
   outfit: {
-    top: '#37474F',
-    skirt: '#15191D',
-    trim: '#39C5BB',
+    // Zain's design often features a starker white/black contrast
+    top: '#FFFFFF',        // White shirt emphasis
+    trim: '#00C2B2',
   },
 } as const;
 
 // =============================================================================
-// MIKU V4X (2016) - Voice variants with subtle color shifts
+// MIKU V4X (2016) - Polished Modern Design
 // =============================================================================
 
 export const mikuV4X = {
-  // Standard solid voice
-  solid: {
-    hair: '#39C5BB',
+  // Base Design (Original/Solid)
+  hair: {
+    base: '#39C5BB',
+    shadow: '#1A8A82',
+    highlight: '#5DE4DB',
   },
-
-  // Soft voice - gentler teal
-  soft: {
-    hair: '#6DD4CD',
+  eyes: {
+    iris: '#39C5BB',
   },
-
-  // Light voice - airy pale teal
-  light: {
-    hair: '#A8EBE6',
-  },
-
-  // Vivid voice - deeper saturated teal
-  vivid: {
-    hair: '#2B9E96',
-  },
-
-  // Dark voice - darker tone
-  dark: {
-    hair: '#2D8F88',
-  },
-
-  // Sweet voice - slightly warmer
-  sweet: {
-    hair: '#45C5BD',
+  outfit: {
+    top: '#37474F',
+    trim: '#39C5BB',
   },
 } as const;
 
@@ -169,63 +175,36 @@ export const mikuV4Chinese = {
 // =============================================================================
 
 export const mikuNT = {
-  // Hair - standard teal but more flowing
+  // Hair - Cleaner, softer palette (New Type)
   hair: {
-    base: '#39C5BB',
-    highlight: '#5DE4DB',
+    base: '#89CDC6',       // Official NT Soft Turquoise
+    highlight: '#B4EBE6',
+    shadow: '#5C5A60',     // Desaturated shadow
   },
 
   // Eyes
   eyes: {
-    iris: '#39C5BB',
+    iris: '#89CDC6',
   },
 
   // Outfit - white with organic frills
   outfit: {
-    dress: '#F8F9FA',      // Off-white dress
+    dress: '#FEF5F7',      // Very pale pink/white
     frills: '#FFFFFF',
-    accent: '#39C5BB',     // Teal accents
+    accent: '#338296',     // Deep teal accent
   },
 
   // Accessories - pin microphone instead of tie
   accessories: {
     headphones: '#1A1F24',
-    microphone: '#39C5BB',
+    microphone: '#338296',
     hairTies: {
-      base: '#F8F9FA',    // White/Silver
-      outline: '#E05096', // Pink accent
+      base: '#FEF5F7',    // White/Silver
+      outline: '#E43D82', // Vivid Magenta accent
     },
   },
 
   marks: {
     tattoo: '#E60033',
-  },
-} as const;
-
-// =============================================================================
-// MIKU V6 (2025) - AI Voice Synthesis
-// Latest version with enhanced naturalness
-// Early Access: December 2025, Full Release: 2026
-// =============================================================================
-
-export const mikuV6 = {
-  // Hair - maintains signature teal
-  hair: {
-    base: '#39C5BB',
-    highlight: '#5DE4DB',
-    shadow: '#1A8A82',
-  },
-
-  // Eyes
-  eyes: {
-    iris: '#39C5BB',
-  },
-
-  // Design details still emerging as of Early Access
-  // Expected to bridge NT aesthetic with future evolution
-  outfit: {
-    primary: '#39C5BB',
-    accent: '#FFFFFF',
-    trim: '#37474F',
   },
 } as const;

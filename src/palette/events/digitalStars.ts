@@ -6,81 +6,115 @@
  */
 
 export const digitalStars = {
-    // Base core colors
-    hair: '#39C5BB',
-    eyes: '#39C5BB',
-
-    y2020: {
-        // Artist: rcowada (Wada Arco)
-        // Theme: DJ / Club Sporty
-        // Miku wears a sporty white/silver jacket with red accents.
+    y2021: {
+        // Artist: Tsunako
+        // Theme: Pastel Starry Night / Keyboard Stage
+        // Palette extracted from 2021 Digital Stars Main Visual
         outfit: {
-            jacket: '#E0E0E0', // Silver/White
-            inner: '#1A1A1A',  // Black crop top
-            accent: '#FF3333', // Vibrant red
-            shorts: '#1A1A1A',
-        },
-        accessories: {
-            headset: '#FFFFFF',
-            kicks: '#FF3333',
+            primary: '#4FE0E6',    // Bright Cyan (Hair)
+            gradient: '#9D95E3',   // Lavender Hair Tips
+            jacket: '#F8F5FC',     // Pale Lilac/White Hoodie
+            jacketShadow: '#DDD6F0', // Lavender Shadow
+            skirt: '#8EA7F0',      // Periwinkle Blue
+            blouse: '#FFFFFF',     // White Shirt
+            tie: '#F5A8D0',        // Pastel Pink Tie
+            tieGradient: '#A592DE', // Purple Tie Gradient
+            stars: '#FFE680',      // Gold/Yellow Stars
+            keyboard: '#2D2938',   // Dark Keyboard Prop
+            keyboardKeys: '#F58CC2', // Pink/Cyan Keys
         },
     },
 
-    y2021: {
-        // Artist: Tsunako
-        // Theme: Digital Cyber / Cute Pastel
+    y2021_mg: {
+        // Event: Digital Stars feat. MIKU & GUMI
+        // Description: The first official Hatsune Miku × GUMI (Megpoid) collaboration project.
+        // Artist: nou
         outfit: {
-            dress: '#FFFFFF',
-            accent: '#4DD9E6', // Pastel Cyber blue
-            trim: '#FF69B4',   // Pastel Pink/Magenta
-            details: '#E6E6FA', // Lavender/Soft silver
+            primary: '#66D9EB',   // Pastel Cyan (Hair)
+            gradient: '#BFAAF0',  // Soft Lavender (Hair tips)
+            jacket: '#F5F6FA',    // Purity White (Oversized Hoodie)
+            jacketShadow: '#E2DDF0', // Pale Violet Shadow
+            dress: '#FADAE8',     // Iridescent Pink (Base)
+            dressHighlight: '#A8E6F5', // Cyan Reflection
+            ribbon: '#F7B2D2',    // Sweet Pink (Bows)
+            stars: '#FFEB85',     // Star Yellow
+            shoes: '#92C9F3',     // Sky Blue
+            socks: '#FFF5FA',     // Milky Pink (Sheer)
+            accents: '#FF6EB4',   // Hot Pink (Buttons/Details)
+            headset: '#FFFFFF',   // White Headset
         },
     },
 
     y2022: {
         // Artist: HxxG
-        // Theme: Neon Night / Speaker Mountain
+        // Theme: Street Rock / Flag Bearer
+        // Palette extracted from 2022 Digital Stars Main Visual
         outfit: {
-            jacket: '#4B0082', // Deep indigo/violet
-            shorts: '#000000',
-            accent: '#39FF14', // Lime neon (Flag color)
-            glow: '#FF00FF',   // Neon magenta
+            primary: '#B2EBE0',   // Pale Mint (Hair)
+            hairShadow: '#85C9BD', // Darker Mint Shadow
+            jacket: '#252529',    // Charcoal Black (Outerwear)
+            jacketLining: '#4A4058', // Muted Purple Grey (Lining)
+            flag: '#C75069',      // Raspberry Red (Flags/Cape)
+            flagShadow: '#8A2E42', // Dark Red Shadow
+            inner: '#151515',     // Black (Crop Top)
+            skirt: '#70E0D0',     // Turquoise Mint (Ruffles)
+            accessories: '#1A1A1D', // Black (Horns/Gloves)
+            glow: '#FF6F91',      // Pink Glow (Stars)
         },
     },
 
     y2023: {
         // Artist: Sai Izumi
         // Theme: Neon Monster
+        // Palette extracted from 2023 Digital Stars Main Visual
         outfit: {
-            jacket: '#000033', // Dark Navy/Black
-            accent: '#FF0055', // Neon Red/Pink
-            contrast: '#00FFFF', // Cyan neon
-            tail: '#333333',   // Mechanical parts
-        },
-        accessories: {
-            horns: '#FF0055',
+            primary: '#39C7B7',   // Teal Green (Hair)
+            hairShadow: '#2DA899', // Darker Teal Shadow
+            jacket: '#DBAFEB',    // Lavender Hoodie
+            jacketLining: '#BE1C50', // Deep Magenta Lining
+            inner: '#222222',     // Matte Black (Dress/Tail)
+            skirt: '#FFFFFF',     // White Frills
+            neonPink: '#FF3399',  // Hot Neon Pink (Cables/Glow)
+            neonCyan: '#00F2FF',  // Bright Neon Cyan (Cables/Glow)
+            horns: '#1A1A1A',     // Black Mechanical Ears
+            paws: '#DBAFEB',      // Lavender Paw Shoes
+            tie: '#BE1C50',       // Magenta Tie
         },
     },
 
     y2024: {
         // Artist: BUNBUN
-        // Theme: Glitch x DJ
+        // Theme: Cyber Sporty / Glitch
+        // Palette extracted from 2024 Digital Stars Main Visual
         outfit: {
-            jacket: '#F0F0F0', // White/Light Grey base
-            contrast: '#111111', // Dark contrast
-            glitchLeft: '#00FFFF', // Cyan (Glitch effect)
-            glitchRight: '#FF00FF', // Magenta (Glitch effect)
+            primary: '#00D1D1',   // Vivid Cyan (Hair)
+            hairShadow: '#008F99', // Darker Cyan Shadow
+            jacket: '#2A2A2E',    // Matte Black/Dark Grey (Jacket/Shorts)
+            accent: '#D0FF14',    // Neon Lime Green (Zip/Lining/Sole)
+            inner: '#FFFFFF',     // White (Crop Top base)
+            accessories: '#121214', // Jet Black (Headphones/Straps)
+            sunglasses: '#0055FF', // Deep Blue
+            glitchCyan: '#00FFFF', // Electric Cyan (Glitch/Ring)
+            glitchPurple: '#9300FF', // Electric Purple (Glitch/Ring)
+            speaker: '#DA2535',   // Red (Apple/Speaker)
         },
     },
 
     y2025: {
         // Artist: lack
-        // Theme: Cyber Blast / Retro Game
+        // Theme: Retro Game / 8-bit Pop
+        // Palette extracted from 2025 Digital Stars Main Visual
         outfit: {
-            suit: '#151515',   // Matte black
-            accent: '#FF5500', // Retro Orange/Flame
-            glow: '#00FFCC',   // Teal/Cyan
-            trim: '#FFFFFF',
+            primary: '#5CDDD6',   // Bright Cyan (Hair)
+            jacket: '#FFB833',    // Golden Orange (Oversized Jacket)
+            top: '#F8F8FF',       // Crisped White (Crop Top)
+            shorts: '#EEEEEE',    // Light Grey Denim
+            pixelPink: '#FF7AA8', // Retro Pink (GameBoy, Bag)
+            pixelGreen: '#5CE65C', // Retro Green (Cuffs, Stars, Laces)
+            pixelRed: '#FF4D4D',  // 8-bit Red (Hearts, Sunglasses)
+            pixelBlue: '#33A6FF', // 8-bit Blue (Pins/Decals)
+            shoes: '#E0E0E6',     // Off-white Sneakers
+            headband: '#333333',  // Dark Grey Headphones
         },
     },
 } as const;

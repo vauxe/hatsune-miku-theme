@@ -5,10 +5,6 @@
  */
 
 export const mikuWithYou = {
-    // Base colors
-    hair: '#39C5BB',
-    eyes: '#39C5BB',
-
     y2017: {
         // Artist: TID
         // Theme: First Tour / Debut

@@ -5,9 +5,6 @@
  */
 
 export const magicalMirai = {
-  // Standard across all years
-  hair: '#39C5BB',
-  eyes: '#39C5BB',
 
   y2013: {
     // by CHRIS - The First Magical Mirai
