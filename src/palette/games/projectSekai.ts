@@ -40,37 +40,6 @@ export const virtualSinger = {
 } as const;
 
 // =============================================================================
-// EMPTY SEKAI - 25-ji, Nightcord de. World (Heterochromia Form)
-// =============================================================================
-
-export const emptySekai = {
-  // Distinctive grey hair representing broken/empty world
-  hair: {
-    base: '#9B9B9B',       // Warm grey at roots
-    tip: '#4A4A50',        // Cold grey at tips (gradient)
-    highlight: '#B5B5B5',
-  },
-
-  // Heterochromia - different colored eyes
-  eyes: {
-    right: '#33CCBB',      // Teal (connection to original)
-    left: '#FF6B9D',       // Pink (unit's emotional theme)
-  },
-
-  outfit: {
-    blouse: '#FFFFFF',     // White, fading to grey
-    dress: '#E8E8E8',      // White-grey gradient
-    neckBow: '#E53935',    // Thin red bow
-    harness: '#1A1A1A',    // Black chest harness
-  },
-
-  accessories: {
-    hairBows: '#F5F5DC',   // Off-white/cream (right one falling)
-    sock: '#606060',       // Dark grey (only right leg)
-  },
-} as const;
-
-// =============================================================================
 // LEO/NEED - Classroom SEKAI (Rock Band Style)
 // =============================================================================
 
@@ -247,7 +216,6 @@ export const nightcord = {
 
 export const projectSekai = {
   virtualSinger,
-  emptySekai,
   leoNeed,
   moreMoreJump,
   vividBadSquad,
