@@ -9,7 +9,6 @@
 export {
   projectSekai,
   virtualSinger,
-  emptySekai,
   leoNeed,
   moreMoreJump,
   vividBadSquad,

@@ -8,8 +8,9 @@
  * MIKU SYMPHONY: Orchestra Concerts (2016-present)
  */
 
-export { snowMiku } from './snowMiku';
-// export { racingMiku } from './racingMiku';
+export { digitalStars } from './digitalStars';
 export { magicalMirai } from './magicalMirai';
 export { mikuExpo } from './mikuExpo';
+export { snowMiku } from './snowMiku';
 // export { mikuSymphony } from './mikuSymphony';
+// export { racingMiku } from './racingMiku';

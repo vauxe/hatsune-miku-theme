@@ -14,30 +14,27 @@ export { character } from './core';
 // VOICEBANK VARIANTS - Different software versions
 // ==========================================================================
 export {
+  mikuV2,
   mikuAppend,
   mikuV3,
   mikuV3English,
   mikuV4X,
   mikuV4Chinese,
   mikuNT,
-  mikuV6,
 } from './voicebanks';
 
+// ==========================================================================
+// DERIVATIVE CHARACTERS
+// ==========================================================================
 export { sakuraMiku } from './derivatives';
 
 // ==========================================================================
 // ANNUAL EVENT COSTUMES
 // ==========================================================================
-export { snowMikuCore, snowMiku } from './events/snowMiku';
-export { racingMiku, thaiRacingMiku } from './events/racingMiku';
-export { magicalMirai } from './events/magicalMirai';
-export { mikuExpo } from './events/mikuExpo';
-export { mikuSymphony } from './events/mikuSymphony';
-export {
-  // Removed outdated events
-  lawsonLive,
-  projectMirai,
-} from './events/specialEvents';
+export { digitalStars } from './events';
+export { magicalMirai } from './events';
+export { mikuExpo } from './events';
+export { snowMiku } from './events';
 
 // ==========================================================================
 // GAME APPEARANCES
@@ -47,7 +44,6 @@ export {
 export {
   projectSekai,
   virtualSinger,
-  emptySekai,
   leoNeed,
   moreMoreJump,
   vividBadSquad,
@@ -72,7 +68,6 @@ export {
   acute,
   tripleBaka,
   oddsAndEnds,
-  // New additions
   knife,
   packaged,
   blackRockShooter,
@@ -83,50 +78,26 @@ export {
 } from './games';
 
 // ==========================================================================
-// COLLABORATIONS - Brand Partnerships
-// ==========================================================================
-export {
-  dominosPizza,
-  pocariSweat,
-  googleChrome,
-  familyMart,
-  playstation,
-  sevenEleven,
-  sega,
-  pokemonVoltage,
-  sanrio,
-  groundY,
-} from './collaborations';
-
-// ==========================================================================
 // UNIFIED PALETTE OBJECT
 // ==========================================================================
 import { character } from './core';
 import {
+  mikuV2,
   mikuAppend,
   mikuV3,
   mikuV3English,
   mikuV4X,
   mikuV4Chinese,
   mikuNT,
-  mikuV6,
 } from './voicebanks';
 import { sakuraMiku } from './derivatives';
-import { snowMikuCore, snowMiku } from './events/snowMiku';
-import { racingMiku, thaiRacingMiku } from './events/racingMiku';
+import { snowMiku } from './events/snowMiku';
+import { racingMiku } from './events/racingMiku';
 import { magicalMirai } from './events/magicalMirai';
 import { mikuExpo } from './events/mikuExpo';
 import { mikuSymphony } from './events/mikuSymphony';
 import { mikuWithYou } from './events/mikuWithYou';
 import { digitalStars } from './events/digitalStars';
-import {
-  coachella2024,
-  thunderbolt,
-  cheerfulJapan,
-  kodoTaiko,
-  lawsonLive,
-  projectMirai,
-} from './events/specialEvents';
 import {
   projectSekai,
   deepSeaGirl,
@@ -152,19 +123,6 @@ import {
   sandPlanet,
   vampire,
 } from './games';
-import {
-  louisVuitton,
-  dominosPizza,
-  pocariSweat,
-  googleChrome,
-  familyMart,
-  playstation,
-  sevenEleven,
-  sega,
-  pokemonVoltage,
-  sanrio,
-  groundY,
-} from './collaborations';
 
 export const palette = {
   // ==========================================================================
@@ -175,13 +133,13 @@ export const palette = {
   // ==========================================================================
   // VOICEBANK VARIANTS - Different software versions
   // ==========================================================================
+  mikuV2,          // Original KEI design (2007)
   mikuAppend,      // Dark futuristic (2010)
   mikuV3,          // Refined classic (2013)
   mikuV3English,   // English voicebank (2013)
   mikuV4X,         // Voice variant colors (2016)
   mikuV4Chinese,   // Chinese dress (2017)
   mikuNT,          // Organic flowing (2020)
-  mikuV6,          // AI synthesis (2025)
 
   // ==========================================================================
   // DERIVATIVE CHARACTERS
@@ -191,25 +149,13 @@ export const palette = {
   // ==========================================================================
   // ANNUAL EVENT COSTUMES
   // ==========================================================================
-  snowMikuCore,    // Shared Snow Miku traits (pale blue hair)
   snowMiku,        // Yearly costumes (2010-2026)
   racingMiku,      // Good Smile Racing costumes (2008-2025)
-  thaiRacingMiku,  // Tanned variant
   magicalMirai,    // Concert costumes (2013-2025)
   mikuExpo,        // World tour costumes (2014-2026)
   mikuSymphony,    // Orchestra concerts (2016-2025)
   mikuWithYou,     // China Tour (2017-2025)
   digitalStars,    // Club events (2020-2025)
-
-  // ==========================================================================
-  // SPECIAL EVENTS
-  // ==========================================================================
-  coachella2024,   // US festival debut
-  thunderbolt,     // Japan Tour 2023
-  cheerfulJapan,   // Cheerleader Miku (2011)
-  kodoTaiko,       // Taiko drumming collaboration
-  lawsonLive,      // LAWSON 50th anniversary concert
-  projectMirai,    // Chibi 3DS game
 
   // ==========================================================================
   // GAME APPEARANCES - Project SEKAI
@@ -241,23 +187,6 @@ export const palette = {
   ghostRule,            // Digital glitch (DECO*27)
   sandPlanet,           // Desert/Wasteland (Hachi)
   vampire,              // Jirai Kei/Landmine (DECO*27)
-
-  // ==========================================================================
-  // COLLABORATIONS - Brand Partnerships
-  // ==========================================================================
-  louisVuitton,    // "The End" opera (2013)
-  dominosPizza,    // App mascot (2016)
-  pocariSweat,     // Sports drink campaign
-  googleChrome,    // "Tell Your World" CM (2012)
-  familyMart,      // Convenience store
-  playstation,     // Gaming collaboration
-  sevenEleven,     // 7-Eleven
-  sega,            // Project DIVA publisher
-
-  // Important
-  pokemonVoltage,  // Project Voltage (18 Types)
-  sanrio,          // Hello Kitty / Cinnamoroll
-  groundY,         // Yohji Yamamoto High Fashion
 } as const;
 
 
