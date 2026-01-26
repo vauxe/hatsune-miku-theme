@@ -5,29 +5,44 @@
 
 export const snowMiku = {
   y2010: {
-    // First Snow Miku - Simple winter outfit
-    hair: '#E8F4F8',       // Pale blue base
+    // First Snow Miku - Winter version of default outfit
+    hair: '#E0EEF5',       // Silver-white with blue hues
     outfit: {
-      coat: '#4A90C0',       // Winter blue coat
-      trim: '#FFFFFF',       // White fur trim
-      scarf: '#FF6B6B',      // Red scarf
+      shirt: '#E8EEF2',      // Silver-white sleeveless
+      trim: '#5DADEC',       // Blue edge trimmings
+      tie: '#5DADEC',        // Blue tie with snowflake
+      sleeves: '#E8EEF2',    // Silver detachable sleeves
+      skirt: '#E8EEF2',      // Matching silver skirt
+      belt: '#5DADEC',       // Blue belt strap
+      boots: '#E8EEF2',      // Silver boots
+      bootSoles: '#5DADEC',  // Blue soles
     },
     accessories: {
-      earmuffs: '#4A90C0',   // Matching blue
+      hairbands: '#5DADEC',  // Silver and blue hairbands
+      snowflakes: '#FFFFFF', // White snowflake designs
     },
   },
 
   y2011: {
-    // Fluffy Coat - First public design contest
-    hair: '#E8F4F8',       // Pale blue
+    // Alternate version of 2010 with winter accessories
+    hair: '#E0EEF5',       // Silver-white with blue hues
     outfit: {
-      coat: '#87CEEB',       // Sky blue coat
-      furTrim: '#FFFFFF',    // White fluffy trim
-      boots: '#4682B4',      // Steel blue
+      shirt: '#E8EEF2',      // Silver-white sleeveless
+      trim: '#5DADEC',       // Blue edge trimmings
+      tie: '#5DADEC',        // Blue tie with snowflake
+      sleeves: '#E8EEF2',    // Silver detachable sleeves
+      skirt: '#E8EEF2',      // Matching silver skirt
+      belt: '#5DADEC',       // Blue belt strap
+      boots: '#E8EEF2',      // Silver boots
+      bootSoles: '#5DADEC',  // Blue soles
     },
     accessories: {
-      ribbon: '#FF69B4',     // Pink ribbon
-      mittens: '#FFFFFF',
+      earmuffs: '#FFFFFF',   // White earmuffs with blue snowflakes
+      earmuffDesign: '#5DADEC', // Blue snowflake designs
+      scarf: '#FFFFFF',      // White scarf with blue snowflakes
+      scarfDesign: '#5DADEC',// Blue snowflake pattern
+      mittens: '#FFFFFF',    // Matching white mittens
+      hairbands: '#5DADEC',  // Silver and blue hairbands
     },
   },
 
