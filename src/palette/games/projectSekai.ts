@@ -35,7 +35,11 @@ export const virtualSinger = {
     hairClips: '#1A1A1A',  // Black square clips
     hairClipAccent: '#E53935', // Red accent
     tie: '#33CCBB',
+    tieClip: '#78909C',    // Grey clip on tie
     tattoo: '#E53935',     // Red "01" on left shoulder
+    socks: '#33CCBB',      // Thigh-high blending into shoes
+    shoes: '#33CCBB',      // Teal-trimmed shoes
+    shoesBase: '#1A1A1A',
   },
 } as const;
 
@@ -66,8 +70,12 @@ export const leoNeed = {
   accessories: {
     hairClips: '#1A1A1A',
     hairClipAccent: '#E53935',
+    safetyPin: '#C0C0C0',  // Silver safety pin accessory
+    wristBands: '#C2185B', // Plaid ruffles
+    wristBuckles: '#FFD700', // Gold buckles
     socks: '#1A1A1A',      // Black thigh-high
     shoes: '#FFFFFF',      // Black and white sneakers
+    shoesBlack: '#1A1A1A',
   },
 } as const;
 
@@ -96,9 +104,16 @@ export const moreMoreJump = {
   },
 
   accessories: {
-    hairRibbons: '#FFD700', // Golden star and diamond ribbons
+    hairRibbonStar: '#1A1A1A', // Black star-patterned ribbon (right)
+    hairRibbonDiamond: '#FFFFFF', // White diamond-patterned ribbon (right)
+    hairTie: '#33CCBB',    // Cone-shaped tie (left)
     pendant: '#FFD700',    // Golden star pendant
-    boots: '#FFFFFF',      // White high-heeled
+    collar: '#FFFFFF',     // Detached collar
+    collarPattern: '#33CCBB', // Diamond pattern with teal borders
+    vest: '#FFFFFF',       // Star-button vest
+    vestChains: '#C0C0C0', // Chains connecting vest
+    backRibbon: '#FFFFFF', // Large flowing white ribbon
+    boots: '#FFFFFF',      // White high-heeled mid-shin
     bootButtons: '#E53935', // Red buttons
     legBand: '#FFFFFF',    // White with red "01"
     legBandText: '#E53935',
@@ -134,7 +149,15 @@ export const vividBadSquad = {
   accessories: {
     earrings: '#FFD700',   // Gold hoops
     choker: '#1A1A1A',     // Black with chain
+    chokerChain: '#C0C0C0', // Silver chain
     shoes: '#FFFFFF',      // Black and white sneakers
+    shoesBlack: '#1A1A1A',
+  },
+
+  // Hoodie details
+  hoodieDetails: {
+    text: '#FFFFFF',       // "FANTASTIC" lettering
+    splatters: '#FF4081',  // Paint splatter accents
   },
 } as const;
 
@@ -207,6 +230,9 @@ export const nightcord = {
     hairBows: '#F5F5DC',   // Off-white/cream
     nails: '#33CCBB',      // Turquoise nail polish
     sock: '#505055',       // Dark grey (only right leg)
+    tights: '#1A1A1A',     // Black tights
+    shoes: '#1A1A1A',      // Black t-bar flat shoes
+    petticoat: '#FFFFFF',  // White, visible through unbuttoned blouse
   },
 } as const;
 
