@@ -34,69 +34,63 @@ const metadata: ThemeMetadata = {
 
 function generatePaletteDocumentation() {
   return {
-    _description: 'Hatsune Miku Theme - All-Miku Synthesis (V2 → SEKAI)',
+    _description: 'Hatsune Miku Theme - Character Design Palette Reference',
 
-    _allMikuSynthesis: {
-      _description: "Every Miku version mapped to UI layers - #39C5BB is THE identity",
-      _versionMapping: {
-        identity: { version: 'V2 Classic', color: '#39C5BB', reason: 'THE canonical Miku teal since 2007' },
-        stage: { version: 'SEKAI', color: '#33CCBB', reason: 'Stage performance, multi-cursor' },
-        functions: { version: 'NT', color: '#00BCD4', reason: 'Modern tech voice' },
-        types: { version: 'Append Light', color: '#B2EBE7', reason: 'Airy structure' },
-        hover: { version: 'Append Sweet', color: '#5FCEC8', reason: 'Warm, inviting' },
-        focus: { version: 'V4X Soft', color: '#6DD4CD', reason: 'Gentle attention' },
-        active: { version: 'V4X Hard', color: '#2B9E96', reason: 'Pressed/clicked' },
-      },
-      _frequencyVisualizer: {
-        _description: 'Indent guides as audio spectrum across versions',
-        bass: { version: 'Append Dark', color: '#1E8A82', level: 1 },
-        low: { version: 'Append Solid', color: '#2AA69E', level: 2 },
-        mid: { version: 'V2 Classic', color: '#39C5BB', level: 3 },
-        high: { version: 'NT', color: '#3ED1C8', level: 4 },
-        peak: { version: 'Append Vivid', color: '#00E5D4', level: 5 },
-        ultra: { version: 'Append Light', color: '#A8EBE6', level: 6 },
+    _designPhilosophy: {
+      _identity: `${palette.mikuV3.hair.base} - THE canonical Miku teal since 2007 (KEI design)`,
+      _uiMapping: {
+        identity: { version: 'V2/V3 Classic', color: palette.mikuV3.hair.base, usage: 'Primary brand, focus states' },
+        stage: { version: 'Project SEKAI', color: palette.projectSekai.virtualSinger.hair.base, usage: 'Multi-cursor, stage elements' },
+        modern: { version: 'NT', color: palette.mikuNT.hair.base, usage: 'Soft, organic elements' },
+        accent: { version: 'Append', color: palette.mikuAppend.hair.base, usage: 'Vivid highlights' },
       },
     },
 
-    _sekaiReference: {
-      _description: 'SEKAI Miku colors - used for stage/performance elements',
-      imageColor: '#33CCBB',
-      classroomPinkHighlight: '#FF6B9D',
-      emptyHeterochromia: { turquoise: '#33CCBB', pink: '#FF80AB' },
-      stageVibrancy: 'COLORFUL = bold, saturated, electric',
-      usage: 'Secondary cursor, stage accents - NOT main identity',
-    },
-
+    // =========================================================================
+    // CORE CHARACTER
+    // =========================================================================
     _character: palette.character,
-    _versions: palette.versions,
-    _append: palette.append,
-    _v4xVoice: palette.v4xVoice,
-    _seasonal: palette.seasonal,
 
-    _snowMiku: palette.snowMiku,
-    _racingMiku: palette.racingMiku,
-    _magicalMirai: palette.magicalMirai,
-    _mikuExpo: palette.mikuExpo,
-    _projectDiva: palette.projectDiva,
-    _collaboration: palette.collaborations,
-    _mikuNT: palette.mikuNT,
-    _sakuraMiku: palette.sakuraMiku,
-    _vocaloidFamily: palette.vocaloidFamily,
+    // =========================================================================
+    // VOICEBANK VARIANTS
+    // =========================================================================
+    _voicebanks: {
+      mikuV2: palette.mikuV2,
+      mikuAppend: palette.mikuAppend,
+      mikuV3: palette.mikuV3,
+      mikuV3English: palette.mikuV3English,
+      mikuV4X: palette.mikuV4X,
+      mikuV4Chinese: palette.mikuV4Chinese,
+      mikuNT: palette.mikuNT,
+    },
 
-    _cryptonFamily: palette.cryptonFamily,
-    _stage: palette.stage,
-    _digital: palette.digital,
-    _hologram: palette.hologram,
-    _frequency: palette.frequency,
+    // =========================================================================
+    // DERIVATIVE CHARACTERS
+    // =========================================================================
+    _derivatives: {
+      sakuraMiku: palette.sakuraMiku,
+      miku15thAnniversary: palette.miku15thAnniversary,
+      miku16thAnniversary: palette.miku16thAnniversary,
+      gundam45thMiku: palette.gundam45thMiku,
+      lawson50thMiku: palette.lawson50thMiku,
+    },
 
-    _teals: palette.teals,
-    _pinks: palette.pinks,
-    _cyans: palette.cyans,
-    _blacks: palette.blacks,
-    _greys: palette.greys,
-    _accents: palette.accents,
-    _foregrounds: palette.foregrounds,
-    _semantic: palette.semantic,
+    // =========================================================================
+    // ANNUAL EVENTS
+    // =========================================================================
+    _events: {
+      snowMiku: palette.snowMiku,
+      magicalMirai: palette.magicalMirai,
+      mikuExpo: palette.mikuExpo,
+      digitalStars: palette.digitalStars,
+    },
+
+    // =========================================================================
+    // GAME APPEARANCES
+    // =========================================================================
+    _games: {
+      projectSekai: palette.projectSekai,
+    },
   };
 }
 

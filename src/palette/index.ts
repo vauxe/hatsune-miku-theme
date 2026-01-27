@@ -26,7 +26,13 @@ export {
 // ==========================================================================
 // DERIVATIVE CHARACTERS
 // ==========================================================================
-export { sakuraMiku } from './derivatives';
+export {
+  sakuraMiku,
+  miku15thAnniversary,
+  miku16thAnniversary,
+  gundam45thMiku,
+  lawson50thMiku,
+} from './derivatives';
 
 // ==========================================================================
 // ANNUAL EVENT COSTUMES
@@ -39,43 +45,7 @@ export { snowMiku } from './events';
 // ==========================================================================
 // GAME APPEARANCES
 // ==========================================================================
-
-// Project SEKAI - Unit-specific character designs
-export {
-  projectSekai,
-  virtualSinger,
-  leoNeed,
-  moreMoreJump,
-  vividBadSquad,
-  wonderlandsShowtime,
-  nightcord,
-} from './games';
-
-// Project DIVA - Song-based costume modules
-export {
-  deepSeaGirl,
-  catEars,
-  loveIsWar,
-  worldIsMine,
-  senbonzakura,
-  gothic,
-  melt,
-  rollingGirl,
-  tellYourWorld,
-  ievanPolkka,
-  sadisticMusicFactory,
-  twoFacedLovers,
-  acute,
-  tripleBaka,
-  oddsAndEnds,
-  knife,
-  packaged,
-  blackRockShooter,
-  decorator,
-  ghostRule,
-  sandPlanet,
-  vampire,
-} from './games';
+export { projectSekai } from './games';
 
 // ==========================================================================
 // UNIFIED PALETTE OBJECT
@@ -90,7 +60,13 @@ import {
   mikuV4Chinese,
   mikuNT,
 } from './voicebanks';
-import { sakuraMiku } from './derivatives';
+import {
+  sakuraMiku,
+  miku15thAnniversary,
+  miku16thAnniversary,
+  gundam45thMiku,
+  lawson50thMiku,
+} from './derivatives';
 import { snowMiku } from './events/snowMiku';
 import { racingMiku } from './events/racingMiku';
 import { magicalMirai } from './events/magicalMirai';
@@ -144,7 +120,11 @@ export const palette = {
   // ==========================================================================
   // DERIVATIVE CHARACTERS
   // ==========================================================================
-  sakuraMiku,      // Cherry blossom pink version
+  sakuraMiku,             // Cherry blossom pink version
+  miku15thAnniversary,    // Strawberry ver. (2022)
+  miku16thAnniversary,    // Wings of Creation (2023)
+  gundam45thMiku,         // RX-78-2 collab (2024)
+  lawson50thMiku,         // Cyan Blue collab (2026)
 
   // ==========================================================================
   // ANNUAL EVENT COSTUMES

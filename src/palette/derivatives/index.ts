@@ -236,20 +236,3 @@ export const lawson50thMiku = {
         bootsTrim: '#FFFFFF',
     },
 } as const;
-
-// =============================================================================
-// COMBINED EXPORT
-// =============================================================================
-
-export const derivatives = {
-    // Seasonal Variants
-    sakuraMiku,
-
-    // Anniversary Designs
-    miku15thAnniversary,
-    miku16thAnniversary,
-
-    // Brand Collaborations
-    gundam45thMiku,
-    lawson50thMiku,
-} as const;
