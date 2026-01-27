@@ -420,9 +420,7 @@
       "editorCommentsWidget.resolvedBorder",
       "editorCommentsWidget.unresolvedBorder",
       "editorCommentsWidget.rangeBackground",
-      "editorCommentsWidget.rangeBorder",
       "editorCommentsWidget.rangeActiveBackground",
-      "editorCommentsWidget.rangeActiveBorder",
       "editorCommentsWidget.replyInputBackground"
     ],
     "inlineEdit": [
@@ -871,12 +869,6 @@
       "walkThrough.embeddedEditorBackground",
       "walkthrough.stepTitle.foreground"
     ],
-    "sourceControl": [
-      "scm.historyItemAdditionsForeground",
-      "scm.historyItemDeletionsForeground",
-      "scm.historyItemStatisticsBorder",
-      "scm.historyItemSelectedStatisticsBorder"
-    ],
     "scmGraph": [
       "scmGraph.historyItemHoverLabelForeground",
       "scmGraph.foreground1",
@@ -1201,7 +1193,6 @@
       "enum",
       "typeParameter",
       "function",
-      "member",
       "method",
       "macro",
       "variable",
@@ -1214,13 +1205,15 @@
     ],
     "modifiers": [
       "declaration",
-      "documentation",
+      "definition",
+      "readonly",
       "static",
-      "abstract",
       "deprecated",
-      "modification",
+      "abstract",
       "async",
-      "readonly"
+      "modification",
+      "documentation",
+      "defaultLibrary"
     ]
   },
   "metadata": {
@@ -1235,7 +1228,7 @@
     "notes": {
       "colors": "Contains 700+ workbench/UI color keys organized by category",
       "tokenColors": "Official TextMate scopes from VS Code's colorThemeSchema.ts (100 scopes)",
-      "semanticTokenColors": "Official types (24) and modifiers (8) from tokenClassificationRegistry.ts"
+      "semanticTokenColors": "Official types (23) and modifiers (10) from tokenClassificationRegistry.ts"
     }
   }
 }
