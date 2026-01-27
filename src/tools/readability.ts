@@ -127,22 +127,26 @@ function computeStats(results: ColorResult[], expectedPolarity: Polarity): Stats
 // DISTINCTION ANALYSIS
 // =============================================================================
 
+type DistinctionResult = { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] };
+
 /**
- * Analyze color distinction between commonly adjacent syntax elements.
+ * Generic color distinction analyzer.
+ * Compares pairs of colors to ensure they are visually distinguishable.
  * Handles transparent colors by compositing against background before comparison.
+ *
+ * @param colors - Color map to analyze
+ * @param pairsDef - Array of [name1, name2] pairs to compare
+ * @param bg - Background color for alpha compositing
  */
-function analyzeDistinction(
-  syntax: Record<string, ColorValue>,
-  comments: ColorValue,
+function analyzeColorDistinction(
+  colors: Record<string, ColorValue>,
+  pairsDef: readonly (readonly [string, string])[],
   bg: string
-): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
+): DistinctionResult {
   const pairs: DistinctionPair[] = [];
   const skipped: DistinctionSkippedPair[] = [];
 
-  // Add comment to syntax for analysis
-  const colors: Record<string, ColorValue> = { ...syntax, comment: comments };
-
-  for (const [name1, name2] of ADJACENCY_PAIRS) {
+  for (const [name1, name2] of pairsDef) {
     const cv1 = colors[name1];
     const cv2 = colors[name2];
 
@@ -156,7 +160,6 @@ function analyzeDistinction(
       continue;
     }
 
-    // deltaE00Hex handles alpha compositing against bg internally
     const dE = deltaE00Hex(cv1.color, cv2.color, bg);
 
     if (dE === null) {
@@ -182,355 +185,37 @@ function analyzeDistinction(
   return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
 }
 
-/**
- * Analyze symbol discrimination using symbol icon colors
- * These are the colors shown in autocomplete, outline, breadcrumbs, etc.
- */
-function analyzeSymbolDiscrimination(
-  symbolIcons: Record<string, ColorValue>,
-  bg: string
-): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
-  const pairs: DistinctionPair[] = [];
-  const skipped: DistinctionSkippedPair[] = [];
+/** Syntax adjacency - commonly side-by-side token colors */
+const analyzeSyntaxDistinction = (syntax: Record<string, ColorValue>, comment: ColorValue, bg: string) =>
+  analyzeColorDistinction({ ...syntax, comment }, ADJACENCY_PAIRS, bg);
 
-  for (const [name1, name2] of SYMBOL_DISCRIMINATION_PAIRS) {
-    const cv1 = symbolIcons[name1];
-    const cv2 = symbolIcons[name2];
+/** Symbol icons - autocomplete, outline, breadcrumbs */
+const analyzeSymbolDistinction = (symbols: Record<string, ColorValue>, bg: string) =>
+  analyzeColorDistinction(symbols, SYMBOL_DISCRIMINATION_PAIRS, bg);
 
-    if (!cv1 || !cv2) {
-      skipped.push({ name1, name2, reason: 'missing' });
-      continue;
-    }
+/** Status distinction - error/warning/info severity */
+const analyzeStatusDistinction = (syntax: Record<string, ColorValue>, bg: string) =>
+  analyzeColorDistinction(syntax, STATUS_DISTINCTION_PAIRS, bg);
 
-    if (cv1.fallback || cv2.fallback) {
-      skipped.push({ name1, name2, reason: 'fallback' });
-      continue;
-    }
+/** Git distinction - added/modified/deleted/untracked */
+const analyzeGitDistinction = (git: Record<string, ColorValue>, bg: string) =>
+  analyzeColorDistinction(git, GIT_DISTINCTION_PAIRS, bg);
 
-    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
+/** State distinction - active vs inactive UI elements */
+const analyzeStateDistinction = (states: Record<string, ColorValue>, bg: string) =>
+  analyzeColorDistinction(states, STATE_DISTINCTION_PAIRS, bg);
 
-    if (dE === null) {
-      skipped.push({ name1, name2, reason: 'invalid' });
-      continue;
-    }
+/** Bracket distinction - rainbow brackets adjacent levels */
+const analyzeBracketDistinction = (brackets: Record<string, ColorValue>, bg: string) =>
+  analyzeColorDistinction(brackets, BRACKET_DISTINCTION_PAIRS, bg);
 
-    const { level, icon, pass } = getDistinctionLevel(dE);
-    pairs.push({
-      name1,
-      name2,
-      color1: cv1.color,
-      color2: cv2.color,
-      key1: cv1.source?.key ?? name1,
-      key2: cv2.source?.key ?? name2,
-      deltaE: dE,
-      level,
-      icon,
-      pass,
-    });
-  }
+/** Terminal ANSI distinction - red/green for error/success */
+const analyzeTerminalDistinction = (terminal: Record<string, ColorValue>, bg: string) =>
+  analyzeColorDistinction(terminal, TERMINAL_DISTINCTION_PAIRS, bg);
 
-  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
-}
-
-/**
- * Analyze status distinction (error/warning/info)
- * Critical for quickly identifying diagnostic severity
- */
-function analyzeStatusDistinction(
-  syntax: Record<string, ColorValue>,
-  bg: string
-): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
-  const pairs: DistinctionPair[] = [];
-  const skipped: DistinctionSkippedPair[] = [];
-
-  for (const [name1, name2] of STATUS_DISTINCTION_PAIRS) {
-    const cv1 = syntax[name1];
-    const cv2 = syntax[name2];
-
-    if (!cv1 || !cv2) {
-      skipped.push({ name1, name2, reason: 'missing' });
-      continue;
-    }
-
-    if (cv1.fallback || cv2.fallback) {
-      skipped.push({ name1, name2, reason: 'fallback' });
-      continue;
-    }
-
-    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
-
-    if (dE === null) {
-      skipped.push({ name1, name2, reason: 'invalid' });
-      continue;
-    }
-
-    const { level, icon, pass } = getDistinctionLevel(dE);
-    pairs.push({
-      name1,
-      name2,
-      color1: cv1.color,
-      color2: cv2.color,
-      key1: cv1.source?.key ?? name1,
-      key2: cv2.source?.key ?? name2,
-      deltaE: dE,
-      level,
-      icon,
-      pass,
-    });
-  }
-
-  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
-}
-
-/**
- * Analyze git distinction (added/modified/deleted/untracked)
- * Users need to quickly identify file state changes
- */
-function analyzeGitDistinction(
-  git: Record<string, ColorValue>,
-  bg: string
-): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
-  const pairs: DistinctionPair[] = [];
-  const skipped: DistinctionSkippedPair[] = [];
-
-  for (const [name1, name2] of GIT_DISTINCTION_PAIRS) {
-    const cv1 = git[name1];
-    const cv2 = git[name2];
-
-    if (!cv1 || !cv2) {
-      skipped.push({ name1, name2, reason: 'missing' });
-      continue;
-    }
-
-    if (cv1.fallback || cv2.fallback) {
-      skipped.push({ name1, name2, reason: 'fallback' });
-      continue;
-    }
-
-    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
-
-    if (dE === null) {
-      skipped.push({ name1, name2, reason: 'invalid' });
-      continue;
-    }
-
-    const { level, icon, pass } = getDistinctionLevel(dE);
-    pairs.push({
-      name1,
-      name2,
-      color1: cv1.color,
-      color2: cv2.color,
-      key1: cv1.source?.key ?? name1,
-      key2: cv2.source?.key ?? name2,
-      deltaE: dE,
-      level,
-      icon,
-      pass,
-    });
-  }
-
-  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
-}
-
-/**
- * Analyze state distinction (active vs inactive UI elements)
- * Tests whether users can perceive state changes
- */
-function analyzeStateDistinction(
-  states: Record<string, ColorValue>,
-  bg: string
-): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
-  const pairs: DistinctionPair[] = [];
-  const skipped: DistinctionSkippedPair[] = [];
-
-  for (const [name1, name2] of STATE_DISTINCTION_PAIRS) {
-    const cv1 = states[name1];
-    const cv2 = states[name2];
-
-    if (!cv1 || !cv2) {
-      skipped.push({ name1, name2, reason: 'missing' });
-      continue;
-    }
-
-    if (cv1.fallback || cv2.fallback) {
-      skipped.push({ name1, name2, reason: 'fallback' });
-      continue;
-    }
-
-    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
-
-    if (dE === null) {
-      skipped.push({ name1, name2, reason: 'invalid' });
-      continue;
-    }
-
-    const { level, icon, pass } = getDistinctionLevel(dE);
-    pairs.push({
-      name1,
-      name2,
-      color1: cv1.color,
-      color2: cv2.color,
-      key1: cv1.source?.key ?? name1,
-      key2: cv2.source?.key ?? name2,
-      deltaE: dE,
-      level,
-      icon,
-      pass,
-    });
-  }
-
-  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
-}
-
-/**
- * Analyze bracket distinction (rainbow brackets)
- * Adjacent nesting levels should be distinguishable
- */
-function analyzeBracketDistinction(
-  brackets: Record<string, ColorValue>,
-  bg: string
-): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
-  const pairs: DistinctionPair[] = [];
-  const skipped: DistinctionSkippedPair[] = [];
-
-  for (const [name1, name2] of BRACKET_DISTINCTION_PAIRS) {
-    const cv1 = brackets[name1];
-    const cv2 = brackets[name2];
-
-    if (!cv1 || !cv2) {
-      skipped.push({ name1, name2, reason: 'missing' });
-      continue;
-    }
-
-    if (cv1.fallback || cv2.fallback) {
-      skipped.push({ name1, name2, reason: 'fallback' });
-      continue;
-    }
-
-    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
-
-    if (dE === null) {
-      skipped.push({ name1, name2, reason: 'invalid' });
-      continue;
-    }
-
-    const { level, icon, pass } = getDistinctionLevel(dE);
-    pairs.push({
-      name1,
-      name2,
-      color1: cv1.color,
-      color2: cv2.color,
-      key1: cv1.source?.key ?? name1,
-      key2: cv2.source?.key ?? name2,
-      deltaE: dE,
-      level,
-      icon,
-      pass,
-    });
-  }
-
-  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
-}
-
-/**
- * Analyze terminal ANSI distinction
- * Critical for error vs success identification (red/green)
- */
-function analyzeTerminalDistinction(
-  terminal: Record<string, ColorValue>,
-  bg: string
-): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
-  const pairs: DistinctionPair[] = [];
-  const skipped: DistinctionSkippedPair[] = [];
-
-  for (const [name1, name2] of TERMINAL_DISTINCTION_PAIRS) {
-    const cv1 = terminal[name1];
-    const cv2 = terminal[name2];
-
-    if (!cv1 || !cv2) {
-      skipped.push({ name1, name2, reason: 'missing' });
-      continue;
-    }
-
-    if (cv1.fallback || cv2.fallback) {
-      skipped.push({ name1, name2, reason: 'fallback' });
-      continue;
-    }
-
-    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
-
-    if (dE === null) {
-      skipped.push({ name1, name2, reason: 'invalid' });
-      continue;
-    }
-
-    const { level, icon, pass } = getDistinctionLevel(dE);
-    pairs.push({
-      name1,
-      name2,
-      color1: cv1.color,
-      color2: cv2.color,
-      key1: cv1.source?.key ?? name1,
-      key2: cv2.source?.key ?? name2,
-      deltaE: dE,
-      level,
-      icon,
-      pass,
-    });
-  }
-
-  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
-}
-
-/**
- * Analyze diff distinction (added vs deleted)
- * Critical for code review - must be obviously different
- */
-function analyzeDiffDistinction(
-  git: Record<string, ColorValue>,
-  bg: string
-): { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] } {
-  const pairs: DistinctionPair[] = [];
-  const skipped: DistinctionSkippedPair[] = [];
-
-  for (const [name1, name2] of DIFF_DISTINCTION_PAIRS) {
-    const cv1 = git[name1];
-    const cv2 = git[name2];
-
-    if (!cv1 || !cv2) {
-      skipped.push({ name1, name2, reason: 'missing' });
-      continue;
-    }
-
-    if (cv1.fallback || cv2.fallback) {
-      skipped.push({ name1, name2, reason: 'fallback' });
-      continue;
-    }
-
-    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
-
-    if (dE === null) {
-      skipped.push({ name1, name2, reason: 'invalid' });
-      continue;
-    }
-
-    const { level, icon, pass } = getDistinctionLevel(dE);
-    pairs.push({
-      name1,
-      name2,
-      color1: cv1.color,
-      color2: cv2.color,
-      key1: cv1.source?.key ?? name1,
-      key2: cv2.source?.key ?? name2,
-      deltaE: dE,
-      level,
-      icon,
-      pass,
-    });
-  }
-
-  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
-}
+/** Diff distinction - added vs deleted for code review */
+const analyzeDiffDistinction = (git: Record<string, ColorValue>, bg: string) =>
+  analyzeColorDistinction(git, DIFF_DISTINCTION_PAIRS, bg);
 
 // =============================================================================
 // OUTPUT FORMATTING (Plain text - one line per issue)
@@ -1059,7 +744,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // ==========================================================================
 
   // 1. Syntax adjacency - commonly side-by-side token colors
-  const syntaxDistinction = analyzeDistinction(c.syntax, c.syntax.comment, c.bg.editor);
+  const syntaxDistinction = analyzeSyntaxDistinction(c.syntax, c.syntax.comment, c.bg.editor);
 
   // 2. Status distinction - error/warning/info severity
   const statusDistinction = analyzeStatusDistinction(c.syntax, c.bg.editor);
@@ -1071,7 +756,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   const stateDistinction = analyzeStateDistinction(c.states, c.bg.editor);
 
   // 5. Symbol discrimination - icon colors in autocomplete
-  const symbolDistinction = analyzeSymbolDiscrimination(c.symbolIcons, c.bg.suggest);
+  const symbolDistinction = analyzeSymbolDistinction(c.symbolIcons, c.bg.suggest);
 
   // 6. Bracket distinction - rainbow brackets need adjacent level distinction
   const bracketDistinction = analyzeBracketDistinction(c.brackets, c.bg.editor);
