@@ -1,20 +1,13 @@
-import {
-  pinks,
-  cyans,
-  greys,
-  foregrounds,
-  accents,
-  hologram,
-  character,
-  append,
-  boosted,
-  versions,
-  snowMiku,
-  magicalMirai,
-  mikuExpo,
-  iconicPVs,
-  racingMiku,
-} from '../palette';
+import { character } from '../palette';
+
+const pinks = { sekai: '#E05096', blush: '#FFB8C8', soft: '#FF8EB8', hot: '#FF4081', pale: '#FFD4E5' };
+const greys = { slate: '#37474F', steel: '#455A64', silver: '#90A4AE', platinum: '#CFD8DC' };
+const foregrounds = { primary: '#E8F0F2', secondary: '#B0BEC5', comment: '#78909C', bright: '#FFFFFF' };
+const accents = { amber: '#FFB74D', gold: '#FFD54F', orange: '#FF9800', coral: '#FF7043' };
+const hologram = { cyan: '#00E5FF', purple: '#B388FF' };
+const append = { light: '#B0E0DB', vivid: '#00BCD4' };
+const boosted = { purple: '#B388FF', coral: '#FF7043', coralGlow: '#FF6B6B' };
+const racingMiku = { team: { gsmTeal: '#39C5BB' }, y2014: { limeAccent: '#AEEA00' }, y2016: { accentPink: '#FF4081' }, y2017: { highlightCyan: '#00E5FF', gradientPurple: '#B388FF' }, y2018: { holoBlue: '#40C4FF' } };
 type SemanticTokenSetting =
   | string
   | {
@@ -22,12 +15,12 @@ type SemanticTokenSetting =
       fontStyle?: string;
     };
 export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
-  keyword: character.hair.shine,
+  keyword: character.hair.highlight,
   function: hologram.cyan,
   'function.declaration': {
     foreground: hologram.cyan,
   },
-  'function.defaultLibrary': character.hair.shine,
+  'function.defaultLibrary': character.hair.highlight,
   method: character.skin.blush,
   'method.declaration': {
     foreground: character.skin.blush,
@@ -36,8 +29,8 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   class: accents.amber,
   'class.declaration': accents.amber,
   'class.defaultLibrary': boosted.purple,
-  interface: snowMiku.y2011.winterBlue,
-  'interface.declaration': snowMiku.y2011.winterBlue,
+  interface: hologram.cyan,
+  'interface.declaration': hologram.cyan,
   type: pinks.pale,
   'type.declaration': pinks.pale,
   typeParameter: boosted.purple,
@@ -47,7 +40,7 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   namespace: boosted.purple,
   variable: foregrounds.primary,
   'variable.declaration': foregrounds.primary,
-  'variable.readonly': magicalMirai.y2017.celebrationGold,
+  'variable.readonly': accents.gold,
   'variable.defaultLibrary': hologram.cyan,
   property: character.skin.blush,
   'property.declaration': character.skin.blush,
@@ -57,7 +50,7 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   number: character.negi.bright,
   operator: accents.orange,
   comment: {
-    foreground: snowMiku.y2011.mufflerGrey,
+    foreground: greys.silver,
     fontStyle: 'italic',
   },
   'comment.documentation': {

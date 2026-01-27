@@ -1,27 +1,17 @@
-import {
-  teals,
-  pinks,
-  cyans,
-  greys,
-  foregrounds,
-  accents,
-  hologram,
-  character,
-  append,
-  boosted,
-  versions,
-  snowMiku,
-  magicalMirai,
-  mikuExpo,
-  iconicPVs,
-  racingMiku,
-  viralHits,
-  derivativeCharacters,
-  projectDiva,
-  sakuraMiku,
-  seasonalExpanded,
-  projectSekai,
-} from '../palette';
+import { character } from '../palette';
+
+const teals = { classic: '#39C5BB', bright: '#5DE4DB', neon: '#00FFF0', stage: '#4DD0C8' };
+const pinks = { sekai: '#E05096', blush: '#FFB8C8', soft: '#FF8EB8', hot: '#FF4081', pale: '#FFD4E5' };
+const greys = { slate: '#37474F', steel: '#455A64', silver: '#90A4AE', platinum: '#CFD8DC' };
+const foregrounds = { primary: '#E8F0F2', secondary: '#B0BEC5', comment: '#78909C', bright: '#FFFFFF' };
+const accents = { amber: '#FFB74D', gold: '#FFD54F', orange: '#FF9800', coral: '#FF7043' };
+const hologram = { cyan: '#00E5FF', purple: '#B388FF' };
+const append = { light: '#B0E0DB', vivid: '#00BCD4' };
+const boosted = { purple: '#B388FF', coral: '#FF7043', coralGlow: '#FF6B6B' };
+const versions = { v2: '#39C5BB', v3: '#5DE4DB', v4x: '#00E5FF', nt: '#FFB74D', v6ai: '#B388FF' };
+const iconicPVs = { worldIsMine: { crown: '#FFD700' }, melt: { blush: '#FFB8C8', warmPink: '#FF8EB8' }, senbonzakura: { sakuraPink: '#FFB7C5' } };
+const racingMiku = { team: { gsmTeal: '#39C5BB' }, y2014: { limeAccent: '#AEEA00' }, y2016: { accentPink: '#FF4081' }, y2017: { highlightCyan: '#00E5FF', gradientPurple: '#B388FF' }, y2018: { holoBlue: '#40C4FF' } };
+const viralHits = { mesmerizer: { mikuTeal: '#39C5BB', hypnosis: '#B388FF' }, vampire: { gothicLavender: '#CE93D8' }, king: { crownGold: '#FFD54F' } };
 interface TokenColorRule {
   name: string;
   scope: string | string[];
@@ -36,7 +26,7 @@ export const tokenColors: TokenColorRule[] = [
     scope: ['comment', 'punctuation.definition.comment'],
     settings: {
       fontStyle: 'italic',
-      foreground: snowMiku.y2011.mufflerGrey,
+      foreground: greys.silver,
     },
   },
   {
@@ -55,7 +45,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Control Keywords',
     scope: ['keyword.control', 'keyword.control.flow', 'keyword.control.import'],
     settings: {
-      foreground: character.hair.shine,
+      foreground: character.hair.highlight,
     },
   },
   {
@@ -97,7 +87,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Library/Support Functions',
     scope: ['support.function', 'support.function.console'],
     settings: {
-      foreground: character.hair.shine,
+      foreground: character.hair.highlight,
     },
   },
   {
@@ -132,7 +122,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Interfaces',
     scope: ['entity.name.type.interface'],
     settings: {
-      foreground: snowMiku.y2011.winterBlue,
+      foreground: hologram.cyan,
     },
   },
   {
@@ -181,7 +171,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Constants',
     scope: ['variable.other.constant', 'constant.language'],
     settings: {
-      foreground: magicalMirai.y2017.celebrationGold,
+      foreground: accents.gold,
     },
   },
   {
@@ -237,7 +227,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'HTML/JSX Tags',
     scope: ['entity.name.tag'],
     settings: {
-      foreground: character.hair.shine,
+      foreground: character.hair.highlight,
     },
   },
   {
@@ -272,7 +262,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markdown Quote',
     scope: ['markup.quote'],
     settings: {
-      foreground: sakuraMiku.character.hairPink,
+      foreground: pinks.blush,
     },
   },
   {
@@ -370,7 +360,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'SQL Clauses',
     scope: ['keyword.other.sql', 'keyword.other.order.sql', 'keyword.other.alias.sql'],
     settings: {
-      foreground: character.hair.shine,
+      foreground: character.hair.highlight,
     },
   },
   {
@@ -447,7 +437,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'PHP Constants',
     scope: ['support.constant.php', 'constant.language.php'],
     settings: {
-      foreground: magicalMirai.y2017.celebrationGold,
+      foreground: accents.gold,
     },
   },
   {
@@ -482,7 +472,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Ruby Blocks',
     scope: ['keyword.control.ruby', 'keyword.control.def.ruby'],
     settings: {
-      foreground: character.hair.shine,
+      foreground: character.hair.highlight,
     },
   },
   {
@@ -510,7 +500,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Makefile Prerequisite',
     scope: ['entity.name.function.prerequisite.makefile'],
     settings: {
-      foreground: character.eyes.bright,
+      foreground: character.eyes.highlight,
     },
   },
   {
@@ -531,7 +521,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Makefile Automatic Variable',
     scope: ['variable.language.automatic.makefile'],
     settings: {
-      foreground: magicalMirai.y2017.celebrationGold,
+      foreground: accents.gold,
     },
   },
   {
@@ -545,7 +535,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Makefile Keyword',
     scope: ['keyword.control.makefile', 'keyword.other.makefile'],
     settings: {
-      foreground: character.hair.shine,
+      foreground: character.hair.highlight,
     },
   },
   {
@@ -653,7 +643,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Entity Name Constant',
     scope: ['entity.name.constant', 'entity.name.variable.constant'],
     settings: {
-      foreground: magicalMirai.y2017.celebrationGold,
+      foreground: accents.gold,
     },
   },
   {
@@ -667,7 +657,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Entity Name Interface',
     scope: ['entity.name.type.interface', 'entity.name.interface'],
     settings: {
-      foreground: snowMiku.y2011.winterBlue,
+      foreground: hologram.cyan,
     },
   },
   {
@@ -686,28 +676,28 @@ export const tokenColors: TokenColorRule[] = [
       'keyword.declaration.type',
     ],
     settings: {
-      foreground: character.hair.shine,
+      foreground: character.hair.highlight,
     },
   },
   {
     name: 'Keyword Namespace/Import',
     scope: ['keyword.namespace', 'keyword.import', 'keyword.export'],
     settings: {
-      foreground: character.hair.shine,
+      foreground: character.hair.highlight,
     },
   },
   {
     name: 'Keyword Type',
     scope: ['keyword.type', 'keyword.other.type'],
     settings: {
-      foreground: character.hair.shine,
+      foreground: character.hair.highlight,
     },
   },
   {
     name: 'Support Variable',
     scope: ['support.variable', 'support.variable.property'],
     settings: {
-      foreground: character.hair.shine,
+      foreground: character.hair.highlight,
     },
   },
   {
@@ -735,7 +725,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markup Link URL',
     scope: ['markup.underline.link.markdown', 'meta.link.inline.markdown'],
     settings: {
-      foreground: mikuExpo.y2025.asiaCyan,
+      foreground: hologram.cyan,
       fontStyle: 'underline',
     },
   },
@@ -819,28 +809,28 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Rust Lifetime',
     scope: ['storage.modifier.lifetime.rust', 'entity.name.lifetime.rust'],
     settings: {
-      foreground: snowMiku.y2019.royalGold,
+      foreground: accents.gold,
     },
   },
   {
     name: 'Rust Unsafe',
     scope: ['keyword.other.unsafe.rust'],
     settings: {
-      foreground: snowMiku.y2018.craneRed,
+      foreground: pinks.hot,
     },
   },
   {
     name: 'Rust Traits',
     scope: ['entity.name.type.trait.rust'],
     settings: {
-      foreground: snowMiku.y2020.featherGreen,
+      foreground: character.negi.stalk,
     },
   },
   {
     name: 'Rust Macros',
     scope: ['entity.name.function.macro.rust', 'meta.macro.rust'],
     settings: {
-      foreground: snowMiku.y2021.lightLilac,
+      foreground: hologram.purple,
     },
   },
   {
@@ -861,21 +851,21 @@ export const tokenColors: TokenColorRule[] = [
     name: 'YAML Key',
     scope: ['entity.name.tag.yaml'],
     settings: {
-      foreground: sakuraMiku.character.hairPink,
+      foreground: pinks.blush,
     },
   },
   {
     name: 'YAML Anchor',
     scope: ['entity.name.type.anchor.yaml', 'punctuation.definition.anchor.yaml'],
     settings: {
-      foreground: sakuraMiku.environment.petalPink,
+      foreground: pinks.pale,
     },
   },
   {
     name: 'YAML Alias',
     scope: ['variable.other.alias.yaml'],
     settings: {
-      foreground: sakuraMiku.variants.fullBloom,
+      foreground: pinks.soft,
     },
   },
   {
@@ -883,14 +873,14 @@ export const tokenColors: TokenColorRule[] = [
     scope: ['comment.block', 'comment.line'],
     settings: {
       fontStyle: 'italic',
-      foreground: snowMiku.y2011.mufflerGrey,
+      foreground: greys.silver,
     },
   },
   {
     name: 'Constant Base',
     scope: ['constant', 'constant.character'],
     settings: {
-      foreground: magicalMirai.y2017.celebrationGold,
+      foreground: accents.gold,
     },
   },
   {
@@ -945,7 +935,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Keyword Base',
     scope: ['keyword', 'keyword.other'],
     settings: {
-      foreground: character.hair.shine,
+      foreground: character.hair.highlight,
     },
   },
   {
@@ -1048,7 +1038,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Support Base',
     scope: ['support', 'support.constant', 'support.other'],
     settings: {
-      foreground: character.hair.shine,
+      foreground: character.hair.highlight,
     },
   },
   {
