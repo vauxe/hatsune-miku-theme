@@ -933,6 +933,12 @@
       "breadcrumb.activeSelectionForeground",
       "breadcrumbPicker.background"
     ],
+    "snippets": [
+      "editor.snippetTabstopHighlightBackground",
+      "editor.snippetTabstopHighlightBorder",
+      "editor.snippetFinalTabstopHighlightBackground",
+      "editor.snippetFinalTabstopHighlightBorder"
+    ],
     "symbolIcons": [
       "symbolIcon.arrayForeground",
       "symbolIcon.booleanForeground",
@@ -976,7 +982,31 @@
       "charts.yellow",
       "charts.orange",
       "charts.green",
-      "charts.purple"
+      "charts.purple",
+      "chart.line",
+      "chart.axis",
+      "chart.guide"
+    ],
+    "gauge": [
+      "gauge.background",
+      "gauge.foreground",
+      "gauge.border",
+      "gauge.warningBackground",
+      "gauge.warningForeground",
+      "gauge.errorBackground",
+      "gauge.errorForeground"
+    ],
+    "markdownAlert": [
+      "markdownAlert.note.foreground",
+      "markdownAlert.tip.foreground",
+      "markdownAlert.important.foreground",
+      "markdownAlert.warning.foreground",
+      "markdownAlert.caution.foreground"
+    ],
+    "agentSession": [
+      "agentSessionReadIndicator.foreground",
+      "agentSessionSelectedBadge.border",
+      "agentSessionSelectedUnfocusedBadge.border"
     ],
     "ports": [
       "ports.iconRunningProcessForeground"
@@ -1035,8 +1065,7 @@
       "comment.line.percentage",
       "comment.line.character",
       "comment.block",
-      "comment.block.documentation",
-      "punctuation.definition.comment"
+      "comment.block.documentation"
     ],
     "constant": [
       "constant",
@@ -1728,15 +1757,16 @@
     ]
   },
   "metadata": {
-    "generatedFor": "VS Code 1.96+",
+    "generatedFor": "VS Code 1.97+",
     "sources": [
       "https://code.visualstudio.com/api/references/theme-color",
       "https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide",
+      "https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide",
       "https://macromates.com/manual/en/language_grammars"
     ],
     "description": "Comprehensive reference of VS Code theme color keys, TextMate scopes, and semantic token types/modifiers",
     "notes": {
-      "colors": "Contains 700+ workbench/UI color keys organized by category",
+      "colors": "Contains 700+ workbench/UI color keys organized by category including gauge, markdownAlert, and agentSession categories",
       "tokenColors": "TextMate scopes following naming conventions from macromates.com",
       "semanticTokenColors": "Standard types and modifiers per VS Code spec, with language-specific extensions"
     }
