@@ -202,6 +202,9 @@ export interface ExtractedColors {
   symbolIcons: Record<string, ColorValue>;
   settings: Record<string, ColorValue>;
   charts: Record<string, ColorValue>;
+  gauge: Record<string, ColorValue>;
+  markdownAlerts: Record<string, ColorValue>;
+  agentSession: Record<string, ColorValue>;
   states: Record<string, ColorValue>;  // UI state colors for distinction testing
 }
 

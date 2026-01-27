@@ -693,6 +693,7 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       array: getColor(theme, 'symbolIcon.arrayForeground', fg),
       boolean: getColor(theme, 'symbolIcon.booleanForeground', fg),
       class: getColor(theme, 'symbolIcon.classForeground', fg),
+      color: getColor(theme, 'symbolIcon.colorForeground', fg),
       constant: getColor(theme, 'symbolIcon.constantForeground', fg),
       ctor: getColor(theme, 'symbolIcon.constructorForeground', fg),
       enum: getColor(theme, 'symbolIcon.enumeratorForeground', fg),
@@ -732,6 +733,21 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
     },
     charts: {
       foreground: getColor(theme, 'charts.foreground', fg),
+    },
+    gauge: {
+      foreground: getColor(theme, 'gauge.foreground', fg),
+      warningForeground: getColor(theme, 'gauge.warningForeground', fg),
+      errorForeground: getColor(theme, 'gauge.errorForeground', fg),
+    },
+    markdownAlerts: {
+      note: getColor(theme, 'markdownAlert.note.foreground', fg),
+      tip: getColor(theme, 'markdownAlert.tip.foreground', fg),
+      important: getColor(theme, 'markdownAlert.important.foreground', fg),
+      warning: getColor(theme, 'markdownAlert.warning.foreground', fg),
+      caution: getColor(theme, 'markdownAlert.caution.foreground', fg),
+    },
+    agentSession: {
+      readIndicator: getColor(theme, 'agentSessionReadIndicator.foreground', fg),
     },
     // State colors for distinction testing (active vs inactive UI elements)
     states: {

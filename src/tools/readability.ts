@@ -739,6 +739,27 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Chart Text', c.charts.foreground, 'editor'),
   ], LABELS.sectionCharts);
 
+  // Gauge - progress indicators with text labels
+  section([
+    a('Gauge Text', c.gauge.foreground, 'editor'),
+    a('Gauge Warning', c.gauge.warningForeground, 'editor'),
+    a('Gauge Error', c.gauge.errorForeground, 'editor'),
+  ], LABELS.sectionGauge);
+
+  // Markdown Alerts - alert block text in markdown preview
+  section([
+    a('Note', c.markdownAlerts.note, 'editor'),
+    a('Tip', c.markdownAlerts.tip, 'editor'),
+    a('Important', c.markdownAlerts.important, 'editor'),
+    a('Warning', c.markdownAlerts.warning, 'editor'),
+    a('Caution', c.markdownAlerts.caution, 'editor'),
+  ], LABELS.sectionMarkdownAlerts);
+
+  // Agent Session - AI agent indicators
+  section([
+    a('Read Indicator', c.agentSession.readIndicator, 'editor'),
+  ], LABELS.sectionAgentSession);
+
   // ==========================================================================
   // COLOR DISTINCTION ANALYSIS (Delta E 2000)
   // ==========================================================================

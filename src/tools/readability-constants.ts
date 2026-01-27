@@ -171,6 +171,9 @@ export const LABELS = {
   sectionSymbolIcons: 'SYMBOL ICONS',
   sectionSettings: 'SETTINGS EDITOR',
   sectionCharts: 'CHARTS',
+  sectionGauge: 'GAUGE',
+  sectionMarkdownAlerts: 'MARKDOWN ALERTS',
+  sectionAgentSession: 'AGENT SESSION',
   sectionSymbolDiscrimination: 'SYMBOL DISCRIMINATION (ΔE00)',
   sectionTerminalAnsi: 'TERMINAL ANSI',
 
