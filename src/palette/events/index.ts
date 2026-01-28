@@ -13,4 +13,5 @@ export { magicalMirai } from './magicalMirai';
 export { mikuExpo } from './mikuExpo';
 export { snowMiku } from './snowMiku';
 // export { mikuSymphony } from './mikuSymphony';
+// export { mikuWithYou } from './mikuWithYou';
 // export { racingMiku } from './racingMiku';

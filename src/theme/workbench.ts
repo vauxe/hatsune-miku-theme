@@ -1,32 +1,63 @@
+// Core character
 import { character } from '../palette';
 
-const blacks = { void: '#0D1114', base: '#12171B', outfit: '#15191D', sleeve: '#1A1F24' };
-const stage = { darkness: '#0A0C0F', spotlight: '#FFFFFF', ambientTeal: '#39C5BB', accentPink: '#E05096', warmAmber: '#FFB74D' };
-const teals = { classic: '#39C5BB', bright: '#5DE4DB', neon: '#00FFF0', stage: '#4DD0C8' };
-const pinks = { sekai: '#E05096', blush: '#FFB8C8', soft: '#FF8EB8', hot: '#FF4081', pale: '#FFD4E5' };
-const cyans = { ice: '#7FEDE5', bright: '#5DE4DB' };
-const greys = { slate: '#37474F', steel: '#455A64', silver: '#90A4AE', platinum: '#CFD8DC' };
-const foregrounds = { primary: '#E8F0F2', secondary: '#B0BEC5', comment: '#78909C', bright: '#FFFFFF' };
-const accents = { amber: '#FFB74D', gold: '#FFD54F', orange: '#FF9800', coral: '#FF7043' };
-const semantic = { error: '#EF5350', warning: '#FFB74D', success: '#66BB6A', info: '#42A5F5' };
-const hologram = { cyan: '#00E5FF', purple: '#B388FF' };
-const versionMapping = { identity: '#39C5BB', hover: '#5DE4DB', focus: '#7FEDE5', types: '#B388FF' };
-const frequencyVisualizer = { bass: '#1A3A38', low: '#2D6B66', mid: '#39C5BB', high: '#5DE4DB', peak: '#7FEDE5', ultra: '#B2F5F0' };
-const append = { light: '#B0E0DB', vivid: '#00BCD4' };
-const v4xVoice = { soft: '#A5D6D3', normal: '#39C5BB', hard: '#1A8A82' };
-const versions = { v2: '#39C5BB', v3: '#5DE4DB', v4x: '#00E5FF', nt: '#FFB74D', v6ai: '#B388FF' };
-const digital = { dataStream: '#39C5BB', binaryGlow: '#00E5FF', glitch: '#FF4081' };
-const numberSymbolism = { miku39: { heart: '#E05096' }, tattoo01: { background: '#1A1F24', glow: '#39C5BB' } };
-const boosted = { purple: '#B388FF', coral: '#FF7043', coralGlow: '#FF6B6B' };
-const iconicPVs = { worldIsMine: { crown: '#FFD700' }, melt: { blush: '#FFB8C8', warmPink: '#FF8EB8' }, senbonzakura: { sakuraPink: '#FFB7C5' } };
-const seasonalExpanded = { valentine: { heartRed: '#E53935' } };
-const derivativeCharacters = { grayMiku: { hairMid: '#78909C' } };
-const viralHits = { mesmerizer: { mikuTeal: '#39C5BB', hypnosis: '#B388FF' }, vampire: { gothicLavender: '#CE93D8' }, king: { crownGold: '#FFD54F' } };
-const mikuDay = { celebration: { confettiYellow: '#FFEE58' } };
-const artStyles = { mikaPikazo: { primary: '#39C5BB', secondary: '#E05096', triadicCyan: '#00E5FF' }, ixima: { techCyan: '#00BCD4' }, lam: { shockPink: '#FF4081' } };
-const racingMiku = { team: { gsmTeal: '#39C5BB' }, y2014: { limeAccent: '#AEEA00' }, y2016: { accentPink: '#FF4081' }, y2017: { highlightCyan: '#00E5FF', gradientPurple: '#B388FF' }, y2018: { holoBlue: '#40C4FF' } };
-const projectDiva = { ratings: { perfect: '#00E5FF', sad: '#FF7043', worst: '#EF5350', good: '#FFB74D', safe: '#90A4AE' } };
+// Voicebanks
+import { mikuV2, mikuAppend, mikuV3English, mikuV4Chinese, mikuNT } from '../palette';
+
+// Derivatives
+import { sakuraMiku, miku15thAnniversary, miku16thAnniversary, gundam45thMiku, lawson50thMiku } from '../palette';
+
+// Events
+import { digitalStars, magicalMirai, mikuExpo, snowMiku } from '../palette';
+
+// Games
+import {
+  projectSekai,
+  virtualSinger,
+  leoNeed,
+  moreMoreJump,
+  vividBadSquad,
+  wonderlandsShowtime,
+  nightcord,
+  deepSeaGirl,
+  darkAngel,
+  heartHunter,
+  powder,
+  rollingGirl,
+  ghost,
+} from '../palette/games';
+
 const alpha = (hex: string, opacity: string): string => `${hex}${opacity}`;
+
+// Map to existing palette colors
+const blacks = { void: character.armWarmers.base, base: character.skirt.base, outfit: character.skirt.base, sleeve: character.boots.base };
+const stage = { darkness: character.armWarmers.base, spotlight: character.skin.highlight, ambientTeal: character.hair.base, accentPink: character.headphones.cushion, warmAmber: magicalMirai.y2024.outfit.skirtPlaid };
+const teals = { classic: character.hair.base, bright: character.hair.highlight, neon: character.hair.bright, stage: character.tie.base };
+const pinks = { sekai: character.headphones.cushion, blush: character.skin.blush, soft: character.skin.blush, hot: character.headphones.cushion, pale: character.skin.highlight };
+const cyans = { ice: character.hair.tip, bright: character.hair.highlight };
+const greys = { slate: character.top.main, steel: character.top.shadow, silver: character.skirt.accessory, platinum: character.skin.highlight };
+const foregrounds = { primary: character.skin.highlight, secondary: character.skin.shadow, comment: character.top.shadow, bright: character.skin.highlight };
+const accents = { amber: magicalMirai.y2024.outfit.skirtPlaid, gold: magicalMirai.y2025.outfit.jacket, orange: magicalMirai.y2024.outfit.skirtPlaid, coral: character.headphones.cushion };
+const semantic = { error: character.marks.tattoo, warning: magicalMirai.y2024.outfit.skirtPlaid, success: character.negi.stalk, info: character.hair.highlight };
+const hologram = { cyan: character.hair.bright, purple: magicalMirai.y2023.outfit.pants };
+const versionMapping = { identity: character.hair.base, hover: character.hair.highlight, focus: character.hair.tip, types: magicalMirai.y2023.outfit.pants };
+const frequencyVisualizer = { bass: character.top.shadow, low: character.top.main, mid: character.hair.base, high: character.hair.highlight, peak: character.hair.tip, ultra: character.hair.bright };
+const append = { light: character.hair.highlight, vivid: character.hair.base };
+const v4xVoice = { soft: character.hair.highlight, normal: character.hair.base, hard: character.hair.shadow };
+const versions = { v2: character.hair.base, v3: character.hair.highlight, v4x: character.hair.bright, nt: magicalMirai.y2024.outfit.skirtPlaid, v6ai: magicalMirai.y2023.outfit.pants };
+const digital = { dataStream: character.hair.base, binaryGlow: character.hair.bright, glitch: character.headphones.cushion };
+const numberSymbolism = { miku39: { heart: character.headphones.cushion }, tattoo01: { background: character.boots.base, glow: character.hair.base } };
+const boosted = { purple: magicalMirai.y2023.outfit.pants, coral: character.headphones.cushion, coralGlow: character.skin.blush };
+const iconicPVs = { worldIsMine: { crown: magicalMirai.y2025.outfit.jacket }, melt: { blush: character.skin.blush, warmPink: character.skin.blush }, senbonzakura: { sakuraPink: character.skin.blush } };
+const seasonalExpanded = { valentine: { heartRed: character.marks.tattoo } };
+const derivativeCharacters = { grayMiku: { hairMid: character.top.shadow } };
+const viralHits = { mesmerizer: { mikuTeal: character.hair.base, hypnosis: magicalMirai.y2023.outfit.pants }, vampire: { gothicLavender: magicalMirai.y2023.outfit.pants }, king: { crownGold: magicalMirai.y2025.outfit.jacket } };
+const mikuDay = { celebration: { confettiYellow: magicalMirai.y2025.outfit.jacket } };
+const artStyles = { mikaPikazo: { primary: character.hair.base, secondary: character.headphones.cushion, triadicCyan: character.hair.bright }, ixima: { techCyan: character.hair.base }, lam: { shockPink: character.headphones.cushion } };
+const racingMiku = { team: { gsmTeal: character.hair.base }, y2014: { limeAccent: character.negi.bright }, y2016: { accentPink: character.headphones.cushion }, y2017: { highlightCyan: character.hair.bright, gradientPurple: magicalMirai.y2023.outfit.pants }, y2018: { holoBlue: character.hair.highlight } };
+const projectDiva = { ratings: { perfect: character.hair.bright, sad: character.headphones.cushion, worst: character.marks.tattoo, good: magicalMirai.y2024.outfit.skirtPlaid, safe: character.skirt.accessory } };
+
+
 export const workbenchColors = {
   'editor.background': character.skirt.base,
   'editor.foreground': foregrounds.primary,
@@ -38,9 +69,9 @@ export const workbenchColors = {
   'editorMultiCursor.secondary.background': character.headphones.frame,
   'editor.lineHighlightBackground': alpha(versionMapping.identity, '12'),
   'editor.lineHighlightBorder': alpha(cyans.ice, '30'),
-  'editor.selectionBackground': alpha(teals.classic, '35'),
-  'editor.selectionHighlightBackground': alpha(pinks.sekai, '25'),
-  'editor.selectionHighlightBorder': alpha(teals.classic, '40'),
+  'editor.selectionBackground': alpha(miku15thAnniversary.outfit.bodice, '35'), // Strawberry red
+  'editor.selectionHighlightBackground': alpha(miku15thAnniversary.accessories.strawberryLeaves, '25'), // Green leaves
+  'editor.selectionHighlightBorder': alpha(miku15thAnniversary.outfit.bodice, '40'),
   'editor.wordHighlightBackground': alpha(teals.classic, '20'),
   'editor.wordHighlightBorder': alpha(teals.classic, '40'),
   'editor.wordHighlightStrongBackground': alpha(pinks.sekai, '30'),
@@ -70,12 +101,12 @@ export const workbenchColors = {
   'editorWhitespace.foreground': frequencyVisualizer.bass,
   'editorBracketMatch.background': alpha(digital.dataStream, '25'),
   'editorBracketMatch.border': digital.binaryGlow,
-  'editorBracketHighlight.foreground1': accents.amber,
-  'editorBracketHighlight.foreground2': pinks.blush,
-  'editorBracketHighlight.foreground3': character.negi.bright,
-  'editorBracketHighlight.foreground4': boosted.purple,
-  'editorBracketHighlight.foreground5': cyans.ice,
-  'editorBracketHighlight.foreground6': accents.orange,
+  'editorBracketHighlight.foreground1': miku16thAnniversary.outfit.bodiceAccent, // Teal
+  'editorBracketHighlight.foreground2': miku16thAnniversary.accessories.starAccents, // Golden
+  'editorBracketHighlight.foreground3': miku16thAnniversary.outfit.ribbon, // Teal ribbon
+  'editorBracketHighlight.foreground4': miku16thAnniversary.hair.highlight, // Light teal
+  'editorBracketHighlight.foreground5': miku16thAnniversary.accessories.wingsGlow, // Wings glow
+  'editorBracketHighlight.foreground6': miku16thAnniversary.outfit.lace, // Ethereal white
   'editorBracketHighlight.unexpectedBracket.foreground': boosted.coralGlow,
   'editorBracketPairGuide.background1': alpha(pinks.sekai, '25'),
   'editorBracketPairGuide.background2': alpha(teals.classic, '25'),
@@ -118,91 +149,101 @@ export const workbenchColors = {
   'editorOverviewRuler.errorForeground': semantic.error,
   'editorLink.activeForeground': hologram.cyan,
   'editorCodeLens.foreground': alpha(teals.neon, 'CC'),
-  'activityBar.background': character.armWarmers.base,
-  'activityBar.foreground': teals.classic,
-  'activityBar.activeBorder': pinks.sekai,
-  'activityBar.activeBackground': alpha(v4xVoice.hard, '20'),
-  'activityBar.inactiveForeground': greys.silver,
-  'activityBar.border': alpha(character.tie.shadow, '60'),
-  'activityBarBadge.background': artStyles.mikaPikazo.secondary,
-  'activityBarBadge.foreground': stage.spotlight,
-  'activityBarTop.foreground': teals.classic,
-  'activityBarTop.activeBorder': pinks.sekai,
-  'activityBarTop.inactiveForeground': greys.silver,
-  'sideBar.background': character.headphones.frame,
-  'sideBar.foreground': append.light,
-  'sideBar.border': alpha(character.tie.shadow, '50'),
-  'sideBar.dropBackground': alpha(teals.classic, '20'),
-  'sideBarSectionHeader.background': character.top.shadow,
-  'sideBarSectionHeader.foreground': character.hair.highlight,
-  'sideBarSectionHeader.border': alpha(pinks.sekai, '25'),
-  'sideBarTitle.foreground': character.hair.highlight,
+  // Activity Bar - Snow Miku 2017 (Twinkle Snow - Starry constellation)
+  'activityBar.background': snowMiku.y2017.outfit.dress, // Midnight blue
+  'activityBar.foreground': snowMiku.y2017.hair, // Soft starry blue
+  'activityBar.activeBorder': snowMiku.y2017.accessories.stars, // Gold stars
+  'activityBar.activeBackground': alpha(snowMiku.y2017.outfit.ribbon, '20'), // Celestial blue glow
+  'activityBar.inactiveForeground': snowMiku.y2017.outfit.sheer, // Translucent mist
+  'activityBar.border': alpha(snowMiku.y2017.outfit.dress, '60'),
+  'activityBarBadge.background': snowMiku.y2017.outfit.constellation, // Glowing constellation
+  'activityBarBadge.foreground': snowMiku.y2017.outfit.dress,
+  'activityBarTop.foreground': snowMiku.y2017.hair,
+  'activityBarTop.activeBorder': snowMiku.y2017.accessories.stars,
+  'activityBarTop.inactiveForeground': snowMiku.y2017.outfit.sheer,
+  // Sidebar - Snow Miku 2019 (Princess - Winter night royalty)
+  'sideBar.background': snowMiku.y2019.outfit.corset, // Midnight blue corset
+  'sideBar.foreground': snowMiku.y2019.hair, // Soft icy blue
+  'sideBar.border': alpha(snowMiku.y2019.outfit.corset, '50'),
+  'sideBar.dropBackground': alpha(snowMiku.y2019.eyes, '20'), // Bright blue eyes
+  'sideBarSectionHeader.background': snowMiku.y2019.outfit.dress, // Layered dress
+  'sideBarSectionHeader.foreground': snowMiku.y2019.hair,
+  'sideBarSectionHeader.border': alpha(snowMiku.y2019.eyes, '25'),
+  'sideBarTitle.foreground': snowMiku.y2019.hair,
   'sideBarStickyScroll.background': blacks.sleeve,
-  'sideBarStickyScroll.border': alpha(teals.classic, '20'),
+  'sideBarStickyScroll.border': alpha(snowMiku.y2019.eyes, '20'),
   'sideBarStickyScroll.shadow': alpha(stage.darkness, '50'),
-  'statusBar.background': blacks.void,
-  'statusBar.foreground': foregrounds.primary,
-  'statusBar.border': alpha(character.tie.shadow, '70'),
-  'statusBar.debuggingBackground': alpha(pinks.sekai, 'E0'),
-  'statusBar.debuggingForeground': stage.spotlight,
-  'statusBar.debuggingBorder': pinks.sekai,
-  'statusBar.noFolderBackground': blacks.void,
-  'statusBar.noFolderForeground': greys.platinum,
-  'statusBar.noFolderBorder': alpha(frequencyVisualizer.bass, '40'),
-  'statusBarItem.remoteBackground': frequencyVisualizer.mid,
-  'statusBarItem.remoteForeground': blacks.void,
-  'statusBarItem.remoteHoverBackground': frequencyVisualizer.high,
-  'statusBarItem.hoverBackground': alpha(append.vivid, '20'),
-  'statusBarItem.hoverForeground': append.vivid,
-  'statusBarItem.activeBackground': alpha(v4xVoice.hard, '40'),
-  'statusBarItem.errorBackground': digital.glitch,
-  'statusBarItem.errorForeground': stage.spotlight,
-  'statusBarItem.errorHoverBackground': alpha(digital.glitch, 'CC'),
-  'statusBarItem.warningBackground': accents.amber,
-  'statusBarItem.warningForeground': blacks.void,
-  'statusBarItem.warningHoverBackground': alpha(accents.amber, 'CC'),
-  'statusBarItem.prominentBackground': alpha(append.vivid, '25'),
-  'statusBarItem.prominentForeground': append.vivid,
-  'statusBarItem.prominentHoverBackground': alpha(append.vivid, '40'),
-  'statusBarItem.prominentHoverForeground': stage.spotlight,
-  'statusBarItem.compactHoverBackground': alpha(versionMapping.hover, '30'),
-  'statusBarItem.focusBorder': alpha(character.hair.highlight, 'DD'),
-  'titleBar.activeBackground': blacks.void,
-  'titleBar.activeForeground': foregrounds.primary,
-  'titleBar.inactiveBackground': blacks.void,
-  'titleBar.inactiveForeground': greys.silver,
-  'titleBar.border': alpha(character.tie.shadow, '50'),
-  'tab.activeBackground': alpha(character.hair.highlight, '10'),
-  'tab.activeForeground': artStyles.ixima.techCyan,
-  'tab.activeBorderTop': character.hairTies.base,
-  'tab.activeBorder': alpha(hologram.purple, '40'),
+  // Status Bar - Digital Stars 2024 (BUNBUN Cyber Sporty)
+  'statusBar.background': digitalStars.y2024.outfit.jacket, // Dark jacket
+  'statusBar.foreground': digitalStars.y2024.outfit.glitchCyan, // Neon cyan
+  'statusBar.border': alpha(digitalStars.y2024.outfit.jacket, '70'),
+  'statusBar.debuggingBackground': digitalStars.y2024.outfit.glitchPurple, // Electric purple
+  'statusBar.debuggingForeground': digitalStars.y2024.outfit.inner, // White
+  'statusBar.debuggingBorder': digitalStars.y2024.outfit.glitchPurple,
+  'statusBar.noFolderBackground': digitalStars.y2024.outfit.jacket,
+  'statusBar.noFolderForeground': digitalStars.y2024.outfit.glitchCyan,
+  'statusBar.noFolderBorder': alpha(digitalStars.y2024.outfit.jacket, '40'),
+  'statusBarItem.remoteBackground': digitalStars.y2024.outfit.accent, // Neon lime
+  'statusBarItem.remoteForeground': digitalStars.y2024.outfit.jacket,
+  'statusBarItem.remoteHoverBackground': digitalStars.y2024.hair, // Bright cyan
+  'statusBarItem.hoverBackground': alpha(digitalStars.y2024.outfit.glitchCyan, '20'),
+  'statusBarItem.hoverForeground': digitalStars.y2024.outfit.glitchCyan,
+  'statusBarItem.activeBackground': alpha(digitalStars.y2024.outfit.glitchPurple, '40'),
+  'statusBarItem.errorBackground': digitalStars.y2024.outfit.speaker, // Speaker red
+  'statusBarItem.errorForeground': digitalStars.y2024.outfit.inner,
+  'statusBarItem.errorHoverBackground': alpha(digitalStars.y2024.outfit.speaker, 'CC'),
+  'statusBarItem.warningBackground': digitalStars.y2024.outfit.accent, // Neon lime
+  'statusBarItem.warningForeground': digitalStars.y2024.outfit.jacket,
+  'statusBarItem.warningHoverBackground': alpha(digitalStars.y2024.outfit.accent, 'CC'),
+  'statusBarItem.prominentBackground': alpha(digitalStars.y2024.outfit.glitchCyan, '25'),
+  'statusBarItem.prominentForeground': digitalStars.y2024.outfit.glitchCyan,
+  'statusBarItem.prominentHoverBackground': alpha(digitalStars.y2024.outfit.glitchCyan, '40'),
+  'statusBarItem.prominentHoverForeground': digitalStars.y2024.outfit.inner,
+  'statusBarItem.compactHoverBackground': alpha(digitalStars.y2024.hair, '30'),
+  'statusBarItem.focusBorder': alpha(digitalStars.y2024.outfit.glitchCyan, 'DD'),
+  // Title Bar - Miku V2 (2007 Original Turquoise)
+  'titleBar.activeBackground': mikuV2.hair.base, // Original turquoise
+  'titleBar.activeForeground': mikuV2.outfit.top, // Cooler grey
+  'titleBar.inactiveBackground': mikuV2.hair.shadow, // Darker turquoise
+  'titleBar.inactiveForeground': alpha(mikuV2.outfit.top, '70'),
+  'titleBar.border': alpha(mikuV2.hair.highlight, '30'),
+  'menubar.selectionForeground': mikuV2.outfit.top,
+  'menubar.selectionBackground': alpha(mikuV2.hair.base, '30'),
+  'menubar.selectionBorder': alpha(mikuV2.hair.base, '60'),
+  // Tabs - Miku Expo 2026 (Candy Pop - Sweet colorful celebration)
+  'tab.activeBackground': alpha(mikuExpo.y2026.outfit.top, '10'),
+  'tab.activeForeground': mikuExpo.y2026.hair, // Soft cyan
+  'tab.activeBorderTop': mikuExpo.y2026.outfit.skirtPink, // Pink accent
+  'tab.activeBorder': alpha(mikuExpo.y2026.outfit.skirtGlitter, '40'), // Glitter purple
   'tab.inactiveBackground': blacks.outfit,
   'tab.inactiveForeground': greys.silver,
   'tab.border': blacks.sleeve,
-  'tab.hoverBackground': alpha(pinks.sekai, '15'),
-  'tab.hoverForeground': pinks.blush,
-  'tab.hoverBorder': alpha(pinks.sekai, '40'),
+  'tab.hoverBackground': alpha(mikuExpo.y2026.outfit.skirtPink, '15'),
+  'tab.hoverForeground': mikuExpo.y2026.outfit.skirtGlitter,
+  'tab.hoverBorder': alpha(mikuExpo.y2026.outfit.skirtPink, '40'),
   'tab.unfocusedActiveBackground': blacks.base,
-  'tab.unfocusedActiveForeground': append.light,
-  'tab.unfocusedActiveBorderTop': alpha(pinks.sekai, '80'),
+  'tab.unfocusedActiveForeground': mikuExpo.y2026.hair,
+  'tab.unfocusedActiveBorderTop': alpha(mikuExpo.y2026.outfit.skirtPink, '80'),
   'tab.unfocusedInactiveBackground': blacks.outfit,
   'tab.unfocusedInactiveForeground': greys.silver,
+  'tab.modifiedBorder': mikuExpo.y2026.outfit.skirtGlitter, // Glitter for modified files
   'editorGroupHeader.tabsBackground': blacks.sleeve,
-  'editorGroupHeader.tabsBorder': alpha(teals.classic, '15'),
+  'editorGroupHeader.tabsBorder': alpha(mikuExpo.y2026.hair, '15'),
   'editorGroupHeader.noTabsBackground': blacks.outfit,
   'editorGroup.border': alpha(character.tie.shadow, '60'),
-  'editorGroup.dropBackground': alpha(character.eyes.highlight, '40'),
-  'list.activeSelectionBackground': alpha(teals.classic, '30'),
+  'editorGroup.dropBackground': alpha(mikuExpo.y2026.outfit.skirtPink, '40'),
+  // Lists - Snow Miku 2023 (Serene Winter - Kimono elegance)
+  'list.activeSelectionBackground': alpha(snowMiku.y2023.outfit.kimono, '30'), // Soft lavender
   'list.activeSelectionForeground': stage.spotlight,
-  'list.activeSelectionIconForeground': character.hair.highlight,
-  'list.inactiveSelectionBackground': alpha(teals.classic, '20'),
+  'list.activeSelectionIconForeground': snowMiku.y2023.outfit.sash, // Pink sash
+  'list.inactiveSelectionBackground': alpha(snowMiku.y2023.outfit.kimono, '20'),
   'list.inactiveSelectionForeground': foregrounds.primary,
-  'list.hoverBackground': alpha(versionMapping.hover, '15'),
+  'list.hoverBackground': alpha(snowMiku.y2023.outfit.sash, '15'), // Pink hover
   'list.hoverForeground': foregrounds.primary,
-  'list.focusBackground': alpha(pinks.sekai, '25'),
-  'list.focusForeground': pinks.blush,
-  'list.focusOutline': alpha(character.hair.highlight, 'DD'),
-  'list.highlightForeground': pinks.blush,
+  'list.focusBackground': alpha(snowMiku.y2023.outfit.sash, '25'),
+  'list.focusForeground': snowMiku.y2023.outfit.sash,
+  'list.focusOutline': alpha(snowMiku.y2023.hair, 'DD'), // Soft blue outline
+  'list.highlightForeground': snowMiku.y2023.outfit.sash,
   'list.errorForeground': boosted.coralGlow,
   'list.warningForeground': semantic.warning,
   'list.invalidItemForeground': boosted.coralGlow,
@@ -212,7 +253,7 @@ export const workbenchColors = {
   'listFilterWidget.noMatchesOutline': semantic.error,
   'tree.indentGuidesStroke': alpha(pinks.sekai, '40'),
   'tree.tableColumnsBorder': alpha(pinks.sekai, '25'),
-  'focusBorder': alpha(character.hair.highlight, 'DD'),
+  'focusBorder': lawson50thMiku.hair.highlight, // Lawson 50th cyan blue
   'foreground': foregrounds.primary,
   'disabledForeground': greys.silver,
   'widget.shadow': alpha(stage.darkness, '70'),
@@ -221,14 +262,15 @@ export const workbenchColors = {
   'errorForeground': boosted.coralGlow,
   'icon.foreground': append.light,
   'sash.hoverBorder': alpha(pinks.sekai, '80'),
-  'input.background': blacks.sleeve,
-  'input.foreground': foregrounds.primary,
-  'input.border': alpha(character.tie.shadow, '50'),
-  'input.placeholderForeground': greys.silver,
-  'inputOption.activeBorder': pinks.sekai,
-  'inputOption.activeBackground': alpha(pinks.sekai, '30'),
-  'inputOption.activeForeground': stage.spotlight,
-  'inputOption.hoverBackground': alpha(versionMapping.hover, '20'),
+  // Input - Snow Miku 2026 (Pâtisserie - Sweet pastry theme)
+  'input.background': snowMiku.y2026.outfit.apron, // Cream apron
+  'input.foreground': snowMiku.y2026.outfit.boots, // Brown boots
+  'input.border': alpha(snowMiku.y2026.outfit.ribbon, '50'), // Pink ribbon
+  'input.placeholderForeground': snowMiku.y2026.outfit.dress, // Soft pink
+  'inputOption.activeBorder': snowMiku.y2026.outfit.ribbon,
+  'inputOption.activeBackground': alpha(snowMiku.y2026.outfit.ribbon, '30'),
+  'inputOption.activeForeground': snowMiku.y2026.outfit.boots,
+  'inputOption.hoverBackground': alpha(snowMiku.y2026.hair, '20'),
   'inputValidation.errorBackground': alpha(semantic.error, '25'),
   'inputValidation.errorBorder': semantic.error,
   'inputValidation.errorForeground': boosted.coralGlow,
@@ -238,42 +280,47 @@ export const workbenchColors = {
   'inputValidation.infoBackground': alpha(semantic.info, '25'),
   'inputValidation.infoBorder': semantic.info,
   'inputValidation.infoForeground': semantic.info,
-  'dropdown.background': character.boots.base,
-  'dropdown.foreground': foregrounds.primary,
-  'dropdown.border': alpha(character.tie.shadow, '50'),
-  'dropdown.listBackground': character.boots.base,
-  'button.background': teals.classic,
-  'button.foreground': blacks.void,
-  'button.hoverBackground': teals.stage,
-  'button.secondaryBackground': greys.slate,
-  'button.secondaryForeground': stage.spotlight,
-  'button.secondaryHoverBackground': greys.steel,
-  'button.border': alpha(teals.classic, '80'),
+  // Dropdown - Miku Expo 2020 Europe
+  'dropdown.background': mikuExpo.y2020.europe.outfit.top, // Deep blue
+  'dropdown.foreground': mikuExpo.y2020.europe.hair, // Cyan
+  'dropdown.border': alpha(mikuExpo.y2020.europe.hair, '50'),
+  'dropdown.listBackground': mikuExpo.y2020.europe.outfit.top,
+  // Buttons - Magical Mirai 2018 (Mika Pikazo)
+  'button.background': magicalMirai.y2018.outfit.skirtLayer, // Bright green
+  'button.foreground': magicalMirai.y2018.outfit.bootNavy, // Dark navy
+  'button.hoverBackground': magicalMirai.y2018.hair, // Neon cyan
+  'button.secondaryBackground': magicalMirai.y2018.outfit.top, // White top
+  'button.secondaryForeground': magicalMirai.y2018.outfit.bootNavy,
+  'button.secondaryHoverBackground': magicalMirai.y2018.outfit.skirtFrills, // White frills
+  'button.border': alpha(magicalMirai.y2018.outfit.skirtLayer, '80'),
   'checkbox.background': blacks.sleeve,
   'checkbox.foreground': teals.classic,
   'checkbox.border': alpha(character.tie.shadow, '50'),
+  // Scrollbar - Snow Miku 2018 (Crane - Red obi & gold bell)
   'scrollbar.shadow': alpha(stage.darkness, '50'),
-  'scrollbarSlider.background': alpha(character.boots.hardware, '40'),
-  'scrollbarSlider.hoverBackground': alpha(character.top.main, '60'),
-  'scrollbarSlider.activeBackground': alpha(character.hair.shadow, '80'),
-  'minimap.findMatchHighlight': alpha(numberSymbolism.miku39.heart, '90'),
-  'minimap.selectionHighlight': alpha(hologram.cyan, '70'),
+  'scrollbarSlider.background': alpha(snowMiku.y2018.outfit.obi, '40'), // Red obi
+  'scrollbarSlider.hoverBackground': alpha(snowMiku.y2018.accessories.bell, '60'), // Gold bell
+  'scrollbarSlider.activeBackground': alpha(snowMiku.y2018.outfit.obi, '80'),
+  // Minimap - Snow Miku 2016 (Owl - Amber goggles & cyan)
+  'minimap.findMatchHighlight': alpha(snowMiku.y2016.accessories.goggles, '90'), // Amber goggles
+  'minimap.selectionHighlight': alpha(snowMiku.y2016.hair, '70'), // Cyan hair
   'minimap.errorHighlight': alpha(boosted.coralGlow, '95'),
-  'minimap.warningHighlight': alpha(accents.amber, '90'),
+  'minimap.warningHighlight': alpha(snowMiku.y2016.accessories.goggles, '90'),
   'minimap.background': alpha(character.armDisplay.screen, '08'),
-  'minimap.selectionOccurrenceHighlight': alpha(append.vivid, '50'),
+  'minimap.selectionOccurrenceHighlight': alpha(snowMiku.y2016.hair, '50'),
   'minimap.foregroundOpacity': alpha(stage.darkness, 'BB'),
-  'minimap.infoHighlight': alpha(hologram.cyan, '80'),
-  'minimapSlider.background': alpha(character.armDisplay.data, '20'),
-  'minimapSlider.hoverBackground': alpha(pinks.blush, '40'),
-  'minimapSlider.activeBackground': alpha(pinks.sekai, '45'),
-  'minimapGutter.addedBackground': alpha(character.negi.stalk, '90'),
-  'minimapGutter.modifiedBackground': alpha(accents.amber, '90'),
-  'minimapGutter.deletedBackground': alpha(character.headphones.cushion, '90'),
-  'breadcrumb.foreground': character.hair.tip,
+  'minimap.infoHighlight': alpha(snowMiku.y2016.hair, '80'),
+  'minimapSlider.background': alpha(snowMiku.y2016.outfit.jacket, '20'), // White jacket
+  'minimapSlider.hoverBackground': alpha(snowMiku.y2016.accessories.goggles, '40'),
+  'minimapSlider.activeBackground': alpha(snowMiku.y2016.accessories.goggles, '45'),
+  'minimapGutter.addedBackground': alpha(snowMiku.y2015.outfit.leafTrim, '90'), // Green trim from 2015
+  'minimapGutter.modifiedBackground': alpha(snowMiku.y2016.accessories.goggles, '90'),
+  'minimapGutter.deletedBackground': alpha(boosted.coralGlow, '90'),
+  // Breadcrumbs - Snow Miku 2015 (Bell - Fresh green & cyan)
+  'breadcrumb.foreground': snowMiku.y2015.outfit.leafTrim, // Fresh green
   'breadcrumb.background': blacks.base,
-  'breadcrumb.focusForeground': pinks.blush,
-  'breadcrumb.activeSelectionForeground': pinks.blush,
+  'breadcrumb.focusForeground': snowMiku.y2015.hair, // Cyan
+  'breadcrumb.activeSelectionForeground': snowMiku.y2015.hair,
   'breadcrumbPicker.background': blacks.outfit,
   'terminal.background': character.skirt.base,
   'terminal.foreground': foregrounds.primary,
@@ -495,9 +542,6 @@ export const workbenchColors = {
   'menu.selectionBorder': alpha(teals.classic, '50'),
   'menu.separatorBackground': alpha(teals.classic, '30'),
   'menu.border': alpha(character.tie.shadow, '60'),
-  'menubar.selectionBackground': alpha(teals.classic, '25'),
-  'menubar.selectionForeground': stage.spotlight,
-  'menubar.selectionBorder': alpha(teals.classic, '40'),
   'commandCenter.foreground': foregrounds.primary,
   'commandCenter.background': blacks.sleeve,
   'commandCenter.border': alpha(character.tie.shadow, '50'),

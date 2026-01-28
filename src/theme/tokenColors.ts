@@ -1,17 +1,28 @@
-import { character } from '../palette';
+// Miku Palette Imports for Syntax Highlighting
+import { character, digitalStars, snowMiku, magicalMirai, mikuExpo } from '../palette';
 
-const teals = { classic: '#39C5BB', bright: '#5DE4DB', neon: '#00FFF0', stage: '#4DD0C8' };
-const pinks = { sekai: '#E05096', blush: '#FFB8C8', soft: '#FF8EB8', hot: '#FF4081', pale: '#FFD4E5' };
-const greys = { slate: '#37474F', steel: '#455A64', silver: '#90A4AE', platinum: '#CFD8DC' };
-const foregrounds = { primary: '#E8F0F2', secondary: '#B0BEC5', comment: '#78909C', bright: '#FFFFFF' };
-const accents = { amber: '#FFB74D', gold: '#FFD54F', orange: '#FF9800', coral: '#FF7043' };
-const hologram = { cyan: '#00E5FF', purple: '#B388FF' };
-const append = { light: '#B0E0DB', vivid: '#00BCD4' };
-const boosted = { purple: '#B388FF', coral: '#FF7043', coralGlow: '#FF6B6B' };
-const versions = { v2: '#39C5BB', v3: '#5DE4DB', v4x: '#00E5FF', nt: '#FFB74D', v6ai: '#B388FF' };
-const iconicPVs = { worldIsMine: { crown: '#FFD700' }, melt: { blush: '#FFB8C8', warmPink: '#FF8EB8' }, senbonzakura: { sakuraPink: '#FFB7C5' } };
-const racingMiku = { team: { gsmTeal: '#39C5BB' }, y2014: { limeAccent: '#AEEA00' }, y2016: { accentPink: '#FF4081' }, y2017: { highlightCyan: '#00E5FF', gradientPurple: '#B388FF' }, y2018: { holoBlue: '#40C4FF' } };
-const viralHits = { mesmerizer: { mikuTeal: '#39C5BB', hypnosis: '#B388FF' }, vampire: { gothicLavender: '#CE93D8' }, king: { crownGold: '#FFD54F' } };
+// Digital Stars 2021-2025 - Core Syntax Colors
+const ds2021 = digitalStars.y2021; // Pastel starry (keywords, control flow)
+const ds2022 = digitalStars.y2022; // Street rock (operators, storage)
+const ds2023 = digitalStars.y2023; // Neon monster (functions, methods)
+const ds2024 = digitalStars.y2024; // Cyber sporty (classes, types)
+const ds2025 = digitalStars.y2025; // Futuristic (strings, constants)
+
+// Map to existing palette colors
+const teals = { classic: character.hair.base, bright: character.hair.highlight, neon: character.hair.bright, stage: character.tie.base };
+const pinks = { sekai: character.headphones.cushion, blush: character.skin.blush, soft: character.skin.blush, hot: character.headphones.cushion, pale: character.skin.highlight };
+const greys = { slate: character.top.main, steel: character.top.shadow, silver: character.skirt.accessory, platinum: character.skin.highlight };
+const foregrounds = { primary: character.skin.highlight, secondary: character.skin.shadow, comment: character.top.shadow, bright: character.skin.highlight };
+const accents = { amber: magicalMirai.y2024.outfit.skirtPlaid, gold: magicalMirai.y2025.outfit.jacket, orange: magicalMirai.y2024.outfit.skirtPlaid, coral: character.headphones.cushion };
+const hologram = { cyan: character.hair.bright, purple: magicalMirai.y2023.outfit.pants };
+const append = { light: character.hair.highlight, vivid: character.hair.base };
+const boosted = { purple: magicalMirai.y2023.outfit.pants, coral: character.headphones.cushion, coralGlow: character.skin.blush };
+const versions = { v2: character.hair.base, v3: character.hair.highlight, v4x: character.hair.bright, nt: magicalMirai.y2024.outfit.skirtPlaid, v6ai: magicalMirai.y2023.outfit.pants };
+const iconicPVs = { worldIsMine: { crown: magicalMirai.y2025.outfit.jacket }, melt: { blush: character.skin.blush, warmPink: character.skin.blush }, senbonzakura: { sakuraPink: character.skin.blush } };
+const racingMiku = { team: { gsmTeal: character.hair.base }, y2014: { limeAccent: character.negi.bright }, y2016: { accentPink: character.headphones.cushion }, y2017: { highlightCyan: character.hair.bright, gradientPurple: magicalMirai.y2023.outfit.pants }, y2018: { holoBlue: character.hair.highlight } };
+const viralHits = { mesmerizer: { mikuTeal: character.hair.base, hypnosis: magicalMirai.y2023.outfit.pants }, vampire: { gothicLavender: magicalMirai.y2023.outfit.pants }, king: { crownGold: magicalMirai.y2025.outfit.jacket } };
+
+
 interface TokenColorRule {
   name: string;
   scope: string | string[];
@@ -45,49 +56,49 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Control Keywords',
     scope: ['keyword.control', 'keyword.control.flow', 'keyword.control.import'],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: ds2021.hair, // Digital Stars 2021 - Bright cyan
     },
   },
   {
     name: 'Storage Types',
     scope: ['storage.type'],
     settings: {
-      foreground: accents.orange,
+      foreground: ds2022.outfit.flag, // Digital Stars 2022 - Raspberry red
     },
   },
   {
     name: 'Storage Modifiers',
     scope: ['storage.modifier'],
     settings: {
-      foreground: boosted.purple,
+      foreground: ds2024.outfit.glitchPurple, // Digital Stars 2024 - Electric purple
     },
   },
   {
     name: 'Operators',
     scope: ['keyword.operator', 'punctuation.separator', 'punctuation.terminator'],
     settings: {
-      foreground: accents.orange,
+      foreground: ds2022.outfit.flag, // Digital Stars 2022 - Raspberry red
     },
   },
   {
     name: 'Special Operators',
     scope: ['keyword.operator.new', 'keyword.operator.expression'],
     settings: {
-      foreground: accents.orange,
+      foreground: ds2022.outfit.glow, // Digital Stars 2022 - Pink glow
     },
   },
   {
     name: 'User Functions',
     scope: ['entity.name.function', 'meta.function-call'],
     settings: {
-      foreground: hologram.cyan,
+      foreground: ds2023.outfit.neonCyan, // Digital Stars 2023 - Neon cyan
     },
   },
   {
     name: 'Library/Support Functions',
     scope: ['support.function', 'support.function.console'],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: ds2023.outfit.neonPink, // Digital Stars 2023 - Neon pink
     },
   },
   {
@@ -101,49 +112,49 @@ export const tokenColors: TokenColorRule[] = [
     name: 'User Classes',
     scope: ['entity.name.type.class', 'entity.name.class'],
     settings: {
-      foreground: accents.amber,
+      foreground: ds2024.outfit.glitchPurple, // Digital Stars 2024 - Electric purple
     },
   },
   {
     name: 'Structs',
     scope: ['entity.name.type.struct'],
     settings: {
-      foreground: pinks.pale,
+      foreground: ds2021.outfit.tie, // Digital Stars 2021 - Pastel pink
     },
   },
   {
     name: 'Support/Library Classes',
     scope: ['support.class', 'support.type'],
     settings: {
-      foreground: boosted.purple,
+      foreground: ds2024.outfit.glitchCyan, // Digital Stars 2024 - Glitch cyan
     },
   },
   {
     name: 'Interfaces',
     scope: ['entity.name.type.interface'],
     settings: {
-      foreground: hologram.cyan,
+      foreground: ds2023.eyesRight, // Digital Stars 2023 - Cyan eye
     },
   },
   {
     name: 'Enums',
     scope: ['entity.name.type.enum', 'entity.name.enum'],
     settings: {
-      foreground: boosted.purple,
+      foreground: ds2024.outfit.glitchPurple, // Digital Stars 2024 - Electric purple
     },
   },
   {
     name: 'Types / Primitives',
     scope: ['entity.name.type', 'support.type.primitive'],
     settings: {
-      foreground: pinks.pale,
+      foreground: ds2021.outfit.tie, // Digital Stars 2021 - Pastel pink
     },
   },
   {
     name: 'Type Parameters',
     scope: ['entity.name.type.parameter'],
     settings: {
-      foreground: boosted.purple,
+      foreground: ds2024.outfit.glitchPurple, // Digital Stars 2024 - Electric purple
     },
   },
   {
@@ -171,42 +182,42 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Constants',
     scope: ['variable.other.constant', 'constant.language'],
     settings: {
-      foreground: accents.gold,
+      foreground: ds2025.outfit.jacket, // Digital Stars 2025 - Golden orange
     },
   },
   {
     name: 'Strings',
     scope: ['string', 'string.quoted.double', 'string.quoted.single'],
     settings: {
-      foreground: character.negi.stalk,
+      foreground: ds2025.outfit.pixelGreen, // Digital Stars 2025 - Retro green
     },
   },
   {
     name: 'Template Strings',
     scope: ['string.template'],
     settings: {
-      foreground: iconicPVs.melt.warmPink,
+      foreground: ds2025.outfit.pixelPink, // Digital Stars 2025 - Retro pink
     },
   },
   {
     name: 'Numbers',
     scope: ['constant.numeric'],
     settings: {
-      foreground: character.negi.bright,
+      foreground: ds2025.outfit.jacket, // Digital Stars 2025 - Golden orange
     },
   },
   {
     name: 'Booleans',
     scope: ['constant.language.boolean'],
     settings: {
-      foreground: pinks.blush,
+      foreground: ds2025.outfit.pixelPink, // Digital Stars 2025 - Retro pink
     },
   },
   {
     name: 'Regex',
     scope: ['string.regexp'],
     settings: {
-      foreground: racingMiku.y2014.limeAccent,
+      foreground: snowMiku.y2015.outfit.leafTrim, // Snow Miku 2015 - Fresh green
     },
   },
   {
