@@ -1,27 +1,4 @@
-// Miku Palette Imports for Syntax Highlighting
-import { character, digitalStars, snowMiku, magicalMirai, mikuExpo } from '../palette';
-
-// Digital Stars 2021-2025 - Core Syntax Colors
-const ds2021 = digitalStars.y2021; // Pastel starry (keywords, control flow)
-const ds2022 = digitalStars.y2022; // Street rock (operators, storage)
-const ds2023 = digitalStars.y2023; // Neon monster (functions, methods)
-const ds2024 = digitalStars.y2024; // Cyber sporty (classes, types)
-const ds2025 = digitalStars.y2025; // Futuristic (strings, constants)
-
-// Map to existing palette colors
-const teals = { classic: character.hair.base, bright: character.hair.highlight, neon: character.hair.bright, stage: character.tie.base };
-const pinks = { sekai: character.headphones.cushion, blush: character.skin.blush, soft: character.skin.blush, hot: character.headphones.cushion, pale: character.skin.highlight };
-const greys = { slate: character.top.main, steel: character.top.shadow, silver: character.skirt.accessory, platinum: character.skin.highlight };
-const foregrounds = { primary: character.skin.highlight, secondary: character.skin.shadow, comment: character.top.shadow, bright: character.skin.highlight };
-const accents = { amber: magicalMirai.y2024.outfit.skirtPlaid, gold: magicalMirai.y2025.outfit.jacket, orange: magicalMirai.y2024.outfit.skirtPlaid, coral: character.headphones.cushion };
-const hologram = { cyan: character.hair.bright, purple: magicalMirai.y2023.outfit.pants };
-const append = { light: character.hair.highlight, vivid: character.hair.base };
-const boosted = { purple: magicalMirai.y2023.outfit.pants, coral: character.headphones.cushion, coralGlow: character.skin.blush };
-const versions = { v2: character.hair.base, v3: character.hair.highlight, v4x: character.hair.bright, nt: magicalMirai.y2024.outfit.skirtPlaid, v6ai: magicalMirai.y2023.outfit.pants };
-const iconicPVs = { worldIsMine: { crown: magicalMirai.y2025.outfit.jacket }, melt: { blush: character.skin.blush, warmPink: character.skin.blush }, senbonzakura: { sakuraPink: character.skin.blush } };
-const racingMiku = { team: { gsmTeal: character.hair.base }, y2014: { limeAccent: character.negi.bright }, y2016: { accentPink: character.headphones.cushion }, y2017: { highlightCyan: character.hair.bright, gradientPurple: magicalMirai.y2023.outfit.pants }, y2018: { holoBlue: character.hair.highlight } };
-const viralHits = { mesmerizer: { mikuTeal: character.hair.base, hypnosis: magicalMirai.y2023.outfit.pants }, vampire: { gothicLavender: magicalMirai.y2023.outfit.pants }, king: { crownGold: magicalMirai.y2025.outfit.jacket } };
-
+import { character } from '../palette';
 
 interface TokenColorRule {
   name: string;
@@ -37,7 +14,7 @@ export const tokenColors: TokenColorRule[] = [
     scope: ['comment', 'punctuation.definition.comment'],
     settings: {
       fontStyle: 'italic',
-      foreground: greys.silver,
+      foreground: character.hair.base,
     },
   },
   {
@@ -48,7 +25,7 @@ export const tokenColors: TokenColorRule[] = [
       'comment.block.javadoc',
     ],
     settings: {
-      foreground: append.light,
+      foreground: character.hair.base,
       fontStyle: 'italic',
     },
   },
@@ -56,525 +33,525 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Control Keywords',
     scope: ['keyword.control', 'keyword.control.flow', 'keyword.control.import'],
     settings: {
-      foreground: ds2021.hair, // Digital Stars 2021 - Bright cyan
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Storage Types',
     scope: ['storage.type'],
     settings: {
-      foreground: ds2022.outfit.flag, // Digital Stars 2022 - Raspberry red
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Storage Modifiers',
     scope: ['storage.modifier'],
     settings: {
-      foreground: ds2024.outfit.glitchPurple, // Digital Stars 2024 - Electric purple
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Operators',
     scope: ['keyword.operator', 'punctuation.separator', 'punctuation.terminator'],
     settings: {
-      foreground: ds2022.outfit.flag, // Digital Stars 2022 - Raspberry red
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Special Operators',
     scope: ['keyword.operator.new', 'keyword.operator.expression'],
     settings: {
-      foreground: ds2022.outfit.glow, // Digital Stars 2022 - Pink glow
+      foreground: character.hair.base,
     },
   },
   {
     name: 'User Functions',
     scope: ['entity.name.function', 'meta.function-call'],
     settings: {
-      foreground: ds2023.outfit.neonCyan, // Digital Stars 2023 - Neon cyan
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Library/Support Functions',
     scope: ['support.function', 'support.function.console'],
     settings: {
-      foreground: ds2023.outfit.neonPink, // Digital Stars 2023 - Neon pink
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Methods',
-    scope: ['entity.name.function.member'],
+    scope: ['entity.name.function.member', 'entity.name.method'],
     settings: {
-      foreground: character.skin.blush,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'User Classes',
     scope: ['entity.name.type.class', 'entity.name.class'],
     settings: {
-      foreground: ds2024.outfit.glitchPurple, // Digital Stars 2024 - Electric purple
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Structs',
     scope: ['entity.name.type.struct'],
     settings: {
-      foreground: ds2021.outfit.tie, // Digital Stars 2021 - Pastel pink
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Support/Library Classes',
     scope: ['support.class', 'support.type'],
     settings: {
-      foreground: ds2024.outfit.glitchCyan, // Digital Stars 2024 - Glitch cyan
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Interfaces',
     scope: ['entity.name.type.interface'],
     settings: {
-      foreground: ds2023.eyesRight, // Digital Stars 2023 - Cyan eye
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Enums',
     scope: ['entity.name.type.enum', 'entity.name.enum'],
     settings: {
-      foreground: ds2024.outfit.glitchPurple, // Digital Stars 2024 - Electric purple
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Types / Primitives',
     scope: ['entity.name.type', 'support.type.primitive'],
     settings: {
-      foreground: ds2021.outfit.tie, // Digital Stars 2021 - Pastel pink
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Type Parameters',
     scope: ['entity.name.type.parameter'],
     settings: {
-      foreground: ds2024.outfit.glitchPurple, // Digital Stars 2024 - Electric purple
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Variables',
     scope: ['variable', 'meta.definition.variable.name'],
     settings: {
-      foreground: foregrounds.primary,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Properties / Fields',
     scope: ['variable.other.property', 'variable.other.object.property', 'variable.other.member'],
     settings: {
-      foreground: character.skin.blush,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Parameters',
     scope: ['variable.parameter'],
     settings: {
-      foreground: append.light,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Constants',
     scope: ['variable.other.constant', 'constant.language'],
     settings: {
-      foreground: ds2025.outfit.jacket, // Digital Stars 2025 - Golden orange
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Strings',
     scope: ['string', 'string.quoted.double', 'string.quoted.single'],
     settings: {
-      foreground: ds2025.outfit.pixelGreen, // Digital Stars 2025 - Retro green
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Template Strings',
     scope: ['string.template'],
     settings: {
-      foreground: ds2025.outfit.pixelPink, // Digital Stars 2025 - Retro pink
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Numbers',
     scope: ['constant.numeric'],
     settings: {
-      foreground: ds2025.outfit.jacket, // Digital Stars 2025 - Golden orange
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Booleans',
     scope: ['constant.language.boolean'],
     settings: {
-      foreground: ds2025.outfit.pixelPink, // Digital Stars 2025 - Retro pink
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Regex',
     scope: ['string.regexp'],
     settings: {
-      foreground: snowMiku.y2015.outfit.leafTrim, // Snow Miku 2015 - Fresh green
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Escape Sequences',
     scope: ['constant.character.escape'],
     settings: {
-      foreground: boosted.purple,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Decorators / Attributes',
     scope: ['meta.decorator', 'entity.other.attribute-name'],
     settings: {
-      foreground: boosted.purple,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'HTML/JSX Tags',
     scope: ['entity.name.tag'],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'HTML/JSX Attributes',
     scope: ['entity.other.attribute-name.html', 'entity.other.attribute-name.jsx'],
     settings: {
-      foreground: character.hair.tip,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Markdown Headings',
     scope: ['markup.heading', 'entity.name.section.markdown'],
     settings: {
-      foreground: pinks.blush,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Markdown Links',
     scope: ['markup.underline.link', 'string.other.link'],
     settings: {
-      foreground: hologram.cyan,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Markdown Code',
-    scope: ['markup.inline.raw', 'markup.raw.block'],
+    scope: ['markup.inline.raw', 'markup.raw.block', 'markup.raw'],
     settings: {
-      foreground: accents.amber,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Markdown Quote',
     scope: ['markup.quote'],
     settings: {
-      foreground: pinks.blush,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Entity Name Namespace',
     scope: ['entity.name.type.namespace', 'entity.name.namespace', 'entity.name.type.module'],
     settings: {
-      foreground: boosted.purple,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Dockerfile Keyword',
     scope: ['keyword.other.special-method.dockerfile'],
     settings: {
-      foreground: hologram.cyan,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'C# LINQ Keywords',
     scope: ['keyword.query.linq.cs'],
     settings: {
-      foreground: teals.classic,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'C# Async Pattern',
     scope: ['keyword.other.await.cs', 'keyword.other.async.cs'],
     settings: {
-      foreground: teals.neon,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'C# Attribute',
     scope: ['meta.attribute.cs', 'entity.name.type.attribute.cs'],
     settings: {
-      foreground: iconicPVs.senbonzakura.sakuraPink,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'C# Namespace',
     scope: ['entity.name.type.namespace.cs'],
     settings: {
-      foreground: character.hair.tip,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'YAML Key',
     scope: ['entity.name.tag.yaml', 'support.type.property-name.yaml'],
     settings: {
-      foreground: teals.classic,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'YAML Anchor',
     scope: ['entity.name.type.anchor.yaml', 'punctuation.definition.anchor.yaml'],
     settings: {
-      foreground: hologram.purple,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'YAML Alias',
     scope: ['variable.other.alias.yaml', 'punctuation.definition.alias.yaml'],
     settings: {
-      foreground: hologram.purple,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'YAML Timestamp',
     scope: ['constant.other.timestamp.yaml'],
     settings: {
-      foreground: accents.amber,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'YAML Directive',
     scope: ['keyword.other.directive.yaml', 'punctuation.definition.directive.yaml'],
     settings: {
-      foreground: hologram.purple,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'SQL DML Keywords',
     scope: ['keyword.other.DML.sql', 'keyword.other.dml.sql'],
     settings: {
-      foreground: pinks.sekai,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'SQL DDL Keywords',
     scope: ['keyword.other.DDL.sql', 'keyword.other.ddl.sql', 'keyword.other.create.sql'],
     settings: {
-      foreground: pinks.blush,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'SQL Clauses',
     scope: ['keyword.other.sql', 'keyword.other.order.sql', 'keyword.other.alias.sql'],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'SQL Functions',
     scope: ['support.function.sql', 'support.function.aggregate.sql'],
     settings: {
-      foreground: hologram.cyan,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'SQL Tables',
     scope: ['entity.name.function.sql', 'constant.other.table-name.sql'],
     settings: {
-      foreground: accents.amber,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'SQL Columns',
     scope: ['constant.other.database-name.sql', 'constant.other.placeholder.sql'],
     settings: {
-      foreground: foregrounds.primary,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'SQL Operators',
     scope: ['keyword.operator.comparison.sql', 'keyword.operator.logical.sql'],
     settings: {
-      foreground: accents.orange,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'SQL Types',
     scope: ['storage.type.sql', 'support.type.sql'],
     settings: {
-      foreground: pinks.pale,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'PHP Tags',
     scope: ['punctuation.section.embedded.php', 'keyword.other.phpdoc.php'],
     settings: {
-      foreground: pinks.sekai,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'PHP Variables',
     scope: ['variable.other.php', 'punctuation.definition.variable.php'],
     settings: {
-      foreground: foregrounds.primary,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'PHP Superglobals',
     scope: ['variable.language.php'],
     settings: {
-      foreground: pinks.blush,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'PHP Functions',
     scope: ['support.function.php', 'support.function.construct.php'],
     settings: {
-      foreground: hologram.cyan,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'PHP Classes',
     scope: ['support.class.php', 'entity.other.inherited-class.php'],
     settings: {
-      foreground: accents.amber,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'PHP Constants',
     scope: ['support.constant.php', 'constant.language.php'],
     settings: {
-      foreground: accents.gold,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Ruby Symbols',
     scope: ['constant.other.symbol.ruby', 'punctuation.definition.symbol.ruby'],
     settings: {
-      foreground: pinks.sekai,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Ruby Instance Variables',
     scope: ['variable.other.readwrite.instance.ruby'],
     settings: {
-      foreground: pinks.blush,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Ruby Class Variables',
     scope: ['variable.other.readwrite.class.ruby'],
     settings: {
-      foreground: character.headphones.cushion,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Ruby Global Variables',
     scope: ['variable.other.readwrite.global.ruby'],
     settings: {
-      foreground: boosted.coral,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Ruby Blocks',
     scope: ['keyword.control.ruby', 'keyword.control.def.ruby'],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Ruby Special Methods',
     scope: ['keyword.other.special-method.ruby'],
     settings: {
-      foreground: hologram.cyan,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Ruby Modules',
     scope: ['entity.name.type.module.ruby', 'support.class.ruby'],
     settings: {
-      foreground: accents.amber,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Makefile Target',
     scope: ['entity.name.function.target.makefile'],
     settings: {
-      foreground: versions.nt,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Makefile Prerequisite',
     scope: ['entity.name.function.prerequisite.makefile'],
     settings: {
-      foreground: character.eyes.highlight,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Makefile Variable Definition',
     scope: ['variable.other.makefile'],
     settings: {
-      foreground: foregrounds.primary,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Makefile Variable Reference',
     scope: ['variable.language.makefile', 'string.interpolated.makefile'],
     settings: {
-      foreground: hologram.cyan,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Makefile Automatic Variable',
     scope: ['variable.language.automatic.makefile'],
     settings: {
-      foreground: accents.gold,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Makefile Function',
     scope: ['support.function.makefile', 'meta.function-call.makefile'],
     settings: {
-      foreground: pinks.blush,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Makefile Keyword',
     scope: ['keyword.control.makefile', 'keyword.other.makefile'],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Makefile Conditional',
     scope: ['keyword.control.conditional.makefile', 'keyword.control.ifeq.makefile', 'keyword.control.ifdef.makefile'],
     settings: {
-      foreground: teals.classic,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Makefile Directive',
     scope: ['keyword.control.directive.makefile', 'keyword.control.include.makefile', 'keyword.control.define.makefile'],
     settings: {
-      foreground: hologram.purple,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Makefile Phony',
     scope: ['meta.special-target.makefile', 'constant.language.makefile'],
     settings: {
-      foreground: accents.amber,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Makefile Shell Command',
     scope: ['string.source.makefile', 'meta.recipe.makefile'],
     settings: {
-      foreground: foregrounds.primary,
+      foreground: character.hair.base,
     },
   },
   {
@@ -587,14 +564,14 @@ export const tokenColors: TokenColorRule[] = [
       'string.interpolated',
     ],
     settings: {
-      foreground: character.negi.stalk,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Shell Interpolated Strings',
     scope: ['string.interpolated.shell', 'string.interpolated.dollar.shell'],
     settings: {
-      foreground: character.negi.stalk,
+      foreground: character.hair.base,
     },
   },
   {
@@ -605,77 +582,77 @@ export const tokenColors: TokenColorRule[] = [
       'meta.function-call.arguments',
     ],
     settings: {
-      foreground: foregrounds.primary,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Meta Class Body',
     scope: ['meta.class.body', 'meta.class.inheritance'],
     settings: {
-      foreground: foregrounds.primary,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Meta Interface/Namespace Body',
     scope: ['meta.interface.body', 'meta.namespace.body'],
     settings: {
-      foreground: foregrounds.primary,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Meta Object/Array Literals',
     scope: ['meta.object-literal', 'meta.array.literal', 'meta.objectliteral'],
     settings: {
-      foreground: foregrounds.primary,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Meta Imports/Exports',
     scope: ['meta.import', 'meta.export', 'meta.imports'],
     settings: {
-      foreground: foregrounds.primary,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Meta Function Return Type',
     scope: ['meta.return.type', 'meta.function.return-type'],
     settings: {
-      foreground: append.light,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Entity Name Label',
     scope: ['entity.name.label', 'entity.name.statement.label'],
     settings: {
-      foreground: pinks.blush,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Entity Name Constant',
     scope: ['entity.name.constant', 'entity.name.variable.constant'],
     settings: {
-      foreground: accents.gold,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Entity Name Enum',
     scope: ['entity.name.type.enum', 'entity.name.enum'],
     settings: {
-      foreground: boosted.purple,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Entity Name Interface',
     scope: ['entity.name.type.interface', 'entity.name.interface'],
     settings: {
-      foreground: hologram.cyan,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Entity Name Alias/Type Alias',
     scope: ['entity.name.type.alias', 'entity.name.type.type-alias'],
     settings: {
-      foreground: append.light,
+      foreground: character.hair.base,
     },
   },
   {
@@ -687,35 +664,35 @@ export const tokenColors: TokenColorRule[] = [
       'keyword.declaration.type',
     ],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Keyword Namespace/Import',
     scope: ['keyword.namespace', 'keyword.import', 'keyword.export'],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Keyword Type',
     scope: ['keyword.type', 'keyword.other.type'],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Support Variable',
     scope: ['support.variable', 'support.variable.property'],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Support Module',
     scope: ['support.module', 'support.module.node'],
     settings: {
-      foreground: character.hair.tip,
+      foreground: character.hair.base,
     },
   },
   {
@@ -729,14 +706,14 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markup Link Label',
     scope: ['markup.link.label', 'string.other.link.title.markdown'],
     settings: {
-      foreground: hologram.cyan,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Markup Link URL',
     scope: ['markup.underline.link.markdown', 'meta.link.inline.markdown'],
     settings: {
-      foreground: hologram.cyan,
+      foreground: character.hair.base,
       fontStyle: 'underline',
     },
   },
@@ -744,7 +721,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markup List Numbered',
     scope: ['markup.list.numbered', 'punctuation.definition.list.begin.markdown'],
     settings: {
-      foreground: hologram.cyan,
+      foreground: character.hair.base,
     },
   },
   {
@@ -756,7 +733,7 @@ export const tokenColors: TokenColorRule[] = [
       'entity.name.type.deprecated',
     ],
     settings: {
-      foreground: greys.platinum,
+      foreground: character.hair.base,
       fontStyle: 'strikethrough',
     },
   },
@@ -764,119 +741,119 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Python Self',
     scope: ['variable.parameter.function.language.special.self.python'],
     settings: {
-      foreground: viralHits.mesmerizer.mikuTeal,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Python Magic Methods',
     scope: ['support.function.magic.python'],
     settings: {
-      foreground: viralHits.mesmerizer.hypnosis,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Python Decorators',
     scope: ['entity.name.function.decorator.python', 'meta.function.decorator.python'],
     settings: {
-      foreground: viralHits.vampire.gothicLavender,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Python F-String Braces',
     scope: ['constant.character.format.placeholder.other.python'],
     settings: {
-      foreground: viralHits.king.crownGold,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Go Package',
     scope: ['entity.name.package.go'],
     settings: {
-      foreground: racingMiku.team.gsmTeal,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Go Imports',
     scope: ['entity.name.import.go'],
     settings: {
-      foreground: racingMiku.y2018.holoBlue,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Go Channels',
     scope: ['keyword.operator.channel.go'],
     settings: {
-      foreground: racingMiku.y2017.gradientPurple,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Go Defer/Go Keywords',
     scope: ['keyword.control.go'],
     settings: {
-      foreground: racingMiku.y2016.accentPink,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Rust Lifetime',
     scope: ['storage.modifier.lifetime.rust', 'entity.name.lifetime.rust'],
     settings: {
-      foreground: accents.gold,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Rust Unsafe',
     scope: ['keyword.other.unsafe.rust'],
     settings: {
-      foreground: pinks.hot,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Rust Traits',
     scope: ['entity.name.type.trait.rust'],
     settings: {
-      foreground: character.negi.stalk,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Rust Macros',
     scope: ['entity.name.function.macro.rust', 'meta.macro.rust'],
     settings: {
-      foreground: hologram.purple,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'JSON Key Level 0',
     scope: ['support.type.property-name.json'],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'JSON Punctuation',
     scope: ['punctuation.support.type.property-name.json', 'punctuation.definition.string.json'],
     settings: {
-      foreground: character.skin.blush,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'YAML Key',
     scope: ['entity.name.tag.yaml'],
     settings: {
-      foreground: pinks.blush,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'YAML Anchor',
     scope: ['entity.name.type.anchor.yaml', 'punctuation.definition.anchor.yaml'],
     settings: {
-      foreground: pinks.pale,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'YAML Alias',
     scope: ['variable.other.alias.yaml'],
     settings: {
-      foreground: pinks.soft,
+      foreground: character.hair.base,
     },
   },
   {
@@ -884,14 +861,14 @@ export const tokenColors: TokenColorRule[] = [
     scope: ['comment.block', 'comment.line'],
     settings: {
       fontStyle: 'italic',
-      foreground: greys.silver,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Constant Base',
     scope: ['constant', 'constant.character'],
     settings: {
-      foreground: accents.gold,
+      foreground: character.hair.base,
     },
   },
   {
@@ -903,42 +880,42 @@ export const tokenColors: TokenColorRule[] = [
       'constant.numeric.octal',
     ],
     settings: {
-      foreground: character.negi.bright,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Constant Other',
     scope: ['constant.other', 'constant.regexp', 'constant.rgb-value'],
     settings: {
-      foreground: racingMiku.y2014.limeAccent,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Emphasis',
-    scope: ['emphasis'],
+    scope: ['emphasis', 'markup.italic'],
     settings: {
       fontStyle: 'italic',
     },
   },
   {
     name: 'Strong',
-    scope: ['strong'],
+    scope: ['strong', 'markup.bold'],
     settings: {
       fontStyle: 'bold',
     },
   },
   {
     name: 'Entity Base',
-    scope: ['entity', 'entity.other', 'entity.other.inherited-class'],
+    scope: ['entity', 'entity.name', 'entity.name.section', 'entity.name.selector', 'entity.other', 'entity.other.inherited-class'],
     settings: {
-      foreground: accents.amber,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Invalid',
     scope: ['invalid', 'invalid.deprecated', 'invalid.illegal'],
     settings: {
-      foreground: boosted.coralGlow,
+      foreground: character.hair.base,
       fontStyle: 'strikethrough',
     },
   },
@@ -946,7 +923,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Keyword Base',
     scope: ['keyword', 'keyword.other'],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: character.hair.base,
     },
   },
   {
@@ -958,42 +935,42 @@ export const tokenColors: TokenColorRule[] = [
       'keyword.operator.logical',
     ],
     settings: {
-      foreground: accents.orange,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Markup Base',
     scope: ['markup', 'markup.other'],
     settings: {
-      foreground: foregrounds.primary,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Markup Changed',
     scope: ['markup.changed'],
     settings: {
-      foreground: accents.amber,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Markup Deleted',
     scope: ['markup.deleted'],
     settings: {
-      foreground: boosted.coralGlow,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Markup Inserted',
     scope: ['markup.inserted'],
     settings: {
-      foreground: character.negi.bright,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Markup List',
     scope: ['markup.list', 'markup.list.unnumbered'],
     settings: {
-      foreground: hologram.cyan,
+      foreground: character.hair.base,
     },
   },
   {
@@ -1003,6 +980,7 @@ export const tokenColors: TokenColorRule[] = [
       'meta.block',
       'meta.cast',
       'meta.class',
+      'meta.function',
       'meta.preprocessor',
       'meta.return-type',
       'meta.selector',
@@ -1011,7 +989,7 @@ export const tokenColors: TokenColorRule[] = [
       'meta.type.annotation',
     ],
     settings: {
-      foreground: foregrounds.primary,
+      foreground: character.hair.base,
     },
   },
   {
@@ -1022,14 +1000,14 @@ export const tokenColors: TokenColorRule[] = [
       'punctuation.separator.continuation',
     ],
     settings: {
-      foreground: character.negi.stalk,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Storage Base',
     scope: ['storage'],
     settings: {
-      foreground: accents.orange,
+      foreground: character.hair.base,
     },
   },
   {
@@ -1042,14 +1020,14 @@ export const tokenColors: TokenColorRule[] = [
       'string.unquoted',
     ],
     settings: {
-      foreground: character.negi.stalk,
+      foreground: character.hair.base,
     },
   },
   {
     name: 'Support Base',
-    scope: ['support', 'support.constant', 'support.other'],
+    scope: ['support', 'support.constant', 'support.other', 'support.type.property-name'],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: character.hair.base,
     },
   },
   {
@@ -1061,7 +1039,7 @@ export const tokenColors: TokenColorRule[] = [
       'variable.other.readwrite',
     ],
     settings: {
-      foreground: foregrounds.primary,
+      foreground: character.hair.base,
     },
   },
 ];

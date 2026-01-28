@@ -1,27 +1,4 @@
-// Project SEKAI Units for Semantic Highlighting
-import { character, digitalStars, snowMiku } from '../palette';
-import {
-  projectSekai,
-  virtualSinger,
-  leoNeed,
-  moreMoreJump,
-  vividBadSquad,
-  wonderlandsShowtime,
-  nightcord,
-} from '../palette/games';
-
-// Digital Stars for core semantic tokens
-const ds2021 = digitalStars.y2021; // Pastel starry
-const ds2022 = digitalStars.y2022; // Street rock
-const ds2023 = digitalStars.y2023; // Neon monster
-const ds2024 = digitalStars.y2024; // Cyber sporty
-const ds2025 = digitalStars.y2025; // Retro game
-
-// Map to existing palette colors
-const foregrounds = { primary: character.skin.highlight, secondary: character.skin.shadow, comment: character.top.shadow, bright: character.skin.highlight };
-const greys = { slate: character.top.main, steel: character.top.shadow, silver: character.skirt.accessory, platinum: character.skin.highlight };
-const append = { light: character.hair.highlight, vivid: character.hair.base };
-
+import { character } from '../palette';
 
 type SemanticTokenSetting =
   | string
@@ -31,87 +8,87 @@ type SemanticTokenSetting =
   };
 export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   // Keywords - Virtual Singer (Cyan/Teal)
-  keyword: virtualSinger.hair.base, // Virtual Singer cyan #33CCBB
+  keyword: character.hair.base,
 
   // Functions - Leo/need (School band - Royal blue/Pink)
-  function: leoNeed.unitColor, // Leo/need royal blue #4455DD
+  function: character.hair.base,
   'function.declaration': {
-    foreground: leoNeed.unitColor,
+    foreground: character.hair.base,
   },
-  'function.defaultLibrary': leoNeed.hair.highlight, // Pink highlight #FF80AB
+  'function.defaultLibrary': character.hair.base,
 
   // Methods - MORE MORE JUMP! (Idol green/pink)
-  method: moreMoreJump.unitColor, // MMJ green #88DD44
+  method: character.hair.base,
   'method.declaration': {
-    foreground: moreMoreJump.unitColor,
+    foreground: character.hair.base,
   },
-  'method.static': moreMoreJump.outfit.neckline, // Pink neckline #FF80AB
+  'method.static': character.hair.base,
 
   // Classes - Vivid BAD SQUAD (Street red/cyan)
-  class: vividBadSquad.unitColor, // VBS red #EE1166
-  'class.declaration': vividBadSquad.unitColor,
-  'class.defaultLibrary': vividBadSquad.hair.base, // Cyan hair #5DE4DB
+  class: character.hair.base,
+  'class.declaration': character.hair.base,
+  'class.defaultLibrary': character.hair.base,
 
   // Interfaces - Wonderlands×Showtime (Theater orange/cyan)
-  interface: wonderlandsShowtime.unitColor, // WxS orange #FF9900
-  'interface.declaration': wonderlandsShowtime.unitColor,
+  interface: character.hair.base,
+  'interface.declaration': character.hair.base,
 
   // Types - Digital Stars 2024 (Glitch purple/cyan)
-  type: ds2024.outfit.glitchPurple,
-  'type.declaration': ds2024.outfit.glitchPurple,
-  typeParameter: ds2024.outfit.glitchCyan,
-  struct: ds2021.outfit.tie, // Pastel pink
+  type: character.hair.base,
+  'type.declaration': character.hair.base,
+  typeParameter: character.hair.base,
+  struct: character.hair.base,
 
   // Enums - 25-ji Nightcord (Purple dark)
-  enum: nightcord.unitColor, // Nightcord purple #884499
-  enumMember: nightcord.outfit.blouse, // White blouse #FFFFFF
+  enum: character.hair.base,
+  enumMember: character.hair.base,
 
   // Namespaces - Virtual Singer
-  namespace: virtualSinger.outfit.trim, // Teal trim #33CCBB
+  namespace: character.hair.base,
 
   // Variables - Default foreground
-  variable: foregrounds.primary,
-  'variable.declaration': foregrounds.primary,
-  'variable.readonly': nightcord.unitColor, // Nightcord purple #884499 for readonly
-  'variable.defaultLibrary': virtualSinger.hair.highlight, // Bright cyan #5DE4DB
+  variable: character.hair.base,
+  'variable.declaration': character.hair.base,
+  'variable.readonly': character.hair.base,
+  'variable.defaultLibrary': character.hair.base,
 
   // Properties - Wonderlands×Showtime (Theater cyan)
-  property: wonderlandsShowtime.hair.base, // Cyan hair #00BCD4
-  'property.declaration': wonderlandsShowtime.hair.base,
+  property: character.hair.base,
+  'property.declaration': character.hair.base,
 
   // Parameters - Leo/need (Pink highlight)
-  parameter: leoNeed.hair.highlight, // Pink #FF80AB
+  parameter: character.hair.base,
 
   // Strings/Numbers - Digital Stars 2025 (Retro pixel)
-  string: ds2025.outfit.pixelGreen, // Retro green #5CE65C
-  regexp: snowMiku.y2015.outfit.leafTrim, // Fresh green #8BC34A
-  number: ds2025.outfit.jacket, // Golden orange #FFB833
+  string: character.hair.base,
+  regexp: character.hair.base,
+  number: character.hair.base,
 
   // Operators - Digital Stars 2022
-  operator: ds2022.outfit.flag, // Raspberry red #C75069
+  operator: character.hair.base,
 
   // Comments
   comment: {
-    foreground: greys.silver,
+    foreground: character.hair.base,
     fontStyle: 'italic',
   },
   'comment.documentation': {
-    foreground: append.light,
+    foreground: character.hair.base,
     fontStyle: 'italic',
   },
 
   // Decorators - MORE MORE JUMP! (Idol pink)
-  decorator: moreMoreJump.outfit.neckline, // Pink #FF80AB
+  decorator: character.hair.base,
 
   // Macros - Vivid BAD SQUAD (Street cyan)
   macro: {
-    foreground: vividBadSquad.hair.highlight, // Bright cyan #7FEDE5
+    foreground: character.hair.base,
   },
 
   // Labels - Wonderlands×Showtime (Theater orange)
-  label: wonderlandsShowtime.unitColor, // Orange #FF9900
+  label: character.hair.base,
 
   // Events - Leo/need (Royal blue)
-  event: leoNeed.unitColor, // Royal blue #4455DD
+  event: character.hair.base,
 };
 export type SemanticTokenColors = typeof semanticTokenColors;
