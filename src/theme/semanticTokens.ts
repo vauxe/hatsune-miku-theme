@@ -1,94 +1,188 @@
-import { character } from '../palette';
+/**
+ * Semantic Token Colors - LSP-based Syntax Highlighting
+ *
+ * Design Philosophy: "Digital Diva Ergonomics"
+ * - Consistent with tokenColors.ts mapping
+ * - 10 Core semantic categories with maximally distinguishable colors
+ * - All colors imported from palette - no hardcoded hex values
+ */
+
+// Core character design
+import { character } from '../palette/core';
+
+// Voicebank variants
+import { mikuNT, mikuAppend } from '../palette/voicebanks';
+
+// Project SEKAI units - primary token colors
+import {
+  leoNeed,
+  moreMoreJump,
+  vividBadSquad,
+  wonderlandsShowtime,
+  nightcord,
+} from '../palette/games/projectSekai';
+
+// Project DIVA modules - accent and special tokens
+import {
+  angel,
+  ghost,
+  miCrystal,
+  factoryTyrant,
+} from '../palette/games/projectDiva';
+
+// Snow Miku - seasonal colors
+import { snowMiku } from '../palette/events/snowMiku';
+
+// Derivatives
+import { sakuraMiku } from '../palette/derivatives';
 
 type SemanticTokenSetting =
   | string
   | {
-    foreground?: string;
-    fontStyle?: string;
-  };
+      foreground?: string;
+      fontStyle?: string;
+    };
+
 export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
-  // Keywords - Virtual Singer (Cyan/Teal)
-  keyword: character.hair.base,
+  // ==========================================================================
+  // KEYWORDS - Character Hair (THE Miku color - teal)
+  // ==========================================================================
+  keyword: character.hair.base, // #39C5BB
+  'keyword.controlFlow': character.hair.base,
 
-  // Functions - Leo/need (School band - Royal blue/Pink)
-  function: character.hair.base,
+  // ==========================================================================
+  // FUNCTIONS - Leo/need (Royal Blue)
+  // ==========================================================================
+  function: leoNeed.unitColor, // #4455DD
   'function.declaration': {
-    foreground: character.hair.base,
+    foreground: leoNeed.unitColor,
   },
-  'function.defaultLibrary': character.hair.base,
+  'function.defaultLibrary': leoNeed.unitColor,
 
-  // Methods - MORE MORE JUMP! (Idol green/pink)
-  method: character.hair.base,
+  // ==========================================================================
+  // METHODS - Wonderlands×Showtime (Pop Orange)
+  // ==========================================================================
+  method: wonderlandsShowtime.unitColor, // #FF9900
   'method.declaration': {
-    foreground: character.hair.base,
+    foreground: wonderlandsShowtime.unitColor,
   },
-  'method.static': character.hair.base,
+  'method.static': wonderlandsShowtime.unitColor,
 
-  // Classes - Vivid BAD SQUAD (Street red/cyan)
-  class: character.hair.base,
-  'class.declaration': character.hair.base,
-  'class.defaultLibrary': character.hair.base,
+  // ==========================================================================
+  // CLASSES - Vivid BAD SQUAD (Vivid Pink)
+  // ==========================================================================
+  class: vividBadSquad.unitColor, // #EE1166
+  'class.declaration': vividBadSquad.unitColor,
+  'class.defaultLibrary': vividBadSquad.unitColor,
 
-  // Interfaces - Wonderlands×Showtime (Theater orange/cyan)
-  interface: character.hair.base,
-  'interface.declaration': character.hair.base,
+  // ==========================================================================
+  // INTERFACES - Angel (Light Blue)
+  // ==========================================================================
+  interface: angel.accessories.shoes, // #87CEEB
+  'interface.declaration': angel.accessories.shoes,
 
-  // Types - Digital Stars 2024 (Glitch purple/cyan)
-  type: character.hair.base,
-  'type.declaration': character.hair.base,
-  typeParameter: character.hair.base,
-  struct: character.hair.base,
+  // ==========================================================================
+  // TYPES - Angel (Light Blue)
+  // ==========================================================================
+  type: angel.accessories.shoes, // #87CEEB
+  'type.declaration': angel.accessories.shoes,
+  typeParameter: snowMiku.y2022.eyes, // #F06292 (Coral Pink)
 
-  // Enums - 25-ji Nightcord (Purple dark)
-  enum: character.hair.base,
-  enumMember: character.hair.base,
+  // ==========================================================================
+  // STRUCTS - Vivid BAD SQUAD (Vivid Pink)
+  // ==========================================================================
+  struct: vividBadSquad.unitColor, // #EE1166
 
-  // Namespaces - Virtual Singer
-  namespace: character.hair.base,
+  // ==========================================================================
+  // ENUMS - Nightcord (Dark Purple)
+  // ==========================================================================
+  enum: nightcord.unitColor, // #884499
+  enumMember: nightcord.unitColor,
 
-  // Variables - Default foreground
-  variable: character.hair.base,
-  'variable.declaration': character.hair.base,
-  'variable.readonly': character.hair.base,
-  'variable.defaultLibrary': character.hair.base,
+  // ==========================================================================
+  // NAMESPACES - Character Hair Highlight
+  // ==========================================================================
+  namespace: character.hair.highlight, // #5DE4DB
 
-  // Properties - Wonderlands×Showtime (Theater cyan)
-  property: character.hair.base,
-  'property.declaration': character.hair.base,
+  // ==========================================================================
+  // VARIABLES - MORE MORE JUMP! (Bright Green)
+  // ==========================================================================
+  variable: moreMoreJump.unitColor, // #88DD44
+  'variable.declaration': moreMoreJump.unitColor,
+  'variable.readonly': moreMoreJump.unitColor,
+  'variable.defaultLibrary': moreMoreJump.unitColor,
 
-  // Parameters - Leo/need (Pink highlight)
-  parameter: character.hair.base,
+  // ==========================================================================
+  // PROPERTIES - MORE MORE JUMP! (Bright Green)
+  // ==========================================================================
+  property: moreMoreJump.unitColor, // #88DD44
+  'property.declaration': moreMoreJump.unitColor,
+  'property.readonly': moreMoreJump.unitColor,
 
-  // Strings/Numbers - Digital Stars 2025 (Retro pixel)
-  string: character.hair.base,
-  regexp: character.hair.base,
-  number: character.hair.base,
+  // ==========================================================================
+  // PARAMETERS - Leo/need Hair Highlight (Vibrant Pink)
+  // ==========================================================================
+  parameter: leoNeed.hair.highlight, // #FF80AB
 
-  // Operators - Digital Stars 2022
-  operator: character.hair.base,
+  // ==========================================================================
+  // STRINGS - Sakura Miku (Cherry Blossom Pink)
+  // ==========================================================================
+  string: sakuraMiku.hair.base, // #FFB7C5
 
-  // Comments
+  // ==========================================================================
+  // NUMBERS - Snow Miku 2017 Constellation (Gold)
+  // ==========================================================================
+  number: snowMiku.y2017.outfit.constellation, // #FFF59D
+
+  // ==========================================================================
+  // REGEX - Ghost (Purple)
+  // ==========================================================================
+  regexp: ghost.hair.base, // #9370DB
+
+  // ==========================================================================
+  // OPERATORS - Factory Tyrant (Silver Cogwheels)
+  // ==========================================================================
+  operator: factoryTyrant.accessories.cogwheels, // #C0C0C0
+
+  // ==========================================================================
+  // COMMENTS - Nightcord/NT (Subdued Gray)
+  // ==========================================================================
   comment: {
-    foreground: character.hair.base,
+    foreground: mikuNT.hair.shadow, // #5C5A60
     fontStyle: 'italic',
   },
   'comment.documentation': {
-    foreground: character.hair.base,
+    foreground: mikuNT.hair.shadow,
     fontStyle: 'italic',
   },
 
-  // Decorators - MORE MORE JUMP! (Idol pink)
-  decorator: character.hair.base,
+  // ==========================================================================
+  // DECORATORS - Character Headphones Cushion (Magenta)
+  // ==========================================================================
+  decorator: character.headphones.cushion, // #E05096
 
-  // Macros - Vivid BAD SQUAD (Street cyan)
+  // ==========================================================================
+  // MACROS - MiCrystal (Crystal Cyan)
+  // ==========================================================================
   macro: {
-    foreground: character.hair.base,
+    foreground: miCrystal.outfit.topFrills, // #E0FFFF
   },
 
-  // Labels - Wonderlands×Showtime (Theater orange)
-  label: character.hair.base,
+  // ==========================================================================
+  // LABELS - Wonderlands×Showtime (Pop Orange)
+  // ==========================================================================
+  label: wonderlandsShowtime.unitColor, // #FF9900
 
-  // Events - Leo/need (Royal blue)
-  event: character.hair.base,
+  // ==========================================================================
+  // EVENTS - Leo/need (Royal Blue)
+  // ==========================================================================
+  event: leoNeed.unitColor, // #4455DD
+
+  // ==========================================================================
+  // MODIFIERS - Used for readonly, async, etc.
+  // ==========================================================================
+  'variable.readonly.defaultLibrary': character.marks.tattoo, // #E60033
+  'property.readonly.defaultLibrary': character.marks.tattoo,
 };
+
 export type SemanticTokenColors = typeof semanticTokenColors;

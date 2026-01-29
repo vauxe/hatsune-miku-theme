@@ -1,923 +1,1230 @@
-import { character } from '../palette';
+/**
+ * Workbench Colors - VS Code UI Theme
+ *
+ * Design Philosophy: "Miku's Essence" - The IDE IS Miku
+ * - Editor: mikuAppend.bodysuit.base (#1A1A1A) - Wrapped in her Append suit
+ * - Sidebar: character.eyes.pupil (#0D1114) - Looking into her deep gaze
+ * - Activity Bar: character.boots.base (#111417) - Standing in her boots
+ * - Panel: character.skirt.base (#15191D) - Her pleated skirt
+ * - Title Bar: character.headphones.frame (#1A1F24) - Viewing through her headset
+ * - Cursor: character.hairTies.outline (#E05096) - Pink hair tie cursor!
+ * - Selection: alpha(character.hair.base, '40') - Teal hair flowing
+ */
 
+// Core character design
+import { character } from '../palette/core';
+
+// Voicebank variants
+import { mikuV2, mikuAppend, mikuNT } from '../palette/voicebanks';
+
+// Project SEKAI units
+import {
+  leoNeed,
+  moreMoreJump,
+  vividBadSquad,
+  wonderlandsShowtime,
+  nightcord,
+} from '../palette/games/projectSekai';
+
+// Project DIVA modules
+import {
+  whiteDress,
+  celebration,
+  catchTheWave,
+  outAndAbout,
+  ghost,
+  marionette,
+  supreme,
+  factoryTyrant,
+  angel,
+} from '../palette/games/projectDiva';
+
+// Snow Miku - seasonal colors
+import { snowMiku } from '../palette/events/snowMiku';
+
+// Derivatives
+import {
+  sakuraMiku,
+  miku15thAnniversary,
+  gundam45thMiku,
+} from '../palette/derivatives';
+
+/**
+ * Alpha utility - adds alpha channel to hex color
+ * @param hex - 6-digit hex color (e.g., '#39C5BB')
+ * @param opacity - 2-digit hex opacity (e.g., '40' for 25%)
+ */
 const alpha = (hex: string, opacity: string): string => `${hex}${opacity}`;
 
 export const workbenchColors = {
-  'editor.background': character.hair.base,
-  'editor.foreground': character.hair.base,
-  'editorCursor.foreground': character.hair.base,
-  'editorCursor.background': character.hair.base,
-  'editorMultiCursor.primary.foreground': character.hair.base,
-  'editorMultiCursor.primary.background': character.hair.base,
-  'editorMultiCursor.secondary.foreground': character.hair.base,
-  'editorMultiCursor.secondary.background': character.hair.base,
-  'editor.lineHighlightBackground': alpha(character.hair.base, '12'),
-  'editor.lineHighlightBorder': alpha(character.hair.base, '30'),
-  'editor.selectionBackground': alpha(character.hair.base, '35'),
+  // ==========================================================================
+  // EDITOR - Append Bodysuit (Futuristic Dark)
+  // ==========================================================================
+  'editor.background': mikuAppend.bodysuit.base,      // #1A1A1A - wrapped in her suit
+  'editor.foreground': snowMiku.y2010.hair,           // #E0EEF5 - snow silver text
+  'editorCursor.foreground': character.hairTies.outline, // #E05096 - PINK HAIR TIE CURSOR!
+  'editorCursor.background': mikuAppend.bodysuit.base,
+  'editorMultiCursor.primary.foreground': character.hairTies.outline,
+  'editorMultiCursor.primary.background': mikuAppend.bodysuit.base,
+  'editorMultiCursor.secondary.foreground': character.headphones.cushion,
+  'editorMultiCursor.secondary.background': mikuAppend.bodysuit.base,
+  'editor.lineHighlightBackground': alpha(character.marks.tattoo, '15'), // "01" tattoo glow
+  'editor.lineHighlightBorder': alpha(character.marks.tattoo, '30'),
+  'editor.selectionBackground': alpha(character.hair.base, '40'),        // Teal hair selection
   'editor.selectionHighlightBackground': alpha(character.hair.base, '25'),
-  'editor.selectionHighlightBorder': alpha(character.hair.base, '40'),
-  'editor.wordHighlightBackground': alpha(character.hair.base, '20'),
-  'editor.wordHighlightBorder': alpha(character.hair.base, '40'),
-  'editor.wordHighlightStrongBackground': alpha(character.hair.base, '30'),
-  'editor.wordHighlightStrongBorder': alpha(character.hair.base, '60'),
-  'editor.findMatchBackground': alpha(character.hair.base, '60'),
-  'editor.findMatchBorder': alpha(character.hair.base, '90'),
-  'editor.findMatchHighlightBackground': alpha(character.hair.base, '50'),
-  'editor.findMatchHighlightBorder': alpha(character.hair.base, '80'),
+  'editor.selectionHighlightBorder': alpha(character.hair.base, '50'),
+  'editor.wordHighlightBackground': alpha(character.hair.highlight, '20'),
+  'editor.wordHighlightBorder': alpha(character.hair.highlight, '40'),
+  'editor.wordHighlightStrongBackground': alpha(character.hair.highlight, '30'),
+  'editor.wordHighlightStrongBorder': alpha(character.hair.highlight, '60'),
+  'editor.findMatchBackground': alpha(snowMiku.y2017.accessories.stars, '60'), // Gold match
+  'editor.findMatchBorder': alpha(snowMiku.y2017.accessories.stars, '90'),
+  'editor.findMatchHighlightBackground': alpha(snowMiku.y2017.accessories.stars, '40'),
+  'editor.findMatchHighlightBorder': alpha(snowMiku.y2017.accessories.stars, '70'),
   'editor.rangeHighlightBackground': alpha(character.hair.base, '10'),
   'editor.rangeHighlightBorder': alpha(character.hair.base, '30'),
-  'editorLineNumber.foreground': character.hair.base,
-  'editorLineNumber.activeForeground': character.hair.base,
-  'editorLineNumber.dimmedForeground': character.hair.base,
-  'editorIndentGuide.background1': alpha(character.hair.base, '50'),
-  'editorIndentGuide.background2': alpha(character.hair.base, '55'),
-  'editorIndentGuide.background3': alpha(character.hair.base, '60'),
-  'editorIndentGuide.background4': alpha(character.hair.base, '65'),
-  'editorIndentGuide.background5': alpha(character.hair.base, '70'),
-  'editorIndentGuide.background6': alpha(character.hair.base, '75'),
-  'editorIndentGuide.activeBackground1': character.hair.base,
-  'editorIndentGuide.activeBackground2': character.hair.base,
-  'editorIndentGuide.activeBackground3': character.hair.base,
-  'editorIndentGuide.activeBackground4': character.hair.base,
-  'editorIndentGuide.activeBackground5': character.hair.base,
-  'editorIndentGuide.activeBackground6': character.hair.base,
-  'editorRuler.foreground': character.hair.base,
-  'editorWhitespace.foreground': character.hair.base,
+  'editorLineNumber.foreground': mikuNT.hair.shadow,   // #5C5A60 subdued
+  'editorLineNumber.activeForeground': character.marks.tattoo, // #E60033 - "01" mark
+  'editorLineNumber.dimmedForeground': alpha(mikuNT.hair.shadow, '60'),
+
+  // Indent Guides - Audio Spectrum (SEKAI colors)
+  'editorIndentGuide.background1': alpha(character.hair.base, '30'),           // Bass (teal)
+  'editorIndentGuide.background2': alpha(leoNeed.unitColor, '35'),             // Low-mid (blue)
+  'editorIndentGuide.background3': alpha(moreMoreJump.unitColor, '40'),        // Mid (green)
+  'editorIndentGuide.background4': alpha(snowMiku.y2017.accessories.stars, '45'), // Mid-high (gold)
+  'editorIndentGuide.background5': alpha(wonderlandsShowtime.unitColor, '50'), // High (orange)
+  'editorIndentGuide.background6': alpha(character.headphones.cushion, '55'),  // Treble (magenta)
+  // Active guides glow brighter
+  'editorIndentGuide.activeBackground1': alpha(character.hair.base, '90'),
+  'editorIndentGuide.activeBackground2': alpha(leoNeed.unitColor, '90'),
+  'editorIndentGuide.activeBackground3': alpha(moreMoreJump.unitColor, '90'),
+  'editorIndentGuide.activeBackground4': alpha(snowMiku.y2017.accessories.stars, '90'),
+  'editorIndentGuide.activeBackground5': alpha(wonderlandsShowtime.unitColor, '90'),
+  'editorIndentGuide.activeBackground6': alpha(character.headphones.cushion, '90'),
+
+  'editorRuler.foreground': alpha(character.hair.base, '40'),
+  'editorWhitespace.foreground': alpha(mikuNT.hair.shadow, '40'),
+
+  // Bracket Matching & Highlighting - Celebration Rainbow
   'editorBracketMatch.background': alpha(character.hair.base, '25'),
   'editorBracketMatch.border': character.hair.base,
-  'editorBracketHighlight.foreground1': character.hair.base,
-  'editorBracketHighlight.foreground2': character.hair.base,
-  'editorBracketHighlight.foreground3': character.hair.base,
-  'editorBracketHighlight.foreground4': character.hair.base,
-  'editorBracketHighlight.foreground5': character.hair.base,
-  'editorBracketHighlight.foreground6': character.hair.base,
-  'editorBracketHighlight.unexpectedBracket.foreground': character.hair.base,
-  'editorBracketPairGuide.background1': alpha(character.hair.base, '25'),
-  'editorBracketPairGuide.background2': alpha(character.hair.base, '25'),
-  'editorBracketPairGuide.background3': alpha(character.hair.base, '25'),
-  'editorBracketPairGuide.background4': alpha(character.hair.base, '25'),
-  'editorBracketPairGuide.background5': alpha(character.hair.base, '25'),
-  'editorBracketPairGuide.background6': alpha(character.hair.base, '25'),
-  'editorBracketPairGuide.activeBackground1': alpha(character.hair.base, '50'),
-  'editorBracketPairGuide.activeBackground2': alpha(character.hair.base, '50'),
-  'editorBracketPairGuide.activeBackground3': alpha(character.hair.base, '50'),
-  'editorBracketPairGuide.activeBackground4': alpha(character.hair.base, '50'),
-  'editorBracketPairGuide.activeBackground5': alpha(character.hair.base, '50'),
-  'editorBracketPairGuide.activeBackground6': alpha(character.hair.base, '50'),
-  'editorGutter.addedBackground': alpha(character.hair.base, '80'),
-  'editorGutter.modifiedBackground': alpha(character.hair.base, '80'),
-  'editorGutter.deletedBackground': alpha(character.hair.base, '80'),
+  'editorBracketHighlight.foreground1': moreMoreJump.unitColor,        // #88DD44 green
+  'editorBracketHighlight.foreground2': catchTheWave.makeup.eyeshadow, // #FF69B4 hot pink
+  'editorBracketHighlight.foreground3': outAndAbout.accessories.badgeCube, // #00BFFF cerulean
+  'editorBracketHighlight.foreground4': character.negi.bright,          // #69F0AE
+  'editorBracketHighlight.foreground5': wonderlandsShowtime.unitColor,  // #FF9900
+  'editorBracketHighlight.foreground6': ghost.hair.base,                // #9370DB
+  'editorBracketHighlight.unexpectedBracket.foreground': character.marks.tattoo,
+  'editorBracketPairGuide.background1': alpha(moreMoreJump.unitColor, '25'),
+  'editorBracketPairGuide.background2': alpha(catchTheWave.makeup.eyeshadow, '25'),
+  'editorBracketPairGuide.background3': alpha(outAndAbout.accessories.badgeCube, '25'),
+  'editorBracketPairGuide.background4': alpha(character.negi.bright, '25'),
+  'editorBracketPairGuide.background5': alpha(wonderlandsShowtime.unitColor, '25'),
+  'editorBracketPairGuide.background6': alpha(ghost.hair.base, '25'),
+  'editorBracketPairGuide.activeBackground1': alpha(moreMoreJump.unitColor, '50'),
+  'editorBracketPairGuide.activeBackground2': alpha(catchTheWave.makeup.eyeshadow, '50'),
+  'editorBracketPairGuide.activeBackground3': alpha(outAndAbout.accessories.badgeCube, '50'),
+  'editorBracketPairGuide.activeBackground4': alpha(character.negi.bright, '50'),
+  'editorBracketPairGuide.activeBackground5': alpha(wonderlandsShowtime.unitColor, '50'),
+  'editorBracketPairGuide.activeBackground6': alpha(ghost.hair.base, '50'),
+
+  // Editor Gutter - Git Status (Character Story)
+  'editorGutter.addedBackground': alpha(character.negi.bright, '80'),     // Fresh green onion growth
+  'editorGutter.modifiedBackground': alpha(character.armDisplay.data, '80'), // #5DE4DB data changing
+  'editorGutter.deletedBackground': alpha(character.marks.tattoo, '80'), // Red mark (removal)
   'editorGutter.foldingControlForeground': alpha(character.hair.base, 'BB'),
-  'editorWidget.background': character.hair.base,
-  'editorWidget.foreground': character.hair.base,
+  'editorGutter.background': mikuAppend.bodysuit.base,
+  'editorGutter.commentRangeForeground': alpha(mikuNT.hair.shadow, '40'),
+  'editorGutter.commentGlyphForeground': character.hair.base,
+  'editorGutter.commentUnresolvedGlyphForeground': miku15thAnniversary.hair.ribbons,
+
+  // Editor Widget
+  'editorWidget.background': character.skirt.base,    // #15191D
+  'editorWidget.foreground': snowMiku.y2010.hair,
   'editorWidget.border': alpha(character.hair.base, '80'),
   'editorWidget.resizeBorder': alpha(character.hair.base, '80'),
-  'editorHoverWidget.background': alpha(character.hair.base, 'F5'),
+  'editorHoverWidget.background': alpha(character.skirt.base, 'F5'),
   'editorHoverWidget.border': alpha(character.hair.base, '70'),
-  'editorHoverWidget.foreground': character.hair.base,
-  'editorHoverWidget.highlightForeground': character.hair.base,
-  'editorHoverWidget.statusBarBackground': character.hair.base,
-  'editorUnnecessaryCode.opacity': alpha(character.hair.base, '80'),
-  'editorGhostText.foreground': alpha(character.hair.base, 'BB'),
+  'editorHoverWidget.foreground': snowMiku.y2010.hair,
+  'editorHoverWidget.highlightForeground': character.hair.highlight,
+  'editorHoverWidget.statusBarBackground': character.top.shadow,
+  'editorUnnecessaryCode.opacity': alpha('#000000', '80'),
+  'editorGhostText.foreground': alpha(mikuNT.hair.base, 'BB'),
   'editorGhostText.border': alpha(character.hair.base, '40'),
   'editorGhostText.background': alpha(character.hair.base, '0A'),
-  'editor.linkedEditingBackground': alpha(character.hair.base, '20'),
+  'editor.linkedEditingBackground': alpha(character.hairTies.outline, '20'),
+
+  // Editor Overview Ruler
   'editorOverviewRuler.bracketMatchForeground': alpha(character.hair.base, 'A0'),
-  'editorOverviewRuler.wordHighlightForeground': alpha(character.hair.base, '80'),
-  'editorOverviewRuler.wordHighlightStrongForeground': alpha(character.hair.base, '90'),
-  'editorOverviewRuler.wordHighlightTextForeground': alpha(character.hair.base, '60'),
-  'editorOverviewRuler.findMatchForeground': alpha(character.hair.base, '90'),
+  'editorOverviewRuler.wordHighlightForeground': alpha(character.hair.highlight, '80'),
+  'editorOverviewRuler.wordHighlightStrongForeground': alpha(character.hair.highlight, '90'),
+  'editorOverviewRuler.wordHighlightTextForeground': alpha(character.hair.highlight, '60'),
+  'editorOverviewRuler.findMatchForeground': alpha(snowMiku.y2017.accessories.stars, '90'),
   'editorOverviewRuler.selectionHighlightForeground': alpha(character.hair.base, '50'),
   'editorOverviewRuler.infoForeground': character.hair.base,
-  'editorOverviewRuler.warningForeground': character.hair.base,
-  'editorOverviewRuler.errorForeground': character.hair.base,
-  'editorLink.activeForeground': character.hair.base,
-  'editorCodeLens.foreground': alpha(character.hair.base, 'CC'),
-  // Activity Bar - Snow Miku 2017 (Twinkle Snow - Starry constellation)
-  'activityBar.background': character.hair.base,
-  'activityBar.foreground': character.hair.base,
-  'activityBar.activeBorder': character.hair.base,
-  'activityBar.activeBackground': alpha(character.hair.base, '20'),
-  'activityBar.inactiveForeground': character.hair.base,
-  'activityBar.border': alpha(character.hair.base, '60'),
-  'activityBarBadge.background': character.hair.base,
-  'activityBarBadge.foreground': character.hair.base,
-  'activityBarTop.foreground': character.hair.base,
-  'activityBarTop.activeBorder': character.hair.base,
-  'activityBarTop.inactiveForeground': character.hair.base,
-  // Sidebar - Snow Miku 2019 (Princess - Winter night royalty)
-  'sideBar.background': character.hair.base,
-  'sideBar.foreground': character.hair.base,
-  'sideBar.border': alpha(character.hair.base, '50'),
+  'editorOverviewRuler.warningForeground': miku15thAnniversary.hair.ribbons, // #FF6B6B
+  'editorOverviewRuler.errorForeground': character.marks.tattoo,
+  'editorOverviewRuler.background': mikuAppend.bodysuit.base,
+  'editorOverviewRuler.border': alpha(character.skirt.base, '20'),
+  'editorOverviewRuler.modifiedForeground': alpha(character.armDisplay.data, '90'),
+  'editorOverviewRuler.addedForeground': alpha(character.negi.bright, '90'),
+  'editorOverviewRuler.deletedForeground': alpha(character.marks.tattoo, '90'),
+
+  'editorLink.activeForeground': character.hair.highlight,
+  'editorCodeLens.foreground': alpha(mikuNT.hair.shadow, 'CC'),
+
+  // ==========================================================================
+  // ACTIVITY BAR - Standing in Her Boots
+  // ==========================================================================
+  'activityBar.background': character.boots.base,      // #111417 - boot leather
+  'activityBar.foreground': mikuNT.hair.base,          // #89CDC6 - soft glow
+  'activityBar.activeBorder': character.hairTies.outline, // #E05096 - pink accent
+  'activityBar.activeBackground': alpha(character.hairTies.outline, '20'),
+  'activityBar.inactiveForeground': alpha(mikuNT.hair.base, '60'),
+  'activityBar.border': alpha(character.skirt.base, '60'),
+  'activityBarBadge.background': character.marks.tattoo, // #E60033 - "01" red
+  'activityBarBadge.foreground': whiteDress.outfit.dress,
+  'activityBarTop.foreground': mikuNT.hair.base,
+  'activityBarTop.activeBorder': character.hairTies.outline,
+  'activityBarTop.inactiveForeground': alpha(mikuNT.hair.base, '60'),
+  'activityBar.activeFocusBorder': character.hair.base,
+  'activityBar.dropBorder': alpha(character.hairTies.outline, '60'),
+  'activityBarTop.activeBackground': alpha(character.hairTies.outline, '20'),
+  'activityBarTop.background': character.boots.base,
+  'activityBarTop.dropBorder': alpha(character.hairTies.outline, '60'),
+  'activityWarningBadge.foreground': whiteDress.outfit.dress,
+  'activityWarningBadge.background': miku15thAnniversary.hair.ribbons,
+  'activityErrorBadge.foreground': whiteDress.outfit.dress,
+  'activityErrorBadge.background': character.marks.tattoo,
+
+  // ==========================================================================
+  // SIDEBAR - Looking Into Her Eyes
+  // ==========================================================================
+  'sideBar.background': character.eyes.pupil,          // #0D1114 - deep gaze
+  'sideBar.foreground': character.hair.highlight,      // #5DE4DB - eye sparkle
+  'sideBar.border': alpha(character.skirt.base, '50'),
   'sideBar.dropBackground': alpha(character.hair.base, '20'),
-  'sideBarSectionHeader.background': character.hair.base,
+  'sideBarSectionHeader.background': character.skirt.base, // #15191D
   'sideBarSectionHeader.foreground': character.hair.base,
-  'sideBarSectionHeader.border': alpha(character.hair.base, '25'),
-  'sideBarTitle.foreground': character.hair.base,
-  'sideBarStickyScroll.background': character.hair.base,
-  'sideBarStickyScroll.border': alpha(character.hair.base, '20'),
-  'sideBarStickyScroll.shadow': alpha(character.hair.base, '50'),
-  // Status Bar - Digital Stars 2024 (BUNBUN Cyber Sporty)
-  'statusBar.background': character.hair.base,
-  'statusBar.foreground': character.hair.base,
-  'statusBar.border': alpha(character.hair.base, '70'),
-  'statusBar.debuggingBackground': character.hair.base,
-  'statusBar.debuggingForeground': character.hair.base,
-  'statusBar.debuggingBorder': character.hair.base,
-  'statusBar.noFolderBackground': character.hair.base,
-  'statusBar.noFolderForeground': character.hair.base,
-  'statusBar.noFolderBorder': alpha(character.hair.base, '40'),
-  'statusBarItem.remoteBackground': character.hair.base,
-  'statusBarItem.remoteForeground': character.hair.base,
-  'statusBarItem.remoteHoverBackground': character.hair.base,
+  'sideBarSectionHeader.border': alpha(character.skirt.base, '25'),
+  'sideBarTitle.foreground': character.hair.base,      // #39C5BB - iris color
+  'sideBarTitle.background': character.eyes.pupil,
+  'sideBarTitle.border': alpha(character.skirt.base, '15'),
+  'sideBarStickyScroll.background': character.eyes.pupil,
+  'sideBarStickyScroll.border': alpha(character.skirt.base, '20'),
+  'sideBarStickyScroll.shadow': alpha(character.eyes.pupil, '50'),
+  'sideBarActivityBarTop.border': alpha(character.skirt.base, '15'),
+
+  // ==========================================================================
+  // STATUS BAR - Her Grey Top
+  // ==========================================================================
+  'statusBar.background': character.top.shadow,        // #263238 - sleeveless top
+  'statusBar.foreground': character.hair.base,         // #39C5BB - teal trim
+  'statusBar.border': alpha(character.skirt.base, '70'),
+  'statusBar.debuggingBackground': character.marks.tattoo, // #E60033 - alert red
+  'statusBar.debuggingForeground': whiteDress.outfit.dress,
+  'statusBar.debuggingBorder': character.marks.tattoo,
+  'statusBar.noFolderBackground': character.top.main,   // #37474F
+  'statusBar.noFolderForeground': mikuNT.hair.base,
+  'statusBar.noFolderBorder': alpha(character.skirt.base, '40'),
+  'statusBarItem.remoteBackground': character.hairTies.outline, // #E05096 pink
+  'statusBarItem.remoteForeground': whiteDress.outfit.dress,
+  'statusBarItem.remoteHoverBackground': character.headphones.cushion,
+  'statusBarItem.remoteHoverForeground': whiteDress.outfit.dress,
   'statusBarItem.hoverBackground': alpha(character.hair.base, '20'),
-  'statusBarItem.hoverForeground': character.hair.base,
+  'statusBarItem.hoverForeground': character.hair.highlight,
   'statusBarItem.activeBackground': alpha(character.hair.base, '40'),
-  'statusBarItem.errorBackground': character.hair.base,
-  'statusBarItem.errorForeground': character.hair.base,
-  'statusBarItem.errorHoverBackground': alpha(character.hair.base, 'CC'),
-  'statusBarItem.warningBackground': character.hair.base,
-  'statusBarItem.warningForeground': character.hair.base,
-  'statusBarItem.warningHoverBackground': alpha(character.hair.base, 'CC'),
+  'statusBarItem.errorBackground': character.marks.tattoo,
+  'statusBarItem.errorForeground': whiteDress.outfit.dress,
+  'statusBarItem.errorHoverBackground': alpha(character.marks.tattoo, 'CC'),
+  'statusBarItem.errorHoverForeground': whiteDress.outfit.dress,
+  'statusBarItem.warningBackground': character.skin.blush, // #FFB8C8 blush
+  'statusBarItem.warningForeground': mikuAppend.bodysuit.base,
+  'statusBarItem.warningHoverBackground': alpha(character.skin.blush, 'CC'),
+  'statusBarItem.warningHoverForeground': mikuAppend.bodysuit.base,
   'statusBarItem.prominentBackground': alpha(character.hair.base, '25'),
-  'statusBarItem.prominentForeground': character.hair.base,
+  'statusBarItem.prominentForeground': character.hair.highlight,
   'statusBarItem.prominentHoverBackground': alpha(character.hair.base, '40'),
-  'statusBarItem.prominentHoverForeground': character.hair.base,
+  'statusBarItem.prominentHoverForeground': character.hair.bright,
   'statusBarItem.compactHoverBackground': alpha(character.hair.base, '30'),
   'statusBarItem.focusBorder': alpha(character.hair.base, 'DD'),
-  // Title Bar - Miku V2 (2007 Original Turquoise)
-  'titleBar.activeBackground': character.hair.base,
+  'statusBar.focusBorder': alpha(character.hair.base, 'DD'),
+  'statusBarItem.offlineBackground': nightcord.unitColor,
+  'statusBarItem.offlineForeground': whiteDress.outfit.dress,
+  'statusBarItem.offlineHoverBackground': alpha(nightcord.unitColor, 'CC'),
+  'statusBarItem.offlineHoverForeground': whiteDress.outfit.dress,
+
+  // ==========================================================================
+  // TITLE BAR - Viewing Through Her Headset
+  // ==========================================================================
+  'titleBar.activeBackground': character.headphones.frame,   // #1A1F24 - tech equipment
   'titleBar.activeForeground': character.hair.base,
-  'titleBar.inactiveBackground': character.hair.base,
-  'titleBar.inactiveForeground': alpha(character.hair.base, '70'),
-  'titleBar.border': alpha(character.hair.base, '30'),
-  'menubar.selectionForeground': character.hair.base,
+  'titleBar.inactiveBackground': character.headphones.frame,
+  'titleBar.inactiveForeground': alpha(mikuNT.hair.base, '70'),
+  'titleBar.border': alpha(character.skirt.base, '30'),
+  'menubar.selectionForeground': character.hair.highlight,
   'menubar.selectionBackground': alpha(character.hair.base, '30'),
   'menubar.selectionBorder': alpha(character.hair.base, '60'),
-  // Tabs - Miku Expo 2026 (Candy Pop - Sweet colorful celebration)
-  'tab.activeBackground': alpha(character.hair.base, '10'),
-  'tab.activeForeground': character.hair.base,
-  'tab.activeBorderTop': character.hair.base,
+
+  // ==========================================================================
+  // TABS - Headphone Display
+  // ==========================================================================
+  'tab.activeBackground': character.headphones.frame,   // #1A1F24 - active screen
+  'tab.activeForeground': character.headphones.display, // #39C5BB - "01" display
+  'tab.activeBorderTop': character.hairTies.outline,    // #E05096 - pink indicator
   'tab.activeBorder': alpha(character.hair.base, '40'),
-  'tab.inactiveBackground': character.hair.base,
-  'tab.inactiveForeground': character.hair.base,
-  'tab.border': character.hair.base,
-  'tab.hoverBackground': alpha(character.hair.base, '15'),
-  'tab.hoverForeground': character.hair.base,
+  'tab.inactiveBackground': mikuAppend.bodysuit.base,   // #1A1A1A
+  'tab.inactiveForeground': mikuNT.hair.shadow,         // #5C5A60
+  'tab.border': character.boots.base,
+  'tab.hoverBackground': character.top.main,            // #37474F
+  'tab.hoverForeground': character.hair.highlight,      // #5DE4DB shimmer
   'tab.hoverBorder': alpha(character.hair.base, '40'),
-  'tab.unfocusedActiveBackground': character.hair.base,
-  'tab.unfocusedActiveForeground': character.hair.base,
-  'tab.unfocusedActiveBorderTop': alpha(character.hair.base, '80'),
-  'tab.unfocusedInactiveBackground': character.hair.base,
-  'tab.unfocusedInactiveForeground': character.hair.base,
-  'editorGroupHeader.tabsBackground': character.hair.base,
-  'editorGroupHeader.tabsBorder': alpha(character.hair.base, '15'),
-  'editorGroupHeader.noTabsBackground': character.hair.base,
-  'editorGroup.border': alpha(character.hair.base, '60'),
+  'tab.unfocusedActiveBackground': character.headphones.frame,
+  'tab.unfocusedActiveForeground': mikuNT.hair.base,
+  'tab.unfocusedActiveBorderTop': alpha(character.hairTies.outline, '80'),
+  'tab.unfocusedActiveBorder': alpha(character.hair.base, '40'),
+  'tab.unfocusedInactiveBackground': mikuAppend.bodysuit.base,
+  'tab.unfocusedInactiveForeground': alpha(mikuNT.hair.shadow, '80'),
+  'tab.unfocusedHoverBackground': alpha(character.top.main, '80'),
+  'tab.unfocusedHoverBorder': alpha(character.hair.base, '30'),
+  'tab.unfocusedHoverForeground': mikuNT.hair.base,
+  'tab.lastPinnedBorder': alpha(character.hairTies.outline, '60'),
+  'tab.activeModifiedBorder': character.armDisplay.data,
+  'tab.inactiveModifiedBorder': alpha(character.armDisplay.data, '60'),
+  'tab.unfocusedActiveModifiedBorder': alpha(character.armDisplay.data, '80'),
+  'tab.unfocusedInactiveModifiedBorder': alpha(character.armDisplay.data, '40'),
+  'tab.dragAndDropBorder': alpha(character.hairTies.outline, '60'),
+  'tab.selectedBackground': character.headphones.frame,
+  'tab.selectedForeground': character.hair.highlight,
+  'tab.selectedBorderTop': character.hairTies.outline,
+  'editorGroupHeader.tabsBackground': mikuAppend.bodysuit.base,
+  'editorGroupHeader.tabsBorder': alpha(character.skirt.base, '15'),
+  'editorGroupHeader.noTabsBackground': mikuAppend.bodysuit.base,
+  'editorGroupHeader.border': alpha(character.skirt.base, '20'),
+  'editorGroup.border': alpha(character.skirt.base, '60'),
   'editorGroup.dropBackground': alpha(character.hair.base, '40'),
-  // Lists - Snow Miku 2023 (Serene Winter - Kimono elegance)
+  'editorGroup.dropIntoPromptForeground': snowMiku.y2010.hair,
+  'editorGroup.dropIntoPromptBackground': alpha(character.skirt.base, 'F0'),
+  'editorGroup.dropIntoPromptBorder': alpha(character.hair.base, '50'),
+  'editorGroup.emptyBackground': mikuAppend.bodysuit.base,
+  'editorGroup.focusedEmptyBorder': alpha(character.hair.base, '40'),
+  'editorPane.background': mikuAppend.bodysuit.base,
+
+  // ==========================================================================
+  // LISTS - Miku Styling
+  // ==========================================================================
   'list.activeSelectionBackground': alpha(character.hair.base, '30'),
-  'list.activeSelectionForeground': character.hair.base,
-  'list.activeSelectionIconForeground': character.hair.base,
+  'list.activeSelectionForeground': character.hair.highlight,
+  'list.activeSelectionIconForeground': character.hair.highlight,
   'list.inactiveSelectionBackground': alpha(character.hair.base, '20'),
-  'list.inactiveSelectionForeground': character.hair.base,
+  'list.inactiveSelectionForeground': mikuNT.hair.base,
+  'list.inactiveSelectionIconForeground': mikuNT.hair.base,
   'list.hoverBackground': alpha(character.hair.base, '15'),
-  'list.hoverForeground': character.hair.base,
+  'list.hoverForeground': character.hair.highlight,
   'list.focusBackground': alpha(character.hair.base, '25'),
-  'list.focusForeground': character.hair.base,
+  'list.focusForeground': character.hair.highlight,
   'list.focusOutline': alpha(character.hair.base, 'DD'),
-  'list.highlightForeground': character.hair.base,
-  'list.errorForeground': character.hair.base,
-  'list.warningForeground': character.hair.base,
-  'list.invalidItemForeground': character.hair.base,
-  'list.deemphasizedForeground': character.hair.base,
-  'listFilterWidget.background': character.hair.base,
+  'list.focusHighlightForeground': character.hair.bright,
+  'list.focusAndSelectionOutline': alpha(character.hair.base, '60'),
+  'list.highlightForeground': character.hair.bright,
+  'list.errorForeground': character.marks.tattoo,
+  'list.warningForeground': miku15thAnniversary.hair.ribbons,
+  'list.invalidItemForeground': alpha(character.marks.tattoo, '80'),
+  'list.deemphasizedForeground': mikuNT.hair.shadow,
+  'list.dropBackground': alpha(character.hair.base, '20'),
+  'list.dropBetweenBackground': alpha(character.hair.base, '40'),
+  'list.inactiveFocusBackground': alpha(character.hair.base, '15'),
+  'list.inactiveFocusOutline': alpha(character.hair.base, '30'),
+  'list.filterMatchBackground': alpha(snowMiku.y2017.accessories.stars, '25'),
+  'list.filterMatchBorder': alpha(snowMiku.y2017.accessories.stars, '50'),
+  'listFilterWidget.background': character.skirt.base,
   'listFilterWidget.outline': alpha(character.hair.base, '70'),
-  'listFilterWidget.noMatchesOutline': character.hair.base,
+  'listFilterWidget.noMatchesOutline': character.marks.tattoo,
+  'listFilterWidget.shadow': alpha(character.eyes.pupil, '50'),
   'tree.indentGuidesStroke': alpha(character.hair.base, '40'),
-  'tree.tableColumnsBorder': alpha(character.hair.base, '25'),
+  'tree.inactiveIndentGuidesStroke': alpha(character.hair.base, '15'),
+  'tree.tableColumnsBorder': alpha(character.skirt.base, '25'),
+  'tree.tableOddRowsBackground': alpha(character.skirt.base, '05'),
+
+  // ==========================================================================
+  // GLOBAL UI ELEMENTS
+  // ==========================================================================
   'focusBorder': character.hair.base,
-  'foreground': character.hair.base,
-  'disabledForeground': character.hair.base,
-  'widget.shadow': alpha(character.hair.base, '70'),
+  'foreground': snowMiku.y2010.hair,                    // #E0EEF5
+  'disabledForeground': mikuNT.hair.shadow,
+  'widget.shadow': alpha(character.eyes.pupil, '70'),
+  'widget.border': alpha(character.hair.base, '40'),
   'selection.background': alpha(character.hair.base, '40'),
-  'descriptionForeground': character.hair.base,
-  'errorForeground': character.hair.base,
+  'descriptionForeground': mikuNT.hair.base,
+  'errorForeground': character.marks.tattoo,
   'icon.foreground': character.hair.base,
   'sash.hoverBorder': alpha(character.hair.base, '80'),
-  // Input - Snow Miku 2026 (Pâtisserie - Sweet pastry theme)
-  'input.background': character.hair.base,
-  'input.foreground': character.hair.base,
+  'contrastActiveBorder': alpha(character.hair.base, 'CC'),
+  'contrastBorder': alpha(character.hair.base, '60'),
+  'window.activeBorder': alpha(character.hair.base, '60'),
+  'window.inactiveBorder': alpha(character.hair.base, '30'),
+
+  // ==========================================================================
+  // INPUT - Snow Miku Pastisserie
+  // ==========================================================================
+  'input.background': character.skirt.base,            // #15191D
+  'input.foreground': snowMiku.y2010.hair,             // #E0EEF5
   'input.border': alpha(character.hair.base, '50'),
-  'input.placeholderForeground': character.hair.base,
+  'input.placeholderForeground': mikuNT.hair.shadow,   // #5C5A60
   'inputOption.activeBorder': character.hair.base,
   'inputOption.activeBackground': alpha(character.hair.base, '30'),
-  'inputOption.activeForeground': character.hair.base,
+  'inputOption.activeForeground': character.hair.highlight,
   'inputOption.hoverBackground': alpha(character.hair.base, '20'),
-  'inputValidation.errorBackground': alpha(character.hair.base, '25'),
-  'inputValidation.errorBorder': character.hair.base,
-  'inputValidation.errorForeground': character.hair.base,
-  'inputValidation.warningBackground': alpha(character.hair.base, '25'),
-  'inputValidation.warningBorder': character.hair.base,
-  'inputValidation.warningForeground': character.hair.base,
+  'inputValidation.errorBackground': alpha(character.marks.tattoo, '25'),
+  'inputValidation.errorBorder': character.marks.tattoo,
+  'inputValidation.errorForeground': snowMiku.y2010.hair,
+  'inputValidation.warningBackground': alpha(miku15thAnniversary.hair.ribbons, '25'),
+  'inputValidation.warningBorder': miku15thAnniversary.hair.ribbons,
+  'inputValidation.warningForeground': snowMiku.y2010.hair,
   'inputValidation.infoBackground': alpha(character.hair.base, '25'),
   'inputValidation.infoBorder': character.hair.base,
-  'inputValidation.infoForeground': character.hair.base,
-  // Dropdown - Miku Expo 2020 Europe
-  'dropdown.background': character.hair.base,
-  'dropdown.foreground': character.hair.base,
+  'inputValidation.infoForeground': snowMiku.y2010.hair,
+
+  // ==========================================================================
+  // DROPDOWN
+  // ==========================================================================
+  'dropdown.background': character.skirt.base,
+  'dropdown.foreground': snowMiku.y2010.hair,
   'dropdown.border': alpha(character.hair.base, '50'),
-  'dropdown.listBackground': character.hair.base,
-  // Buttons - Magical Mirai 2018 (Mika Pikazo)
-  'button.background': character.hair.base,
-  'button.foreground': character.hair.base,
-  'button.hoverBackground': character.hair.base,
-  'button.secondaryBackground': character.hair.base,
-  'button.secondaryForeground': character.hair.base,
-  'button.secondaryHoverBackground': character.hair.base,
+  'dropdown.listBackground': character.eyes.pupil,
+
+  // ==========================================================================
+  // BUTTONS - Miku Teal Primary
+  // ==========================================================================
+  'button.background': character.hair.base,            // #39C5BB
+  'button.foreground': mikuAppend.bodysuit.base,       // #1A1A1A (dark text on teal button)
+  'button.hoverBackground': character.hair.highlight,  // #5DE4DB
+  'button.secondaryBackground': leoNeed.unitColor,     // #4455DD
+  'button.secondaryForeground': whiteDress.outfit.dress,
+  'button.secondaryHoverBackground': alpha(leoNeed.unitColor, 'CC'),
   'button.border': alpha(character.hair.base, '80'),
-  'checkbox.background': character.hair.base,
+  'button.separator': alpha(mikuAppend.bodysuit.base, '60'),
+  'checkbox.background': character.skirt.base,
   'checkbox.foreground': character.hair.base,
   'checkbox.border': alpha(character.hair.base, '50'),
-  // Scrollbar - Snow Miku 2018 (Crane - Red obi & gold bell)
-  'scrollbar.shadow': alpha(character.hair.base, '50'),
+  'checkbox.selectBackground': alpha(character.hair.base, '30'),
+  'checkbox.selectBorder': character.hair.base,
+  'checkbox.disabled.background': alpha(character.skirt.base, '20'),
+  'checkbox.disabled.foreground': mikuNT.hair.shadow,
+  'radio.activeForeground': character.hair.highlight,
+  'radio.activeBackground': character.hair.base,
+  'radio.activeBorder': character.hair.base,
+  'radio.inactiveForeground': mikuNT.hair.base,
+  'radio.inactiveBackground': character.skirt.base,
+  'radio.inactiveBorder': alpha(character.hair.base, '40'),
+  'radio.inactiveHoverBackground': alpha(character.hair.base, '15'),
+
+  // ==========================================================================
+  // SCROLLBAR
+  // ==========================================================================
+  'scrollbar.shadow': alpha(character.eyes.pupil, '50'),
+  'scrollbar.background': alpha(mikuAppend.bodysuit.base, '00'),
   'scrollbarSlider.background': alpha(character.hair.base, '40'),
   'scrollbarSlider.hoverBackground': alpha(character.hair.base, '60'),
   'scrollbarSlider.activeBackground': alpha(character.hair.base, '80'),
-  // Minimap - Snow Miku 2016 (Owl - Amber goggles & cyan)
-  'minimap.findMatchHighlight': alpha(character.hair.base, '90'),
-  'minimap.selectionHighlight': alpha(character.hair.base, '70'),
-  'minimap.errorHighlight': alpha(character.hair.base, '95'),
-  'minimap.warningHighlight': alpha(character.hair.base, '90'),
-  'minimap.background': alpha(character.hair.base, '08'),
+
+  // ==========================================================================
+  // MINIMAP - Holographic Overview
+  // ==========================================================================
+  'minimap.background': alpha(character.eyes.pupil, '80'),
+  'minimap.findMatchHighlight': alpha(snowMiku.y2017.accessories.stars, 'AA'),
+  'minimap.selectionHighlight': alpha(character.hair.base, '88'),
+  'minimap.errorHighlight': alpha(character.marks.tattoo, 'DD'),
+  'minimap.warningHighlight': alpha(miku15thAnniversary.hair.ribbons, 'BB'),
   'minimap.selectionOccurrenceHighlight': alpha(character.hair.base, '50'),
-  'minimap.foregroundOpacity': alpha(character.hair.base, 'BB'),
+  'minimap.foregroundOpacity': alpha('#FFFFFF', 'BB'),
   'minimap.infoHighlight': alpha(character.hair.base, '80'),
+  'minimap.chatEditHighlight': alpha(character.hair.highlight, '60'),
   'minimapSlider.background': alpha(character.hair.base, '20'),
   'minimapSlider.hoverBackground': alpha(character.hair.base, '40'),
   'minimapSlider.activeBackground': alpha(character.hair.base, '45'),
-  'minimapGutter.addedBackground': alpha(character.hair.base, '90'),
-  'minimapGutter.modifiedBackground': alpha(character.hair.base, '90'),
-  'minimapGutter.deletedBackground': alpha(character.hair.base, '90'),
-  // Breadcrumbs - Snow Miku 2015 (Bell - Fresh green & cyan)
-  'breadcrumb.foreground': character.hair.base,
-  'breadcrumb.background': character.hair.base,
-  'breadcrumb.focusForeground': character.hair.base,
+  'minimapGutter.addedBackground': alpha(character.negi.bright, '90'),
+  'minimapGutter.modifiedBackground': alpha(character.armDisplay.data, '90'),
+  'minimapGutter.deletedBackground': alpha(character.marks.tattoo, '90'),
+
+  // ==========================================================================
+  // BREADCRUMBS
+  // ==========================================================================
+  'breadcrumb.foreground': mikuNT.hair.base,
+  'breadcrumb.background': character.top.main,         // #37474F
+  'breadcrumb.focusForeground': character.hair.highlight,
   'breadcrumb.activeSelectionForeground': character.hair.base,
-  'breadcrumbPicker.background': character.hair.base,
-  'terminal.background': character.hair.base,
-  'terminal.foreground': character.hair.base,
-  'terminal.ansiBlack': character.hair.base,
-  'terminal.ansiRed': character.hair.base,
-  'terminal.ansiGreen': character.hair.base,
-  'terminal.ansiYellow': character.hair.base,
-  'terminal.ansiBlue': character.hair.base,
-  'terminal.ansiMagenta': character.hair.base,
-  'terminal.ansiCyan': character.hair.base,
-  'terminal.ansiWhite': character.hair.base,
-  'terminal.ansiBrightBlack': character.hair.base,
-  'terminal.ansiBrightRed': character.hair.base,
-  'terminal.ansiBrightGreen': character.hair.base,
-  'terminal.ansiBrightYellow': character.hair.base,
-  'terminal.ansiBrightBlue': character.hair.base,
-  'terminal.ansiBrightMagenta': character.hair.base,
-  'terminal.ansiBrightCyan': character.hair.base,
-  'terminal.ansiBrightWhite': character.hair.base,
+  'breadcrumbPicker.background': character.skirt.base,
+
+  // ==========================================================================
+  // TERMINAL - Append Bodysuit Console
+  // ==========================================================================
+  'terminal.background': mikuAppend.bodysuit.base,     // #1A1A1A - bodysuit
+  'terminal.foreground': mikuAppend.accessories.glow,  // #89F6D3 - cyan glow
+  'terminalCursor.foreground': character.hairTies.outline, // #E05096 - PINK CURSOR!
+  'terminalCursor.background': mikuAppend.bodysuit.base,
+  'terminal.ansiBlack': mikuAppend.bodysuit.base,      // #1A1A1A
+  'terminal.ansiRed': character.marks.tattoo,          // #E60033
+  'terminal.ansiGreen': moreMoreJump.unitColor,        // #88DD44
+  'terminal.ansiYellow': supreme.hair.feathers,        // #CC0000 -> using gold instead
+  'terminal.ansiBlue': leoNeed.unitColor,              // #4455DD
+  'terminal.ansiMagenta': character.headphones.cushion,// #E05096
+  'terminal.ansiCyan': character.hair.base,            // #39C5BB
+  'terminal.ansiWhite': snowMiku.y2010.hair,           // #E0EEF5
+  'terminal.ansiBrightBlack': mikuNT.hair.shadow,      // #5C5A60
+  'terminal.ansiBrightRed': miku15thAnniversary.hair.ribbons, // #FF6B6B
+  'terminal.ansiBrightGreen': character.negi.bright,   // #69F0AE
+  'terminal.ansiBrightYellow': snowMiku.y2017.outfit.constellation, // #FFF59D
+  'terminal.ansiBrightBlue': snowMiku.y2017.hair,      // #82B1FF
+  'terminal.ansiBrightMagenta': leoNeed.hair.highlight,// #FF80AB
+  'terminal.ansiBrightCyan': character.hair.highlight, // #5DE4DB
+  'terminal.ansiBrightWhite': whiteDress.outfit.dress, // #FFFFFF
   'terminal.selectionBackground': alpha(character.hair.base, '40'),
+  'terminal.selectionForeground': snowMiku.y2010.hair,
   'terminal.inactiveSelectionBackground': alpha(character.hair.base, '25'),
-  'terminal.findMatchBackground': alpha(character.hair.base, '50'),
-  'terminal.findMatchBorder': alpha(character.hair.base, '90'),
-  'terminal.findMatchHighlightBackground': alpha(character.hair.base, '30'),
-  'terminal.findMatchHighlightBorder': alpha(character.hair.base, '60'),
-  'terminalCursor.foreground': character.hair.base,
-  'terminalCursor.background': character.hair.base,
-  'terminal.border': alpha(character.hair.base, '60'),
-  'terminal.tab.activeBorder': character.hair.base,
-  'terminalCommandDecoration.defaultBackground': alpha(character.hair.base, '60'),
-  'terminalCommandDecoration.successBackground': alpha(character.hair.base, '90'),
-  'terminalCommandDecoration.errorBackground': alpha(character.hair.base, '90'),
-  'terminalOverviewRuler.cursorForeground': character.hair.base,
-  'terminalOverviewRuler.findMatchForeground': alpha(character.hair.base, '80'),
-  'textLink.foreground': character.hair.base,
-  'textLink.activeForeground': character.hair.base,
-  'textBlockQuote.background': character.hair.base,
+  'terminal.findMatchBackground': alpha(snowMiku.y2017.accessories.stars, '50'),
+  'terminal.findMatchBorder': alpha(snowMiku.y2017.accessories.stars, '90'),
+  'terminal.findMatchHighlightBackground': alpha(snowMiku.y2017.accessories.stars, '30'),
+  'terminal.findMatchHighlightBorder': alpha(snowMiku.y2017.accessories.stars, '60'),
+  'terminal.border': alpha(character.skirt.base, '60'),
+  'terminal.tab.activeBorder': character.hairTies.outline,
+  'terminal.hoverHighlightBackground': alpha(character.hair.base, '20'),
+  'terminal.initialHintForeground': alpha(mikuNT.hair.base, '80'),
+  'terminal.dropBackground': alpha(character.hair.base, '20'),
+  'terminalCommandDecoration.defaultBackground': alpha(mikuNT.hair.base, '60'),
+  'terminalCommandDecoration.successBackground': alpha(moreMoreJump.unitColor, '90'),
+  'terminalCommandDecoration.errorBackground': alpha(character.marks.tattoo, '90'),
+  'terminalCommandGuide.foreground': alpha(character.hair.base, '40'),
+  'terminalOverviewRuler.cursorForeground': character.hairTies.outline,
+  'terminalOverviewRuler.findMatchForeground': alpha(snowMiku.y2017.accessories.stars, '80'),
+  'terminalOverviewRuler.border': alpha(character.skirt.base, '30'),
+  'terminalStickyScroll.background': mikuAppend.bodysuit.base,
+  'terminalStickyScroll.border': alpha(character.skirt.base, '20'),
+  'terminalStickyScrollHover.background': alpha(character.skirt.base, '15'),
+
+  // ==========================================================================
+  // TEXT LINKS
+  // ==========================================================================
+  'textLink.foreground': character.hair.highlight,
+  'textLink.activeForeground': character.hair.bright,
+  'textBlockQuote.background': character.skirt.base,
   'textBlockQuote.border': alpha(character.hair.base, '60'),
-  'textCodeBlock.background': character.hair.base,
-  'textPreformat.foreground': character.hair.base,
-  'textSeparator.foreground': alpha(character.hair.base, '30'),
-  'notifications.background': alpha(character.hair.base, 'F5'),
-  'notifications.foreground': character.hair.base,
-  'notifications.border': alpha(character.hair.base, '70'),
+  'textCodeBlock.background': character.boots.base,
+  'textPreformat.foreground': mikuAppend.accessories.glow,
+  'textPreformat.background': alpha(character.skirt.base, '80'),
+  'textPreformat.border': alpha(character.hair.base, '30'),
+  'textSeparator.foreground': alpha(character.skirt.base, '30'),
+
+  // ==========================================================================
+  // NOTIFICATIONS - Magical Mirai Announcements
+  // ==========================================================================
+  'notifications.background': character.skirt.base,    // #15191D
+  'notifications.foreground': snowMiku.y2010.hair,     // #E0EEF5
+  'notifications.border': alpha(character.hair.base, '60'),
   'notificationToast.border': alpha(character.hair.base, '80'),
   'notificationsInfoIcon.foreground': character.hair.base,
-  'notificationsWarningIcon.foreground': character.hair.base,
-  'notificationsErrorIcon.foreground': character.hair.base,
-  'notificationLink.foreground': character.hair.base,
-  'notificationCenterHeader.background': alpha(character.hair.base, 'F0'),
+  'notificationsWarningIcon.foreground': snowMiku.y2017.accessories.stars, // #FFD700
+  'notificationsErrorIcon.foreground': character.marks.tattoo,             // #E60033
+  'notificationLink.foreground': character.hair.highlight,
+  'notificationCenterHeader.background': alpha(character.skirt.base, 'F0'),
   'notificationCenterHeader.foreground': character.hair.base,
   'notificationCenter.border': alpha(character.hair.base, '60'),
+
+  // ==========================================================================
+  // PEEK VIEW
+  // ==========================================================================
   'peekView.border': alpha(character.hair.base, '90'),
-  'peekViewEditor.background': character.hair.base,
-  'peekViewEditorGutter.background': character.hair.base,
-  'peekViewResult.background': character.hair.base,
+  'peekViewEditor.background': character.eyes.pupil,
+  'peekViewEditorGutter.background': character.eyes.pupil,
+  'peekViewResult.background': character.boots.base,
   'peekViewResult.selectionBackground': alpha(character.hair.base, '30'),
-  'peekViewResult.selectionForeground': character.hair.base,
-  'peekViewTitle.background': character.hair.base,
+  'peekViewResult.selectionForeground': character.hair.highlight,
+  'peekViewTitle.background': character.skirt.base,
   'peekViewTitleLabel.foreground': character.hair.base,
-  'peekViewTitleDescription.foreground': character.hair.base,
+  'peekViewTitleDescription.foreground': mikuNT.hair.base,
   'peekViewResult.fileForeground': character.hair.base,
-  'peekViewResult.lineForeground': character.hair.base,
-  'peekViewResult.matchHighlightBackground': alpha(character.hair.base, '50'),
-  'peekViewEditor.matchHighlightBackground': alpha(character.hair.base, '50'),
-  'peekViewEditor.matchHighlightBorder': alpha(character.hair.base, '80'),
+  'peekViewResult.lineForeground': mikuNT.hair.base,
+  'peekViewResult.matchHighlightBackground': alpha(snowMiku.y2017.accessories.stars, '50'),
+  'peekViewEditor.matchHighlightBackground': alpha(snowMiku.y2017.accessories.stars, '50'),
+  'peekViewEditor.matchHighlightBorder': alpha(snowMiku.y2017.accessories.stars, '80'),
+  'peekViewEditorStickyScroll.background': character.eyes.pupil,
+  'peekViewEditorStickyScrollGutter.background': character.eyes.pupil,
+
+  // ==========================================================================
+  // PICKER
+  // ==========================================================================
   'pickerGroup.border': alpha(character.hair.base, '30'),
   'pickerGroup.foreground': character.hair.base,
-  'gitDecoration.addedResourceForeground': character.hair.base,
-  'gitDecoration.modifiedResourceForeground': character.hair.base,
-  'gitDecoration.deletedResourceForeground': character.hair.base,
-  'gitDecoration.renamedResourceForeground': character.hair.base,
-  'gitDecoration.untrackedResourceForeground': character.hair.base,
-  'gitDecoration.ignoredResourceForeground': character.hair.base,
-  'gitDecoration.conflictingResourceForeground': character.hair.base,
-  'gitDecoration.stageModifiedResourceForeground': character.hair.base,
-  'gitDecoration.stageDeletedResourceForeground': character.hair.base,
-  'gitDecoration.submoduleResourceForeground': character.hair.base,
-  'diffEditor.insertedTextBackground': alpha(character.hair.base, '30'),
-  'diffEditor.removedTextBackground': alpha(character.hair.base, '30'),
-  'diffEditor.insertedLineBackground': alpha(character.hair.base, '20'),
-  'diffEditor.removedLineBackground': alpha(character.hair.base, '18'),
-  'diffEditor.diagonalFill': alpha(character.hair.base, '15'),
-  'diffEditor.border': alpha(character.hair.base, '60'),
-  'diffEditor.unchangedRegionBackground': character.hair.base,
-  'diffEditor.unchangedRegionForeground': character.hair.base,
-  'diffEditor.unchangedCodeBackground': alpha(character.hair.base, '08'),
-  'diffEditorGutter.insertedLineBackground': alpha(character.hair.base, '50'),
-  'diffEditorGutter.removedLineBackground': alpha(character.hair.base, '40'),
-  'diffEditorOverview.insertedForeground': character.hair.base,
-  'diffEditorOverview.removedForeground': character.hair.base,
-  'multiDiffEditor.headerBackground': character.hair.base,
-  'multiDiffEditor.background': character.hair.base,
-  'multiDiffEditor.border': alpha(character.hair.base, '30'),
-  'panel.background': character.hair.base,
+
+  // ==========================================================================
+  // GIT DECORATIONS - Version History
+  // ==========================================================================
+  'gitDecoration.addedResourceForeground': character.negi.bright,       // #69F0AE
+  'gitDecoration.modifiedResourceForeground': marionette.outfit.buttons,// #FFFACD
+  'gitDecoration.deletedResourceForeground': character.marks.tattoo,    // #E60033
+  'gitDecoration.renamedResourceForeground': leoNeed.unitColor,         // #4455DD
+  'gitDecoration.untrackedResourceForeground': character.hair.base,     // #39C5BB
+  'gitDecoration.ignoredResourceForeground': mikuNT.hair.shadow,        // #5C5A60
+  'gitDecoration.conflictingResourceForeground': miku15thAnniversary.hair.ribbons, // #FF6B6B
+  'gitDecoration.stageModifiedResourceForeground': character.armDisplay.data, // #5DE4DB
+  'gitDecoration.stageDeletedResourceForeground': alpha(character.marks.tattoo, '80'),
+  'gitDecoration.submoduleResourceForeground': ghost.hair.base,         // #9370DB
+  'git.blame.editorDecorationForeground': alpha(mikuNT.hair.shadow, '60'),
+
+  // ==========================================================================
+  // DIFF EDITOR
+  // ==========================================================================
+  'diffEditor.insertedTextBackground': alpha(character.negi.bright, '30'),
+  'diffEditor.removedTextBackground': alpha(character.marks.tattoo, '30'),
+  'diffEditor.insertedLineBackground': alpha(character.negi.bright, '20'),
+  'diffEditor.removedLineBackground': alpha(character.marks.tattoo, '18'),
+  'diffEditor.insertedTextBorder': alpha(character.negi.bright, '50'),
+  'diffEditor.removedTextBorder': alpha(character.marks.tattoo, '50'),
+  'diffEditor.diagonalFill': alpha(character.skirt.base, '15'),
+  'diffEditor.border': alpha(character.skirt.base, '60'),
+  'diffEditor.unchangedRegionBackground': character.boots.base,
+  'diffEditor.unchangedRegionForeground': mikuNT.hair.shadow,
+  'diffEditor.unchangedCodeBackground': alpha(character.skirt.base, '08'),
+  'diffEditor.unchangedRegionShadow': alpha(character.eyes.pupil, '30'),
+  'diffEditor.move.border': alpha(leoNeed.unitColor, '60'),
+  'diffEditor.moveActive.border': leoNeed.unitColor,
+  'diffEditorGutter.insertedLineBackground': alpha(character.negi.bright, '50'),
+  'diffEditorGutter.removedLineBackground': alpha(character.marks.tattoo, '40'),
+  'diffEditorOverview.insertedForeground': character.negi.bright,
+  'diffEditorOverview.removedForeground': character.marks.tattoo,
+  'multiDiffEditor.headerBackground': character.skirt.base,
+  'multiDiffEditor.background': mikuAppend.bodysuit.base,
+  'multiDiffEditor.border': alpha(character.skirt.base, '30'),
+  'sideBySideEditor.horizontalBorder': alpha(character.skirt.base, '25'),
+  'sideBySideEditor.verticalBorder': alpha(character.skirt.base, '25'),
+
+  // ==========================================================================
+  // PANEL
+  // ==========================================================================
+  'panel.background': character.skirt.base,            // #15191D
   'panel.border': alpha(character.hair.base, '70'),
   'panel.dropBorder': alpha(character.hair.base, 'DD'),
   'panelTitle.activeForeground': character.hair.base,
-  'panelTitle.inactiveForeground': character.hair.base,
-  'panelTitle.activeBorder': character.hair.base,
+  'panelTitle.inactiveForeground': mikuNT.hair.shadow,
+  'panelTitle.activeBorder': character.hairTies.outline,
+  'panelTitle.border': alpha(character.skirt.base, '30'),
   'panelInput.border': alpha(character.hair.base, '40'),
-  'panelSection.border': alpha(character.hair.base, '35'),
+  'panelSection.border': alpha(character.skirt.base, '35'),
   'panelSection.dropBackground': alpha(character.hair.base, '25'),
-  'panelSectionHeader.background': character.hair.base,
+  'panelSectionHeader.background': character.boots.base,
   'panelSectionHeader.foreground': character.hair.base,
-  'panelSectionHeader.border': alpha(character.hair.base, '20'),
-  'debugToolBar.background': alpha(character.hair.base, '20'),
-  'debugToolBar.border': alpha(character.hair.base, '60'),
-  'debugIcon.breakpointForeground': character.hair.base,
-  'debugIcon.breakpointDisabledForeground': alpha(character.hair.base, '50'),
-  'debugIcon.breakpointUnverifiedForeground': character.hair.base,
-  'debugIcon.breakpointCurrentStackframeForeground': character.hair.base,
+  'panelSectionHeader.border': alpha(character.skirt.base, '20'),
+  'panelTitleBadge.background': character.marks.tattoo,
+  'panelTitleBadge.foreground': whiteDress.outfit.dress,
+  'panelStickyScroll.background': character.skirt.base,
+  'panelStickyScroll.border': alpha(character.skirt.base, '20'),
+  'panelStickyScroll.shadow': alpha(character.eyes.pupil, '50'),
+  'outputView.background': character.skirt.base,
+  'outputViewStickyScroll.background': character.skirt.base,
+
+  // ==========================================================================
+  // DEBUG
+  // ==========================================================================
+  'debugToolBar.background': alpha(vividBadSquad.unitColor, '20'),
+  'debugToolBar.border': alpha(vividBadSquad.unitColor, '60'),
+  'debugIcon.breakpointForeground': character.marks.tattoo,
+  'debugIcon.breakpointDisabledForeground': alpha(character.marks.tattoo, '50'),
+  'debugIcon.breakpointUnverifiedForeground': miku15thAnniversary.hair.ribbons,
+  'debugIcon.breakpointCurrentStackframeForeground': snowMiku.y2017.accessories.stars,
   'debugIcon.breakpointStackframeForeground': character.hair.base,
-  'debugIcon.startForeground': character.hair.base,
-  'debugIcon.pauseForeground': character.hair.base,
-  'debugIcon.stopForeground': character.hair.base,
-  'debugIcon.disconnectForeground': character.hair.base,
-  'debugIcon.restartForeground': character.hair.base,
-  'debugIcon.stepOverForeground': character.hair.base,
-  'debugIcon.stepIntoForeground': character.hair.base,
-  'debugIcon.stepOutForeground': character.hair.base,
-  'debugIcon.stepBackForeground': character.hair.base,
-  'debugIcon.continueForeground': character.hair.base,
+  'debugIcon.startForeground': moreMoreJump.unitColor,
+  'debugIcon.pauseForeground': snowMiku.y2017.accessories.stars,
+  'debugIcon.stopForeground': character.marks.tattoo,
+  'debugIcon.disconnectForeground': character.marks.tattoo,
+  'debugIcon.restartForeground': moreMoreJump.unitColor,
+  'debugIcon.stepOverForeground': leoNeed.unitColor,
+  'debugIcon.stepIntoForeground': leoNeed.unitColor,
+  'debugIcon.stepOutForeground': leoNeed.unitColor,
+  'debugIcon.stepBackForeground': leoNeed.unitColor,
+  'debugIcon.continueForeground': moreMoreJump.unitColor,
   'debugConsole.infoForeground': character.hair.base,
-  'debugConsole.warningForeground': character.hair.base,
-  'debugConsole.errorForeground': character.hair.base,
-  'debugConsole.sourceForeground': character.hair.base,
-  'debugConsoleInputIcon.foreground': character.hair.base,
-  'debugTokenExpression.name': character.hair.base,
-  'debugTokenExpression.value': character.hair.base,
-  'debugTokenExpression.string': character.hair.base,
-  'debugTokenExpression.number': character.hair.base,
-  'debugTokenExpression.boolean': character.hair.base,
-  'debugTokenExpression.error': character.hair.base,
-  'debugView.exceptionLabelForeground': character.hair.base,
-  'debugView.exceptionLabelBackground': character.hair.base,
-  'debugView.stateLabelForeground': character.hair.base,
+  'debugConsole.warningForeground': miku15thAnniversary.hair.ribbons,
+  'debugConsole.errorForeground': character.marks.tattoo,
+  'debugConsole.sourceForeground': mikuNT.hair.base,
+  'debugConsoleInputIcon.foreground': character.hairTies.outline,
+  'debugTokenExpression.name': vividBadSquad.unitColor,
+  'debugTokenExpression.value': sakuraMiku.hair.base,
+  'debugTokenExpression.string': sakuraMiku.hair.base,
+  'debugTokenExpression.number': snowMiku.y2017.outfit.constellation,
+  'debugTokenExpression.boolean': character.marks.tattoo,
+  'debugTokenExpression.error': character.marks.tattoo,
+  'debugTokenExpression.type': angel.accessories.shoes,
+  'debugView.exceptionLabelForeground': whiteDress.outfit.dress,
+  'debugView.exceptionLabelBackground': character.marks.tattoo,
+  'debugView.stateLabelForeground': snowMiku.y2010.hair,
   'debugView.stateLabelBackground': alpha(character.hair.base, '40'),
-  'debugView.valueChangedHighlight': alpha(character.hair.base, '80'),
-  'editor.stackFrameHighlightBackground': alpha(character.hair.base, '25'),
-  'editor.focusedStackFrameHighlightBackground': alpha(character.hair.base, '20'),
-  'testing.iconFailed': character.hair.base,
-  'testing.iconErrored': character.hair.base,
-  'testing.iconPassed': character.hair.base,
-  'testing.iconQueued': character.hair.base,
-  'testing.iconUnset': character.hair.base,
-  'testing.iconSkipped': character.hair.base,
-  'testing.runAction': character.hair.base,
-  'testing.peekBorder': character.hair.base,
-  'testing.peekHeaderBackground': character.hair.base,
-  'testing.message.error.decorationForeground': character.hair.base,
-  'testing.message.error.lineBackground': alpha(character.hair.base, '15'),
+  'debugView.valueChangedHighlight': alpha(character.armDisplay.data, '80'),
+  'debugExceptionWidget.background': alpha(character.marks.tattoo, '20'),
+  'debugExceptionWidget.border': character.marks.tattoo,
+  'editor.stackFrameHighlightBackground': alpha(snowMiku.y2017.accessories.stars, '25'),
+  'editor.focusedStackFrameHighlightBackground': alpha(moreMoreJump.unitColor, '20'),
+  'editor.inlineValuesForeground': mikuNT.hair.base,
+  'editor.inlineValuesBackground': alpha(character.skirt.base, '15'),
+
+  // ==========================================================================
+  // TESTING
+  // ==========================================================================
+  'testing.iconFailed': character.marks.tattoo,
+  'testing.iconErrored': character.marks.tattoo,
+  'testing.iconPassed': moreMoreJump.unitColor,
+  'testing.iconQueued': mikuNT.hair.base,
+  'testing.iconUnset': mikuNT.hair.shadow,
+  'testing.iconSkipped': mikuNT.hair.shadow,
+  'testing.runAction': moreMoreJump.unitColor,
+  'testing.peekBorder': character.marks.tattoo,
+  'testing.peekHeaderBackground': alpha(character.marks.tattoo, '20'),
+  'testing.message.error.decorationForeground': character.marks.tattoo,
+  'testing.message.error.lineBackground': alpha(character.marks.tattoo, '15'),
   'testing.message.info.decorationForeground': character.hair.base,
   'testing.message.info.lineBackground': alpha(character.hair.base, '15'),
+  'testing.iconErrored.retired': alpha(character.marks.tattoo, '60'),
+  'testing.iconFailed.retired': alpha(character.marks.tattoo, '60'),
+  'testing.iconPassed.retired': alpha(moreMoreJump.unitColor, '60'),
+  'testing.iconQueued.retired': alpha(mikuNT.hair.base, '60'),
+  'testing.iconUnset.retired': alpha(mikuNT.hair.shadow, '60'),
+  'testing.iconSkipped.retired': alpha(mikuNT.hair.shadow, '60'),
+  'testing.message.error.badgeBackground': alpha(character.marks.tattoo, '25'),
+  'testing.message.error.badgeBorder': character.marks.tattoo,
+  'testing.message.error.badgeForeground': snowMiku.y2010.hair,
+  'testing.messagePeekBorder': character.marks.tattoo,
+  'testing.messagePeekHeaderBackground': alpha(character.marks.tattoo, '20'),
+  'testing.coveredBackground': alpha(moreMoreJump.unitColor, '12'),
+  'testing.coveredBorder': alpha(moreMoreJump.unitColor, '40'),
+  'testing.coveredGutterBackground': alpha(moreMoreJump.unitColor, '30'),
+  'testing.uncoveredBranchBackground': alpha(character.marks.tattoo, '20'),
+  'testing.uncoveredBackground': alpha(character.marks.tattoo, '12'),
+  'testing.uncoveredBorder': alpha(character.marks.tattoo, '40'),
+  'testing.uncoveredGutterBackground': alpha(character.marks.tattoo, '30'),
+  'testing.coverCountBadgeBackground': alpha(moreMoreJump.unitColor, '25'),
+  'testing.coverCountBadgeForeground': snowMiku.y2010.hair,
+
+  // ==========================================================================
+  // MERGE EDITOR
+  // ==========================================================================
   'mergeEditor.change.background': alpha(character.hair.base, '15'),
   'mergeEditor.change.word.background': alpha(character.hair.base, '30'),
-  'mergeEditor.conflict.handled.minimapOverViewRuler': character.hair.base,
-  'mergeEditor.conflict.handledFocused.border': character.hair.base,
-  'mergeEditor.conflict.handledUnfocused.border': alpha(character.hair.base, '80'),
-  'mergeEditor.conflict.unhandled.minimapOverViewRuler': character.hair.base,
-  'mergeEditor.conflict.unhandledFocused.border': character.hair.base,
-  'mergeEditor.conflict.unhandledUnfocused.border': alpha(character.hair.base, '80'),
-  'mergeEditor.conflictingLines.background': alpha(character.hair.base, '15'),
+  'mergeEditor.conflict.handled.minimapOverViewRuler': moreMoreJump.unitColor,
+  'mergeEditor.conflict.handledFocused.border': moreMoreJump.unitColor,
+  'mergeEditor.conflict.handledUnfocused.border': alpha(moreMoreJump.unitColor, '80'),
+  'mergeEditor.conflict.unhandled.minimapOverViewRuler': character.marks.tattoo,
+  'mergeEditor.conflict.unhandledFocused.border': character.marks.tattoo,
+  'mergeEditor.conflict.unhandledUnfocused.border': alpha(character.marks.tattoo, '80'),
+  'mergeEditor.conflictingLines.background': alpha(miku15thAnniversary.hair.ribbons, '15'),
+  'mergeEditor.changeBase.background': alpha(mikuNT.hair.base, '15'),
+  'mergeEditor.changeBase.word.background': alpha(mikuNT.hair.base, '30'),
+  'mergeEditor.conflict.input1.background': alpha(character.hair.base, '15'),
+  'mergeEditor.conflict.input2.background': alpha(leoNeed.unitColor, '15'),
+  'merge.currentHeaderBackground': alpha(character.hair.base, '40'),
+  'merge.currentContentBackground': alpha(character.hair.base, '15'),
+  'merge.incomingHeaderBackground': alpha(leoNeed.unitColor, '40'),
+  'merge.incomingContentBackground': alpha(leoNeed.unitColor, '15'),
+  'merge.border': alpha(character.hair.base, '70'),
+  'merge.commonContentBackground': alpha(mikuNT.hair.base, '15'),
+  'merge.commonHeaderBackground': alpha(mikuNT.hair.base, '30'),
+
+  // ==========================================================================
+  // SETTINGS
+  // ==========================================================================
   'settings.headerForeground': character.hair.base,
-  'settings.modifiedItemIndicator': character.hair.base,
+  'settings.modifiedItemIndicator': character.hairTies.outline,
   'settings.focusedRowBackground': alpha(character.hair.base, '10'),
   'settings.rowHoverBackground': alpha(character.hair.base, '08'),
   'settings.focusedRowBorder': alpha(character.hair.base, '40'),
-  'settings.headerBorder': alpha(character.hair.base, '20'),
-  'settings.sashBorder': alpha(character.hair.base, '30'),
-  'settings.dropdownBackground': character.hair.base,
-  'settings.dropdownForeground': character.hair.base,
+  'settings.headerBorder': alpha(character.skirt.base, '20'),
+  'settings.sashBorder': alpha(character.skirt.base, '30'),
+  'settings.settingsHeaderHoverForeground': character.hair.highlight,
+  'settings.dropdownBackground': character.skirt.base,
+  'settings.dropdownForeground': snowMiku.y2010.hair,
   'settings.dropdownBorder': alpha(character.hair.base, '40'),
   'settings.dropdownListBorder': alpha(character.hair.base, '40'),
-  'settings.checkboxBackground': character.hair.base,
+  'settings.checkboxBackground': character.skirt.base,
   'settings.checkboxForeground': character.hair.base,
   'settings.checkboxBorder': alpha(character.hair.base, '40'),
-  'settings.textInputBackground': character.hair.base,
-  'settings.textInputForeground': character.hair.base,
+  'settings.textInputBackground': character.skirt.base,
+  'settings.textInputForeground': snowMiku.y2010.hair,
   'settings.textInputBorder': alpha(character.hair.base, '40'),
-  'settings.numberInputBackground': character.hair.base,
-  'settings.numberInputForeground': character.hair.base,
+  'settings.numberInputBackground': character.skirt.base,
+  'settings.numberInputForeground': snowMiku.y2010.hair,
   'settings.numberInputBorder': alpha(character.hair.base, '40'),
-  'welcomePage.background': character.hair.base,
-  'welcomePage.tileBackground': character.hair.base,
+
+  // ==========================================================================
+  // WELCOME PAGE
+  // ==========================================================================
+  'welcomePage.background': mikuAppend.bodysuit.base,
+  'welcomePage.tileBackground': character.skirt.base,
   'welcomePage.tileBorder': alpha(character.hair.base, '30'),
   'welcomePage.tileHoverBackground': alpha(character.hair.base, '10'),
   'welcomePage.progress.foreground': character.hair.base,
-  'welcomePage.progress.background': character.hair.base,
-  'walkThrough.embeddedEditorBackground': character.hair.base,
+  'welcomePage.progress.background': character.skirt.base,
+  'walkThrough.embeddedEditorBackground': character.boots.base,
+  'walkthrough.stepTitle.foreground': character.hair.base,
+
+  // ==========================================================================
+  // EXTENSIONS
+  // ==========================================================================
   'extensionButton.prominentBackground': character.hair.base,
-  'extensionButton.prominentForeground': character.hair.base,
-  'extensionButton.prominentHoverBackground': character.hair.base,
-  'extensionButton.separator': character.hair.base,
-  'extensionBadge.remoteBackground': character.hair.base,
-  'extensionBadge.remoteForeground': character.hair.base,
-  'extensionIcon.starForeground': character.hair.base,
-  'extensionIcon.verifiedForeground': character.hair.base,
-  'extensionIcon.preReleaseForeground': character.hair.base,
-  'extensionIcon.sponsorForeground': character.hair.base,
+  'extensionButton.prominentForeground': mikuAppend.bodysuit.base,
+  'extensionButton.prominentHoverBackground': character.hair.highlight,
+  'extensionButton.separator': mikuAppend.bodysuit.base,
+  'extensionButton.background': character.hair.base,
+  'extensionButton.foreground': mikuAppend.bodysuit.base,
+  'extensionButton.hoverBackground': character.hair.highlight,
+  'extensionBadge.remoteBackground': character.hairTies.outline,
+  'extensionBadge.remoteForeground': whiteDress.outfit.dress,
+  'extensionIcon.starForeground': snowMiku.y2017.accessories.stars,
+  'extensionIcon.verifiedForeground': moreMoreJump.unitColor,
+  'extensionIcon.preReleaseForeground': wonderlandsShowtime.unitColor,
+  'extensionIcon.sponsorForeground': character.hairTies.outline,
+  'extensionIcon.privateForeground': nightcord.unitColor,
+  'mcpIcon.starForeground': snowMiku.y2017.accessories.stars,
+
+  // ==========================================================================
+  // KEYBINDING
+  // ==========================================================================
   'keybindingLabel.background': alpha(character.hair.base, '20'),
-  'keybindingLabel.foreground': character.hair.base,
+  'keybindingLabel.foreground': snowMiku.y2010.hair,
   'keybindingLabel.border': alpha(character.hair.base, '40'),
   'keybindingLabel.bottomBorder': alpha(character.hair.base, '60'),
-  'keybindingTable.headerBackground': character.hair.base,
-  'keybindingTable.rowsBackground': character.hair.base,
-  'charts.foreground': character.hair.base,
+  'keybindingTable.headerBackground': character.skirt.base,
+  'keybindingTable.rowsBackground': mikuAppend.bodysuit.base,
+
+  // ==========================================================================
+  // CHARTS
+  // ==========================================================================
+  'charts.foreground': snowMiku.y2010.hair,
   'charts.lines': alpha(character.hair.base, '60'),
-  'charts.red': character.hair.base,
-  'charts.green': character.hair.base,
-  'charts.yellow': character.hair.base,
-  'charts.blue': character.hair.base,
-  'charts.purple': character.hair.base,
-  'charts.orange': character.hair.base,
-  'menu.background': character.hair.base,
-  'menu.foreground': character.hair.base,
+  'charts.red': character.marks.tattoo,
+  'charts.green': moreMoreJump.unitColor,
+  'charts.yellow': snowMiku.y2017.accessories.stars,
+  'charts.blue': leoNeed.unitColor,
+  'charts.purple': nightcord.unitColor,
+  'charts.orange': wonderlandsShowtime.unitColor,
+  'chart.axis': alpha(mikuNT.hair.base, '80'),
+  'chart.guide': alpha(character.hair.base, '30'),
+  'chart.line': character.hair.base,
+
+  // ==========================================================================
+  // MENU
+  // ==========================================================================
+  'menu.background': character.skirt.base,
+  'menu.foreground': snowMiku.y2010.hair,
   'menu.selectionBackground': alpha(character.hair.base, '30'),
-  'menu.selectionForeground': character.hair.base,
+  'menu.selectionForeground': character.hair.highlight,
   'menu.selectionBorder': alpha(character.hair.base, '50'),
-  'menu.separatorBackground': alpha(character.hair.base, '30'),
+  'menu.separatorBackground': alpha(character.skirt.base, '30'),
   'menu.border': alpha(character.hair.base, '60'),
-  'commandCenter.foreground': character.hair.base,
-  'commandCenter.background': character.hair.base,
+
+  // ==========================================================================
+  // COMMAND CENTER
+  // ==========================================================================
+  'commandCenter.foreground': mikuNT.hair.base,
+  'commandCenter.background': character.headphones.frame,
   'commandCenter.border': alpha(character.hair.base, '50'),
   'commandCenter.activeBackground': alpha(character.hair.base, '25'),
-  'commandCenter.activeForeground': character.hair.base,
+  'commandCenter.activeForeground': character.hair.highlight,
   'commandCenter.activeBorder': alpha(character.hair.base, '60'),
-  'commandCenter.inactiveForeground': character.hair.base,
-  'commandCenter.inactiveBorder': alpha(character.hair.base, '20'),
-  'quickInput.background': character.hair.base,
-  'quickInput.foreground': character.hair.base,
-  'quickInputTitle.background': character.hair.base,
+  'commandCenter.inactiveForeground': mikuNT.hair.shadow,
+  'commandCenter.inactiveBorder': alpha(character.skirt.base, '20'),
+  'commandCenter.debuggingBackground': alpha(character.marks.tattoo, '25'),
+
+  // ==========================================================================
+  // QUICK INPUT
+  // ==========================================================================
+  'quickInput.background': character.eyes.pupil,
+  'quickInput.foreground': snowMiku.y2010.hair,
+  'quickInputTitle.background': character.skirt.base,
   'quickInputList.focusBackground': alpha(character.hair.base, '30'),
-  'quickInputList.focusForeground': character.hair.base,
-  'quickInputList.focusIconForeground': character.hair.base,
-  'banner.background': character.hair.base,
-  'banner.foreground': character.hair.base,
+  'quickInputList.focusForeground': character.hair.highlight,
+  'quickInputList.focusIconForeground': character.hair.highlight,
+
+  // ==========================================================================
+  // BANNER
+  // ==========================================================================
+  'banner.background': character.skirt.base,
+  'banner.foreground': snowMiku.y2010.hair,
   'banner.iconForeground': character.hair.base,
-  'editorError.foreground': character.hair.base,
-  'editorError.border': alpha(character.hair.base, '40'),
-  'editorError.background': alpha(character.hair.base, '15'),
-  'editorWarning.foreground': character.hair.base,
-  'editorWarning.border': alpha(character.hair.base, '40'),
-  'editorWarning.background': alpha(character.hair.base, '15'),
+
+  // ==========================================================================
+  // ERRORS/WARNINGS/INFO
+  // ==========================================================================
+  'editorError.foreground': character.marks.tattoo,
+  'editorError.border': alpha(character.marks.tattoo, '40'),
+  'editorError.background': alpha(character.marks.tattoo, '15'),
+  'editorWarning.foreground': miku15thAnniversary.hair.ribbons,
+  'editorWarning.border': alpha(miku15thAnniversary.hair.ribbons, '40'),
+  'editorWarning.background': alpha(miku15thAnniversary.hair.ribbons, '15'),
   'editorInfo.foreground': character.hair.base,
   'editorInfo.border': alpha(character.hair.base, '40'),
   'editorInfo.background': alpha(character.hair.base, '15'),
-  'editorHint.foreground': character.hair.base,
-  'editorHint.border': alpha(character.hair.base, '40'),
-  'problemsErrorIcon.foreground': character.hair.base,
-  'problemsWarningIcon.foreground': character.hair.base,
+  'editorHint.foreground': mikuNT.hair.base,
+  'editorHint.border': alpha(mikuNT.hair.base, '40'),
+  'problemsErrorIcon.foreground': character.marks.tattoo,
+  'problemsWarningIcon.foreground': miku15thAnniversary.hair.ribbons,
   'problemsInfoIcon.foreground': character.hair.base,
-  'editorLightBulb.foreground': character.hair.base,
-  'editorLightBulbAutoFix.foreground': character.hair.base,
-  'editorLightBulbAi.foreground': character.hair.base,
-  'editorInlayHint.background': alpha(character.hair.base, '12'),
-  'editorInlayHint.foreground': alpha(character.hair.base, 'DD'),
-  'editorInlayHint.typeForeground': alpha(character.hair.base, 'CC'),
-  'editorInlayHint.typeBackground': alpha(character.hair.base, '12'),
-  'editorInlayHint.parameterForeground': character.hair.base,
-  'editorInlayHint.parameterBackground': alpha(character.hair.base, '12'),
-  'editorStickyScroll.background': alpha(character.hair.base, 'F0'),
-  'editorStickyScroll.border': alpha(character.hair.base, '30'),
-  'editorStickyScrollHover.background': alpha(character.hair.base, '10'),
+  'editorLightBulb.foreground': snowMiku.y2017.accessories.stars,
+  'editorLightBulbAutoFix.foreground': moreMoreJump.unitColor,
+  'editorLightBulbAi.foreground': character.hairTies.outline,
+
+  // ==========================================================================
+  // INLAY HINTS
+  // ==========================================================================
+  'editorInlayHint.background': alpha(character.skirt.base, '12'),
+  'editorInlayHint.foreground': alpha(mikuNT.hair.shadow, '80'),
+  'editorInlayHint.typeForeground': alpha(angel.accessories.shoes, 'CC'),
+  'editorInlayHint.typeBackground': alpha(character.skirt.base, '12'),
+  'editorInlayHint.parameterForeground': alpha(leoNeed.hair.highlight, 'CC'),
+  'editorInlayHint.parameterBackground': alpha(character.skirt.base, '12'),
+
+  // ==========================================================================
+  // STICKY SCROLL
+  // ==========================================================================
+  'editorStickyScroll.background': alpha(character.headphones.frame, 'F0'),
+  'editorStickyScroll.border': alpha(character.skirt.base, '30'),
+  'editorStickyScroll.shadow': alpha(character.eyes.pupil, '30'),
+  'editorStickyScrollHover.background': alpha(character.skirt.base, '10'),
+  'editorStickyScrollGutter.background': alpha(character.headphones.frame, 'F0'),
+
+  // ==========================================================================
+  // NOTEBOOK
+  // ==========================================================================
   'notebook.cellBorderColor': alpha(character.hair.base, '30'),
-  'notebook.cellEditorBackground': character.hair.base,
+  'notebook.cellEditorBackground': mikuAppend.bodysuit.base,
   'notebook.cellHoverBackground': alpha(character.hair.base, '10'),
-  'notebook.cellInsertionIndicator': character.hair.base,
+  'notebook.cellInsertionIndicator': character.hairTies.outline,
   'notebook.cellStatusBarItemHoverBackground': alpha(character.hair.base, '20'),
-  'notebook.cellToolbarSeparator': alpha(character.hair.base, '30'),
-  'notebook.editorBackground': character.hair.base,
+  'notebook.cellToolbarSeparator': alpha(character.skirt.base, '30'),
+  'notebook.editorBackground': mikuAppend.bodysuit.base,
   'notebook.focusedCellBorder': character.hair.base,
+  'notebook.focusedCellBackground': alpha(character.hair.base, '10'),
   'notebook.focusedEditorBorder': alpha(character.hair.base, 'CC'),
   'notebook.inactiveFocusedCellBorder': alpha(character.hair.base, '60'),
-  'notebook.outputContainerBackgroundColor': character.hair.base,
-  'notebook.outputContainerBorderColor': alpha(character.hair.base, '20'),
+  'notebook.inactiveSelectedCellBorder': alpha(character.hair.base, '40'),
+  'notebook.outputContainerBackgroundColor': character.boots.base,
+  'notebook.outputContainerBorderColor': alpha(character.skirt.base, '20'),
   'notebook.selectedCellBackground': alpha(character.hair.base, '15'),
   'notebook.selectedCellBorder': alpha(character.hair.base, '60'),
   'notebook.symbolHighlightBackground': alpha(character.hair.base, '20'),
-  'notebookStatusSuccessIcon.foreground': character.hair.base,
-  'notebookStatusErrorIcon.foreground': character.hair.base,
+  'notebookStatusSuccessIcon.foreground': moreMoreJump.unitColor,
+  'notebookStatusErrorIcon.foreground': character.marks.tattoo,
   'notebookStatusRunningIcon.foreground': character.hair.base,
   'notebookEditorOverviewRuler.runningCellForeground': character.hair.base,
-  'symbolIcon.arrayForeground': character.hair.base,
-  'symbolIcon.booleanForeground': character.hair.base,
-  'symbolIcon.classForeground': character.hair.base,
+  'notebookScrollbarSlider.activeBackground': alpha(character.hair.base, '80'),
+  'notebookScrollbarSlider.background': alpha(character.hair.base, '40'),
+  'notebookScrollbarSlider.hoverBackground': alpha(character.hair.base, '60'),
+  'outputsNotebook.border': alpha(character.skirt.base, '30'),
+
+  // ==========================================================================
+  // SYMBOL ICONS
+  // ==========================================================================
+  'symbolIcon.arrayForeground': moreMoreJump.unitColor,
+  'symbolIcon.booleanForeground': character.marks.tattoo,
+  'symbolIcon.classForeground': vividBadSquad.unitColor,
   'symbolIcon.colorForeground': character.hair.base,
-  'symbolIcon.constantForeground': character.hair.base,
-  'symbolIcon.constructorForeground': character.hair.base,
-  'symbolIcon.enumeratorForeground': character.hair.base,
-  'symbolIcon.enumeratorMemberForeground': character.hair.base,
-  'symbolIcon.eventForeground': character.hair.base,
-  'symbolIcon.fieldForeground': character.hair.base,
-  'symbolIcon.fileForeground': character.hair.base,
-  'symbolIcon.folderForeground': character.hair.base,
-  'symbolIcon.functionForeground': character.hair.base,
-  'symbolIcon.interfaceForeground': character.hair.base,
-  'symbolIcon.keyForeground': character.hair.base,
+  'symbolIcon.constantForeground': character.marks.tattoo,
+  'symbolIcon.constructorForeground': leoNeed.unitColor,
+  'symbolIcon.enumeratorForeground': nightcord.unitColor,
+  'symbolIcon.enumeratorMemberForeground': nightcord.unitColor,
+  'symbolIcon.eventForeground': leoNeed.unitColor,
+  'symbolIcon.fieldForeground': moreMoreJump.unitColor,
+  'symbolIcon.fileForeground': mikuNT.hair.base,
+  'symbolIcon.folderForeground': snowMiku.y2017.accessories.stars,
+  'symbolIcon.functionForeground': leoNeed.unitColor,
+  'symbolIcon.interfaceForeground': angel.accessories.shoes,
+  'symbolIcon.keyForeground': snowMiku.y2016.hair,
   'symbolIcon.keywordForeground': character.hair.base,
-  'symbolIcon.methodForeground': character.hair.base,
-  'symbolIcon.moduleForeground': character.hair.base,
-  'symbolIcon.namespaceForeground': character.hair.base,
-  'symbolIcon.nullForeground': character.hair.base,
-  'symbolIcon.numberForeground': character.hair.base,
-  'symbolIcon.objectForeground': character.hair.base,
-  'symbolIcon.operatorForeground': character.hair.base,
-  'symbolIcon.packageForeground': character.hair.base,
-  'symbolIcon.propertyForeground': character.hair.base,
-  'symbolIcon.referenceForeground': character.hair.base,
-  'symbolIcon.snippetForeground': character.hair.base,
-  'symbolIcon.stringForeground': character.hair.base,
-  'symbolIcon.structForeground': character.hair.base,
-  'symbolIcon.textForeground': character.hair.base,
-  'symbolIcon.typeParameterForeground': character.hair.base,
-  'symbolIcon.unitForeground': character.hair.base,
-  'symbolIcon.variableForeground': character.hair.base,
-  'inlineChat.background': alpha(character.hair.base, 'F8'),
+  'symbolIcon.methodForeground': wonderlandsShowtime.unitColor,
+  'symbolIcon.moduleForeground': character.hair.highlight,
+  'symbolIcon.namespaceForeground': character.hair.highlight,
+  'symbolIcon.nullForeground': mikuNT.hair.shadow,
+  'symbolIcon.numberForeground': snowMiku.y2017.outfit.constellation,
+  'symbolIcon.objectForeground': vividBadSquad.unitColor,
+  'symbolIcon.operatorForeground': factoryTyrant.accessories.cogwheels,
+  'symbolIcon.packageForeground': ghost.hair.base,
+  'symbolIcon.propertyForeground': moreMoreJump.unitColor,
+  'symbolIcon.referenceForeground': ghost.hair.base,
+  'symbolIcon.snippetForeground': mikuNT.hair.base,
+  'symbolIcon.stringForeground': sakuraMiku.hair.base,
+  'symbolIcon.structForeground': vividBadSquad.unitColor,
+  'symbolIcon.textForeground': snowMiku.y2010.hair,
+  'symbolIcon.typeParameterForeground': snowMiku.y2022.eyes,
+  'symbolIcon.unitForeground': mikuNT.hair.base,
+  'symbolIcon.variableForeground': moreMoreJump.unitColor,
+
+  // ==========================================================================
+  // INLINE CHAT
+  // ==========================================================================
+  'inlineChat.background': alpha(character.skirt.base, 'F8'),
   'inlineChat.border': alpha(character.hair.base, '60'),
-  'inlineChat.shadow': alpha(character.hair.base, '40'),
-  'inlineChatInput.background': character.hair.base,
+  'inlineChat.shadow': alpha(character.eyes.pupil, '40'),
+  'inlineChat.foreground': snowMiku.y2010.hair,
+  'inlineChatInput.background': character.boots.base,
   'inlineChatInput.border': alpha(character.hair.base, '40'),
   'inlineChatInput.focusBorder': character.hair.base,
-  'inlineChatInput.placeholderForeground': character.hair.base,
-  'inlineChatDiff.inserted': alpha(character.hair.base, '25'),
-  'inlineChatDiff.removed': alpha(character.hair.base, '20'),
-  'chat.requestBackground': character.hair.base,
+  'inlineChatInput.placeholderForeground': mikuNT.hair.shadow,
+  'inlineChatDiff.inserted': alpha(character.negi.bright, '25'),
+  'inlineChatDiff.removed': alpha(character.marks.tattoo, '20'),
+
+  // ==========================================================================
+  // CHAT
+  // ==========================================================================
+  'chat.requestBackground': character.skirt.base,
   'chat.requestBorder': alpha(character.hair.base, '30'),
-  'ports.iconRunningProcessForeground': character.hair.base,
+  'chat.requestBubbleBackground': alpha(character.skirt.base, '15'),
+  'chat.requestBubbleHoverBackground': alpha(character.skirt.base, '25'),
+  'chat.slashCommandBackground': alpha(character.hair.base, '20'),
+  'chat.slashCommandForeground': character.hair.base,
+  'chat.avatarBackground': alpha(character.hair.base, '30'),
+  'chat.avatarForeground': character.hair.highlight,
+  'chat.editedFileForeground': character.armDisplay.data,
+  'chat.linesAddedForeground': character.negi.bright,
+  'chat.linesRemovedForeground': character.marks.tattoo,
+  'chat.requestCodeBorder': alpha(character.hair.base, '40'),
+  'chat.checkpointSeparator': alpha(character.skirt.base, '30'),
+  'chatManagement.sashBorder': alpha(character.hair.base, '40'),
+
+  // ==========================================================================
+  // INTERACTIVE
+  // ==========================================================================
+  'interactive.activeCodeBorder': alpha(character.hair.base, '60'),
+  'interactive.inactiveCodeBorder': alpha(character.skirt.base, '30'),
+
+  // ==========================================================================
+  // PORTS
+  // ==========================================================================
+  'ports.iconRunningProcessForeground': moreMoreJump.unitColor,
+
+  // ==========================================================================
+  // PROFILE BADGE
+  // ==========================================================================
   'profileBadge.background': character.hair.base,
-  'profileBadge.foreground': character.hair.base,
-  'searchEditor.findMatchBackground': alpha(character.hair.base, '30'),
-  'searchEditor.findMatchBorder': alpha(character.hair.base, '80'),
+  'profileBadge.foreground': mikuAppend.bodysuit.base,
+  'profiles.sashBorder': alpha(character.hair.base, '30'),
+
+  // ==========================================================================
+  // SEARCH EDITOR
+  // ==========================================================================
+  'searchEditor.findMatchBackground': alpha(snowMiku.y2017.accessories.stars, '30'),
+  'searchEditor.findMatchBorder': alpha(snowMiku.y2017.accessories.stars, '80'),
   'searchEditor.textInputBorder': alpha(character.hair.base, '40'),
-  'editorUnicodeHighlight.border': alpha(character.hair.base, '80'),
-  'editorUnicodeHighlight.background': alpha(character.hair.base, '15'),
-  'editorSuggestWidget.background': alpha(character.hair.base, 'F8'),
+  'search.resultsInfoForeground': mikuNT.hair.base,
+
+  // ==========================================================================
+  // UNICODE HIGHLIGHT
+  // ==========================================================================
+  'editorUnicodeHighlight.border': alpha(miku15thAnniversary.hair.ribbons, '80'),
+  'editorUnicodeHighlight.background': alpha(miku15thAnniversary.hair.ribbons, '15'),
+
+  // ==========================================================================
+  // SUGGEST WIDGET
+  // ==========================================================================
+  'editorSuggestWidget.background': alpha(character.skirt.base, 'F8'),
   'editorSuggestWidget.border': alpha(character.hair.base, 'CC'),
-  'editorSuggestWidget.foreground': character.hair.base,
-  'editorSuggestWidget.highlightForeground': character.hair.base,
+  'editorSuggestWidget.foreground': snowMiku.y2010.hair,
+  'editorSuggestWidget.highlightForeground': character.hair.bright,
   'editorSuggestWidget.selectedBackground': alpha(character.hair.base, '30'),
-  'editorSuggestWidget.selectedForeground': character.hair.base,
-  'editorSuggestWidget.selectedIconForeground': character.hair.base,
-  'editorSuggestWidget.focusHighlightForeground': character.hair.base,
-  'editorMarkerNavigation.background': character.hair.base,
-  'editorMarkerNavigationError.background': alpha(character.hair.base, '30'),
-  'editorMarkerNavigationWarning.background': alpha(character.hair.base, '30'),
+  'editorSuggestWidget.selectedForeground': character.hair.highlight,
+  'editorSuggestWidget.selectedIconForeground': character.hair.highlight,
+  'editorSuggestWidget.focusHighlightForeground': character.hair.bright,
+  'editorSuggestWidgetStatus.foreground': mikuNT.hair.shadow,
+
+  // ==========================================================================
+  // MARKER NAVIGATION
+  // ==========================================================================
+  'editorMarkerNavigation.background': character.skirt.base,
+  'editorMarkerNavigationError.background': alpha(character.marks.tattoo, '30'),
+  'editorMarkerNavigationWarning.background': alpha(miku15thAnniversary.hair.ribbons, '30'),
   'editorMarkerNavigationInfo.background': alpha(character.hair.base, '30'),
-  'editorMarkerNavigationError.headerBackground': alpha(character.hair.base, '20'),
-  'editorMarkerNavigationWarning.headerBackground': alpha(character.hair.base, '20'),
+  'editorMarkerNavigationError.headerBackground': alpha(character.marks.tattoo, '20'),
+  'editorMarkerNavigationWarning.headerBackground': alpha(miku15thAnniversary.hair.ribbons, '20'),
   'editorMarkerNavigationInfo.headerBackground': alpha(character.hair.base, '20'),
+
+  // ==========================================================================
+  // TOOLBAR
+  // ==========================================================================
   'actionBar.toggledBackground': alpha(character.hair.base, '30'),
   'toolbar.hoverBackground': alpha(character.hair.base, '20'),
   'toolbar.hoverOutline': alpha(character.hair.base, '40'),
   'toolbar.activeBackground': alpha(character.hair.base, '30'),
-  'editorActionList.background': character.hair.base,
-  'editorActionList.foreground': character.hair.base,
+
+  // ==========================================================================
+  // ACTION LIST
+  // ==========================================================================
+  'editorActionList.background': character.skirt.base,
+  'editorActionList.foreground': snowMiku.y2010.hair,
   'editorActionList.focusBackground': alpha(character.hair.base, '30'),
-  'editorActionList.focusForeground': character.hair.base,
-  'editorCommentsWidget.resolvedBorder': alpha(character.hair.base, '60'),
+  'editorActionList.focusForeground': character.hair.highlight,
+
+  // ==========================================================================
+  // COMMENTS WIDGET
+  // ==========================================================================
+  'editorCommentsWidget.resolvedBorder': alpha(moreMoreJump.unitColor, '60'),
   'editorCommentsWidget.unresolvedBorder': alpha(character.hair.base, '60'),
   'editorCommentsWidget.rangeBackground': alpha(character.hair.base, '10'),
   'editorCommentsWidget.rangeActiveBackground': alpha(character.hair.base, '20'),
-  'editorCommentsWidget.replyInputBackground': character.hair.base,
-  'editor.foldBackground': alpha(character.hair.base, '08'),
-  'editor.foldPlaceholderForeground': alpha(character.hair.base, 'AA'),
+  'editorCommentsWidget.replyInputBackground': character.boots.base,
+  'commentsView.resolvedIcon': moreMoreJump.unitColor,
+  'commentsView.unresolvedIcon': character.hair.base,
+
+  // ==========================================================================
+  // FOLDING
+  // ==========================================================================
+  'editor.foldBackground': alpha(character.skirt.base, '08'),
+  'editor.foldPlaceholderForeground': alpha(mikuNT.hair.base, 'AA'),
+
+  // ==========================================================================
+  // SNIPPETS
+  // ==========================================================================
   'editor.snippetTabstopHighlightBackground': alpha(character.hair.base, '18'),
   'editor.snippetTabstopHighlightBorder': alpha(character.hair.base, '50'),
-  'editor.snippetFinalTabstopHighlightBackground': alpha(character.hair.base, '20'),
-  'editor.snippetFinalTabstopHighlightBorder': alpha(character.hair.base, '60'),
+  'editor.snippetFinalTabstopHighlightBackground': alpha(moreMoreJump.unitColor, '20'),
+  'editor.snippetFinalTabstopHighlightBorder': alpha(moreMoreJump.unitColor, '60'),
+
+  // ==========================================================================
+  // SYMBOL HIGHLIGHT
+  // ==========================================================================
   'editor.symbolHighlightBackground': alpha(character.hair.base, '15'),
   'editor.symbolHighlightBorder': alpha(character.hair.base, '40'),
   'editor.hoverHighlightBackground': alpha(character.hair.base, '12'),
+
+  // ==========================================================================
+  // SCM GRAPH
+  // ==========================================================================
   'scmGraph.foreground1': character.hair.base,
-  'scmGraph.foreground2': character.hair.base,
-  'scmGraph.foreground3': character.hair.base,
-  'scmGraph.foreground4': character.hair.base,
-  'scmGraph.foreground5': character.hair.base,
-  'chat.slashCommandBackground': alpha(character.hair.base, '20'),
-  'chat.slashCommandForeground': character.hair.base,
-  'chat.avatarBackground': alpha(character.hair.base, '30'),
-  'chat.avatarForeground': character.hair.base,
-  'interactive.activeCodeBorder': alpha(character.hair.base, '60'),
-  'interactive.inactiveCodeBorder': alpha(character.hair.base, '30'),
-  'terminalSymbolIcon.aliasForeground': character.hair.base,
+  'scmGraph.foreground2': vividBadSquad.unitColor,
+  'scmGraph.foreground3': moreMoreJump.unitColor,
+  'scmGraph.foreground4': wonderlandsShowtime.unitColor,
+  'scmGraph.foreground5': nightcord.unitColor,
+  'scmGraph.historyItemHoverAdditionsForeground': character.negi.bright,
+  'scmGraph.historyItemHoverDeletionsForeground': character.marks.tattoo,
+  'scmGraph.historyItemRefColor': character.hair.highlight,
+  'scmGraph.historyItemRemoteRefColor': leoNeed.unitColor,
+  'scmGraph.historyItemBaseRefColor': mikuNT.hair.base,
+  'scmGraph.historyItemHoverLabelForeground': snowMiku.y2010.hair,
+
+  // ==========================================================================
+  // TERMINAL SYMBOL ICONS
+  // ==========================================================================
+  'terminalSymbolIcon.aliasForeground': ghost.hair.base,
   'terminalSymbolIcon.branchForeground': character.hair.base,
-  'terminalSymbolIcon.commitForeground': character.hair.base,
-  'terminalSymbolIcon.flagForeground': character.hair.base,
-  'terminalSymbolIcon.optionForeground': character.hair.base,
-  'terminalSymbolIcon.optionValueForeground': character.hair.base,
-  'terminalSymbolIcon.methodForeground': character.hair.base,
-  'terminalSymbolIcon.argumentForeground': character.hair.base,
-  'terminalSymbolIcon.inlineSuggestionForeground': character.hair.base,
-  'terminalSymbolIcon.fileForeground': character.hair.base,
-  'terminalSymbolIcon.folderForeground': character.hair.base,
-  'terminalSymbolIcon.pullRequestDoneForeground': character.hair.base,
+  'terminalSymbolIcon.commitForeground': moreMoreJump.unitColor,
+  'terminalSymbolIcon.flagForeground': wonderlandsShowtime.unitColor,
+  'terminalSymbolIcon.optionForeground': leoNeed.unitColor,
+  'terminalSymbolIcon.optionValueForeground': sakuraMiku.hair.base,
+  'terminalSymbolIcon.methodForeground': wonderlandsShowtime.unitColor,
+  'terminalSymbolIcon.argumentForeground': leoNeed.hair.highlight,
+  'terminalSymbolIcon.inlineSuggestionForeground': mikuNT.hair.base,
+  'terminalSymbolIcon.fileForeground': mikuNT.hair.base,
+  'terminalSymbolIcon.folderForeground': snowMiku.y2017.accessories.stars,
+  'terminalSymbolIcon.pullRequestDoneForeground': moreMoreJump.unitColor,
   'terminalSymbolIcon.pullRequestForeground': character.hair.base,
-  'terminalSymbolIcon.remoteForeground': character.hair.base,
-  'terminalSymbolIcon.stashForeground': character.hair.base,
-  'terminalSymbolIcon.symbolText': character.hair.base,
-  'terminalSymbolIcon.symbolicLinkFileForeground': character.hair.base,
-  'terminalSymbolIcon.symbolicLinkFolderForeground': character.hair.base,
-  'terminalSymbolIcon.tagForeground': character.hair.base,
+  'terminalSymbolIcon.remoteForeground': character.hairTies.outline,
+  'terminalSymbolIcon.stashForeground': ghost.hair.base,
+  'terminalSymbolIcon.symbolText': snowMiku.y2010.hair,
+  'terminalSymbolIcon.symbolicLinkFileForeground': leoNeed.unitColor,
+  'terminalSymbolIcon.symbolicLinkFolderForeground': leoNeed.unitColor,
+  'terminalSymbolIcon.tagForeground': vividBadSquad.unitColor,
+
+  // ==========================================================================
+  // INLINE EDIT
+  // ==========================================================================
   'inlineEdit.gutterIndicator.primaryBorder': character.hair.base,
-  'inlineEdit.gutterIndicator.primaryForeground': character.hair.base,
+  'inlineEdit.gutterIndicator.primaryForeground': character.hair.highlight,
   'inlineEdit.gutterIndicator.primaryBackground': alpha(character.hair.base, '20'),
   'inlineEdit.gutterIndicator.secondaryBorder': alpha(character.hair.base, '60'),
-  'inlineEdit.gutterIndicator.secondaryForeground': character.hair.base,
+  'inlineEdit.gutterIndicator.secondaryForeground': mikuNT.hair.base,
   'inlineEdit.gutterIndicator.secondaryBackground': alpha(character.hair.base, '15'),
-  'inlineEdit.gutterIndicator.successfulBorder': character.hair.base,
-  'inlineEdit.gutterIndicator.successfulForeground': character.hair.base,
-  'inlineEdit.gutterIndicator.successfulBackground': alpha(character.hair.base, '20'),
-  'inlineEdit.gutterIndicator.background': alpha(character.hair.base, '10'),
-  'inlineEdit.originalBackground': alpha(character.hair.base, '10'),
-  'inlineEdit.modifiedBackground': alpha(character.hair.base, '15'),
-  'inlineEdit.originalChangedLineBackground': alpha(character.hair.base, '15'),
-  'inlineEdit.originalChangedTextBackground': alpha(character.hair.base, '25'),
-  'inlineEdit.modifiedChangedLineBackground': alpha(character.hair.base, '15'),
-  'inlineEdit.modifiedChangedTextBackground': alpha(character.hair.base, '25'),
-  'inlineEdit.originalBorder': alpha(character.hair.base, '40'),
-  'inlineEdit.modifiedBorder': alpha(character.hair.base, '50'),
-  'inlineEdit.tabWillAcceptModifiedBorder': character.hair.base,
-  'inlineEdit.tabWillAcceptOriginalBorder': alpha(character.hair.base, '60'),
-  'testing.iconErrored.retired': alpha(character.hair.base, '60'),
-  'testing.iconFailed.retired': alpha(character.hair.base, '60'),
-  'testing.iconPassed.retired': alpha(character.hair.base, '60'),
-  'testing.iconQueued.retired': alpha(character.hair.base, '60'),
-  'testing.iconUnset.retired': alpha(character.hair.base, '60'),
-  'testing.iconSkipped.retired': alpha(character.hair.base, '60'),
-  'testing.message.error.badgeBackground': alpha(character.hair.base, '25'),
-  'testing.message.error.badgeBorder': character.hair.base,
-  'testing.message.error.badgeForeground': character.hair.base,
-  'testing.messagePeekBorder': character.hair.base,
-  'testing.messagePeekHeaderBackground': character.hair.base,
-  'testing.coveredBackground': alpha(character.hair.base, '12'),
-  'testing.coveredBorder': alpha(character.hair.base, '40'),
-  'testing.coveredGutterBackground': alpha(character.hair.base, '30'),
-  'testing.uncoveredBranchBackground': alpha(character.hair.base, '20'),
-  'testing.uncoveredBackground': alpha(character.hair.base, '12'),
-  'testing.uncoveredBorder': alpha(character.hair.base, '40'),
-  'testing.uncoveredGutterBackground': alpha(character.hair.base, '30'),
-  'testing.coverCountBadgeBackground': alpha(character.hair.base, '25'),
-  'testing.coverCountBadgeForeground': character.hair.base,
-  'scmGraph.historyItemHoverAdditionsForeground': character.hair.base,
-  'scmGraph.historyItemHoverDeletionsForeground': character.hair.base,
-  'scmGraph.historyItemRefColor': character.hair.base,
-  'scmGraph.historyItemRemoteRefColor': character.hair.base,
-  'scmGraph.historyItemBaseRefColor': character.hair.base,
-  'chat.editedFileForeground': character.hair.base,
-  'chat.linesAddedForeground': character.hair.base,
-  'chat.linesRemovedForeground': character.hair.base,
-  'chat.requestCodeBorder': alpha(character.hair.base, '40'),
-  'chat.requestBubbleBackground': alpha(character.hair.base, '15'),
-  'chat.requestBubbleHoverBackground': alpha(character.hair.base, '25'),
-  'chat.checkpointSeparator': alpha(character.hair.base, '30'),
-  'chatManagement.sashBorder': alpha(character.hair.base, '40'),
-  'tab.lastPinnedBorder': alpha(character.hair.base, '60'),
-  'tab.activeModifiedBorder': character.hair.base,
-  'tab.inactiveModifiedBorder': alpha(character.hair.base, '60'),
-  'tab.unfocusedActiveModifiedBorder': alpha(character.hair.base, '80'),
-  'tab.unfocusedInactiveModifiedBorder': alpha(character.hair.base, '40'),
-  'tab.dragAndDropBorder': alpha(character.hair.base, '60'),
-  'tab.selectedBackground': character.hair.base,
-  'tab.selectedForeground': character.hair.base,
-  'tab.selectedBorderTop': character.hair.base,
-  'checkbox.selectBackground': alpha(character.hair.base, '30'),
-  'checkbox.selectBorder': character.hair.base,
-  'checkbox.disabled.background': alpha(character.hair.base, '20'),
-  'checkbox.disabled.foreground': character.hair.base,
-  'radio.activeForeground': character.hair.base,
-  'radio.activeBackground': character.hair.base,
-  'radio.activeBorder': character.hair.base,
-  'radio.inactiveForeground': character.hair.base,
-  'radio.inactiveBackground': character.hair.base,
-  'radio.inactiveBorder': alpha(character.hair.base, '40'),
-  'radio.inactiveHoverBackground': alpha(character.hair.base, '15'),
-  'editorOverviewRuler.modifiedForeground': alpha(character.hair.base, '90'),
-  'editorOverviewRuler.addedForeground': alpha(character.hair.base, '90'),
-  'editorOverviewRuler.deletedForeground': alpha(character.hair.base, '90'),
-  'editorOverviewRuler.commentForeground': alpha(character.hair.base, '60'),
-  'editorOverviewRuler.commentUnresolvedForeground': alpha(character.hair.base, '60'),
-  'editorOverviewRuler.inlineChatInserted': alpha(character.hair.base, '70'),
-  'editorOverviewRuler.inlineChatRemoved': alpha(character.hair.base, '70'),
-  'editorGutter.modifiedSecondaryBackground': alpha(character.hair.base, '50'),
-  'editorGutter.addedSecondaryBackground': alpha(character.hair.base, '50'),
-  'editorGutter.deletedSecondaryBackground': alpha(character.hair.base, '50'),
-  'editorGutter.commentRangeForeground': alpha(character.hair.base, '40'),
-  'editorGutter.commentGlyphForeground': character.hair.base,
-  'editorGutter.commentUnresolvedGlyphForeground': character.hair.base,
-  'merge.currentHeaderBackground': alpha(character.hair.base, '40'),
-  'merge.currentContentBackground': alpha(character.hair.base, '15'),
-  'merge.incomingHeaderBackground': alpha(character.hair.base, '40'),
-  'merge.incomingContentBackground': alpha(character.hair.base, '15'),
-  'merge.border': alpha(character.hair.base, '70'),
-  'merge.commonContentBackground': alpha(character.hair.base, '15'),
-  'merge.commonHeaderBackground': alpha(character.hair.base, '30'),
-  'mergeEditor.changeBase.background': alpha(character.hair.base, '15'),
-  'mergeEditor.changeBase.word.background': alpha(character.hair.base, '30'),
-  'mergeEditor.conflict.input1.background': alpha(character.hair.base, '15'),
-  'mergeEditor.conflict.input2.background': alpha(character.hair.base, '15'),
-  'panelTitleBadge.background': character.hair.base,
-  'panelTitleBadge.foreground': character.hair.base,
-  'panelStickyScroll.background': character.hair.base,
-  'panelStickyScroll.border': alpha(character.hair.base, '20'),
-  'panelStickyScroll.shadow': alpha(character.hair.base, '50'),
-  'outputView.background': character.hair.base,
-  'outputViewStickyScroll.background': character.hair.base,
-  'activityWarningBadge.foreground': character.hair.base,
-  'activityWarningBadge.background': character.hair.base,
-  'activityErrorBadge.foreground': character.hair.base,
-  'activityErrorBadge.background': character.hair.base,
-  'commandCenter.debuggingBackground': alpha(character.hair.base, '25'),
-  'list.dropBackground': alpha(character.hair.base, '20'),
-  'list.dropBetweenBackground': alpha(character.hair.base, '40'),
-  'list.focusAndSelectionOutline': alpha(character.hair.base, '60'),
-  'list.inactiveSelectionIconForeground': character.hair.base,
-  'list.inactiveFocusBackground': alpha(character.hair.base, '15'),
-  'list.inactiveFocusOutline': alpha(character.hair.base, '30'),
-  'list.filterMatchBackground': alpha(character.hair.base, '25'),
-  'list.filterMatchBorder': alpha(character.hair.base, '50'),
-  'listFilterWidget.shadow': alpha(character.hair.base, '50'),
-  'tree.inactiveIndentGuidesStroke': alpha(character.hair.base, '15'),
-  'tree.tableOddRowsBackground': alpha(character.hair.base, '05'),
-  'badge.foreground': character.hair.base,
-  'badge.background': character.hair.base,
-  'progressBar.background': character.hair.base,
-  'editor.placeholder.foreground': alpha(character.hair.base, '60'),
+  'inlineEdit.gutterIndicator.successfulBorder': moreMoreJump.unitColor,
+  'inlineEdit.gutterIndicator.successfulForeground': moreMoreJump.unitColor,
+  'inlineEdit.gutterIndicator.successfulBackground': alpha(moreMoreJump.unitColor, '20'),
+  'inlineEdit.gutterIndicator.background': alpha(character.skirt.base, '10'),
+  'inlineEdit.originalBackground': alpha(character.marks.tattoo, '10'),
+  'inlineEdit.modifiedBackground': alpha(character.negi.bright, '15'),
+  'inlineEdit.originalChangedLineBackground': alpha(character.marks.tattoo, '15'),
+  'inlineEdit.originalChangedTextBackground': alpha(character.marks.tattoo, '25'),
+  'inlineEdit.modifiedChangedLineBackground': alpha(character.negi.bright, '15'),
+  'inlineEdit.modifiedChangedTextBackground': alpha(character.negi.bright, '25'),
+  'inlineEdit.originalBorder': alpha(character.marks.tattoo, '40'),
+  'inlineEdit.modifiedBorder': alpha(character.negi.bright, '50'),
+  'inlineEdit.tabWillAcceptModifiedBorder': moreMoreJump.unitColor,
+  'inlineEdit.tabWillAcceptOriginalBorder': alpha(character.marks.tattoo, '60'),
+
+  // ==========================================================================
+  // MISCELLANEOUS EDITOR
+  // ==========================================================================
+  'editor.placeholder.foreground': alpha(mikuNT.hair.shadow, '60'),
   'editor.inactiveSelectionBackground': alpha(character.hair.base, '20'),
-  'editor.wordHighlightTextBackground': alpha(character.hair.base, '15'),
-  'editor.wordHighlightTextBorder': alpha(character.hair.base, '35'),
-  'editor.findMatchForeground': character.hair.base,
-  'editor.findMatchHighlightForeground': character.hair.base,
-  'editor.findRangeHighlightBorder': alpha(character.hair.base, '40'),
-  'search.resultsInfoForeground': character.hair.base,
-  'editorStickyScroll.shadow': alpha(character.hair.base, '30'),
-  'editorStickyScrollGutter.background': alpha(character.hair.base, 'F0'),
-  'commentsView.resolvedIcon': character.hair.base,
-  'commentsView.unresolvedIcon': character.hair.base,
-  'terminal.hoverHighlightBackground': alpha(character.hair.base, '20'),
-  'terminal.initialHintForeground': alpha(character.hair.base, '80'),
-  'terminal.selectionForeground': character.hair.base,
-  'terminal.dropBackground': alpha(character.hair.base, '20'),
-  'terminalCommandGuide.foreground': alpha(character.hair.base, '40'),
-  'terminalOverviewRuler.border': alpha(character.hair.base, '30'),
-  'terminalStickyScroll.background': character.hair.base,
-  'terminalStickyScroll.border': alpha(character.hair.base, '20'),
-  'terminalStickyScrollHover.background': alpha(character.hair.base, '15'),
-  'sideBarTitle.background': character.hair.base,
-  'sideBarTitle.border': alpha(character.hair.base, '15'),
-  'sideBarActivityBarTop.border': alpha(character.hair.base, '15'),
-  'peekViewEditorStickyScroll.background': character.hair.base,
-  'peekViewEditorStickyScrollGutter.background': character.hair.base,
-  'debugExceptionWidget.background': alpha(character.hair.base, '20'),
-  'debugExceptionWidget.border': character.hair.base,
-  'editor.inlineValuesForeground': character.hair.base,
-  'editor.inlineValuesBackground': alpha(character.hair.base, '15'),
-  'debugTokenExpression.type': character.hair.base,
-  'minimap.chatEditHighlight': alpha(character.hair.base, '60'),
-  'editorMinimap.inlineChatInserted': alpha(character.hair.base, '50'),
-  'diffEditor.unchangedRegionShadow': alpha(character.hair.base, '30'),
-  'diffEditor.move.border': alpha(character.hair.base, '60'),
-  'diffEditor.moveActive.border': character.hair.base,
-  'sideBySideEditor.horizontalBorder': alpha(character.hair.base, '25'),
-  'sideBySideEditor.verticalBorder': alpha(character.hair.base, '25'),
-  'editorPane.background': character.hair.base,
-  'editorGroup.dropIntoPromptForeground': character.hair.base,
-  'editorGroup.dropIntoPromptBackground': alpha(character.hair.base, 'F0'),
-  'editorGroup.dropIntoPromptBorder': alpha(character.hair.base, '50'),
-  'editorGroup.emptyBackground': character.hair.base,
-  'editorGroup.focusedEmptyBorder': alpha(character.hair.base, '40'),
-  'git.blame.editorDecorationForeground': alpha(character.hair.base, '60'),
-  'walkthrough.stepTitle.foreground': character.hair.base,
-  'settings.settingsHeaderHoverForeground': character.hair.base,
-  'profiles.sashBorder': alpha(character.hair.base, '30'),
-  'simpleFindWidget.sashBorder': alpha(character.hair.base, '40'),
-  'contrastActiveBorder': alpha(character.hair.base, 'CC'),
-  'contrastBorder': alpha(character.hair.base, '60'),
-  'widget.border': alpha(character.hair.base, '40'),
-  'window.activeBorder': alpha(character.hair.base, '60'),
-  'window.inactiveBorder': alpha(character.hair.base, '30'),
-  'textPreformat.background': alpha(character.hair.base, '80'),
-  'textPreformat.border': alpha(character.hair.base, '30'),
-  'button.separator': alpha(character.hair.base, '60'),
-  'scrollbar.background': alpha(character.hair.base, '00'),
-  'list.focusHighlightForeground': character.hair.base,
-  'activityBar.activeFocusBorder': character.hair.base,
-  'activityBar.dropBorder': alpha(character.hair.base, '60'),
-  'activityBarTop.activeBackground': alpha(character.hair.base, '20'),
-  'activityBarTop.background': character.hair.base,
-  'activityBarTop.dropBorder': alpha(character.hair.base, '60'),
-  'editorGroupHeader.border': alpha(character.hair.base, '20'),
-  'tab.unfocusedActiveBorder': alpha(character.hair.base, '40'),
-  'tab.unfocusedHoverBackground': alpha(character.hair.base, '10'),
-  'tab.unfocusedHoverBorder': alpha(character.hair.base, '30'),
-  'tab.unfocusedHoverForeground': character.hair.base,
-  'editor.compositionBorder': alpha(character.hair.base, '60'),
+  'editor.inactiveLineHighlightBackground': alpha(character.marks.tattoo, '08'),
+  'editor.wordHighlightTextBackground': alpha(character.hair.highlight, '15'),
+  'editor.wordHighlightTextBorder': alpha(character.hair.highlight, '35'),
+  'editor.findMatchForeground': mikuAppend.bodysuit.base,
+  'editor.findMatchHighlightForeground': mikuAppend.bodysuit.base,
   'editor.findRangeHighlightBackground': alpha(character.hair.base, '15'),
-  'editor.inactiveLineHighlightBackground': alpha(character.hair.base, '08'),
-  'editor.selectionForeground': character.hair.base,
+  'editor.findRangeHighlightBorder': alpha(character.hair.base, '40'),
+  'editor.selectionForeground': snowMiku.y2010.hair,
+  'editor.compositionBorder': alpha(character.hairTies.outline, '60'),
   'editorIndentGuide.activeBackground': alpha(character.hair.base, '50'),
   'editorIndentGuide.background': alpha(character.hair.base, '20'),
-  'editorOverviewRuler.background': character.hair.base,
-  'editorOverviewRuler.border': alpha(character.hair.base, '20'),
-  'editorOverviewRuler.commentDraftForeground': alpha(character.hair.base, '50'),
-  'editorOverviewRuler.commonContentForeground': alpha(character.hair.base, '60'),
-  'editorOverviewRuler.currentContentForeground': alpha(character.hair.base, '80'),
-  'editorOverviewRuler.incomingContentForeground': alpha(character.hair.base, '80'),
-  'editorOverviewRuler.rangeHighlightForeground': alpha(character.hair.base, '60'),
-  'editorUnnecessaryCode.border': alpha(character.hair.base, '40'),
-  'editorGutter.background': character.hair.base,
-  'editorGutter.commentDraftGlyphForeground': alpha(character.hair.base, '80'),
-  'editorGutter.itemBackground': alpha(character.hair.base, '15'),
+  'editorUnnecessaryCode.border': alpha(mikuNT.hair.shadow, '40'),
+  'editorMinimap.inlineChatInserted': alpha(character.negi.bright, '50'),
+  'editorGutter.itemBackground': alpha(character.skirt.base, '15'),
   'editorGutter.itemGlyphForeground': character.hair.base,
-  'diffEditor.insertedTextBorder': alpha(character.hair.base, '50'),
-  'diffEditor.removedTextBorder': alpha(character.hair.base, '50'),
-  'inlineChat.foreground': character.hair.base,
-  'editorSuggestWidgetStatus.foreground': character.hair.base,
-  'panelTitle.border': alpha(character.hair.base, '30'),
-  'statusBar.focusBorder': alpha(character.hair.base, 'DD'),
-  'statusBarItem.errorHoverForeground': character.hair.base,
-  'statusBarItem.offlineBackground': character.hair.base,
-  'statusBarItem.offlineForeground': character.hair.base,
-  'statusBarItem.offlineHoverBackground': alpha(character.hair.base, 'CC'),
-  'statusBarItem.offlineHoverForeground': character.hair.base,
-  'statusBarItem.remoteHoverForeground': character.hair.base,
-  'statusBarItem.warningHoverForeground': character.hair.base,
-  'extensionButton.background': character.hair.base,
-  'extensionButton.foreground': character.hair.base,
-  'extensionButton.hoverBackground': character.hair.base,
-  'extensionIcon.privateForeground': character.hair.base,
-  'mcpIcon.starForeground': character.hair.base,
-  'scmGraph.historyItemHoverLabelForeground': character.hair.base,
-  'chart.axis': alpha(character.hair.base, '80'),
-  'chart.guide': alpha(character.hair.base, '30'),
-  'chart.line': character.hair.base,
-  'gauge.background': character.hair.base,
+  'editorGutter.commentDraftGlyphForeground': alpha(character.hair.base, '80'),
+  'editorGutter.modifiedSecondaryBackground': alpha(character.armDisplay.data, '50'),
+  'editorGutter.addedSecondaryBackground': alpha(character.negi.bright, '50'),
+  'editorGutter.deletedSecondaryBackground': alpha(character.marks.tattoo, '50'),
+  'editorOverviewRuler.commentForeground': alpha(character.hair.base, '60'),
+  'editorOverviewRuler.commentUnresolvedForeground': alpha(miku15thAnniversary.hair.ribbons, '60'),
+  'editorOverviewRuler.commentDraftForeground': alpha(character.hair.base, '50'),
+  'editorOverviewRuler.commonContentForeground': alpha(mikuNT.hair.base, '60'),
+  'editorOverviewRuler.currentContentForeground': alpha(character.hair.base, '80'),
+  'editorOverviewRuler.incomingContentForeground': alpha(leoNeed.unitColor, '80'),
+  'editorOverviewRuler.rangeHighlightForeground': alpha(character.hair.base, '60'),
+  'editorOverviewRuler.inlineChatInserted': alpha(character.negi.bright, '70'),
+  'editorOverviewRuler.inlineChatRemoved': alpha(character.marks.tattoo, '70'),
+
+  // ==========================================================================
+  // BADGE / PROGRESS
+  // ==========================================================================
+  'badge.foreground': whiteDress.outfit.dress,
+  'badge.background': character.marks.tattoo,
+  'progressBar.background': character.hair.base,
+
+  // ==========================================================================
+  // GAUGE
+  // ==========================================================================
+  'gauge.background': character.skirt.base,
   'gauge.border': alpha(character.hair.base, '40'),
-  'gauge.errorBackground': alpha(character.hair.base, '30'),
-  'gauge.errorForeground': character.hair.base,
+  'gauge.errorBackground': alpha(character.marks.tattoo, '30'),
+  'gauge.errorForeground': character.marks.tattoo,
   'gauge.foreground': character.hair.base,
-  'gauge.warningBackground': alpha(character.hair.base, '30'),
-  'gauge.warningForeground': character.hair.base,
-  'markdownAlert.caution.foreground': character.hair.base,
-  'markdownAlert.important.foreground': character.hair.base,
+  'gauge.warningBackground': alpha(miku15thAnniversary.hair.ribbons, '30'),
+  'gauge.warningForeground': miku15thAnniversary.hair.ribbons,
+
+  // ==========================================================================
+  // MARKDOWN ALERTS
+  // ==========================================================================
+  'markdownAlert.caution.foreground': character.marks.tattoo,
+  'markdownAlert.important.foreground': vividBadSquad.unitColor,
   'markdownAlert.note.foreground': character.hair.base,
-  'markdownAlert.tip.foreground': character.hair.base,
-  'markdownAlert.warning.foreground': character.hair.base,
+  'markdownAlert.tip.foreground': moreMoreJump.unitColor,
+  'markdownAlert.warning.foreground': miku15thAnniversary.hair.ribbons,
+
+  // ==========================================================================
+  // AGENT SESSION
+  // ==========================================================================
   'agentSessionReadIndicator.foreground': character.hair.base,
   'agentSessionSelectedBadge.border': character.hair.base,
   'agentSessionSelectedUnfocusedBadge.border': alpha(character.hair.base, '60'),
-  'notebook.focusedCellBackground': alpha(character.hair.base, '10'),
-  'notebook.inactiveSelectedCellBorder': alpha(character.hair.base, '40'),
-  'notebookScrollbarSlider.activeBackground': alpha(character.hair.base, '80'),
-  'notebookScrollbarSlider.background': alpha(character.hair.base, '40'),
-  'notebookScrollbarSlider.hoverBackground': alpha(character.hair.base, '60'),
-  'outputsNotebook.border': alpha(character.hair.base, '30'),
+
+  // ==========================================================================
+  // SIMPLE FIND WIDGET
+  // ==========================================================================
+  'simpleFindWidget.sashBorder': alpha(character.hair.base, '40'),
 } as const;
+
 export type WorkbenchColors = typeof workbenchColors;
