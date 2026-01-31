@@ -125,7 +125,7 @@ export const workbenchColors = {
   'editor.findMatchForeground': bg.void,
   'editor.findMatchBorder': alpha(semantic.warning, '80'),
   'editor.findMatchHighlightBackground': alpha(accent.bright, '30'),
-  'editor.findMatchHighlightForeground': text.primary,
+  'editor.findMatchHighlightForeground': alpha(text.primary, '30'),
   'editor.findMatchHighlightBorder': alpha(accent.bright, '50'),
   'editor.findRangeHighlightBackground': alpha(accent.primary, '10'),
   'editor.findRangeHighlightBorder': alpha(accent.primary, '25'),
@@ -166,9 +166,6 @@ export const workbenchColors = {
   'editorIndentGuide.activeBackground4': mikuV4X.hair.base,
   'editorIndentGuide.activeBackground5': mikuNT.hair.base,
   'editorIndentGuide.activeBackground6': character.hair.base,
-  // Legacy fallbacks (for older VS Code versions)
-  'editorIndentGuide.background': alpha(character.hair.base, '40'),
-  'editorIndentGuide.activeBackground': character.hair.base,
 
   // ==========================================================================
   // RULERS & WHITESPACE
@@ -181,7 +178,6 @@ export const workbenchColors = {
   // ==========================================================================
   'editorBracketMatch.background': alpha(accent.primary, '20'),
   'editorBracketMatch.border': accent.bright,
-  'editorBracketMatch.foreground': text.primary,
 
   // Rainbow bracket pairs (APCA Lc 60+ validated)
   // Rainbow brackets - Miku's concert series colors
@@ -951,7 +947,6 @@ export const workbenchColors = {
   'testing.runAction': semantic.success,
   'testing.peekBorder': alpha(accent.primary, '60'),
   'testing.peekHeaderBackground': bg.surface,
-  'testing.message.error.decorationForeground': semantic.error,
   'testing.message.error.lineBackground': alpha(semantic.error, '10'),
   'testing.message.error.badgeBackground': alpha(semantic.error, '20'),
   'testing.message.error.badgeBorder': semantic.error,
@@ -1120,7 +1115,6 @@ export const workbenchColors = {
   'notebookStatusRunningIcon.foreground': semantic.warning,
   'notebookStatusSuccessIcon.foreground': semantic.success,
   'notebookEditorOverviewRuler.runningCellForeground': semantic.warning,
-  'outputsNotebook.border': alpha(accent.primary, '25'),
   'interactive.activeCodeBorder': alpha(accent.bright, '60'),
   'interactive.inactiveCodeBorder': alpha(accent.primary, '30'),
 
@@ -1185,8 +1179,8 @@ export const workbenchColors = {
   'chat.avatarBackground': alpha(accent.primary, '25'),
   'chat.avatarForeground': accent.bright,
   'chat.editedFileForeground': angel.accessories.shoes,
-  'chat.linesAddedForeground': semantic.success,
-  'chat.linesRemovedForeground': semantic.error,
+  'chat.linesAddedForeground': alpha(semantic.success, '30'),
+  'chat.linesRemovedForeground': alpha(semantic.error, '30'),
   'chat.requestCodeBorder': alpha(accent.bright, '35'),
   'chat.requestBubbleBackground': alpha(accent.primary, '12'),
   'chat.requestBubbleHoverBackground': alpha(accent.primary, '20'),
