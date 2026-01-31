@@ -301,7 +301,7 @@ function processSection(
   return { title, results, stats };
 }
 
-function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly: false }): Stats {
+function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly: false, verbose: false }): Stats {
   const theme = loadTheme(themePath);
   const c = extractColors(theme);
 
@@ -863,13 +863,13 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   ];
 
   // ==========================================================================
-  // PLAIN TEXT OUTPUT (one line per issue)
+  // PLAIN TEXT OUTPUT
   // ==========================================================================
 
   const output: string[] = [];
 
   // Filter contrast issues
-  // - Skip passed items
+  // - Skip passed items (unless verbose)
   // - Skip fallback items (VS Code defaults work fine)
   // - Skip expectedDim items (intentionally low contrast)
   const contrastIssues = allSections.flatMap(s =>
@@ -881,19 +881,46 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     d.pairs.filter(p => !p.pass).map(p => ({ category: d.category, pair: p }))
   );
 
-  // Output contrast issues
-  for (const r of contrastIssues) {
-    output.push(formatContrastLine(r));
-  }
+  // Verbose mode: show ALL results grouped by section
+  if (options.verbose) {
+    for (const section of allSections) {
+      output.push(`\n=== ${section.title} ===`);
+      for (const r of section.results) {
+        const status = r.fallback ? '(?)' : r.expectedDim ? '(~)' : r.analysis.pass ? '✓' : '✗';
+        const lc = Math.round(Math.abs(r.lc) * 10) / 10;
+        output.push(`  ${status} ${r.name.padEnd(20)} ${r.color} Lc=${lc.toString().padStart(5)} ${r.analysis.level}`);
+      }
+      output.push(`  [${section.stats.pass} pass, ${section.stats.fail} fail, ${section.stats.missing} missing]`);
+    }
 
-  // Output distinction issues
-  for (const { category, pair } of distinctionIssues) {
-    output.push(formatDistinctionLine(category, pair));
-  }
+    output.push(`\n=== DISTINCTION ANALYSIS ===`);
+    for (const d of allDistinctions) {
+      output.push(`\n--- ${d.category.toUpperCase()} ---`);
+      for (const p of d.pairs) {
+        const status = p.pass ? '✓' : '✗';
+        output.push(`  ${status} ${p.name1}↔${p.name2} ΔE=${p.deltaE.toFixed(1)} ${p.level}`);
+      }
+    }
 
-  // Output chroma issues (high chroma causes eye fatigue)
-  for (const r of chromaIssues) {
-    output.push(formatChromaLine(r));
+    output.push(`\n=== CHROMA ANALYSIS ===`);
+    for (const r of chromaResults) {
+      const status = r.pass ? '✓' : '✗';
+      output.push(`  ${status} ${r.name.padEnd(20)} ${r.color} C*=${r.chroma.toString().padStart(3)} ${r.level}`);
+    }
+    output.push('');
+  } else {
+    // Default: only output issues
+    for (const r of contrastIssues) {
+      output.push(formatContrastLine(r));
+    }
+
+    for (const { category, pair } of distinctionIssues) {
+      output.push(formatDistinctionLine(category, pair));
+    }
+
+    for (const r of chromaIssues) {
+      output.push(formatChromaLine(r));
+    }
   }
 
   // Summary line
@@ -956,6 +983,7 @@ Usage:
 
 Options:
   --theme <path>    Path to VS Code theme JSON file
+  --verbose         Show ALL results (not just issues)
   --issues-only     Only output if there are issues (silent when ready)
   --test FG BG      Test foreground on background (includes chroma)
   --chroma COLOR    Test color chroma for eye fatigue (perceptually uniform)
@@ -997,10 +1025,13 @@ if (args[0] === '--help' || args[0] === '-h') {
   let test: { fg: string; bg: string; name?: string } | undefined;
   let chromaTest: { color: string; name?: string } | undefined;
   let issuesOnly = false;
+  let verbose = false;
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--theme' && args[i + 1]) {
       themePath = path.resolve(args[++i]);
+    } else if (args[i] === '--verbose') {
+      verbose = true;
     } else if (args[i] === '--issues-only') {
       issuesOnly = true;
     } else if (args[i] === '--test' && args[i + 1] && args[i + 2]) {
@@ -1034,7 +1065,7 @@ if (args[0] === '--help' || args[0] === '-h') {
     }
     testColor(test.fg, test.bg, test.name);
   } else if (themePath) {
-    runAnalysis(themePath, { issuesOnly });
+    runAnalysis(themePath, { issuesOnly, verbose });
   } else {
     console.error(LABELS.errThemeRequired);
     process.exit(1);

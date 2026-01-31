@@ -268,4 +268,5 @@ export interface SectionData {
 
 export interface AnalysisOptions {
   issuesOnly: boolean;
+  verbose: boolean;
 }
