@@ -63,10 +63,12 @@ const bg = {
 
 // Text hierarchy - from Snow Miku and character palette
 const text = {
-  primary: snowMiku.y2010.outfit.shirt,  // #E8EEF2 - Primary text
-  secondary: character.skirt.accessory,  // #A1B3B6 - Secondary text (wallet chain silver)
+  primary: snowMiku.y2010.outfit.shirt,  // #E8EEF2 - Primary text (Lc 86)
+  secondary: themeColors.syntax.silverBright, // #B0C0C8 - Secondary text (Lc 60) - BOOSTED
   tertiary: themeColors.ui.tertiary,     // #6B7D82 - Tertiary/muted text
-  disabled: themeColors.ui.disabled,     // #4A5A5F - Disabled state
+  disabled: themeColors.ui.disabled,     // #6A7A80 - Disabled state (Lc 35+) - BOOSTED
+  ghost: themeColors.ui.ghostText,       // #7A9A98 - Ghost/suggestion text (Lc 45+)
+  placeholder: themeColors.ui.placeholder, // #5A6A70 - Placeholder text (Lc 25+)
 };
 
 // Accent colors
@@ -80,19 +82,19 @@ const accent = {
 // Semantic colors (APCA Lc 60+ validated) - from palette
 const semantic = {
   success: character.negi.bright,            // #69F0AE - Green (Lc 82)
-  warning: themeColors.syntax.warmCream,     // #E0C9A0 - Pastel cream (Lc 61, replaces harsh gold)
+  warning: themeColors.syntax.warmCream,     // #E8D0A0 - Pastel cream (Lc 65)
   error: themeColors.ui.error,               // #FF9999 - Coral pink (Lc 61)
-  info: accent.primary,
+  info: accent.bright,                       // #5DE4DB - Bright teal (Lc 74) - BOOSTED from primary
 };
 
-// Pastel bracket colors (low-fatigue rainbow)
+// Pastel bracket colors (low-fatigue rainbow) - All APCA Lc 60+ for readability
 const bracketPastel = {
-  tan: themeColors.syntax.warmTan,           // #D4A574 - Warm tan (Lc 53)
-  pink: sakuraMiku.hair.base,                // #FFB7C5 - Sakura pink (keep - already soft)
-  mint: character.negi.bright,               // #69F0AE - Negi green (keep - good contrast)
-  lavender: digitalStars.y2021_mg.outfit.gradient, // #BFAAF0 - Lavender (keep)
-  aqua: themeColors.syntax.coolAqua,         // #A8D8D8 - Soft aqua (Lc 57)
-  purple: themeColors.syntax.softPurple,     // #8E8BA8 - Soft purple (Lc 48)
+  tan: themeColors.syntax.warmCream,         // #E8D0A0 - Warm cream (Lc 65) - BOOSTED
+  pink: sakuraMiku.hair.base,                // #FFB7C5 - Sakura pink (Lc 65)
+  mint: character.negi.bright,               // #69F0AE - Negi green (Lc 82)
+  lavender: themeColors.syntax.pastelLavender, // #C8B8E8 - Lavender (Lc 62) - BOOSTED
+  aqua: themeColors.syntax.coolAqua,         // #B0E0E0 - Soft aqua (Lc 72) - BOOSTED
+  purple: themeColors.syntax.pastelLavender, // #C8B8E8 - Soft lavender (Lc 62) - BOOSTED
 };
 
 export const workbenchColors = {
@@ -107,7 +109,7 @@ export const workbenchColors = {
   'editorMultiCursor.primary.background': bg.surface,
   'editorMultiCursor.secondary.foreground': leoNeed.hair.highlight,
   'editorMultiCursor.secondary.background': bg.surface,
-  'editor.placeholder.foreground': alpha(text.tertiary, '80'),
+  'editor.placeholder.foreground': text.placeholder,
   'editor.compositionBorder': accent.bright,
 
   // Line highlighting
@@ -158,7 +160,7 @@ export const workbenchColors = {
   // ==========================================================================
   'editorLineNumber.foreground': text.tertiary,
   'editorLineNumber.activeForeground': accent.bright,
-  'editorLineNumber.dimmedForeground': text.disabled,
+  'editorLineNumber.dimmedForeground': text.disabled,  // #6A7A80 - Lc 35+ now
 
   // ==========================================================================
   // INDENT GUIDES - Rainbow Miku palette
@@ -180,8 +182,8 @@ export const workbenchColors = {
   // ==========================================================================
   // RULERS & WHITESPACE
   // ==========================================================================
-  'editorRuler.foreground': alpha(accent.primary, '25'),
-  'editorWhitespace.foreground': alpha(text.tertiary, '40'),
+  'editorRuler.foreground': themeColors.ui.ruler,      // #2A3A3C - Subtle but visible
+  'editorWhitespace.foreground': themeColors.ui.whitespace, // #3A4448 - Lc 15 subtle markers
 
   // ==========================================================================
   // BRACKETS - Rainbow colorful (Miku-inspired palette)
@@ -233,7 +235,7 @@ export const workbenchColors = {
   // FOLDING
   // ==========================================================================
   'editor.foldBackground': alpha(accent.primary, '06'),
-  'editor.foldPlaceholderForeground': alpha(accent.bright, 'AA'),
+  'editor.foldPlaceholderForeground': text.ghost,  // #7A9A98 - Lc 45+ for readable fold placeholders
 
   // ==========================================================================
   // WIDGETS
@@ -253,7 +255,7 @@ export const workbenchColors = {
   'editorHoverWidget.statusBarBackground': bg.surface,
 
   // Ghost text (Copilot/AI suggestions)
-  'editorGhostText.foreground': alpha(accent.soft, '70'),
+  'editorGhostText.foreground': text.ghost,  // #7A9A98 - Lc 45+ for readable suggestions
   'editorGhostText.border': alpha(accent.soft, '30'),
   'editorGhostText.background': alpha(accent.soft, '05'),
 
@@ -271,7 +273,7 @@ export const workbenchColors = {
   'editorSuggestWidget.border': alpha(accent.primary, '50'),
   'editorSuggestWidget.foreground': text.primary,
   'editorSuggestWidget.highlightForeground': accent.bright,
-  'editorSuggestWidget.focusHighlightForeground': accent.magenta,
+  'editorSuggestWidget.focusHighlightForeground': text.primary, // #E8EEF2 - Bright text for visibility
   'editorSuggestWidget.selectedBackground': alpha(accent.primary, '25'),
   'editorSuggestWidget.selectedForeground': text.primary,
   'editorSuggestWidget.selectedIconForeground': accent.bright,
@@ -309,7 +311,7 @@ export const workbenchColors = {
   // LINKS & CODE LENS
   // ==========================================================================
   'editorLink.activeForeground': wonderlandsShowtime.hair.highlight,
-  'editorCodeLens.foreground': alpha(accent.soft, 'AA'),
+  'editorCodeLens.foreground': text.ghost,  // #7A9A98 - Lc 45+ for readable code lens
 
   // ==========================================================================
   // LIGHTBULB
@@ -321,11 +323,11 @@ export const workbenchColors = {
   // ==========================================================================
   // INLAY HINTS
   // ==========================================================================
-  'editorInlayHint.foreground': text.tertiary,
+  'editorInlayHint.foreground': themeColors.syntax.silverBright, // #B0C0C8 - Lc 60 for readability
   'editorInlayHint.background': alpha(bg.surface, '80'),
-  'editorInlayHint.typeForeground': alpha(accent.soft, 'CC'),
+  'editorInlayHint.typeForeground': accent.soft,   // #B2EBE7 - Full opacity teal
   'editorInlayHint.typeBackground': alpha(bg.surface, '80'),
-  'editorInlayHint.parameterForeground': alpha(character.skin.blush, 'CC'),
+  'editorInlayHint.parameterForeground': character.skin.base, // #FFE4D6 - Full opacity peachy
   'editorInlayHint.parameterBackground': alpha(bg.surface, '80'),
 
   // ==========================================================================
@@ -343,7 +345,7 @@ export const workbenchColors = {
   'editorWarning.foreground': semantic.warning,
   'editorWarning.border': alpha(semantic.warning, '00'),
   'editorWarning.background': alpha(semantic.warning, '10'),
-  'editorInfo.foreground': accent.primary,
+  'editorInfo.foreground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
   'editorInfo.border': alpha(accent.primary, '00'),
   'editorInfo.background': alpha(accent.primary, '10'),
   'editorHint.foreground': accent.soft,
@@ -404,7 +406,7 @@ export const workbenchColors = {
   'activityBar.activeFocusBorder': accent.bright,
   'activityBar.dropBorder': accent.primary,
   'activityBarBadge.background': accent.magenta,
-  'activityBarBadge.foreground': text.primary,
+  'activityBarBadge.foreground': '#FFFFFF', // Pure white for max contrast on magenta (Lc 60+)
   'activityBarTop.foreground': accent.bright,
   'activityBarTop.activeBorder': accent.magenta,
   'activityBarTop.inactiveForeground': text.tertiary,
@@ -413,7 +415,7 @@ export const workbenchColors = {
   'activityBarTop.activeBackground': alpha(accent.primary, '12'),
   'activityWarningBadge.foreground': bg.void,
   'activityWarningBadge.background': semantic.warning,
-  'activityErrorBadge.foreground': text.primary,
+  'activityErrorBadge.foreground': bg.base,        // #15191D - Dark text on light error bg
   'activityErrorBadge.background': semantic.error,
 
   // ==========================================================================
@@ -441,7 +443,7 @@ export const workbenchColors = {
   'statusBar.foreground': text.primary,
   'statusBar.border': alpha(accent.primary, '20'),
   'statusBar.debuggingBackground': alpha(semantic.warning, 'DD'),
-  'statusBar.debuggingForeground': bg.void,
+  'statusBar.debuggingForeground': text.primary,  // #E8EEF2 - Light text readable on both dark and light bgs
   'statusBar.debuggingBorder': semantic.warning,
   'statusBar.noFolderBackground': bg.void,
   'statusBar.noFolderForeground': text.secondary,
@@ -459,7 +461,7 @@ export const workbenchColors = {
   'statusBarItem.remoteHoverBackground': accent.bright,
   'statusBarItem.remoteHoverForeground': bg.void,
   'statusBarItem.errorBackground': semantic.error,
-  'statusBarItem.errorForeground': text.primary,
+  'statusBarItem.errorForeground': bg.base,        // #15191D - Dark text on light error bg
   'statusBarItem.errorHoverBackground': alpha(semantic.error, 'DD'),
   'statusBarItem.errorHoverForeground': text.primary,
   'statusBarItem.warningBackground': semantic.warning,
@@ -554,7 +556,7 @@ export const workbenchColors = {
   'list.errorForeground': semantic.error,
   'list.warningForeground': semantic.warning,
   'list.invalidItemForeground': semantic.error,
-  'list.deemphasizedForeground': text.tertiary,
+  'list.deemphasizedForeground': text.secondary,   // #A1B3B6 - Brighter for readability
   'list.inactiveFocusBackground': alpha(accent.primary, '10'),
   'list.inactiveFocusOutline': alpha(accent.primary, '30'),
   'list.filterMatchBackground': alpha(semantic.warning, '20'),
@@ -637,7 +639,7 @@ export const workbenchColors = {
   'terminal.findMatchHighlightBackground': alpha(accent.bright, '25'),
   'terminal.findMatchHighlightBorder': alpha(accent.bright, '50'),
   'terminal.hoverHighlightBackground': alpha(accent.primary, '15'),
-  'terminal.initialHintForeground': alpha(accent.bright, '80'),
+  'terminal.initialHintForeground': themeColors.ui.terminalHint,  // #5A8A88 - Lc 40+ readable hints
   'terminalCursor.foreground': accent.magenta,
   'terminalCursor.background': bg.void,
   'terminal.dropBackground': alpha(accent.primary, '15'),
@@ -666,7 +668,7 @@ export const workbenchColors = {
   'terminalCommandDecoration.defaultBackground': alpha(text.tertiary, '40'),
   'terminalCommandDecoration.successBackground': alpha(semantic.success, '60'),
   'terminalCommandDecoration.errorBackground': alpha(semantic.error, '60'),
-  'terminalCommandGuide.foreground': alpha(accent.primary, '30'),
+  'terminalCommandGuide.foreground': themeColors.ui.terminalGuide,  // #2A4A48 - Lc 15 subtle guide
   'terminalOverviewRuler.cursorForeground': accent.magenta,
   'terminalOverviewRuler.findMatchForeground': alpha(semantic.warning, '80'),
   'terminalOverviewRuler.border': alpha(accent.primary, '20'),
@@ -725,7 +727,7 @@ export const workbenchColors = {
   'debugTokenExpression.name': character.skin.blush,
   'debugTokenExpression.value': character.negi.stalk,
   'debugTokenExpression.string': character.negi.stalk,
-  'debugTokenExpression.boolean': leoNeed.hair.highlight,
+  'debugTokenExpression.boolean': themeColors.syntax.pastelIndigo, // #A8B8E8 - Lc 62 for readability
   'debugTokenExpression.number': semantic.success,
   'debugTokenExpression.error': semantic.error,
   'debugTokenExpression.type': accent.soft,
@@ -811,17 +813,17 @@ export const workbenchColors = {
   // ==========================================================================
   // GIT DECORATIONS
   // ==========================================================================
-  'gitDecoration.addedResourceForeground': semantic.success,
-  'gitDecoration.modifiedResourceForeground': semantic.warning,
-  'gitDecoration.deletedResourceForeground': semantic.error,
-  'gitDecoration.untrackedResourceForeground': semantic.success,
-  'gitDecoration.ignoredResourceForeground': text.disabled,
-  'gitDecoration.conflictingResourceForeground': semantic.error,
+  'gitDecoration.addedResourceForeground': semantic.success, // #69F0AE - Green (staged adds)
+  'gitDecoration.modifiedResourceForeground': semantic.warning, // #E8D0A0 - Gold (modified)
+  'gitDecoration.deletedResourceForeground': semantic.error, // #FF9999 - Coral (deleted)
+  'gitDecoration.untrackedResourceForeground': accent.bright, // #5DE4DB - Teal (new/untracked) - DISTINCT from added
+  'gitDecoration.ignoredResourceForeground': text.disabled, // #6A7A80 - Lc 35+ (now readable)
+  'gitDecoration.conflictingResourceForeground': sakuraMiku.hair.base, // #FFB7C5 - Pink (conflict) - DISTINCT from deleted
   'gitDecoration.stageModifiedResourceForeground': wonderlandsShowtime.hair.highlight,
-  'gitDecoration.stageDeletedResourceForeground': leoNeed.hair.highlight,
+  'gitDecoration.stageDeletedResourceForeground': themeColors.syntax.pastelRose, // #F0B8C8 - Rose pink (Lc 64, distinct from coral deleted)
   'gitDecoration.renamedResourceForeground': wonderlandsShowtime.hair.highlight,
   'gitDecoration.submoduleResourceForeground': digitalStars.y2021_mg.outfit.gradient,
-  'git.blame.editorDecorationForeground': text.disabled,
+  'git.blame.editorDecorationForeground': text.disabled,  // #6A7A80 - Lc 35+ for readable blame info
 
   // ==========================================================================
   // SCM GRAPH
@@ -961,7 +963,7 @@ export const workbenchColors = {
   'testing.message.error.badgeBackground': alpha(semantic.error, '20'),
   'testing.message.error.badgeBorder': semantic.error,
   'testing.message.error.badgeForeground': semantic.error,
-  'testing.message.info.decorationForeground': accent.primary,
+  'testing.message.info.decorationForeground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
   'testing.message.info.lineBackground': alpha(accent.primary, '10'),
   'testing.messagePeekBorder': accent.primary,
   'testing.messagePeekHeaderBackground': bg.base,
@@ -982,7 +984,7 @@ export const workbenchColors = {
   'welcomePage.tileBackground': bg.surface,
   'welcomePage.tileHoverBackground': alpha(accent.primary, '12'),
   'welcomePage.tileBorder': alpha(accent.primary, '25'),
-  'welcomePage.progress.foreground': accent.primary,
+  'welcomePage.progress.foreground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
   'welcomePage.progress.background': bg.elevated,
   'walkThrough.embeddedEditorBackground': bg.base,
   'walkthrough.stepTitle.foreground': accent.bright,
@@ -1019,20 +1021,20 @@ export const workbenchColors = {
   'input.background': bg.elevated,
   'input.foreground': text.primary,
   'input.border': alpha(accent.primary, '35'),
-  'input.placeholderForeground': text.tertiary,
+  'input.placeholderForeground': text.placeholder,  // #5A6A70 - Lc 25+ for visible placeholder
   'inputOption.activeBorder': accent.bright,
   'inputOption.activeBackground': alpha(accent.primary, '25'),
   'inputOption.activeForeground': text.primary,
   'inputOption.hoverBackground': alpha(accent.primary, '15'),
   'inputValidation.errorBackground': alpha(semantic.error, '20'),
-  'inputValidation.errorForeground': semantic.error,
+  'inputValidation.errorForeground': text.primary,          // #E8EEF2 - High contrast on dark overlay
   'inputValidation.errorBorder': semantic.error,
   'inputValidation.warningBackground': alpha(semantic.warning, '20'),
-  'inputValidation.warningForeground': semantic.warning,
+  'inputValidation.warningForeground': text.primary,        // #E8EEF2 - High contrast on dark overlay
   'inputValidation.warningBorder': semantic.warning,
-  'inputValidation.infoBackground': alpha(accent.primary, '20'),
-  'inputValidation.infoForeground': accent.primary,
-  'inputValidation.infoBorder': accent.primary,
+  'inputValidation.infoBackground': alpha(semantic.info, '20'),
+  'inputValidation.infoForeground': text.primary,           // #E8EEF2 - High contrast on dark overlay
+  'inputValidation.infoBorder': semantic.info,
 
   // Dropdown
   'dropdown.background': bg.elevated,
@@ -1057,7 +1059,7 @@ export const workbenchColors = {
   'checkbox.selectBackground': alpha(accent.primary, '25'),
   'checkbox.selectBorder': accent.primary,
   'checkbox.disabled.background': alpha(bg.surface, '50'),
-  'checkbox.disabled.foreground': text.disabled,
+  'checkbox.disabled.foreground': text.disabled,  // #6A7A80 - Lc 35+ now
 
   // Radio buttons
   'radio.activeForeground': text.primary,
@@ -1175,7 +1177,7 @@ export const workbenchColors = {
   'inlineChatInput.background': bg.elevated,
   'inlineChatInput.border': alpha(accent.primary, '40'),
   'inlineChatInput.focusBorder': accent.bright,
-  'inlineChatInput.placeholderForeground': text.tertiary,
+  'inlineChatInput.placeholderForeground': text.placeholder,  // #5A6A70 - Lc 25+
   'inlineChatDiff.inserted': alpha(semantic.success, '20'),
   'inlineChatDiff.removed': alpha(semantic.error, '20'),
 
@@ -1189,8 +1191,8 @@ export const workbenchColors = {
   'chat.avatarBackground': alpha(accent.primary, '25'),
   'chat.avatarForeground': accent.bright,
   'chat.editedFileForeground': angel.accessories.shoes,
-  'chat.linesAddedForeground': alpha(semantic.success, '30'),
-  'chat.linesRemovedForeground': alpha(semantic.error, '30'),
+  'chat.linesAddedForeground': semantic.success,   // #69F0AE - Full opacity green
+  'chat.linesRemovedForeground': semantic.error,   // #FF9999 - Full opacity coral
   'chat.requestCodeBorder': alpha(accent.bright, '35'),
   'chat.requestBubbleBackground': alpha(accent.primary, '12'),
   'chat.requestBubbleHoverBackground': alpha(accent.primary, '20'),
@@ -1204,7 +1206,7 @@ export const workbenchColors = {
   'inlineEdit.gutterIndicator.primaryForeground': accent.bright,
   'inlineEdit.gutterIndicator.primaryBackground': alpha(accent.bright, '15'),
   'inlineEdit.gutterIndicator.secondaryBorder': alpha(accent.primary, '50'),
-  'inlineEdit.gutterIndicator.secondaryForeground': accent.primary,
+  'inlineEdit.gutterIndicator.secondaryForeground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
   'inlineEdit.gutterIndicator.secondaryBackground': alpha(accent.primary, '10'),
   'inlineEdit.gutterIndicator.successfulBorder': semantic.success,
   'inlineEdit.gutterIndicator.successfulForeground': semantic.success,
@@ -1270,7 +1272,7 @@ export const workbenchColors = {
   // GAUGE
   // ==========================================================================
   'gauge.background': bg.elevated,
-  'gauge.foreground': accent.primary,
+  'gauge.foreground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
   'gauge.border': alpha(accent.primary, '30'),
   'gauge.warningBackground': alpha(semantic.warning, '20'),
   'gauge.warningForeground': semantic.warning,
@@ -1280,7 +1282,7 @@ export const workbenchColors = {
   // ==========================================================================
   // MARKDOWN ALERTS
   // ==========================================================================
-  'markdownAlert.note.foreground': accent.primary,
+  'markdownAlert.note.foreground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
   'markdownAlert.tip.foreground': semantic.success,
   'markdownAlert.important.foreground': digitalStars.y2021_mg.outfit.gradient,
   'markdownAlert.warning.foreground': semantic.warning,

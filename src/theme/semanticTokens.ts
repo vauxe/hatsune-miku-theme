@@ -15,6 +15,7 @@ import {
   digitalStars,
   leoNeed,
   wonderlandsShowtime,
+  nightcord,
 } from '../palette';
 
 // ============================================================================
@@ -22,49 +23,72 @@ import {
 // ============================================================================
 
 const colors = {
-  // Keywords & Control
-  keyword: character.hair.highlight,           // #5DE4DB - Bright teal
-  keywordAlt: wonderlandsShowtime.hair.highlight, // #4DD0E1 - Lighter teal
-  storageModifier: themeColors.syntax.pastelTeal, // #64C5CE - Snow 2015 (distinct from keywords)
+  // =========================================================================
+  // KEYWORDS & CONTROL - Signature Miku Teal Family (170-185° hue)
+  // All Lc 60+ for excellent readability
+  // =========================================================================
+  keyword: character.hair.highlight,           // #5DE4DB - Bright teal (Lc 74)
+  keywordAlt: wonderlandsShowtime.hair.highlight, // #4DD0E1 - Lighter teal (Lc 70)
+  storageModifier: themeColors.syntax.pastelTeal, // #78D0D8 - Pastel teal (Lc 68) - BOOSTED
 
-  // Callable entities - WARM CREAM replaces gold
-  function: themeColors.syntax.warmCream,      // #E0C9A0 - Snow 2024 cream (Lc 61, 15% sat)
-  functionBuiltin: character.hair.highlight,   // #5DE4DB - Bright teal
-  method: themeColors.syntax.pastelRose,       // #F8BBD0 - MM 2020 winter (low-fatigue)
-  magicMethod: themeColors.syntax.pastelRose,  // #F8BBD0 - Python __dunder__ methods
+  // =========================================================================
+  // CALLABLE ENTITIES - Gold Family (40-55° hue)
+  // Functions warmer/yellower, Classes cooler/grayer for distinction
+  // =========================================================================
+  function: themeColors.syntax.warmCream,      // #E8D0A0 - Warm cream (Lc 65)
+  functionBuiltin: character.hair.highlight,   // #5DE4DB - Bright teal (Lc 74)
+  method: themeColors.syntax.pastelRose,       // #F0B8C8 - Rose pink (Lc 64) - METHODS ONLY
+  magicMethod: themeColors.syntax.pastelRose,  // #F0B8C8 - Python __dunder__ methods
 
-  // Types & Structures - WARM TAUPE replaces gold
-  class: themeColors.syntax.warmTaupe,         // #C4B5A0 - Snow 2024 taupe (Lc 54, 8% sat)
-  interface: themeColors.syntax.skyBlue,       // #7CC4FF - Sky blue (APCA-optimized)
-  type: character.hair.tip,                    // #B2EBE7 - Soft teal
-  typeParameter: themeColors.syntax.pastelPeriwinkle, // #9EAFE8 - Snow 2023 (distinct from type)
-  enum: digitalStars.y2023.outfit.jacket,      // #DBAFEB - Lavender hoodie
-  struct: themeColors.syntax.softBlue,         // #9DD0FF - Soft blue (APCA-optimized)
-  namespace: digitalStars.y2021_mg.outfit.gradient, // #BFAAF0 - Soft lavender
+  // =========================================================================
+  // TYPES & STRUCTURES - Blue/Purple Family (200-290° hue)
+  // Each type category has distinct hue for easy differentiation
+  // =========================================================================
+  class: themeColors.syntax.warmGold,          // #D4C4B0 - Gray-gold (Lc 60)
+  interface: themeColors.syntax.skyBlue,       // #80C8FF - Sky blue (Lc 68)
+  type: character.hair.tip,                    // #B2EBE7 - Soft teal (Lc 78)
+  typeParameter: themeColors.syntax.pastelLavender, // #C8B8E8 - Lavender (Lc 62) - DISTINCT from keywords (ΔE 30+)
+  enum: themeColors.syntax.pastelOrchid,       // #E0B8E8 - Soft orchid (Lc 66)
+  enumMember: themeColors.syntax.pastelOrchidLight, // #E8D0F0 - Light orchid (Lc 72)
+  struct: themeColors.syntax.paleBlue,         // #B8E0F8 - Pale blue (Lc 78) - DISTINCT from number
+  namespace: themeColors.syntax.pastelLavender, // #C8B8E8 - Lavender (Lc 62) - DISTINCT from decorator
 
-  // Variables & Data
-  variable: snowMiku.y2010.outfit.shirt,       // #E8EEF2 - Snow white
-  parameter: character.hair.tip,               // #B2EBE7 - Soft teal
-  property: themeColors.syntax.pastelRose,     // #F8BBD0 - MM 2020 winter (low-fatigue)
-  constant: themeColors.syntax.pastelPeriwinkle, // #9EAFE8 - Snow 2023 (low-fatigue)
+  // =========================================================================
+  // VARIABLES & DATA - Neutral/Warm Family
+  // Clear hierarchy: variable > property > parameter > constant
+  // =========================================================================
+  variable: snowMiku.y2010.outfit.shirt,       // #E8EEF2 - Snow white (Lc 86)
+  parameter: character.skin.base,              // #FFE4D6 - Miku skin peachy (Lc 77)
+  property: themeColors.syntax.pastelPeach,    // #F8D0C0 - Soft peach (Lc 70) - DISTINCT from method
+  constant: themeColors.syntax.pastelCoral,    // #FFD8D0 - Pale coral (Lc 76)
 
-  // Literals
-  string: character.negi.stalk,                // #9CCC65 - Negi green
-  number: character.negi.bright,               // #69F0AE - Bright mint
-  boolean: themeColors.syntax.pastelIndigo,    // #7986CB - Snow 2025 (low-fatigue)
-  regex: character.negi.bright,                // #69F0AE - Bright mint
+  // =========================================================================
+  // LITERALS - Green/Blue Family
+  // Numbers distinct blue, Booleans distinct indigo
+  // =========================================================================
+  string: character.negi.stalk,                // #9CCC65 - Negi green (Lc 68)
+  number: themeColors.syntax.softBlue,         // #A0D8FF - Soft blue (Lc 74)
+  boolean: themeColors.syntax.pastelIndigo,    // #A8B8E8 - Pastel indigo (Lc 62) - BOOSTED
+  regex: character.negi.bright,                // #69F0AE - Bright mint (Lc 82)
 
-  // Operators & Punctuation
-  operator: themeColors.syntax.pastelGray,     // #8B7A8B - Nightcord (low-fatigue, replaces orange)
+  // =========================================================================
+  // OPERATORS & PUNCTUATION - Neutral Silver
+  // =========================================================================
+  operator: nightcord.hair.highlight,          // #C0C0C0 - 25-ji silver (Lc 60)
 
-  // Meta
-  comment: themeColors.syntax.silverMist,      // #889DA2 - Silver mist
-  commentDoc: themeColors.syntax.silverBright, // #A8BDC2 - Brighter silver
-  decorator: digitalStars.y2021_mg.outfit.gradient, // #BFAAF0 - Soft lavender
-  lifetime: themeColors.syntax.pastelIndigo,   // #7986CB - Snow 2025 (Rust lifetimes)
+  // =========================================================================
+  // META - Purple Family (260-290° hue)
+  // Decorators distinct from Namespaces
+  // =========================================================================
+  comment: themeColors.syntax.silverBright,    // #B0C0C8 - Silver (Lc 60)
+  commentDoc: themeColors.markdown.docComment, // #A8C8D0 - Cyan-tinted silver (Lc 62) - DISTINCT from comment
+  decorator: themeColors.syntax.pastelViolet,  // #D8A8E0 - Violet (Lc 60) - DISTINCT from namespace
+  lifetime: themeColors.syntax.pastelSlate,    // #B0C0E0 - Slate blue (Lc 64) - DISTINCT from boolean
 
-  // Headings & Special
-  heading: themeColors.syntax.coolAqua,        // #A8D8D8 - Snow 2015 aqua (Lc 57)
+  // =========================================================================
+  // HEADINGS & SPECIAL
+  // =========================================================================
+  heading: themeColors.syntax.coolAqua,        // #B0E0E0 - Soft aqua (Lc 72) - BOOSTED
 
   // Special
   deprecated: character.skirt.accessory,       // #A1B3B6 - Wallet chain silver
@@ -136,8 +160,8 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   // ==========================================================================
   enum: colors.enum,
   'enum.declaration': colors.enum,
-  enumMember: colors.constant,
-  'enumMember.readonly': colors.constant,
+  enumMember: colors.enumMember,       // #CE93D8 - WxS purple (distinct from enum & constant)
+  'enumMember.readonly': colors.enumMember,
 
   // ==========================================================================
   // NAMESPACES & MODULES

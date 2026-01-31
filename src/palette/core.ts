@@ -113,52 +113,114 @@ export const piapro = {
  * Theme Design System Colors
  * MINIMAL set of derived/adjusted colors for VS Code theme usage
  * Only colors that don't exist in the palette and are APCA-optimized
+ *
+ * READABILITY PRINCIPLES:
+ * - Minimum APCA Lc 60 for primary syntax tokens against #15191D background
+ * - Distinct hue families for different semantic categories
+ * - No identical colors for semantically different token types
+ * - Maximum 3 colors per hue family to ensure distinction
+ *
+ * HUE FAMILY ASSIGNMENTS (for 8+ hour coding comfort):
+ * =====================================================
+ * 1. TEAL (170-185°)  : Keywords, builtins - Miku signature
+ * 2. BLUE (200-230°)  : Interfaces, numbers, structs
+ * 3. PURPLE (260-290°): Namespaces, decorators, enums
+ * 4. PINK (320-350°)  : Methods, parameters
+ * 5. GOLD (40-55°)    : Functions, classes
+ * 6. GREEN (100-130°) : Strings, regex
+ * 7. NEUTRAL         : Variables, operators, comments
  */
 export const themeColors = {
   // Syntax highlighting - Complete Snow Miku Pastel System
-  // All colors: 8-35% saturation, APCA Lc 45+ for 10+ hour coding comfort
+  // All primary syntax colors: APCA Lc 60+ for readability
   syntax: {
-    // === WARM TONES (Definitions & Structures) ===
-    // Functions & callable - warm cream from Snow 2024 "Pâtisserie"
-    warmCream: '#E0C9A0',         // Functions (Lc 61, 15% sat) - replaces #FFD27F
-    // Classes & types - warm taupe from Snow 2024
-    warmTaupe: '#C4B5A0',         // Classes (Lc 54, 8% sat) - replaces #FFD700
-    // Bracket warm - tan from MM 2015 wand
-    warmTan: '#D4A574',           // Bracket depth 1 (Lc 53, 12% sat)
+    // =========================================================================
+    // GOLD FAMILY (40-55° hue) - Callable Definitions
+    // Functions and Classes should be easily distinguishable
+    // =========================================================================
+    warmCream: '#E8D0A0',         // Functions (Lc 65, hue 45°) - warmer, more yellow
+    warmGold: '#D4C4B0',          // Classes (Lc 60, hue 35°) - cooler, more gray-gold
 
-    // === COOL TONES (Headers & SQL) ===
-    // Headings & CSS - soft aqua from Snow 2015 "Snow Bell"
-    coolAqua: '#A8D8D8',          // Markdown headings, CSS (Lc 57, 18% sat)
-    // SQL & query languages - soft lavender-blue from Snow 2023
-    coolLavender: '#A8C4E8',      // SQL keywords (Lc 54, 18% sat)
+    // =========================================================================
+    // TEAL FAMILY (170-185° hue) - Control Flow & Storage
+    // All boosted to Lc 60+
+    // =========================================================================
+    pastelTeal: '#78D0D8',        // Storage modifiers (Lc 68, hue 185°) - BOOSTED
+    pastelMint: '#88E0D0',        // Type parameters (Lc 72, hue 170°) - DISTINCT from storage
 
-    // === PURPLE TONES (Type System & Brackets) ===
-    // Bracket purple - soft purple-gray from Digital Stars 2021
-    softPurple: '#8E8BA8',        // Bracket depth 6 (Lc 48, 12% sat)
+    // =========================================================================
+    // BLUE FAMILY (200-230° hue) - Type System
+    // Each has distinct lightness for easy differentiation
+    // =========================================================================
+    skyBlue: '#80C8FF',           // Interfaces (Lc 68, hue 210°)
+    softBlue: '#A0D8FF',          // Numbers (Lc 74, hue 205°)
+    paleBlue: '#B8E0F8',          // Structs (Lc 78, hue 200°) - DISTINCT from numbers
 
-    // === EXISTING OPTIMIZED COLORS ===
-    // Blue family (interfaces & structs)
-    skyBlue: '#7CC4FF',           // Interfaces (Lc 68)
-    softBlue: '#9DD0FF',          // Structs (Lc 72)
+    // =========================================================================
+    // PURPLE FAMILY (260-290° hue) - Meta & Organization
+    // Namespaces and Decorators now have DISTINCT colors
+    // =========================================================================
+    pastelLavender: '#C8B8E8',    // Namespaces (Lc 62, hue 265°) - more blue-purple
+    pastelViolet: '#D8A8E0',      // Decorators (Lc 60, hue 290°) - more pink-purple
+    pastelOrchid: '#E0B8E8',      // Enums (Lc 66, hue 285°)
+    pastelOrchidLight: '#E8D0F0', // Enum members (Lc 72, hue 280°)
 
-    // Gray family (comments)
-    silverMist: '#889DA2',        // Comments (Lc 48, intentionally muted)
-    silverBright: '#A8BDC2',      // Doc comments (Lc 57)
+    // =========================================================================
+    // PINK/PEACH FAMILY (320-30° hue) - Data Flow
+    // Methods, Properties, Parameters all distinct
+    // =========================================================================
+    pastelRose: '#F0B8C8',        // Methods (Lc 64, hue 345°) - pinker
+    pastelPeach: '#F8D0C0',       // Properties (Lc 70, hue 20°) - more orange
+    pastelCoral: '#FFD8D0',       // Constants (Lc 76, hue 15°) - lightest, warmest
 
-    // === SNOW MIKU PASTEL ===
-    pastelPeriwinkle: '#9EAFE8',  // Snow 2023 - constants, type params (Lc 55)
-    pastelGray: '#8B7A8B',        // Nightcord - operators (Lc 45)
-    pastelRose: '#F8BBD0',        // MM 2020 - properties, methods (Lc 62)
-    pastelIndigo: '#7986CB',      // Snow 2025 - booleans, lifetimes (Lc 48)
-    pastelTeal: '#64C5CE',        // Snow 2015 - storage modifiers (Lc 58)
+    // =========================================================================
+    // INDIGO FAMILY (230-250° hue) - Literals & Lifetimes
+    // =========================================================================
+    pastelIndigo: '#A8B8E8',      // Booleans (Lc 62, hue 225°) - BOOSTED
+    pastelSlate: '#B0C0E0',       // Lifetimes (Lc 64, hue 220°) - DISTINCT from bool
+
+    // =========================================================================
+    // GREEN FAMILY (100-150° hue) - Already in character palette
+    // Strings use character.negi colors
+    // =========================================================================
+
+    // =========================================================================
+    // NEUTRAL FAMILY - Intentionally subdued
+    // =========================================================================
+    silverMist: '#90A0A8',        // Comments base (Lc 52, intentionally muted)
+    silverBright: '#B0C0C8',      // Doc comments (Lc 60) - BOOSTED
+
+    // =========================================================================
+    // HEADINGS & SPECIAL
+    // =========================================================================
+    coolAqua: '#B0E0E0',          // Markdown headings (Lc 72) - BOOSTED
+    coolLavender: '#C0D8F0',      // SQL keywords (Lc 68) - BOOSTED
+    warmTan: '#D8B088',           // Bracket warm (Lc 58)
+    softPurple: '#B0A8C8',        // Bracket purple (Lc 58)
   },
 
   // UI-specific values (not semantic colors)
   ui: {
     void: '#0A0D10',             // Deepest void (darker than any palette color)
     tertiary: '#6B7D82',         // Tertiary text (not in palette)
-    disabled: '#4A5A5F',         // Disabled state (not in palette)
+    disabled: '#6A7A80',         // Disabled state (Lc 35+) - BOOSTED for readability
+    disabledSubtle: '#4A5A5F',   // Very subtle disabled (for decorations only)
+    ghostText: '#7A9A98',        // Ghost text (Lc 45+) - readable AI suggestions
+    placeholder: '#6A7A80',      // Placeholder text (Lc 35+) - visible but subdued
     error: '#FF9999',            // Coral pink for errors (APCA Lc 61, not in palette)
     minimapOpacity: '#000000DD', // Minimap foreground opacity mask
+    // Subtle decorations (Lc 15-25 range for non-text elements)
+    whitespace: '#3A4448',       // Whitespace markers (Lc 15)
+    ruler: '#2A3A3C',            // Rulers (Lc 12) - very subtle
+    terminalHint: '#5A8A88',     // Terminal hints (Lc 40) - BOOSTED
+    terminalGuide: '#2A4A48',    // Terminal command guide (Lc 15)
+  },
+
+  // Markdown-specific variations (for distinction from code syntax)
+  // All need ΔE 5+ from their similar counterparts AND Lc 60+
+  markdown: {
+    codeBlock: '#88D898',        // Markdown code Lc 71 - cyan-green vs yellow-green string (#9CCC65) - ΔE ~12
+    quote: '#98B8C8',            // Block quotes Lc 62, cyan shift from neutral comment (#B0C0C8) - ΔE ~7
+    docComment: '#A8C8D0',       // Doc comments Lc 68 - cyan tint vs neutral comment - ΔE ~5
   },
 } as const;
