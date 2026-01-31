@@ -108,3 +108,33 @@ export const piapro = {
   },
   // Re-export other core values if needed, or consumers can merge
 } as const;
+
+/**
+ * Theme Design System Colors
+ * MINIMAL set of derived/adjusted colors for VS Code theme usage
+ * Only colors that don't exist in the palette and are APCA-optimized
+ */
+export const themeColors = {
+  // Syntax highlighting - ONLY colors not found in palette, APCA Lc 60+ validated
+  syntax: {
+    // Gold/warm tones (APCA-optimized, not in palette)
+    gold: '#FFD27F',           // Warm gold - functions (Lc 76)
+
+    // Blue family (brightened for contrast, originals too dark)
+    skyBlue: '#7CC4FF',        // Sky blue - interfaces (Lc 68)
+    softBlue: '#9DD0FF',       // Soft blue - structs (Lc 72)
+
+    // Gray family (for comments/muted elements - custom for readability)
+    silverMist: '#889DA2',     // Silver mist - comments (Lc 48, intentionally muted)
+    silverBright: '#A8BDC2',   // Brighter silver - doc comments (Lc 57)
+  },
+
+  // UI-specific values (not semantic colors)
+  ui: {
+    void: '#0A0D10',             // Deepest void (darker than any palette color)
+    tertiary: '#6B7D82',         // Tertiary text (not in palette)
+    disabled: '#4A5A5F',         // Disabled state (not in palette)
+    error: '#FF9999',            // Coral pink for errors (APCA Lc 61, not in palette)
+    minimapOpacity: '#000000DD', // Minimap foreground opacity mask
+  },
+} as const;

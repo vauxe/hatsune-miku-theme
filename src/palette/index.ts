@@ -8,7 +8,7 @@
 // ==========================================================================
 // CORE - Original KEI Design (2007)
 // ==========================================================================
-export { character, piapro } from './core';
+export { character, piapro, themeColors } from './core';
 
 // ==========================================================================
 // VOICEBANK VARIANTS - Different software versions

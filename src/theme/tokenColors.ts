@@ -2,23 +2,69 @@
  * Hatsune Miku Theme - Token Colors (Syntax Highlighting)
  *
  * TextMate grammar-based syntax highlighting rules.
- * All tokens maintain Lc 60+ against #15191D editor background.
+ * Design Philosophy: "Digital Diva" - Clear distinction, eye comfort, Miku essence.
+ *
+ * Color System (against #15191D background):
+ * ===========================================
+ * All colors sourced from the Miku palette - no hardcoded values.
+ * Colors validated for APCA Lc 60+ against editor background.
  */
 
 import {
   character,
-  mikuNT,
+  themeColors,
   snowMiku,
-  ghost,
-  angel,
+  digitalStars,
   leoNeed,
-  moreMoreJump,
   wonderlandsShowtime,
-  nightcord,
-  sakuraMiku,
-  miku15thAnniversary,
-  lawson50thMiku,
+  vividBadSquad,
 } from '../palette';
+
+// ============================================================================
+// COLOR DEFINITIONS - All sourced from palette
+// ============================================================================
+
+const syntax = {
+  // Core syntax - using palette references
+  keyword: character.hair.highlight,       // #5DE4DB - Bright teal
+  keywordAlt: wonderlandsShowtime.hair.highlight, // #4DD0E1 - Lighter teal
+  function: themeColors.syntax.gold,       // #FFD27F - Warm gold (APCA-optimized)
+  functionBuiltin: character.hair.highlight, // #5DE4DB - Bright teal
+  method: character.skin.blush,            // #FFB8C8 - Blush pink
+  string: character.negi.stalk,            // #9CCC65 - Negi stalk green
+  stringTemplate: character.negi.white,    // #E8F5E9 - Lighter green
+  number: character.negi.bright,           // #69F0AE - Bright mint
+  boolean: leoNeed.hair.highlight,         // #FF80AB - Vibrant pink
+  operator: wonderlandsShowtime.unitColor, // #FF9900 - Pop orange
+  punctuation: character.skirt.accessory,  // #A1B3B6 - Wallet chain silver
+
+  // Types and structures
+  class: snowMiku.y2017.accessories.stars, // #FFD700 - Gold star
+  interface: themeColors.syntax.skyBlue,   // #7CC4FF - Sky blue (APCA-optimized)
+  type: character.hair.tip,                // #B2EBE7 - Soft teal
+  enum: digitalStars.y2023.outfit.jacket,  // #DBAFEB - Lavender hoodie
+  struct: themeColors.syntax.softBlue,     // #9DD0FF - Soft blue (APCA-optimized)
+  namespace: digitalStars.y2021_mg.outfit.gradient, // #BFAAF0 - Soft lavender
+
+  // Variables
+  variable: snowMiku.y2010.outfit.shirt,   // #E8EEF2 - Snow white
+  parameter: character.hair.tip,           // #B2EBE7 - Soft teal
+  property: character.skin.blush,          // #FFB8C8 - Blush pink
+  constant: snowMiku.y2017.accessories.stars, // #FFD700 - Gold star
+
+  // Meta
+  comment: themeColors.syntax.silverMist,  // #889DA2 - Silver mist
+  commentDoc: themeColors.syntax.silverBright, // #A8BDC2 - Brighter silver
+  decorator: digitalStars.y2021_mg.outfit.gradient, // #BFAAF0 - Soft lavender
+  tag: character.hair.highlight,           // #5DE4DB - Bright teal
+  attribute: character.hair.bright,        // #7FEDE5 - Bright teal-white
+
+  // Special
+  regex: character.negi.bright,            // #69F0AE - Bright mint
+  escape: digitalStars.y2023.outfit.jacket, // #DBAFEB - Lavender hoodie
+  deprecated: character.skirt.accessory,   // #A1B3B6 - Wallet chain silver
+  invalid: themeColors.ui.error,           // #FF9999 - Coral pink
+};
 
 // Helper type for token color rules
 interface TokenColorRule {
@@ -31,13 +77,15 @@ interface TokenColorRule {
 }
 
 export const tokenColors: TokenColorRule[] = [
-  // Comments
+  // ==========================================================================
+  // COMMENTS - Visible but subdued
+  // ==========================================================================
   {
     name: 'Comments',
     scope: ['comment', 'punctuation.definition.comment'],
     settings: {
       fontStyle: 'italic',
-      foreground: mikuNT.hair.shadow,
+      foreground: syntax.comment,
     },
   },
   {
@@ -46,676 +94,46 @@ export const tokenColors: TokenColorRule[] = [
       'comment.block.documentation',
       'comment.line.documentation',
       'comment.block.javadoc',
+      'storage.type.class.jsdoc',
     ],
     settings: {
-      foreground: character.hair.tip,
+      foreground: syntax.commentDoc,
       fontStyle: 'italic',
     },
   },
 
-  // Keywords
+  // ==========================================================================
+  // KEYWORDS - Bright teal prominence
+  // ==========================================================================
   {
     name: 'Control Keywords',
-    scope: ['keyword.control', 'keyword.control.flow', 'keyword.control.import'],
+    scope: [
+      'keyword.control',
+      'keyword.control.flow',
+      'keyword.control.import',
+      'keyword.control.export',
+      'keyword.control.from',
+      'keyword.control.conditional',
+      'keyword.control.loop',
+    ],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: syntax.keyword,
     },
   },
   {
     name: 'Storage Types',
-    scope: ['storage.type'],
+    scope: ['storage.type', 'storage.type.function', 'storage.type.class'],
     settings: {
-      foreground: wonderlandsShowtime.unitColor,
+      foreground: syntax.keyword,
     },
   },
   {
     name: 'Storage Modifiers',
-    scope: ['storage.modifier'],
+    scope: ['storage.modifier', 'storage.modifier.async', 'storage.modifier.static'],
     settings: {
-      foreground: ghost.hair.base,
+      foreground: syntax.keywordAlt,
     },
   },
-  {
-    name: 'Operators',
-    scope: ['keyword.operator', 'punctuation.separator', 'punctuation.terminator'],
-    settings: {
-      foreground: wonderlandsShowtime.unitColor,
-    },
-  },
-  {
-    name: 'Special Operators',
-    scope: ['keyword.operator.new', 'keyword.operator.expression'],
-    settings: {
-      foreground: wonderlandsShowtime.unitColor,
-    },
-  },
-
-  // Functions
-  {
-    name: 'User Functions',
-    scope: ['entity.name.function', 'meta.function-call'],
-    settings: {
-      foreground: wonderlandsShowtime.hair.highlight,
-    },
-  },
-  {
-    name: 'Library/Support Functions',
-    scope: ['support.function', 'support.function.console'],
-    settings: {
-      foreground: character.hair.highlight,
-    },
-  },
-  {
-    name: 'Methods',
-    scope: ['entity.name.function.member'],
-    settings: {
-      foreground: character.skin.blush,
-    },
-  },
-
-  // Classes & Types
-  {
-    name: 'User Classes',
-    scope: ['entity.name.type.class', 'entity.name.class'],
-    settings: {
-      foreground: snowMiku.y2017.accessories.stars,
-    },
-  },
-  {
-    name: 'Structs',
-    scope: ['entity.name.type.struct'],
-    settings: {
-      foreground: character.hair.tip,
-    },
-  },
-  {
-    name: 'Support/Library Classes',
-    scope: ['support.class', 'support.type'],
-    settings: {
-      foreground: nightcord.unitColor,
-    },
-  },
-  {
-    name: 'Interfaces',
-    scope: ['entity.name.type.interface'],
-    settings: {
-      foreground: angel.accessories.shoes,
-    },
-  },
-  {
-    name: 'Enums',
-    scope: ['entity.name.type.enum', 'entity.name.enum'],
-    settings: {
-      foreground: nightcord.unitColor,
-    },
-  },
-  {
-    name: 'Types / Primitives',
-    scope: ['entity.name.type', 'support.type.primitive'],
-    settings: {
-      foreground: character.hair.tip,
-    },
-  },
-  {
-    name: 'Type Parameters',
-    scope: ['entity.name.type.parameter'],
-    settings: {
-      foreground: nightcord.unitColor,
-    },
-  },
-
-  // Variables & Properties
-  {
-    name: 'Variables',
-    scope: ['variable', 'meta.definition.variable.name'],
-    settings: {
-      foreground: snowMiku.y2010.hair,
-    },
-  },
-  {
-    name: 'Properties / Fields',
-    scope: ['variable.other.property', 'variable.other.object.property', 'variable.other.member'],
-    settings: {
-      foreground: character.skin.blush,
-    },
-  },
-  {
-    name: 'Parameters',
-    scope: ['variable.parameter'],
-    settings: {
-      foreground: character.hair.tip,
-    },
-  },
-  {
-    name: 'Constants',
-    scope: ['variable.other.constant', 'constant.language'],
-    settings: {
-      foreground: snowMiku.y2017.accessories.stars,
-    },
-  },
-
-  // Data & Literals
-  {
-    name: 'Strings',
-    scope: ['string', 'string.quoted.double', 'string.quoted.single'],
-    settings: {
-      foreground: character.negi.stalk,
-    },
-  },
-  {
-    name: 'Template Strings',
-    scope: ['string.template'],
-    settings: {
-      foreground: leoNeed.hair.highlight,
-    },
-  },
-  {
-    name: 'Numbers',
-    scope: ['constant.numeric'],
-    settings: {
-      foreground: character.negi.bright,
-    },
-  },
-  {
-    name: 'Booleans',
-    scope: ['constant.language.boolean'],
-    settings: {
-      foreground: leoNeed.hair.highlight,
-    },
-  },
-  {
-    name: 'Regex',
-    scope: ['string.regexp'],
-    settings: {
-      foreground: character.negi.bright,
-    },
-  },
-  {
-    name: 'Escape Sequences',
-    scope: ['constant.character.escape'],
-    settings: {
-      foreground: ghost.hair.base,
-    },
-  },
-
-  // Meta & Decorators
-  {
-    name: 'Decorators / Attributes',
-    scope: ['meta.decorator', 'entity.other.attribute-name'],
-    settings: {
-      foreground: ghost.hair.base,
-    },
-  },
-  {
-    name: 'HTML/JSX Tags',
-    scope: ['entity.name.tag'],
-    settings: {
-      foreground: character.hair.highlight,
-    },
-  },
-  {
-    name: 'HTML/JSX Attributes',
-    scope: ['entity.other.attribute-name.html', 'entity.other.attribute-name.jsx'],
-    settings: {
-      foreground: character.hair.bright,
-    },
-  },
-
-  // Markdown
-  {
-    name: 'Markdown Headings',
-    scope: ['markup.heading', 'entity.name.section.markdown'],
-    settings: {
-      foreground: leoNeed.hair.highlight,
-    },
-  },
-  {
-    name: 'Markdown Links',
-    scope: ['markup.underline.link', 'string.other.link'],
-    settings: {
-      foreground: wonderlandsShowtime.hair.highlight,
-    },
-  },
-  {
-    name: 'Markdown Code',
-    scope: ['markup.inline.raw', 'markup.raw.block'],
-    settings: {
-      foreground: snowMiku.y2017.accessories.stars,
-    },
-  },
-  {
-    name: 'Markdown Quote',
-    scope: ['markup.quote'],
-    settings: {
-      foreground: sakuraMiku.hair.base,
-    },
-  },
-
-  // Namespaces
-  {
-    name: 'Entity Name Namespace',
-    scope: ['entity.name.type.namespace', 'entity.name.namespace', 'entity.name.type.module'],
-    settings: {
-      foreground: ghost.hair.base,
-    },
-  },
-
-  // Dockerfile
-  {
-    name: 'Dockerfile Keyword',
-    scope: ['keyword.other.special-method.dockerfile'],
-    settings: {
-      foreground: wonderlandsShowtime.hair.highlight,
-    },
-  },
-
-  // C#
-  {
-    name: 'C# LINQ Keywords',
-    scope: ['keyword.query.linq.cs'],
-    settings: {
-      foreground: character.hair.base,
-    },
-  },
-  {
-    name: 'C# Async Pattern',
-    scope: ['keyword.other.await.cs', 'keyword.other.async.cs'],
-    settings: {
-      foreground: character.hair.highlight,
-    },
-  },
-  {
-    name: 'C# Attribute',
-    scope: ['meta.attribute.cs', 'entity.name.type.attribute.cs'],
-    settings: {
-      foreground: sakuraMiku.hair.base,
-    },
-  },
-  {
-    name: 'C# Namespace',
-    scope: ['entity.name.type.namespace.cs'],
-    settings: {
-      foreground: character.hair.bright,
-    },
-  },
-
-  // YAML
-  {
-    name: 'YAML Key',
-    scope: ['entity.name.tag.yaml', 'support.type.property-name.yaml'],
-    settings: {
-      foreground: character.hair.base,
-    },
-  },
-  {
-    name: 'YAML Anchor',
-    scope: ['entity.name.type.anchor.yaml', 'punctuation.definition.anchor.yaml'],
-    settings: {
-      foreground: ghost.hair.base,
-    },
-  },
-  {
-    name: 'YAML Alias',
-    scope: ['variable.other.alias.yaml', 'punctuation.definition.alias.yaml'],
-    settings: {
-      foreground: ghost.hair.base,
-    },
-  },
-  {
-    name: 'YAML Timestamp',
-    scope: ['constant.other.timestamp.yaml'],
-    settings: {
-      foreground: snowMiku.y2017.accessories.stars,
-    },
-  },
-  {
-    name: 'YAML Directive',
-    scope: ['keyword.other.directive.yaml', 'punctuation.definition.directive.yaml'],
-    settings: {
-      foreground: ghost.hair.base,
-    },
-  },
-
-  // SQL
-  {
-    name: 'SQL DML Keywords',
-    scope: ['keyword.other.DML.sql', 'keyword.other.dml.sql'],
-    settings: {
-      foreground: leoNeed.hair.highlight,
-    },
-  },
-  {
-    name: 'SQL DDL Keywords',
-    scope: ['keyword.other.DDL.sql', 'keyword.other.ddl.sql', 'keyword.other.create.sql'],
-    settings: {
-      foreground: character.skin.blush,
-    },
-  },
-  {
-    name: 'SQL Clauses',
-    scope: ['keyword.other.sql', 'keyword.other.order.sql', 'keyword.other.alias.sql'],
-    settings: {
-      foreground: character.hair.highlight,
-    },
-  },
-  {
-    name: 'SQL Functions',
-    scope: ['support.function.sql', 'support.function.aggregate.sql'],
-    settings: {
-      foreground: wonderlandsShowtime.hair.highlight,
-    },
-  },
-  {
-    name: 'SQL Tables',
-    scope: ['entity.name.function.sql', 'constant.other.table-name.sql'],
-    settings: {
-      foreground: snowMiku.y2017.accessories.stars,
-    },
-  },
-  {
-    name: 'SQL Columns',
-    scope: ['constant.other.database-name.sql', 'constant.other.placeholder.sql'],
-    settings: {
-      foreground: snowMiku.y2010.hair,
-    },
-  },
-  {
-    name: 'SQL Operators',
-    scope: ['keyword.operator.comparison.sql', 'keyword.operator.logical.sql'],
-    settings: {
-      foreground: wonderlandsShowtime.unitColor,
-    },
-  },
-  {
-    name: 'SQL Types',
-    scope: ['storage.type.sql', 'support.type.sql'],
-    settings: {
-      foreground: character.hair.tip,
-    },
-  },
-
-  // PHP
-  {
-    name: 'PHP Tags',
-    scope: ['punctuation.section.embedded.php', 'keyword.other.phpdoc.php'],
-    settings: {
-      foreground: leoNeed.hair.highlight,
-    },
-  },
-  {
-    name: 'PHP Variables',
-    scope: ['variable.other.php', 'punctuation.definition.variable.php'],
-    settings: {
-      foreground: snowMiku.y2010.hair,
-    },
-  },
-  {
-    name: 'PHP Superglobals',
-    scope: ['variable.language.php'],
-    settings: {
-      foreground: character.skin.blush,
-    },
-  },
-  {
-    name: 'PHP Functions',
-    scope: ['support.function.php', 'support.function.construct.php'],
-    settings: {
-      foreground: wonderlandsShowtime.hair.highlight,
-    },
-  },
-  {
-    name: 'PHP Classes',
-    scope: ['support.class.php', 'entity.other.inherited-class.php'],
-    settings: {
-      foreground: snowMiku.y2017.accessories.stars,
-    },
-  },
-  {
-    name: 'PHP Constants',
-    scope: ['support.constant.php', 'constant.language.php'],
-    settings: {
-      foreground: snowMiku.y2017.accessories.stars,
-    },
-  },
-
-  // Ruby
-  {
-    name: 'Ruby Symbols',
-    scope: ['constant.other.symbol.ruby', 'punctuation.definition.symbol.ruby'],
-    settings: {
-      foreground: leoNeed.hair.highlight,
-    },
-  },
-  {
-    name: 'Ruby Instance Variables',
-    scope: ['variable.other.readwrite.instance.ruby'],
-    settings: {
-      foreground: character.skin.blush,
-    },
-  },
-  {
-    name: 'Ruby Class Variables',
-    scope: ['variable.other.readwrite.class.ruby'],
-    settings: {
-      foreground: character.headphones.cushion,
-    },
-  },
-  {
-    name: 'Ruby Global Variables',
-    scope: ['variable.other.readwrite.global.ruby'],
-    settings: {
-      foreground: miku15thAnniversary.hair.ribbons,
-    },
-  },
-  {
-    name: 'Ruby Blocks',
-    scope: ['keyword.control.ruby', 'keyword.control.def.ruby'],
-    settings: {
-      foreground: character.hair.highlight,
-    },
-  },
-  {
-    name: 'Ruby Special Methods',
-    scope: ['keyword.other.special-method.ruby'],
-    settings: {
-      foreground: wonderlandsShowtime.hair.highlight,
-    },
-  },
-  {
-    name: 'Ruby Modules',
-    scope: ['entity.name.type.module.ruby', 'support.class.ruby'],
-    settings: {
-      foreground: snowMiku.y2017.accessories.stars,
-    },
-  },
-
-  // Makefile
-  {
-    name: 'Makefile Target',
-    scope: ['entity.name.function.target.makefile'],
-    settings: {
-      foreground: character.hair.base,
-    },
-  },
-  {
-    name: 'Makefile Prerequisite',
-    scope: ['entity.name.function.prerequisite.makefile'],
-    settings: {
-      foreground: character.hair.highlight,
-    },
-  },
-  {
-    name: 'Makefile Variable Definition',
-    scope: ['variable.other.makefile'],
-    settings: {
-      foreground: snowMiku.y2010.hair,
-    },
-  },
-  {
-    name: 'Makefile Variable Reference',
-    scope: ['variable.language.makefile', 'string.interpolated.makefile'],
-    settings: {
-      foreground: wonderlandsShowtime.hair.highlight,
-    },
-  },
-  {
-    name: 'Makefile Automatic Variable',
-    scope: ['variable.language.automatic.makefile'],
-    settings: {
-      foreground: snowMiku.y2017.accessories.stars,
-    },
-  },
-  {
-    name: 'Makefile Function',
-    scope: ['support.function.makefile', 'meta.function-call.makefile'],
-    settings: {
-      foreground: character.skin.blush,
-    },
-  },
-  {
-    name: 'Makefile Keyword',
-    scope: ['keyword.control.makefile', 'keyword.other.makefile'],
-    settings: {
-      foreground: character.hair.highlight,
-    },
-  },
-  {
-    name: 'Makefile Conditional',
-    scope: ['keyword.control.conditional.makefile', 'keyword.control.ifeq.makefile', 'keyword.control.ifdef.makefile'],
-    settings: {
-      foreground: character.hair.base,
-    },
-  },
-  {
-    name: 'Makefile Directive',
-    scope: ['keyword.control.directive.makefile', 'keyword.control.include.makefile', 'keyword.control.define.makefile'],
-    settings: {
-      foreground: ghost.hair.base,
-    },
-  },
-  {
-    name: 'Makefile Phony',
-    scope: ['meta.special-target.makefile', 'constant.language.makefile'],
-    settings: {
-      foreground: snowMiku.y2017.accessories.stars,
-    },
-  },
-  {
-    name: 'Makefile Shell Command',
-    scope: ['string.source.makefile', 'meta.recipe.makefile'],
-    settings: {
-      foreground: snowMiku.y2010.hair,
-    },
-  },
-
-  // String Variants
-  {
-    name: 'String Quoted Variants',
-    scope: [
-      'string.quoted.double',
-      'string.quoted.single',
-      'string.quoted.triple',
-      'string.quoted.other',
-      'string.interpolated',
-    ],
-    settings: {
-      foreground: character.negi.stalk,
-    },
-  },
-  {
-    name: 'Shell Interpolated Strings',
-    scope: ['string.interpolated.shell', 'string.interpolated.dollar.shell'],
-    settings: {
-      foreground: character.negi.stalk,
-    },
-  },
-
-  // Meta Scopes
-  {
-    name: 'Meta Function Parameters',
-    scope: [
-      'meta.function.parameters',
-      'meta.parameters',
-      'meta.function-call.arguments',
-    ],
-    settings: {
-      foreground: snowMiku.y2010.hair,
-    },
-  },
-  {
-    name: 'Meta Class Body',
-    scope: ['meta.class.body', 'meta.class.inheritance'],
-    settings: {
-      foreground: snowMiku.y2010.hair,
-    },
-  },
-  {
-    name: 'Meta Interface/Namespace Body',
-    scope: ['meta.interface.body', 'meta.namespace.body'],
-    settings: {
-      foreground: snowMiku.y2010.hair,
-    },
-  },
-  {
-    name: 'Meta Object/Array Literals',
-    scope: ['meta.object-literal', 'meta.array.literal', 'meta.objectliteral'],
-    settings: {
-      foreground: snowMiku.y2010.hair,
-    },
-  },
-  {
-    name: 'Meta Imports/Exports',
-    scope: ['meta.import', 'meta.export', 'meta.imports'],
-    settings: {
-      foreground: snowMiku.y2010.hair,
-    },
-  },
-  {
-    name: 'Meta Function Return Type',
-    scope: ['meta.return.type', 'meta.function.return-type'],
-    settings: {
-      foreground: character.hair.tip,
-    },
-  },
-
-  // Entity Name Variants
-  {
-    name: 'Entity Name Label',
-    scope: ['entity.name.label', 'entity.name.statement.label'],
-    settings: {
-      foreground: leoNeed.hair.highlight,
-    },
-  },
-  {
-    name: 'Entity Name Constant',
-    scope: ['entity.name.constant', 'entity.name.variable.constant'],
-    settings: {
-      foreground: snowMiku.y2017.accessories.stars,
-    },
-  },
-  {
-    name: 'Entity Name Enum',
-    scope: ['entity.name.type.enum', 'entity.name.enum'],
-    settings: {
-      foreground: nightcord.unitColor,
-    },
-  },
-  {
-    name: 'Entity Name Interface',
-    scope: ['entity.name.type.interface', 'entity.name.interface'],
-    settings: {
-      foreground: angel.accessories.shoes,
-    },
-  },
-  {
-    name: 'Entity Name Alias/Type Alias',
-    scope: ['entity.name.type.alias', 'entity.name.type.type-alias'],
-    settings: {
-      foreground: character.hair.tip,
-    },
-  },
-
-  // Keyword Declaration Variants
   {
     name: 'Keyword Declaration',
     scope: [
@@ -725,41 +143,956 @@ export const tokenColors: TokenColorRule[] = [
       'keyword.declaration.type',
     ],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: syntax.keyword,
     },
   },
   {
-    name: 'Keyword Namespace/Import',
-    scope: ['keyword.namespace', 'keyword.import', 'keyword.export'],
+    name: 'Keyword Other',
+    scope: ['keyword.other', 'keyword.other.unit'],
     settings: {
-      foreground: character.hair.highlight,
-    },
-  },
-  {
-    name: 'Keyword Type',
-    scope: ['keyword.type', 'keyword.other.type'],
-    settings: {
-      foreground: character.hair.highlight,
+      foreground: syntax.keywordAlt,
     },
   },
 
-  // Support Variants
+  // ==========================================================================
+  // OPERATORS - Orange distinction
+  // ==========================================================================
   {
-    name: 'Support Variable',
-    scope: ['support.variable', 'support.variable.property'],
+    name: 'Operators',
+    scope: [
+      'keyword.operator',
+      'keyword.operator.arithmetic',
+      'keyword.operator.comparison',
+      'keyword.operator.logical',
+      'keyword.operator.assignment',
+      'keyword.operator.ternary',
+    ],
     settings: {
-      foreground: character.hair.highlight,
+      foreground: syntax.operator,
+    },
+  },
+  {
+    name: 'Special Operators',
+    scope: [
+      'keyword.operator.new',
+      'keyword.operator.expression',
+      'keyword.operator.spread',
+      'keyword.operator.rest',
+    ],
+    settings: {
+      foreground: syntax.keyword,
+    },
+  },
+  {
+    name: 'Punctuation',
+    scope: ['punctuation.separator', 'punctuation.terminator', 'punctuation.accessor'],
+    settings: {
+      foreground: syntax.punctuation,
+    },
+  },
+
+  // ==========================================================================
+  // FUNCTIONS - Warm gold
+  // ==========================================================================
+  {
+    name: 'User Functions',
+    scope: [
+      'entity.name.function',
+      'meta.function-call',
+      'meta.function-call.generic',
+    ],
+    settings: {
+      foreground: syntax.function,
+    },
+  },
+  {
+    name: 'Library/Support Functions',
+    scope: [
+      'support.function',
+      'support.function.console',
+      'support.function.builtin',
+    ],
+    settings: {
+      foreground: syntax.functionBuiltin,
+    },
+  },
+  {
+    name: 'Methods',
+    scope: [
+      'entity.name.function.member',
+      'meta.method.declaration',
+      'meta.function.method',
+    ],
+    settings: {
+      foreground: syntax.method,
+    },
+  },
+  {
+    name: 'Function Call Arguments',
+    scope: ['meta.function-call.arguments', 'meta.function.arguments'],
+    settings: {
+      foreground: syntax.variable,
+    },
+  },
+
+  // ==========================================================================
+  // CLASSES & TYPES - Gold/Blue hierarchy
+  // ==========================================================================
+  {
+    name: 'User Classes',
+    scope: ['entity.name.type.class', 'entity.name.class'],
+    settings: {
+      foreground: syntax.class,
+    },
+  },
+  {
+    name: 'Structs',
+    scope: ['entity.name.type.struct'],
+    settings: {
+      foreground: syntax.struct,
+    },
+  },
+  {
+    name: 'Support/Library Classes',
+    scope: ['support.class', 'support.type'],
+    settings: {
+      foreground: syntax.class,
+    },
+  },
+  {
+    name: 'Interfaces',
+    scope: ['entity.name.type.interface', 'entity.name.interface'],
+    settings: {
+      foreground: syntax.interface,
+    },
+  },
+  {
+    name: 'Enums',
+    scope: ['entity.name.type.enum', 'entity.name.enum'],
+    settings: {
+      foreground: syntax.enum,
+    },
+  },
+  {
+    name: 'Types / Primitives',
+    scope: ['entity.name.type', 'support.type.primitive', 'support.type.builtin'],
+    settings: {
+      foreground: syntax.type,
+    },
+  },
+  {
+    name: 'Type Parameters',
+    scope: ['entity.name.type.parameter'],
+    settings: {
+      foreground: syntax.enum,
+    },
+  },
+  {
+    name: 'Type Alias',
+    scope: ['entity.name.type.alias', 'entity.name.type.type-alias'],
+    settings: {
+      foreground: syntax.type,
+    },
+  },
+
+  // ==========================================================================
+  // NAMESPACES & MODULES
+  // ==========================================================================
+  {
+    name: 'Namespaces',
+    scope: [
+      'entity.name.type.namespace',
+      'entity.name.namespace',
+      'entity.name.type.module',
+    ],
+    settings: {
+      foreground: syntax.namespace,
     },
   },
   {
     name: 'Support Module',
     scope: ['support.module', 'support.module.node'],
     settings: {
-      foreground: character.hair.bright,
+      foreground: syntax.namespace,
     },
   },
 
-  // Markup
+  // ==========================================================================
+  // VARIABLES & PROPERTIES
+  // ==========================================================================
+  {
+    name: 'Variables',
+    scope: ['variable', 'meta.definition.variable.name'],
+    settings: {
+      foreground: syntax.variable,
+    },
+  },
+  {
+    name: 'Properties / Fields',
+    scope: [
+      'variable.other.property',
+      'variable.other.object.property',
+      'variable.other.member',
+      'meta.object-literal.key',
+    ],
+    settings: {
+      foreground: syntax.property,
+    },
+  },
+  {
+    name: 'Parameters',
+    scope: ['variable.parameter', 'variable.parameter.function'],
+    settings: {
+      foreground: syntax.parameter,
+    },
+  },
+  {
+    name: 'Constants',
+    scope: ['variable.other.constant', 'constant.language'],
+    settings: {
+      foreground: syntax.constant,
+    },
+  },
+  {
+    name: 'Language Variables',
+    scope: ['variable.language', 'variable.language.this', 'variable.language.self'],
+    settings: {
+      foreground: syntax.keywordAlt,
+      fontStyle: 'italic',
+    },
+  },
+  {
+    name: 'Support Variable',
+    scope: ['support.variable', 'support.variable.property'],
+    settings: {
+      foreground: syntax.property,
+    },
+  },
+
+  // ==========================================================================
+  // STRINGS - Negi green
+  // ==========================================================================
+  {
+    name: 'Strings',
+    scope: [
+      'string',
+      'string.quoted.double',
+      'string.quoted.single',
+      'string.quoted.triple',
+      'string.quoted.other',
+    ],
+    settings: {
+      foreground: syntax.string,
+    },
+  },
+  {
+    name: 'Template Strings',
+    scope: ['string.template', 'string.interpolated'],
+    settings: {
+      foreground: syntax.stringTemplate,
+    },
+  },
+  {
+    name: 'String Punctuation',
+    scope: [
+      'punctuation.definition.string.begin',
+      'punctuation.definition.string.end',
+    ],
+    settings: {
+      foreground: syntax.string,
+    },
+  },
+  {
+    name: 'Template Expression',
+    scope: ['punctuation.definition.template-expression', 'meta.template.expression'],
+    settings: {
+      foreground: syntax.operator,
+    },
+  },
+
+  // ==========================================================================
+  // NUMBERS & BOOLEANS
+  // ==========================================================================
+  {
+    name: 'Numbers',
+    scope: [
+      'constant.numeric',
+      'constant.numeric.integer',
+      'constant.numeric.float',
+      'constant.numeric.hex',
+      'constant.numeric.octal',
+      'constant.numeric.binary',
+    ],
+    settings: {
+      foreground: syntax.number,
+    },
+  },
+  {
+    name: 'Booleans',
+    scope: ['constant.language.boolean', 'constant.language.true', 'constant.language.false'],
+    settings: {
+      foreground: syntax.boolean,
+    },
+  },
+  {
+    name: 'Null/Undefined',
+    scope: ['constant.language.null', 'constant.language.undefined'],
+    settings: {
+      foreground: syntax.keywordAlt,
+    },
+  },
+
+  // ==========================================================================
+  // REGEX & ESCAPE
+  // ==========================================================================
+  {
+    name: 'Regex',
+    scope: ['string.regexp', 'constant.regexp'],
+    settings: {
+      foreground: syntax.regex,
+    },
+  },
+  {
+    name: 'Escape Sequences',
+    scope: ['constant.character.escape'],
+    settings: {
+      foreground: syntax.escape,
+    },
+  },
+
+  // ==========================================================================
+  // DECORATORS & ATTRIBUTES
+  // ==========================================================================
+  {
+    name: 'Decorators / Attributes',
+    scope: [
+      'meta.decorator',
+      'entity.name.function.decorator',
+      'punctuation.decorator',
+    ],
+    settings: {
+      foreground: syntax.decorator,
+    },
+  },
+  {
+    name: 'Attribute Names',
+    scope: ['entity.other.attribute-name'],
+    settings: {
+      foreground: syntax.attribute,
+    },
+  },
+
+  // ==========================================================================
+  // HTML/JSX/XML
+  // ==========================================================================
+  {
+    name: 'HTML/JSX Tags',
+    scope: ['entity.name.tag', 'punctuation.definition.tag'],
+    settings: {
+      foreground: syntax.tag,
+    },
+  },
+  {
+    name: 'HTML/JSX Attributes',
+    scope: ['entity.other.attribute-name.html', 'entity.other.attribute-name.jsx'],
+    settings: {
+      foreground: syntax.attribute,
+    },
+  },
+  {
+    name: 'JSX Expression',
+    scope: ['punctuation.section.embedded.jsx'],
+    settings: {
+      foreground: syntax.operator,
+    },
+  },
+
+  // ==========================================================================
+  // MARKDOWN
+  // ==========================================================================
+  {
+    name: 'Markdown Headings',
+    scope: ['markup.heading', 'entity.name.section.markdown'],
+    settings: {
+      foreground: syntax.class,
+      fontStyle: 'bold',
+    },
+  },
+  {
+    name: 'Markdown Bold',
+    scope: ['markup.bold'],
+    settings: {
+      fontStyle: 'bold',
+    },
+  },
+  {
+    name: 'Markdown Italic',
+    scope: ['markup.italic'],
+    settings: {
+      fontStyle: 'italic',
+    },
+  },
+  {
+    name: 'Markdown Links',
+    scope: ['markup.underline.link', 'string.other.link'],
+    settings: {
+      foreground: syntax.interface,
+    },
+  },
+  {
+    name: 'Markdown Code',
+    scope: ['markup.inline.raw', 'markup.raw.block', 'fenced_code.block.language'],
+    settings: {
+      foreground: syntax.string,
+    },
+  },
+  {
+    name: 'Markdown Quote',
+    scope: ['markup.quote'],
+    settings: {
+      foreground: syntax.comment,
+      fontStyle: 'italic',
+    },
+  },
+  {
+    name: 'Markdown List',
+    scope: ['markup.list', 'punctuation.definition.list.begin.markdown'],
+    settings: {
+      foreground: syntax.operator,
+    },
+  },
+
+  // ==========================================================================
+  // JSON
+  // ==========================================================================
+  {
+    name: 'JSON Keys',
+    scope: ['support.type.property-name.json'],
+    settings: {
+      foreground: syntax.property,
+    },
+  },
+  {
+    name: 'JSON Values',
+    scope: ['string.quoted.double.json'],
+    settings: {
+      foreground: syntax.string,
+    },
+  },
+  {
+    name: 'JSON Punctuation',
+    scope: ['punctuation.support.type.property-name.json', 'punctuation.definition.string.json'],
+    settings: {
+      foreground: syntax.punctuation,
+    },
+  },
+
+  // ==========================================================================
+  // YAML
+  // ==========================================================================
+  {
+    name: 'YAML Key',
+    scope: ['entity.name.tag.yaml', 'support.type.property-name.yaml'],
+    settings: {
+      foreground: syntax.property,
+    },
+  },
+  {
+    name: 'YAML Anchor',
+    scope: ['entity.name.type.anchor.yaml', 'punctuation.definition.anchor.yaml'],
+    settings: {
+      foreground: syntax.decorator,
+    },
+  },
+  {
+    name: 'YAML Alias',
+    scope: ['variable.other.alias.yaml', 'punctuation.definition.alias.yaml'],
+    settings: {
+      foreground: syntax.decorator,
+    },
+  },
+  {
+    name: 'YAML Timestamp',
+    scope: ['constant.other.timestamp.yaml'],
+    settings: {
+      foreground: syntax.number,
+    },
+  },
+  {
+    name: 'YAML Directive',
+    scope: ['keyword.other.directive.yaml', 'punctuation.definition.directive.yaml'],
+    settings: {
+      foreground: syntax.keyword,
+    },
+  },
+
+  // ==========================================================================
+  // SQL
+  // ==========================================================================
+  {
+    name: 'SQL DML Keywords',
+    scope: ['keyword.other.DML.sql', 'keyword.other.dml.sql'],
+    settings: {
+      foreground: syntax.keyword,
+    },
+  },
+  {
+    name: 'SQL DDL Keywords',
+    scope: ['keyword.other.DDL.sql', 'keyword.other.ddl.sql', 'keyword.other.create.sql'],
+    settings: {
+      foreground: syntax.method,
+    },
+  },
+  {
+    name: 'SQL Clauses',
+    scope: ['keyword.other.sql', 'keyword.other.order.sql', 'keyword.other.alias.sql'],
+    settings: {
+      foreground: syntax.keyword,
+    },
+  },
+  {
+    name: 'SQL Functions',
+    scope: ['support.function.sql', 'support.function.aggregate.sql'],
+    settings: {
+      foreground: syntax.function,
+    },
+  },
+  {
+    name: 'SQL Tables',
+    scope: ['entity.name.function.sql', 'constant.other.table-name.sql'],
+    settings: {
+      foreground: syntax.class,
+    },
+  },
+  {
+    name: 'SQL Types',
+    scope: ['storage.type.sql', 'support.type.sql'],
+    settings: {
+      foreground: syntax.type,
+    },
+  },
+
+  // ==========================================================================
+  // CSS/SCSS/LESS
+  // ==========================================================================
+  {
+    name: 'CSS Selectors',
+    scope: ['entity.name.tag.css', 'entity.other.attribute-name.class.css'],
+    settings: {
+      foreground: syntax.tag,
+    },
+  },
+  {
+    name: 'CSS Properties',
+    scope: ['support.type.property-name.css', 'meta.property-name.css'],
+    settings: {
+      foreground: syntax.property,
+    },
+  },
+  {
+    name: 'CSS Values',
+    scope: ['support.constant.property-value.css', 'meta.property-value.css'],
+    settings: {
+      foreground: syntax.string,
+    },
+  },
+  {
+    name: 'CSS Units',
+    scope: ['keyword.other.unit.css'],
+    settings: {
+      foreground: syntax.number,
+    },
+  },
+  {
+    name: 'SCSS Variables',
+    scope: ['variable.scss', 'variable.sass'],
+    settings: {
+      foreground: syntax.variable,
+    },
+  },
+  {
+    name: 'CSS ID Selector',
+    scope: ['entity.other.attribute-name.id.css'],
+    settings: {
+      foreground: syntax.class,
+    },
+  },
+
+  // ==========================================================================
+  // PHP
+  // ==========================================================================
+  {
+    name: 'PHP Tags',
+    scope: ['punctuation.section.embedded.php', 'keyword.other.phpdoc.php'],
+    settings: {
+      foreground: syntax.keyword,
+    },
+  },
+  {
+    name: 'PHP Variables',
+    scope: ['variable.other.php', 'punctuation.definition.variable.php'],
+    settings: {
+      foreground: syntax.variable,
+    },
+  },
+  {
+    name: 'PHP Superglobals',
+    scope: ['variable.language.php'],
+    settings: {
+      foreground: syntax.keywordAlt,
+      fontStyle: 'italic',
+    },
+  },
+  {
+    name: 'PHP Functions',
+    scope: ['support.function.php', 'support.function.construct.php'],
+    settings: {
+      foreground: syntax.function,
+    },
+  },
+  {
+    name: 'PHP Classes',
+    scope: ['support.class.php', 'entity.other.inherited-class.php'],
+    settings: {
+      foreground: syntax.class,
+    },
+  },
+
+  // ==========================================================================
+  // RUBY
+  // ==========================================================================
+  {
+    name: 'Ruby Symbols',
+    scope: ['constant.other.symbol.ruby', 'punctuation.definition.symbol.ruby'],
+    settings: {
+      foreground: syntax.constant,
+    },
+  },
+  {
+    name: 'Ruby Instance Variables',
+    scope: ['variable.other.readwrite.instance.ruby'],
+    settings: {
+      foreground: syntax.property,
+    },
+  },
+  {
+    name: 'Ruby Class Variables',
+    scope: ['variable.other.readwrite.class.ruby'],
+    settings: {
+      foreground: syntax.class,
+    },
+  },
+  {
+    name: 'Ruby Global Variables',
+    scope: ['variable.other.readwrite.global.ruby'],
+    settings: {
+      foreground: syntax.constant,
+    },
+  },
+  {
+    name: 'Ruby Blocks',
+    scope: ['keyword.control.ruby', 'keyword.control.def.ruby'],
+    settings: {
+      foreground: syntax.keyword,
+    },
+  },
+
+  // ==========================================================================
+  // PYTHON
+  // ==========================================================================
+  {
+    name: 'Python Self',
+    scope: ['variable.parameter.function.language.special.self.python'],
+    settings: {
+      foreground: syntax.keywordAlt,
+      fontStyle: 'italic',
+    },
+  },
+  {
+    name: 'Python Magic Methods',
+    scope: ['support.function.magic.python'],
+    settings: {
+      foreground: syntax.decorator,
+    },
+  },
+  {
+    name: 'Python Decorators',
+    scope: ['entity.name.function.decorator.python', 'meta.function.decorator.python'],
+    settings: {
+      foreground: syntax.decorator,
+    },
+  },
+  {
+    name: 'Python F-String Braces',
+    scope: ['constant.character.format.placeholder.other.python'],
+    settings: {
+      foreground: syntax.operator,
+    },
+  },
+
+  // ==========================================================================
+  // GO
+  // ==========================================================================
+  {
+    name: 'Go Package',
+    scope: ['entity.name.package.go'],
+    settings: {
+      foreground: syntax.namespace,
+    },
+  },
+  {
+    name: 'Go Imports',
+    scope: ['entity.name.import.go'],
+    settings: {
+      foreground: syntax.string,
+    },
+  },
+  {
+    name: 'Go Channels',
+    scope: ['keyword.operator.channel.go'],
+    settings: {
+      foreground: syntax.operator,
+    },
+  },
+  {
+    name: 'Go Control',
+    scope: ['keyword.control.go'],
+    settings: {
+      foreground: syntax.keyword,
+    },
+  },
+
+  // ==========================================================================
+  // RUST
+  // ==========================================================================
+  {
+    name: 'Rust Lifetime',
+    scope: ['storage.modifier.lifetime.rust', 'entity.name.lifetime.rust'],
+    settings: {
+      foreground: syntax.decorator,
+    },
+  },
+  {
+    name: 'Rust Unsafe',
+    scope: ['keyword.other.unsafe.rust'],
+    settings: {
+      foreground: syntax.invalid,
+    },
+  },
+  {
+    name: 'Rust Traits',
+    scope: ['entity.name.type.trait.rust'],
+    settings: {
+      foreground: syntax.interface,
+    },
+  },
+  {
+    name: 'Rust Macros',
+    scope: ['entity.name.function.macro.rust', 'meta.macro.rust'],
+    settings: {
+      foreground: syntax.decorator,
+    },
+  },
+
+  // ==========================================================================
+  // C#
+  // ==========================================================================
+  {
+    name: 'C# LINQ Keywords',
+    scope: ['keyword.query.linq.cs'],
+    settings: {
+      foreground: syntax.keyword,
+    },
+  },
+  {
+    name: 'C# Async Pattern',
+    scope: ['keyword.other.await.cs', 'keyword.other.async.cs'],
+    settings: {
+      foreground: syntax.keyword,
+    },
+  },
+  {
+    name: 'C# Attribute',
+    scope: ['meta.attribute.cs', 'entity.name.type.attribute.cs'],
+    settings: {
+      foreground: syntax.decorator,
+    },
+  },
+  {
+    name: 'C# Namespace',
+    scope: ['entity.name.type.namespace.cs'],
+    settings: {
+      foreground: syntax.namespace,
+    },
+  },
+
+  // ==========================================================================
+  // JAVA
+  // ==========================================================================
+  {
+    name: 'Java Annotations',
+    scope: ['storage.type.annotation.java', 'punctuation.definition.annotation.java'],
+    settings: {
+      foreground: syntax.decorator,
+    },
+  },
+  {
+    name: 'Java Package',
+    scope: ['storage.modifier.package.java'],
+    settings: {
+      foreground: syntax.keyword,
+    },
+  },
+  {
+    name: 'Java Import',
+    scope: ['storage.modifier.import.java'],
+    settings: {
+      foreground: syntax.keyword,
+    },
+  },
+
+  // ==========================================================================
+  // MAKEFILE
+  // ==========================================================================
+  {
+    name: 'Makefile Target',
+    scope: ['entity.name.function.target.makefile'],
+    settings: {
+      foreground: syntax.class,
+    },
+  },
+  {
+    name: 'Makefile Prerequisite',
+    scope: ['entity.name.function.prerequisite.makefile'],
+    settings: {
+      foreground: syntax.function,
+    },
+  },
+  {
+    name: 'Makefile Variable',
+    scope: ['variable.other.makefile', 'variable.language.makefile'],
+    settings: {
+      foreground: syntax.variable,
+    },
+  },
+  {
+    name: 'Makefile Function',
+    scope: ['support.function.makefile', 'meta.function-call.makefile'],
+    settings: {
+      foreground: syntax.function,
+    },
+  },
+
+  // ==========================================================================
+  // DOCKERFILE
+  // ==========================================================================
+  {
+    name: 'Dockerfile Keyword',
+    scope: ['keyword.other.special-method.dockerfile'],
+    settings: {
+      foreground: syntax.keyword,
+    },
+  },
+  {
+    name: 'Dockerfile Instructions',
+    scope: ['keyword.control.dockerfile'],
+    settings: {
+      foreground: syntax.keyword,
+    },
+  },
+
+  // ==========================================================================
+  // SHELL
+  // ==========================================================================
+  {
+    name: 'Shell Variables',
+    scope: ['variable.other.normal.shell', 'variable.other.special.shell'],
+    settings: {
+      foreground: syntax.variable,
+    },
+  },
+  {
+    name: 'Shell Interpolated',
+    scope: ['string.interpolated.shell', 'string.interpolated.dollar.shell'],
+    settings: {
+      foreground: syntax.stringTemplate,
+    },
+  },
+  {
+    name: 'Shell Commands',
+    scope: ['support.function.builtin.shell'],
+    settings: {
+      foreground: syntax.functionBuiltin,
+    },
+  },
+
+  // ==========================================================================
+  // META SCOPES
+  // ==========================================================================
+  {
+    name: 'Meta Function Parameters',
+    scope: ['meta.function.parameters', 'meta.parameters', 'meta.function-call.arguments'],
+    settings: {
+      foreground: syntax.variable,
+    },
+  },
+  {
+    name: 'Meta Class Body',
+    scope: ['meta.class.body', 'meta.class.inheritance'],
+    settings: {
+      foreground: syntax.variable,
+    },
+  },
+  {
+    name: 'Meta Interface/Namespace Body',
+    scope: ['meta.interface.body', 'meta.namespace.body'],
+    settings: {
+      foreground: syntax.variable,
+    },
+  },
+  {
+    name: 'Meta Object/Array Literals',
+    scope: ['meta.object-literal', 'meta.array.literal', 'meta.objectliteral'],
+    settings: {
+      foreground: syntax.variable,
+    },
+  },
+  {
+    name: 'Meta Imports/Exports',
+    scope: ['meta.import', 'meta.export', 'meta.imports'],
+    settings: {
+      foreground: syntax.variable,
+    },
+  },
+  {
+    name: 'Meta Function Return Type',
+    scope: ['meta.return.type', 'meta.function.return-type'],
+    settings: {
+      foreground: syntax.type,
+    },
+  },
+
+  // ==========================================================================
+  // ENTITY LABELS
+  // ==========================================================================
+  {
+    name: 'Entity Name Label',
+    scope: ['entity.name.label', 'entity.name.statement.label'],
+    settings: {
+      foreground: syntax.decorator,
+    },
+  },
+  {
+    name: 'Entity Name Constant',
+    scope: ['entity.name.constant', 'entity.name.variable.constant'],
+    settings: {
+      foreground: syntax.constant,
+    },
+  },
+
+  // ==========================================================================
+  // MARKUP EXTENDED
+  // ==========================================================================
   {
     name: 'Markup Underline',
     scope: ['markup.underline'],
@@ -771,26 +1104,42 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markup Link Label',
     scope: ['markup.link.label', 'string.other.link.title.markdown'],
     settings: {
-      foreground: wonderlandsShowtime.hair.highlight,
+      foreground: syntax.string,
     },
   },
   {
     name: 'Markup Link URL',
     scope: ['markup.underline.link.markdown', 'meta.link.inline.markdown'],
     settings: {
-      foreground: lawson50thMiku.hair.highlight,
+      foreground: syntax.interface,
       fontStyle: 'underline',
     },
   },
   {
-    name: 'Markup List Numbered',
-    scope: ['markup.list.numbered', 'punctuation.definition.list.begin.markdown'],
+    name: 'Markup Inserted',
+    scope: ['markup.inserted'],
     settings: {
-      foreground: wonderlandsShowtime.hair.highlight,
+      foreground: character.negi.bright,
+    },
+  },
+  {
+    name: 'Markup Deleted',
+    scope: ['markup.deleted'],
+    settings: {
+      foreground: themeColors.ui.error,
+    },
+  },
+  {
+    name: 'Markup Changed',
+    scope: ['markup.changed'],
+    settings: {
+      foreground: snowMiku.y2017.accessories.stars,
     },
   },
 
-  // Deprecated
+  // ==========================================================================
+  // DEPRECATED & INVALID
+  // ==========================================================================
   {
     name: 'Deprecated Entities',
     scope: [
@@ -800,137 +1149,15 @@ export const tokenColors: TokenColorRule[] = [
       'entity.name.type.deprecated',
     ],
     settings: {
-      foreground: mikuNT.hair.shadow,
+      foreground: syntax.deprecated,
       fontStyle: 'strikethrough',
     },
   },
-
-  // Python
   {
-    name: 'Python Self',
-    scope: ['variable.parameter.function.language.special.self.python'],
+    name: 'Invalid',
+    scope: ['invalid', 'invalid.deprecated', 'invalid.illegal'],
     settings: {
-      foreground: character.hair.base,
-    },
-  },
-  {
-    name: 'Python Magic Methods',
-    scope: ['support.function.magic.python'],
-    settings: {
-      foreground: character.negi.bright,
-    },
-  },
-  {
-    name: 'Python Decorators',
-    scope: ['entity.name.function.decorator.python', 'meta.function.decorator.python'],
-    settings: {
-      foreground: ghost.hair.base,
-    },
-  },
-  {
-    name: 'Python F-String Braces',
-    scope: ['constant.character.format.placeholder.other.python'],
-    settings: {
-      foreground: snowMiku.y2017.accessories.stars,
-    },
-  },
-
-  // Go
-  {
-    name: 'Go Package',
-    scope: ['entity.name.package.go'],
-    settings: {
-      foreground: moreMoreJump.unitColor,
-    },
-  },
-  {
-    name: 'Go Imports',
-    scope: ['entity.name.import.go'],
-    settings: {
-      foreground: leoNeed.unitColor,
-    },
-  },
-  {
-    name: 'Go Channels',
-    scope: ['keyword.operator.channel.go'],
-    settings: {
-      foreground: nightcord.unitColor,
-    },
-  },
-  {
-    name: 'Go Defer/Go Keywords',
-    scope: ['keyword.control.go'],
-    settings: {
-      foreground: leoNeed.hair.highlight,
-    },
-  },
-
-  // Rust
-  {
-    name: 'Rust Lifetime',
-    scope: ['storage.modifier.lifetime.rust', 'entity.name.lifetime.rust'],
-    settings: {
-      foreground: snowMiku.y2017.accessories.stars,
-    },
-  },
-  {
-    name: 'Rust Unsafe',
-    scope: ['keyword.other.unsafe.rust'],
-    settings: {
-      foreground: character.marks.tattoo,
-    },
-  },
-  {
-    name: 'Rust Traits',
-    scope: ['entity.name.type.trait.rust'],
-    settings: {
-      foreground: character.negi.bright,
-    },
-  },
-  {
-    name: 'Rust Macros',
-    scope: ['entity.name.function.macro.rust', 'meta.macro.rust'],
-    settings: {
-      foreground: ghost.hair.base,
-    },
-  },
-
-  // JSON
-  {
-    name: 'JSON Key Level 0',
-    scope: ['support.type.property-name.json'],
-    settings: {
-      foreground: character.hair.tip,
-    },
-  },
-  {
-    name: 'JSON Punctuation',
-    scope: ['punctuation.support.type.property-name.json', 'punctuation.definition.string.json'],
-    settings: {
-      foreground: character.skin.blush,
-    },
-  },
-
-  // YAML (language-specific overrides)
-  {
-    name: 'YAML Key',
-    scope: ['entity.name.tag.yaml'],
-    settings: {
-      foreground: sakuraMiku.hair.base,
-    },
-  },
-  {
-    name: 'YAML Anchor',
-    scope: ['entity.name.type.anchor.yaml', 'punctuation.definition.anchor.yaml'],
-    settings: {
-      foreground: sakuraMiku.accessories.petals,
-    },
-  },
-  {
-    name: 'YAML Alias',
-    scope: ['variable.other.alias.yaml'],
-    settings: {
-      foreground: leoNeed.hair.highlight,
+      foreground: syntax.invalid,
     },
   },
 ];
