@@ -8,13 +8,11 @@
 import {
   character,
   mikuNT,
-  mikuAppend,
   snowMiku,
   ghost,
   angel,
   leoNeed,
   moreMoreJump,
-  vividBadSquad,
   wonderlandsShowtime,
   nightcord,
   sakuraMiku,

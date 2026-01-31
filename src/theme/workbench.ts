@@ -7,19 +7,15 @@
 import {
   character,
   mikuNT,
-  mikuAppend,
-  mikuV3,
   snowMiku,
   ghost,
   angel,
   sakuraMiku,
   virtualSinger,
   leoNeed,
-  moreMoreJump,
   vividBadSquad,
   wonderlandsShowtime,
   nightcord,
-  miku15thAnniversary,
 } from '../palette';
 
 // Blacks - Character outfit elements
@@ -194,8 +190,6 @@ export const workbenchColors = {
   'editorLineNumber.foreground': character.tie.shadow,
   'editorLineNumber.activeForeground': teals.neon,
   'editorLineNumber.dimmedForeground': frequencyVisualizer.bass,
-  'editorLineNumber.warningForeground': semantic.warning,
-  'editorLineNumber.errorForeground': semantic.error,
 
   // Indent guides
   'editorIndentGuide.background1': alpha(frequencyVisualizer.bass, '50'),
@@ -260,7 +254,6 @@ export const workbenchColors = {
   'editorGhostText.border': alpha(versions.v6ai, '40'),
   'editorGhostText.background': alpha(versions.v6ai, '0A'),
   'editor.linkedEditingBackground': alpha(cyans.ice, '20'),
-  'editorWatermark.foreground': alpha(teals.neon, '70'),
 
   // Overview ruler
   'editorOverviewRuler.bracketMatchForeground': alpha(cyans.ice, 'A0'),
@@ -815,18 +808,7 @@ export const workbenchColors = {
   'progressBar.background': artStyles.ixima.techCyan,
 
   // SCM
-  'scm.historyItemAdditionsForeground': semantic.success,
-  'scm.historyItemDeletionsForeground': boosted.coralGlow,
-  'scm.historyItemStatisticsBorder': alpha(teals.classic, '30'),
-  'scm.historyItemSelectedStatisticsBorder': alpha(teals.classic, '60'),
-  'scmGraph.historyItemGroupLocal': teals.classic,
-  'scmGraph.historyItemGroupRemote': pinks.sekai,
-  'scmGraph.historyItemGroupBase': greys.slate,
-  'scmGraph.historyItemGroupHoverLabelForeground': stage.spotlight,
-  'scmGraph.green1': semantic.success,
-  'scmGraph.green2': accents.greenBright,
-  'scmGraph.red1': semantic.error,
-  'scmGraph.yellow1': semantic.warning,
+  'scmGraph.historyItemHoverLabelForeground': stage.spotlight,
   'scmGraph.foreground1': teals.classic,
   'scmGraph.foreground2': pinks.sekai,
   'scmGraph.foreground3': hologram.purple,
@@ -836,8 +818,6 @@ export const workbenchColors = {
   // Folding
   'editor.foldBackground': alpha(cyans.ice, '08'),
   'editor.foldPlaceholderForeground': alpha(teals.neon, 'AA'),
-  'editor.foldMarkerForeground': teals.neon,
-  'editor.foldMarkerBackground': alpha(teals.neon, '15'),
 
   // Snippets
   'editor.snippetTabstopHighlightBackground': alpha(cyans.ice, '18'),
@@ -968,8 +948,6 @@ export const workbenchColors = {
   'editorCommentsWidget.rangeBackground': alpha(teals.classic, '10'),
   'editorCommentsWidget.rangeActiveBackground': alpha(teals.classic, '20'),
   'editorCommentsWidget.replyInputBackground': blacks.sleeve,
-  'editorCommentsWidget.rangeBorder': alpha(teals.classic, '20'),
-  'editorCommentsWidget.rangeActiveBorder': alpha(teals.classic, '50'),
 
   // Panel Extended
   'panelTitleBadge.background': teals.classic,
@@ -1025,16 +1003,9 @@ export const workbenchColors = {
   'testing.coverCountBadgeBackground': alpha(teals.classic, '25'),
   'testing.coverCountBadgeForeground': teals.neon,
 
-  // Timeline
-  'timeline.itemBackground': blacks.outfit,
-  'timeline.itemHoverBackground': alpha(versionMapping.hover, '20'),
-
   // Interactive Session
   'interactive.activeCodeBorder': alpha(versions.v6ai, '60'),
   'interactive.inactiveCodeBorder': alpha(teals.classic, '30'),
-
-  // Simple Find Widget
-  'simpleFindWidget.selectorShadow': alpha(blacks.void, '80'),
 
   // Terminal Symbol Icons
   'terminalSymbolIcon.aliasForeground': append.light,
@@ -1095,20 +1066,6 @@ export const workbenchColors = {
 
   // Editor Pane
   'editorPane.background': blacks.outfit,
-
-  // Language Status
-  'languageStatus.icon.foreground': teals.classic,
-
-  // Symbol Icons
-  'symbolIcon.typeAliasForeground': versionMapping.types,
-  'symbolIcon.importForeground': teals.classic,
-
-  // Notebook Extended
-  'notebook.inactiveEditorBorder': alpha(teals.classic, '30'),
-
-  // Bracket Match Extended
-  'editorBracketMatch.foreground': cyans.ice,
-  'editorBracketHighlight.unexpectedBracket.background': alpha(semantic.error, '20'),
 };
 
 export type WorkbenchColors = typeof workbenchColors;

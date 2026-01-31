@@ -8,7 +8,6 @@
 import {
   character,
   mikuNT,
-  mikuAppend,
   snowMiku,
   ghost,
   angel,
