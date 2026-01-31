@@ -25,16 +25,19 @@ const colors = {
   // Keywords & Control
   keyword: character.hair.highlight,           // #5DE4DB - Bright teal
   keywordAlt: wonderlandsShowtime.hair.highlight, // #4DD0E1 - Lighter teal
+  storageModifier: themeColors.syntax.pastelTeal, // #64C5CE - Snow 2015 (distinct from keywords)
 
-  // Callable entities
-  function: themeColors.syntax.gold,           // #FFD27F - Warm gold (APCA-optimized)
+  // Callable entities - WARM CREAM replaces gold
+  function: themeColors.syntax.warmCream,      // #E0C9A0 - Snow 2024 cream (Lc 61, 15% sat)
   functionBuiltin: character.hair.highlight,   // #5DE4DB - Bright teal
-  method: character.skin.blush,                // #FFB8C8 - Blush pink
+  method: themeColors.syntax.pastelRose,       // #F8BBD0 - MM 2020 winter (low-fatigue)
+  magicMethod: themeColors.syntax.pastelRose,  // #F8BBD0 - Python __dunder__ methods
 
-  // Types & Structures
-  class: snowMiku.y2017.accessories.stars,     // #FFD700 - Gold star
+  // Types & Structures - WARM TAUPE replaces gold
+  class: themeColors.syntax.warmTaupe,         // #C4B5A0 - Snow 2024 taupe (Lc 54, 8% sat)
   interface: themeColors.syntax.skyBlue,       // #7CC4FF - Sky blue (APCA-optimized)
   type: character.hair.tip,                    // #B2EBE7 - Soft teal
+  typeParameter: themeColors.syntax.pastelPeriwinkle, // #9EAFE8 - Snow 2023 (distinct from type)
   enum: digitalStars.y2023.outfit.jacket,      // #DBAFEB - Lavender hoodie
   struct: themeColors.syntax.softBlue,         // #9DD0FF - Soft blue (APCA-optimized)
   namespace: digitalStars.y2021_mg.outfit.gradient, // #BFAAF0 - Soft lavender
@@ -42,22 +45,26 @@ const colors = {
   // Variables & Data
   variable: snowMiku.y2010.outfit.shirt,       // #E8EEF2 - Snow white
   parameter: character.hair.tip,               // #B2EBE7 - Soft teal
-  property: character.skin.blush,              // #FFB8C8 - Blush pink
-  constant: snowMiku.y2017.accessories.stars,  // #FFD700 - Gold star
+  property: themeColors.syntax.pastelRose,     // #F8BBD0 - MM 2020 winter (low-fatigue)
+  constant: themeColors.syntax.pastelPeriwinkle, // #9EAFE8 - Snow 2023 (low-fatigue)
 
   // Literals
   string: character.negi.stalk,                // #9CCC65 - Negi green
   number: character.negi.bright,               // #69F0AE - Bright mint
-  boolean: leoNeed.hair.highlight,             // #FF80AB - Vibrant pink
+  boolean: themeColors.syntax.pastelIndigo,    // #7986CB - Snow 2025 (low-fatigue)
   regex: character.negi.bright,                // #69F0AE - Bright mint
 
   // Operators & Punctuation
-  operator: wonderlandsShowtime.unitColor,     // #FF9900 - Pop orange
+  operator: themeColors.syntax.pastelGray,     // #8B7A8B - Nightcord (low-fatigue, replaces orange)
 
   // Meta
   comment: themeColors.syntax.silverMist,      // #889DA2 - Silver mist
   commentDoc: themeColors.syntax.silverBright, // #A8BDC2 - Brighter silver
   decorator: digitalStars.y2021_mg.outfit.gradient, // #BFAAF0 - Soft lavender
+  lifetime: themeColors.syntax.pastelIndigo,   // #7986CB - Snow 2025 (Rust lifetimes)
+
+  // Headings & Special
+  heading: themeColors.syntax.coolAqua,        // #A8D8D8 - Snow 2015 aqua (Lc 57)
 
   // Special
   deprecated: character.skirt.accessory,       // #A1B3B6 - Wallet chain silver
@@ -115,8 +122,8 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   type: colors.type,
   'type.declaration': colors.type,
   'type.defaultLibrary': colors.type,
-  typeParameter: colors.enum,
-  'typeParameter.declaration': colors.enum,
+  typeParameter: colors.typeParameter,
+  'typeParameter.declaration': colors.typeParameter,
 
   // ==========================================================================
   // STRUCTS

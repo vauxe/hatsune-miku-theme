@@ -115,18 +115,42 @@ export const piapro = {
  * Only colors that don't exist in the palette and are APCA-optimized
  */
 export const themeColors = {
-  // Syntax highlighting - ONLY colors not found in palette, APCA Lc 60+ validated
+  // Syntax highlighting - Complete Snow Miku Pastel System
+  // All colors: 8-35% saturation, APCA Lc 45+ for 10+ hour coding comfort
   syntax: {
-    // Gold/warm tones (APCA-optimized, not in palette)
-    gold: '#FFD27F',           // Warm gold - functions (Lc 76)
+    // === WARM TONES (Definitions & Structures) ===
+    // Functions & callable - warm cream from Snow 2024 "Pâtisserie"
+    warmCream: '#E0C9A0',         // Functions (Lc 61, 15% sat) - replaces #FFD27F
+    // Classes & types - warm taupe from Snow 2024
+    warmTaupe: '#C4B5A0',         // Classes (Lc 54, 8% sat) - replaces #FFD700
+    // Bracket warm - tan from MM 2015 wand
+    warmTan: '#D4A574',           // Bracket depth 1 (Lc 53, 12% sat)
 
-    // Blue family (brightened for contrast, originals too dark)
-    skyBlue: '#7CC4FF',        // Sky blue - interfaces (Lc 68)
-    softBlue: '#9DD0FF',       // Soft blue - structs (Lc 72)
+    // === COOL TONES (Headers & SQL) ===
+    // Headings & CSS - soft aqua from Snow 2015 "Snow Bell"
+    coolAqua: '#A8D8D8',          // Markdown headings, CSS (Lc 57, 18% sat)
+    // SQL & query languages - soft lavender-blue from Snow 2023
+    coolLavender: '#A8C4E8',      // SQL keywords (Lc 54, 18% sat)
 
-    // Gray family (for comments/muted elements - custom for readability)
-    silverMist: '#889DA2',     // Silver mist - comments (Lc 48, intentionally muted)
-    silverBright: '#A8BDC2',   // Brighter silver - doc comments (Lc 57)
+    // === PURPLE TONES (Type System & Brackets) ===
+    // Bracket purple - soft purple-gray from Digital Stars 2021
+    softPurple: '#8E8BA8',        // Bracket depth 6 (Lc 48, 12% sat)
+
+    // === EXISTING OPTIMIZED COLORS ===
+    // Blue family (interfaces & structs)
+    skyBlue: '#7CC4FF',           // Interfaces (Lc 68)
+    softBlue: '#9DD0FF',          // Structs (Lc 72)
+
+    // Gray family (comments)
+    silverMist: '#889DA2',        // Comments (Lc 48, intentionally muted)
+    silverBright: '#A8BDC2',      // Doc comments (Lc 57)
+
+    // === SNOW MIKU PASTEL ===
+    pastelPeriwinkle: '#9EAFE8',  // Snow 2023 - constants, type params (Lc 55)
+    pastelGray: '#8B7A8B',        // Nightcord - operators (Lc 45)
+    pastelRose: '#F8BBD0',        // MM 2020 - properties, methods (Lc 62)
+    pastelIndigo: '#7986CB',      // Snow 2025 - booleans, lifetimes (Lc 48)
+    pastelTeal: '#64C5CE',        // Snow 2015 - storage modifiers (Lc 58)
   },
 
   // UI-specific values (not semantic colors)

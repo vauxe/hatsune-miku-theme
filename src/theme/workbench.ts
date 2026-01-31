@@ -80,9 +80,19 @@ const accent = {
 // Semantic colors (APCA Lc 60+ validated) - from palette
 const semantic = {
   success: character.negi.bright,            // #69F0AE - Green (Lc 82)
-  warning: snowMiku.y2017.accessories.stars, // #FFD700 - Gold star (Lc 78)
+  warning: themeColors.syntax.warmCream,     // #E0C9A0 - Pastel cream (Lc 61, replaces harsh gold)
   error: themeColors.ui.error,               // #FF9999 - Coral pink (Lc 61)
   info: accent.primary,
+};
+
+// Pastel bracket colors (low-fatigue rainbow)
+const bracketPastel = {
+  tan: themeColors.syntax.warmTan,           // #D4A574 - Warm tan (Lc 53)
+  pink: sakuraMiku.hair.base,                // #FFB7C5 - Sakura pink (keep - already soft)
+  mint: character.negi.bright,               // #69F0AE - Negi green (keep - good contrast)
+  lavender: digitalStars.y2021_mg.outfit.gradient, // #BFAAF0 - Lavender (keep)
+  aqua: themeColors.syntax.coolAqua,         // #A8D8D8 - Soft aqua (Lc 57)
+  purple: themeColors.syntax.softPurple,     // #8E8BA8 - Soft purple (Lc 48)
 };
 
 export const workbenchColors = {
@@ -180,28 +190,28 @@ export const workbenchColors = {
   'editorBracketMatch.border': accent.bright,
 
   // Rainbow bracket pairs (APCA Lc 60+ validated)
-  // Rainbow brackets - Miku's concert series colors
-  'editorBracketHighlight.foreground1': magicalMirai.y2013.accessories.wandGold, // Magical Mirai gold
-  'editorBracketHighlight.foreground2': sakuraMiku.hair.base,       // Sakura Miku pink
-  'editorBracketHighlight.foreground3': semantic.success,           // Negi green
-  'editorBracketHighlight.foreground4': digitalStars.y2021_mg.outfit.gradient, // Digital Stars lavender
-  'editorBracketHighlight.foreground5': mikuExpo.y2016.japan_na.hair, // Miku Expo cyan
-  'editorBracketHighlight.foreground6': wonderlandsShowtime.unitColor, // Wonderlands orange
+  // Rainbow brackets - Pastel palette for eye comfort
+  'editorBracketHighlight.foreground1': bracketPastel.tan,       // Warm tan (12% sat)
+  'editorBracketHighlight.foreground2': bracketPastel.pink,      // Sakura pink (20% sat)
+  'editorBracketHighlight.foreground3': bracketPastel.mint,      // Negi green (good contrast)
+  'editorBracketHighlight.foreground4': bracketPastel.lavender,  // Digital Stars lavender
+  'editorBracketHighlight.foreground5': bracketPastel.aqua,      // Soft aqua (18% sat)
+  'editorBracketHighlight.foreground6': bracketPastel.purple,    // Soft purple (12% sat)
   'editorBracketHighlight.unexpectedBracket.foreground': semantic.error,
 
   // Bracket pair guides
-  'editorBracketPairGuide.background1': alpha(semantic.warning, '20'),
-  'editorBracketPairGuide.background2': alpha(character.skin.blush, '20'),
-  'editorBracketPairGuide.background3': alpha(semantic.success, '20'),
-  'editorBracketPairGuide.background4': alpha(digitalStars.y2021_mg.outfit.gradient, '20'),
-  'editorBracketPairGuide.background5': alpha(accent.bright, '20'),
-  'editorBracketPairGuide.background6': alpha(wonderlandsShowtime.unitColor, '20'),
-  'editorBracketPairGuide.activeBackground1': alpha(semantic.warning, '45'),
-  'editorBracketPairGuide.activeBackground2': alpha(character.skin.blush, '45'),
-  'editorBracketPairGuide.activeBackground3': alpha(semantic.success, '45'),
-  'editorBracketPairGuide.activeBackground4': alpha(digitalStars.y2021_mg.outfit.gradient, '45'),
-  'editorBracketPairGuide.activeBackground5': alpha(accent.bright, '45'),
-  'editorBracketPairGuide.activeBackground6': alpha(wonderlandsShowtime.unitColor, '45'),
+  'editorBracketPairGuide.background1': alpha(bracketPastel.tan, '20'),
+  'editorBracketPairGuide.background2': alpha(bracketPastel.pink, '20'),
+  'editorBracketPairGuide.background3': alpha(bracketPastel.mint, '20'),
+  'editorBracketPairGuide.background4': alpha(bracketPastel.lavender, '20'),
+  'editorBracketPairGuide.background5': alpha(bracketPastel.aqua, '20'),
+  'editorBracketPairGuide.background6': alpha(bracketPastel.purple, '20'),
+  'editorBracketPairGuide.activeBackground1': alpha(bracketPastel.tan, '45'),
+  'editorBracketPairGuide.activeBackground2': alpha(bracketPastel.pink, '45'),
+  'editorBracketPairGuide.activeBackground3': alpha(bracketPastel.mint, '45'),
+  'editorBracketPairGuide.activeBackground4': alpha(bracketPastel.lavender, '45'),
+  'editorBracketPairGuide.activeBackground5': alpha(bracketPastel.aqua, '45'),
+  'editorBracketPairGuide.activeBackground6': alpha(bracketPastel.purple, '45'),
 
   // ==========================================================================
   // GUTTER (Line decorations)

@@ -25,23 +25,30 @@ import {
 // ============================================================================
 
 const syntax = {
-  // Core syntax - using palette references
+  // === CORE SYNTAX - Complete Pastel System ===
   keyword: character.hair.highlight,       // #5DE4DB - Bright teal
   keywordAlt: wonderlandsShowtime.hair.highlight, // #4DD0E1 - Lighter teal
-  function: themeColors.syntax.gold,       // #FFD27F - Warm gold (APCA-optimized)
+  storageModifier: themeColors.syntax.pastelTeal, // #64C5CE - Snow 2015 (distinct from keywords)
+
+  // Callable - WARM CREAM (replaces gold #FFD27F)
+  function: themeColors.syntax.warmCream,  // #E0C9A0 - Snow 2024 cream (Lc 61, 15% sat)
   functionBuiltin: character.hair.highlight, // #5DE4DB - Bright teal
-  method: character.skin.blush,            // #FFB8C8 - Blush pink
+  method: themeColors.syntax.pastelRose,   // #F8BBD0 - MM 2020 winter (low-fatigue)
+  magicMethod: themeColors.syntax.pastelRose, // #F8BBD0 - Python __dunder__ methods
+
+  // Literals
   string: character.negi.stalk,            // #9CCC65 - Negi stalk green
   stringTemplate: character.negi.white,    // #E8F5E9 - Lighter green
   number: character.negi.bright,           // #69F0AE - Bright mint
-  boolean: leoNeed.hair.highlight,         // #FF80AB - Vibrant pink
-  operator: wonderlandsShowtime.unitColor, // #FF9900 - Pop orange
+  boolean: themeColors.syntax.pastelIndigo, // #7986CB - Snow 2025 (low-fatigue)
+  operator: themeColors.syntax.pastelGray, // #8B7A8B - Nightcord (low-fatigue)
   punctuation: character.skirt.accessory,  // #A1B3B6 - Wallet chain silver
 
-  // Types and structures
-  class: snowMiku.y2017.accessories.stars, // #FFD700 - Gold star
+  // Types - WARM TAUPE for classes (replaces gold #FFD700)
+  class: themeColors.syntax.warmTaupe,     // #C4B5A0 - Snow 2024 taupe (Lc 54, 8% sat)
   interface: themeColors.syntax.skyBlue,   // #7CC4FF - Sky blue (APCA-optimized)
   type: character.hair.tip,                // #B2EBE7 - Soft teal
+  typeParameter: themeColors.syntax.pastelPeriwinkle, // #9EAFE8 - Snow 2023 (distinct)
   enum: digitalStars.y2023.outfit.jacket,  // #DBAFEB - Lavender hoodie
   struct: themeColors.syntax.softBlue,     // #9DD0FF - Soft blue (APCA-optimized)
   namespace: digitalStars.y2021_mg.outfit.gradient, // #BFAAF0 - Soft lavender
@@ -49,15 +56,20 @@ const syntax = {
   // Variables
   variable: snowMiku.y2010.outfit.shirt,   // #E8EEF2 - Snow white
   parameter: character.hair.tip,           // #B2EBE7 - Soft teal
-  property: character.skin.blush,          // #FFB8C8 - Blush pink
-  constant: snowMiku.y2017.accessories.stars, // #FFD700 - Gold star
+  property: themeColors.syntax.pastelRose, // #F8BBD0 - MM 2020 winter (low-fatigue)
+  constant: themeColors.syntax.pastelPeriwinkle, // #9EAFE8 - Snow 2023 (low-fatigue)
 
   // Meta
   comment: themeColors.syntax.silverMist,  // #889DA2 - Silver mist
   commentDoc: themeColors.syntax.silverBright, // #A8BDC2 - Brighter silver
   decorator: digitalStars.y2021_mg.outfit.gradient, // #BFAAF0 - Soft lavender
+  lifetime: themeColors.syntax.pastelIndigo, // #7986CB - Snow 2025 (Rust lifetimes)
   tag: character.hair.highlight,           // #5DE4DB - Bright teal
   attribute: character.hair.bright,        // #7FEDE5 - Bright teal-white
+
+  // Headings & Special sections - COOL AQUA (replaces gold #FFD700)
+  heading: themeColors.syntax.coolAqua,    // #A8D8D8 - Snow 2015 aqua (Lc 57, 18% sat)
+  sqlKeyword: themeColors.syntax.coolLavender, // #A8C4E8 - Snow 2023 lavender (Lc 54)
 
   // Special
   regex: character.negi.bright,            // #69F0AE - Bright mint
@@ -131,7 +143,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Storage Modifiers',
     scope: ['storage.modifier', 'storage.modifier.async', 'storage.modifier.static'],
     settings: {
-      foreground: syntax.keywordAlt,
+      foreground: syntax.storageModifier,
     },
   },
   {
@@ -284,7 +296,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Type Parameters',
     scope: ['entity.name.type.parameter'],
     settings: {
-      foreground: syntax.enum,
+      foreground: syntax.typeParameter,
     },
   },
   {
@@ -514,7 +526,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markdown Headings',
     scope: ['markup.heading', 'entity.name.section.markdown'],
     settings: {
-      foreground: syntax.class,
+      foreground: syntax.heading,
       fontStyle: 'bold',
     },
   },
@@ -714,7 +726,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'CSS ID Selector',
     scope: ['entity.other.attribute-name.id.css'],
     settings: {
-      foreground: syntax.class,
+      foreground: syntax.heading,
     },
   },
 
@@ -812,7 +824,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Python Magic Methods',
     scope: ['support.function.magic.python'],
     settings: {
-      foreground: syntax.decorator,
+      foreground: syntax.magicMethod,
     },
   },
   {
@@ -869,7 +881,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Rust Lifetime',
     scope: ['storage.modifier.lifetime.rust', 'entity.name.lifetime.rust'],
     settings: {
-      foreground: syntax.decorator,
+      foreground: syntax.lifetime,
     },
   },
   {
@@ -958,7 +970,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Makefile Target',
     scope: ['entity.name.function.target.makefile'],
     settings: {
-      foreground: syntax.class,
+      foreground: syntax.heading,
     },
   },
   {
@@ -1133,7 +1145,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markup Changed',
     scope: ['markup.changed'],
     settings: {
-      foreground: snowMiku.y2017.accessories.stars,
+      foreground: syntax.heading,  // #A8D8D8 - Soft aqua (low-fatigue)
     },
   },
 
