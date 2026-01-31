@@ -18,11 +18,16 @@
 
 import * as path from 'path';
 
-// Import from modules
 import {
   BG_KEYS,
   LABELS,
   EXPECTED_DIM_ELEMENTS,
+  PRIMARY_SYNTAX_ELEMENTS,
+  APCA_THRESHOLDS,
+  DISTINCTION_THRESHOLDS,
+  CHROMA_THRESHOLDS,
+  ACCENT_CHROMA_ELEMENTS,
+  SECONDARY_CHROMA_ELEMENTS,
   ADJACENCY_PAIRS,
   SYMBOL_DISCRIMINATION_PAIRS,
   STATUS_DISTINCTION_PAIRS,
@@ -30,9 +35,14 @@ import {
   STATE_DISTINCTION_PAIRS,
   BRACKET_DISTINCTION_PAIRS,
   TERMINAL_DISTINCTION_PAIRS,
-  DIFF_DISTINCTION_PAIRS,
+  MARKDOWN_ALERT_DISTINCTION_PAIRS,
+  TESTING_DISTINCTION_PAIRS,
+  DEBUG_ICON_DISTINCTION_PAIRS,
+  SCM_GRAPH_DISTINCTION_PAIRS,
+  TERMINAL_SYMBOL_DISTINCTION_PAIRS,
+  EXTENSION_ICON_DISTINCTION_PAIRS,
 } from './readability-constants';
-import type { BgKeyName } from './readability-constants';
+import type { BgKeyName, ChromaTier } from './readability-constants';
 
 import {
   isValidHex,
@@ -66,6 +76,19 @@ import type {
 // ANALYSIS HELPERS
 // =============================================================================
 
+/**
+ * Analyze a foreground color against a background for APCA contrast.
+ *
+ * Handles transparency by blending semi-transparent foregrounds with the
+ * background before calculating contrast. This matches how VS Code renders
+ * transparent colors.
+ *
+ * @param name - Display name for the color (used in output and expectedDim lookup)
+ * @param fgValue - Foreground color with fallback flag and source info
+ * @param bg - Background color (must be opaque hex)
+ * @param bgKey - VS Code API key for the background (shown in output for debugging)
+ * @returns Analysis result with Lc value, level, and pass/fail status
+ */
 function analyze(name: string, fgValue: ColorValue, bg: string, bgKey = ''): ColorResult {
   const fg = fgValue.color;
   const alpha = extractAlpha(fg);
@@ -73,16 +96,22 @@ function analyze(name: string, fgValue: ColorValue, bg: string, bgKey = ''): Col
   const effectiveColor = alpha < 1 ? blendAlpha(baseColor, bg, alpha) : baseColor;
   const result = getAPCAContrast(effectiveColor, bg);
   const alphaStr = alpha < 1 ? `${Math.round(alpha * 100)}%` : undefined;
+
+  // Determine APCA tier based on element type
+  const isPrimary = PRIMARY_SYNTAX_ELEMENTS.has(name);
+  const isExpectedDim = EXPECTED_DIM_ELEMENTS.has(name);
+  const apcaTier = isExpectedDim ? 'tertiary' : isPrimary ? 'primary' : 'secondary';
+
   return {
     name,
     color: effectiveColor,
     bgColor: bg,
     bgKey,
     lc: result.lc,
-    analysis: analyzeAPCA(result),
+    analysis: analyzeAPCA(result, apcaTier),
     alpha: alphaStr,
     fallback: fgValue.fallback,
-    expectedDim: EXPECTED_DIM_ELEMENTS.has(name),
+    expectedDim: isExpectedDim,
     source: fgValue.source,
   };
 }
@@ -101,6 +130,20 @@ function getSourceFile(keyType: 'workbench' | 'textmate' | 'semantic'): string {
   }
 }
 
+/**
+ * Compute statistics from analysis results.
+ *
+ * Categorizes results into:
+ * - pass: Meets tier threshold (primary 80+, secondary 75+, tertiary 45+)
+ * - large: Large/Non-Text level (Lc 30-60) but NOT expectedDim - needs attention
+ * - expectedDim: Large/Non-Text level AND in EXPECTED_DIM_ELEMENTS - intentionally subtle, OK
+ * - fail: Below tier threshold and not Large/Non-Text level (includes Content level
+ *         that doesn't meet primary/secondary threshold, or Lc < 30)
+ * - missing: Color not defined in theme (fallback to editor.foreground)
+ *
+ * @param results - Array of color analysis results
+ * @returns Aggregated statistics with counts and original results
+ */
 function computeStats(results: ColorResult[]): Stats {
   const stats: Stats = { pass: 0, large: 0, expectedDim: 0, fail: 0, missing: 0, total: results.length, results };
 
@@ -186,8 +229,8 @@ function analyzeColorDistinction(
 }
 
 /** Syntax adjacency - commonly side-by-side token colors */
-const analyzeSyntaxDistinction = (syntax: Record<string, ColorValue>, comment: ColorValue, bg: string) =>
-  analyzeColorDistinction({ ...syntax, comment }, ADJACENCY_PAIRS, bg);
+const analyzeSyntaxDistinction = (syntax: Record<string, ColorValue>, bg: string) =>
+  analyzeColorDistinction(syntax, ADJACENCY_PAIRS, bg);
 
 /** Symbol icons - autocomplete, outline, breadcrumbs */
 const analyzeSymbolDistinction = (symbols: Record<string, ColorValue>, bg: string) =>
@@ -213,9 +256,31 @@ const analyzeBracketDistinction = (brackets: Record<string, ColorValue>, bg: str
 const analyzeTerminalDistinction = (terminal: Record<string, ColorValue>, bg: string) =>
   analyzeColorDistinction(terminal, TERMINAL_DISTINCTION_PAIRS, bg);
 
-/** Diff distinction - added vs deleted for code review */
-const analyzeDiffDistinction = (git: Record<string, ColorValue>, bg: string) =>
-  analyzeColorDistinction(git, DIFF_DISTINCTION_PAIRS, bg);
+// NOTE: analyzeDiffDistinction removed - was redundant with analyzeGitDistinction
+
+/** Markdown alert distinction - note/tip/warning/etc */
+const analyzeMarkdownAlertDistinction = (alerts: Record<string, ColorValue>, bg: string) =>
+  analyzeColorDistinction(alerts, MARKDOWN_ALERT_DISTINCTION_PAIRS, bg);
+
+/** Testing icon distinction - pass/fail/error states */
+const analyzeTestingDistinction = (testing: Record<string, ColorValue>, bg: string) =>
+  analyzeColorDistinction(testing, TESTING_DISTINCTION_PAIRS, bg);
+
+/** Debug icon distinction - breakpoint states, toolbar actions */
+const analyzeDebugIconDistinction = (debug: Record<string, ColorValue>, bg: string) =>
+  analyzeColorDistinction(debug, DEBUG_ICON_DISTINCTION_PAIRS, bg);
+
+/** SCM graph distinction - branch visualization colors */
+const analyzeScmGraphDistinction = (scm: Record<string, ColorValue>, bg: string) =>
+  analyzeColorDistinction(scm, SCM_GRAPH_DISTINCTION_PAIRS, bg);
+
+/** Terminal symbol distinction - shell integration icons */
+const analyzeTerminalSymbolDistinction = (symbols: Record<string, ColorValue>, bg: string) =>
+  analyzeColorDistinction(symbols, TERMINAL_SYMBOL_DISTINCTION_PAIRS, bg);
+
+/** Extension icon distinction - marketplace icons */
+const analyzeExtensionIconDistinction = (icons: Record<string, ColorValue>, bg: string) =>
+  analyzeColorDistinction(icons, EXTENSION_ICON_DISTINCTION_PAIRS, bg);
 
 // =============================================================================
 // OUTPUT FORMATTING (Plain text - one line per issue)
@@ -223,22 +288,24 @@ const analyzeDiffDistinction = (git: Record<string, ColorValue>, bg: string) =>
 
 /**
  * Format a contrast issue as a single line:
- * CONTRAST file:key Lc=X need=60 bg=background.key
+ * CONTRAST file:key Lc=X need=Y bg=background.key
  */
 function formatContrastLine(r: ColorResult): string {
   const file = getSourceFile(r.source?.type ?? 'workbench');
   const key = r.source?.key ?? 'unknown';
   const lc = Math.round(Math.abs(r.lc) * 10) / 10;
-  const need = r.expectedDim ? 30 : 60;
+  // Determine threshold based on element type
+  const isPrimary = PRIMARY_SYNTAX_ELEMENTS.has(r.name);
+  const need = isPrimary ? APCA_THRESHOLDS.primary : APCA_THRESHOLDS.secondary;
   return `CONTRAST ${file}:${key} Lc=${lc} need=${need} bg=${r.bgKey}`;
 }
 
 /**
  * Format a distinction issue as a single line:
- * DISTINCTION category pair1↔pair2 ΔE=X need=10
+ * DISTINCTION category pair1↔pair2 ΔE=X need=Y
  */
 function formatDistinctionLine(category: string, p: DistinctionPair): string {
-  return `DISTINCTION ${category} ${p.name1}↔${p.name2} ΔE=${p.deltaE.toFixed(1)} need=5`;
+  return `DISTINCTION ${category} ${p.name1}↔${p.name2} ΔE=${p.deltaE.toFixed(1)} need=${DISTINCTION_THRESHOLDS.standard}`;
 }
 
 /**
@@ -251,22 +318,41 @@ interface ChromaResult {
   icon: string;
   level: string;
   pass: boolean;
+  failReason?: 'too-low' | 'too-high';
+  tier: ChromaTier;
 }
 
 /**
- * Analyze chroma of syntax colors for eye fatigue
- * Uses LCH Chroma (C*) which is perceptually uniform across hues
+ * Determine chroma tier for an element.
+ * - Accent: errors, warnings, brackets, git status - can be vibrant
+ * - Secondary: comments, punctuation - can be muted
+ * - Primary: everything else - balanced
  */
-function analyzeSyntaxChroma(syntax: Record<string, ColorValue>): ChromaResult[] {
+function getChromaTier(name: string): ChromaTier {
+  if (ACCENT_CHROMA_ELEMENTS.has(name)) return 'accent';
+  if (SECONDARY_CHROMA_ELEMENTS.has(name)) return 'secondary';
+  return 'primary';
+}
+
+/**
+ * Analyze chroma of colors for comfortable extended viewing.
+ * Uses LCH Chroma (C*) which is perceptually uniform across hues.
+ * Applies tier-specific thresholds based on element type.
+ *
+ * @param colors - Color record to analyze (syntax, git, brackets, terminal, etc.)
+ */
+function analyzeColorChroma(colors: Record<string, ColorValue>): ChromaResult[] {
   const results: ChromaResult[] = [];
 
-  for (const [name, cv] of Object.entries(syntax)) {
+  for (const [name, cv] of Object.entries(colors)) {
     if (cv.fallback) continue;
 
     const chroma = getChroma(cv.color);
     if (chroma === null) continue;
 
-    const analysis = analyzeChroma(chroma);
+    const tier = getChromaTier(name);
+    const analysis = analyzeChroma(chroma, tier);
+
     results.push({
       name,
       color: cv.color,
@@ -274,6 +360,8 @@ function analyzeSyntaxChroma(syntax: Record<string, ColorValue>): ChromaResult[]
       icon: analysis.icon,
       level: analysis.level,
       pass: analysis.pass,
+      failReason: analysis.failReason,
+      tier,
     });
   }
 
@@ -283,16 +371,25 @@ function analyzeSyntaxChroma(syntax: Record<string, ColorValue>): ChromaResult[]
 
 /**
  * Format a chroma issue as a single line:
- * CHROMA element color C*=X level
+ * CHROMA element color C*=X tier=T need=min-max reason
  */
 function formatChromaLine(r: ChromaResult): string {
-  return `CHROMA ${r.name} ${r.color} C*=${r.chroma} ${r.level}`;
+  const { min, max } = CHROMA_THRESHOLDS[r.tier];
+  const reason = r.failReason === 'too-low' ? 'too-gray' : 'too-vivid';
+  return `CHROMA ${r.name} ${r.color} C*=${r.chroma} tier=${r.tier} need=${min}-${max} ${reason}`;
 }
 
 // =============================================================================
 // MAIN ANALYSIS
 // =============================================================================
 
+/**
+ * Process a section of color results for output.
+ *
+ * @param results - Color analysis results for this section
+ * @param title - Section title (e.g., "SYNTAX", "WIDGETS")
+ * @returns Section data with title, results, and computed statistics
+ */
 function processSection(
   results: ColorResult[],
   title: string
@@ -301,6 +398,27 @@ function processSection(
   return { title, results, stats };
 }
 
+/**
+ * Run full readability analysis on a VS Code theme.
+ *
+ * Performs three types of analysis:
+ * 1. **APCA Contrast**: Tests foreground/background pairs for readability
+ *    - Pass threshold: Lc ≥ 60 (Content level)
+ *    - Tests syntax colors, UI elements, widgets across all backgrounds
+ *
+ * 2. **Color Distinction (ΔE00)**: Tests that related colors are distinguishable
+ *    - Threshold: ΔE ≥ 15 for all pairs (clear distinction, zero effort)
+ *
+ * 3. **Chroma Analysis**: Tests syntax colors for eye fatigue risk
+ *    - Pass threshold: C* 25-50
+ *    - Too low lacks color identity, too high causes eye strain
+ *
+ * @param themePath - Path to VS Code theme JSON file
+ * @param options - Output options:
+ *   - issuesOnly: Suppress output if no issues found
+ *   - verbose: Show all results, not just issues
+ * @returns Aggregated statistics across all sections
+ */
 function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly: false, verbose: false }): Stats {
   const theme = loadTheme(themePath);
   const c = extractColors(theme);
@@ -621,16 +739,26 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Match BG', c.fg, 'bracketMatch'), // Text on bracket match highlight
   ], LABELS.sectionBrackets);
 
-  // Terminal - foreground + key ANSI colors + context backgrounds
+  // Terminal - all 16 ANSI colors + context backgrounds
+  // Note: Terminal foreground already tested in Workbench UI section as 'Terminal'
   const terminalResults: ColorResult[] = [
-    // Primary foreground
-    a('Foreground', c.ui.terminal, 'terminal'),
-    // Key ANSI colors (simplified from 16 to 6 critical colors)
+    // Standard ANSI colors (8 base colors)
+    a('Black', c.terminal.ansiBlack, 'terminal'),
     a('Red', c.terminal.ansiRed, 'terminal'),
     a('Green', c.terminal.ansiGreen, 'terminal'),
     a('Yellow', c.terminal.ansiYellow, 'terminal'),
+    a('Blue', c.terminal.ansiBlue, 'terminal'),
+    a('Magenta', c.terminal.ansiMagenta, 'terminal'),
     a('Cyan', c.terminal.ansiCyan, 'terminal'),
     a('White', c.terminal.ansiWhite, 'terminal'),
+    // Bright ANSI colors (8 bright variants)
+    a('Bright Black', c.terminal.ansiBrightBlack, 'terminal'),
+    a('Bright Red', c.terminal.ansiBrightRed, 'terminal'),
+    a('Bright Green', c.terminal.ansiBrightGreen, 'terminal'),
+    a('Bright Yellow', c.terminal.ansiBrightYellow, 'terminal'),
+    a('Bright Blue', c.terminal.ansiBrightBlue, 'terminal'),
+    a('Bright Magenta', c.terminal.ansiBrightMagenta, 'terminal'),
+    a('Bright Cyan', c.terminal.ansiBrightCyan, 'terminal'),
     a('Bright White', c.terminal.ansiBrightWhite, 'terminal'),
     // Context backgrounds - terminal selection and find match
     // Note: terminalSelection uses selectionForeground if defined, else terminal foreground
@@ -742,14 +870,6 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Dropdown', c.settings.dropdown, 'dropdown'),
   ], LABELS.sectionSettings);
 
-  // SCM Graph - hover labels and stats (graph lines removed as decorative)
-  section([
-    a('Hover Label', c.scm.historyHoverLabel, 'sidebar'),
-    a('Hover Add', c.scm.historyHoverAdditions, 'sidebar'),
-    a('Hover Del', c.scm.historyHoverDeletions, 'sidebar'),
-    a('History Add', c.scm.historyAdditions, 'sidebar'),
-    a('History Del', c.scm.historyDeletions, 'sidebar'),
-  ], LABELS.sectionScm);
 
   // Chat & AI - Copilot and inline chat
   section([
@@ -775,22 +895,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Source', c.debugConsole.source, 'panel'),
   ], LABELS.sectionDebugConsole);
 
-  // Note: Symbol Icons APCA section removed - icons are not readable text
-  // Symbol discrimination is still tested via Delta E below
-
-  // Charts - axis labels, legends (text, not decorative)
-  section([
-    a('Chart Text', c.charts.foreground, 'editor'),
-  ], LABELS.sectionCharts);
-
-  // Gauge - progress indicators with text labels
-  section([
-    a('Gauge Text', c.gauge.foreground, 'editor'),
-    a('Gauge Warning', c.gauge.warningForeground, 'editor'),
-    a('Gauge Error', c.gauge.errorForeground, 'editor'),
-  ], LABELS.sectionGauge);
-
-  // Markdown Alerts - alert block text in markdown preview
+  // Markdown Alerts - GitHub-style alerts in documentation
   section([
     a('Note', c.markdownAlerts.note, 'editor'),
     a('Tip', c.markdownAlerts.tip, 'editor'),
@@ -799,17 +904,97 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Caution', c.markdownAlerts.caution, 'editor'),
   ], LABELS.sectionMarkdownAlerts);
 
-  // Agent Session - AI agent indicators
+  // Testing Icons - test runner panel
   section([
-    a('Read Indicator', c.agentSession.readIndicator, 'editor'),
-  ], LABELS.sectionAgentSession);
+    a('Passed', c.testingIcons.passed, 'sidebar'),
+    a('Failed', c.testingIcons.failed, 'sidebar'),
+    a('Errored', c.testingIcons.errored, 'sidebar'),
+    a('Queued', c.testingIcons.queued, 'sidebar'),
+    a('Unset', c.testingIcons.unset, 'sidebar'),
+    a('Skipped', c.testingIcons.skipped, 'sidebar'),
+    a('Run Action', c.testingIcons.runAction, 'sidebar'),
+  ], LABELS.sectionTestingIcons);
+
+  // Debug Icons - breakpoints and toolbar
+  section([
+    a('Breakpoint', c.debugIcons.breakpoint, 'editor'),
+    a('BP Disabled', c.debugIcons.breakpointDisabled, 'editor'),
+    a('BP Unverified', c.debugIcons.breakpointUnverified, 'editor'),
+    a('BP Current', c.debugIcons.breakpointCurrentStackframe, 'editor'),
+    a('BP Stackframe', c.debugIcons.breakpointStackframe, 'editor'),
+    a('Start', c.debugIcons.start, 'debugToolbar'),
+    a('Pause', c.debugIcons.pause, 'debugToolbar'),
+    a('Stop', c.debugIcons.stop, 'debugToolbar'),
+    a('Disconnect', c.debugIcons.disconnect, 'debugToolbar'),
+    a('Restart', c.debugIcons.restart, 'debugToolbar'),
+    a('Step Over', c.debugIcons.stepOver, 'debugToolbar'),
+    a('Step Into', c.debugIcons.stepInto, 'debugToolbar'),
+    a('Step Out', c.debugIcons.stepOut, 'debugToolbar'),
+    a('Continue', c.debugIcons.continue, 'debugToolbar'),
+    a('Step Back', c.debugIcons.stepBack, 'debugToolbar'),
+  ], LABELS.sectionDebugIcons);
+
+  // SCM Graph - git history visualization
+  section([
+    a('Branch 1', c.scmGraph.foreground1, 'sidebar'),
+    a('Branch 2', c.scmGraph.foreground2, 'sidebar'),
+    a('Branch 3', c.scmGraph.foreground3, 'sidebar'),
+    a('Branch 4', c.scmGraph.foreground4, 'sidebar'),
+    a('Branch 5', c.scmGraph.foreground5, 'sidebar'),
+    a('Additions', c.scmGraph.additions, 'sidebar'),
+    a('Deletions', c.scmGraph.deletions, 'sidebar'),
+    a('Label', c.scmGraph.label, 'sidebar'),
+    a('Ref Color', c.scmGraph.refColor, 'sidebar'),
+  ], LABELS.sectionScmGraph);
+
+  // Terminal Symbols - shell integration icons
+  section([
+    a('File', c.terminalSymbols.file, 'terminal'),
+    a('Folder', c.terminalSymbols.folder, 'terminal'),
+    a('Symlink File', c.terminalSymbols.symbolicLinkFile, 'terminal'),
+    a('Symlink Folder', c.terminalSymbols.symbolicLinkFolder, 'terminal'),
+    a('Branch', c.terminalSymbols.branch, 'terminal'),
+    a('Commit', c.terminalSymbols.commit, 'terminal'),
+    a('Tag', c.terminalSymbols.tag, 'terminal'),
+    a('Remote', c.terminalSymbols.remote, 'terminal'),
+    a('Stash', c.terminalSymbols.stash, 'terminal'),
+    a('Pull Request', c.terminalSymbols.pullRequest, 'terminal'),
+    a('PR Done', c.terminalSymbols.pullRequestDone, 'terminal'),
+    a('Option', c.terminalSymbols.option, 'terminal'),
+    a('Option Value', c.terminalSymbols.optionValue, 'terminal'),
+    a('Argument', c.terminalSymbols.argument, 'terminal'),
+    a('Method', c.terminalSymbols.method, 'terminal'),
+    a('Alias', c.terminalSymbols.alias, 'terminal'),
+    a('Flag', c.terminalSymbols.flag, 'terminal'),
+    a('Inline Suggest', c.terminalSymbols.inlineSuggestion, 'terminal'),
+  ], LABELS.sectionTerminalSymbols);
+
+  // Extension Icons - marketplace
+  section([
+    a('Star', c.extensionIcons.star, 'sidebar'),
+    a('Verified', c.extensionIcons.verified, 'sidebar'),
+    a('Pre-Release', c.extensionIcons.preRelease, 'sidebar'),
+    a('Sponsor', c.extensionIcons.sponsor, 'sidebar'),
+    a('Private', c.extensionIcons.private, 'sidebar'),
+  ], LABELS.sectionExtensionIcons);
+
+  // Notebook Status - Jupyter cell state icons
+  section([
+    a('NB Error', c.notebookStatus.error, 'editor'),
+    a('NB Running', c.notebookStatus.running, 'editor'),
+    a('NB Success', c.notebookStatus.success, 'editor'),
+  ], LABELS.sectionNotebookStatus);
+
+  // Note: Symbol Icons APCA section removed - icons are not readable text
+  // Symbol discrimination is still tested via Delta E below
+
 
   // ==========================================================================
   // COLOR DISTINCTION ANALYSIS (Delta E 2000)
   // ==========================================================================
 
   // 1. Syntax adjacency - commonly side-by-side token colors
-  const syntaxDistinction = analyzeSyntaxDistinction(c.syntax, c.syntax.comment, c.bg.editor);
+  const syntaxDistinction = analyzeSyntaxDistinction(c.syntax, c.bg.editor);
 
   // 2. Status distinction - error/warning/info severity
   const statusDistinction = analyzeStatusDistinction(c.syntax, c.bg.editor);
@@ -829,14 +1014,54 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // 7. Terminal ANSI distinction - red/green for error/success
   const terminalDistinction = analyzeTerminalDistinction(c.terminal, c.bg.terminal);
 
-  // 8. Diff distinction - added/deleted must be obviously different
-  const diffDistinction = analyzeDiffDistinction(c.git, c.bg.sidebar);
+  // 8. Markdown alert distinction - note/tip/warning/etc
+  const markdownAlertDistinction = analyzeMarkdownAlertDistinction(c.markdownAlerts, c.bg.editor);
+
+  // 9. Testing icon distinction - pass/fail/error states
+  const testingDistinction = analyzeTestingDistinction(c.testingIcons, c.bg.sidebar);
+
+  // 10. Debug icon distinction - breakpoint states, toolbar actions
+  const debugIconDistinction = analyzeDebugIconDistinction(c.debugIcons, c.bg.editor);
+
+  // 11. SCM graph distinction - branch visualization colors
+  const scmGraphDistinction = analyzeScmGraphDistinction(c.scmGraph, c.bg.sidebar);
+
+  // 12. Terminal symbol distinction - shell integration icons
+  const terminalSymbolDistinction = analyzeTerminalSymbolDistinction(c.terminalSymbols, c.bg.terminal);
+
+  // 13. Extension icon distinction - marketplace icons
+  const extensionIconDistinction = analyzeExtensionIconDistinction(c.extensionIcons, c.bg.sidebar);
 
   // ==========================================================================
   // CHROMA ANALYSIS (Eye Fatigue) - Using perceptually uniform LCH
   // ==========================================================================
 
-  const chromaResults = analyzeSyntaxChroma(c.syntax);
+  // Combine all color categories that need chroma analysis
+  // Includes: syntax (primary), git (accent), brackets (accent), terminal ANSI (accent)
+  const chromaColors: Record<string, ColorValue> = {
+    ...c.syntax,
+    // Git colors (accent tier - can be vibrant)
+    added: c.git.added,
+    modified: c.git.modified,
+    deleted: c.git.deleted,
+    conflict: c.git.conflict,
+    // Bracket colors (accent tier)
+    bracket1: c.brackets.bracket1,
+    bracket2: c.brackets.bracket2,
+    bracket3: c.brackets.bracket3,
+    bracket4: c.brackets.bracket4,
+    bracket5: c.brackets.bracket5,
+    bracket6: c.brackets.bracket6,
+    // Terminal ANSI colors (accent tier - error/success/warning/info)
+    ansiRed: c.terminal.ansiRed,
+    ansiGreen: c.terminal.ansiGreen,
+    ansiYellow: c.terminal.ansiYellow,
+    ansiBlue: c.terminal.ansiBlue,
+    ansiMagenta: c.terminal.ansiMagenta,
+    ansiCyan: c.terminal.ansiCyan,
+  };
+
+  const chromaResults = analyzeColorChroma(chromaColors);
   const chromaIssues = chromaResults.filter(r => !r.pass);
 
   // Aggregate stats
@@ -859,7 +1084,12 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     { category: 'symbol', pairs: symbolDistinction.pairs },
     { category: 'bracket', pairs: bracketDistinction.pairs },
     { category: 'terminal', pairs: terminalDistinction.pairs },
-    { category: 'diff', pairs: diffDistinction.pairs },
+    { category: 'markdown-alert', pairs: markdownAlertDistinction.pairs },
+    { category: 'testing', pairs: testingDistinction.pairs },
+    { category: 'debug-icon', pairs: debugIconDistinction.pairs },
+    { category: 'scm-graph', pairs: scmGraphDistinction.pairs },
+    { category: 'terminal-symbol', pairs: terminalSymbolDistinction.pairs },
+    { category: 'extension-icon', pairs: extensionIconDistinction.pairs },
   ];
 
   // ==========================================================================
@@ -905,7 +1135,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     output.push(`\n=== CHROMA ANALYSIS ===`);
     for (const r of chromaResults) {
       const status = r.pass ? '✓' : '✗';
-      output.push(`  ${status} ${r.name.padEnd(20)} ${r.color} C*=${r.chroma.toString().padStart(3)} ${r.level}`);
+      output.push(`  ${status} ${r.name.padEnd(20)} ${r.color} C*=${r.chroma.toString().padStart(3)} ${r.level.padEnd(11)} [${r.tier}]`);
     }
     output.push('');
   } else {
@@ -946,13 +1176,20 @@ function testColor(fg: string, bg: string, name = 'Custom'): void {
   const fgValue: ColorValue = { color: fg, fallback: false };
   const result = analyze(name, fgValue, bg);
   const chroma = getChroma(fg);
-  const chromaAnalysis = chroma !== null ? analyzeChroma(chroma) : null;
 
   console.log(`\n${name}: ${fg}${result.alpha ? ` @ ${result.alpha}` : ''} on ${bg}`);
   if (result.alpha) console.log(`  Blended: ${result.color}`);
   console.log(`  Lc ${result.lc.toFixed(1).padStart(6)} ${result.analysis.icon} ${result.analysis.level}`);
-  if (chroma !== null && chromaAnalysis) {
-    console.log(`  C* ${Math.round(chroma).toString().padStart(5)} ${chromaAnalysis.icon} ${chromaAnalysis.level}`);
+  if (chroma !== null) {
+    const c = Math.round(chroma);
+    // Show pass/fail for each tier
+    const primary = analyzeChroma(chroma, 'primary');
+    const secondary = analyzeChroma(chroma, 'secondary');
+    const accent = analyzeChroma(chroma, 'accent');
+    console.log(`  C* ${c.toString().padStart(5)} ${primary.level}`);
+    console.log(`     Primary:   ${primary.icon} (18-55)`);
+    console.log(`     Secondary: ${secondary.icon} (15-60)`);
+    console.log(`     Accent:    ${accent.icon} (15-70)`);
   }
 }
 
@@ -962,10 +1199,17 @@ function testChroma(hex: string, name = 'Custom'): void {
     console.error(`Invalid color: ${hex}`);
     return;
   }
-  const analysis = analyzeChroma(chroma);
+  const c = Math.round(chroma);
+  const primary = analyzeChroma(chroma, 'primary');
+  const secondary = analyzeChroma(chroma, 'secondary');
+  const accent = analyzeChroma(chroma, 'accent');
+
   console.log(`\n${name}: ${hex}`);
-  console.log(`  Chroma (C*): ${Math.round(chroma)} ${analysis.icon} ${analysis.level}`);
-  console.log(`  Eye fatigue: ${analysis.pass ? 'Low risk' : 'High risk - consider reducing chroma'}`);
+  console.log(`  Chroma (C*): ${c} - ${primary.level}`);
+  console.log(`  Tier results:`);
+  console.log(`    Primary   (18-55): ${primary.icon} ${primary.pass ? 'pass' : primary.failReason}`);
+  console.log(`    Secondary (15-60): ${secondary.icon} ${secondary.pass ? 'pass' : secondary.failReason}`);
+  console.log(`    Accent    (15-70): ${accent.icon} ${accent.pass ? 'pass' : accent.failReason}`);
 }
 
 // =============================================================================
@@ -976,39 +1220,104 @@ function printHelp(): void {
   console.log(`
 VS Code Theme - Readability Analysis
 
+Analyzes VS Code themes for comfortable extended coding sessions.
+Tests contrast, color distinction, and eye fatigue risk.
+
 Usage:
-  npx tsx src/tools/readability.ts --theme <path>    Analyze theme (plain text output)
+  npx tsx src/tools/readability.ts --theme <path>    Analyze theme
   npx tsx src/tools/readability.ts --test FG BG      Test single color pair
-  npx tsx src/tools/readability.ts --chroma COLOR    Test single color chroma
+  npx tsx src/tools/readability.ts --chroma COLOR    Test color chroma
 
 Options:
   --theme <path>    Path to VS Code theme JSON file
   --verbose         Show ALL results (not just issues)
   --issues-only     Only output if there are issues (silent when ready)
   --test FG BG      Test foreground on background (includes chroma)
-  --chroma COLOR    Test color chroma for eye fatigue (perceptually uniform)
+  --chroma COLOR    Test color chroma for eye fatigue
   --help, -h        Show this help
 
-Output Format (one line per issue):
-  CONTRAST file:key Lc=X need=Y bg=Z
-  DISTINCTION category pair1↔pair2 ΔE=X need=5
-  CHROMA element color C*=X level
-  SUMMARY pass=N/M fail=N distinction_fail=N chroma_fail=N ready=true|false
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ANALYSIS 1: APCA CONTRAST (Lc) - TIERED THRESHOLDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+APCA (Accessible Perceptual Contrast Algorithm) measures text readability.
+Lc = Lightness Contrast value. Both too low AND too high cause strain.
 
-LCH Chroma Levels (heuristic guidelines, no official standard):
-  ✅ Comfortable (C* 0-30)  - Ideal for primary syntax
-  ✅ Good        (C* 30-45) - Fine for extended use
-  ⚠️ Acceptable  (C* 45-60) - Use for less frequent tokens (passes)
-  ⛔ Attention   (C* 60-80) - Reserve for errors/warnings (fails)
-  ❌ Extreme     (C* 80+)   - Too harsh for any code element (fails)
+Levels (descriptive):
+  FAIL     (Lc < 30)  - Insufficient for any use
+  Non-Text (Lc 30-45) - Icons, borders only
+  Large    (Lc 45-60) - Large/bold text only
+  Content  (Lc 60-75) - Minimum for content
+  Body     (Lc 75-90) - Good for body text
+  Fluent   (Lc ≥ 90)  - Optimal for any text size
 
-Based on analysis of eye-friendly themes (Solarized ~C*20-45, Nord ~C*15-35).
-LCH Chroma is perceptually uniform unlike HSL saturation.
+Pass thresholds (conservative for marathon coding):
+  Primary   (Lc 80-95): Variables, keywords, functions, types, strings...
+  Secondary (Lc 75-95): UI elements, comments, hints
+  Tertiary  (Lc ≥ 45):  Ghost text, placeholders, inactive states
+
+Output icons: ❌ fail, ⚠️ below threshold, ✅ pass, ⚡ halation (Lc>95)
+Output: CONTRAST file:key Lc=X need=Y bg=background.key
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ANALYSIS 2: COLOR DISTINCTION (ΔE) - TIERED THRESHOLDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Delta E 2000 (ΔE00) measures perceptual color difference.
+Related colors must be distinguishable (e.g., error vs warning).
+
+Levels (descriptive):
+  Imperceptible (ΔE < 1)  - Colors look identical
+  Subtle        (ΔE 1-5)  - Barely distinguishable
+  Noticeable    (ΔE 5-10) - Can tell apart with attention
+  Clear         (ΔE 10-20)- Obviously different
+  Distinct      (ΔE 20-40)- Very different
+  Obvious       (ΔE 40+)  - Completely different
+
+Pass threshold:
+  All pairs (ΔE ≥ 15): Clear distinction with zero cognitive effort
+
+Output icons: ❌ fail (<15), ⚠️ marginal (15-20), ✅ good (20+)
+Output: DISTINCTION category pair1↔pair2 ΔE=X need=Y
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ANALYSIS 3: CHROMA / COLOR IDENTITY & EYE FATIGUE (C*)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+LCH Chroma (C*) measures color intensity.
+- Too low: Colors look gray, lack identity
+- Too high: Colors cause eye strain
+
+Levels (descriptive):
+  Gray        (C* < 15)   - Too neutral, no identity
+  Muted       (C* 15-24)  - Subdued, pastel-like
+  Comfortable (C* 25-40)  - Colorful yet easy on eyes
+  Vibrant     (C* 41-55)  - Noticeably colorful
+  Vivid       (C* 56-70)  - Bold and attention-grabbing
+  Intense     (C* 71-90)  - Very saturated
+  Extreme     (C* 91+)    - Way too harsh
+
+Tiered thresholds (balancing comfort and aesthetics):
+  Primary   (C* 18-55): Variables, keywords, types, strings - need identity
+  Secondary (C* 15-60): Comments, punctuation - can be more muted
+  Accent    (C* 15-70): Errors, warnings, brackets - can be vibrant
+
+Reference: Solarized ~C*20-45, Nord ~C*15-35, Dracula ~C*30-60
+
+Output icons: ⚪ too-gray, ✅ pass, ⛔ too-vivid, ❌ extreme (90+)
+Output: CHROMA element color C*=X tier=T need=min-max reason
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Output: SUMMARY pass=N/M fail=N distinction_fail=N chroma_fail=N ready=X
+  - pass=N/M          → Colors meeting Lc threshold / total defined colors
+  - fail=N            → Contrast failures (excluding expected dim)
+  - distinction_fail  → Color pairs too similar (ΔE below threshold)
+  - chroma_fail       → Colors outside tier threshold (primary 18-55, etc.)
+  - ready=true        → All tests pass, theme is marathon-ready
 
 Examples:
   npx tsx src/tools/readability.ts --theme ./themes/my-theme.json
-  npx tsx src/tools/readability.ts --theme ./themes/my-theme.json --issues-only
-  npx tsx src/tools/readability.ts --test "#FFFFFF" "#1A1A1A"
+  npx tsx src/tools/readability.ts --theme ./themes/my-theme.json --verbose
+  npx tsx src/tools/readability.ts --test "#86E1FC" "#1E2030"
   npx tsx src/tools/readability.ts --chroma "#FFD700"
 `);
 }

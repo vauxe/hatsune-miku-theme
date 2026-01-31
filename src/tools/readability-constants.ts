@@ -124,69 +124,46 @@ export type BgKeyName = keyof typeof BG_KEYS;
 
 export const LABELS = {
   title: 'READABILITY ANALYSIS',
-  thresholds: 'Thresholds: Fluent=Lc90  Body=Lc75  Content=Lc60  Large=Lc45',
 
-  colName: 'Name',
-  colColor: 'Color',
-  colApca: 'APCA',
-
-  // New 12-section structure
-  sectionSyntax: 'SYNTAX',                         // 1. Token colors on editor (core)
-  sectionSyntaxContext: 'SYNTAX CONTEXT',          // 2. Tokens on selection, diff, sticky, hover
-  sectionComments: 'COMMENTS',                     // 3. Comment visibility everywhere
-  sectionDiagnostics: 'DIAGNOSTICS',               // 4. Error/warning/info visibility
-  sectionUiPrimary: 'UI PRIMARY',                  // 5. Tabs, sidebar, status bar labels
-  sectionUiSecondary: 'UI SECONDARY',              // 6. Breadcrumb, inlay hints, ghost text
-  sectionWidgets: 'WIDGETS',                       // 7. Autocomplete, hover, palette, notifications
-  sectionTerminal: 'TERMINAL',                     // 8. Foreground + key ANSI colors
-  sectionGit: 'GIT DECORATIONS',                   // 9. File decorations
-  sectionButtons: 'BUTTONS & BADGES',              // 10. Button/badge text
-  sectionDebug: 'DEBUG',                           // 11. Debug panel text
-  sectionDistinction: 'DISTINCTION (ΔE00)',        // 12. All Delta E tests unified
-  sectionCodeReview: 'CODE REVIEW',               // Diff contexts, multi-file, AI suggestions
-  sectionNotebook: 'NOTEBOOKS',                   // Jupyter cells for data science
-
-  // Legacy labels (kept for backward compatibility during transition)
+  // Section labels
   sectionText: 'TEXT',
-  sectionSelected: 'SELECTED TEXT',
+  sectionSyntax: 'SYNTAX',
+  sectionSyntaxContext: 'SYNTAX CONTEXT',
+  sectionComments: 'COMMENTS',
+  sectionDiagnostics: 'DIAGNOSTICS',
   sectionNavHighlights: 'NAVIGATION HIGHLIGHTS',
+  sectionPeekEditor: 'PEEK VIEW EDITOR',
+  sectionMerge: 'MERGE CONFLICTS',
+  sectionCodeReview: 'CODE REVIEW',
+  sectionNotebook: 'NOTEBOOKS',
+  sectionSearchEditor: 'SEARCH EDITOR',
   sectionEditorUi: 'EDITOR UI',
   sectionWorkbenchUi: 'WORKBENCH UI',
+  sectionWidgets: 'WIDGETS',
+  sectionGit: 'GIT DECORATIONS',
   sectionBrackets: 'BRACKETS',
+  sectionTerminal: 'TERMINAL',
+  sectionButtons: 'BUTTONS & BADGES',
+  sectionDebug: 'DEBUG',
   sectionDebugContext: 'DEBUG CONTEXT',
   sectionLinkedEditing: 'LINKED EDITING',
   sectionLinks: 'LINKS & HIGHLIGHTS',
   sectionMisc: 'MISC UI',
-  sectionDiff: 'DIFF EDITOR',
-  sectionMerge: 'MERGE CONFLICTS',
-  sectionCursors: 'CURSORS',
-  sectionStickyScroll: 'STICKY SCROLL SYNTAX',
-  sectionPeekEditor: 'PEEK VIEW EDITOR',
   sectionInputControls: 'INPUT CONTROLS',
-  sectionScm: 'SCM GRAPH',
+  sectionSettings: 'SETTINGS EDITOR',
   sectionChat: 'CHAT & AI',
   sectionTesting: 'TESTING',
-  sectionSearchEditor: 'SEARCH EDITOR',
   sectionDebugConsole: 'DEBUG CONSOLE',
-  sectionSymbolIcons: 'SYMBOL ICONS',
-  sectionSettings: 'SETTINGS EDITOR',
-  sectionCharts: 'CHARTS',
-  sectionGauge: 'GAUGE',
+  // New sections
   sectionMarkdownAlerts: 'MARKDOWN ALERTS',
-  sectionAgentSession: 'AGENT SESSION',
-  sectionSymbolDiscrimination: 'SYMBOL DISCRIMINATION (ΔE00)',
-  sectionTerminalAnsi: 'TERMINAL ANSI',
+  sectionTestingIcons: 'TESTING ICONS',
+  sectionDebugIcons: 'DEBUG ICONS',
+  sectionScmGraph: 'SCM GRAPH',
+  sectionTerminalSymbols: 'TERMINAL SYMBOLS',
+  sectionExtensionIcons: 'EXTENSION ICONS',
+  sectionNotebookStatus: 'NOTEBOOK STATUS',
 
-  summaryPass: 'Content+ (Lc60):',
-  summaryLarge: 'Large/Non-text:',
-  summaryFail: 'Failed (<Lc30):',
-
-  verdictReady: 'MARATHON-READY',
-  verdictWarning: 'Some colors below Lc60 - may cause eye strain',
-  verdictFail: 'Fix failed colors before marathon use',
-
-  unexpectedPolarity: 'Unexpected polarity:',
-
+  // Error messages
   errThemeRequired: 'Error: --theme <path> is required.',
   errThemeNotFound: (p: string) => `Error: Theme file not found: ${p}`,
   errInvalidTheme: (p: string, e: string) => `Error: Invalid theme JSON in ${p}: ${e}`,
@@ -199,6 +176,119 @@ export const LABELS = {
 // =============================================================================
 // APCA CONSTANTS
 // =============================================================================
+
+/**
+ * APCA contrast thresholds for different element tiers.
+ *
+ * Primary (Lc 80-95): High-frequency syntax you stare at all day
+ * Secondary (Lc 75-95): UI elements, comments, and other readable text
+ * Tertiary (Lc ≥ 45): Intentionally subdued elements
+ * Max (Lc ≤ 95): Prevents halation (text bloom) on dark backgrounds
+ */
+export const APCA_THRESHOLDS = {
+  primary: 80,    // Above body text - for primary syntax (marathon comfort)
+  secondary: 75,  // Body text level - comments need reading too
+  tertiary: 45,   // Large text level - for dim elements
+  max: 95,        // Prevents halation - pure white on black causes eye strain
+} as const;
+
+/**
+ * Primary syntax elements that require higher contrast (Lc ≥ 80).
+ * These are high-frequency semantic tokens you read constantly while coding.
+ *
+ * Note: Punctuation and operators are intentionally EXCLUDED (secondary tier).
+ * They are structural/visual aids, not semantic content - can be slightly muted
+ * for comfortable reading while still meeting body text threshold (Lc ≥ 75).
+ */
+export const PRIMARY_SYNTAX_ELEMENTS = new Set([
+  // Core tokens (appear in almost every line)
+  'Variables', 'Var Language', 'Parameters', 'Properties',
+  'Keywords', 'Storage', 'Storage Mod',
+  // Definitions
+  'Functions', 'Methods', 'Classes', 'Types', 'Interfaces',
+  'Namespaces', 'Enums', 'Enum Members', 'Type Params',
+  'Structs', 'Decorators', 'Macros',
+  // Literals
+  'Numbers', 'Strings', 'String Escape', 'Constants', 'Regexp',
+  // Markup/Web
+  'Tags', 'Attributes', 'Links',
+  // Markup content (Markdown - readable text)
+  'Markup Heading', 'Markup Bold', 'Markup Italic', 'Markup Code', 'Markup Quote',
+  // Support (library/framework calls)
+  'Support Func',
+  // Error indicators (must be clearly visible)
+  'Invalid', 'Deprecated',
+  // Primary text
+  'Primary', 'Global',
+]);
+
+/**
+ * Distinction threshold - single tier for all color pairs.
+ *
+ * ΔE ≥ 15: All pairs must be clearly distinct with zero cognitive effort.
+ * This ensures instant recognition for both syntax colors and safety-critical pairs.
+ */
+export const DISTINCTION_THRESHOLDS = {
+  critical: 15,  // Same as standard - unified threshold
+  standard: 15,  // Clear distinction - no effort to tell apart
+} as const;
+
+/**
+ * Critical distinction pairs (legacy - now all pairs use same threshold).
+ * Kept for reference of safety-critical colors.
+ */
+export const CRITICAL_DISTINCTION_PAIRS = new Set([
+  'error↔warning',
+  'error↔info',
+  'added↔deleted',
+  'added↔modified',
+  'modified↔deleted',
+  'ansiRed↔ansiGreen',
+]);
+
+/**
+ * Chroma thresholds - tiered for different element types.
+ *
+ * Primary (C* 18-55): Core syntax - need color identity, comfortable reading
+ * Secondary (C* 15-60): Comments, UI - can be more muted or slightly vibrant
+ * Accent (C* 15-70): Errors, warnings, brackets - can stand out more
+ *
+ * Based on eye-friendly themes: Solarized ~C*20-45, Nord ~C*15-35.
+ */
+export const CHROMA_THRESHOLDS = {
+  primary: { min: 18, max: 55 },    // Core syntax - allows Nord-style muted palettes
+  secondary: { min: 15, max: 60 },  // Comments, UI - more permissive
+  accent: { min: 15, max: 70 },     // Errors, highlights - can be vibrant
+} as const;
+
+export type ChromaTier = keyof typeof CHROMA_THRESHOLDS;
+
+/**
+ * Accent elements - can have higher chroma for attention-grabbing.
+ */
+export const ACCENT_CHROMA_ELEMENTS = new Set([
+  'error', 'warning', 'info',
+  'invalid', 'deprecated',
+  'added', 'modified', 'deleted', 'conflict',
+  'bracket1', 'bracket2', 'bracket3', 'bracket4', 'bracket5', 'bracket6',
+  'ansiRed', 'ansiGreen', 'ansiYellow', 'ansiBlue', 'ansiMagenta', 'ansiCyan',
+  'link', 'markupHeading',
+]);
+
+/**
+ * Secondary chroma elements - can be more muted (C* 15-60).
+ *
+ * Note: Punctuation and operators are here AND excluded from PRIMARY_SYNTAX_ELEMENTS.
+ * This is intentional - they are structural aids that:
+ * - Need good contrast (Lc ≥ 75, secondary tier) but not maximum (Lc ≥ 80)
+ * - Can be muted in color (lower chroma) to reduce visual noise
+ * This aligns with themes like Nord and Solarized where punctuation fades slightly.
+ */
+export const SECONDARY_CHROMA_ELEMENTS = new Set([
+  'comment', 'docComment',
+  'punctuation', 'operator',
+]);
+
 
 // APCA constants (APCA-W3 0.0.98G-4g)
 // Reference: https://github.com/Myndex/SAPC-APCA
@@ -266,11 +356,32 @@ export const EXPECTED_DIM_ELEMENTS = new Set([
   'Breadcrumb',      // Breadcrumb navigation (often subdued)
   'Description',     // Helper/description text
   'Chat Placeholder',// Inline chat placeholder
+  'List Deemph',     // Explicitly deemphasized list items
   // Git
   'Ignored',         // Git ignored files
   // Terminal (black colors are invisible/dim by design on dark backgrounds)
   'Black',           // Terminal black
   'Bright Black',    // Terminal dim text (ANSI bright black is gray)
+  // Icons - communicate via SHAPE not text, need only visibility (Lc≥45)
+  // Testing icons
+  'Passed', 'Failed', 'Errored', 'Queued', 'Unset', 'Skipped', 'Run Action',
+  // Debug icons
+  'Breakpoint', 'BP Disabled', 'BP Unverified', 'BP Current', 'BP Stackframe',
+  'Start', 'Pause', 'Stop', 'Disconnect', 'Restart',
+  'Step Over', 'Step Into', 'Step Out', 'Continue', 'Step Back',
+  // SCM graph (branch lines only - not text labels)
+  'Branch 1', 'Branch 2', 'Branch 3', 'Branch 4', 'Branch 5',
+  // Note: 'Label', 'Additions', 'Deletions', 'Ref Color' are TEXT, not icons - use secondary tier
+  // Terminal symbols (shell integration - ICONS only, not text labels)
+  'File', 'Folder', 'Symlink File', 'Symlink Folder',
+  'Branch', 'Commit', 'Tag', 'Remote', 'Stash',
+  'Pull Request', 'PR Done', 'Inline Suggest',
+  // Note: 'Option', 'Option Value', 'Argument', 'Method', 'Alias', 'Flag' are
+  // TEXT labels in autocomplete, not icons - use secondary tier (Lc≥75)
+  // Extension icons
+  'Star', 'Verified', 'Pre-Release', 'Sponsor', 'Private',
+  // Notebook status icons (prefixed to avoid collision with Debug Console names)
+  'NB Error', 'NB Running', 'NB Success',
 ]);
 
 // =============================================================================
@@ -422,7 +533,7 @@ export const ADJACENCY_PAIRS: Array<[string, string]> = [
   ['punctuation', 'string'],     // "${x}", template delimiters
   ['punctuation', 'number'],     // [1, 2, 3]
   ['punctuation', 'property'],   // { key: val }
-  ['punctuation', 'operator'],   // => vs = distinction
+  ['punctuation', 'operator'],   // => vs = vs ; distinction (both secondary tier)
 
   // ===== COMMENT PATTERNS (visual adjacency) =====
   ['comment', 'variable'],       // x = 5 // comment
@@ -606,22 +717,109 @@ export const BRACKET_DISTINCTION_PAIRS: Array<[string, string]> = [
 
 /**
  * Terminal ANSI distinction pairs - critical for error vs success identification
- * Red/green for pass/fail, yellow for warnings
+ * Red/green for pass/fail, yellow for warnings, blue/magenta for links/directories
  */
 export const TERMINAL_DISTINCTION_PAIRS: Array<[string, string]> = [
+  // Critical: error vs success
   ['ansiRed', 'ansiGreen'],       // Error vs success (critical)
   ['ansiYellow', 'ansiRed'],      // Warning vs error
   ['ansiYellow', 'ansiGreen'],    // Warning vs success
-  ['ansiCyan', 'ansiBlue'],       // Info colors
+  // Info colors (commonly used together)
+  ['ansiCyan', 'ansiBlue'],       // Info colors - often similar
+  ['ansiBlue', 'ansiMagenta'],    // Directories vs links (can look similar)
+  ['ansiMagenta', 'ansiRed'],     // Links vs errors
+  // Bright variants
+  ['ansiBrightRed', 'ansiBrightGreen'],   // Bright error vs success
+  ['ansiBrightBlue', 'ansiBrightCyan'],   // Bright info colors
+  ['ansiBrightBlue', 'ansiBrightMagenta'], // Bright directories vs links
+  // Normal vs emphasized
   ['ansiWhite', 'ansiBrightWhite'], // Normal vs emphasized
+  ['ansiBlack', 'ansiBrightBlack'], // Dim text levels
+];
+
+// NOTE: DIFF_DISTINCTION_PAIRS removed - was 100% redundant with GIT_DISTINCTION_PAIRS
+// All pairs (added↔deleted, added↔modified, modified↔deleted) already covered there.
+
+/**
+ * Markdown alert distinction pairs - note/tip/warning/etc need instant recognition
+ * Common in documentation (GitHub alerts, VS Code READMEs)
+ */
+export const MARKDOWN_ALERT_DISTINCTION_PAIRS: Array<[string, string]> = [
+  ['note', 'tip'],
+  ['tip', 'important'],
+  ['important', 'warning'],
+  ['warning', 'caution'],
+  ['caution', 'note'],            // Wrap-around
+  ['note', 'warning'],            // Skip pairs for extra safety
+  ['tip', 'caution'],
 ];
 
 /**
- * Diff distinction pairs - added vs removed must be obvious
- * Critical for code review workflows
+ * Testing icon distinction pairs - pass/fail/error states
+ * Critical for test runners - color ONLY conveys meaning (no font styling)
  */
-export const DIFF_DISTINCTION_PAIRS: Array<[string, string]> = [
-  ['added', 'deleted'],           // Core diff distinction
-  ['added', 'modified'],          // Git: new vs changed
-  ['modified', 'deleted'],        // Git: changed vs removed
+export const TESTING_DISTINCTION_PAIRS: Array<[string, string]> = [
+  ['passed', 'failed'],           // GREEN vs RED (CRITICAL)
+  ['failed', 'errored'],          // Both bad but different
+  ['passed', 'skipped'],          // Done vs ignored
+  ['queued', 'unset'],            // Pending states
+  ['passed', 'queued'],           // Complete vs waiting
+  ['failed', 'skipped'],          // Bad vs ignored
+];
+
+/**
+ * Debug icon distinction pairs - breakpoint states and toolbar actions
+ * Safety-critical - users must instantly know breakpoint state
+ */
+export const DEBUG_ICON_DISTINCTION_PAIRS: Array<[string, string]> = [
+  // Breakpoint states
+  ['breakpoint', 'breakpointDisabled'],
+  ['breakpoint', 'breakpointUnverified'],
+  ['breakpointDisabled', 'breakpointUnverified'],
+  ['breakpoint', 'breakpointCurrentStackframe'],
+  ['breakpointCurrentStackframe', 'breakpointStackframe'],
+  // Toolbar actions - opposite/related actions
+  ['start', 'stop'],
+  ['pause', 'continue'],
+  ['stepInto', 'stepOut'],
+  ['stepOver', 'stepBack'],
+  ['stop', 'disconnect'],
+];
+
+/**
+ * SCM graph distinction pairs - branch visualization colors
+ * Adjacent lines must be distinguishable to follow branching patterns
+ */
+export const SCM_GRAPH_DISTINCTION_PAIRS: Array<[string, string]> = [
+  ['foreground1', 'foreground2'],
+  ['foreground2', 'foreground3'],
+  ['foreground3', 'foreground4'],
+  ['foreground4', 'foreground5'],
+  ['foreground5', 'foreground1'], // Wrap-around
+  ['additions', 'deletions'],     // Diff indicators
+];
+
+/**
+ * Terminal symbol icon distinction pairs - shell integration
+ * Quick visual scanning for file/folder and git state
+ */
+export const TERMINAL_SYMBOL_DISTINCTION_PAIRS: Array<[string, string]> = [
+  ['file', 'folder'],
+  ['symbolicLinkFile', 'file'],
+  ['symbolicLinkFolder', 'folder'],
+  ['commit', 'branch'],
+  ['pullRequest', 'pullRequestDone'],
+  ['option', 'optionValue'],
+  ['argument', 'method'],
+  ['remote', 'stash'],
+  ['tag', 'branch'],
+];
+
+/**
+ * Extension icon distinction pairs - marketplace icons
+ */
+export const EXTENSION_ICON_DISTINCTION_PAIRS: Array<[string, string]> = [
+  ['star', 'verified'],
+  ['verified', 'preRelease'],
+  ['preRelease', 'sponsor'],
 ];

@@ -3,7 +3,13 @@
  * Includes RGB/hex conversions, alpha blending, APCA contrast, and Delta E 2000.
  */
 
-import { APCA } from './readability-constants';
+import {
+  APCA,
+  APCA_THRESHOLDS,
+  DISTINCTION_THRESHOLDS,
+  CHROMA_THRESHOLDS,
+  type ChromaTier,
+} from './readability-constants';
 import type {
   RGB,
   Lab,
@@ -100,25 +106,70 @@ export function getSaturation(hex: string): number | null {
 }
 
 /**
- * Analyze chroma level for eye fatigue using perceptually uniform LCH
+ * Analyze chroma level for comfortable extended reading.
  *
- * Heuristic guidelines based on analysis of popular eye-friendly themes
- * (Solarized, Nord, One Dark). No official standard exists for chroma
- * and eye fatigue.
+ * Tiered thresholds:
+ * - Primary (C* 18-55): Core syntax - need color identity
+ * - Secondary (C* 15-60): Comments, UI - can be more muted
+ * - Accent (C* 15-70): Errors, highlights - can be vibrant
  *
  * Reference points:
  * - Solarized colors: ~C* 20-45
  * - Nord palette: ~C* 15-35
  * - Pure #FF0000 red: ~C* 104
  *
- * @returns Icon and level based on LCH chroma value
+ * @param chroma - LCH chroma value (C*)
+ * @param tier - 'primary', 'secondary', or 'accent' (default: 'primary')
+ * @returns Icon, level, pass status, and fail reason if applicable
  */
-export function analyzeChroma(chroma: number): { icon: string; level: string; pass: boolean } {
-  if (chroma <= 30) return { icon: '✅', level: 'Comfortable', pass: true };
-  if (chroma <= 45) return { icon: '✅', level: 'Good', pass: true };
-  if (chroma <= 60) return { icon: '⚠️', level: 'Acceptable', pass: true };
-  if (chroma <= 80) return { icon: '⛔', level: 'Attention', pass: false };
-  return { icon: '❌', level: 'Extreme', pass: false };
+export function analyzeChroma(chroma: number, tier: ChromaTier = 'primary'): {
+  icon: string;
+  level: string;
+  pass: boolean;
+  failReason?: 'too-low' | 'too-high';
+  tier: ChromaTier;
+} {
+  // Determine descriptive level (same for all tiers)
+  let level: string;
+  if (chroma < 15) {
+    level = 'Gray';
+  } else if (chroma < 25) {
+    level = 'Muted';
+  } else if (chroma <= 40) {
+    level = 'Comfortable';
+  } else if (chroma <= 55) {
+    level = 'Vibrant';
+  } else if (chroma <= 70) {
+    level = 'Vivid';
+  } else if (chroma <= 90) {
+    level = 'Intense';
+  } else {
+    level = 'Extreme';
+  }
+
+  // Check against tier-specific thresholds
+  const { min, max } = CHROMA_THRESHOLDS[tier];
+  const tooLow = chroma < min;
+  const tooHigh = chroma > max;
+  const pass = !tooLow && !tooHigh;
+
+  // Determine icon
+  let icon: string;
+  if (tooLow) {
+    icon = '⚪';
+  } else if (tooHigh) {
+    icon = chroma > 90 ? '❌' : '⛔';
+  } else {
+    icon = '✅';
+  }
+
+  return {
+    icon,
+    level,
+    pass,
+    failReason: tooLow ? 'too-low' : tooHigh ? 'too-high' : undefined,
+    tier,
+  };
 }
 
 /**
@@ -203,16 +254,58 @@ export function getAPCAContrast(text: string, background: string): APCAResult {
   return { lc: contrast * 100, polarity };
 }
 
-export function analyzeAPCA(result: APCAResult): APCAAnalysis {
+/**
+ * Analyze APCA result with tiered pass threshold.
+ *
+ * @param result - Raw APCA calculation result
+ * @param tier - 'primary' (Lc 80-95), 'secondary' (Lc 75-95), or 'tertiary' (Lc ≥45)
+ * @returns Analysis with level and pass/fail based on tier threshold
+ */
+export function analyzeAPCA(
+  result: APCAResult,
+  tier: 'primary' | 'secondary' | 'tertiary' = 'secondary'
+): APCAAnalysis {
   const { lc, polarity } = result;
   const absLc = Math.abs(lc);
 
-  if (absLc >= 90) return { lc, level: 'Fluent', icon: '✅', pass: true, polarity };
-  if (absLc >= 75) return { lc, level: 'Body', icon: '✅', pass: true, polarity };
-  if (absLc >= 60) return { lc, level: 'Content', icon: '✅', pass: true, polarity };
-  if (absLc >= 45) return { lc, level: 'Large', icon: '⚠️', pass: false, polarity };
-  if (absLc >= 30) return { lc, level: 'Non-Text', icon: '⚠️', pass: false, polarity };
-  return { lc, level: 'FAIL', icon: '❌', pass: false, polarity };
+  // Determine level (always the same regardless of tier)
+  let level: APCAAnalysis['level'];
+  let icon: string;
+  if (absLc >= 90) {
+    level = 'Fluent';
+    icon = '✅';
+  } else if (absLc >= 75) {
+    level = 'Body';
+    icon = '✅';
+  } else if (absLc >= 60) {
+    level = 'Content';
+    icon = '✅';
+  } else if (absLc >= 45) {
+    level = 'Large';
+    icon = '⚠️';
+  } else if (absLc >= 30) {
+    level = 'Non-Text';
+    icon = '⚠️';
+  } else {
+    level = 'FAIL';
+    icon = '❌';
+  }
+
+  // Determine pass based on tier threshold (min and max)
+  const minThreshold = APCA_THRESHOLDS[tier];
+  const maxThreshold = APCA_THRESHOLDS.max;
+  const tooLow = absLc < minThreshold;
+  const tooHigh = tier !== 'tertiary' && absLc > maxThreshold; // tertiary elements can be any contrast
+  const pass = !tooLow && !tooHigh;
+
+  // Adjust icon based on pass status
+  if (tooHigh) {
+    icon = '⚡'; // Too bright - halation risk
+  } else if (tooLow && icon === '✅') {
+    icon = '⚠️'; // Below tier threshold
+  }
+
+  return { lc, level, icon, pass, polarity };
 }
 
 // =============================================================================
@@ -382,13 +475,37 @@ export function deltaE00Hex(hex1: string, hex2: string, bg?: string): number | n
 }
 
 /**
- * Get distinction level based on Delta E value
+ * Get distinction level based on Delta E value.
+ *
+ * @param dE - Delta E 2000 value
+ * @returns Level, icon, and pass status (threshold: ΔE≥15)
  */
 export function getDistinctionLevel(dE: number): { level: DistinctionLevel; icon: string; pass: boolean } {
-  if (dE < 1) return { level: 'Imperceptible', icon: '❌', pass: false };
-  if (dE < 5) return { level: 'Subtle', icon: '❌', pass: false };
-  if (dE < 10) return { level: 'Noticeable', icon: '⚠️', pass: true };
-  if (dE < 20) return { level: 'Clear', icon: '✅', pass: true };
-  if (dE < 40) return { level: 'Distinct', icon: '✅', pass: true };
-  return { level: 'Obvious', icon: '✅', pass: true };
+  let level: DistinctionLevel;
+  if (dE < 1) {
+    level = 'Imperceptible';
+  } else if (dE < 5) {
+    level = 'Subtle';
+  } else if (dE < 10) {
+    level = 'Noticeable';
+  } else if (dE < 20) {
+    level = 'Clear';
+  } else if (dE < 40) {
+    level = 'Distinct';
+  } else {
+    level = 'Obvious';
+  }
+
+  const pass = dE >= DISTINCTION_THRESHOLDS.standard;
+
+  let icon: string;
+  if (!pass) {
+    icon = '❌';
+  } else if (dE < 20) {
+    icon = '⚠️'; // Passes but not in "Distinct" range
+  } else {
+    icon = '✅';
+  }
+
+  return { level, icon, pass };
 }

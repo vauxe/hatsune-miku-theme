@@ -662,15 +662,6 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       radioInactive: getColor(theme, 'radio.inactiveForeground', fg),
       checkboxDisabled: getColor(theme, 'checkbox.disabled.foreground', fg),
     },
-    scm: {
-      // Graph line colors (foreground1-5) removed - decorative, not text
-      historyHoverLabel: getColor(theme, 'scmGraph.historyItemHoverLabelForeground', fg),
-      historyHoverAdditions: getColor(theme, 'scmGraph.historyItemHoverAdditionsForeground', fg),
-      historyHoverDeletions: getColor(theme, 'scmGraph.historyItemHoverDeletionsForeground', fg),
-      // SCM history stats ("+X -Y" text)
-      historyAdditions: getColor(theme, 'scm.historyItemAdditionsForeground', fg),
-      historyDeletions: getColor(theme, 'scm.historyItemDeletionsForeground', fg),
-    },
     chat: {
       avatar: getColor(theme, 'chat.avatarForeground', fg),
       linesAdded: getColor(theme, 'chat.linesAddedForeground', fg),
@@ -731,24 +722,6 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       checkbox: getColor(theme, 'settings.checkboxForeground', fg),
       dropdown: getColor(theme, 'settings.dropdownForeground', fg),
     },
-    charts: {
-      foreground: getColor(theme, 'charts.foreground', fg),
-    },
-    gauge: {
-      foreground: getColor(theme, 'gauge.foreground', fg),
-      warningForeground: getColor(theme, 'gauge.warningForeground', fg),
-      errorForeground: getColor(theme, 'gauge.errorForeground', fg),
-    },
-    markdownAlerts: {
-      note: getColor(theme, 'markdownAlert.note.foreground', fg),
-      tip: getColor(theme, 'markdownAlert.tip.foreground', fg),
-      important: getColor(theme, 'markdownAlert.important.foreground', fg),
-      warning: getColor(theme, 'markdownAlert.warning.foreground', fg),
-      caution: getColor(theme, 'markdownAlert.caution.foreground', fg),
-    },
-    agentSession: {
-      readIndicator: getColor(theme, 'agentSessionReadIndicator.foreground', fg),
-    },
     // State colors for distinction testing (active vs inactive UI elements)
     states: {
       // Tab states
@@ -783,6 +756,89 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       // Command center
       commandCenter: getColor(theme, 'commandCenter.foreground', fg),
       commandCenterActive: getColor(theme, 'commandCenter.activeForeground', fg),
+    },
+    // Markdown alert colors (GitHub-style alerts in docs)
+    markdownAlerts: {
+      note: getColor(theme, 'markdownAlert.note.foreground', fg),
+      tip: getColor(theme, 'markdownAlert.tip.foreground', fg),
+      important: getColor(theme, 'markdownAlert.important.foreground', fg),
+      warning: getColor(theme, 'markdownAlert.warning.foreground', fg),
+      caution: getColor(theme, 'markdownAlert.caution.foreground', fg),
+    },
+    // Testing icons (test runner panel)
+    testingIcons: {
+      passed: getColor(theme, 'testing.iconPassed', fg),
+      failed: getColor(theme, 'testing.iconFailed', fg),
+      errored: getColor(theme, 'testing.iconErrored', fg),
+      queued: getColor(theme, 'testing.iconQueued', fg),
+      unset: getColor(theme, 'testing.iconUnset', fg),
+      skipped: getColor(theme, 'testing.iconSkipped', fg),
+      runAction: getColor(theme, 'testing.runAction', fg),
+    },
+    // Debug icons (breakpoints and toolbar)
+    debugIcons: {
+      breakpoint: getColor(theme, 'debugIcon.breakpointForeground', fg),
+      breakpointDisabled: getColor(theme, 'debugIcon.breakpointDisabledForeground', fg),
+      breakpointUnverified: getColor(theme, 'debugIcon.breakpointUnverifiedForeground', fg),
+      breakpointCurrentStackframe: getColor(theme, 'debugIcon.breakpointCurrentStackframeForeground', fg),
+      breakpointStackframe: getColor(theme, 'debugIcon.breakpointStackframeForeground', fg),
+      start: getColor(theme, 'debugIcon.startForeground', fg),
+      pause: getColor(theme, 'debugIcon.pauseForeground', fg),
+      stop: getColor(theme, 'debugIcon.stopForeground', fg),
+      disconnect: getColor(theme, 'debugIcon.disconnectForeground', fg),
+      restart: getColor(theme, 'debugIcon.restartForeground', fg),
+      stepOver: getColor(theme, 'debugIcon.stepOverForeground', fg),
+      stepInto: getColor(theme, 'debugIcon.stepIntoForeground', fg),
+      stepOut: getColor(theme, 'debugIcon.stepOutForeground', fg),
+      continue: getColor(theme, 'debugIcon.continueForeground', fg),
+      stepBack: getColor(theme, 'debugIcon.stepBackForeground', fg),
+    },
+    // SCM graph colors (git history visualization)
+    scmGraph: {
+      foreground1: getColor(theme, 'scmGraph.foreground1', fg),
+      foreground2: getColor(theme, 'scmGraph.foreground2', fg),
+      foreground3: getColor(theme, 'scmGraph.foreground3', fg),
+      foreground4: getColor(theme, 'scmGraph.foreground4', fg),
+      foreground5: getColor(theme, 'scmGraph.foreground5', fg),
+      additions: getColor(theme, 'scmGraph.historyItemHoverAdditionsForeground', fg),
+      deletions: getColor(theme, 'scmGraph.historyItemHoverDeletionsForeground', fg),
+      label: getColor(theme, 'scmGraph.historyItemHoverLabelForeground', fg),
+      refColor: getColor(theme, 'scmGraph.historyItemRefColor', fg),
+    },
+    // Terminal symbol icons (shell integration)
+    terminalSymbols: {
+      file: getColor(theme, 'terminalSymbolIcon.fileForeground', fg),
+      folder: getColor(theme, 'terminalSymbolIcon.folderForeground', fg),
+      symbolicLinkFile: getColor(theme, 'terminalSymbolIcon.symbolicLinkFileForeground', fg),
+      symbolicLinkFolder: getColor(theme, 'terminalSymbolIcon.symbolicLinkFolderForeground', fg),
+      branch: getColor(theme, 'terminalSymbolIcon.branchForeground', fg),
+      commit: getColor(theme, 'terminalSymbolIcon.commitForeground', fg),
+      tag: getColor(theme, 'terminalSymbolIcon.tagForeground', fg),
+      remote: getColor(theme, 'terminalSymbolIcon.remoteForeground', fg),
+      stash: getColor(theme, 'terminalSymbolIcon.stashForeground', fg),
+      pullRequest: getColor(theme, 'terminalSymbolIcon.pullRequestForeground', fg),
+      pullRequestDone: getColor(theme, 'terminalSymbolIcon.pullRequestDoneForeground', fg),
+      option: getColor(theme, 'terminalSymbolIcon.optionForeground', fg),
+      optionValue: getColor(theme, 'terminalSymbolIcon.optionValueForeground', fg),
+      argument: getColor(theme, 'terminalSymbolIcon.argumentForeground', fg),
+      method: getColor(theme, 'terminalSymbolIcon.methodForeground', fg),
+      alias: getColor(theme, 'terminalSymbolIcon.aliasForeground', fg),
+      flag: getColor(theme, 'terminalSymbolIcon.flagForeground', fg),
+      inlineSuggestion: getColor(theme, 'terminalSymbolIcon.inlineSuggestionForeground', fg),
+    },
+    // Extension icons (marketplace)
+    extensionIcons: {
+      star: getColor(theme, 'extensionIcon.starForeground', fg),
+      verified: getColor(theme, 'extensionIcon.verifiedForeground', fg),
+      preRelease: getColor(theme, 'extensionIcon.preReleaseForeground', fg),
+      sponsor: getColor(theme, 'extensionIcon.sponsorForeground', fg),
+      private: getColor(theme, 'extensionIcon.privateForeground', fg),
+    },
+    // Notebook status icons (Jupyter)
+    notebookStatus: {
+      error: getColor(theme, 'notebookStatusErrorIcon.foreground', fg),
+      running: getColor(theme, 'notebookStatusRunningIcon.foreground', fg),
+      success: getColor(theme, 'notebookStatusSuccessIcon.foreground', fg),
     },
   };
 }
