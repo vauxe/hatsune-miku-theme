@@ -331,6 +331,7 @@
     "editorBracket": [
       "editorBracketMatch.background",
       "editorBracketMatch.border",
+      "editorBracketMatch.foreground",
       "editorBracketHighlight.foreground1",
       "editorBracketHighlight.foreground2",
       "editorBracketHighlight.foreground3",
@@ -871,6 +872,8 @@
     ],
     "scmGraph": [
       "scmGraph.historyItemHoverLabelForeground",
+      "scmGraph.historyItemHoverDefaultLabelForeground",
+      "scmGraph.historyItemHoverDefaultLabelBackground",
       "scmGraph.foreground1",
       "scmGraph.foreground2",
       "scmGraph.foreground3",
@@ -1218,15 +1221,20 @@
   },
   "metadata": {
     "generatedFor": "VS Code 1.97+",
+    "lastUpdated": "2026-01-31",
     "sources": [
       "https://code.visualstudio.com/api/references/theme-color",
       "https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide",
       "https://raw.githubusercontent.com/microsoft/vscode/main/src/vs/workbench/services/themes/common/colorThemeSchema.ts",
-      "https://raw.githubusercontent.com/microsoft/vscode/main/src/vs/platform/theme/common/tokenClassificationRegistry.ts"
+      "https://raw.githubusercontent.com/microsoft/vscode/main/src/vs/platform/theme/common/tokenClassificationRegistry.ts",
+      "https://raw.githubusercontent.com/microsoft/vscode/main/src/vs/editor/common/core/editorColorRegistry.ts",
+      "https://raw.githubusercontent.com/microsoft/vscode/main/src/vs/workbench/contrib/scm/browser/scmHistory.ts",
+      "https://raw.githubusercontent.com/microsoft/vscode/main/src/vs/workbench/contrib/debug/browser/debugColors.ts",
+      "https://raw.githubusercontent.com/microsoft/vscode/main/src/vs/workbench/contrib/debug/browser/breakpointEditorContribution.ts"
     ],
     "description": "Official VS Code theme color keys, TextMate scopes, and semantic token types/modifiers",
     "notes": {
-      "colors": "Contains 700+ workbench/UI color keys organized by category",
+      "colors": "Contains 907 workbench/UI color keys organized by category",
       "tokenColors": "Official TextMate scopes from VS Code's colorThemeSchema.ts (100 scopes)",
       "semanticTokenColors": "Official types (23) and modifiers (10) from tokenClassificationRegistry.ts"
     }
