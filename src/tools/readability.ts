@@ -43,16 +43,16 @@ import {
   analyzeAPCA,
   deltaE00Hex,
   getDistinctionLevel,
+  getChroma,
+  analyzeChroma,
 } from './readability-color';
 
 import {
   loadTheme,
-  getThemeName,
   extractColors,
 } from './readability-theme';
 
 import type {
-  Polarity,
   ColorValue,
   ColorResult,
   Stats,
@@ -101,7 +101,7 @@ function getSourceFile(keyType: 'workbench' | 'textmate' | 'semantic'): string {
   }
 }
 
-function computeStats(results: ColorResult[], expectedPolarity: Polarity): Stats {
+function computeStats(results: ColorResult[]): Stats {
   const stats: Stats = { pass: 0, large: 0, expectedDim: 0, fail: 0, missing: 0, total: results.length, results };
 
   for (const r of results) {
@@ -238,7 +238,55 @@ function formatContrastLine(r: ColorResult): string {
  * DISTINCTION category pair1↔pair2 ΔE=X need=10
  */
 function formatDistinctionLine(category: string, p: DistinctionPair): string {
-  return `DISTINCTION ${category} ${p.name1}↔${p.name2} ΔE=${p.deltaE.toFixed(1)} need=10`;
+  return `DISTINCTION ${category} ${p.name1}↔${p.name2} ΔE=${p.deltaE.toFixed(1)} need=5`;
+}
+
+/**
+ * Chroma analysis result (using perceptually uniform LCH)
+ */
+interface ChromaResult {
+  name: string;
+  color: string;
+  chroma: number;
+  icon: string;
+  level: string;
+  pass: boolean;
+}
+
+/**
+ * Analyze chroma of syntax colors for eye fatigue
+ * Uses LCH Chroma (C*) which is perceptually uniform across hues
+ */
+function analyzeSyntaxChroma(syntax: Record<string, ColorValue>): ChromaResult[] {
+  const results: ChromaResult[] = [];
+
+  for (const [name, cv] of Object.entries(syntax)) {
+    if (cv.fallback) continue;
+
+    const chroma = getChroma(cv.color);
+    if (chroma === null) continue;
+
+    const analysis = analyzeChroma(chroma);
+    results.push({
+      name,
+      color: cv.color,
+      chroma: Math.round(chroma),
+      icon: analysis.icon,
+      level: analysis.level,
+      pass: analysis.pass,
+    });
+  }
+
+  // Sort by chroma descending (highest first)
+  return results.sort((a, b) => b.chroma - a.chroma);
+}
+
+/**
+ * Format a chroma issue as a single line:
+ * CHROMA element color C*=X level
+ */
+function formatChromaLine(r: ChromaResult): string {
+  return `CHROMA ${r.name} ${r.color} C*=${r.chroma} ${r.level}`;
 }
 
 // =============================================================================
@@ -247,18 +295,14 @@ function formatDistinctionLine(category: string, p: DistinctionPair): string {
 
 function processSection(
   results: ColorResult[],
-  title: string,
-  expectedPolarity: Polarity
+  title: string
 ): SectionData {
-  const stats = computeStats(results, expectedPolarity);
+  const stats = computeStats(results);
   return { title, results, stats };
 }
 
 function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly: false }): Stats {
   const theme = loadTheme(themePath);
-  const name = getThemeName(theme, themePath);
-  const type: 'dark' | 'light' = theme.type === 'light' ? 'light' : 'dark';
-  const expectedPolarity: Polarity = type === 'dark' ? 'light-on-dark' : 'dark-on-light';
   const c = extractColors(theme);
 
   const allSections: SectionData[] = [];
@@ -266,7 +310,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
 
   // Helper to process a section and collect results
   const section = (results: ColorResult[], title: string) => {
-    const data = processSection(results, title, expectedPolarity);
+    const data = processSection(results, title);
     allSections.push(data);
     allStats.push(data.stats);
   };
@@ -788,6 +832,13 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // 8. Diff distinction - added/deleted must be obviously different
   const diffDistinction = analyzeDiffDistinction(c.git, c.bg.sidebar);
 
+  // ==========================================================================
+  // CHROMA ANALYSIS (Eye Fatigue) - Using perceptually uniform LCH
+  // ==========================================================================
+
+  const chromaResults = analyzeSyntaxChroma(c.syntax);
+  const chromaIssues = chromaResults.filter(r => !r.pass);
+
   // Aggregate stats
   const total = allStats.reduce((acc, s) => ({
     pass: acc.pass + s.pass,
@@ -825,7 +876,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     s.results.filter(r => !r.analysis.pass && !r.fallback && !r.expectedDim)
   );
 
-  // Filter distinction issues (ΔE < 10)
+  // Filter distinction issues (ΔE < 5)
   const distinctionIssues = allDistinctions.flatMap(d =>
     d.pairs.filter(p => !p.pass).map(p => ({ category: d.category, pair: p }))
   );
@@ -840,17 +891,23 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     output.push(formatDistinctionLine(category, pair));
   }
 
+  // Output chroma issues (high chroma causes eye fatigue)
+  for (const r of chromaIssues) {
+    output.push(formatChromaLine(r));
+  }
+
   // Summary line
   const defined = total.total - total.missing;
   const distinctionFails = distinctionIssues.length;
-  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0;
+  const chromaFails = chromaIssues.length;
+  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && chromaFails === 0;
 
   output.push('');
-  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} distinction_fail=${distinctionFails} ready=${ready}`);
+  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} ready=${ready}`);
 
   // Print all output (or filter if --issues-only and ready)
   if (options.issuesOnly && ready) {
-    console.log('SUMMARY pass=' + total.pass + '/' + defined + ' fail=0 distinction_fail=0 ready=true');
+    console.log('SUMMARY pass=' + total.pass + '/' + defined + ' fail=0 distinction_fail=0 chroma_fail=0 ready=true');
   } else {
     console.log(output.join('\n'));
   }
@@ -861,9 +918,27 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
 function testColor(fg: string, bg: string, name = 'Custom'): void {
   const fgValue: ColorValue = { color: fg, fallback: false };
   const result = analyze(name, fgValue, bg);
+  const chroma = getChroma(fg);
+  const chromaAnalysis = chroma !== null ? analyzeChroma(chroma) : null;
+
   console.log(`\n${name}: ${fg}${result.alpha ? ` @ ${result.alpha}` : ''} on ${bg}`);
   if (result.alpha) console.log(`  Blended: ${result.color}`);
   console.log(`  Lc ${result.lc.toFixed(1).padStart(6)} ${result.analysis.icon} ${result.analysis.level}`);
+  if (chroma !== null && chromaAnalysis) {
+    console.log(`  C* ${Math.round(chroma).toString().padStart(5)} ${chromaAnalysis.icon} ${chromaAnalysis.level}`);
+  }
+}
+
+function testChroma(hex: string, name = 'Custom'): void {
+  const chroma = getChroma(hex);
+  if (chroma === null) {
+    console.error(`Invalid color: ${hex}`);
+    return;
+  }
+  const analysis = analyzeChroma(chroma);
+  console.log(`\n${name}: ${hex}`);
+  console.log(`  Chroma (C*): ${Math.round(chroma)} ${analysis.icon} ${analysis.level}`);
+  console.log(`  Eye fatigue: ${analysis.pass ? 'Low risk' : 'High risk - consider reducing chroma'}`);
 }
 
 // =============================================================================
@@ -877,22 +952,36 @@ VS Code Theme - Readability Analysis
 Usage:
   npx tsx src/tools/readability.ts --theme <path>    Analyze theme (plain text output)
   npx tsx src/tools/readability.ts --test FG BG      Test single color pair
+  npx tsx src/tools/readability.ts --chroma COLOR    Test single color chroma
 
 Options:
   --theme <path>    Path to VS Code theme JSON file
   --issues-only     Only output if there are issues (silent when ready)
-  --test FG BG      Test foreground on background
+  --test FG BG      Test foreground on background (includes chroma)
+  --chroma COLOR    Test color chroma for eye fatigue (perceptually uniform)
   --help, -h        Show this help
 
 Output Format (one line per issue):
   CONTRAST file:key Lc=X need=Y bg=Z
-  DISTINCTION category pair1↔pair2 ΔE=X need=10
-  SUMMARY pass=N/M fail=N distinction_fail=N ready=true|false
+  DISTINCTION category pair1↔pair2 ΔE=X need=5
+  CHROMA element color C*=X level
+  SUMMARY pass=N/M fail=N distinction_fail=N chroma_fail=N ready=true|false
+
+LCH Chroma Levels (heuristic guidelines, no official standard):
+  ✅ Comfortable (C* 0-30)  - Ideal for primary syntax
+  ✅ Good        (C* 30-45) - Fine for extended use
+  ⚠️ Acceptable  (C* 45-60) - Use for less frequent tokens (passes)
+  ⛔ Attention   (C* 60-80) - Reserve for errors/warnings (fails)
+  ❌ Extreme     (C* 80+)   - Too harsh for any code element (fails)
+
+Based on analysis of eye-friendly themes (Solarized ~C*20-45, Nord ~C*15-35).
+LCH Chroma is perceptually uniform unlike HSL saturation.
 
 Examples:
   npx tsx src/tools/readability.ts --theme ./themes/my-theme.json
   npx tsx src/tools/readability.ts --theme ./themes/my-theme.json --issues-only
   npx tsx src/tools/readability.ts --test "#FFFFFF" "#1A1A1A"
+  npx tsx src/tools/readability.ts --chroma "#FFD700"
 `);
 }
 
@@ -906,6 +995,7 @@ if (args[0] === '--help' || args[0] === '-h') {
 } else {
   let themePath: string | undefined;
   let test: { fg: string; bg: string; name?: string } | undefined;
+  let chromaTest: { color: string; name?: string } | undefined;
   let issuesOnly = false;
 
   for (let i = 0; i < args.length; i++) {
@@ -919,10 +1009,21 @@ if (args[0] === '--help' || args[0] === '-h') {
       const nextArg = args[i + 1];
       const name = nextArg && !nextArg.startsWith('-') ? args[++i] : undefined;
       test = { fg, bg, name };
+    } else if (args[i] === '--chroma' && args[i + 1]) {
+      const color = args[++i];
+      const nextArg = args[i + 1];
+      const name = nextArg && !nextArg.startsWith('-') ? args[++i] : undefined;
+      chromaTest = { color, name };
     }
   }
 
-  if (test) {
+  if (chromaTest) {
+    if (!isValidHex(chromaTest.color)) {
+      console.error(LABELS.errInvalidColor(chromaTest.color));
+      process.exit(1);
+    }
+    testChroma(chromaTest.color, chromaTest.name);
+  } else if (test) {
     if (!isValidHex(test.fg)) {
       console.error(LABELS.errInvalidColor(test.fg));
       process.exit(1);

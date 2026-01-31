@@ -8,7 +8,6 @@ import type {
   RGB,
   Lab,
   Polarity,
-  Level,
   APCAResult,
   APCAAnalysis,
   DistinctionLevel,
@@ -49,6 +48,84 @@ export function rgbToHex(rgb: RGB): string {
     return Math.round(clamped * 255).toString(16).padStart(2, '0');
   };
   return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
+}
+
+// =============================================================================
+// LCH UTILITIES (Perceptual Chroma Analysis)
+// =============================================================================
+
+export interface LCH {
+  L: number; // Lightness: 0-100
+  C: number; // Chroma: 0-~130 (perceptually uniform colorfulness)
+  H: number; // Hue: 0-360
+}
+
+/**
+ * Convert Lab to LCH color space
+ * LCH Chroma (C*) is perceptually uniform unlike HSL saturation
+ */
+export function labToLch(lab: Lab): LCH {
+  const C = Math.sqrt(lab.a * lab.a + lab.b * lab.b);
+  const H = lab.a === 0 && lab.b === 0 ? 0 : (Math.atan2(lab.b, lab.a) * 180 / Math.PI + 360) % 360;
+  return { L: lab.L, C, H };
+}
+
+/**
+ * Get LCH Chroma from a hex color
+ * Chroma (C*) is perceptually uniform - a yellow at C*=50 appears
+ * equally colorful as a blue at C*=50, unlike HSL saturation.
+ * @returns Chroma 0-~130, or null if invalid hex
+ */
+export function getChroma(hex: string): number | null {
+  const rgb = hexToRgb(stripAlpha(hex));
+  if (!rgb) return null;
+  const lab = rgbToLab(rgb);
+  return Math.sqrt(lab.a * lab.a + lab.b * lab.b);
+}
+
+/**
+ * Get full LCH from hex color
+ */
+export function hexToLch(hex: string): LCH | null {
+  const rgb = hexToRgb(stripAlpha(hex));
+  if (!rgb) return null;
+  return labToLch(rgbToLab(rgb));
+}
+
+/**
+ * @deprecated Use getChroma() for perceptually uniform analysis
+ */
+export function getSaturation(hex: string): number | null {
+  return getChroma(hex);
+}
+
+/**
+ * Analyze chroma level for eye fatigue using perceptually uniform LCH
+ *
+ * Heuristic guidelines based on analysis of popular eye-friendly themes
+ * (Solarized, Nord, One Dark). No official standard exists for chroma
+ * and eye fatigue.
+ *
+ * Reference points:
+ * - Solarized colors: ~C* 20-45
+ * - Nord palette: ~C* 15-35
+ * - Pure #FF0000 red: ~C* 104
+ *
+ * @returns Icon and level based on LCH chroma value
+ */
+export function analyzeChroma(chroma: number): { icon: string; level: string; pass: boolean } {
+  if (chroma <= 30) return { icon: '✅', level: 'Comfortable', pass: true };
+  if (chroma <= 45) return { icon: '✅', level: 'Good', pass: true };
+  if (chroma <= 60) return { icon: '⚠️', level: 'Acceptable', pass: true };
+  if (chroma <= 80) return { icon: '⛔', level: 'Attention', pass: false };
+  return { icon: '❌', level: 'Extreme', pass: false };
+}
+
+/**
+ * @deprecated Use analyzeChroma() for perceptually uniform analysis
+ */
+export function analyzeSaturation(saturation: number): { icon: string; level: string; pass: boolean } {
+  return analyzeChroma(saturation);
 }
 
 // =============================================================================
@@ -310,8 +387,8 @@ export function deltaE00Hex(hex1: string, hex2: string, bg?: string): number | n
 export function getDistinctionLevel(dE: number): { level: DistinctionLevel; icon: string; pass: boolean } {
   if (dE < 1) return { level: 'Imperceptible', icon: '❌', pass: false };
   if (dE < 5) return { level: 'Subtle', icon: '❌', pass: false };
-  if (dE < 10) return { level: 'Noticeable', icon: '⚠️', pass: false };
-  if (dE < 20) return { level: 'Clear', icon: '⚠️', pass: true };
+  if (dE < 10) return { level: 'Noticeable', icon: '⚠️', pass: true };
+  if (dE < 20) return { level: 'Clear', icon: '✅', pass: true };
   if (dE < 40) return { level: 'Distinct', icon: '✅', pass: true };
   return { level: 'Obvious', icon: '✅', pass: true };
 }

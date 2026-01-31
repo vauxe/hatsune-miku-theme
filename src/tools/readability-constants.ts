@@ -200,7 +200,8 @@ export const LABELS = {
 // APCA CONSTANTS
 // =============================================================================
 
-// APCA constants (APCA-W3 specification)
+// APCA constants (APCA-W3 0.0.98G-4g)
+// Reference: https://github.com/Myndex/SAPC-APCA
 export const APCA = {
   sRco: 0.2126729,
   sGco: 0.7151522,
