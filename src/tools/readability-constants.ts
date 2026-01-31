@@ -737,9 +737,6 @@ export const TERMINAL_DISTINCTION_PAIRS: Array<[string, string]> = [
   ['ansiBlack', 'ansiBrightBlack'], // Dim text levels
 ];
 
-// NOTE: DIFF_DISTINCTION_PAIRS removed - was 100% redundant with GIT_DISTINCTION_PAIRS
-// All pairs (added↔deleted, added↔modified, modified↔deleted) already covered there.
-
 /**
  * Markdown alert distinction pairs - note/tip/warning/etc need instant recognition
  * Common in documentation (GitHub alerts, VS Code READMEs)

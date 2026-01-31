@@ -99,13 +99,6 @@ export function hexToLch(hex: string): LCH | null {
 }
 
 /**
- * @deprecated Use getChroma() for perceptually uniform analysis
- */
-export function getSaturation(hex: string): number | null {
-  return getChroma(hex);
-}
-
-/**
  * Analyze chroma level for comfortable extended reading.
  *
  * Tiered thresholds:
@@ -170,13 +163,6 @@ export function analyzeChroma(chroma: number, tier: ChromaTier = 'primary'): {
     failReason: tooLow ? 'too-low' : tooHigh ? 'too-high' : undefined,
     tier,
   };
-}
-
-/**
- * @deprecated Use analyzeChroma() for perceptually uniform analysis
- */
-export function analyzeSaturation(saturation: number): { icon: string; level: string; pass: boolean } {
-  return analyzeChroma(saturation);
 }
 
 // =============================================================================

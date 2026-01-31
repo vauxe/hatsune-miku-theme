@@ -256,8 +256,6 @@ const analyzeBracketDistinction = (brackets: Record<string, ColorValue>, bg: str
 const analyzeTerminalDistinction = (terminal: Record<string, ColorValue>, bg: string) =>
   analyzeColorDistinction(terminal, TERMINAL_DISTINCTION_PAIRS, bg);
 
-// NOTE: analyzeDiffDistinction removed - was redundant with analyzeGitDistinction
-
 /** Markdown alert distinction - note/tip/warning/etc */
 const analyzeMarkdownAlertDistinction = (alerts: Record<string, ColorValue>, bg: string) =>
   analyzeColorDistinction(alerts, MARKDOWN_ALERT_DISTINCTION_PAIRS, bg);
@@ -437,7 +435,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   const a = (name: string, fgValue: ColorValue, bgKey: BgKeyName) =>
     analyze(name, fgValue, c.bg[bgKey], BG_KEYS[bgKey]);
 
-  // Text (icons removed - shape conveys meaning, not text readability)
+  // Text
   section([
     a('Primary', c.fg, 'editor'),
     a('Global', c.ui.foreground, 'editor'),
@@ -623,7 +621,6 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Inlay Type', c.ui.inlayHintType, 'inlayHint'),
     a('Inlay Param', c.ui.inlayHintParam, 'inlayHint'),
     a('Code Lens', c.ui.codeLens, 'editor'),
-    // Lightbulb icons removed - shape conveys meaning, not text readability
     a('Fold Control', c.ui.foldControl, 'editor'),
     a('Fold Placeholder', c.ui.foldPlaceholder, 'editor'),
     a('Whitespace', c.ui.whitespace, 'editor'),
@@ -706,7 +703,6 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Notification', c.widgets.notification, 'notification'),
     a('Notif Link', c.widgets.notificationLink, 'notification'),
     a('Notif Header', c.widgets.notificationHeader, 'notification'),
-    // Notification icons removed - shape conveys meaning, not text readability
     a('Peek View', c.widgets.peekView, 'peekView'),
     a('Inline Chat', c.widgets.inlineChat, 'inlineChat'),
     a('Chat Placeholder', c.widgets.inlineChatPlaceholder, 'inlineChat'),
@@ -825,12 +821,10 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Panel Section', c.misc.panelSectionHeader, 'panel'),
     a('Keybinding', c.misc.keybindingLabel, 'keybindingLabel'),
     a('Banner', c.misc.banner, 'banner'),
-    // Banner icon removed - shape conveys meaning, not text readability
     a('Peek Title', c.misc.peekViewTitle, 'peekView'),
     a('Peek Desc', c.misc.peekViewDescription, 'peekView'),
     a('Peek File', c.misc.peekViewFile, 'peekView'),
     a('Peek Select', c.misc.peekViewSelection, 'peekViewSelection'),
-    // Problems icons removed - shape conveys meaning, not text readability
     a('Search Info', c.misc.searchResultsInfo, 'sidebar'),
     a('Description', c.misc.description, 'editor'),
     a('Disabled', c.misc.disabled, 'editor'),
@@ -849,9 +843,6 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     // Editor group
     a('Drop Prompt', c.misc.dropPrompt, 'editor'),
   ], LABELS.sectionMisc);
-
-  // Note: Diff, Merge, Sticky Scroll, Peek View, Search Editor sections consolidated
-  // into SYNTAX CONTEXT above to reduce redundancy
 
   // Input Controls - buttons, toggles, radios
   section([
@@ -984,10 +975,6 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('NB Running', c.notebookStatus.running, 'editor'),
     a('NB Success', c.notebookStatus.success, 'editor'),
   ], LABELS.sectionNotebookStatus);
-
-  // Note: Symbol Icons APCA section removed - icons are not readable text
-  // Symbol discrimination is still tested via Delta E below
-
 
   // ==========================================================================
   // COLOR DISTINCTION ANALYSIS (Delta E 2000)
@@ -1213,6 +1200,157 @@ function testChroma(hex: string, name = 'Custom'): void {
 }
 
 // =============================================================================
+// MULTI-COLOR TESTING
+// =============================================================================
+
+/**
+ * Parse a comma-separated list of colors.
+ */
+function parseColorList(arg: string): string[] {
+  return arg.split(',').map(c => c.trim()).filter(c => c.length > 0);
+}
+
+/**
+ * Validate all colors in a list and return invalid ones.
+ */
+function validateColorList(colors: string[]): string[] {
+  return colors.filter(c => !isValidHex(c));
+}
+
+/**
+ * Test N foreground colors against M background colors in a matrix.
+ * Shows APCA Lc values for all combinations.
+ */
+function testAPCAMatrix(fgColors: string[], bgColors: string[]): void {
+  // Calculate column width based on longest color
+  const maxBgLen = Math.max(...bgColors.map(c => c.length), 7);
+  const colWidth = Math.max(maxBgLen + 8, 14); // "Lc XX.X ⚡" needs ~12 chars
+  const fgColWidth = Math.max(...fgColors.map(c => c.length), 10);
+
+  console.log('\nAPCA MATRIX (Foreground → Background)');
+  console.log('─'.repeat(fgColWidth + 3 + bgColors.length * (colWidth + 3)));
+
+  // Header row with background colors
+  let header = ' '.repeat(fgColWidth) + ' │';
+  for (const bg of bgColors) {
+    header += ` ${bg.padEnd(colWidth - 1)}│`;
+  }
+  console.log(header);
+  console.log('─'.repeat(fgColWidth) + '─┼' + bgColors.map(() => '─'.repeat(colWidth) + '┼').join(''));
+
+  // Summary counters
+  let pass = 0;
+  let fail = 0;
+  let halation = 0;
+
+  // Data rows
+  for (const fg of fgColors) {
+    let row = fg.padEnd(fgColWidth) + ' │';
+    for (const bg of bgColors) {
+      const fgValue: ColorValue = { color: fg, fallback: false };
+      const result = analyze('matrix', fgValue, bg);
+      const lc = Math.abs(result.lc).toFixed(1);
+      const cell = `Lc ${lc.padStart(5)} ${result.analysis.icon}`;
+      row += ` ${cell.padEnd(colWidth - 1)}│`;
+
+      // Count results
+      if (result.analysis.pass) {
+        pass++;
+      } else if (Math.abs(result.lc) > APCA_THRESHOLDS.max) {
+        halation++;
+      } else {
+        fail++;
+      }
+    }
+    console.log(row);
+  }
+
+  const total = fgColors.length * bgColors.length;
+  console.log('');
+  console.log(`SUMMARY: ${total} combinations, ${pass} pass, ${fail} fail, ${halation} halation`);
+}
+
+/**
+ * Test all pairs of N colors for distinction (ΔE00).
+ * Shows N×(N-1)/2 pairwise comparisons sorted by similarity.
+ */
+function testDistinctionMatrix(colors: string[], bg?: string): void {
+  const pairs: Array<{ c1: string; c2: string; dE: number; level: string; icon: string; pass: boolean }> = [];
+
+  // Generate all pairs
+  for (let i = 0; i < colors.length; i++) {
+    for (let j = i + 1; j < colors.length; j++) {
+      const dE = deltaE00Hex(colors[i], colors[j], bg);
+      if (dE !== null) {
+        const { level, icon, pass } = getDistinctionLevel(dE);
+        pairs.push({ c1: colors[i], c2: colors[j], dE, level, icon, pass });
+      }
+    }
+  }
+
+  // Sort by ΔE (most similar first)
+  pairs.sort((a, b) => a.dE - b.dE);
+
+  console.log('\nDISTINCTION MATRIX (ΔE00 - sorted by similarity)');
+  if (bg) {
+    console.log(`Background for alpha: ${bg}`);
+  }
+  console.log('─'.repeat(60));
+
+  for (const p of pairs) {
+    const status = p.pass ? '' : ` (need ≥${DISTINCTION_THRESHOLDS.standard})`;
+    console.log(`${p.c1} ↔ ${p.c2}: ΔE=${p.dE.toFixed(1)} ${p.icon} ${p.level}${status}`);
+  }
+
+  const passCount = pairs.filter(p => p.pass).length;
+  const failCount = pairs.length - passCount;
+  console.log('');
+  console.log(`SUMMARY: ${pairs.length} pairs, ${passCount} pass, ${failCount} fail`);
+}
+
+/**
+ * Test multiple colors for chroma comparison.
+ * Shows a table comparing all colors' chroma values across tiers.
+ */
+function testMultiChroma(colors: string[]): void {
+  console.log('\nCHROMA COMPARISON (C* - LCH colorfulness)');
+  console.log('─'.repeat(72));
+  console.log('Color      │ C*   │ Level       │ Primary │ Secondary │ Accent │');
+  console.log('───────────┼──────┼─────────────┼─────────┼───────────┼────────┤');
+
+  let primaryPass = 0, secondaryPass = 0, accentPass = 0;
+  const total = colors.length;
+
+  for (const hex of colors) {
+    const chroma = getChroma(hex);
+    if (chroma === null) {
+      console.log(`${hex.padEnd(10)} │ ERR  │ Invalid     │    -    │     -     │   -    │`);
+      continue;
+    }
+
+    const c = Math.round(chroma);
+    const primary = analyzeChroma(chroma, 'primary');
+    const secondary = analyzeChroma(chroma, 'secondary');
+    const accent = analyzeChroma(chroma, 'accent');
+
+    if (primary.pass) primaryPass++;
+    if (secondary.pass) secondaryPass++;
+    if (accent.pass) accentPass++;
+
+    console.log(
+      `${hex.padEnd(10)} │ ${c.toString().padStart(4)} │ ${primary.level.padEnd(11)} │` +
+      `   ${primary.icon}    │     ${secondary.icon}     │   ${accent.icon}    │`
+    );
+  }
+
+  console.log('');
+  console.log(`SUMMARY: ${total} colors`);
+  console.log(`  Primary   (18-55): ${primaryPass}/${total} pass`);
+  console.log(`  Secondary (15-60): ${secondaryPass}/${total} pass`);
+  console.log(`  Accent    (15-70): ${accentPass}/${total} pass`);
+}
+
+// =============================================================================
 // CLI
 // =============================================================================
 
@@ -1228,13 +1366,21 @@ Usage:
   npx tsx src/tools/readability.ts --test FG BG      Test single color pair
   npx tsx src/tools/readability.ts --chroma COLOR    Test color chroma
 
+Multi-Color Testing:
+  npx tsx src/tools/readability.ts --matrix-apca "FG1,FG2" "BG1,BG2"
+  npx tsx src/tools/readability.ts --matrix-distinction "C1,C2,C3"
+  npx tsx src/tools/readability.ts --chroma "C1,C2,C3"
+
 Options:
-  --theme <path>    Path to VS Code theme JSON file
-  --verbose         Show ALL results (not just issues)
-  --issues-only     Only output if there are issues (silent when ready)
-  --test FG BG      Test foreground on background (includes chroma)
-  --chroma COLOR    Test color chroma for eye fatigue
-  --help, -h        Show this help
+  --theme <path>          Path to VS Code theme JSON file
+  --verbose               Show ALL results (not just issues)
+  --issues-only           Only output if there are issues (silent when ready)
+  --test FG BG            Test foreground on background (includes chroma)
+  --chroma COLOR(S)       Test color chroma (single or comma-separated list)
+  --matrix-apca FG BG     Test NxM foreground/background combinations
+  --matrix-distinction C  Test all pairs for ΔE distinction
+  --bg BG                 Background for alpha compositing (with --matrix-distinction)
+  --help, -h              Show this help
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ANALYSIS 1: APCA CONTRAST (Lc) - TIERED THRESHOLDS
@@ -1319,6 +1465,10 @@ Examples:
   npx tsx src/tools/readability.ts --theme ./themes/my-theme.json --verbose
   npx tsx src/tools/readability.ts --test "#86E1FC" "#1E2030"
   npx tsx src/tools/readability.ts --chroma "#FFD700"
+  npx tsx src/tools/readability.ts --chroma "#90F0F0,#F8D8A0,#FFD700"
+  npx tsx src/tools/readability.ts --matrix-apca "#90F0F0,#F8D8A0" "#0A0D10,#1A1A1A"
+  npx tsx src/tools/readability.ts --matrix-distinction "#90F0F0,#88F0D0,#F8D8A0"
+  npx tsx src/tools/readability.ts --matrix-distinction "#90F0F080,#88F0D0" --bg "#0A0D10"
 `);
 }
 
@@ -1332,7 +1482,10 @@ if (args[0] === '--help' || args[0] === '-h') {
 } else {
   let themePath: string | undefined;
   let test: { fg: string; bg: string; name?: string } | undefined;
-  let chromaTest: { color: string; name?: string } | undefined;
+  let chromaTest: { colors: string[] } | undefined;
+  let matrixApca: { fgColors: string[]; bgColors: string[] } | undefined;
+  let matrixDistinction: { colors: string[] } | undefined;
+  let bgForAlpha: string | undefined;
   let issuesOnly = false;
   let verbose = false;
 
@@ -1343,6 +1496,8 @@ if (args[0] === '--help' || args[0] === '-h') {
       verbose = true;
     } else if (args[i] === '--issues-only') {
       issuesOnly = true;
+    } else if (args[i] === '--bg' && args[i + 1]) {
+      bgForAlpha = args[++i];
     } else if (args[i] === '--test' && args[i + 1] && args[i + 2]) {
       const fg = args[++i];
       const bg = args[++i];
@@ -1350,19 +1505,70 @@ if (args[0] === '--help' || args[0] === '-h') {
       const name = nextArg && !nextArg.startsWith('-') ? args[++i] : undefined;
       test = { fg, bg, name };
     } else if (args[i] === '--chroma' && args[i + 1]) {
-      const color = args[++i];
-      const nextArg = args[i + 1];
-      const name = nextArg && !nextArg.startsWith('-') ? args[++i] : undefined;
-      chromaTest = { color, name };
+      const colorArg = args[++i];
+      const colors = parseColorList(colorArg);
+      chromaTest = { colors };
+    } else if (args[i] === '--matrix-apca' && args[i + 1] && args[i + 2]) {
+      const fgArg = args[++i];
+      const bgArg = args[++i];
+      matrixApca = { fgColors: parseColorList(fgArg), bgColors: parseColorList(bgArg) };
+    } else if (args[i] === '--matrix-distinction' && args[i + 1]) {
+      const colorArg = args[++i];
+      matrixDistinction = { colors: parseColorList(colorArg) };
     }
   }
 
-  if (chromaTest) {
-    if (!isValidHex(chromaTest.color)) {
-      console.error(LABELS.errInvalidColor(chromaTest.color));
+  // Execute the appropriate mode
+  if (matrixApca) {
+    // Validate colors
+    const invalidFg = validateColorList(matrixApca.fgColors);
+    const invalidBg = validateColorList(matrixApca.bgColors);
+    if (invalidFg.length > 0) {
+      console.error(`Invalid foreground color(s): ${invalidFg.join(', ')}`);
       process.exit(1);
     }
-    testChroma(chromaTest.color, chromaTest.name);
+    if (invalidBg.length > 0) {
+      console.error(`Invalid background color(s): ${invalidBg.join(', ')}`);
+      process.exit(1);
+    }
+    if (matrixApca.fgColors.length === 0 || matrixApca.bgColors.length === 0) {
+      console.error('Error: --matrix-apca requires at least one foreground and one background color');
+      process.exit(1);
+    }
+    testAPCAMatrix(matrixApca.fgColors, matrixApca.bgColors);
+  } else if (matrixDistinction) {
+    // Validate colors
+    const invalid = validateColorList(matrixDistinction.colors);
+    if (invalid.length > 0) {
+      console.error(`Invalid color(s): ${invalid.join(', ')}`);
+      process.exit(1);
+    }
+    if (matrixDistinction.colors.length < 2) {
+      console.error('Error: --matrix-distinction requires at least 2 colors');
+      process.exit(1);
+    }
+    if (bgForAlpha && !isValidHex(bgForAlpha)) {
+      console.error(LABELS.errInvalidColor(bgForAlpha));
+      process.exit(1);
+    }
+    testDistinctionMatrix(matrixDistinction.colors, bgForAlpha);
+  } else if (chromaTest) {
+    // Validate colors
+    const invalid = validateColorList(chromaTest.colors);
+    if (invalid.length > 0) {
+      console.error(`Invalid color(s): ${invalid.join(', ')}`);
+      process.exit(1);
+    }
+    if (chromaTest.colors.length === 0) {
+      console.error('Error: --chroma requires at least one color');
+      process.exit(1);
+    }
+    // Single color uses old format, multiple uses table
+    if (chromaTest.colors.length === 1) {
+      testChroma(chromaTest.colors[0]);
+    } else {
+      testMultiChroma(chromaTest.colors);
+    }
   } else if (test) {
     if (!isValidHex(test.fg)) {
       console.error(LABELS.errInvalidColor(test.fg));
