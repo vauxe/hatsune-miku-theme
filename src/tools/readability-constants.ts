@@ -221,19 +221,19 @@ export const PRIMARY_SYNTAX_ELEMENTS = new Set([
 ]);
 
 /**
- * Distinction threshold - tiered for standard vs critical pairs.
+ * Distinction threshold - minimum ΔE for color pairs to be distinguishable.
  *
- * Standard (ΔE ≥ 12): Clear level - distinguishable without effort
- * Critical (ΔE ≥ 18): Higher threshold for safety-critical pairs (error/warning, red/green)
+ * Both standard and critical pairs require ΔE ≥ 20 (Distinct level).
+ * This ensures colors are obviously different without any effort.
  */
 export const DISTINCTION_THRESHOLDS = {
-  critical: 18,  // Safety-critical pairs need higher distinction
-  standard: 12,  // Clear distinction with more palette flexibility
+  critical: 20,  // Safety-critical pairs (error/warning, red/green)
+  standard: 20,  // All color pairs need clear distinction
 } as const;
 
 /**
- * Critical distinction pairs - require higher ΔE threshold (18 vs 12).
- * These are safety-critical colors where confusion could cause errors.
+ * Critical distinction pairs - safety-critical colors where confusion could cause errors.
+ * Uses same threshold (20) but flagged for reporting.
  */
 export const CRITICAL_DISTINCTION_PAIRS = new Set([
   'error↔warning',

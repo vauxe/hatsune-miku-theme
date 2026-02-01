@@ -485,14 +485,7 @@ export function getDistinctionLevel(dE: number, isCritical = false): { level: Di
   const threshold = isCritical ? DISTINCTION_THRESHOLDS.critical : DISTINCTION_THRESHOLDS.standard;
   const pass = dE >= threshold;
 
-  let icon: string;
-  if (!pass) {
-    icon = '❌';
-  } else if (dE < 20) {
-    icon = '⚠️'; // Passes but not in "Distinct" range
-  } else {
-    icon = '✅';
-  }
+  const icon = pass ? '✅' : '❌';
 
   return { level, icon, pass };
 }
