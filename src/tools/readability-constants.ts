@@ -2,13 +2,6 @@
  * Constants and configuration for the readability analysis tool.
  */
 
-// =============================================================================
-// OUTPUT FORMATTING
-// =============================================================================
-
-export const OUTPUT_WIDTH = 72;
-export const COL_NAME_WIDTH = 24;
-export const COL_COLOR_WIDTH = 15;
 
 // =============================================================================
 // BACKGROUND KEY MAPPINGS
@@ -193,7 +186,7 @@ export const APCA_THRESHOLDS = {
 } as const;
 
 /**
- * Primary syntax elements that require higher contrast (Lc ≥ 80).
+ * Primary syntax elements that require higher contrast (Lc ≥ 75).
  * These are high-frequency semantic tokens you read constantly while coding.
  *
  * Note: Punctuation and operators are intentionally EXCLUDED (secondary tier).
@@ -296,7 +289,7 @@ export const ACCENT_CHROMA_ELEMENTS = new Set([
  *
  * Note: Punctuation and operators are here AND excluded from PRIMARY_SYNTAX_ELEMENTS.
  * This is intentional - they are structural aids that:
- * - Need good contrast (Lc ≥ 75, secondary tier) but not maximum (Lc ≥ 80)
+ * - Need good contrast (Lc ≥ 70, secondary tier) but not maximum (Lc ≥ 75)
  * - Can be muted in color (lower chroma) to reduce visual noise
  * This aligns with themes like Nord and Solarized where punctuation fades slightly.
  */
@@ -405,461 +398,143 @@ export const EXPECTED_DIM_ELEMENTS = new Set([
 // =============================================================================
 
 /**
- * Adjacency pairs - elements commonly seen side-by-side in code
- * These pairs need the most distinction for comfortable reading
+ * Adjacency pairs - semantic token pairs that benefit from visual distinction.
  *
- * Organized by code pattern category for maintainability.
- * Total: 200+ pairs covering all common programming patterns.
+ * Criteria for inclusion:
+ * - Semantic confusion possible (not shape-distinguishable like punctuation)
+ * - Line structure visibility (storage → entity name blocks)
+ * - User vs library distinction (function vs supportFunction)
+ * - Beauty/rhythm at high-frequency boundaries
+ *
+ * Excluded: punctuation, operators, context-obvious pairs (the `.` or `()` tells you)
  */
 export const ADJACENCY_PAIRS: Array<[string, string]> = [
-  // ===== DECLARATIONS (every file has these) =====
-  ['storage', 'variable'],       // let x, const y, var z
-  ['storage', 'function'],       // function foo, def bar
-  ['storage', 'keyword'],        // async function, public static
-  ['storage', 'class'],          // class Foo {}
-  ['storage', 'interface'],      // interface IFoo {}
-  ['storage', 'type'],           // type X = ...
-  ['storage', 'enum'],           // enum Color {}
-  ['storage', 'struct'],         // struct Foo {}
-  ['storageModifier', 'storage'], // public static vs class
-  ['storageModifier', 'keyword'], // async vs await
-  ['storageModifier', 'function'], // async function foo, static foo()
-  ['storageModifier', 'method'],   // static method() in classes
-  ['storageModifier', 'property'], // readonly prop, static prop
-  ['storageModifier', 'class'],    // public class, abstract class
-  ['storageModifier', 'interface'], // export interface
-  ['storageModifier', 'variable'], // const x, let y, static x
-  ['storageModifier', 'type'],     // export type, readonly type
+  // =============================================================================
+  // TIER 1: CRITICAL - These appear every few lines in any codebase
+  // =============================================================================
 
-  // ===== FUNCTION PATTERNS =====
-  ['function', 'parameter'],     // foo(x) - function definition
-  ['function', 'variable'],      // foo(x, y) - args
-  ['function', 'type'],          // foo(): Type
-  ['function', 'typeParameter'], // foo<T>()
-  ['function', 'string'],        // foo("arg")
-  ['function', 'number'],        // foo(123)
-  ['function', 'constant'],      // foo(true), foo(null)
-  ['function', 'class'],         // function vs class distinction
-  ['variable', 'function'],      // x = foo() - rvalue
-  ['method', 'parameter'],       // obj.method(x)
-  ['method', 'variable'],        // method(x)
-  ['method', 'type'],            // method(): Type
-  ['method', 'regexp'],          // .match(/x/)
-  ['method', 'string'],          // method("arg")
-  ['method', 'number'],          // method(123)
-  ['method', 'constant'],        // method(true)
-  ['method', 'typeParameter'],   // method<T>()
-  ['function', 'method'],        // function vs method distinction
-  ['supportFunction', 'function'], // console.log vs myFunc
-  ['supportFunction', 'method'],   // Array.map vs custom.map
-  ['supportFunction', 'variable'], // Math.PI vs myConst
-  ['supportFunction', 'string'],   // console.log("msg")
-  ['supportFunction', 'parameter'], // console.log(arg)
+  // ===== KEYWORDS (control flow, declarations) =====
+  ['keyword', 'variable'],            // if (x), for x in, return val
+  ['keyword', 'parameter'],           // return x, throw err (params often used as values)
+  ['keyword', 'function'],            // return foo(), async function
+  ['keyword', 'class'],               // class Foo, new Foo
+  ['keyword', 'type'],                // type X, as Type
+  ['keyword', 'string'],              // import "x", return "x"
+  ['keyword', 'number'],              // return 5, case 1
+  ['keyword', 'constant'],            // if (true), return null
+  ['keyword', 'supportClass'],        // new Map, extends Array - keyword + built-in type
+  ['keyword', 'tag'],                 // JSX <tag>return
 
-  // ===== VARIABLE/PARAMETER PATTERNS =====
-  ['variable', 'parameter'],     // x vs arg distinction
-  ['variable', 'string'],        // x = "str"
-  ['variable', 'number'],        // x = 123
-  ['parameter', 'string'],       // fn(arg = "default")
-  ['parameter', 'number'],       // fn(arg = 0)
-  ['parameter', 'property'],     // destructuring { x: alias }
-  ['parameter', 'method'],       // callback(fn) patterns
-  ['parameter', 'function'],     // callback patterns
+  // ===== STORAGE (let, const, function, class) =====
+  ['storage', 'variable'],            // let x, const y, var z
+  ['storage', 'function'],            // function foo, def bar
+  ['storage', 'class'],               // class Foo {}
+  ['storage', 'type'],                // type X = ...
+  ['storage', 'struct'],              // struct Foo
+  ['storage', 'enum'],                // enum Color
+  ['storage', 'string'],              // import "path"
+  ['storageModifier', 'variable'],    // const x, static x
+  ['storageModifier', 'function'],    // async function foo
+  ['storageModifier', 'class'],       // public class, abstract class
+  ['storageModifier', 'type'],        // export type, readonly
+  ['storageModifier', 'storage'],     // public static, export const
 
-  // ===== PROPERTY ACCESS =====
-  ['variable', 'property'],      // obj.prop
-  ['variable', 'method'],        // obj.method()
-  ['variableLanguage', 'property'], // this.prop, self.x
-  ['variableLanguage', 'method'],   // this.method(), self.foo()
-  ['variableLanguage', 'parameter'], // (self, x) in Python
-  ['variableLanguage', 'variable'], // this vs x distinction
-  ['variableLanguage', 'function'], // this.callback = fn
-  ['variableLanguage', 'class'],    // this instanceof Class
+  // ===== FUNCTIONS & METHODS =====
+  ['function', 'parameter'],          // foo(x) definition
+  ['function', 'variable'],           // foo(x, y) args
+  ['function', 'type'],               // foo(): Type
+  ['function', 'string'],             // foo("arg")
+  ['function', 'number'],             // foo(123)
+  ['function', 'constant'],           // foo(true), foo(null)
+  ['method', 'variable'],             // obj.method(x)
+  ['method', 'parameter'],            // method(param) definition
+  ['method', 'type'],                 // method(): Type
+  ['method', 'string'],               // method("arg")
+  ['method', 'number'],               // method(123)
+  ['supportFunction', 'variable'],    // console.log(x) - user vs library
+  ['supportFunction', 'string'],      // require('x'), console.log("msg")
 
-  // ===== CLASS PATTERNS =====
-  ['keyword', 'class'],          // class Foo, new Foo
-  ['class', 'interface'],        // class vs interface distinction
-  ['class', 'variable'],         // new Foo(x)
-  ['class', 'string'],           // new Error("msg")
-  ['class', 'property'],         // class { prop }
-  ['class', 'method'],           // class { method() }
-  ['class', 'typeParameter'],    // Array<T>, Map<K,V>
-  ['class', 'function'],         // class vs function distinction
-  ['class', 'constant'],         // Singleton.INSTANCE
-  ['class', 'number'],           // new Array(5)
-  ['class', 'parameter'],        // new Foo(param)
-  ['class', 'decorator'],        // @Component class Foo
+  // ===== VARIABLES & PARAMETERS =====
+  ['parameter', 'variable'],          // fn(param) { let x = param } - CRITICAL
+  ['variable', 'type'],               // x: Type
+  ['variable', 'constant'],           // myVar vs MY_CONST
+  ['variable', 'supportVariable'],    // process vs myVar
 
-  // ===== INTERFACE PATTERNS =====
-  ['keyword', 'interface'],      // interface Foo, implements Bar
-  ['interface', 'property'],     // interface { x: T }
-  ['interface', 'method'],       // interface { fn(): T }
-  ['interface', 'type'],         // interface vs type distinction
-  ['interface', 'variable'],     // as type annotation
-  ['interface', 'typeParameter'], // interface Foo<T>
-  ['interface', 'struct'],       // different type constructs
-  ['interface', 'enum'],         // both define types
-  ['interface', 'function'],     // function type in interface
+  // ===== STRINGS & ESCAPES =====
+  ['string', 'variable'],             // `${name}`, f"{x}"
+  ['string', 'stringEscape'],         // "hello\n"
+  ['string', 'number'],               // "123" vs 123
 
-  // ===== TYPE PATTERNS =====
-  ['variable', 'type'],          // x: Type, <Type>x (cast)
-  ['parameter', 'type'],         // (x: Type)
-  ['keyword', 'type'],           // type X = ..., x: Type
-  ['type', 'class'],             // type vs class distinction
-  ['type', 'interface'],         // type vs interface
-  ['type', 'enum'],              // type vs enum
-  ['type', 'struct'],            // type vs struct
-  ['typeParameter', 'type'],     // T extends Base
-  ['typeParameter', 'variable'], // foo<T>(x)
-  ['typeParameter', 'keyword'],  // <T extends Base> - T vs extends
-  ['typeParameter', 'class'],    // T extends Class
-  ['typeParameter', 'interface'], // T extends Interface
-  ['typeParameter', 'struct'],   // struct Foo<T>
-  ['typeParameter', 'constant'], // <T = DEFAULT>
-  ['typeParameter', 'method'],   // method<T>()
-  ['typeParameter', 'property'], // generic class properties
-  ['typeParameter', 'enum'],     // T extends Enum
+  // ===== COMMENTS (must be visually distinct from code) =====
+  ['comment', 'variable'],            // x = 5 // comment
+  ['comment', 'keyword'],             // comment near control-flow / declarations
 
-  // ===== ENUM PATTERNS =====
-  ['keyword', 'enum'],           // enum Color
-  ['enum', 'enumMember'],        // Enum.Member
-  ['enum', 'class'],             // enum vs class distinction
-  ['enum', 'variable'],          // Enum assignment
-  ['enum', 'string'],            // enum X { A = "a" }
-  ['enum', 'number'],            // enum X { A = 1 }
-  ['enum', 'type'],              // enum as type
-  ['enum', 'struct'],            // different type constructs
-  ['enumMember', 'variable'],    // Some(x), Ok(val)
-  ['enumMember', 'constant'],    // enum member vs constant
-  ['enumMember', 'string'],      // Enum.A vs "A"
-  ['enumMember', 'number'],      // Enum.A vs 1
-  ['enumMember', 'property'],    // Enum.member vs obj.prop
+  // =============================================================================
+  // TIER 2: IMPORTANT - Common in typed languages, web dev, specific contexts
+  // =============================================================================
 
-  // ===== STRUCT PATTERNS (Rust, Go, C) =====
-  ['keyword', 'struct'],         // struct Foo
-  ['struct', 'property'],        // struct { x: i32 }
-  ['struct', 'class'],           // struct vs class distinction
-  ['struct', 'variable'],        // struct initialization
-  ['struct', 'function'],        // constructor-like functions
-  ['struct', 'method'],          // impl blocks
-  ['struct', 'type'],            // struct as type
-  ['struct', 'interface'],       // struct implementing trait
+  // ===== TYPE SYSTEM (TypeScript, Java, C#, etc.) =====
+  ['type', 'variable'],               // : Type annotation
+  ['type', 'function'],               // fn(): Type - return type
+  ['type', 'class'],                  // class Foo extends Type
+  ['typeParameter', 'type'],          // T extends Base
+  ['supportType', 'type'],            // string vs MyType
+  ['interface', 'type'],              // interface X extends Type
+  ['interface', 'class'],             // class Foo implements IBar
+  ['interface', 'variable'],          // const x: IFoo
 
-  // ===== NAMESPACE PATTERNS =====
-  ['keyword', 'namespace'],      // namespace X, mod foo
-  ['namespace', 'function'],     // Ns.func()
-  ['namespace', 'class'],        // Ns.Class
-  ['namespace', 'type'],         // Ns::Type
-  ['namespace', 'variable'],     // Ns.value
-  ['namespace', 'method'],       // Ns::method()
-  ['namespace', 'property'],     // Ns::CONST
-  ['namespace', 'enum'],         // Ns.Enum
-  ['namespace', 'interface'],    // Ns.IFoo
-  ['namespace', 'struct'],       // Ns::Struct
+  // ===== JSX/HTML =====
+  ['tag', 'attribute'],               // <div class
+  ['attribute', 'string'],            // class="x"
+  ['attribute', 'variable'],          // prop={x}
 
-  // ===== DECORATOR PATTERNS =====
-  ['decorator', 'function'],     // @deco def foo
-  ['decorator', 'class'],        // @Component class
-  ['decorator', 'method'],       // @override method
-  ['decorator', 'property'],     // @Input() prop
-  ['decorator', 'keyword'],      // @staticmethod, @property
-  ['decorator', 'variable'],     // @deco(arg)
-  ['decorator', 'string'],       // @decorator("config")
-  ['decorator', 'number'],       // @decorator(1)
-  ['decorator', 'constant'],     // @decorator(true)
-  ['decorator', 'parameter'],    // @Param() arg
+  // ===== CSS =====
+  ['cssSelector', 'cssPropertyName'], // .class { color: }
+  ['cssPropertyName', 'number'],      // width: 100
+  ['cssPropertyName', 'variable'],    // color: $var (SCSS)
+  ['cssPropertyName', 'string'],      // content: "..." (CSS)
 
-  // ===== MACRO PATTERNS (Rust, C/C++) =====
-  ['macro', 'string'],           // println!("x")
-  ['macro', 'variable'],         // dbg!(x)
-  ['macro', 'number'],           // vec![1, 2]
-  ['macro', 'function'],         // macro! vs fn() distinction
-  ['macro', 'type'],             // derive!(Type)
-  ['macro', 'method'],           // macro vs method invocation
-  ['macro', 'property'],         // macro! vs .prop
-  ['macro', 'keyword'],          // macro! vs keyword
-  ['macro', 'parameter'],        // macro!(arg)
-  ['macro', 'constant'],         // assert!(true)
+  // ===== ENUMS =====
+  ['enum', 'enumMember'],             // Enum.Member
+  ['enumMember', 'constant'],         // enum member vs constant
 
-  // ===== STRING PATTERNS (templates very common) =====
-  ['string', 'variable'],        // `${name}`, f"{x}"
-  ['string', 'stringEscape'],    // "hello\n"
-  ['string', 'property'],        // "key" vs obj.key
-  ['string', 'type'],            // "literal" type vs Type
-  ['keyword', 'string'],         // import "x", return "x"
+  // ===== DIFFS (critical for code review) =====
+  ['markupInserted', 'markupDeleted'],// +added vs -removed (CRITICAL)
 
-  // ===== KEYWORD PATTERNS =====
-  ['keyword', 'variable'],       // if (x), for x in, x as Type
-  ['keyword', 'function'],       // return foo()
-  ['keyword', 'operator'],       // keyword vs operator distinction
-  ['keyword', 'number'],         // return 5
-  ['keyword', 'constant'],       // if (true), return null
-  ['keyword', 'parameter'],      // if (arg), for (param)
-  ['keyword', 'property'],       // if (obj.prop)
-  ['keyword', 'method'],         // return this.method()
+  // ===== PROPERTIES & OBJECT LITERALS =====
+  ['property', 'variable'],           // { x: val }
+  ['property', 'type'],               // prop: Type
+  ['property', 'string'],             // { key: "value" }
+  ['property', 'number'],             // { count: 42 }
+  ['property', 'constant'],           // { flag: TRUE }
+  ['property', 'function'],           // { onClick: handler }
+  ['property', 'method'],             // obj.prop vs obj.method()
 
-  // ===== OBJECT LITERAL PATTERNS =====
-  ['property', 'number'],        // { x: 1 }
-  ['property', 'string'],        // { x: "y" }
-  ['property', 'variable'],      // { x: val }
-  ['property', 'function'],      // { onClick: fn }
-  ['property', 'type'],          // prop: Type
-  ['property', 'class'],         // prop: Class
-  ['property', 'interface'],     // prop: Interface
-  ['property', 'constant'],      // prop = CONST
-  ['property', 'method'],        // { method() {} }
-  ['property', 'parameter'],     // shorthand { param }
+  // ===== DOC COMMENTS (JSDoc, etc.) =====
+  ['docComment', 'comment'],          // JSDoc vs regular comments
 
-  // ===== CONSTANT DISTINCTION =====
-  ['number', 'constant'],        // 5 vs MY_CONST
-  ['number', 'enumMember'],      // enum { X = 1 }
-  ['variable', 'constant'],      // myVar vs MY_CONST
-  ['constant', 'string'],        // true vs "true"
-  ['constant', 'class'],         // Singleton pattern
-  ['constant', 'property'],      // OBJ.CONST
-  ['parameter', 'constant'],     // fn(true), fn(null)
+  // =============================================================================
+  // TIER 3: LANGUAGE-SPECIFIC - Important for specific ecosystems
+  // =============================================================================
 
-  // ===== JSX/HTML PATTERNS =====
-  ['tag', 'attribute'],          // <div class
-  ['tag', 'string'],             // text children
-  ['tag', 'function'],           // <Component />
-  ['tag', 'class'],              // <MyClass />
-  ['tag', 'constant'],           // {true} in JSX
-  ['attribute', 'string'],       // class="x"
-  ['attribute', 'variable'],     // prop={x}
-  ['attribute', 'keyword'],      // boolean attributes
-  ['attribute', 'number'],       // width={100}
-  ['attribute', 'function'],     // onClick={handler}
-  ['attribute', 'constant'],     // disabled={true}
-  ['tag', 'variable'],           // <{Component} />
-  ['tag', 'property'],           // <obj.Component />
+  // ===== DECORATORS (Python, TypeScript, Java annotations) =====
+  ['decorator', 'function'],          // @deco def foo
+  ['decorator', 'class'],             // @Component class
 
-  // ===== REGEXP PATTERNS =====
-  ['variable', 'regexp'],        // str vs /pattern/
-  ['string', 'regexp'],          // "text" vs /pattern/
-  ['regexp', 'number'],          // /\d+/ vs 123
-  ['regexp', 'function'],        // /pattern/.test()
+  // ===== MACROS (Rust, C/C++) =====
+  ['macro', 'function'],              // macro! vs fn()
 
-  // ===== OPERATOR PATTERNS =====
-  ['operator', 'variable'],      // x + y
-  ['operator', 'number'],        // x + 1
-  ['operator', 'property'],      // ?.prop
-  ['operator', 'type'],          // A | B
-  ['operator', 'string'],        // "a" + "b"
-  ['operator', 'constant'],      // x && true
-  ['operator', 'function'],      // x = fn()
-  ['parameter', 'operator'],     // (x) => ... arrow functions
+  // ===== NAMESPACES (C++, C#, TypeScript) =====
+  ['namespace', 'class'],             // Ns.Class
+  ['namespace', 'type'],              // Ns::Type
 
-  // ===== PUNCTUATION PATTERNS (high frequency) =====
-  ['punctuation', 'variable'],   // {x, y}, [a, b], fn(x)
-  ['punctuation', 'keyword'],    // if (, for (, return;
-  ['punctuation', 'string'],     // "${x}", template delimiters
-  ['punctuation', 'number'],     // [1, 2, 3]
-  ['punctuation', 'property'],   // { key: val }
-  ['punctuation', 'operator'],   // => vs = vs ; distinction (both secondary tier)
-  ['punctuation', 'type'],       // : Type, <Type>
-  ['punctuation', 'function'],   // fn(), ()
-  ['punctuation', 'class'],      // new Class()
-  ['punctuation', 'parameter'],  // (param)
+  // ===== STRUCTS (Rust, Go, C) =====
+  ['struct', 'type'],                 // struct as type
 
-  // ===== COMMENT PATTERNS (visual adjacency) =====
-  ['comment', 'variable'],       // x = 5 // comment
-  ['comment', 'property'],       // doc comment
-  ['comment', 'function'],       // /** */ function
-  ['comment', 'keyword'],        // // after return
-  ['comment', 'string'],         // visual distinction
-  ['comment', 'type'],           // type annotations in comments
-  ['comment', 'number'],         // // x = 5
-  ['docComment', 'comment'],     // JSDoc vs regular comments
-  ['docComment', 'function'],    // /** */ above function
-  ['docComment', 'keyword'],     // @param, @returns
-  ['docComment', 'type'],        // @type {Type}
-  ['docComment', 'variable'],    // @param x
-  ['docComment', 'class'],       // @class description
-  ['docComment', 'method'],      // @method description
+  // ===== REGEXP =====
+  ['regexp', 'string'],               // "text" vs /pattern/
 
-  // ===== LINK PATTERNS =====
-  ['link', 'string'],            // URL strings vs links
-  ['link', 'variable'],          // URLs in comments vs code
-  ['link', 'comment'],           // http://... in comments
-  ['link', 'keyword'],           // http vs keyword
 
-  // ===== INVALID/DEPRECATED PATTERNS =====
-  ['invalid', 'variable'],       // Error-highlighted code
-  ['invalid', 'keyword'],        // Invalid syntax
-  ['invalid', 'function'],       // Invalid function
-  ['invalid', 'type'],           // Invalid type
-  ['deprecated', 'function'],    // Strikethrough functions
-  ['deprecated', 'variable'],    // Deprecated vars
-  ['deprecated', 'method'],      // Deprecated methods
-  ['deprecated', 'class'],       // Deprecated classes
-  ['deprecated', 'property'],    // Deprecated properties
-
-  // ===== MARKUP PATTERNS (Markdown/docs) =====
-  ['markupHeading', 'markupBold'], // # Title vs **bold**
-  ['markupHeading', 'markupItalic'], // # Title vs *italic*
-  ['markupHeading', 'comment'],    // Heading in docstrings
-  ['markupHeading', 'string'],     // Heading vs string
-  ['markupCode', 'string'],        // `code` vs "string"
-  ['markupCode', 'variable'],      // `code` vs var
-  ['markupCode', 'keyword'],       // `keyword` in docs
-  ['markupQuote', 'comment'],      // > quote vs // comment
-  ['markupQuote', 'string'],       // > quote vs "string"
-  ['markupBold', 'markupItalic'],  // **bold** vs *italic*
-  ['markupBold', 'variable'],      // **bold** vs var
-  ['markupItalic', 'comment'],     // *italic* vs comment
-  ['markupList', 'variable'],      // - item vs variable
-  ['markupList', 'punctuation'],   // - vs other punctuation
-
-  // ===== DIFF MARKUP PATTERNS (in Markdown/docs) =====
-  ['markupInserted', 'markupDeleted'], // +added vs -removed (CRITICAL)
-  ['markupInserted', 'markupChanged'], // +added vs ~changed
-  ['markupDeleted', 'markupChanged'],  // -removed vs ~changed
-  ['markupInserted', 'string'],        // +line vs "string"
-  ['markupDeleted', 'comment'],        // -line vs comment
-  ['markupInserted', 'variable'],      // +line vs variable
-
-  // ===== SUPPORT PATTERNS (built-in/library) =====
-  ['supportClass', 'class'],           // Array vs MyClass
-  ['supportClass', 'function'],        // Array vs function
-  ['supportClass', 'variable'],        // Array vs myVar
-  ['supportType', 'type'],             // string (built-in) vs MyType
-  ['supportType', 'class'],            // string vs class
-  ['supportType', 'interface'],        // string vs Interface
-  ['supportConstant', 'constant'],     // null vs MY_CONST
-  ['supportConstant', 'variable'],     // null vs myVar
-  ['supportConstant', 'number'],       // null vs 0
-  ['supportVariable', 'variable'],     // process vs myVar
-  ['supportVariable', 'property'],     // __dirname vs obj.prop
-  ['supportFunction', 'supportClass'], // console.log vs Array
-  ['supportFunction', 'supportType'],  // parseInt vs string
-  ['supportClass', 'supportType'],     // Array vs string
-
-  // ===== CSS-SPECIFIC PATTERNS =====
-  ['cssSelector', 'cssPropertyName'],  // .class vs color:
-  ['cssSelector', 'variable'],         // .class vs $var (SCSS)
-  ['cssSelector', 'tag'],              // .class vs div
-  ['cssSelector', 'attribute'],        // [attr] vs class=""
-  ['cssSelector', 'string'],           // .class vs "value"
-  ['cssPropertyName', 'variable'],     // color: vs $var
-  ['cssPropertyName', 'string'],       // color: vs "red"
-  ['cssPropertyName', 'number'],       // width: vs 100
-  ['cssPropertyName', 'function'],     // color: vs rgb()
-  ['cssPropertyName', 'keyword'],      // color: vs !important
-  ['colorValue', 'string'],            // #fff vs "white"
-  ['colorValue', 'number'],            // #fff vs 255
-  ['colorValue', 'constant'],          // #fff vs inherit
-
-  // ===== LABEL PATTERNS (goto, case) =====
-  ['label', 'variable'],               // label: vs variable
-  ['label', 'function'],               // label: vs func()
-  ['label', 'keyword'],                // label: vs case/default
-  ['label', 'string'],                 // label: vs "string"
-  ['label', 'constant'],               // label: vs true
-
-  // ===== EVENT PATTERNS (C#, TypeScript) =====
-  ['event', 'method'],                 // onClick vs method()
-  ['event', 'property'],               // onClick vs prop
-  ['event', 'variable'],               // onClick vs var
-  ['event', 'function'],               // onClick vs function
-  ['event', 'decorator'],              // @click vs @decorator
-
-  // ===== INHERITANCE PATTERNS =====
-  ['inheritedClass', 'class'],         // extends Base vs class Derived
-  ['inheritedClass', 'interface'],     // implements IFoo vs interface
-  ['inheritedClass', 'type'],          // extends Type vs type
-  ['inheritedClass', 'keyword'],       // Base vs extends keyword
-
-  // ===== SECTION PATTERNS (document structure) =====
-  ['section', 'markupHeading'],        // section vs # heading
-  ['section', 'function'],             // \section vs function
-  ['section', 'comment'],              // section vs comment
-
-  // ===== HIGH-FREQUENCY PAIRS (from extract-adjacency.ts analysis) =====
-  // These were discovered by analyzing real code in examples/
-  ['comment', 'punctuation'],          // ) /* comment */
-  ['method', 'punctuation'],           // .method()
-  ['cssSelector', 'punctuation'],      // .class {
-  ['cssPropertyName', 'operator'],     // property: value
-  ['comment', 'operator'],             // */ + or /* after operators
-  ['comment', 'storage'],              // */ struct or function /*
-  ['punctuation', 'storage'],          // { class or (var
-  ['comment', 'storageModifier'],      // */ static or public /*
-  ['cssPropertyName', 'punctuation'],  // property; or property,
-  ['operator', 'storage'],             // #include <
-  ['cssSelector', 'operator'],         // :pseudo or ::pseudo
-  ['punctuation', 'storageModifier'],  // (const or ,static
-  ['punctuation', 'supportClass'],     // Set( or Math.
-  ['operator', 'supportType'],         // < string or char *
-  ['punctuation', 'supportType'],      // (void or string.
-  ['supportType', 'variable'],         // int count, char name
-  ['punctuation', 'supportFunction'],  // (sizeof or printf(
-  ['decorator', 'punctuation'],        // [attr] or @deco(
-  ['comment', 'cssPropertyName'],      // ; default (CSS)
-  ['operator', 'supportClass'],        // = Math or = Array
-  ['decorator', 'operator'],           // [key] =
-  ['cssSelector', 'storage'],          // struct Name or namespace.
-  ['comment', 'decorator'],            // [attr]; /* comment */
-  ['storageModifier', 'supportType'],  // const char, static int
-  ['comment', 'cssSelector'],          // ::endl; or ::nullopt;
-  ['operator', 'storageModifier'],     // * const
-  ['comment', 'supportType'],          // ; int or /* int */
-  ['function', 'supportType'],         // int main, void func
-  ['macro', 'operator'],               // #include < or >
-  ['storage', 'string'],               // import "path"
-  ['operator', 'supportFunction'],     // = printf or / sizeof
-  ['cssSelector', 'keyword'],          // extends ClassName
-  ['storageModifier', 'supportClass'], // const String, final Array
-  ['cssPropertyName', 'storage'],      // var property:
-  ['punctuation', 'supportConstant'],  // (null) or NULL;
-  ['comment', 'supportClass'],         // // String or /* Array */
-  ['macro', 'storage'],                // #include struct
-  ['comment', 'supportFunction'],      // /* printf */ or ; printf
-  ['operator', 'supportConstant'],     // == null or = nullptr
-  ['operator', 'regexp'],              // =~ /pattern/
-  ['cssSelector', 'number'],           // :nth-child(1)
-  ['decorator', 'storage'],            // @decorator class
-  ['cssPropertyName', 'storageModifier'], // const property:
-  ['keyword', 'supportClass'],         // as String or new Array
-  ['comment', 'macro'],                // /* #define */ or #define /*
-  ['keyword', 'supportType'],          // as int or is string
-  ['macro', 'punctuation'],            // #endif )
-  ['number', 'storage'],               // 0 var (rare)
-  ['keyword', 'supportFunction'],      // return printf
-  ['decorator', 'storageModifier'],    // @override public
-
-  // ===== TEXTMATE-VERIFIED PAIRS (from extract-adjacency-textmate.ts) =====
-  // These were verified using actual VS Code TextMate grammars
-  ['attribute', 'punctuation'],        // href="" or class=""
-  ['constant', 'punctuation'],         // true; or null,
-  ['colorValue', 'punctuation'],       // #fff; or #000,
-  ['punctuation', 'variableLanguage'], // this. or self,
-  ['punctuation', 'tag'],              // <div or />
-  ['markupCode', 'punctuation'],       // `code` or ``` blocks
-  ['parameter', 'storage'],            // (var x) or function(param
-  ['constant', 'storage'],             // const true or var null
-  ['punctuation', 'stringEscape'],     // \\n, or \\t}
-  ['namespace', 'punctuation'],        // std:: or Ns.
-  ['storageModifier', 'typeParameter'], // static T or const <T>
-  ['punctuation', 'section'],          // \\section{
-  ['attribute', 'operator'],           // id=value or class:
-  ['parameter', 'storageModifier'],    // (const param) or (readonly arg)
-  ['markupBold', 'punctuation'],       // **bold** markers
-  ['constant', 'supportFunction'],     // sizeof(true)
-  ['number', 'string'],                // "123" vs 123 confusion
-  ['constant', 'stringEscape'],        // "\\n" true pattern
-  ['inheritedClass', 'punctuation'],   // extends Base, or implements IFoo;
-  ['enumMember', 'operator'],          // Color.RED == x
-  ['punctuation', 'typeParameter'],    // <T> or List<T>
-  ['supportConstant', 'supportFunction'], // console.log(null)
-  ['inheritedClass', 'storageModifier'], // extends readonly Base
-  ['markupItalic', 'punctuation'],     // *italic* markers
-  ['link', 'punctuation'],             // [link](url) markers
-  ['interface', 'punctuation'],        // interface { or IFoo,
-  ['keyword', 'supportConstant'],      // return null; if (undefined)
-  ['constant', 'type'],                // Type | null
-  ['enum', 'punctuation'],             // enum { or Color,
-  ['punctuation', 'struct'],           // struct { or Foo;
 ];
 
 /**
