@@ -1,0 +1,196 @@
+{{!--
+  Hatsune Miku Theme - Handlebars Showcase
+  All-Miku Synthesis: Every voice, one stage.
+--}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{title}} - Miku Stage</title>
+  {{!-- Partial for head content --}}
+  {{> head-meta}}
+</head>
+<body class="{{bodyClass}}">
+
+  {{!-- Simple variable --}}
+  <h1>{{pageTitle}}</h1>
+
+  {{!-- HTML escaping (default) vs raw --}}
+  <p>Escaped: {{description}}</p>
+  <p>Raw HTML: {{{htmlContent}}}</p>
+
+  {{!-- Dot notation for nested properties --}}
+  <div class="artist-info">
+    <h2>{{artist.name}}</h2>
+    <p>Version: {{artist.version}}</p>
+    <p>Color: {{artist.colors.primary}}</p>
+  </div>
+
+  {{!-- Block helper: if/else --}}
+  {{#if isPerforming}}
+    <div class="status active">
+      <span class="indicator"></span>
+      Now Performing: {{currentSong}}
+    </div>
+  {{else}}
+    <div class="status idle">
+      <span class="indicator"></span>
+      Stage is idle
+    </div>
+  {{/if}}
+
+  {{!-- Unless (inverse of if) --}}
+  {{#unless hasError}}
+    <p class="success">All systems operational!</p>
+  {{/unless}}
+
+  {{!-- Each loop --}}
+  <section class="songs">
+    <h2>Playlist</h2>
+    <ul>
+      {{#each songs}}
+        <li class="song-item" data-index="{{@index}}">
+          {{!-- @index is 0-based, @first/@last are boolean --}}
+          {{#if @first}}<span class="badge">First</span>{{/if}}
+          <span class="title">{{this.title}}</span>
+          <span class="bpm">{{this.bpm}} BPM</span>
+          {{#if @last}}<span class="badge">Last</span>{{/if}}
+        </li>
+      {{else}}
+        <li class="empty">No songs in playlist</li>
+      {{/each}}
+    </ul>
+  </section>
+
+  {{!-- Each with object --}}
+  <section class="versions">
+    <h2>Voice Bank Versions</h2>
+    {{#each versions}}
+      <div class="version-card">
+        {{!-- @key for object iteration --}}
+        <h3>{{@key}}</h3>
+        <p>Year: {{this.year}}</p>
+        <p>Color: <span style="color: {{this.color}}">{{this.color}}</span></p>
+      </div>
+    {{/each}}
+  </section>
+
+  {{!-- With helper (change context) --}}
+  {{#with currentPerformance}}
+    <article class="performance-details">
+      <h2>{{song}}</h2>
+      <p>Duration: {{duration}} seconds</p>
+      <p>Energy used: {{energyUsed}}</p>
+
+      {{!-- Nested with --}}
+      {{#with stats}}
+        <div class="stats">
+          <span>Plays: {{plays}}</span>
+          <span>Rating: {{rating}}</span>
+        </div>
+      {{/with}}
+    </article>
+  {{/with}}
+
+  {{!-- Lookup helper --}}
+  <p>First song: {{lookup songs 0}}</p>
+  <p>Selected version: {{lookup versions selectedVersion}}</p>
+
+  {{!-- Log helper (for debugging) --}}
+  {{log "Debug: Current context" this}}
+  {{log "Songs array:" songs level="info"}}
+
+  {{!-- Custom helpers --}}
+  <p>Formatted: {{formatSong currentSong}}</p>
+  <p>Uppercase: {{uppercase artist.name}}</p>
+  <p>Date: {{formatDate performanceDate "YYYY-MM-DD"}}</p>
+
+  {{!-- Block helper with hash arguments --}}
+  {{#link "home" class="nav-link" id="home-link"}}
+    Home Page
+  {{/link}}
+
+  {{!-- Comparison helpers (often custom) --}}
+  {{#eq status "active"}}
+    <span class="active">Active</span>
+  {{/eq}}
+
+  {{#gt energy 50}}
+    <span class="high-energy">High Energy!</span>
+  {{/gt}}
+
+  {{!-- Inline partials --}}
+  {{#*inline "song-badge"}}
+    <span class="badge {{type}}">{{label}}</span>
+  {{/inline}}
+
+  {{!-- Using inline partial --}}
+  {{> song-badge type="new" label="New Release"}}
+
+  {{!-- Partial with context --}}
+  {{> song-card song=featuredSong}}
+
+  {{!-- Partial with hash parameters --}}
+  {{> artist-card
+      name=artist.name
+      version=artist.version
+      showDetails=true
+  }}
+
+  {{!-- Partial blocks (with fallback) --}}
+  {{#> layout}}
+    {{#*inline "header"}}
+      <header>Custom Header for {{pageTitle}}</header>
+    {{/inline}}
+
+    {{#*inline "content"}}
+      <main>
+        <p>Main content goes here</p>
+      </main>
+    {{/inline}}
+  {{/> layout}}
+
+  {{!-- Comments that won't appear in output --}}
+  {{!-- TODO: Add more songs --}}
+
+  {{!-- Raw block (no processing) --}}
+  {{{{raw}}}}
+    This {{will}} not be {{processed}} by Handlebars
+  {{{{/raw}}}}
+
+  {{!-- Whitespace control --}}
+  <ul>
+    {{~#each items~}}
+      <li>{{~this~}}</li>
+    {{~/each~}}
+  </ul>
+
+  {{!-- Subexpressions --}}
+  <p>{{formatSong (uppercase currentSong)}}</p>
+  <p>{{#if (gt energy 50)}}High{{else}}Low{{/if}}</p>
+
+  {{!-- Built-in helpers --}}
+  {{!-- each, if, unless, with, lookup, log --}}
+
+  <footer>
+    <p>&copy; {{currentYear}} Miku Stage</p>
+    {{> footer-links}}
+  </footer>
+
+</body>
+</html>
+
+{{!--
+  Partial: song-card
+  Usage: {{> song-card song=songObject}}
+--}}
+{{#*inline "song-card-template"}}
+<div class="song-card">
+  <h3>{{song.title}}</h3>
+  <p>{{song.bpm}} BPM</p>
+  {{#if song.featured}}
+    <span class="featured-badge">Featured</span>
+  {{/if}}
+</div>
+{{/inline}}

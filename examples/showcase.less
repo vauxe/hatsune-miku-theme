@@ -1,0 +1,374 @@
+/**
+ * Hatsune Miku Theme - Less Showcase
+ * All-Miku Synthesis: Every voice, one stage.
+ */
+
+// =============================================================================
+// Variables
+// =============================================================================
+
+// Color variables
+@miku-v2-classic: #39C5BB;
+@miku-sekai: #33CCBB;
+@miku-nt: #00BCD4;
+@miku-append-light: #B2EBE7;
+@miku-append-sweet: #5FCEC8;
+
+// Accent colors
+@magenta-led: #E05096;
+@negi-green: #9CCC65;
+@meta-amber: #FFD740;
+@error-coral: #FF5370;
+
+// Background layers
+@bg-void: #0D1114;
+@bg-base: #1A1F24;
+@bg-raised: #1F262D;
+@bg-hover: #2A333C;
+
+// Foreground
+@text-primary: #C8DCD9;
+@text-secondary: #90B8B2;
+@text-muted: #607D7A;
+
+// Spacing
+@space-xs: 0.25rem;
+@space-sm: 0.5rem;
+@space-md: 1rem;
+@space-lg: 2rem;
+@space-xl: 4rem;
+
+// Typography
+@font-family-base: 'Inter', system-ui, sans-serif;
+@font-family-mono: 'JetBrains Mono', monospace;
+@font-size-base: 16px;
+@line-height-base: 1.6;
+
+// Borders
+@border-radius: 8px;
+@border-width: 1px;
+@border-color: fade(@miku-v2-classic, 30%);
+
+// Transitions
+@transition-fast: 150ms ease-out;
+@transition-normal: 300ms ease-out;
+
+// =============================================================================
+// Mixins
+// =============================================================================
+
+// Simple mixin
+.clearfix() {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+// Mixin with parameters
+.border-radius(@radius: @border-radius) {
+  border-radius: @radius;
+}
+
+// Mixin with multiple parameters
+.transition(@property: all, @duration: @transition-fast, @timing: ease-out) {
+  transition: @property @duration @timing;
+}
+
+// Mixin with default and named parameters
+.box-shadow(@x: 0, @y: 4px, @blur: 8px, @spread: 0, @color: rgba(0, 0, 0, 0.2)) {
+  box-shadow: @x @y @blur @spread @color;
+}
+
+// Mixin with variable number of arguments
+.gradient(@direction, @colors...) {
+  background: linear-gradient(@direction, @colors);
+}
+
+// Mixin with guards (conditionals)
+.text-contrast(@bg) when (lightness(@bg) >= 50%) {
+  color: @bg-void;
+}
+
+.text-contrast(@bg) when (lightness(@bg) < 50%) {
+  color: @text-primary;
+}
+
+// Parametric mixin with pattern matching
+.mixin-variant(dark) {
+  background: @bg-void;
+  color: @text-primary;
+}
+
+.mixin-variant(light) {
+  background: @text-primary;
+  color: @bg-void;
+}
+
+// Mixin that returns value (using variables)
+.calculate-spacing(@multiplier) {
+  @result: @space-md * @multiplier;
+}
+
+// =============================================================================
+// Functions
+// =============================================================================
+
+// Using built-in functions
+.color-functions-demo {
+  // Color manipulation
+  background: darken(@miku-v2-classic, 10%);
+  border-color: lighten(@miku-v2-classic, 20%);
+  color: saturate(@miku-nt, 20%);
+  outline-color: desaturate(@magenta-led, 30%);
+
+  // Alpha manipulation
+  box-shadow: 0 4px 8px fade(@miku-v2-classic, 50%);
+  border: 1px solid fadeout(@border-color, 50%);
+
+  // Color blending
+  &:hover {
+    background: mix(@miku-v2-classic, @miku-nt, 50%);
+  }
+
+  // Color extraction
+  --hue: hue(@miku-v2-classic);
+  --saturation: saturation(@miku-v2-classic);
+  --lightness: lightness(@miku-v2-classic);
+
+  // Math functions
+  width: percentage(0.5);
+  height: unit(100, px);
+  padding: ceil(15.3px);
+  margin: floor(15.7px);
+  border-width: round(1.5px);
+}
+
+// =============================================================================
+// Nesting
+// =============================================================================
+
+.miku-stage {
+  background: @bg-base;
+  padding: @space-lg;
+
+  // Nested selectors
+  .voice-card {
+    background: @bg-raised;
+    .border-radius();
+    .transition();
+
+    // Parent selector reference
+    &:hover {
+      background: @bg-hover;
+      transform: translateY(-2px);
+      .box-shadow(0, 8px, 16px, 0, fade(@miku-v2-classic, 30%));
+    }
+
+    &:focus {
+      outline: 2px solid @miku-v2-classic;
+      outline-offset: 2px;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    // Nested pseudo-elements
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      .border-radius();
+      opacity: 0;
+      .transition(opacity);
+    }
+
+    // BEM-style with parent reference
+    &__title {
+      font-size: 1.25rem;
+      color: @text-primary;
+    }
+
+    &__description {
+      color: @text-secondary;
+    }
+
+    &--featured {
+      border: 2px solid @miku-v2-classic;
+    }
+
+    &--disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
+
+  // Nested media query
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: @space-lg;
+  }
+}
+
+// =============================================================================
+// Operations
+// =============================================================================
+
+.operations-demo {
+  // Arithmetic
+  width: 100% - 20px;
+  padding: @space-md * 2;
+  margin: @space-lg / 2;
+  font-size: @font-size-base + 2px;
+
+  // Color operations
+  background: @miku-v2-classic + #111;
+  border-color: @miku-nt - #222;
+
+  // String operations
+  content: "Miku " + "Stage";
+
+  // Comparison (in guards)
+  // See mixin guards above
+}
+
+// =============================================================================
+// Extend
+// =============================================================================
+
+.base-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: @space-sm @space-md;
+  border: none;
+  .border-radius();
+  font-weight: 600;
+  cursor: pointer;
+  .transition();
+}
+
+.btn-primary {
+  &:extend(.base-button);
+  background: @miku-v2-classic;
+  .text-contrast(@miku-v2-classic);
+
+  &:hover {
+    background: darken(@miku-v2-classic, 10%);
+  }
+}
+
+.btn-secondary {
+  &:extend(.base-button);
+  background: transparent;
+  color: @miku-v2-classic;
+  border: 1px solid @miku-v2-classic;
+
+  &:hover {
+    background: fade(@miku-v2-classic, 10%);
+  }
+}
+
+// =============================================================================
+// Imports
+// =============================================================================
+
+// Import Less files
+// @import "variables.less";
+// @import "mixins.less";
+// @import (reference) "library.less";  // Import but don't output
+// @import (inline) "raw.css";          // Include as-is
+// @import (css) "external.css";        // CSS import
+
+// =============================================================================
+// Namespaces and Accessors
+// =============================================================================
+
+#miku-theme {
+  .colors() {
+    @primary: @miku-v2-classic;
+    @secondary: @miku-nt;
+  }
+
+  .spacing() {
+    @small: @space-sm;
+    @medium: @space-md;
+    @large: @space-lg;
+  }
+}
+
+// Using namespace
+.themed-element {
+  #miku-theme.colors();
+  color: @primary;
+
+  #miku-theme.spacing();
+  padding: @medium;
+}
+
+// =============================================================================
+// Maps (Less 4.0+)
+// =============================================================================
+
+@colors: {
+  primary: @miku-v2-classic;
+  secondary: @miku-nt;
+  accent: @magenta-led;
+};
+
+.map-demo {
+  color: @colors[primary];
+  border-color: @colors[secondary];
+}
+
+// =============================================================================
+// Loops
+// =============================================================================
+
+// Generate utility classes
+.generate-spacing(@i: 1) when (@i <= 5) {
+  .m-@{i} { margin: @space-xs * @i; }
+  .p-@{i} { padding: @space-xs * @i; }
+  .generate-spacing(@i + 1);
+}
+
+.generate-spacing();
+
+// Loop with list
+@breakpoints: xs, sm, md, lg, xl;
+
+.loop-list(@list, @i: 1) when (@i <= length(@list)) {
+  @item: extract(@list, @i);
+  .hide-@{item} {
+    display: none;
+  }
+  .loop-list(@list, @i + 1);
+}
+
+.loop-list(@breakpoints);
+
+// =============================================================================
+// Escaping
+// =============================================================================
+
+.escaping-demo {
+  // Escape special characters
+  filter: ~"alpha(opacity=50)";
+
+  // Escape calc expressions
+  width: calc(~"100% - 20px");
+
+  // Variable interpolation in selectors
+  @property: color;
+  @{property}: @miku-v2-classic;
+}
+
+// =============================================================================
+// Plugin Functions (if available)
+// =============================================================================
+
+// @plugin "my-plugin";
+// color: my-function(@miku-v2-classic);

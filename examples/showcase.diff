@@ -1,0 +1,151 @@
+diff --git a/src/miku.ts b/src/miku.ts
+index 39c5bb1..00bcd4f 100644
+--- a/src/miku.ts
++++ b/src/miku.ts
+@@ -1,15 +1,20 @@
+ /**
+  * Hatsune Miku Theme - Diff Showcase
+  * All-Miku Synthesis: Every voice, one stage.
++ *
++ * This diff file demonstrates git diff syntax highlighting.
+  */
+
+-const CANONICAL_COLOR = '#39C5BB';
++// Updated to use const assertion
++const CANONICAL_COLOR = '#39C5BB' as const;
+ const DEFAULT_BPM = 39;
++const MAX_ENERGY = 100;
+
+ interface VoiceBank {
+   name: string;
+   version: string;
++  frequencyRange: [number, number];
+ }
+
+ class DigitalDiva {
+@@ -20,6 +25,8 @@ class DigitalDiva {
+   constructor(name: string = 'Hatsune Miku') {
+     this.name = name;
+     this._energy = 100;
++    this.voiceBank = { name, version: 'V2', frequencyRange: [80, 1100] };
+   }
+
+-  sing(song: string): string {
++  async sing(song: string): Promise<string> {
+     if (this._energy < 10) {
+       throw new Error('Low energy');
+     }
+     this._energy -= 10;
+-    return `Now playing: ${song}`;
++    return `[MIKU] Now singing: ${song}`;
+   }
++
++  get energy(): number {
++    return this._energy;
++  }
++
++  set energy(value: number) {
++    this._energy = Math.max(0, Math.min(MAX_ENERGY, value));
++  }
+ }
+
+-export { DigitalDiva };
++export { DigitalDiva, CANONICAL_COLOR };
++export type { VoiceBank };
+
+================================================================================
+
+diff --git a/package.json b/package.json
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "hatsune-miku-theme",
+-  "version": "3.9.38",
++  "version": "3.9.39",
+   "description": "A VS Code theme inspired by Hatsune Miku",
+   "author": "Miku Fan",
+   "license": "MIT",
+@@ -10,7 +10,9 @@
+     "build": "tsc && node dist/generator.js",
+     "compile": "tsc",
+     "watch": "tsc -w",
+-    "test": "jest"
++    "test": "jest",
++    "readability": "node dist/tools/readability.js",
++    "lint": "eslint src/**/*.ts"
+   },
+   "devDependencies": {
+     "typescript": "^5.0.0",
+
+================================================================================
+
+--- a/README.md
++++ b/README.md
+@@ -1,5 +1,7 @@
+ # Hatsune Miku Theme
+
++![Version](https://img.shields.io/badge/version-3.9.39-39C5BB)
++
+ A VS Code theme inspired by Hatsune Miku's iconic teal color (#39C5BB).
+
+ ## Features
+@@ -8,6 +10,7 @@ A VS Code theme inspired by Hatsune Miku's iconic teal color (#39C5BB).
+ - Comfortable contrast for long coding sessions
+ - Semantic highlighting support
+ - Bracket colorization
++- Readability analysis tools
+
+ ## Installation
+
+@@ -15,3 +18,11 @@ A VS Code theme inspired by Hatsune Miku's iconic teal color (#39C5BB).
+ 2. Search for "Hatsune Miku Theme"
+ 3. Click Install
+ 4. Select the theme from Color Theme picker
++
++## Development
++
++```bash
++npm install
++npm run build
++```
+
+================================================================================
+
+Binary files a/images/old-logo.png and b/images/new-logo.png differ
+
+================================================================================
+
+rename from src/old-name.ts
+rename to src/new-name.ts
+
+================================================================================
+
+diff --git a/config.json b/config.json
+deleted file mode 100644
+index 1234567..0000000
+--- a/config.json
++++ /dev/null
+@@ -1,5 +0,0 @@
+-{
+-  "name": "old-config",
+-  "deprecated": true,
+-  "version": "1.0"
+-}
+
+================================================================================
+
+diff --git a/settings.json b/settings.json
+new file mode 100644
+index 0000000..abcdef1
+--- /dev/null
++++ b/settings.json
+@@ -0,0 +1,8 @@
++{
++  "name": "miku-settings",
++  "theme": {
++    "primary": "#39C5BB",
++    "secondary": "#00BCD4"
++  },
++  "version": "2.0"
++}

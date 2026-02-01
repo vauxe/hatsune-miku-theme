@@ -1,0 +1,220 @@
+//- Hatsune Miku Theme - Pug Showcase
+//- All-Miku Synthesis: Every voice, one stage.
+
+//- DOCTYPE
+doctype html
+
+//- HTML with attributes
+html(lang="en" data-theme="miku")
+  head
+    //- Meta tags
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(name="description" content=description)
+    meta(name="theme-color" content="#39C5BB")
+
+    //- Title with interpolation
+    title #{pageTitle} - Miku Stage
+
+    //- Link tags
+    link(rel="stylesheet" href="/styles/main.css")
+    link(rel="icon" type="image/svg+xml" href="/favicon.svg")
+
+    //- Inline style block
+    style.
+      :root {
+        --miku-color: #39C5BB;
+        --bg-color: #1A1F24;
+      }
+
+  body(class=bodyClass)
+    //- Simple tags
+    h1 #{title}
+    p Welcome to the stage!
+
+    //- Div shorthand with class and ID
+    #main-content.container.miku-stage
+      //- Nested elements
+      header.site-header
+        nav.main-nav
+          a.logo(href="/") Miku Stage
+          ul.nav-list
+            li: a(href="#songs") Songs
+            li: a(href="#about") About
+            li: a.cta(href="#perform") Perform
+
+      //- Conditionals
+      if isPerforming
+        .status.active
+          span.indicator
+          | Now Performing: #{currentSong}
+      else if isLoading
+        .status.loading
+          span.spinner
+          | Loading...
+      else
+        .status.idle
+          | Stage is idle
+
+      //- Unless (inverse if)
+      unless hasError
+        p.success All systems operational!
+
+      //- Iteration with each
+      section.songs
+        h2 Playlist
+        ul.song-list
+          each song, index in songs
+            li.song-item(data-index=index)
+              if index === 0
+                span.badge First
+              span.title= song.title
+              span.bpm #{song.bpm} BPM
+              if index === songs.length - 1
+                span.badge Last
+          else
+            li.empty No songs available
+
+      //- Iteration over object
+      section.versions
+        h2 Voice Bank Versions
+        each version, key in versions
+          .version-card(data-version=key)
+            h3= key
+            p Year: #{version.year}
+            p Color:
+              span(style=`color: ${version.color}`)= version.color
+
+      //- Case statement
+      case status
+        when "active"
+          .alert.alert-success Active
+        when "idle"
+          .alert.alert-info Idle
+        when "error"
+          .alert.alert-danger Error
+        default
+          .alert Unknown status
+
+      //- Attributes
+      //- Boolean attributes
+      input(type="checkbox" checked disabled)
+      button(type="submit" disabled=isDisabled) Submit
+
+      //- Class attributes (array/object)
+      .card(class=['featured', isNew && 'new'])
+      .item(class={active: isActive, highlighted: isHighlighted})
+
+      //- Style attribute (object)
+      .colored(style={color: textColor, backgroundColor: bgColor})
+
+      //- Data attributes
+      .song(
+        data-id=song.id
+        data-title=song.title
+        data-bpm=song.bpm
+      )
+
+      //- Multi-line attributes
+      a.btn.btn-primary(
+        href=performUrl
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Start Performance"
+      ) Perform Now
+
+      //- Interpolation types
+      p Text interpolation: #{name}
+      p Unescaped: !{htmlContent}
+      p Tag interpolation: #[strong Bold] and #[em italic]
+      p Attribute: a(href=url)
+
+      //- Piped text
+      p
+        | This is a long paragraph that spans
+        | multiple lines using the pipe character
+        | for better readability.
+
+      //- Block text
+      p.
+        This is a block of text.
+        It preserves whitespace and line breaks.
+        No need for pipes.
+
+      //- Script block
+      script.
+        document.addEventListener('DOMContentLoaded', function() {
+          console.log('Miku Stage loaded');
+          const color = '#{canonicalColor}';
+        });
+
+      //- Mixins
+      //- Definition
+      mixin song-card(song)
+        .song-card
+          h3= song.title
+          p= song.bpm + ' BPM'
+          if block
+            .song-extra
+              block
+
+      //- Usage
+      +song-card({title: 'Melt', bpm: 120})
+      +song-card({title: 'World is Mine', bpm: 180})
+        p This song has extra content!
+
+      //- Mixin with attributes
+      mixin link(href, name)
+        a.nav-link(href=href)&attributes(attributes)= name
+
+      +link('/home', 'Home')(class='active' target='_blank')
+
+      //- Mixin with rest arguments
+      mixin list(id, ...items)
+        ul(id=id)
+          each item in items
+            li= item
+
+      +list('songs', 'Melt', 'World is Mine', 'Love is War')
+
+      //- Include other files
+      //- include ./partials/header.pug
+      //- include:markdown ./content/about.md
+
+      //- Extends and blocks
+      //- In child template:
+      //- extends ./layout.pug
+      //- block content
+      //-   p Child content here
+
+      //- Filters
+      :markdown-it
+        # Markdown Content
+        This is **bold** and *italic*.
+
+      //- Comments
+      // This comment appears in HTML
+      //- This comment does not appear in HTML
+
+      //- Buffered vs unbuffered code
+      - var greeting = 'Hello'
+      = greeting
+      != '<strong>Raw HTML</strong>'
+
+      //- Each with index
+      ul
+        each val, index in ['a', 'b', 'c']
+          li= index + ': ' + val
+
+      //- While loop
+      - var n = 0
+      ul
+        while n < 3
+          li= n++
+
+    footer.site-footer
+      p &copy; #{new Date().getFullYear()} Miku Stage
+      p
+        | Made with
+        span.heart ♥
+        | for Miku fans

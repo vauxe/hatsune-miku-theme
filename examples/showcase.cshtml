@@ -1,0 +1,245 @@
+@* Hatsune Miku Theme - Razor Showcase *@
+@* All-Miku Synthesis: Every voice, one stage. *@
+
+@page "/miku/{Version?}"
+@model MikuTheme.Pages.ShowcaseModel
+@using MikuTheme.Services
+@using MikuTheme.Models
+@inject ISynthesizerService SynthesizerService
+@inject IConfiguration Configuration
+
+@{
+    ViewData["Title"] = "Miku Stage";
+    Layout = "_Layout";
+    var canonicalColor = "#39C5BB";
+}
+
+@* Section directive *@
+@section Styles {
+    <style>
+        :root {
+            --miku-color: @canonicalColor;
+        }
+        .miku-stage {
+            background: linear-gradient(135deg, #1A1F24, #0D1114);
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        const mikuConfig = {
+            color: '@canonicalColor',
+            version: '@Model.CurrentVersion'
+        };
+    </script>
+}
+
+@* HTML with Razor expressions *@
+<div class="miku-stage" data-version="@Model.CurrentVersion">
+    <header>
+        @* Simple expression *@
+        <h1>@Model.Title</h1>
+
+        @* Expression with member access *@
+        <p class="subtitle">@Model.VoiceBank.Name - @Model.VoiceBank.Version</p>
+
+        @* Escaped HTML output *@
+        <p>@Model.Description</p>
+
+        @* Raw HTML output (unescaped) *@
+        <div class="rich-content">@Html.Raw(Model.HtmlContent)</div>
+    </header>
+
+    @* Conditional rendering *@
+    @if (Model.IsPerforming)
+    {
+        <div class="status active">
+            <span class="indicator pulse"></span>
+            Now Performing: @Model.CurrentSong
+        </div>
+    }
+    else if (Model.IsLoading)
+    {
+        <div class="status loading">
+            <span class="spinner"></span>
+            Loading...
+        </div>
+    }
+    else
+    {
+        <div class="status idle">
+            Stage is idle
+        </div>
+    }
+
+    @* Loops *@
+    <section class="songs">
+        <h2>Playlist</h2>
+        <ul>
+            @foreach (var song in Model.Songs)
+            {
+                <li class="song-item @(song.IsFeatured ? "featured" : "")">
+                    <span class="title">@song.Title</span>
+                    <span class="bpm">@song.BPM BPM</span>
+                    @if (song.IsFeatured)
+                    {
+                        <span class="badge">Featured</span>
+                    }
+                </li>
+            }
+        </ul>
+
+        @* For loop with index *@
+        @for (int i = 0; i < Model.Songs.Count; i++)
+        {
+            <p>@(i + 1). @Model.Songs[i].Title</p>
+        }
+    </section>
+
+    @* Switch expression (C# 8+) *@
+    <div class="version-badge">
+        @(Model.CurrentVersion switch
+        {
+            "V2" => "Classic",
+            "V3" => "Standard",
+            "V4X" => "Extended",
+            "NT" => "New Type",
+            "SEKAI" => "Project SEKAI",
+            _ => "Unknown"
+        })
+    </div>
+
+    @* Null-conditional and coalescing *@
+    <p>Energy: @(Model.Energy?.ToString() ?? "N/A")</p>
+    <p>Status: @(Model.Status ?? "Unknown")</p>
+
+    @* Inline C# code block *@
+    @{
+        var greeting = "Welcome to the stage!";
+        var formattedEnergy = $"{Model.Energy:N0}%";
+        var colors = new[] { "#39C5BB", "#00BCD4", "#33CCBB" };
+    }
+
+    <p>@greeting Energy: @formattedEnergy</p>
+
+    @* Using statement *@
+    @using (Html.BeginForm("Search", "Songs", FormMethod.Get))
+    {
+        <input type="text" name="query" placeholder="Search songs..." />
+        <button type="submit">Search</button>
+    }
+
+    @* Tag Helpers *@
+    <form asp-action="Perform" asp-controller="Stage" method="post">
+        <div class="form-group">
+            <label asp-for="SongTitle"></label>
+            <input asp-for="SongTitle" class="form-control" />
+            <span asp-validation-for="SongTitle" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="BPM"></label>
+            <input asp-for="BPM" type="number" min="60" max="240" class="form-control" />
+            <span asp-validation-for="BPM" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Start Performance</button>
+    </form>
+
+    @* Environment tag helper *@
+    <environment include="Development">
+        <div class="debug-info">
+            <p>Debug Mode: ON</p>
+            <p>Model State: @(ModelState.IsValid ? "Valid" : "Invalid")</p>
+        </div>
+    </environment>
+
+    <environment exclude="Development">
+        @* Production content *@
+    </environment>
+
+    @* Link and script tag helpers *@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @* Image tag helper *@
+    <img asp-src="~/images/miku.png"
+         asp-alt="Hatsune Miku"
+         class="miku-image" />
+
+    @* Anchor tag helper *@
+    <a asp-controller="Songs"
+       asp-action="Details"
+       asp-route-id="@Model.Songs.FirstOrDefault()?.Id"
+       class="btn btn-link">
+        View First Song
+    </a>
+
+    @* Partial views *@
+    @await Html.PartialAsync("_SongCard", Model.FeaturedSong)
+
+    <partial name="_Navigation" model="Model.NavItems" />
+
+    @* Sections *@
+    @await RenderSectionAsync("Sidebar", required: false)
+
+    @* Components *@
+    @await Component.InvokeAsync("VoiceBankSelector", new { version = Model.CurrentVersion })
+
+    <vc:song-list songs="Model.Songs" />
+
+    @* Try-catch in Razor *@
+    @try
+    {
+        var result = await SynthesizerService.GetStatusAsync();
+        <p>Synthesizer Status: @result</p>
+    }
+    catch (Exception ex)
+    {
+        <p class="error">Error: @ex.Message</p>
+    }
+
+    @* Local functions *@
+    @{
+        string FormatSong(string title, int bpm) => $"[MIKU] {title} @ {bpm}BPM";
+    }
+
+    <p>@FormatSong("World is Mine", 180)</p>
+
+    @* Inject service usage *@
+    <footer>
+        <p>App Version: @Configuration["AppVersion"]</p>
+        <p>Voices Available: @(await SynthesizerService.GetVoiceCountAsync())</p>
+    </footer>
+</div>
+
+@* Functions block *@
+@functions {
+    public string GetVersionColor(string version)
+    {
+        return version switch
+        {
+            "V2" => "#39C5BB",
+            "NT" => "#00BCD4",
+            _ => "#FFFFFF"
+        };
+    }
+
+    public async Task<string> GetGreetingAsync()
+    {
+        await Task.Delay(1);
+        return "Welcome to Miku Stage!";
+    }
+}
+
+@* Code block with logic *@
+@{
+    async Task RenderSongAsync(Song song)
+    {
+        <div class="song">
+            <h3>@song.Title</h3>
+            <p>@song.BPM BPM</p>
+        </div>
+    }
+}
