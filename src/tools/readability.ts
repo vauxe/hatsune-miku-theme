@@ -25,6 +25,7 @@ import {
   PRIMARY_SYNTAX_ELEMENTS,
   APCA_THRESHOLDS,
   DISTINCTION_THRESHOLDS,
+  CRITICAL_DISTINCTION_PAIRS,
   CHROMA_THRESHOLDS,
   ACCENT_CHROMA_ELEMENTS,
   SECONDARY_CHROMA_ELEMENTS,
@@ -70,6 +71,7 @@ import type {
   DistinctionSkippedPair,
   SectionData,
   AnalysisOptions,
+  APCATier,
 } from './readability-types';
 
 // =============================================================================
@@ -100,7 +102,7 @@ function analyze(name: string, fgValue: ColorValue, bg: string, bgKey = ''): Col
   // Determine APCA tier based on element type
   const isPrimary = PRIMARY_SYNTAX_ELEMENTS.has(name);
   const isExpectedDim = EXPECTED_DIM_ELEMENTS.has(name);
-  const apcaTier = isExpectedDim ? 'tertiary' : isPrimary ? 'primary' : 'secondary';
+  const apcaTier: APCATier = isExpectedDim ? 'tertiary' : isPrimary ? 'primary' : 'secondary';
 
   return {
     name,
@@ -109,6 +111,7 @@ function analyze(name: string, fgValue: ColorValue, bg: string, bgKey = ''): Col
     bgKey,
     lc: result.lc,
     analysis: analyzeAPCA(result, apcaTier),
+    tier: apcaTier,
     alpha: alphaStr,
     fallback: fgValue.fallback,
     expectedDim: isExpectedDim,
@@ -176,6 +179,7 @@ type DistinctionResult = { pairs: DistinctionPair[]; skipped: DistinctionSkipped
  * Generic color distinction analyzer.
  * Compares pairs of colors to ensure they are visually distinguishable.
  * Handles transparent colors by compositing against background before comparison.
+ * Uses higher threshold (18 vs 12) for safety-critical pairs.
  *
  * @param colors - Color map to analyze
  * @param pairsDef - Array of [name1, name2] pairs to compare
@@ -210,7 +214,12 @@ function analyzeColorDistinction(
       continue;
     }
 
-    const { level, icon, pass } = getDistinctionLevel(dE);
+    // Check if this is a critical pair (error/warning, red/green, etc.)
+    const pairKey = `${name1}↔${name2}`;
+    const pairKeyReverse = `${name2}↔${name1}`;
+    const isCritical = CRITICAL_DISTINCTION_PAIRS.has(pairKey) || CRITICAL_DISTINCTION_PAIRS.has(pairKeyReverse);
+
+    const { level, icon, pass } = getDistinctionLevel(dE, isCritical);
     pairs.push({
       name1,
       name2,
@@ -222,6 +231,7 @@ function analyzeColorDistinction(
       level,
       icon,
       pass,
+      critical: isCritical,
     });
   }
 
@@ -286,24 +296,26 @@ const analyzeExtensionIconDistinction = (icons: Record<string, ColorValue>, bg: 
 
 /**
  * Format a contrast issue as a single line:
- * CONTRAST file:key Lc=X need=Y bg=background.key
+ * CONTRAST file:key Lc=X need=Y tier=T bg=background.key reason
  */
 function formatContrastLine(r: ColorResult): string {
   const file = getSourceFile(r.source?.type ?? 'workbench');
   const key = r.source?.key ?? 'unknown';
   const lc = Math.round(Math.abs(r.lc) * 10) / 10;
-  // Determine threshold based on element type
-  const isPrimary = PRIMARY_SYNTAX_ELEMENTS.has(r.name);
-  const need = isPrimary ? APCA_THRESHOLDS.primary : APCA_THRESHOLDS.secondary;
-  return `CONTRAST ${file}:${key} Lc=${lc} need=${need} bg=${r.bgKey}`;
+  const isHalation = r.analysis.failReason === 'halation';
+  const need = isHalation ? `≤${APCA_THRESHOLDS.max}` : `≥${APCA_THRESHOLDS[r.tier]}`;
+  const reason = isHalation ? 'halation' : 'too-dim';
+  return `CONTRAST ${file}:${key} Lc=${lc} need=${need} tier=${r.tier} ${reason}`;
 }
 
 /**
  * Format a distinction issue as a single line:
- * DISTINCTION category pair1↔pair2 ΔE=X need=Y
+ * DISTINCTION category pair1↔pair2 ΔE=X need=Y [critical]
  */
 function formatDistinctionLine(category: string, p: DistinctionPair): string {
-  return `DISTINCTION ${category} ${p.name1}↔${p.name2} ΔE=${p.deltaE.toFixed(1)} need=${DISTINCTION_THRESHOLDS.standard}`;
+  const need = p.critical ? DISTINCTION_THRESHOLDS.critical : DISTINCTION_THRESHOLDS.standard;
+  const criticalTag = p.critical ? ' [critical]' : '';
+  return `DISTINCTION ${category} ${p.name1}↔${p.name2} ΔE=${p.deltaE.toFixed(1)} need=${need}${criticalTag}`;
 }
 
 /**
@@ -345,16 +357,18 @@ function analyzeColorChroma(colors: Record<string, ColorValue>): ChromaResult[] 
   for (const [name, cv] of Object.entries(colors)) {
     if (cv.fallback) continue;
 
-    const chroma = getChroma(cv.color);
-    if (chroma === null) continue;
+    const rawChroma = getChroma(cv.color);
+    if (rawChroma === null) continue;
 
+    // Round chroma for consistent display and level determination
+    const chroma = Math.round(rawChroma);
     const tier = getChromaTier(name);
     const analysis = analyzeChroma(chroma, tier);
 
     results.push({
       name,
       color: cv.color,
-      chroma: Math.round(chroma),
+      chroma,
       icon: analysis.icon,
       level: analysis.level,
       pass: analysis.pass,
@@ -1105,7 +1119,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       for (const r of section.results) {
         const status = r.fallback ? '(?)' : r.expectedDim ? '(~)' : r.analysis.pass ? '✓' : '✗';
         const lc = Math.round(Math.abs(r.lc) * 10) / 10;
-        output.push(`  ${status} ${r.name.padEnd(20)} ${r.color} Lc=${lc.toString().padStart(5)} ${r.analysis.level}`);
+        output.push(`  ${status} ${r.name.padEnd(20)} ${r.color} Lc=${lc.toString().padStart(5)} ${r.analysis.level.padEnd(8)} [${r.tier}]`);
       }
       output.push(`  [${section.stats.pass} pass, ${section.stats.fail} fail, ${section.stats.missing} missing]`);
     }
@@ -1395,14 +1409,14 @@ Levels (descriptive):
   Large    (Lc 45-60) - Large/bold text only
   Content  (Lc 60-75) - Minimum for content
   Body     (Lc 75-90) - Good for body text
-  Fluent   (Lc ≥ 90)  - Optimal for any text size
+  Fluent   (Lc ≥ 90)  - Optimal but can feel harsh all-day
 
-Pass thresholds (conservative for marathon coding):
-  Primary   (Lc 80-95): Variables, keywords, functions, types, strings...
-  Secondary (Lc 75-95): UI elements, comments, hints
+Pass thresholds (eye-friendly for marathon coding):
+  Primary   (Lc 75-90): Variables, keywords, functions, types, strings...
+  Secondary (Lc 70-90): UI elements, comments, hints
   Tertiary  (Lc ≥ 45):  Ghost text, placeholders, inactive states
 
-Output icons: ❌ fail, ⚠️ below threshold, ✅ pass, ⚡ halation (Lc>95)
+Output icons: ❌ fail, ⚠️ below threshold, ✅ pass, ⚡ halation (Lc>90)
 Output: CONTRAST file:key Lc=X need=Y bg=background.key
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1419,11 +1433,12 @@ Levels (descriptive):
   Distinct      (ΔE 20-40)- Very different
   Obvious       (ΔE 40+)  - Completely different
 
-Pass threshold:
-  All pairs (ΔE ≥ 15): Clear distinction with zero cognitive effort
+Pass thresholds:
+  Standard (ΔE ≥ 12): Clear distinction with more palette flexibility
+  Critical (ΔE ≥ 18): Error/warning, red/green, added/deleted pairs
 
-Output icons: ❌ fail (<15), ⚠️ marginal (15-20), ✅ good (20+)
-Output: DISTINCTION category pair1↔pair2 ΔE=X need=Y
+Output icons: ❌ fail, ⚠️ marginal (12-20), ✅ good (20+)
+Output: DISTINCTION category pair1↔pair2 ΔE=X need=Y [critical]
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ANALYSIS 3: CHROMA / COLOR IDENTITY & EYE FATIGUE (C*)
@@ -1432,21 +1447,21 @@ LCH Chroma (C*) measures color intensity.
 - Too low: Colors look gray, lack identity
 - Too high: Colors cause eye strain
 
-Levels (descriptive):
-  Gray        (C* < 15)   - Too neutral, no identity
-  Muted       (C* 15-24)  - Subdued, pastel-like
-  Comfortable (C* 25-40)  - Colorful yet easy on eyes
-  Vibrant     (C* 41-55)  - Noticeably colorful
-  Vivid       (C* 56-70)  - Bold and attention-grabbing
+Levels (aligned with primary tier threshold):
+  Gray        (C* < 20)   - Too neutral, fails all tiers
+  Muted       (C* 20-29)  - Subdued, fails primary/accent tier
+  Comfortable (C* 30-40)  - Colorful yet easy on eyes
+  Vibrant     (C* 41-55)  - Noticeably colorful (primary max)
+  Vivid       (C* 56-70)  - Bold and attention-grabbing (accent max)
   Intense     (C* 71-90)  - Very saturated
   Extreme     (C* 91+)    - Way too harsh
 
-Tiered thresholds (balancing comfort and aesthetics):
-  Primary   (C* 18-55): Variables, keywords, types, strings - need identity
-  Secondary (C* 15-60): Comments, punctuation - can be more muted
-  Accent    (C* 15-70): Errors, warnings, brackets - can be vibrant
+Tiered thresholds (colorful, matching popular themes):
+  Primary   (C* 30-55): Variables, keywords, types, strings - colorful
+  Secondary (C* 20-55): Comments, punctuation - slightly muted OK
+  Accent    (C* 30-70): Errors, warnings, brackets - vibrant
 
-Reference: Solarized ~C*20-45, Nord ~C*15-35, Dracula ~C*30-60
+Reference: Catppuccin ~C*27-46, One Dark ~C*29-61, Tokyo Night ~C*34-55
 
 Output icons: ⚪ too-gray, ✅ pass, ⛔ too-vivid, ❌ extreme (90+)
 Output: CHROMA element color C*=X tier=T need=min-max reason
@@ -1458,7 +1473,7 @@ Output: SUMMARY pass=N/M fail=N distinction_fail=N chroma_fail=N ready=X
   - pass=N/M          → Colors meeting Lc threshold / total defined colors
   - fail=N            → Contrast failures (excluding expected dim)
   - distinction_fail  → Color pairs too similar (ΔE below threshold)
-  - chroma_fail       → Colors outside tier threshold (primary 18-55, etc.)
+  - chroma_fail       → Colors outside tier threshold (primary 30-55, etc.)
   - ready=true        → All tests pass, theme is marathon-ready
 
 Examples:

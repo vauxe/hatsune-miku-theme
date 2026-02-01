@@ -98,10 +98,12 @@ export interface APCAAnalysis {
   level: Level;
   /** Status icon for output (✅/⚠️/❌/⚡) */
   icon: string;
-  /** True if Lc meets tier threshold (80/75/45) and doesn't exceed max (95 for primary/secondary, no max for tertiary) */
+  /** True if Lc meets tier threshold and doesn't exceed max */
   pass: boolean;
   /** Text/background luminance relationship */
   polarity: Polarity;
+  /** Reason for failure if pass is false */
+  failReason?: 'too-low' | 'halation';
 }
 
 // =============================================================================
@@ -271,6 +273,9 @@ export interface ExtractedColors {
 // ANALYSIS TYPES
 // =============================================================================
 
+/** APCA tier for threshold determination */
+export type APCATier = 'primary' | 'secondary' | 'tertiary';
+
 /**
  * Result of analyzing a single foreground/background color pair.
  */
@@ -287,6 +292,8 @@ export interface ColorResult {
   lc: number;
   /** Full APCA analysis with level and pass/fail */
   analysis: APCAAnalysis;
+  /** APCA tier used for threshold (primary=80, secondary=75, tertiary=45) */
+  tier: APCATier;
   /** Original alpha if color was semi-transparent (e.g., "50%") */
   alpha?: string;
   /** True if color was not defined in theme */
@@ -341,6 +348,8 @@ export interface DistinctionPair {
   icon: string;
   /** True if ΔE meets threshold */
   pass: boolean;
+  /** True if this is a safety-critical pair (higher threshold) */
+  critical: boolean;
 }
 
 export type DistinctionSkipReason = 'missing' | 'fallback' | 'invalid';

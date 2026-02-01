@@ -101,15 +101,10 @@ export function hexToLch(hex: string): LCH | null {
 /**
  * Analyze chroma level for comfortable extended reading.
  *
- * Tiered thresholds:
- * - Primary (C* 18-55): Core syntax - need color identity
- * - Secondary (C* 15-60): Comments, UI - can be more muted
- * - Accent (C* 15-70): Errors, highlights - can be vibrant
- *
- * Reference points:
- * - Solarized colors: ~C* 20-45
- * - Nord palette: ~C* 15-35
- * - Pure #FF0000 red: ~C* 104
+ * Tiered thresholds (colorful, matching popular themes):
+ * - Primary (C* 30-55): Core syntax
+ * - Secondary (C* 20-55): Comments, UI
+ * - Accent (C* 30-70): Errors, highlights
  *
  * @param chroma - LCH chroma value (C*)
  * @param tier - 'primary', 'secondary', or 'accent' (default: 'primary')
@@ -122,11 +117,12 @@ export function analyzeChroma(chroma: number, tier: ChromaTier = 'primary'): {
   failReason?: 'too-low' | 'too-high';
   tier: ChromaTier;
 } {
-  // Determine descriptive level (same for all tiers)
+  // Determine descriptive level (aligned with primary tier threshold)
+  // Muted = fails primary (C* < 30), Comfortable = passes primary (C* 30-40)
   let level: string;
-  if (chroma < 15) {
+  if (chroma < 20) {
     level = 'Gray';
-  } else if (chroma < 25) {
+  } else if (chroma < 30) {
     level = 'Muted';
   } else if (chroma <= 40) {
     level = 'Comfortable';
@@ -244,7 +240,7 @@ export function getAPCAContrast(text: string, background: string): APCAResult {
  * Analyze APCA result with tiered pass threshold.
  *
  * @param result - Raw APCA calculation result
- * @param tier - 'primary' (Lc 80-95), 'secondary' (Lc 75-95), or 'tertiary' (Lc ≥45)
+ * @param tier - 'primary' (Lc 75-90), 'secondary' (Lc 70-90), or 'tertiary' (Lc ≥45)
  * @returns Analysis with level and pass/fail based on tier threshold
  */
 export function analyzeAPCA(
@@ -284,6 +280,9 @@ export function analyzeAPCA(
   const tooHigh = tier !== 'tertiary' && absLc > maxThreshold; // tertiary elements can be any contrast
   const pass = !tooLow && !tooHigh;
 
+  // Determine fail reason
+  const failReason = tooHigh ? 'halation' : tooLow ? 'too-low' : undefined;
+
   // Adjust icon based on pass status
   if (tooHigh) {
     icon = '⚡'; // Too bright - halation risk
@@ -291,7 +290,7 @@ export function analyzeAPCA(
     icon = '⚠️'; // Below tier threshold
   }
 
-  return { lc, level, icon, pass, polarity };
+  return { lc, level, icon, pass, polarity, failReason };
 }
 
 // =============================================================================
@@ -464,9 +463,10 @@ export function deltaE00Hex(hex1: string, hex2: string, bg?: string): number | n
  * Get distinction level based on Delta E value.
  *
  * @param dE - Delta E 2000 value
- * @returns Level, icon, and pass status (threshold: ΔE≥15)
+ * @param isCritical - If true, use higher threshold (18 vs 12) for safety-critical pairs
+ * @returns Level, icon, and pass status
  */
-export function getDistinctionLevel(dE: number): { level: DistinctionLevel; icon: string; pass: boolean } {
+export function getDistinctionLevel(dE: number, isCritical = false): { level: DistinctionLevel; icon: string; pass: boolean } {
   let level: DistinctionLevel;
   if (dE < 1) {
     level = 'Imperceptible';
@@ -482,7 +482,8 @@ export function getDistinctionLevel(dE: number): { level: DistinctionLevel; icon
     level = 'Obvious';
   }
 
-  const pass = dE >= DISTINCTION_THRESHOLDS.standard;
+  const threshold = isCritical ? DISTINCTION_THRESHOLDS.critical : DISTINCTION_THRESHOLDS.standard;
+  const pass = dE >= threshold;
 
   let icon: string;
   if (!pass) {
