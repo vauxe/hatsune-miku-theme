@@ -63,7 +63,8 @@ const bg = {
 
 // Text hierarchy - from Snow Miku and character palette
 const text = {
-  primary: snowMiku.y2010.outfit.shirt,  // #E8EEF2 - Primary text (Lc 86)
+  // NOTE: Avoid pure-white halation on deep dark surfaces (APCA max Lc ≤ 95)
+  primary: snowMiku.y2010.hair,          // #E0EEF5 - Snow Miku ice-white (comfortable, non-halating)
   secondary: themeColors.syntax.silverBright, // #B0C0C8 - Secondary text (Lc 60) - BOOSTED
   tertiary: themeColors.ui.tertiary,     // #6B7D82 - Tertiary/muted text
   disabled: themeColors.ui.disabled,     // #6A7A80 - Disabled state (Lc 35+) - BOOSTED
@@ -79,22 +80,22 @@ const accent = {
   magenta: character.hairTies.outline, // #E05096 - Cursor/focus
 };
 
-// Semantic colors (APCA Lc 60+ validated) - from palette
+// Semantic colors (APCA Lc 80+ for readability) - marathon coding optimized
 const semantic = {
-  success: character.negi.bright,            // #69F0AE - Green (Lc 82)
-  warning: themeColors.syntax.warmCream,     // #E8D0A0 - Pastel cream (Lc 65)
-  error: themeColors.ui.error,               // #FF9999 - Coral pink (Lc 61)
-  info: accent.bright,                       // #5DE4DB - Bright teal (Lc 74) - BOOSTED from primary
+  success: themeColors.semantic.success,     // Bright mint (Lc 86, C* 35)
+  warning: themeColors.semantic.warning,     // Golden amber (Lc 86)
+  error: themeColors.semantic.error,         // Soft coral (Lc 80)
+  info: themeColors.semantic.info,           // Miku cyan (Lc 87)
 };
 
-// Pastel bracket colors (low-fatigue rainbow) - All APCA Lc 60+ for readability
+// Pastel bracket colors (low-fatigue rainbow) - All APCA Lc 80+ for readability
 const bracketPastel = {
-  tan: themeColors.syntax.warmCream,         // #E8D0A0 - Warm cream (Lc 65) - BOOSTED
-  pink: sakuraMiku.hair.base,                // #FFB7C5 - Sakura pink (Lc 65)
-  mint: character.negi.bright,               // #69F0AE - Negi green (Lc 82)
-  lavender: themeColors.syntax.pastelLavender, // #C8B8E8 - Lavender (Lc 62) - BOOSTED
-  aqua: themeColors.syntax.coolAqua,         // #B0E0E0 - Soft aqua (Lc 72) - BOOSTED
-  purple: themeColors.syntax.pastelLavender, // #C8B8E8 - Soft lavender (Lc 62) - BOOSTED
+  tan: themeColors.syntax.warmTan,           // Warm tan (50°, Lc 86)
+  pink: themeColors.syntax.bracketPink,      // Rose pink (340°, Lc 82)
+  mint: themeColors.syntax.bracketMint,      // Mint green (135°, Lc 87)
+  lavender: themeColors.syntax.pastelLavender, // Lavender (280°, Lc 78)
+  aqua: themeColors.syntax.coolAqua,         // Miku aqua (175°, Lc 88)
+  purple: themeColors.syntax.softPurple,     // Soft purple (265°, Lc 83)
 };
 
 export const workbenchColors = {
@@ -133,7 +134,8 @@ export const workbenchColors = {
   'editor.wordHighlightTextBorder': alpha(accent.bright, '30'),
 
   // Find & Replace
-  'editor.findMatchBackground': alpha(semantic.warning, '40'),
+  // Slightly darker to preserve token contrast on match highlight
+  'editor.findMatchBackground': alpha(semantic.warning, '30'),
   'editor.findMatchForeground': bg.void,
   'editor.findMatchBorder': alpha(semantic.warning, '80'),
   'editor.findMatchHighlightBackground': alpha(accent.bright, '30'),
@@ -142,7 +144,8 @@ export const workbenchColors = {
   'editor.findRangeHighlightBackground': alpha(accent.primary, '10'),
   'editor.findRangeHighlightBorder': alpha(accent.primary, '25'),
   'search.resultsInfoForeground': text.secondary,
-  'searchEditor.findMatchBackground': alpha(semantic.warning, '25'),
+  // Darken slightly for comment readability in Search Editor
+  'searchEditor.findMatchBackground': alpha(semantic.warning, '20'),
   'searchEditor.findMatchBorder': alpha(semantic.warning, '60'),
   'searchEditor.textInputBorder': alpha(accent.primary, '40'),
 
@@ -276,7 +279,7 @@ export const workbenchColors = {
   'editorSuggestWidget.focusHighlightForeground': text.primary, // #E8EEF2 - Bright text for visibility
   'editorSuggestWidget.selectedBackground': alpha(accent.primary, '25'),
   'editorSuggestWidget.selectedForeground': text.primary,
-  'editorSuggestWidget.selectedIconForeground': accent.bright,
+  'editorSuggestWidget.selectedIconForeground': text.primary,  // #E8EEF2 for Lc 75+ on selection bg
   'editorSuggestWidgetStatus.foreground': text.secondary,
 
   // ==========================================================================
@@ -310,7 +313,7 @@ export const workbenchColors = {
   // ==========================================================================
   // LINKS & CODE LENS
   // ==========================================================================
-  'editorLink.activeForeground': wonderlandsShowtime.hair.highlight,
+  'editorLink.activeForeground': themeColors.ui.linkActive,  // Vibrant teal (Lc 78)
   'editorCodeLens.foreground': text.ghost,  // #7A9A98 - Lc 45+ for readable code lens
 
   // ==========================================================================
@@ -385,8 +388,8 @@ export const workbenchColors = {
   // ==========================================================================
   // INLINE VALUES (Debugging)
   // ==========================================================================
-  'editor.inlineValuesForeground': snowMiku.y2021.hair,
-  'editor.inlineValuesBackground': alpha(snowMiku.y2021.hair, '12'),
+  'editor.inlineValuesForeground': themeColors.ui.linkActive,
+  'editor.inlineValuesBackground': alpha(themeColors.ui.linkActive, '12'),
 
   // ==========================================================================
   // DEBUG HIGHLIGHTS
@@ -405,17 +408,17 @@ export const workbenchColors = {
   'activityBar.activeBackground': alpha(accent.primary, '12'),
   'activityBar.activeFocusBorder': accent.bright,
   'activityBar.dropBorder': accent.primary,
-  'activityBarBadge.background': accent.magenta,
-  'activityBarBadge.foreground': '#FFFFFF', // Pure white for max contrast on magenta (Lc 60+)
+  'activityBarBadge.background': '#B0307A', // Darker magenta for Lc 75+ with white text
+  'activityBarBadge.foreground': themeColors.ui.pureWhite,
   'activityBarTop.foreground': accent.bright,
   'activityBarTop.activeBorder': accent.magenta,
   'activityBarTop.inactiveForeground': text.tertiary,
   'activityBarTop.dropBorder': accent.primary,
   'activityBarTop.background': bg.void,
   'activityBarTop.activeBackground': alpha(accent.primary, '12'),
-  'activityWarningBadge.foreground': bg.void,
+  'activityWarningBadge.foreground': character.eyes.pupil,
   'activityWarningBadge.background': semantic.warning,
-  'activityErrorBadge.foreground': bg.base,        // #15191D - Dark text on light error bg
+  'activityErrorBadge.foreground': character.eyes.pupil,
   'activityErrorBadge.background': semantic.error,
 
   // ==========================================================================
@@ -452,26 +455,26 @@ export const workbenchColors = {
   'statusBarItem.activeBackground': alpha(accent.primary, '30'),
   'statusBarItem.hoverBackground': alpha(accent.primary, '20'),
   'statusBarItem.hoverForeground': text.primary,
-  'statusBarItem.prominentForeground': accent.bright,
+  'statusBarItem.prominentForeground': text.primary,  // #E8EEF2 for Lc 75+
   'statusBarItem.prominentBackground': alpha(accent.primary, '20'),
   'statusBarItem.prominentHoverBackground': alpha(accent.primary, '35'),
   'statusBarItem.prominentHoverForeground': text.primary,
-  'statusBarItem.remoteBackground': accent.primary,
-  'statusBarItem.remoteForeground': bg.void,
-  'statusBarItem.remoteHoverBackground': accent.bright,
-  'statusBarItem.remoteHoverForeground': bg.void,
+  'statusBarItem.remoteBackground': '#157570',  // Darker teal for Lc 75+ with white
+  'statusBarItem.remoteForeground': themeColors.ui.pureWhite,
+  'statusBarItem.remoteHoverBackground': accent.primary,
+  'statusBarItem.remoteHoverForeground': themeColors.ui.pureWhite,
   'statusBarItem.errorBackground': semantic.error,
-  'statusBarItem.errorForeground': bg.base,        // #15191D - Dark text on light error bg
+  'statusBarItem.errorForeground': character.headphones.frame,
   'statusBarItem.errorHoverBackground': alpha(semantic.error, 'DD'),
-  'statusBarItem.errorHoverForeground': text.primary,
+  'statusBarItem.errorHoverForeground': character.headphones.frame,
   'statusBarItem.warningBackground': semantic.warning,
-  'statusBarItem.warningForeground': bg.void,
+  'statusBarItem.warningForeground': character.headphones.frame,
   'statusBarItem.warningHoverBackground': alpha(semantic.warning, 'DD'),
-  'statusBarItem.warningHoverForeground': bg.void,
+  'statusBarItem.warningHoverForeground': character.headphones.frame,
   'statusBarItem.compactHoverBackground': alpha(accent.primary, '25'),
   'statusBarItem.focusBorder': alpha(accent.bright, 'DD'),
-  'statusBarItem.offlineBackground': text.tertiary,
-  'statusBarItem.offlineForeground': text.primary,
+  'statusBarItem.offlineBackground': alpha(text.tertiary, 'AA'),  // Lighter background for better contrast
+  'statusBarItem.offlineForeground': themeColors.ui.pureWhite,    // Pure white for Lc 75+
   'statusBarItem.offlineHoverBackground': alpha(text.tertiary, 'CC'),
   'statusBarItem.offlineHoverForeground': text.primary,
 
@@ -494,8 +497,9 @@ export const workbenchColors = {
   'tab.inactiveBackground': bg.base,
   'tab.inactiveForeground': text.secondary,
   'tab.border': bg.elevated,
-  'tab.hoverBackground': alpha(accent.primary, '12'),
-  'tab.hoverForeground': text.primary,
+  'tab.hoverBackground': alpha(accent.primary, '15'),
+  // Miku teal hover for distinction from active white (ΔE 15+)
+  'tab.hoverForeground': accent.bright,
   'tab.hoverBorder': alpha(accent.primary, '30'),
   'tab.unfocusedActiveBackground': bg.surface,
   'tab.unfocusedActiveForeground': text.secondary,
@@ -537,19 +541,20 @@ export const workbenchColors = {
   // ==========================================================================
   // LISTS & TREES
   // ==========================================================================
-  'list.activeSelectionBackground': alpha(accent.primary, '25'),
+  'list.activeSelectionBackground': alpha(accent.magenta, '30'), // Magenta for selection (distinct from teal focus)
   'list.activeSelectionForeground': text.primary,
-  'list.activeSelectionIconForeground': accent.bright,
+  'list.activeSelectionIconForeground': text.primary,  // #E8EEF2 for Lc 75+ on selection bg
   'list.inactiveSelectionBackground': alpha(accent.primary, '15'),
   'list.inactiveSelectionForeground': text.primary,
   'list.inactiveSelectionIconForeground': text.secondary,
   'list.hoverBackground': alpha(accent.primary, '10'),
-  'list.hoverForeground': text.primary,
+  // Give hover/focus states distinct foreground tints (state ΔE distinction)
+  'list.hoverForeground': text.secondary,
   'list.focusBackground': alpha(accent.primary, '20'),
-  'list.focusForeground': text.primary,
+  'list.focusForeground': accent.soft,  // Light teal for Lc 75+ and ΔE 15+ from selection
   'list.focusOutline': alpha(accent.bright, 'DD'),
   'list.focusAndSelectionOutline': alpha(accent.magenta, '80'),
-  'list.focusHighlightForeground': accent.bright,
+  'list.focusHighlightForeground': text.primary,  // #E8EEF2 for Lc 75+ on focus bg
   'list.highlightForeground': accent.bright,
   'list.dropBackground': alpha(accent.primary, '20'),
   'list.dropBetweenBackground': alpha(accent.primary, '40'),
@@ -645,24 +650,24 @@ export const workbenchColors = {
   'terminal.dropBackground': alpha(accent.primary, '15'),
   'terminal.tab.activeBorder': accent.magenta,
 
-  // ANSI Colors - Miku-inspired palette
-  // ANSI Colors - Project DIVA modules and iconic appearances
-  'terminal.ansiBlack': bg.base,
-  'terminal.ansiRed': semantic.error,                           // Error red (readable)
-  'terminal.ansiGreen': semantic.success,                       // Negi green
-  'terminal.ansiYellow': semantic.warning,                      // Stage lighting gold
-  'terminal.ansiBlue': deepSeaGirl.hair.base,                   // Deep Sea Girl ocean
-  'terminal.ansiMagenta': leoNeed.hair.highlight,               // LEO/NEED passion
-  'terminal.ansiCyan': accent.bright,                           // Classic Miku cyan
-  'terminal.ansiWhite': text.primary,
-  'terminal.ansiBrightBlack': text.tertiary,
-  'terminal.ansiBrightRed': sakuraMiku.hair.base,               // Sakura Miku bloom
-  'terminal.ansiBrightGreen': moreMoreJump.unitColor,           // MORE MORE JUMP! energy
-  'terminal.ansiBrightYellow': magicalMirai.y2013.accessories.star, // Concert star
-  'terminal.ansiBrightBlue': powder.hair.base,                  // Powder winter
-  'terminal.ansiBrightMagenta': nightcord.eyes.left,            // Nightcord emotion
-  'terminal.ansiBrightCyan': ghost.hair.blueHue,                // Ghost ethereal
-  'terminal.ansiBrightWhite': virtualSinger.hair.highlight,
+  // ANSI Colors - APCA Lc 75+ for terminal readability
+  // All colors optimized for void background
+  'terminal.ansiBlack': themeColors.terminal.black,
+  'terminal.ansiRed': themeColors.terminal.red,
+  'terminal.ansiGreen': themeColors.terminal.green,
+  'terminal.ansiYellow': themeColors.terminal.yellow,
+  'terminal.ansiBlue': themeColors.terminal.blue,
+  'terminal.ansiMagenta': themeColors.terminal.magenta,
+  'terminal.ansiCyan': themeColors.terminal.cyan,
+  'terminal.ansiWhite': themeColors.terminal.white,
+  'terminal.ansiBrightBlack': themeColors.terminal.brightBlack,
+  'terminal.ansiBrightRed': themeColors.terminal.brightRed,
+  'terminal.ansiBrightGreen': themeColors.terminal.brightGreen,
+  'terminal.ansiBrightYellow': themeColors.terminal.brightYellow,
+  'terminal.ansiBrightBlue': themeColors.terminal.brightBlue,
+  'terminal.ansiBrightMagenta': themeColors.terminal.brightMagenta,
+  'terminal.ansiBrightCyan': themeColors.terminal.brightCyan,
+  'terminal.ansiBrightWhite': themeColors.terminal.brightWhite,
 
   // Terminal decorations
   'terminalCommandDecoration.defaultBackground': alpha(text.tertiary, '40'),
@@ -679,22 +684,23 @@ export const workbenchColors = {
   // Terminal symbol icons
   'terminalSymbolIcon.aliasForeground': accent.soft,
   'terminalSymbolIcon.branchForeground': accent.bright,
-  'terminalSymbolIcon.commitForeground': wonderlandsShowtime.hair.highlight,
+  // Lavender commit icons (Digital Stars) for ΔE separation from branch teal
+  'terminalSymbolIcon.commitForeground': digitalStars.y2021.outfit.gradient,
   'terminalSymbolIcon.flagForeground': semantic.warning,
   'terminalSymbolIcon.optionForeground': text.primary,
-  'terminalSymbolIcon.optionValueForeground': character.negi.stalk,
-  'terminalSymbolIcon.methodForeground': character.skin.blush,
+  'terminalSymbolIcon.optionValueForeground': themeColors.symbol.snippet,
+  'terminalSymbolIcon.methodForeground': themeColors.symbol.method,
   'terminalSymbolIcon.argumentForeground': accent.soft,
-  'terminalSymbolIcon.inlineSuggestionForeground': snowMiku.y2021.hair,
+  'terminalSymbolIcon.inlineSuggestionForeground': themeColors.ui.linkActive,
   'terminalSymbolIcon.fileForeground': text.primary,
   'terminalSymbolIcon.folderForeground': accent.primary,
   'terminalSymbolIcon.pullRequestDoneForeground': semantic.success,
   'terminalSymbolIcon.pullRequestForeground': leoNeed.hair.highlight,
-  'terminalSymbolIcon.remoteForeground': angel.accessories.shoes,
+  'terminalSymbolIcon.remoteForeground': themeColors.symbol.interface,
   'terminalSymbolIcon.stashForeground': text.tertiary,
   'terminalSymbolIcon.symbolText': text.primary,
-  'terminalSymbolIcon.symbolicLinkFileForeground': digitalStars.y2021_mg.outfit.gradient,
-  'terminalSymbolIcon.symbolicLinkFolderForeground': digitalStars.y2021_mg.outfit.gradient,
+  'terminalSymbolIcon.symbolicLinkFileForeground': themeColors.symbol.enumerator,
+  'terminalSymbolIcon.symbolicLinkFolderForeground': themeColors.symbol.enumerator,
   'terminalSymbolIcon.tagForeground': semantic.warning,
 
   // ==========================================================================
@@ -710,24 +716,25 @@ export const workbenchColors = {
   'debugIcon.startForeground': semantic.success,
   'debugIcon.pauseForeground': semantic.warning,
   'debugIcon.stopForeground': semantic.error,
-  'debugIcon.disconnectForeground': semantic.error,
+  'debugIcon.disconnectForeground': alpha(semantic.error, '80'), // Distinct from stop
   'debugIcon.restartForeground': semantic.success,
   'debugIcon.stepOverForeground': accent.bright,
-  'debugIcon.stepIntoForeground': accent.bright,
-  'debugIcon.stepOutForeground': accent.bright,
+  'debugIcon.stepIntoForeground': themeColors.ui.linkActive, // Different color for step into
+  'debugIcon.stepOutForeground': themeColors.syntax.pastelIndigo, // Different color for step out
   'debugIcon.continueForeground': semantic.success,
-  'debugIcon.stepBackForeground': accent.bright,
-  'debugConsole.infoForeground': accent.primary,
+  // Magenta "step back" for clear ΔE separation from step over
+  'debugIcon.stepBackForeground': accent.magenta,
+  'debugConsole.infoForeground': semantic.info,  // #88F0E8 - Miku cyan (Lc 87)
   'debugConsole.warningForeground': semantic.warning,
   'debugConsole.errorForeground': semantic.error,
   'debugConsole.sourceForeground': text.primary,
   'debugConsoleInputIcon.foreground': accent.primary,
   'debugExceptionWidget.background': alpha(semantic.error, '15'),
   'debugExceptionWidget.border': semantic.error,
-  'debugTokenExpression.name': character.skin.blush,
-  'debugTokenExpression.value': character.negi.stalk,
-  'debugTokenExpression.string': character.negi.stalk,
-  'debugTokenExpression.boolean': themeColors.syntax.pastelIndigo, // #A8B8E8 - Lc 62 for readability
+  'debugTokenExpression.name': themeColors.debug.name,
+  'debugTokenExpression.value': themeColors.debug.value,
+  'debugTokenExpression.string': themeColors.debug.string,
+  'debugTokenExpression.boolean': themeColors.syntax.pastelIndigo,
   'debugTokenExpression.number': semantic.success,
   'debugTokenExpression.error': semantic.error,
   'debugTokenExpression.type': accent.soft,
@@ -811,19 +818,19 @@ export const workbenchColors = {
   'mergeEditor.conflict.input2.background': alpha(semantic.success, '12'),
 
   // ==========================================================================
-  // GIT DECORATIONS
+  // GIT DECORATIONS - All Lc 75+ for sidebar background
   // ==========================================================================
-  'gitDecoration.addedResourceForeground': semantic.success, // #69F0AE - Green (staged adds)
-  'gitDecoration.modifiedResourceForeground': semantic.warning, // #E8D0A0 - Gold (modified)
-  'gitDecoration.deletedResourceForeground': semantic.error, // #FF9999 - Coral (deleted)
-  'gitDecoration.untrackedResourceForeground': accent.bright, // #5DE4DB - Teal (new/untracked) - DISTINCT from added
-  'gitDecoration.ignoredResourceForeground': text.disabled, // #6A7A80 - Lc 35+ (now readable)
-  'gitDecoration.conflictingResourceForeground': sakuraMiku.hair.base, // #FFB7C5 - Pink (conflict) - DISTINCT from deleted
-  'gitDecoration.stageModifiedResourceForeground': wonderlandsShowtime.hair.highlight,
-  'gitDecoration.stageDeletedResourceForeground': themeColors.syntax.pastelRose, // #F0B8C8 - Rose pink (Lc 64, distinct from coral deleted)
-  'gitDecoration.renamedResourceForeground': wonderlandsShowtime.hair.highlight,
-  'gitDecoration.submoduleResourceForeground': digitalStars.y2021_mg.outfit.gradient,
-  'git.blame.editorDecorationForeground': text.disabled,  // #6A7A80 - Lc 35+ for readable blame info
+  'gitDecoration.addedResourceForeground': themeColors.git.added,
+  'gitDecoration.modifiedResourceForeground': themeColors.git.modified,
+  'gitDecoration.deletedResourceForeground': themeColors.git.deleted,
+  'gitDecoration.untrackedResourceForeground': themeColors.git.untracked,
+  'gitDecoration.ignoredResourceForeground': text.disabled,
+  'gitDecoration.conflictingResourceForeground': themeColors.git.conflicting,
+  'gitDecoration.stageModifiedResourceForeground': themeColors.git.stageModified,
+  'gitDecoration.stageDeletedResourceForeground': themeColors.git.stageDeleted,
+  'gitDecoration.renamedResourceForeground': themeColors.git.renamed,
+  'gitDecoration.submoduleResourceForeground': themeColors.git.submodule,
+  'git.blame.editorDecorationForeground': text.disabled,
 
   // ==========================================================================
   // SCM GRAPH
@@ -853,7 +860,7 @@ export const workbenchColors = {
   'notificationCenterHeader.foreground': accent.bright,
   'notificationCenterHeader.background': bg.surface,
   'notificationCenter.border': alpha(accent.primary, '30'),
-  'notificationLink.foreground': wonderlandsShowtime.hair.highlight,
+  'notificationLink.foreground': themeColors.ui.linkActive,
   'notificationsInfoIcon.foreground': accent.primary,
   'notificationsWarningIcon.foreground': semantic.warning,
   'notificationsErrorIcon.foreground': semantic.error,
@@ -879,7 +886,7 @@ export const workbenchColors = {
   'quickInputTitle.background': bg.surface,
   'quickInputList.focusBackground': alpha(accent.primary, '25'),
   'quickInputList.focusForeground': text.primary,
-  'quickInputList.focusIconForeground': accent.bright,
+  'quickInputList.focusIconForeground': text.primary,  // #E8EEF2 for Lc 75+ on focus bg
   'pickerGroup.border': alpha(accent.primary, '30'),
   'pickerGroup.foreground': accent.bright,
 
@@ -926,7 +933,7 @@ export const workbenchColors = {
   'settings.dropdownBorder': alpha(accent.primary, '40'),
   'settings.dropdownListBorder': alpha(accent.primary, '50'),
   'settings.checkboxBackground': bg.elevated,
-  'settings.checkboxForeground': accent.primary,
+  'settings.checkboxForeground': accent.bright,    // #5DE4DB - Bright for visibility
   'settings.checkboxBorder': alpha(accent.primary, '50'),
   'settings.textInputBackground': bg.elevated,
   'settings.textInputForeground': text.primary,
@@ -944,7 +951,8 @@ export const workbenchColors = {
   // ==========================================================================
   // TESTING
   // ==========================================================================
-  'testing.iconErrored': semantic.error,
+  // Separate "failed" vs "errored" for instant recognition (ΔE distinction)
+  'testing.iconErrored': accent.magenta,
   'testing.iconFailed': semantic.error,
   'testing.iconPassed': semantic.success,
   'testing.iconQueued': semantic.warning,
@@ -992,20 +1000,21 @@ export const workbenchColors = {
   // ==========================================================================
   // EXTENSION BUTTONS
   // ==========================================================================
-  'extensionButton.prominentBackground': accent.primary,
-  'extensionButton.prominentForeground': bg.void,
-  'extensionButton.prominentHoverBackground': accent.bright,
+  'extensionButton.prominentBackground': '#157570',  // Darker teal for Lc 75+ with white
+  'extensionButton.prominentForeground': themeColors.ui.pureWhite,
+  'extensionButton.prominentHoverBackground': accent.primary,
   'extensionButton.background': alpha(accent.primary, '25'),
   'extensionButton.foreground': text.primary,
   'extensionButton.hoverBackground': alpha(accent.primary, '40'),
   'extensionButton.separator': alpha(text.primary, '30'),
-  'extensionBadge.remoteBackground': accent.primary,
-  'extensionBadge.remoteForeground': bg.void,
+  'extensionBadge.remoteBackground': accent.soft,  // #B2EBE7 - Light teal
+  'extensionBadge.remoteForeground': bg.void,     // #0A0D10 - Dark text on light
   'extensionIcon.starForeground': semantic.warning,
   'extensionIcon.verifiedForeground': semantic.success,
-  'extensionIcon.preReleaseForeground': leoNeed.hair.highlight,
+  // Lavender (Digital Stars) reads as "experimental" and separates from sponsor magenta
+  'extensionIcon.preReleaseForeground': digitalStars.y2021.outfit.gradient,
   'extensionIcon.sponsorForeground': accent.magenta,
-  'extensionIcon.privateForeground': digitalStars.y2021_mg.outfit.gradient,
+  'extensionIcon.privateForeground': themeColors.symbol.enumerator,
   'mcpIcon.starForeground': semantic.warning,
 
   // ==========================================================================
@@ -1042,24 +1051,24 @@ export const workbenchColors = {
   'dropdown.border': alpha(accent.primary, '35'),
   'dropdown.listBackground': bg.elevated,
 
-  // Button
-  'button.background': accent.primary,
-  'button.foreground': bg.void,
+  // Button - use darker teal for better contrast
+  'button.background': '#157570',  // Darker teal for Lc 75+ with white
+  'button.foreground': themeColors.ui.pureWhite,
   'button.border': alpha(accent.bright, '50'),
-  'button.separator': alpha(bg.void, '30'),
-  'button.hoverBackground': accent.bright,
+  'button.separator': alpha(themeColors.ui.pureWhite, '30'),
+  'button.hoverBackground': accent.primary,    // Brighter on hover
   'button.secondaryForeground': text.primary,
   'button.secondaryBackground': alpha(accent.primary, '25'),
   'button.secondaryHoverBackground': alpha(accent.primary, '40'),
 
-  // Checkbox
+  // Checkbox - use brighter foreground
   'checkbox.background': bg.elevated,
-  'checkbox.foreground': accent.primary,
+  'checkbox.foreground': accent.bright,        // #5DE4DB - Bright teal (Lc 80+)
   'checkbox.border': alpha(accent.primary, '50'),
   'checkbox.selectBackground': alpha(accent.primary, '25'),
-  'checkbox.selectBorder': accent.primary,
+  'checkbox.selectBorder': accent.bright,
   'checkbox.disabled.background': alpha(bg.surface, '50'),
-  'checkbox.disabled.foreground': text.disabled,  // #6A7A80 - Lc 35+ now
+  'checkbox.disabled.foreground': text.disabled,
 
   // Radio buttons
   'radio.activeForeground': text.primary,
@@ -1096,8 +1105,9 @@ export const workbenchColors = {
   // ==========================================================================
   // PROFILE BADGE
   // ==========================================================================
-  'profileBadge.background': accent.primary,
-  'profileBadge.foreground': miku16thAnniversary.outfit.lace,
+  'profileBadge.background': accent.primary,    // #39C5BB - Teal
+  // Avoid halation on dark activity bar background
+  'profileBadge.foreground': text.primary,
   'profiles.sashBorder': alpha(accent.primary, '30'),
 
   // ==========================================================================
@@ -1131,41 +1141,41 @@ export const workbenchColors = {
   'interactive.inactiveCodeBorder': alpha(accent.primary, '30'),
 
   // ==========================================================================
-  // SYMBOL ICONS
+  // SYMBOL ICONS - All Lc 75+ for visibility, ΔE 15+ between similar types
   // ==========================================================================
-  'symbolIcon.arrayForeground': virtualSinger.imageColor,
-  'symbolIcon.booleanForeground': leoNeed.hair.highlight,
+  'symbolIcon.arrayForeground': themeColors.symbol.array,
+  'symbolIcon.booleanForeground': themeColors.symbol.boolean,
   'symbolIcon.classForeground': semantic.warning,
   'symbolIcon.colorForeground': accent.magenta,
-  'symbolIcon.constantForeground': semantic.success,
-  'symbolIcon.constructorForeground': wonderlandsShowtime.unitColor,
-  'symbolIcon.enumeratorForeground': digitalStars.y2021_mg.outfit.gradient,
-  'symbolIcon.enumeratorMemberForeground': character.negi.stalk,
+  'symbolIcon.constantForeground': themeColors.symbol.constant,  // Orchid-pink (320°)
+  'symbolIcon.constructorForeground': themeColors.symbol.constructor,
+  'symbolIcon.enumeratorForeground': themeColors.symbol.enumerator,  // Purple (280°) DISTINCT from interface
+  'symbolIcon.enumeratorMemberForeground': themeColors.symbol.enumeratorMember,
   'symbolIcon.eventForeground': semantic.warning,
-  'symbolIcon.fieldForeground': character.skin.blush,
+  'symbolIcon.fieldForeground': themeColors.symbol.field,  // Warm amber (40°) DISTINCT from property
   'symbolIcon.fileForeground': text.primary,
-  'symbolIcon.folderForeground': accent.primary,
-  'symbolIcon.functionForeground': wonderlandsShowtime.hair.highlight,
-  'symbolIcon.interfaceForeground': angel.accessories.shoes,
+  'symbolIcon.folderForeground': themeColors.symbol.folder,  // Miku teal (170°)
+  'symbolIcon.functionForeground': themeColors.symbol.function,
+  'symbolIcon.interfaceForeground': themeColors.symbol.interface,  // Sky blue (220°) DISTINCT from enum
   'symbolIcon.keyForeground': accent.bright,
   'symbolIcon.keywordForeground': accent.bright,
-  'symbolIcon.methodForeground': character.skin.blush,
-  'symbolIcon.moduleForeground': digitalStars.y2021_mg.outfit.gradient,
-  'symbolIcon.namespaceForeground': digitalStars.y2021_mg.outfit.gradient,
+  'symbolIcon.methodForeground': themeColors.symbol.method,
+  'symbolIcon.moduleForeground': themeColors.symbol.module,  // Purple (275°) DISTINCT from namespace
+  'symbolIcon.namespaceForeground': themeColors.symbol.namespace,  // Lavender (290°)
   'symbolIcon.nullForeground': text.tertiary,
-  'symbolIcon.numberForeground': semantic.success,
+  'symbolIcon.numberForeground': themeColors.symbol.number,  // Periwinkle (230°) DISTINCT from boolean
   'symbolIcon.objectForeground': text.primary,
-  'symbolIcon.operatorForeground': wonderlandsShowtime.unitColor,
-  'symbolIcon.packageForeground': accent.soft,
-  'symbolIcon.propertyForeground': character.skin.blush,
-  'symbolIcon.referenceForeground': virtualSinger.imageColor,
-  'symbolIcon.snippetForeground': character.negi.stalk,
-  'symbolIcon.stringForeground': character.negi.stalk,
-  'symbolIcon.structForeground': darkAngel.hair.base,           // Dark Angel - formal structure
+  'symbolIcon.operatorForeground': themeColors.symbol.operator,
+  'symbolIcon.packageForeground': themeColors.symbol.package,  // Soft purple (260°) DISTINCT from folder
+  'symbolIcon.propertyForeground': themeColors.symbol.property,  // Coral (10°) DISTINCT from field
+  'symbolIcon.referenceForeground': themeColors.symbol.reference,
+  'symbolIcon.snippetForeground': themeColors.symbol.snippet,
+  'symbolIcon.stringForeground': themeColors.symbol.string,
+  'symbolIcon.structForeground': themeColors.symbol.struct,  // Ice cyan (200°) DISTINCT from interface
   'symbolIcon.textForeground': text.primary,
-  'symbolIcon.typeParameterForeground': nightcord.unitColor,
+  'symbolIcon.typeParameterForeground': themeColors.symbol.typeParameter,  // Rose (340°) DISTINCT from namespace
   'symbolIcon.unitForeground': accent.magenta,
-  'symbolIcon.variableForeground': snowMiku.y2010.outfit.shirt,  // Snow white - clean variables
+  'symbolIcon.variableForeground': themeColors.symbol.variable,
 
   // ==========================================================================
   // INLINE CHAT
@@ -1190,8 +1200,8 @@ export const workbenchColors = {
   'chat.slashCommandForeground': accent.bright,
   'chat.avatarBackground': alpha(accent.primary, '25'),
   'chat.avatarForeground': accent.bright,
-  'chat.editedFileForeground': angel.accessories.shoes,
-  'chat.linesAddedForeground': semantic.success,   // #69F0AE - Full opacity green
+  'chat.editedFileForeground': themeColors.syntax.skyBlue,  // #C0E0FF - Lc 88 for sidebar visibility
+  'chat.linesAddedForeground': semantic.success,   // #90F0B8 - Mint green
   'chat.linesRemovedForeground': semantic.error,   // #FF9999 - Full opacity coral
   'chat.requestCodeBorder': alpha(accent.bright, '35'),
   'chat.requestBubbleBackground': alpha(accent.primary, '12'),
@@ -1280,11 +1290,11 @@ export const workbenchColors = {
   'gauge.errorForeground': semantic.error,
 
   // ==========================================================================
-  // MARKDOWN ALERTS
+  // MARKDOWN ALERTS - ΔE 15+ between note and tip
   // ==========================================================================
-  'markdownAlert.note.foreground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
-  'markdownAlert.tip.foreground': semantic.success,
-  'markdownAlert.important.foreground': digitalStars.y2021_mg.outfit.gradient,
+  'markdownAlert.note.foreground': themeColors.markdown.alertNote,  // #78D8F0 - cyan (195°)
+  'markdownAlert.tip.foreground': themeColors.markdown.alertTip,    // #98F0B8 - mint green (145°) ΔE 20+
+  'markdownAlert.important.foreground': themeColors.markdown.alertImportant,
   'markdownAlert.warning.foreground': semantic.warning,
   'markdownAlert.caution.foreground': semantic.error,
 
@@ -1313,7 +1323,7 @@ export const workbenchColors = {
   'textBlockQuote.background': alpha(accent.primary, '10'),
   'textBlockQuote.border': alpha(accent.primary, '40'),
   'textCodeBlock.background': alpha(bg.surface, '80'),
-  'textLink.activeForeground': wonderlandsShowtime.hair.highlight,
+  'textLink.activeForeground': themeColors.ui.linkActive,
   'textLink.foreground': accent.bright,
   'textPreformat.foreground': accent.soft,
   'textPreformat.background': alpha(bg.surface, '60'),

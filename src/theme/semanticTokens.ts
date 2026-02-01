@@ -22,85 +22,81 @@ import {
 // COLOR DEFINITIONS - All sourced from palette
 // ============================================================================
 
+/**
+ * Consistent with tokenColors.ts - same hue distribution strategy
+ */
 const colors = {
   // =========================================================================
-  // KEYWORDS & CONTROL - Signature Miku Teal Family (170-185° hue)
-  // All Lc 60+ for excellent readability
+  // KEYWORDS - Signature Miku Cyan (180° hue)
   // =========================================================================
-  keyword: character.hair.highlight,           // #5DE4DB - Bright teal (Lc 74)
-  keywordAlt: wonderlandsShowtime.hair.highlight, // #4DD0E1 - Lighter teal (Lc 70)
-  storageModifier: themeColors.syntax.pastelTeal, // #78D0D8 - Pastel teal (Lc 68) - BOOSTED
+  keyword: themeColors.syntax.pastelMint,       // #90F8FF - Miku cyan (180°, Lc 91)
+  keywordAlt: themeColors.syntax.keywordAlt,    // #70F8E0 - Green-teal (163°, Lc 89)
+  storageModifier: themeColors.syntax.pastelTeal, // #80F0C0 - Mint-green (150°, Lc 87)
 
   // =========================================================================
-  // CALLABLE ENTITIES - Gold Family (40-55° hue)
-  // Functions warmer/yellower, Classes cooler/grayer for distinction
+  // FUNCTIONS - Golden Amber (45-55° hue)
   // =========================================================================
-  function: themeColors.syntax.warmCream,      // #E8D0A0 - Warm cream (Lc 65)
-  functionBuiltin: character.hair.highlight,   // #5DE4DB - Bright teal (Lc 74)
-  method: themeColors.syntax.pastelRose,       // #F0B8C8 - Rose pink (Lc 64) - METHODS ONLY
-  magicMethod: themeColors.syntax.pastelRose,  // #F0B8C8 - Python __dunder__ methods
+  function: themeColors.syntax.warmCream,       // #F8D898 - Golden amber (48°, Lc 84)
+  functionBuiltin: themeColors.syntax.pastelMint,
+  method: themeColors.syntax.pastelRose,        // #FFD0C8 - Soft salmon (10°, Lc 83)
+  magicMethod: themeColors.syntax.pastelRose,
 
   // =========================================================================
-  // TYPES & STRUCTURES - Blue/Purple Family (200-290° hue)
-  // Each type category has distinct hue for easy differentiation
+  // CLASSES - Yellow-Gold (65-75° hue) - DISTINCT from functions
   // =========================================================================
-  class: themeColors.syntax.warmGold,          // #D4C4B0 - Gray-gold (Lc 60)
-  interface: themeColors.syntax.skyBlue,       // #80C8FF - Sky blue (Lc 68)
-  type: character.hair.tip,                    // #B2EBE7 - Soft teal (Lc 78)
-  typeParameter: themeColors.syntax.pastelLavender, // #C8B8E8 - Lavender (Lc 62) - DISTINCT from keywords (ΔE 30+)
-  enum: themeColors.syntax.pastelOrchid,       // #E0B8E8 - Soft orchid (Lc 66)
-  enumMember: themeColors.syntax.pastelOrchidLight, // #E8D0F0 - Light orchid (Lc 72)
-  struct: themeColors.syntax.paleBlue,         // #B8E0F8 - Pale blue (Lc 78) - DISTINCT from number
-  namespace: themeColors.syntax.pastelLavender, // #C8B8E8 - Lavender (Lc 62) - DISTINCT from decorator
+  class: themeColors.syntax.classGold,          // #F0E8A0 - Yellow-gold (68°, Lc 90)
+  interface: themeColors.syntax.skyBlue,        // #D8D0FF - Indigo (265°, Lc 83)
+  type: themeColors.syntax.coolCyan,            // #98D8FF - Sky blue (200°, Lc 82)
+  typeParameter: themeColors.syntax.pastelLavender, // #E0D8FF - Lavender (265°, Lc 85)
+  enum: themeColors.syntax.pastelOrchid,        // #E8D0F8 - Orchid (290°, Lc 82)
+  enumMember: themeColors.syntax.pastelOrchidLight, // #F0D8A0 - Gold (55°, Lc 85)
+  struct: themeColors.syntax.paleBlue,          // #D0D8FF - Periwinkle (240°, Lc 84)
+  namespace: themeColors.syntax.pastelLavender, // #E0D8FF - Lavender (265°, Lc 85)
 
   // =========================================================================
-  // VARIABLES & DATA - Neutral/Warm Family
-  // Clear hierarchy: variable > property > parameter > constant
+  // VARIABLES & DATA - DISTINCT hues for instant recognition
   // =========================================================================
-  variable: snowMiku.y2010.outfit.shirt,       // #E8EEF2 - Snow white (Lc 86)
-  parameter: character.skin.base,              // #FFE4D6 - Miku skin peachy (Lc 77)
-  property: themeColors.syntax.pastelPeach,    // #F8D0C0 - Soft peach (Lc 70) - DISTINCT from method
-  constant: themeColors.syntax.pastelCoral,    // #FFD8D0 - Pale coral (Lc 76)
+  variable: themeColors.syntax.variable,        // #78F0C8 - Mint-teal (160°, Lc 85)
+  parameter: themeColors.syntax.parameter,      // #D0D8FF - Periwinkle (240°, Lc 83)
+  property: themeColors.syntax.pastelPeach,     // #FFD0C0 - Warm peach (20°, Lc 83)
+  constant: themeColors.syntax.pastelCoral,     // #F8C8E8 - Orchid-pink (320°, Lc 82)
 
   // =========================================================================
-  // LITERALS - Green/Blue Family
-  // Numbers distinct blue, Booleans distinct indigo
+  // LITERALS
   // =========================================================================
-  string: character.negi.stalk,                // #9CCC65 - Negi green (Lc 68)
-  number: themeColors.syntax.softBlue,         // #A0D8FF - Soft blue (Lc 74)
-  boolean: themeColors.syntax.pastelIndigo,    // #A8B8E8 - Pastel indigo (Lc 62) - BOOSTED
-  regex: character.negi.bright,                // #69F0AE - Bright mint (Lc 82)
+  string: themeColors.syntax.string,            // #B8F0A0 - Lime-green (100°, Lc 88)
+  number: themeColors.syntax.pastelIndigo,      // #D0D8FF - Periwinkle (235°, Lc 84)
+  boolean: themeColors.syntax.softBlue,         // #D8D0FF - Pale violet (265°, Lc 80)
+  regex: themeColors.syntax.regex,              // #F0D898 - Warm gold (45°, Lc 85)
 
   // =========================================================================
-  // OPERATORS & PUNCTUATION - Neutral Silver
+  // OPERATORS
   // =========================================================================
-  operator: nightcord.hair.highlight,          // #C0C0C0 - 25-ji silver (Lc 60)
+  operator: themeColors.ui.operator,            // #F0C8D8 - Rose-pink (340°, Lc 81)
 
   // =========================================================================
-  // META - Purple Family (260-290° hue)
-  // Decorators distinct from Namespaces
+  // META
   // =========================================================================
-  comment: themeColors.syntax.silverBright,    // #B0C0C8 - Silver (Lc 60)
-  commentDoc: themeColors.markdown.docComment, // #A8C8D0 - Cyan-tinted silver (Lc 62) - DISTINCT from comment
-  decorator: themeColors.syntax.pastelViolet,  // #D8A8E0 - Violet (Lc 60) - DISTINCT from namespace
-  lifetime: themeColors.syntax.pastelSlate,    // #B0C0E0 - Slate blue (Lc 64) - DISTINCT from boolean
+  comment: themeColors.syntax.silverMist,       // #C8D8B8 - Sage green (110°, Lc 82)
+  commentDoc: themeColors.syntax.silverBright,  // #E0D8FF - Lavender (265°, Lc 85)
+  decorator: themeColors.syntax.pastelViolet,   // #F8D0F8 - Orchid (300°, Lc 85)
+  lifetime: themeColors.syntax.pastelSlate,     // #D8E0F8 - Slate blue (Lc 87)
 
   // =========================================================================
   // HEADINGS & SPECIAL
   // =========================================================================
-  heading: themeColors.syntax.coolAqua,        // #B0E0E0 - Soft aqua (Lc 72) - BOOSTED
-
-  // Special
-  deprecated: character.skirt.accessory,       // #A1B3B6 - Wallet chain silver
+  heading: themeColors.syntax.coolAqua,         // #FFB8A8 - Soft coral (15°, Lc 78)
+  deprecated: themeColors.ui.deprecated,        // #D8D0FF - Lavender (265°)
+  variableLanguage: themeColors.ui.variableLanguage, // #88F0F8 - Bright cyan (185°, Lc 87)
 };
 
 // Helper type for semantic token settings
 type SemanticTokenSetting =
   | string
   | {
-      foreground?: string;
-      fontStyle?: string;
-    };
+    foreground?: string;
+    fontStyle?: string;
+  };
 
 export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   // ==========================================================================
@@ -179,7 +175,7 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   'variable.readonly': colors.constant,
   'variable.constant': colors.constant,
   'variable.defaultLibrary': {
-    foreground: colors.keywordAlt,
+    foreground: colors.variableLanguage,
     fontStyle: 'italic',
   },
   'variable.local': colors.variable,
