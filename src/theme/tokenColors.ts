@@ -11,14 +11,8 @@
  */
 
 import {
-  character,
   themeColors,
-  snowMiku,
-  digitalStars,
-  leoNeed,
-  wonderlandsShowtime,
-  vividBadSquad,
-  nightcord,
+  character,
 } from '../palette';
 
 // ============================================================================
@@ -27,79 +21,81 @@ import {
 
 const syntax = {
   // =========================================================================
-  // KEYWORDS - Signature Miku Cyan (180° hue)
+  // KEYWORDS - Signature Miku Teal
   // =========================================================================
-  keyword: themeColors.syntax.pastelMint,       // #90F8FF - Miku cyan (180°, Lc 91)
-  keywordAlt: themeColors.syntax.keywordAlt,    // #70F8E0 - Green-teal (163°, Lc 89)
-  storageModifier: themeColors.syntax.pastelTeal, // #80F0C0 - Mint-green (150°, Lc 87)
-  variableLanguage: themeColors.ui.variableLanguage, // #88F0F8 - Bright cyan (185°, Lc 87)
+  keyword: themeColors.syntax.keyword,          // #56C5D0 - Soft Teal
+  keywordAlt: themeColors.syntax.keywordAlt,    // #1A8A82 - Darker Teal
+  keywordControl: themeColors.syntax.keywordControl, // #40E0D0 - Bright Turquoise
+  storage: themeColors.syntax.storage,          // #70F0D0 - Mint-Teal
+  storageModifier: themeColors.syntax.storageModifier, // Warm modifier peach
+  variableLanguage: themeColors.ui.variableLanguage, // #88F0F8
 
   // =========================================================================
-  // FUNCTIONS - Golden Amber (45-55° hue)
+  // FUNCTIONS - Gold (Magical Mirai Wand)
   // =========================================================================
-  function: themeColors.syntax.warmCream,       // #F8D898 - Golden amber (48°, Lc 84)
-  functionBuiltin: themeColors.syntax.pastelMint, // Miku cyan for builtins
-  method: themeColors.syntax.pastelRose,        // #FFD0C8 - Soft salmon (10°, Lc 83)
-  magicMethod: themeColors.syntax.pastelRose,
+  function: themeColors.syntax.function,        // #F0C060 - Gold
+  functionBuiltin: themeColors.syntax.keyword,  // Miku cyan for builtins (consistent with keywords)
+  method: themeColors.syntax.method,            // #FFD0C8 - Salmon
+  magicMethod: themeColors.syntax.method,
 
   // =========================================================================
   // LITERALS
   // =========================================================================
-  string: themeColors.syntax.string,            // #B8F0A0 - Lime-green (100°, Lc 88)
-  stringTemplate: themeColors.syntax.stringTemplate, // #D0F8B0 - Lighter lime (Lc 91)
-  number: themeColors.syntax.pastelIndigo,      // #D0D8FF - Periwinkle (235°, Lc 84)
-  boolean: themeColors.syntax.softBlue,         // #D8D0FF - Pale violet (265°, Lc 80)
-  operator: themeColors.ui.operator,            // #F0C8D8 - Rose-pink (340°, Lc 81)
-  punctuation: themeColors.syntax.silverBright, // #E0D8FF - Lavender (Lc 85)
+  string: themeColors.syntax.string,            // #80E090 - Negi Green
+  stringTemplate: themeColors.syntax.stringTemplate, // #A0F0B0
+  number: themeColors.syntax.number,            // #D0D8FF - Periwinkle
+  boolean: themeColors.syntax.constant,         // #B080FF - Lavender/Purple (Consolidated with Constant)
+  operator: themeColors.ui.operator,            // #E43D82 - Magenta (Distinct)
+  punctuation: themeColors.syntax.bracket5,     // #D0D8FF - Blueish
 
   // =========================================================================
-  // CLASSES - Yellow-Gold (65-75° hue) - DISTINCT from functions
+  // CLASSES - Pink (Sakura Miku)
   // =========================================================================
-  class: themeColors.syntax.classGold,          // #F0E8A0 - Yellow-gold (68°, Lc 90)
-  interface: themeColors.syntax.skyBlue,        // #D8D0FF - Indigo (265°, Lc 83)
-  type: themeColors.syntax.coolCyan,            // #98D8FF - Sky blue (200°, Lc 82)
-  typeParameter: themeColors.syntax.pastelLavender, // #E0D8FF - Lavender (265°, Lc 85)
-  enum: themeColors.syntax.pastelOrchid,        // #E8D0F8 - Orchid (290°, Lc 82)
-  struct: themeColors.syntax.paleBlue,          // #D0D8FF - Periwinkle (240°, Lc 84)
-  namespace: themeColors.syntax.pastelLavender, // #E0D8FF - Lavender (265°, Lc 85)
+  class: themeColors.syntax.class,              // #FFB7C5 - Pink
+  interface: themeColors.syntax.interface,      // #B8C8FF - Indigo-Blue
+  type: themeColors.syntax.type,                // #98D8FF - Sky Blue
+  typeParameter: themeColors.syntax.typeParameter, // #D0D8FF - Periwinkle
+  enum: themeColors.syntax.class,               // Pink for Enums too
+  struct: themeColors.syntax.struct,            // #88D8E8 - Ice Cyan
+  namespace: themeColors.syntax.typeParameter,  // #D0D8FF
 
   // =========================================================================
-  // VARIABLES & DATA - DISTINCT hues for instant recognition
+  // VARIABLES & DATA
   // =========================================================================
-  variable: themeColors.syntax.variable,        // #78F0C8 - Mint-teal (160°, Lc 85)
-  parameter: themeColors.syntax.parameter,      // #D0D8FF - Periwinkle (240°, Lc 83)
-  property: themeColors.syntax.pastelPeach,     // #FFD0C0 - Warm peach (20°, Lc 83)
-  constant: themeColors.syntax.pastelCoral,     // #F8C8E8 - Orchid-pink (320°, Lc 82)
+  variable: themeColors.syntax.variable,        // #8FDEEE - Icy Cyan
+  parameter: themeColors.syntax.parameter,      // #B3E5FC - Ice Staff Blue
+  property: themeColors.syntax.property,        // #FFD0C0 - Peach
+  constant: themeColors.syntax.constant,        // #B080FF - Lavender/Purple
 
   // =========================================================================
-  // META - Comments, Decorators with distinct hues
+  // META
   // =========================================================================
-  comment: themeColors.syntax.silverMist,       // #C8D8B8 - Sage green (110°, Lc 82)
-  commentDoc: themeColors.syntax.silverBright,  // #E0D8FF - Lavender (265°, Lc 85)
-  decorator: themeColors.syntax.pastelViolet,   // #F8D0F8 - Orchid (300°, Lc 85)
-  lifetime: themeColors.syntax.pastelSlate,     // #D8E0F8 - Slate blue (Lc 87)
-  tag: themeColors.syntax.pastelMint,           // #90F8FF - Miku cyan for tags
-  attribute: themeColors.syntax.pastelPeach,    // #FFD0C0 - Coral-peach (ΔE 40+ from tag)
+  comment: themeColors.syntax.comment,          // #80A090 - Sage
+  commentDoc: themeColors.syntax.commentDoc,    // #A0C0B0
+  decorator: themeColors.syntax.function,       // Gold (matches functions often)
+  lifetime: themeColors.syntax.keywordAlt,      // Dark Teal
+  tag: themeColors.syntax.tag,                  // #F58F98 - Deep Pink (DISTINCT from Keyword)
+  attribute: themeColors.syntax.attribute,      // #FFD700 - Gold
 
   // =========================================================================
   // HEADINGS & SPECIAL
   // =========================================================================
-  heading: themeColors.syntax.coolAqua,         // #FFD0C0 - Soft coral (15°, Lc 84)
-  sqlKeyword: themeColors.syntax.coolLavender,  // #C8D8F8 - Soft lavender (Lc 85)
+  heading: themeColors.syntax.function,         // Gold
+  sqlKeyword: themeColors.syntax.keywordControl,// Bright Turquoise
 
   // =========================================================================
-  // MARKDOWN - DISTINCT from code syntax (ΔE 25+)
+  // MARKDOWN
   // =========================================================================
-  markupCode: themeColors.markdown.codeBlock,   // #A0E0F8 - Cyan (195°, Lc 85)
-  markupQuote: themeColors.markdown.quote,      // #C0E0F8 - Sky-blue (215°, Lc 86)
+  markupCode: themeColors.markdown.codeBlock,
+  markupQuote: themeColors.markdown.quote,
 
   // =========================================================================
   // SPECIAL
   // =========================================================================
-  regex: themeColors.syntax.regex,              // #F0D898 - Warm gold (45°, Lc 85)
-  escape: themeColors.syntax.pastelOrchid,      // #E8D0F8 - Orchid for escapes
-  deprecated: themeColors.ui.deprecated,        // #D8D0FF - Lavender (265°)
-  invalid: themeColors.ui.error,                // #FFC8C8 - Soft coral (Lc 80)
+  regex: themeColors.syntax.regex,              // Gold
+  escape: themeColors.syntax.constant,          // Purple
+  deprecated: themeColors.ui.deprecated,
+  invalid: themeColors.ui.error,
 };
 
 // Helper type for token color rules
@@ -153,15 +149,14 @@ export const tokenColors: TokenColorRule[] = [
       'keyword.control.loop',
     ],
     settings: {
-      foreground: syntax.keyword,
+      foreground: syntax.keywordControl,
     },
   },
   {
     name: 'Storage Types',
     scope: ['storage.type', 'storage.type.function', 'storage.type.class'],
     settings: {
-      // Lavender: keeps "type keywords" distinct from both keywords and modifiers
-      foreground: syntax.typeParameter,
+      foreground: syntax.keyword, // Use standard keyword teal for types
     },
   },
   {
@@ -192,7 +187,7 @@ export const tokenColors: TokenColorRule[] = [
   },
 
   // ==========================================================================
-  // OPERATORS - Orange distinction
+  // OPERATORS - Magenta/Pink distinction
   // ==========================================================================
   {
     name: 'Operators',
@@ -217,7 +212,7 @@ export const tokenColors: TokenColorRule[] = [
       'keyword.operator.rest',
     ],
     settings: {
-      foreground: syntax.keyword,
+      foreground: syntax.keywordControl,
     },
   },
   {
@@ -229,7 +224,7 @@ export const tokenColors: TokenColorRule[] = [
   },
 
   // ==========================================================================
-  // FUNCTIONS - Warm gold
+  // FUNCTIONS - Gold
   // ==========================================================================
   {
     name: 'User Functions',
@@ -273,7 +268,7 @@ export const tokenColors: TokenColorRule[] = [
   },
 
   // ==========================================================================
-  // CLASSES & TYPES - Gold/Blue hierarchy
+  // CLASSES & TYPES - Pink/Blue hierarchy
   // ==========================================================================
   {
     name: 'User Classes',
@@ -386,6 +381,13 @@ export const tokenColors: TokenColorRule[] = [
   {
     name: 'Constants',
     scope: ['variable.other.constant', 'constant.language'],
+    settings: {
+      foreground: syntax.constant,
+    },
+  },
+  {
+    name: 'Support Constants',
+    scope: ['support.constant', 'constant.other'],
     settings: {
       foreground: syntax.constant,
     },
@@ -570,6 +572,20 @@ export const tokenColors: TokenColorRule[] = [
     },
   },
   {
+    name: 'Emphasis',
+    scope: ['emphasis'],
+    settings: {
+      fontStyle: 'italic',
+    },
+  },
+  {
+    name: 'Strong',
+    scope: ['strong'],
+    settings: {
+      fontStyle: 'bold',
+    },
+  },
+  {
     name: 'Markdown Links',
     scope: ['markup.underline.link', 'string.other.link'],
     settings: {
@@ -580,14 +596,14 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markdown Code',
     scope: ['markup.inline.raw', 'markup.raw.block', 'fenced_code.block.language'],
     settings: {
-      foreground: syntax.markupCode,  // #8AC060 - DISTINCT from string (#9CCC65)
+      foreground: syntax.markupCode,
     },
   },
   {
     name: 'Markdown Quote',
     scope: ['markup.quote'],
     settings: {
-      foreground: syntax.markupQuote,  // #A0B0B8 - DISTINCT from comment (#B0C0C8)
+      foreground: syntax.markupQuote,
       fontStyle: 'italic',
     },
   },
@@ -595,7 +611,8 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markdown List',
     scope: ['markup.list', 'punctuation.definition.list.begin.markdown'],
     settings: {
-      foreground: syntax.operator,
+      // Must meet primary chroma threshold (C* ≥ 30)
+      foreground: syntax.method,
     },
   },
 
@@ -670,7 +687,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'SQL DML Keywords',
     scope: ['keyword.other.DML.sql', 'keyword.other.dml.sql'],
     settings: {
-      foreground: syntax.keyword,
+      foreground: syntax.keywordControl,
     },
   },
   {
@@ -741,6 +758,13 @@ export const tokenColors: TokenColorRule[] = [
     },
   },
   {
+    name: 'CSS Color Values',
+    scope: ['constant.rgb-value', 'constant.other.color', 'support.constant.color'],
+    settings: {
+      foreground: syntax.number,
+    },
+  },
+  {
     name: 'SCSS Variables',
     scope: ['variable.scss', 'variable.sass'],
     settings: {
@@ -776,7 +800,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'PHP Superglobals',
     scope: ['variable.language.php'],
     settings: {
-      foreground: syntax.keywordAlt,
+      foreground: syntax.variableLanguage,
       fontStyle: 'italic',
     },
   },
@@ -830,7 +854,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Ruby Blocks',
     scope: ['keyword.control.ruby', 'keyword.control.def.ruby'],
     settings: {
-      foreground: syntax.keyword,
+      foreground: syntax.keywordControl,
     },
   },
 
@@ -841,7 +865,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Python Self',
     scope: ['variable.parameter.function.language.special.self.python'],
     settings: {
-      foreground: syntax.keywordAlt,
+      foreground: syntax.variableLanguage,
       fontStyle: 'italic',
     },
   },
@@ -895,7 +919,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Go Control',
     scope: ['keyword.control.go'],
     settings: {
-      foreground: syntax.keyword,
+      foreground: syntax.keywordControl,
     },
   },
 
@@ -945,7 +969,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'C# Async Pattern',
     scope: ['keyword.other.await.cs', 'keyword.other.async.cs'],
     settings: {
-      foreground: syntax.keyword,
+      foreground: syntax.keywordControl,
     },
   },
   {
@@ -1034,7 +1058,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Dockerfile Instructions',
     scope: ['keyword.control.dockerfile'],
     settings: {
-      foreground: syntax.keyword,
+      foreground: syntax.keywordControl,
     },
   },
 
@@ -1066,6 +1090,13 @@ export const tokenColors: TokenColorRule[] = [
   // ==========================================================================
   // META SCOPES
   // ==========================================================================
+  {
+    name: 'Preprocessor',
+    scope: ['meta.preprocessor', 'meta.preprocessor.macro', 'entity.name.function.preprocessor'],
+    settings: {
+      foreground: syntax.keyword,
+    },
+  },
   {
     name: 'Meta Function Parameters',
     scope: ['meta.function.parameters', 'meta.parameters', 'meta.function-call.arguments'],

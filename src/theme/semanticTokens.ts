@@ -26,68 +26,45 @@ import {
  * Consistent with tokenColors.ts - same hue distribution strategy
  */
 const colors = {
-  // =========================================================================
-  // KEYWORDS - Signature Miku Cyan (180° hue)
-  // =========================================================================
-  keyword: themeColors.syntax.pastelMint,       // #90F8FF - Miku cyan (180°, Lc 91)
-  keywordAlt: themeColors.syntax.keywordAlt,    // #70F8E0 - Green-teal (163°, Lc 89)
-  storageModifier: themeColors.syntax.pastelTeal, // #80F0C0 - Mint-green (150°, Lc 87)
+  // Core semantic categories (APCA + chroma + distinction tuned in `themeColors.syntax`)
+  keyword: themeColors.syntax.keyword,
+  keywordAlt: themeColors.syntax.keywordAlt,
+  storageModifier: themeColors.syntax.storageModifier,
 
-  // =========================================================================
-  // FUNCTIONS - Golden Amber (45-55° hue)
-  // =========================================================================
-  function: themeColors.syntax.warmCream,       // #F8D898 - Golden amber (48°, Lc 84)
-  functionBuiltin: themeColors.syntax.pastelMint,
-  method: themeColors.syntax.pastelRose,        // #FFD0C8 - Soft salmon (10°, Lc 83)
-  magicMethod: themeColors.syntax.pastelRose,
+  function: themeColors.syntax.function,
+  functionBuiltin: themeColors.syntax.keyword,
+  method: themeColors.syntax.method,
+  magicMethod: themeColors.syntax.method,
 
-  // =========================================================================
-  // CLASSES - Yellow-Gold (65-75° hue) - DISTINCT from functions
-  // =========================================================================
-  class: themeColors.syntax.classGold,          // #F0E8A0 - Yellow-gold (68°, Lc 90)
-  interface: themeColors.syntax.skyBlue,        // #D8D0FF - Indigo (265°, Lc 83)
-  type: themeColors.syntax.coolCyan,            // #98D8FF - Sky blue (200°, Lc 82)
-  typeParameter: themeColors.syntax.pastelLavender, // #E0D8FF - Lavender (265°, Lc 85)
-  enum: themeColors.syntax.pastelOrchid,        // #E8D0F8 - Orchid (290°, Lc 82)
-  enumMember: themeColors.syntax.pastelOrchidLight, // #F0D8A0 - Gold (55°, Lc 85)
-  struct: themeColors.syntax.paleBlue,          // #D0D8FF - Periwinkle (240°, Lc 84)
-  namespace: themeColors.syntax.pastelLavender, // #E0D8FF - Lavender (265°, Lc 85)
+  class: themeColors.syntax.class,
+  interface: themeColors.syntax.interface,
+  type: themeColors.syntax.type,
+  typeParameter: themeColors.syntax.typeParameter,
+  enum: themeColors.syntax.enum,
+  enumMember: themeColors.syntax.enumMember,
+  struct: themeColors.syntax.struct,
+  namespace: themeColors.syntax.typeParameter,
 
-  // =========================================================================
-  // VARIABLES & DATA - DISTINCT hues for instant recognition
-  // =========================================================================
-  variable: themeColors.syntax.variable,        // #78F0C8 - Mint-teal (160°, Lc 85)
-  parameter: themeColors.syntax.parameter,      // #D0D8FF - Periwinkle (240°, Lc 83)
-  property: themeColors.syntax.pastelPeach,     // #FFD0C0 - Warm peach (20°, Lc 83)
-  constant: themeColors.syntax.pastelCoral,     // #F8C8E8 - Orchid-pink (320°, Lc 82)
+  variable: themeColors.syntax.variable,
+  parameter: themeColors.syntax.parameter,
+  property: themeColors.syntax.property,
+  constant: themeColors.syntax.constant,
 
-  // =========================================================================
-  // LITERALS
-  // =========================================================================
-  string: themeColors.syntax.string,            // #B8F0A0 - Lime-green (100°, Lc 88)
-  number: themeColors.syntax.pastelIndigo,      // #D0D8FF - Periwinkle (235°, Lc 84)
-  boolean: themeColors.syntax.softBlue,         // #D8D0FF - Pale violet (265°, Lc 80)
-  regex: themeColors.syntax.regex,              // #F0D898 - Warm gold (45°, Lc 85)
+  string: themeColors.syntax.string,
+  number: themeColors.syntax.number,
+  boolean: themeColors.syntax.boolean,
+  regex: themeColors.syntax.regex,
 
-  // =========================================================================
-  // OPERATORS
-  // =========================================================================
-  operator: themeColors.ui.operator,            // #F0C8D8 - Rose-pink (340°, Lc 81)
+  operator: themeColors.ui.operator,
 
-  // =========================================================================
-  // META
-  // =========================================================================
-  comment: themeColors.syntax.silverMist,       // #C8D8B8 - Sage green (110°, Lc 82)
-  commentDoc: themeColors.syntax.silverBright,  // #E0D8FF - Lavender (265°, Lc 85)
-  decorator: themeColors.syntax.pastelViolet,   // #F8D0F8 - Orchid (300°, Lc 85)
-  lifetime: themeColors.syntax.pastelSlate,     // #D8E0F8 - Slate blue (Lc 87)
+  comment: themeColors.syntax.comment,
+  commentDoc: themeColors.syntax.commentDoc,
+  decorator: themeColors.syntax.enum,
+  lifetime: themeColors.syntax.keywordAlt,
 
-  // =========================================================================
-  // HEADINGS & SPECIAL
-  // =========================================================================
-  heading: themeColors.syntax.coolAqua,         // #FFB8A8 - Soft coral (15°, Lc 78)
-  deprecated: themeColors.ui.deprecated,        // #D8D0FF - Lavender (265°)
-  variableLanguage: themeColors.ui.variableLanguage, // #88F0F8 - Bright cyan (185°, Lc 87)
+  heading: themeColors.syntax.function,
+  deprecated: themeColors.ui.deprecated,
+  variableLanguage: themeColors.ui.variableLanguage,
 };
 
 // Helper type for semantic token settings
@@ -201,6 +178,11 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   // ==========================================================================
   string: colors.string,
   'string.regexp': colors.regex,
+
+  // ==========================================================================
+  // REGEXP
+  // ==========================================================================
+  regexp: colors.regex,
 
   // ==========================================================================
   // NUMBERS

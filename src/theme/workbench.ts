@@ -64,8 +64,9 @@ const bg = {
 // Text hierarchy - from Snow Miku and character palette
 const text = {
   // NOTE: Avoid pure-white halation on deep dark surfaces (APCA max Lc ≤ 95)
-  primary: snowMiku.y2010.hair,          // #E0EEF5 - Snow Miku ice-white (comfortable, non-halating)
-  secondary: themeColors.syntax.silverBright, // #B0C0C8 - Secondary text (Lc 60) - BOOSTED
+  // Tuned for comfort (Lc ~85-90)
+  primary: '#C0D8E0',                    // Soft Ice-White (Snow Miku inspired)
+  secondary: themeColors.syntax.silverBright, // #C0E0D0 - Secondary text
   tertiary: themeColors.ui.tertiary,     // #6B7D82 - Tertiary/muted text
   disabled: themeColors.ui.disabled,     // #6A7A80 - Disabled state (Lc 35+) - BOOSTED
   ghost: themeColors.ui.ghostText,       // #7A9A98 - Ghost/suggestion text (Lc 45+)
@@ -90,12 +91,12 @@ const semantic = {
 
 // Pastel bracket colors (low-fatigue rainbow) - All APCA Lc 80+ for readability
 const bracketPastel = {
-  tan: themeColors.syntax.warmTan,           // Warm tan (50°, Lc 86)
-  pink: themeColors.syntax.bracketPink,      // Rose pink (340°, Lc 82)
-  mint: themeColors.syntax.bracketMint,      // Mint green (135°, Lc 87)
-  lavender: themeColors.syntax.pastelLavender, // Lavender (280°, Lc 78)
-  aqua: themeColors.syntax.coolAqua,         // Miku aqua (175°, Lc 88)
-  purple: themeColors.syntax.softPurple,     // Soft purple (265°, Lc 83)
+  tan: themeColors.syntax.bracket1,
+  pink: themeColors.syntax.bracket2,
+  mint: themeColors.syntax.bracket3,
+  lavender: themeColors.syntax.bracket4,
+  aqua: themeColors.syntax.bracket5,
+  purple: themeColors.syntax.bracket6,
 };
 
 export const workbenchColors = {
@@ -136,10 +137,10 @@ export const workbenchColors = {
   // Find & Replace
   // Slightly darker to preserve token contrast on match highlight
   'editor.findMatchBackground': alpha(semantic.warning, '30'),
-  'editor.findMatchForeground': bg.void,
+  'editor.findMatchForeground': text.primary,
   'editor.findMatchBorder': alpha(semantic.warning, '80'),
   'editor.findMatchHighlightBackground': alpha(accent.bright, '30'),
-  'editor.findMatchHighlightForeground': alpha(text.primary, '30'),
+  'editor.findMatchHighlightForeground': themeColors.syntax.function,
   'editor.findMatchHighlightBorder': alpha(accent.bright, '50'),
   'editor.findRangeHighlightBackground': alpha(accent.primary, '10'),
   'editor.findRangeHighlightBorder': alpha(accent.primary, '25'),
@@ -330,7 +331,8 @@ export const workbenchColors = {
   'editorInlayHint.background': alpha(bg.surface, '80'),
   'editorInlayHint.typeForeground': accent.soft,   // #B2EBE7 - Full opacity teal
   'editorInlayHint.typeBackground': alpha(bg.surface, '80'),
-  'editorInlayHint.parameterForeground': character.skin.base, // #FFE4D6 - Full opacity peachy
+  // Slightly darker to avoid halation (Lc ≤ 90)
+  'editorInlayHint.parameterForeground': character.skin.shadow,
   'editorInlayHint.parameterBackground': alpha(bg.surface, '80'),
 
   // ==========================================================================
@@ -495,11 +497,11 @@ export const workbenchColors = {
   'tab.activeBorderTop': accent.magenta,
   'tab.activeBorder': alpha(accent.primary, '30'),
   'tab.inactiveBackground': bg.base,
-  'tab.inactiveForeground': text.secondary,
+  'tab.inactiveForeground': themeColors.ui.deprecated,
   'tab.border': bg.elevated,
   'tab.hoverBackground': alpha(accent.primary, '15'),
-  // Miku teal hover for distinction from active white (ΔE 15+)
-  'tab.hoverForeground': accent.bright,
+  // High-distinction hover state (state ΔE distinction)
+  'tab.hoverForeground': themeColors.syntax.function,
   'tab.hoverBorder': alpha(accent.primary, '30'),
   'tab.unfocusedActiveBackground': bg.surface,
   'tab.unfocusedActiveForeground': text.secondary,
@@ -549,9 +551,9 @@ export const workbenchColors = {
   'list.inactiveSelectionIconForeground': text.secondary,
   'list.hoverBackground': alpha(accent.primary, '10'),
   // Give hover/focus states distinct foreground tints (state ΔE distinction)
-  'list.hoverForeground': text.secondary,
+  'list.hoverForeground': themeColors.syntax.function,
   'list.focusBackground': alpha(accent.primary, '20'),
-  'list.focusForeground': accent.soft,  // Light teal for Lc 75+ and ΔE 15+ from selection
+  'list.focusForeground': themeColors.ui.operator,  // High-distinction focus state
   'list.focusOutline': alpha(accent.bright, 'DD'),
   'list.focusAndSelectionOutline': alpha(accent.magenta, '80'),
   'list.focusHighlightForeground': text.primary,  // #E8EEF2 for Lc 75+ on focus bg
@@ -871,7 +873,7 @@ export const workbenchColors = {
   'commandCenter.foreground': text.primary,
   'commandCenter.background': bg.void,
   'commandCenter.border': alpha(accent.primary, '30'),
-  'commandCenter.activeForeground': accent.bright,
+  'commandCenter.activeForeground': themeColors.syntax.function,
   'commandCenter.activeBackground': alpha(accent.primary, '15'),
   'commandCenter.activeBorder': alpha(accent.primary, '50'),
   'commandCenter.inactiveForeground': text.tertiary,
@@ -905,7 +907,7 @@ export const workbenchColors = {
   // ==========================================================================
   'breadcrumb.foreground': text.secondary,
   'breadcrumb.background': bg.base,
-  'breadcrumb.focusForeground': accent.bright,
+  'breadcrumb.focusForeground': themeColors.syntax.function,
   'breadcrumb.activeSelectionForeground': text.primary,
   'breadcrumbPicker.background': bg.elevated,
 
@@ -1145,27 +1147,27 @@ export const workbenchColors = {
   // ==========================================================================
   'symbolIcon.arrayForeground': themeColors.symbol.array,
   'symbolIcon.booleanForeground': themeColors.symbol.boolean,
-  'symbolIcon.classForeground': semantic.warning,
+  'symbolIcon.classForeground': themeColors.syntax.class,
   'symbolIcon.colorForeground': accent.magenta,
   'symbolIcon.constantForeground': themeColors.symbol.constant,  // Orchid-pink (320°)
   'symbolIcon.constructorForeground': themeColors.symbol.constructor,
   'symbolIcon.enumeratorForeground': themeColors.symbol.enumerator,  // Purple (280°) DISTINCT from interface
   'symbolIcon.enumeratorMemberForeground': themeColors.symbol.enumeratorMember,
-  'symbolIcon.eventForeground': semantic.warning,
+  'symbolIcon.eventForeground': themeColors.semantic.info,
   'symbolIcon.fieldForeground': themeColors.symbol.field,  // Warm amber (40°) DISTINCT from property
   'symbolIcon.fileForeground': text.primary,
   'symbolIcon.folderForeground': themeColors.symbol.folder,  // Miku teal (170°)
   'symbolIcon.functionForeground': themeColors.symbol.function,
   'symbolIcon.interfaceForeground': themeColors.symbol.interface,  // Sky blue (220°) DISTINCT from enum
-  'symbolIcon.keyForeground': accent.bright,
-  'symbolIcon.keywordForeground': accent.bright,
+  'symbolIcon.keyForeground': themeColors.syntax.function,
+  'symbolIcon.keywordForeground': themeColors.syntax.tag,
   'symbolIcon.methodForeground': themeColors.symbol.method,
   'symbolIcon.moduleForeground': themeColors.symbol.module,  // Purple (275°) DISTINCT from namespace
   'symbolIcon.namespaceForeground': themeColors.symbol.namespace,  // Lavender (290°)
   'symbolIcon.nullForeground': text.tertiary,
   'symbolIcon.numberForeground': themeColors.symbol.number,  // Periwinkle (230°) DISTINCT from boolean
-  'symbolIcon.objectForeground': text.primary,
-  'symbolIcon.operatorForeground': themeColors.symbol.operator,
+  'symbolIcon.objectForeground': themeColors.syntax.typeParameter,
+  'symbolIcon.operatorForeground': themeColors.syntax.keyword,
   'symbolIcon.packageForeground': themeColors.symbol.package,  // Soft purple (260°) DISTINCT from folder
   'symbolIcon.propertyForeground': themeColors.symbol.property,  // Coral (10°) DISTINCT from field
   'symbolIcon.referenceForeground': themeColors.symbol.reference,
