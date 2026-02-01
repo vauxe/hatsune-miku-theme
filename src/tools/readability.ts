@@ -1362,14 +1362,15 @@ Analyzes VS Code themes for comfortable extended coding sessions.
 Tests contrast, color distinction, and eye fatigue risk.
 
 Usage:
-  npx tsx src/tools/readability.ts --theme <path>    Analyze theme
-  npx tsx src/tools/readability.ts --test FG BG      Test single color pair
-  npx tsx src/tools/readability.ts --chroma COLOR    Test color chroma
+  npm run readability                      Analyze default theme
+  npm run readability -- --theme <path>    Analyze custom theme
+  npm run readability -- --test FG BG      Test single color pair
+  npm run readability -- --chroma COLOR    Test color chroma
 
 Multi-Color Testing:
-  npx tsx src/tools/readability.ts --matrix-apca "FG1,FG2" "BG1,BG2"
-  npx tsx src/tools/readability.ts --matrix-distinction "C1,C2,C3"
-  npx tsx src/tools/readability.ts --chroma "C1,C2,C3"
+  npm run readability -- --matrix-apca "FG1,FG2" "BG1,BG2"
+  npm run readability -- --matrix-distinction "C1,C2,C3"
+  npm run readability -- --chroma "C1,C2,C3"
 
 Options:
   --theme <path>          Path to VS Code theme JSON file
@@ -1461,24 +1462,21 @@ Output: SUMMARY pass=N/M fail=N distinction_fail=N chroma_fail=N ready=X
   - ready=true        → All tests pass, theme is marathon-ready
 
 Examples:
-  npx tsx src/tools/readability.ts --theme ./themes/my-theme.json
-  npx tsx src/tools/readability.ts --theme ./themes/my-theme.json --verbose
-  npx tsx src/tools/readability.ts --test "#86E1FC" "#1E2030"
-  npx tsx src/tools/readability.ts --chroma "#FFD700"
-  npx tsx src/tools/readability.ts --chroma "#90F0F0,#F8D8A0,#FFD700"
-  npx tsx src/tools/readability.ts --matrix-apca "#90F0F0,#F8D8A0" "#0A0D10,#1A1A1A"
-  npx tsx src/tools/readability.ts --matrix-distinction "#90F0F0,#88F0D0,#F8D8A0"
-  npx tsx src/tools/readability.ts --matrix-distinction "#90F0F080,#88F0D0" --bg "#0A0D10"
+  npm run readability                                          # Analyze default theme
+  npm run readability -- --verbose                             # Full analysis
+  npm run readability -- --test "#86E1FC" "#1E2030"            # Single contrast test
+  npm run readability -- --chroma "#90F0F0,#F8D8A0"            # Chroma analysis
+  npm run readability -- --matrix-apca "#90F0F0" "#0A0D10"     # APCA matrix
+  npm run readability -- --matrix-distinction "#90F0F0,#88F0D0,#F8D8A0"
 `);
 }
 
 const args = process.argv.slice(2);
 
+const DEFAULT_THEME = './themes/hatsune-miku-theme-color-theme.json';
+
 if (args[0] === '--help' || args[0] === '-h') {
   printHelp();
-} else if (args.length === 0) {
-  printHelp();
-  process.exit(1);
 } else {
   let themePath: string | undefined;
   let test: { fg: string; bg: string; name?: string } | undefined;
@@ -1579,10 +1577,9 @@ if (args[0] === '--help' || args[0] === '-h') {
       process.exit(1);
     }
     testColor(test.fg, test.bg, test.name);
-  } else if (themePath) {
-    runAnalysis(themePath, { issuesOnly, verbose });
   } else {
-    console.error(LABELS.errThemeRequired);
-    process.exit(1);
+    // Default to theme analysis
+    const resolvedPath = themePath ? themePath : path.resolve(DEFAULT_THEME);
+    runAnalysis(resolvedPath, { issuesOnly, verbose });
   }
 }

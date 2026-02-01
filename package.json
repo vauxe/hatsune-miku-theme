@@ -31,7 +31,7 @@
     "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\"",
     "rebuild": "npm run clean && npm run build",
     "prepublishOnly": "npm run build",
-    "check-readability": "tsx src/tools/readability.ts --theme ./themes/hatsune-miku-theme-color-theme.json"
+    "readability": "tsx src/tools/readability.ts"
   },
   "devDependencies": {
     "@types/node": "^25.0.9",
