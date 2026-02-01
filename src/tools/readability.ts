@@ -478,18 +478,33 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('String Escape', c.syntax.stringEscape, 'editor'), // \n, \t, etc.
     a('Constants', c.syntax.constant, 'editor'),
     a('Regexp', c.syntax.regexp, 'editor'),
+    a('Color Value', c.syntax.colorValue, 'editor'), // CSS #hex, rgb()
     a('Tags', c.syntax.tag, 'editor'),
     a('Attributes', c.syntax.attribute, 'editor'),
+    // CSS-specific
+    a('CSS Selector', c.syntax.cssSelector, 'editor'),
+    a('CSS Property', c.syntax.cssPropertyName, 'editor'),
+    // Decorators, links, etc.
     a('Decorators', c.syntax.decorator, 'editor'),
     a('Links', c.syntax.link, 'editor'),
     a('Punctuation', c.syntax.punctuation, 'editor'),
     a('Macros', c.syntax.macro, 'editor'),
     a('Structs', c.syntax.struct, 'editor'),
+    // Entity patterns
+    a('Section', c.syntax.section, 'editor'), // Document sections
+    a('Inherited', c.syntax.inheritedClass, 'editor'), // extends/implements
+    // Semantic tokens
+    a('Labels', c.syntax.label, 'editor'), // goto, case labels
+    a('Events', c.syntax.event, 'editor'), // event handlers
     // Invalid/Deprecated
     a('Invalid', c.syntax.invalid, 'editor'),
     a('Deprecated', c.syntax.deprecated, 'editor'),
     // Support (framework/library)
     a('Support Func', c.syntax.supportFunction, 'editor'),
+    a('Support Class', c.syntax.supportClass, 'editor'), // Array, Map
+    a('Support Type', c.syntax.supportType, 'editor'), // string, number
+    a('Support Const', c.syntax.supportConstant, 'editor'), // null, undefined
+    a('Support Var', c.syntax.supportVariable, 'editor'), // __dirname, process
     // Storage modifiers
     a('Storage Mod', c.syntax.storageModifier, 'editor'),
     // Markup (Markdown, etc.)
@@ -498,6 +513,11 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Markup Italic', c.syntax.markupItalic, 'editor'),
     a('Markup Code', c.syntax.markupCode, 'editor'),
     a('Markup Quote', c.syntax.markupQuote, 'editor'),
+    a('Markup List', c.syntax.markupList, 'editor'),
+    // Diff markup
+    a('Markup Inserted', c.syntax.markupInserted, 'editor'),
+    a('Markup Deleted', c.syntax.markupDeleted, 'editor'),
+    a('Markup Changed', c.syntax.markupChanged, 'editor'),
   ], LABELS.sectionSyntax);
 
   // SYNTAX CONTEXT - tokens on overlay backgrounds
@@ -1060,6 +1080,12 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     ansiBlue: c.terminal.ansiBlue,
     ansiMagenta: c.terminal.ansiMagenta,
     ansiCyan: c.terminal.ansiCyan,
+    // Markdown alerts (accent tier)
+    alertNote: c.markdownAlerts.note,
+    alertTip: c.markdownAlerts.tip,
+    alertImportant: c.markdownAlerts.important,
+    alertWarning: c.markdownAlerts.warning,
+    alertCaution: c.markdownAlerts.caution,
   };
 
   const chromaResults = analyzeColorChroma(chromaColors);

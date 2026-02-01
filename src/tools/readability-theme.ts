@@ -391,20 +391,34 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       stringEscape: resolveColor(findTokenColor(theme, 'constant.character.escape'), fg), // \n, \t, etc.
       constant: resolveColor(findTokenColor(theme, 'constant.language'), fg),
       regexp: resolveColor(findTokenColor(theme, 'string.regexp', 'regexp'), fg),
+      colorValue: resolveColor(findTokenColor(theme, 'constant.other.color'), fg), // CSS #hex, rgb()
       // Markup/Web
       tag: resolveColor(findTokenColor(theme, 'entity.name.tag'), fg),
       attribute: resolveColor(findTokenColor(theme, 'entity.other.attribute-name'), fg),
+      // CSS-specific
+      cssSelector: resolveColor(findTokenColor(theme, 'entity.name.selector'), fg), // .class, #id, element
+      cssPropertyName: resolveColor(findTokenColor(theme, 'support.type.property-name'), fg), // color, margin, etc.
       // Other
       decorator: resolveColor(findTokenColor(theme, 'entity.name.function.decorator', 'decorator'), fg),
       link: resolveColor(findTokenColor(theme, 'markup.underline.link'), fg),
       punctuation: resolveColor(findTokenColor(theme, 'punctuation'), fg),
       macro: resolveColor(findTokenColor(theme, 'entity.name.function.preprocessor', 'macro'), fg),
       struct: resolveColor(findTokenColor(theme, 'entity.name.type.struct', 'struct'), fg),
+      // Entity patterns
+      section: resolveColor(findTokenColor(theme, 'entity.name.section'), fg), // Document sections (Markdown, LaTeX)
+      inheritedClass: resolveColor(findTokenColor(theme, 'entity.other.inherited-class'), fg), // extends/implements
+      // Semantic tokens
+      label: resolveColor(findTokenColor(theme, 'entity.name.label', 'label'), fg), // goto labels, case labels
+      event: resolveColor(findTokenColor(theme, 'variable.other.event', 'event'), fg), // event handlers (C#, TS)
       // Invalid/Deprecated
       invalid: resolveColor(findTokenColor(theme, 'invalid.illegal'), fg),
       deprecated: resolveColor(findTokenColor(theme, 'invalid.deprecated'), fg),
-      // Support (framework/library provided) - only function is distinctively styled
+      // Support (framework/library provided)
       supportFunction: resolveColor(findTokenColor(theme, 'support.function'), fg),
+      supportClass: resolveColor(findTokenColor(theme, 'support.class'), fg), // Array, Map, Set
+      supportType: resolveColor(findTokenColor(theme, 'support.type'), fg), // string, number (built-in)
+      supportConstant: resolveColor(findTokenColor(theme, 'support.constant'), fg), // null, undefined, true
+      supportVariable: resolveColor(findTokenColor(theme, 'support.variable'), fg), // __dirname, process
       // Storage modifiers
       storageModifier: resolveColor(findTokenColor(theme, 'storage.modifier'), fg),
       // Markup (Markdown, etc.)
@@ -413,6 +427,11 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       markupItalic: resolveColor(findTokenColor(theme, 'markup.italic'), fg),
       markupCode: resolveColor(findTokenColor(theme, 'markup.inline.raw'), fg),
       markupQuote: resolveColor(findTokenColor(theme, 'markup.quote'), fg),
+      markupList: resolveColor(findTokenColor(theme, 'markup.list'), fg), // - item, 1. item
+      // Diff markup (in markdown/docs)
+      markupInserted: resolveColor(findTokenColor(theme, 'markup.inserted'), fg),
+      markupDeleted: resolveColor(findTokenColor(theme, 'markup.deleted'), fg),
+      markupChanged: resolveColor(findTokenColor(theme, 'markup.changed'), fg),
       // Comments
       comment: resolveColor(findTokenColor(theme, 'comment', 'comment'), fg),
       docComment: (() => {

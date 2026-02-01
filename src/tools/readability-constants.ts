@@ -212,10 +212,15 @@ export const PRIMARY_SYNTAX_ELEMENTS = new Set([
   'Numbers', 'Strings', 'String Escape', 'Constants', 'Regexp',
   // Markup/Web
   'Tags', 'Attributes', 'Links',
+  // CSS (structural elements)
+  'CSS Selector', 'CSS Property', 'Color Value',
   // Markup content (Markdown - readable text)
   'Markup Heading', 'Markup Bold', 'Markup Italic', 'Markup Code', 'Markup Quote',
-  // Support (library/framework calls)
-  'Support Func',
+  'Markup List', 'Section',
+  // Support (library/framework - commonly read)
+  'Support Func', 'Support Class', 'Support Type', 'Support Const', 'Support Var',
+  // Semantic tokens
+  'Labels', 'Events', 'Inherited',
   // Error indicators (must be clearly visible)
   'Invalid', 'Deprecated',
   // Primary text
@@ -246,6 +251,10 @@ export const CRITICAL_DISTINCTION_PAIRS = new Set([
   'modified↔deleted',
   'ansiRed↔ansiGreen',
   'passed↔failed',
+  // Diff markup (in Markdown/docs)
+  'markupInserted↔markupDeleted',
+  'markupInserted↔markupChanged',
+  'markupDeleted↔markupChanged',
 ]);
 
 /**
@@ -274,6 +283,12 @@ export const ACCENT_CHROMA_ELEMENTS = new Set([
   'bracket1', 'bracket2', 'bracket3', 'bracket4', 'bracket5', 'bracket6',
   'ansiRed', 'ansiGreen', 'ansiYellow', 'ansiBlue', 'ansiMagenta', 'ansiCyan',
   'link', 'markupHeading',
+  // Diff markup (can be vibrant for visibility)
+  'markupInserted', 'markupDeleted', 'markupChanged',
+  // CSS color values (inherently colorful)
+  'colorValue',
+  // Markdown alerts (semantic colors for attention)
+  'alertNote', 'alertTip', 'alertImportant', 'alertWarning', 'alertCaution',
 ]);
 
 /**
@@ -693,6 +708,158 @@ export const ADJACENCY_PAIRS: Array<[string, string]> = [
   ['markupBold', 'markupItalic'],  // **bold** vs *italic*
   ['markupBold', 'variable'],      // **bold** vs var
   ['markupItalic', 'comment'],     // *italic* vs comment
+  ['markupList', 'variable'],      // - item vs variable
+  ['markupList', 'punctuation'],   // - vs other punctuation
+
+  // ===== DIFF MARKUP PATTERNS (in Markdown/docs) =====
+  ['markupInserted', 'markupDeleted'], // +added vs -removed (CRITICAL)
+  ['markupInserted', 'markupChanged'], // +added vs ~changed
+  ['markupDeleted', 'markupChanged'],  // -removed vs ~changed
+  ['markupInserted', 'string'],        // +line vs "string"
+  ['markupDeleted', 'comment'],        // -line vs comment
+  ['markupInserted', 'variable'],      // +line vs variable
+
+  // ===== SUPPORT PATTERNS (built-in/library) =====
+  ['supportClass', 'class'],           // Array vs MyClass
+  ['supportClass', 'function'],        // Array vs function
+  ['supportClass', 'variable'],        // Array vs myVar
+  ['supportType', 'type'],             // string (built-in) vs MyType
+  ['supportType', 'class'],            // string vs class
+  ['supportType', 'interface'],        // string vs Interface
+  ['supportConstant', 'constant'],     // null vs MY_CONST
+  ['supportConstant', 'variable'],     // null vs myVar
+  ['supportConstant', 'number'],       // null vs 0
+  ['supportVariable', 'variable'],     // process vs myVar
+  ['supportVariable', 'property'],     // __dirname vs obj.prop
+  ['supportFunction', 'supportClass'], // console.log vs Array
+  ['supportFunction', 'supportType'],  // parseInt vs string
+  ['supportClass', 'supportType'],     // Array vs string
+
+  // ===== CSS-SPECIFIC PATTERNS =====
+  ['cssSelector', 'cssPropertyName'],  // .class vs color:
+  ['cssSelector', 'variable'],         // .class vs $var (SCSS)
+  ['cssSelector', 'tag'],              // .class vs div
+  ['cssSelector', 'attribute'],        // [attr] vs class=""
+  ['cssSelector', 'string'],           // .class vs "value"
+  ['cssPropertyName', 'variable'],     // color: vs $var
+  ['cssPropertyName', 'string'],       // color: vs "red"
+  ['cssPropertyName', 'number'],       // width: vs 100
+  ['cssPropertyName', 'function'],     // color: vs rgb()
+  ['cssPropertyName', 'keyword'],      // color: vs !important
+  ['colorValue', 'string'],            // #fff vs "white"
+  ['colorValue', 'number'],            // #fff vs 255
+  ['colorValue', 'constant'],          // #fff vs inherit
+
+  // ===== LABEL PATTERNS (goto, case) =====
+  ['label', 'variable'],               // label: vs variable
+  ['label', 'function'],               // label: vs func()
+  ['label', 'keyword'],                // label: vs case/default
+  ['label', 'string'],                 // label: vs "string"
+  ['label', 'constant'],               // label: vs true
+
+  // ===== EVENT PATTERNS (C#, TypeScript) =====
+  ['event', 'method'],                 // onClick vs method()
+  ['event', 'property'],               // onClick vs prop
+  ['event', 'variable'],               // onClick vs var
+  ['event', 'function'],               // onClick vs function
+  ['event', 'decorator'],              // @click vs @decorator
+
+  // ===== INHERITANCE PATTERNS =====
+  ['inheritedClass', 'class'],         // extends Base vs class Derived
+  ['inheritedClass', 'interface'],     // implements IFoo vs interface
+  ['inheritedClass', 'type'],          // extends Type vs type
+  ['inheritedClass', 'keyword'],       // Base vs extends keyword
+
+  // ===== SECTION PATTERNS (document structure) =====
+  ['section', 'markupHeading'],        // section vs # heading
+  ['section', 'function'],             // \section vs function
+  ['section', 'comment'],              // section vs comment
+
+  // ===== HIGH-FREQUENCY PAIRS (from extract-adjacency.ts analysis) =====
+  // These were discovered by analyzing real code in examples/
+  ['comment', 'punctuation'],          // ) /* comment */
+  ['method', 'punctuation'],           // .method()
+  ['cssSelector', 'punctuation'],      // .class {
+  ['cssPropertyName', 'operator'],     // property: value
+  ['comment', 'operator'],             // */ + or /* after operators
+  ['comment', 'storage'],              // */ struct or function /*
+  ['punctuation', 'storage'],          // { class or (var
+  ['comment', 'storageModifier'],      // */ static or public /*
+  ['cssPropertyName', 'punctuation'],  // property; or property,
+  ['operator', 'storage'],             // #include <
+  ['cssSelector', 'operator'],         // :pseudo or ::pseudo
+  ['punctuation', 'storageModifier'],  // (const or ,static
+  ['punctuation', 'supportClass'],     // Set( or Math.
+  ['operator', 'supportType'],         // < string or char *
+  ['punctuation', 'supportType'],      // (void or string.
+  ['supportType', 'variable'],         // int count, char name
+  ['punctuation', 'supportFunction'],  // (sizeof or printf(
+  ['decorator', 'punctuation'],        // [attr] or @deco(
+  ['comment', 'cssPropertyName'],      // ; default (CSS)
+  ['operator', 'supportClass'],        // = Math or = Array
+  ['decorator', 'operator'],           // [key] =
+  ['cssSelector', 'storage'],          // struct Name or namespace.
+  ['comment', 'decorator'],            // [attr]; /* comment */
+  ['storageModifier', 'supportType'],  // const char, static int
+  ['comment', 'cssSelector'],          // ::endl; or ::nullopt;
+  ['operator', 'storageModifier'],     // * const
+  ['comment', 'supportType'],          // ; int or /* int */
+  ['function', 'supportType'],         // int main, void func
+  ['macro', 'operator'],               // #include < or >
+  ['storage', 'string'],               // import "path"
+  ['operator', 'supportFunction'],     // = printf or / sizeof
+  ['cssSelector', 'keyword'],          // extends ClassName
+  ['storageModifier', 'supportClass'], // const String, final Array
+  ['cssPropertyName', 'storage'],      // var property:
+  ['punctuation', 'supportConstant'],  // (null) or NULL;
+  ['comment', 'supportClass'],         // // String or /* Array */
+  ['macro', 'storage'],                // #include struct
+  ['comment', 'supportFunction'],      // /* printf */ or ; printf
+  ['operator', 'supportConstant'],     // == null or = nullptr
+  ['operator', 'regexp'],              // =~ /pattern/
+  ['cssSelector', 'number'],           // :nth-child(1)
+  ['decorator', 'storage'],            // @decorator class
+  ['cssPropertyName', 'storageModifier'], // const property:
+  ['keyword', 'supportClass'],         // as String or new Array
+  ['comment', 'macro'],                // /* #define */ or #define /*
+  ['keyword', 'supportType'],          // as int or is string
+  ['macro', 'punctuation'],            // #endif )
+  ['number', 'storage'],               // 0 var (rare)
+  ['keyword', 'supportFunction'],      // return printf
+  ['decorator', 'storageModifier'],    // @override public
+
+  // ===== TEXTMATE-VERIFIED PAIRS (from extract-adjacency-textmate.ts) =====
+  // These were verified using actual VS Code TextMate grammars
+  ['attribute', 'punctuation'],        // href="" or class=""
+  ['constant', 'punctuation'],         // true; or null,
+  ['colorValue', 'punctuation'],       // #fff; or #000,
+  ['punctuation', 'variableLanguage'], // this. or self,
+  ['punctuation', 'tag'],              // <div or />
+  ['markupCode', 'punctuation'],       // `code` or ``` blocks
+  ['parameter', 'storage'],            // (var x) or function(param
+  ['constant', 'storage'],             // const true or var null
+  ['punctuation', 'stringEscape'],     // \\n, or \\t}
+  ['namespace', 'punctuation'],        // std:: or Ns.
+  ['storageModifier', 'typeParameter'], // static T or const <T>
+  ['punctuation', 'section'],          // \\section{
+  ['attribute', 'operator'],           // id=value or class:
+  ['parameter', 'storageModifier'],    // (const param) or (readonly arg)
+  ['markupBold', 'punctuation'],       // **bold** markers
+  ['constant', 'supportFunction'],     // sizeof(true)
+  ['number', 'string'],                // "123" vs 123 confusion
+  ['constant', 'stringEscape'],        // "\\n" true pattern
+  ['inheritedClass', 'punctuation'],   // extends Base, or implements IFoo;
+  ['enumMember', 'operator'],          // Color.RED == x
+  ['punctuation', 'typeParameter'],    // <T> or List<T>
+  ['supportConstant', 'supportFunction'], // console.log(null)
+  ['inheritedClass', 'storageModifier'], // extends readonly Base
+  ['markupItalic', 'punctuation'],     // *italic* markers
+  ['link', 'punctuation'],             // [link](url) markers
+  ['interface', 'punctuation'],        // interface { or IFoo,
+  ['keyword', 'supportConstant'],      // return null; if (undefined)
+  ['constant', 'type'],                // Type | null
+  ['enum', 'punctuation'],             // enum { or Color,
+  ['punctuation', 'struct'],           // struct { or Foo;
 ];
 
 /**
