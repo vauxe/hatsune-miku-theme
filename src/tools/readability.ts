@@ -1460,9 +1460,10 @@ Levels (descriptive):
   Obvious       (ΔE 40+)  - Completely different
 
 Pass thresholds:
-  All pairs (ΔE ≥ 20): Distinct level - obviously different without effort
+  Standard pairs (ΔE ≥ 15): Clear level - obviously different
+  Critical pairs (ΔE ≥ 18): Higher bar for safety-critical distinctions
 
-Output icons: ❌ fail, ✅ pass (20+)
+Output icons: ❌ fail, ✅ pass
 Output: DISTINCTION category pair1↔pair2 ΔE=X need=Y [critical]
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

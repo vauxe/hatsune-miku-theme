@@ -463,7 +463,7 @@ export function deltaE00Hex(hex1: string, hex2: string, bg?: string): number | n
  * Get distinction level based on Delta E value.
  *
  * @param dE - Delta E 2000 value
- * @param isCritical - If true, use higher threshold (18 vs 12) for safety-critical pairs
+ * @param isCritical - If true, use higher threshold (18 vs 15) for safety-critical pairs
  * @returns Level, icon, and pass status
  */
 export function getDistinctionLevel(dE: number, isCritical = false): { level: DistinctionLevel; icon: string; pass: boolean } {

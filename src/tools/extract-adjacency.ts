@@ -567,6 +567,10 @@ async function tokenizeFile(filePath: string): Promise<TokenizationResult | null
         const scope = normalizeScope(token.scopes);
         if (!scope) continue;
 
+        // Skip punctuation and operators - they appear between almost every token pair
+        // and are less meaningful for adjacency analysis
+        if (scope === 'punctuation' || scope === 'operator') continue;
+
         tokenCount++;
 
         if (prevScope && prevScope !== scope) {
