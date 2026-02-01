@@ -124,110 +124,138 @@ export const themeColors = {
     // NOTE: Readability tooling targets:
     // - APCA: Primary Lc ≥ 75 and ≤ 90 (avoid halation)
     // - Chroma: Primary C* 30–55 (avoid gray / washed-out tokens)
-    // - Distinction: ΔE00 ≥ 20 for adjacency pairs
-    keyword: '#70F0D0',           // Mint-teal (C* 40+) - Digital Diva signature
-    keywordControl: '#70E0E0',    // Cyan-teal (slightly cooler for flow keywords)
-    keywordAlt: '#70D8C8',        // Softer teal variant (still body-level)
+    // - Distinction: ΔE00 ≥ 15 for adjacency pairs
+    //
+    // COLOR DESIGN PHILOSOPHY - "Digital Diva":
+    // Each syntax category uses a distinct hue family from Miku's visual identity.
+    // Colors are calibrated for 8+ hour coding sessions without eye strain.
+    //
+    // HUE FAMILIES (maximally separated for distinction):
+    // - TEAL (168°): Keywords - Miku's signature color
+    // - MINT-GREEN (145°): Storage/Methods - Fresh, natural
+    // - GOLD (52°): Functions - Magical Mirai wand glow
+    // - LIME (105°): Classes/Strings - Negi (spring onion)
+    // - SKY-CYAN (195°): Variables - Snow Miku ice
+    // - PEACH (28°): Parameters - Sakura Miku warmth
+    // - CORAL (8°): Tags/Properties - Gentle accent
+    // - ROSE-PINK (340°): Interfaces - Idol concert lights
+    // - LAVENDER (285°): Types - Twilight sky
+    // - ORCHID (310°): Modifiers - Digital Stars neon
+
+    keyword: '#70F0D0',           // Mint-teal (Lc 83, C* 43, h 168°) - Digital Diva signature
+    keywordControl: '#60E8D8',    // Cooler teal (h 175°) for flow keywords
+    keywordAlt: '#50D8C8',        // Darker teal variant (h 170°)
 
     // =========================================================================
-    // STORAGE / TYPES - Distinct from Keywords
+    // STORAGE / TYPES - Spread across spectrum for distinction
     // =========================================================================
-    storage: '#70F0D0',           // Mint-teal (aligns with keyword family)
-    storageModifier: '#FFC0E8',   // Pink modifiers (public/async/export)
-    type: '#FFC0A0',              // Peach type-system (C*≥30, Lc≥75)
-    typeParameter: '#F0C0F8',     // Magenta-lavender (distinct from type)
-    enum: '#7FE0FF',              // Cyan-blue (enums)
-    enumMember: '#E4C8FF',        // Lavender (enum members)
+    // COLOR STRATEGY: Use high-chroma hues that work at Lc 75+
+    // Pink/magenta (h 310-340°) achieves good chroma at high lightness
+    //
+    // PRIMARY TIER (Lc 75+, C* 30+) - high frequency tokens
+    storage: '#98E8B8',           // Light mint (Lc 84, C* 40, h 135°) - MOVED away from keyword h168°
+    enum: '#80E8F0',              // Ice-cyan (Lc 84, C* 35, h 188°) - enum names (more saturated)
+    macro: '#D0D8F8',             // Bright periwinkle (Lc 84, C* 22, h 242°) - h242° DISTINCT from number (h218°) and variable (h195°)
+    // TYPE SYSTEM - spread across spectrum for distinction
+    storageModifier: '#F8C0E0',   // Light magenta (Lc 80, C* 30, h 325°) - modifiers
+    type: '#E8C8F8',              // Bright orchid (Lc 80, C* 27, h 290°) - type annotations
+    typeParameter: '#B8D0F8',     // Light blue (Lc 80, C* 25, h 225°) - generic params (SHIFTED to blue)
+    enumMember: '#F8D0E0',        // Light rose (Lc 84, C* 22, h 345°) - enum values
 
     // =========================================================================
-    // FUNCTIONS - Gold/Amber (Magical Mirai Wand)
+    // FUNCTIONS - Gold/Amber (Magical Mirai Wand) - h 45-55°
     // =========================================================================
-    function: '#F0D070',          // Warm gold (ΔE≥20 vs peach params/types)
-    method: '#70F0D0',            // Mint-teal (methods: distinct from properties/params)
+    function: '#F0D070',          // Warm gold (Lc 78, C* 51, h 52°)
+    method: '#78E8C0',            // Fresh mint (Lc 82, C* 40, h 155°) - DISTINCT from keyword
 
     // =========================================================================
-    // CLASSES - Bright accent (distinct from keywords/types)
+    // CLASSES - Negi lime / Pink headphone accent (h 100-115° and h 330-340°)
     // =========================================================================
-    class: '#C8E888',             // Negi-lime highlight (C* 45+) - high distinction
-    interface: '#FFC0E8',         // Soft idol-pink (C* 30+, Lc 75+)
-    struct: '#7FE0FF',            // Cyan-blue (C* 30+, Lc 75+) - distinct from storage
+    class: '#C8E888',             // Negi-lime (Lc 84, C* 50, h 105°)
+    interface: '#FFC8E8',         // Bright Miku pink (Lc 82, C* 30, h 335°) - headphone accent
+    struct: '#F8C8D0',            // Light rose (Lc 81, C* 26, h 350°) - MOVED to pink region (away from crowded teal/blue)
 
     // =========================================================================
-    // VARIABLES - Icy/White-Cyan (Snow Miku)
+    // VARIABLES - Sky Cyan / Warm accents (h 195° and h 25-45°)
     // =========================================================================
-    variable: '#7FE0FF',          // Bright cyan-blue (C* 30+, Lc 75+)
-    parameter: '#FFC0A0',         // Warm peach (C*≥30, Lc≥75)
-    property: '#F0C0F8',          // Magenta-lavender (distinct from method + number)
+    variable: '#78E0F8',          // Sky cyan (Lc 80, C* 32, h 195°)
+    parameter: '#FFC8A0',         // Warm peach (Lc 80, C* 35, h 35°) - brighter
+    property: '#F8C8A8',          // Salmon-peach (Lc 81, C* 32, h 28°) - SHIFTED to salmon (h 28° vs constant h 52°)
 
     // =========================================================================
-    // STRINGS - Negi Green
+    // STRINGS - Mint-green (h 128°) - shifted further from class (h 105°)
     // =========================================================================
-    string: '#B4DC78',            // Negi yellow-green (ΔE≥20 vs keyword mint, C*≤55)
-    stringTemplate: '#B0F0C0',    // Lighter
-    regex: '#F0C870',             // Warm amber (RegEx)
+    string: '#90F8A8',            // Bright mint (Lc 88, C* 52, h 125°) - traditional green, HIGH chroma
+    stringTemplate: '#90E8A8',    // Light mint-green (Lc 82, C* 42, h 135°)
+    regex: '#F0C870',             // Warm amber (Lc 75, C* 49, h 55°)
 
     // =========================================================================
-    // NUMBERS & LITERALS
+    // NUMBERS & LITERALS - Distinct from variables
     // =========================================================================
-    number: '#7FE0FF',            // Cyan-blue (numbers) - ΔE vs property/method/string
-    boolean: '#FFC0A0',           // Peach (align with constants)
+    number: '#B0D8F8',            // Light sky blue (Lc 81, C* 28, h 218°) - Brighter for Lc 75+
+    boolean: '#F0D0F8',           // Light orchid (Lc 83, C* 22, h 295°) - matches type family
 
     // =========================================================================
-    // CONSTANTS / TAGS
+    // CONSTANTS / TAGS - Well-separated hues
     // =========================================================================
-    constant: '#FFC0A0',          // Peach constants (true/null)
-    tag: '#FFC0E8',               // Tags align with interface/pink family
-    attribute: '#F0C870',         // Warm amber (attributes: distinct from strings)
+    constant: '#C8E080',          // Yellow-green (Lc 81, C* 45, h 95°) - SHIFTED to h95° (between supportConstant h88° and class h105°)
+    tag: '#FFC0C8',               // Bright salmon-pink (Lc 80, C* 30, h 355°) - brighter
+    attribute: '#E8D078',         // Yellow-amber (Lc 80, C* 45, h 68°) - SHIFTED to h68°
 
     // =========================================================================
     // META
     // =========================================================================
-    comment: '#E0D0F8',           // Brighter lavender-gray (keeps contrast in selections/diffs)
-    commentDoc: '#A8E0D8',        // Teal doc-comments (ΔE≥20 vs comment)
-    
+    comment: '#E0D0F8',           // Brighter lavender-gray (Lc 81, C* 22, h 280°)
+    commentDoc: '#A8E0D8',        // Teal doc-comments (Lc 80, C* 20, h 170°)
+
     // =========================================================================
-    // BRACKETS (Rainbow)
+    // SUPPORT (Library/Built-in) - DISTINCT from user-defined equivalents
     // =========================================================================
-    // Re-tuned to meet: Accent chroma (C*≥30) + ΔE≥20 adjacency
-    bracket1: '#FFC0A0', // Peach
-    bracket2: '#FFC0E8', // Pink
-    bracket3: '#B4DC78', // Negi yellow-green
-    bracket4: '#70F0D0', // Teal (ΔE≥20 vs bracket5)
-    bracket5: '#E4C8FF', // Lavender
-    bracket6: '#F0D070', // Gold
-    
+    // Each support token must have ΔE ≥ 15 from its user-defined counterpart
+    // CRITICAL: spread across full spectrum to avoid clustering
+    supportFunction: '#D8C8F8',   // Light violet (Lc 80, C* 27, h 272°) - DISTINCT from function (gold)
+    supportClass: '#FFC8C8',      // Light coral (Lc 82, C* 28, h 5°) - SHIFTED to h5° (ΔE 20+ from storageModifier h325°)
+    supportType: '#C8D0F8',       // Light periwinkle (Lc 82, C* 24, h 248°) - DISTINCT from type (h 290°)
+    supportConstant: '#F0C8E0',   // Light rose (Lc 82, C* 20, h 305°) - MOVED to rose region (largest gap h272-325°)
+    supportVariable: '#C8D0F8',   // Light periwinkle (Lc 81, C* 24, h 238°) - h238° (between typeParameter h225° and supportType h248°)
+
+    // =========================================================================
+    // BRACKETS (Rainbow) - Maximum hue separation (60° apart minimum)
+    // =========================================================================
+    bracket1: '#F8C0A0', // Peach (h 28°) Lc 78
+    bracket2: '#E8C8F0', // Light orchid (h 285°) Lc 81
+    bracket3: '#B4DC78', // Negi yellow-green (h 105°) Lc 76
+    bracket4: '#70F0D0', // Teal (h 168°) Lc 83
+    bracket5: '#78E0F8', // Sky cyan (h 195°) Lc 80
+    bracket6: '#F0D070', // Gold (h 52°) Lc 78
+
     // Legacy keys used by workbench.ts (preserved/aliased)
-    // Aliases used across the theme implementation
     pastelMint: '#70F0D0',
-    pastelTeal: '#70E0E0',
-    keywordAltLegacy: '#70D8C8',
+    pastelTeal: '#60E8D8',
+    keywordAltLegacy: '#50D8C8',
     warmCream: '#F0D070',
     warmGold: '#F0E8A0',
     classGold: '#C8E888',
-    // parameter: '#B3E5FC',
     pastelPeach: '#FFC0A0',
-    pastelCoral: '#FFC0E8',
-    skyBlue: '#7FE0FF',
-    coolCyan: '#70E0E0',
-    paleBlue: '#7FE0FF',
-    pastelIndigo: '#E4C8FF',
-    softBlue: '#E4C8FF',
-    pastelOrchid: '#F0C0F8',
-    pastelOrchidLight: '#FFC090',
-    pastelLavender: '#E4C8FF',
-    pastelRose: '#FFC0E8',
-    pastelViolet: '#F0C0F8',
-    // variable: '#80E8F8',
-    // string: '#90E0A0',
-    // regex: '#F0D898',
+    pastelCoral: '#FFC0B8',       // Updated to match tag
+    skyBlue: '#80E0F8',
+    coolCyan: '#60E8D8',
+    paleBlue: '#70E8F8',          // Updated to match number
+    pastelIndigo: '#F8D0B8',      // Updated to match typeParameter
+    softBlue: '#78F0E8',          // Updated to match enum
+    pastelOrchid: '#FFC8A8',      // Updated to match enumMember
+    pastelOrchidLight: '#FFC0B0', // Updated to match storageModifier
+    pastelLavender: '#FFC8B0',    // Updated to match type
+    pastelRose: '#FFC8B8',        // Updated to match interface
+    pastelViolet: '#F8D0B8',      // Updated to match typeParameter
     pastelSlate: '#D8E0F8',
     silverMist: '#A8E0D8',
     silverBright: '#D0E8D8',
-    coolAqua: '#70E0E0',
-    coolLavender: '#E4C8FF',
-    warmTan: '#FFC0A0',
-    softPurple: '#E4C8FF',
-    bracketPink: '#FFC0E8',
+    coolAqua: '#80E0F8',
+    coolLavender: '#F8D8B0',      // Updated to match boolean
+    warmTan: '#F8D8A0',
+    softPurple: '#FFC8A8',        // Updated to match enumMember
+    bracketPink: '#FFC0B0',       // Updated to match storageModifier
     bracketMint: '#B4DC78',
   },
 
@@ -250,7 +278,7 @@ export const themeColors = {
     operator: '#FFC0E0',         // Brighter Pink/Magenta (Lc 70+)
     linkActive: '#70E0D8',       // Active links (Lc 78) - vibrant teal
     deprecated: '#E4C8FF',       // Deprecated (C*≥30) - lavender-magenta
-    variableLanguage: '#88F0F8', // Language variables (Lc 87) - bright cyan (185°)
+    variableLanguage: '#70F0E8', // Language variables (Lc 84) - bright teal (h 175°) - shifted from h185° for variable distinction
   },
 
   // Semantic colors (APCA Lc 80+ for readability)

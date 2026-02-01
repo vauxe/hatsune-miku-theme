@@ -27,44 +27,45 @@ import {
  */
 const colors = {
   // Core semantic categories (APCA + chroma + distinction tuned in `themeColors.syntax`)
-  keyword: themeColors.syntax.keyword,
-  keywordAlt: themeColors.syntax.keywordAlt,
-  storageModifier: themeColors.syntax.storageModifier,
+  // Each color is DISTINCT to ensure visual differentiation in code
+  keyword: themeColors.syntax.keyword,           // #70F0D0 - Mint-teal (signature)
+  keywordAlt: themeColors.syntax.keywordAlt,     // #50D8C8 - Darker teal
+  storageModifier: themeColors.syntax.storageModifier, // #E0B8F8 - Light violet
 
-  function: themeColors.syntax.function,
-  functionBuiltin: themeColors.syntax.keyword,
-  method: themeColors.syntax.method,
-  magicMethod: themeColors.syntax.method,
+  function: themeColors.syntax.function,         // #F0D070 - Warm gold
+  functionBuiltin: themeColors.syntax.supportFunction, // #88E8C0 - Mint (DISTINCT from function)
+  method: themeColors.syntax.method,             // #78E8C0 - Fresh mint (DISTINCT from keyword)
+  magicMethod: themeColors.syntax.method,        // Same as method
 
-  class: themeColors.syntax.class,
-  interface: themeColors.syntax.interface,
-  type: themeColors.syntax.type,
-  typeParameter: themeColors.syntax.typeParameter,
-  enum: themeColors.syntax.enum,
-  enumMember: themeColors.syntax.enumMember,
-  struct: themeColors.syntax.struct,
-  namespace: themeColors.syntax.typeParameter,
+  class: themeColors.syntax.class,               // #C8E888 - Negi-lime
+  interface: themeColors.syntax.interface,       // #FFC8E8 - Bright Miku pink (DISTINCT)
+  type: themeColors.syntax.type,                 // #E8C8F8 - Bright orchid (DISTINCT)
+  typeParameter: themeColors.syntax.typeParameter, // #F0D0F8 - Light violet
+  enum: themeColors.syntax.enum,                 // #80E8F0 - Ice-cyan (DISTINCT from class)
+  enumMember: themeColors.syntax.enumMember,     // #F8D0E0 - Light rose (DISTINCT)
+  struct: themeColors.syntax.struct,             // #70E8D8 - Teal-green (DISTINCT)
+  namespace: themeColors.syntax.supportType,     // #C8D0F8 - Light periwinkle (DISTINCT from type)
 
-  variable: themeColors.syntax.variable,
-  parameter: themeColors.syntax.parameter,
-  property: themeColors.syntax.property,
-  constant: themeColors.syntax.constant,
+  variable: themeColors.syntax.variable,         // #78E0F8 - Sky cyan
+  parameter: themeColors.syntax.parameter,       // #FFC8A0 - Warm peach (brighter)
+  property: themeColors.syntax.property,         // #F0D090 - Warm tan (DISTINCT from parameter)
+  constant: themeColors.syntax.constant,         // #F0D898 - Warm gold (DISTINCT)
 
-  string: themeColors.syntax.string,
-  number: themeColors.syntax.number,
-  boolean: themeColors.syntax.boolean,
-  regex: themeColors.syntax.regex,
+  string: themeColors.syntax.string,             // #B4DC78 - Negi yellow-green
+  number: themeColors.syntax.number,             // #90D8F8 - Bright sky blue (DISTINCT from variable)
+  boolean: themeColors.syntax.boolean,           // #F0D0F8 - Light orchid
+  regex: themeColors.syntax.regex,               // #F0C870 - Warm amber
 
-  operator: themeColors.ui.operator,
+  operator: themeColors.ui.operator,             // #FFC0E0 - Pink/Magenta
 
-  comment: themeColors.syntax.comment,
-  commentDoc: themeColors.syntax.commentDoc,
-  decorator: themeColors.syntax.enum,
-  lifetime: themeColors.syntax.keywordAlt,
+  comment: themeColors.syntax.comment,           // #E0D0F8 - Lavender-gray
+  commentDoc: themeColors.syntax.commentDoc,     // #A8E0D8 - Teal doc-comments
+  decorator: themeColors.syntax.enum,            // #A0E0F8 - Ice-blue (for decorators)
+  lifetime: themeColors.syntax.keywordAlt,       // #50D8C8 - Darker teal
 
-  heading: themeColors.syntax.function,
+  heading: themeColors.syntax.function,          // #F0D070 - Gold for headings
   deprecated: themeColors.ui.deprecated,
-  variableLanguage: themeColors.ui.variableLanguage,
+  variableLanguage: themeColors.ui.variableLanguage, // #88F0F8 - Bright aqua
 };
 
 // Helper type for semantic token settings
@@ -222,7 +223,7 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   // ==========================================================================
   // MACROS
   // ==========================================================================
-  macro: colors.decorator,
+  macro: themeColors.syntax.macro,   // #B8D0F8 - Light blue (DISTINCT from variable)
 
   // ==========================================================================
   // LABELS

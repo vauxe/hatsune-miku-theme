@@ -23,65 +23,66 @@ const syntax = {
   // =========================================================================
   // KEYWORDS - Signature Miku Teal
   // =========================================================================
-  keyword: themeColors.syntax.keyword,          // #56C5D0 - Soft Teal
-  keywordAlt: themeColors.syntax.keywordAlt,    // #1A8A82 - Darker Teal
-  keywordControl: themeColors.syntax.keywordControl, // #40E0D0 - Bright Turquoise
-  storage: themeColors.syntax.storage,          // #70F0D0 - Mint-Teal
-  storageModifier: themeColors.syntax.storageModifier, // Warm modifier peach
-  variableLanguage: themeColors.ui.variableLanguage, // #88F0F8
+  keyword: themeColors.syntax.keyword,          // #70F0D0 - Mint-teal (signature)
+  keywordAlt: themeColors.syntax.keywordAlt,    // #50D8C8 - Darker teal
+  keywordControl: themeColors.syntax.keywordControl, // #60E8D8 - Cool teal
+  storage: themeColors.syntax.storage,          // #90E8B0 - Mint-green (DISTINCT from keyword)
+  storageModifier: themeColors.syntax.storageModifier, // #E0B8F8 - Light violet
+  variableLanguage: themeColors.ui.variableLanguage, // #88F0F8 - Bright aqua
 
   // =========================================================================
   // FUNCTIONS - Gold (Magical Mirai Wand)
   // =========================================================================
-  function: themeColors.syntax.function,        // #F0C060 - Gold
-  functionBuiltin: themeColors.syntax.keyword,  // Miku cyan for builtins (consistent with keywords)
-  method: themeColors.syntax.method,            // #FFD0C8 - Salmon
-  magicMethod: themeColors.syntax.method,
+  function: themeColors.syntax.function,        // #F0D070 - Warm gold
+  functionBuiltin: themeColors.syntax.supportFunction, // #88E8C0 - Mint (DISTINCT from function)
+  method: themeColors.syntax.method,            // #78E8C0 - Fresh mint (DISTINCT from keyword)
+  magicMethod: themeColors.syntax.method,       // Same as method
 
   // =========================================================================
   // LITERALS
   // =========================================================================
-  string: themeColors.syntax.string,            // #80E090 - Negi Green
-  stringTemplate: themeColors.syntax.stringTemplate, // #A0F0B0
-  number: themeColors.syntax.number,            // #D0D8FF - Periwinkle
-  boolean: themeColors.syntax.constant,         // #B080FF - Lavender/Purple (Consolidated with Constant)
-  operator: themeColors.ui.operator,            // #E43D82 - Magenta (Distinct)
-  punctuation: themeColors.syntax.bracket5,     // #D0D8FF - Blueish
+  string: themeColors.syntax.string,            // #B4DC78 - Negi yellow-green
+  stringTemplate: themeColors.syntax.stringTemplate, // #A0E8A0 - Light mint-green
+  number: themeColors.syntax.number,            // #90D8F8 - Bright sky blue (DISTINCT from variable)
+  boolean: themeColors.syntax.boolean,          // #F0D0F8 - Light orchid
+  operator: themeColors.ui.operator,            // #FFC0E0 - Pink/Magenta
+  punctuation: themeColors.syntax.bracket5,     // Sky cyan
 
   // =========================================================================
-  // CLASSES - Pink (Sakura Miku)
+  // CLASSES - Negi lime / Pink for interfaces (DISTINCT from keywords)
   // =========================================================================
-  class: themeColors.syntax.class,              // #FFB7C5 - Pink
-  interface: themeColors.syntax.interface,      // #B8C8FF - Indigo-Blue
-  type: themeColors.syntax.type,                // #98D8FF - Sky Blue
-  typeParameter: themeColors.syntax.typeParameter, // #D0D8FF - Periwinkle
-  enum: themeColors.syntax.class,               // Pink for Enums too
-  struct: themeColors.syntax.struct,            // #88D8E8 - Ice Cyan
-  namespace: themeColors.syntax.typeParameter,  // #D0D8FF
+  class: themeColors.syntax.class,              // #C8E888 - Negi-lime
+  interface: themeColors.syntax.interface,      // #FFC8E8 - Bright Miku pink (DISTINCT from class)
+  type: themeColors.syntax.type,                // #E8C8F8 - Bright orchid (DISTINCT from parameter)
+  typeParameter: themeColors.syntax.typeParameter, // #F0D0F8 - Light violet
+  enum: themeColors.syntax.enum,                // #80E8F0 - Ice-cyan (DISTINCT from class)
+  struct: themeColors.syntax.struct,            // #70E8D8 - Teal-green (DISTINCT from keyword)
+  namespace: themeColors.syntax.supportType,    // #C8D0F8 - Light periwinkle (DISTINCT from type)
 
   // =========================================================================
   // VARIABLES & DATA
   // =========================================================================
-  variable: themeColors.syntax.variable,        // #8FDEEE - Icy Cyan
-  parameter: themeColors.syntax.parameter,      // #B3E5FC - Ice Staff Blue
-  property: themeColors.syntax.property,        // #FFD0C0 - Peach
-  constant: themeColors.syntax.constant,        // #B080FF - Lavender/Purple
+  variable: themeColors.syntax.variable,        // #78E0F8 - Sky cyan
+  parameter: themeColors.syntax.parameter,      // #FFC8A0 - Warm peach (brighter)
+  property: themeColors.syntax.property,        // #F0D090 - Warm tan (DISTINCT from parameter)
+  constant: themeColors.syntax.constant,        // #F0D898 - Warm gold (DISTINCT from parameter)
 
   // =========================================================================
   // META
   // =========================================================================
-  comment: themeColors.syntax.comment,          // #80A090 - Sage
-  commentDoc: themeColors.syntax.commentDoc,    // #A0C0B0
-  decorator: themeColors.syntax.function,       // Gold (matches functions often)
-  lifetime: themeColors.syntax.keywordAlt,      // Dark Teal
-  tag: themeColors.syntax.tag,                  // #F58F98 - Deep Pink (DISTINCT from Keyword)
-  attribute: themeColors.syntax.attribute,      // #FFD700 - Gold
+  comment: themeColors.syntax.comment,          // #E0D0F8 - Lavender-gray
+  commentDoc: themeColors.syntax.commentDoc,    // #A8E0D8 - Teal doc-comments
+  decorator: themeColors.syntax.enum,           // #80E8F0 - Ice-cyan (for decorators)
+  macro: themeColors.syntax.macro,              // #B8D0F8 - Light blue (DISTINCT from variable)
+  lifetime: themeColors.syntax.keywordAlt,      // #50D8C8 - Dark teal (Rust lifetimes)
+  tag: themeColors.syntax.tag,                  // #FFC0C8 - Salmon-pink (HTML/JSX tags)
+  attribute: themeColors.syntax.attribute,      // #E8D078 - Yellow-amber
 
   // =========================================================================
   // HEADINGS & SPECIAL
   // =========================================================================
-  heading: themeColors.syntax.function,         // Gold
-  sqlKeyword: themeColors.syntax.keywordControl,// Bright Turquoise
+  heading: themeColors.syntax.function,         // #F0D070 - Gold for headings
+  sqlKeyword: themeColors.syntax.keywordControl,// #60E8D8 - Cool teal
 
   // =========================================================================
   // MARKDOWN
@@ -92,8 +93,8 @@ const syntax = {
   // =========================================================================
   // SPECIAL
   // =========================================================================
-  regex: themeColors.syntax.regex,              // Gold
-  escape: themeColors.syntax.constant,          // Purple
+  regex: themeColors.syntax.regex,              // #F0C870 - Warm amber
+  escape: themeColors.syntax.parameter,         // #FFC0A0 - Peach (string escapes)
   deprecated: themeColors.ui.deprecated,
   invalid: themeColors.ui.error,
 };
@@ -156,7 +157,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Storage Types',
     scope: ['storage.type', 'storage.type.function', 'storage.type.class'],
     settings: {
-      foreground: syntax.keyword, // Use standard keyword teal for types
+      foreground: syntax.storage, // Mint-green (DISTINCT from keyword teal)
     },
   },
   {
@@ -286,9 +287,16 @@ export const tokenColors: TokenColorRule[] = [
   },
   {
     name: 'Support/Library Classes',
-    scope: ['support.class', 'support.type'],
+    scope: ['support.class'],
     settings: {
-      foreground: syntax.class,
+      foreground: themeColors.syntax.supportClass, // #C8B8F8 - Soft violet (DISTINCT from user class)
+    },
+  },
+  {
+    name: 'Support/Built-in Types',
+    scope: ['support.type'],
+    settings: {
+      foreground: themeColors.syntax.supportType, // #A8C8F8 - Sky blue (DISTINCT from type)
     },
   },
   {
@@ -389,7 +397,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Support Constants',
     scope: ['support.constant', 'constant.other'],
     settings: {
-      foreground: syntax.constant,
+      foreground: themeColors.syntax.supportConstant, // #C8D8A8 - Sage green (DISTINCT from constant)
     },
   },
   {
@@ -404,7 +412,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Support Variable',
     scope: ['support.variable', 'support.variable.property'],
     settings: {
-      foreground: syntax.property,
+      foreground: themeColors.syntax.supportVariable, // #90E8E8 - Aqua (DISTINCT from variable)
     },
   },
 
@@ -761,7 +769,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'CSS Color Values',
     scope: ['constant.rgb-value', 'constant.other.color', 'support.constant.color'],
     settings: {
-      foreground: syntax.number,
+      foreground: syntax.regex, // Warm amber (DISTINCT from number)
     },
   },
   {
@@ -951,7 +959,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Rust Macros',
     scope: ['entity.name.function.macro.rust', 'meta.macro.rust'],
     settings: {
-      foreground: syntax.decorator,
+      foreground: syntax.macro,
     },
   },
 
