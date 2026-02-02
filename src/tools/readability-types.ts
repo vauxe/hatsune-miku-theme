@@ -6,10 +6,10 @@
  *   that accounts for human perception better than WCAG 2.x ratios
  * - Lc (Lightness Contrast): APCA's contrast value, ranges roughly -108 to +108
  *   Negative = light text on dark, Positive = dark text on light
- * - Delta E 2000 (ΔE00): Perceptual color difference metric
+ * - Jzazbz ΔEz: Perceptual color difference metric (more accurate than CIEDE2000)
  *   <1 imperceptible, 1-5 subtle, 5-10 noticeable, 10-20 clear, 20-40 distinct, 40+ obvious
- * - LCH Chroma (C*): Perceptually uniform colorfulness measure
- *   Unlike HSL saturation, equal C* values appear equally colorful across hues
+ * - JzCzhz Chroma (Cz): Perceptually uniform colorfulness measure
+ *   More uniform than OKLCH or CIE LCH across all hues
  */
 
 // =============================================================================
@@ -20,16 +20,6 @@
 export interface RGB {
   r: number;
   g: number;
-  b: number;
-}
-
-/** CIE Lab color space for perceptual calculations */
-export interface Lab {
-  /** Lightness: 0 (black) to 100 (white) */
-  L: number;
-  /** Green-red axis: negative = green, positive = red */
-  a: number;
-  /** Blue-yellow axis: negative = blue, positive = yellow */
   b: number;
 }
 
@@ -50,8 +40,8 @@ export type Polarity = 'light-on-dark' | 'dark-on-light';
 export type Level = 'Fluent' | 'Body' | 'Content' | 'Large' | 'Non-Text' | 'FAIL';
 
 /**
- * Color distinction levels based on Delta E 2000.
- * Pass threshold: ΔE ≥ 15 for all pairs.
+ * Color distinction levels based on Jzazbz ΔEz.
+ * Pass threshold: ΔEz ≥ 15 for all pairs.
  */
 export type DistinctionLevel = 'Imperceptible' | 'Subtle' | 'Noticeable' | 'Clear' | 'Distinct' | 'Obvious';
 
@@ -338,7 +328,7 @@ export interface DistinctionPair {
   key1: string;
   /** Second color's VS Code API key */
   key2: string;
-  /** Delta E 2000 perceptual difference */
+  /** Jzazbz ΔEz perceptual difference */
   deltaE: number;
   /** Human-readable distinction level */
   level: DistinctionLevel;

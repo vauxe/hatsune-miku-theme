@@ -252,17 +252,30 @@ export const CRITICAL_DISTINCTION_PAIRS = new Set([
 ]);
 
 /**
- * Chroma thresholds - tiered for different element types.
+ * JzCzhz Chroma thresholds (percentage scale: raw Jzazbz Cz * 525)
  *
- * Primary (C* 30-55): Core syntax
- * Secondary (C* 20-55): Comments, UI
- * Accent (C* 30-70): Errors, warnings, brackets
+ * Jzazbz (Safdar et al. 2017) is more perceptually uniform than OKLCH or CIE LCH:
+ * - Designed for HDR and wide color gamut (future-proof)
+ * - Excellent uniformity across entire gamut
+ * - Simple Euclidean distance works well (unlike Lab needing CIEDE2000)
+ * - Raw Jzazbz chroma: 0-~0.19 for sRGB gamut (blue #0000FF = 100%)
+ * - Percentage scale: 0-100 (multiply raw by 525)
  *
+ * Reference values (Jz C%):
+ * - 10-25: Comfortable pastels (easy on eyes for hours)
+ * - 25-45: Vibrant colors (colorful but sustainable)
+ * - 45-65: Vivid saturated (attention-grabbing, limit exposure)
+ * - 65+: Intense/extreme (pure RGB, avoid for text)
+ *
+ * Thresholds (calibrated for 8+ hour coding sessions):
+ * - Primary (8-45): Core syntax - comfortable pastels to vibrant
+ * - Secondary (5-45): Comments, UI - can be muted
+ * - Accent (8-60): Errors, brackets - can be vivid for attention
  */
 export const CHROMA_THRESHOLDS = {
-  primary: { min: 30, max: 55 },    // Colorful
-  secondary: { min: 20, max: 55 },  // Comments, UI
-  accent: { min: 30, max: 70 },     // Errors, highlights
+  primary: { min: 8, max: 45 },     // Comfortable pastels to vibrant syntax
+  secondary: { min: 5, max: 45 },   // Comments, UI (can be muted)
+  accent: { min: 8, max: 60 },      // Errors, highlights (attention-grabbing)
 } as const;
 
 export type ChromaTier = keyof typeof CHROMA_THRESHOLDS;
@@ -286,7 +299,7 @@ export const ACCENT_CHROMA_ELEMENTS = new Set([
 ]);
 
 /**
- * Secondary chroma elements - can be more muted (C* 15-60).
+ * Secondary chroma elements - can be more muted (Cz 5-35).
  *
  * Note: Punctuation and operators are here AND excluded from PRIMARY_SYNTAX_ELEMENTS.
  * This is intentional - they are structural aids that:

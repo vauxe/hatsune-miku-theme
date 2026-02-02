@@ -57,7 +57,7 @@ import {
   blendAlpha,
   getAPCAContrast,
   analyzeAPCA,
-  deltaE00Hex,
+  deltaEzHex,
   getDistinctionLevel,
   getChroma,
   analyzeChroma,
@@ -205,7 +205,7 @@ function analyzeColorDistinction(
     // Skip missing or fallback colors
     if (!cv1 || !cv2 || cv1.fallback || cv2.fallback) continue;
 
-    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
+    const dE = deltaEzHex(cv1.color, cv2.color, bg);
     if (dE === null) continue;
 
     // Check if this is a critical pair (error/warning, red/green, etc.)
@@ -334,7 +334,7 @@ function analyzeSemanticDistinction(
 
     for (let i = 0; i < members.length; i++) {
       for (let j = i + 1; j < members.length; j++) {
-        const dE = deltaE00Hex(members[i].color, members[j].color, bg);
+        const dE = deltaEzHex(members[i].color, members[j].color, bg);
         if (dE !== null && dE > maxDeltaE) {
           maxDeltaE = dE;
           maxPair = [members[i].token, members[j].token];
@@ -374,7 +374,7 @@ function analyzeSemanticDistinction(
       continue;
     }
 
-    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
+    const dE = deltaEzHex(cv1.color, cv2.color, bg);
     if (dE === null) continue;
 
     const required = SEMANTIC_DISTINCTION_THRESHOLDS[priority];
@@ -493,7 +493,7 @@ function getChromaTier(name: string): ChromaTier {
 
 /**
  * Analyze chroma of colors for comfortable extended viewing.
- * Uses LCH Chroma (C*) which is perceptually uniform across hues.
+ * Uses JzCzhz Chroma (Cz) which is perceptually uniform across hues.
  * Applies tier-specific thresholds based on element type.
  *
  * @param colors - Color record to analyze (syntax, git, brackets, terminal, etc.)
@@ -507,15 +507,16 @@ function analyzeColorChroma(colors: Record<string, ColorValue>): ChromaResult[] 
     const rawChroma = getChroma(cv.color);
     if (rawChroma === null) continue;
 
-    // Round chroma for consistent display and level determination
-    const chroma = Math.round(rawChroma);
     const tier = getChromaTier(name);
-    const analysis = analyzeChroma(chroma, tier);
+    const analysis = analyzeChroma(rawChroma, tier);
+
+    // Use JzCzhz percentage scale for display (raw * 250)
+    const chromaPercent = Math.round(analysis.chromaPercent);
 
     results.push({
       name,
       color: cv.color,
-      chroma,
+      chroma: chromaPercent,
       icon: analysis.icon,
       level: analysis.level,
       pass: analysis.pass,
@@ -530,12 +531,12 @@ function analyzeColorChroma(colors: Record<string, ColorValue>): ChromaResult[] 
 
 /**
  * Format a chroma issue as a single line:
- * CHROMA element color C*=X tier=T need=min-max reason
+ * CHROMA element color Cz=X tier=T need=min-max reason
  */
 function formatChromaLine(r: ChromaResult): string {
   const { min, max } = CHROMA_THRESHOLDS[r.tier];
   const reason = r.failReason === 'too-low' ? 'too-gray' : 'too-vivid';
-  return `CHROMA ${r.name} ${r.color} C*=${r.chroma} tier=${r.tier} need=${min}-${max} ${reason}`;
+  return `CHROMA ${r.name} ${r.color} Cz=${r.chroma} tier=${r.tier} need=${min}-${max} ${reason}`;
 }
 
 // =============================================================================
@@ -569,7 +570,7 @@ function processSection(
  *    - Threshold: ΔE ≥ 15 for all pairs (clear distinction, zero effort)
  *
  * 3. **Chroma Analysis**: Tests syntax colors for eye fatigue risk
- *    - Pass threshold: C* 25-50
+ *    - Pass threshold: Cz 8-35
  *    - Too low lacks color identity, too high causes eye strain
  *
  * @param themePath - Path to VS Code theme JSON file
@@ -1158,7 +1159,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   ], LABELS.sectionNotebookStatus);
 
   // ==========================================================================
-  // COLOR DISTINCTION ANALYSIS (Delta E 2000) - Non-syntax categories
+  // COLOR DISTINCTION ANALYSIS (Jzazbz ΔEz) - Non-syntax categories
   // Note: Syntax token distinction is handled by semantic group analysis below
   // ==========================================================================
 
@@ -1305,7 +1306,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     output.push(`\n  [Cohesion: ${semanticAnalysis.summary.cohesionPass}/${semanticAnalysis.summary.groupsAnalyzed} groups pass]`);
     output.push(`  [Distinction: ${semanticAnalysis.summary.distinctionPass}/${semanticAnalysis.distinction.length} pairs pass, ${semanticAnalysis.summary.criticalFail} critical fails]`);
 
-    output.push(`\n=== ADJACENCY DISTINCTION (legacy) ===`);
+    output.push(`\n=== UI ELEMENT DISTINCTION ===`);
     for (const d of allDistinctions) {
       output.push(`\n--- ${d.category.toUpperCase()} ---`);
       for (const p of d.pairs) {
@@ -1317,7 +1318,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     output.push(`\n=== CHROMA ANALYSIS ===`);
     for (const r of chromaResults) {
       const status = r.pass ? '✓' : '✗';
-      output.push(`  ${status} ${r.name.padEnd(20)} ${r.color} C*=${r.chroma.toString().padStart(3)} ${r.level.padEnd(11)} [${r.tier}]`);
+      output.push(`  ${status} ${r.name.padEnd(20)} ${r.color} Cz=${r.chroma.toString().padStart(3)} ${r.level.padEnd(11)} [${r.tier}]`);
     }
     output.push('');
   } else {
@@ -1377,15 +1378,15 @@ function testColor(fg: string, bg: string, name = 'Custom'): void {
   if (result.alpha) console.log(`  Blended: ${result.color}`);
   console.log(`  Lc ${result.lc.toFixed(1).padStart(6)} ${result.analysis.icon} ${result.analysis.level}`);
   if (chroma !== null) {
-    const c = Math.round(chroma);
-    // Show pass/fail for each tier
+    // Show pass/fail for each tier using JzCzhz percentage scale
     const primary = analyzeChroma(chroma, 'primary');
     const secondary = analyzeChroma(chroma, 'secondary');
     const accent = analyzeChroma(chroma, 'accent');
-    console.log(`  C* ${c.toString().padStart(5)} ${primary.level}`);
-    console.log(`     Primary:   ${primary.icon} (18-55)`);
-    console.log(`     Secondary: ${secondary.icon} (15-60)`);
-    console.log(`     Accent:    ${accent.icon} (15-70)`);
+    const c = Math.round(primary.chromaPercent);
+    console.log(`  C% ${c.toString().padStart(5)} ${primary.level} (JzCzhz)`);
+    console.log(`     Primary:   ${primary.icon} (8-45)`);
+    console.log(`     Secondary: ${secondary.icon} (5-45)`);
+    console.log(`     Accent:    ${accent.icon} (8-60)`);
   }
 }
 
@@ -1395,17 +1396,17 @@ function testChroma(hex: string, name = 'Custom'): void {
     console.error(`Invalid color: ${hex}`);
     return;
   }
-  const c = Math.round(chroma);
   const primary = analyzeChroma(chroma, 'primary');
   const secondary = analyzeChroma(chroma, 'secondary');
   const accent = analyzeChroma(chroma, 'accent');
+  const c = Math.round(primary.chromaPercent);
 
   console.log(`\n${name}: ${hex}`);
-  console.log(`  Chroma (C*): ${c} - ${primary.level}`);
+  console.log(`  Chroma (JzCzhz): ${c}% - ${primary.level}`);
   console.log(`  Tier results:`);
-  console.log(`    Primary   (18-55): ${primary.icon} ${primary.pass ? 'pass' : primary.failReason}`);
-  console.log(`    Secondary (15-60): ${secondary.icon} ${secondary.pass ? 'pass' : secondary.failReason}`);
-  console.log(`    Accent    (15-70): ${accent.icon} ${accent.pass ? 'pass' : accent.failReason}`);
+  console.log(`    Primary   (8-45):  ${primary.icon} ${primary.pass ? 'pass' : primary.failReason}`);
+  console.log(`    Secondary (5-45):  ${secondary.icon} ${secondary.pass ? 'pass' : secondary.failReason}`);
+  console.log(`    Accent    (8-60):  ${accent.icon} ${accent.pass ? 'pass' : accent.failReason}`);
 }
 
 // =============================================================================
@@ -1489,7 +1490,7 @@ function testDistinctionMatrix(colors: string[], bg?: string): void {
   // Generate all pairs
   for (let i = 0; i < colors.length; i++) {
     for (let j = i + 1; j < colors.length; j++) {
-      const dE = deltaE00Hex(colors[i], colors[j], bg);
+      const dE = deltaEzHex(colors[i], colors[j], bg);
       if (dE !== null) {
         const { level, icon, pass } = getDistinctionLevel(dE);
         pairs.push({ c1: colors[i], c2: colors[j], dE, level, icon, pass });
@@ -1522,9 +1523,9 @@ function testDistinctionMatrix(colors: string[], bg?: string): void {
  * Shows a table comparing all colors' chroma values across tiers.
  */
 function testMultiChroma(colors: string[]): void {
-  console.log('\nCHROMA COMPARISON (C* - LCH colorfulness)');
+  console.log('\nCHROMA COMPARISON (JzCzhz % - perceptual colorfulness)');
   console.log('─'.repeat(72));
-  console.log('Color      │ C*   │ Level       │ Primary │ Secondary │ Accent │');
+  console.log('Color      │ C%   │ Level       │ Primary │ Secondary │ Accent │');
   console.log('───────────┼──────┼─────────────┼─────────┼───────────┼────────┤');
 
   let primaryPass = 0, secondaryPass = 0, accentPass = 0;
@@ -1537,10 +1538,10 @@ function testMultiChroma(colors: string[]): void {
       continue;
     }
 
-    const c = Math.round(chroma);
     const primary = analyzeChroma(chroma, 'primary');
     const secondary = analyzeChroma(chroma, 'secondary');
     const accent = analyzeChroma(chroma, 'accent');
+    const c = Math.round(primary.chromaPercent);
 
     if (primary.pass) primaryPass++;
     if (secondary.pass) secondaryPass++;
@@ -1554,9 +1555,9 @@ function testMultiChroma(colors: string[]): void {
 
   console.log('');
   console.log(`SUMMARY: ${total} colors`);
-  console.log(`  Primary   (18-55): ${primaryPass}/${total} pass`);
-  console.log(`  Secondary (15-60): ${secondaryPass}/${total} pass`);
-  console.log(`  Accent    (15-70): ${accentPass}/${total} pass`);
+  console.log(`  Primary   (8-45):  ${primaryPass}/${total} pass`);
+  console.log(`  Secondary (5-45):  ${secondaryPass}/${total} pass`);
+  console.log(`  Accent    (8-60):  ${accentPass}/${total} pass`);
 }
 
 // =============================================================================
@@ -1615,51 +1616,49 @@ Output icons: ❌ fail, ⚠️ below threshold, ✅ pass, ⚡ halation (Lc>90)
 Output: CONTRAST file:key Lc=X need=Y bg=background.key
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-ANALYSIS 2: COLOR DISTINCTION (ΔE) - TIERED THRESHOLDS
+ANALYSIS 2: COLOR DISTINCTION (ΔEz) - TIERED THRESHOLDS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Delta E 2000 (ΔE00) measures perceptual color difference.
+Jzazbz ΔEz measures perceptual color difference (more accurate than CIEDE2000).
 Related colors must be distinguishable (e.g., error vs warning).
 
 Levels (descriptive):
-  Imperceptible (ΔE < 1)  - Colors look identical
-  Subtle        (ΔE 1-5)  - Barely distinguishable
-  Noticeable    (ΔE 5-10) - Can tell apart with attention
-  Clear         (ΔE 10-20)- Obviously different
-  Distinct      (ΔE 20-40)- Very different
-  Obvious       (ΔE 40+)  - Completely different
+  Imperceptible (ΔEz < 1)  - Colors look identical
+  Subtle        (ΔEz 1-5)  - Barely distinguishable
+  Noticeable    (ΔEz 5-10) - Can tell apart with attention
+  Clear         (ΔEz 10-20)- Obviously different
+  Distinct      (ΔEz 20-40)- Very different
+  Obvious       (ΔEz 40+)  - Completely different
 
 Pass thresholds:
-  Standard pairs (ΔE ≥ 15): Clear level - obviously different
-  Critical pairs (ΔE ≥ 18): Higher bar for safety-critical distinctions
+  Standard pairs (ΔEz ≥ 15): Clear level - obviously different
+  Critical pairs (ΔEz ≥ 18): Higher bar for safety-critical distinctions
 
 Output icons: ❌ fail, ✅ pass
-Output: DISTINCTION category pair1↔pair2 ΔE=X need=Y [critical]
+Output: DISTINCTION category pair1↔pair2 ΔEz=X need=Y [critical]
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-ANALYSIS 3: CHROMA / COLOR IDENTITY & EYE FATIGUE (C*)
+ANALYSIS 3: CHROMA / COLOR IDENTITY & EYE FATIGUE (JzCzhz Cz)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-LCH Chroma (C*) measures color intensity.
+JzCzhz Chroma (Cz%) measures color intensity (more uniform than OKLCH/CIE LCH).
 - Too low: Colors look gray, lack identity
 - Too high: Colors cause eye strain
 
-Levels (aligned with primary tier threshold):
-  Gray        (C* < 20)   - Too neutral, fails all tiers
-  Muted       (C* 20-29)  - Subdued, fails primary/accent tier
-  Comfortable (C* 30-40)  - Colorful yet easy on eyes
-  Vibrant     (C* 41-55)  - Noticeably colorful (primary max)
-  Vivid       (C* 56-70)  - Bold and attention-grabbing (accent max)
-  Intense     (C* 71-90)  - Very saturated
-  Extreme     (C* 91+)    - Way too harsh
+Levels (aligned with primary tier threshold, percentage scale):
+  Gray        (Cz < 5)    - Too neutral, fails all tiers
+  Muted       (Cz 5-7)    - Subdued, fails primary/accent tier
+  Comfortable (Cz 8-20)   - Colorful yet easy on eyes
+  Vibrant     (Cz 21-35)  - Noticeably colorful (primary max)
+  Vivid       (Cz 36-45)  - Bold and attention-grabbing (accent max)
+  Intense     (Cz 46-60)  - Very saturated, fails all tiers
+  Extreme     (Cz 61+)    - Way too harsh
 
-Tiered thresholds (colorful, matching popular themes):
-  Primary   (C* 30-55): Variables, keywords, types, strings - colorful
-  Secondary (C* 20-55): Comments, punctuation - slightly muted OK
-  Accent    (C* 30-70): Errors, warnings, brackets - vibrant
+Tiered thresholds (percentage scale: raw Jzazbz Cz * 525):
+  Primary   (Cz 8-45):  Variables, keywords, types, strings - comfortable to vibrant
+  Secondary (Cz 5-45):  Comments, punctuation - can be slightly muted
+  Accent    (Cz 8-60):  Errors, warnings, brackets - attention-grabbing
 
-Reference: Catppuccin ~C*27-46, One Dark ~C*29-61, Tokyo Night ~C*34-55
-
-Output icons: ⚪ too-gray, ✅ pass, ⛔ too-vivid, ❌ extreme (90+)
-Output: CHROMA element color C*=X tier=T need=min-max reason
+Output icons: ⚪ too-gray, ✅ pass, ⛔ too-vivid, ❌ extreme (60+)
+Output: CHROMA element color Cz=X tier=T need=min-max reason
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 SUMMARY
@@ -1667,8 +1666,8 @@ SUMMARY
 Output: SUMMARY pass=N/M fail=N distinction_fail=N chroma_fail=N ready=X
   - pass=N/M          → Colors meeting Lc threshold / total defined colors
   - fail=N            → Contrast failures (excluding expected dim)
-  - distinction_fail  → Color pairs too similar (ΔE below threshold)
-  - chroma_fail       → Colors outside tier threshold (primary 30-55, etc.)
+  - distinction_fail  → Color pairs too similar (ΔEz below threshold)
+  - chroma_fail       → Colors outside tier threshold (Cz 8-35, etc.)
   - ready=true        → All tests pass, theme is marathon-ready
 
 Examples:

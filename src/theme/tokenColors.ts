@@ -619,7 +619,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markdown List',
     scope: ['markup.list', 'punctuation.definition.list.begin.markdown'],
     settings: {
-      // Must meet primary chroma threshold (C* ≥ 30)
+      // Must meet primary chroma threshold (Cz ≥ 8)
       foreground: syntax.method,
     },
   },

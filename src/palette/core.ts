@@ -123,8 +123,11 @@ export const themeColors = {
     // =========================================================================
     // NOTE: Readability tooling targets:
     // - APCA: Primary Lc ≥ 75 and ≤ 90 (avoid halation)
-    // - Chroma: Primary C* 30–55 (avoid gray / washed-out tokens)
-    // - Distinction: ΔE00 ≥ 15 for adjacency pairs
+    // - Chroma: Primary Cz 8-35 (JzCzhz percentage scale)
+    // - Distinction: ΔEz ≥ 15 for adjacency pairs (Jzazbz)
+    //
+    // NOTE: Inline color comments use CIE LCH notation (C* ##, h ###°) for
+    // historical reference. The tooling uses Jzazbz/JzCzhz for analysis.
     //
     // COLOR DESIGN PHILOSOPHY - "Digital Diva":
     // Each syntax category uses a distinct hue family from Miku's visual identity.
@@ -173,7 +176,7 @@ export const themeColors = {
     // =========================================================================
     class: '#C8E888',             // Negi-lime (Lc 84, C* 50, h 105°)
     interface: '#FFC8E8',         // Bright Miku pink (Lc 82, C* 30, h 335°) - headphone accent
-    struct: '#F8C8D0',            // Light rose (Lc 81, C* 26, h 350°) - MOVED to pink region (away from crowded teal/blue)
+    struct: '#C8E888',            // Same as class (lime) - struct = class (data type definitions)
 
     // =========================================================================
     // VARIABLES - Sky Cyan / Warm accents (h 195° and h 25-45°)
@@ -187,7 +190,7 @@ export const themeColors = {
     // =========================================================================
     string: '#90F8A8',            // Bright mint (Lc 88, C* 52, h 125°) - traditional green, HIGH chroma
     stringTemplate: '#90E8A8',    // Light mint-green (Lc 82, C* 42, h 135°)
-    regex: '#F0C870',             // Warm amber (Lc 75, C* 49, h 55°)
+    regex: '#F8D0A0',             // Warm peach (Lc 83, C* 32, h 40°) - SHIFTED away from function (h52°)
 
     // =========================================================================
     // NUMBERS & LITERALS - Distinct from variables
@@ -198,7 +201,7 @@ export const themeColors = {
     // =========================================================================
     // CONSTANTS / TAGS - Well-separated hues
     // =========================================================================
-    constant: '#C8E080',          // Yellow-green (Lc 81, C* 45, h 95°) - SHIFTED to h95° (between supportConstant h88° and class h105°)
+    constant: '#E0D888',          // Golden-lime (Lc 82, C* 42, h 75°) - SHIFTED away from class (h105°)
     tag: '#FFC0C8',               // Bright salmon-pink (Lc 80, C* 30, h 355°) - brighter
     attribute: '#E8D078',         // Yellow-amber (Lc 80, C* 45, h 68°) - SHIFTED to h68°
 
@@ -209,15 +212,15 @@ export const themeColors = {
     commentDoc: '#A8E0D8',        // Teal doc-comments (Lc 80, C* 20, h 170°)
 
     // =========================================================================
-    // SUPPORT (Library/Built-in) - DISTINCT from user-defined equivalents
+    // SUPPORT (Library/Built-in) - MERGED with user-defined equivalents
     // =========================================================================
-    // Each support token must have ΔE ≥ 15 from its user-defined counterpart
-    // CRITICAL: spread across full spectrum to avoid clustering
-    supportFunction: '#D8C8F8',   // Light violet (Lc 80, C* 27, h 272°) - DISTINCT from function (gold)
-    supportClass: '#FFC8C8',      // Light coral (Lc 82, C* 28, h 5°) - SHIFTED to h5° (ΔE 20+ from storageModifier h325°)
-    supportType: '#C8D0F8',       // Light periwinkle (Lc 82, C* 24, h 248°) - DISTINCT from type (h 290°)
-    supportConstant: '#F0C8E0',   // Light rose (Lc 82, C* 20, h 305°) - MOVED to rose region (largest gap h272-325°)
-    supportVariable: '#C8D0F8',   // Light periwinkle (Lc 81, C* 24, h 238°) - h238° (between typeParameter h225° and supportType h248°)
+    // Strategy: Same color as user-defined counterparts (like most popular themes)
+    // This reduces color count from ~25 to ~12, dramatically improving distinction
+    supportFunction: '#F0D070',   // Same as function (gold) - console.log = myFunc
+    supportClass: '#C8E888',      // Same as class (lime) - Array = MyClass
+    supportType: '#E8C8F8',       // Same as type (orchid) - string = MyType
+    supportConstant: '#E0D888',   // Same as constant (golden-lime) - Math.PI = MY_CONST
+    supportVariable: '#78E0F8',   // Same as variable (sky cyan) - process = myVar
 
     // =========================================================================
     // BRACKETS (Rainbow) - Maximum hue separation (60° apart minimum)
