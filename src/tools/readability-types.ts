@@ -55,8 +55,6 @@ export type Level = 'Fluent' | 'Body' | 'Content' | 'Large' | 'Non-Text' | 'FAIL
  */
 export type DistinctionLevel = 'Imperceptible' | 'Subtle' | 'Noticeable' | 'Clear' | 'Distinct' | 'Obvious';
 
-export type DistinctionCategory = 'syntax' | 'status' | 'git' | 'state' | 'symbol';
-
 /**
  * Tracks where a color value came from in the theme.
  * Used for debugging output to help locate colors in source files.
@@ -352,14 +350,6 @@ export interface DistinctionPair {
   critical: boolean;
 }
 
-export type DistinctionSkipReason = 'missing' | 'fallback' | 'invalid';
-
-export interface DistinctionSkippedPair {
-  name1: string;
-  name2: string;
-  reason: DistinctionSkipReason;
-}
-
 /**
  * A section of related color results (e.g., "SYNTAX", "WIDGETS").
  */
@@ -384,4 +374,130 @@ export interface AnalysisOptions {
   issuesOnly: boolean;
   /** If true, show all results grouped by section (not just issues) */
   verbose: boolean;
+}
+
+// =============================================================================
+// SEMANTIC COLOR GROUP TYPES
+// =============================================================================
+
+/**
+ * The 10 semantic color groups for optimal VS Code theme design.
+ * Tokens within the same group SHOULD have similar colors.
+ * Tokens in different groups MUST be visually distinct.
+ */
+export type SemanticGroupName =
+  | 'KEYWORD'    // Control flow, declarations, storage
+  | 'OPERATOR'   // Operators (visual rhythm)
+  | 'CALLABLE'   // Functions, methods, macros
+  | 'DECORATOR'  // Decorators (@syntax)
+  | 'TYPE'       // All type-related: types, interfaces, classes, structs, enums, namespaces
+  | 'VARIABLE'   // Variables, language variables, labels, events
+  | 'PARAMETER'  // Parameters, properties, attributes
+  | 'STRING'     // String literals, escapes
+  | 'REGEXP'     // Regular expressions
+  | 'NUMERIC'    // Numbers, constants, enum members
+  | 'MARKUP'     // HTML tags, markdown formatting
+  | 'COMMENT';   // Comments, doc comments
+
+/**
+ * Definition of a semantic color group.
+ */
+export interface SemanticGroup {
+  /** Human-readable group name */
+  name: string;
+  /** Description of what tokens belong in this group */
+  description: string;
+  /** Token names that belong to this group */
+  members: readonly string[];
+}
+
+/**
+ * Priority level for cross-group distinction requirements.
+ * - critical: Appear every few lines, confusion is very costly (ΔE ≥ 18)
+ * - high: Common adjacencies, should be clearly different (ΔE ≥ 15)
+ * - standard: Less frequent but still need distinction (ΔE ≥ 12)
+ */
+export type DistinctionPriority = 'critical' | 'high' | 'standard';
+
+/**
+ * A pair of tokens that MUST be visually distinguishable.
+ */
+export interface MustDistinguishPair {
+  /** First token name */
+  token1: string;
+  /** Second token name */
+  token2: string;
+  /** Minimum Delta E required */
+  minDeltaE: number;
+  /** Priority level */
+  priority: DistinctionPriority;
+  /** Group of first token */
+  group1: SemanticGroupName;
+  /** Group of second token */
+  group2: SemanticGroupName;
+}
+
+/**
+ * Result of analyzing semantic group cohesion.
+ * Checks that tokens within the same group have similar colors.
+ */
+export interface GroupCohesionResult {
+  /** The semantic group being analyzed */
+  group: SemanticGroupName;
+  /** Tokens in this group with their colors */
+  members: Array<{ token: string; color: string }>;
+  /** Maximum Delta E between any two members */
+  maxIntraGroupDeltaE: number;
+  /** Pair with maximum Delta E */
+  maxPair?: [string, string];
+  /** True if all pairs are within cohesion threshold (ΔE < 10) */
+  pass: boolean;
+  /** Status icon */
+  icon: string;
+}
+
+/**
+ * Result of analyzing cross-group distinction.
+ */
+export interface CrossGroupDistinctionResult {
+  /** First token */
+  token1: string;
+  /** Second token */
+  token2: string;
+  /** First token's group */
+  group1: SemanticGroupName;
+  /** Second token's group */
+  group2: SemanticGroupName;
+  /** Colors being compared */
+  color1: string;
+  color2: string;
+  /** Delta E between the colors */
+  deltaE: number;
+  /** Required minimum Delta E */
+  required: number;
+  /** Priority level */
+  priority: DistinctionPriority;
+  /** True if Delta E meets requirement */
+  pass: boolean;
+  /** Status icon */
+  icon: string;
+}
+
+/**
+ * Complete semantic distinction analysis results.
+ */
+export interface SemanticDistinctionAnalysis {
+  /** Intra-group cohesion results (tokens that should be similar) */
+  cohesion: GroupCohesionResult[];
+  /** Cross-group distinction results (tokens that must differ) */
+  distinction: CrossGroupDistinctionResult[];
+  /** Summary statistics */
+  summary: {
+    groupsAnalyzed: number;
+    cohesionPass: number;
+    cohesionFail: number;
+    distinctionPass: number;
+    distinctionFail: number;
+    criticalFail: number;
+  };
 }

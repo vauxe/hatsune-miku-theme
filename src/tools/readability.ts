@@ -29,7 +29,6 @@ import {
   CHROMA_THRESHOLDS,
   ACCENT_CHROMA_ELEMENTS,
   SECONDARY_CHROMA_ELEMENTS,
-  ADJACENCY_PAIRS,
   SYMBOL_DISCRIMINATION_PAIRS,
   STATUS_DISTINCTION_PAIRS,
   GIT_DISTINCTION_PAIRS,
@@ -42,6 +41,12 @@ import {
   SCM_GRAPH_DISTINCTION_PAIRS,
   TERMINAL_SYMBOL_DISTINCTION_PAIRS,
   EXTENSION_ICON_DISTINCTION_PAIRS,
+  // Semantic color groups
+  SEMANTIC_COLOR_GROUPS,
+  MUST_DISTINGUISH_PAIRS,
+  SEMANTIC_DISTINCTION_THRESHOLDS,
+  INTRA_GROUP_MAX_DELTA_E,
+  getTokenGroup,
 } from './readability-constants';
 import type { BgKeyName, ChromaTier } from './readability-constants';
 
@@ -68,10 +73,13 @@ import type {
   ColorResult,
   Stats,
   DistinctionPair,
-  DistinctionSkippedPair,
   SectionData,
   AnalysisOptions,
   APCATier,
+  SemanticGroupName,
+  GroupCohesionResult,
+  CrossGroupDistinctionResult,
+  SemanticDistinctionAnalysis,
 } from './readability-types';
 
 // =============================================================================
@@ -173,8 +181,6 @@ function computeStats(results: ColorResult[]): Stats {
 // DISTINCTION ANALYSIS
 // =============================================================================
 
-type DistinctionResult = { pairs: DistinctionPair[]; skipped: DistinctionSkippedPair[] };
-
 /**
  * Generic color distinction analyzer.
  * Compares pairs of colors to ensure they are visually distinguishable.
@@ -189,30 +195,18 @@ function analyzeColorDistinction(
   colors: Record<string, ColorValue>,
   pairsDef: readonly (readonly [string, string])[],
   bg: string
-): DistinctionResult {
+): DistinctionPair[] {
   const pairs: DistinctionPair[] = [];
-  const skipped: DistinctionSkippedPair[] = [];
 
   for (const [name1, name2] of pairsDef) {
     const cv1 = colors[name1];
     const cv2 = colors[name2];
 
-    if (!cv1 || !cv2) {
-      skipped.push({ name1, name2, reason: 'missing' });
-      continue;
-    }
-
-    if (cv1.fallback || cv2.fallback) {
-      skipped.push({ name1, name2, reason: 'fallback' });
-      continue;
-    }
+    // Skip missing or fallback colors
+    if (!cv1 || !cv2 || cv1.fallback || cv2.fallback) continue;
 
     const dE = deltaE00Hex(cv1.color, cv2.color, bg);
-
-    if (dE === null) {
-      skipped.push({ name1, name2, reason: 'invalid' });
-      continue;
-    }
+    if (dE === null) continue;
 
     // Check if this is a critical pair (error/warning, red/green, etc.)
     const pairKey = `${name1}↔${name2}`;
@@ -235,12 +229,8 @@ function analyzeColorDistinction(
     });
   }
 
-  return { pairs: pairs.sort((a, b) => a.deltaE - b.deltaE), skipped };
+  return pairs.sort((a, b) => a.deltaE - b.deltaE);
 }
-
-/** Syntax adjacency - commonly side-by-side token colors */
-const analyzeSyntaxDistinction = (syntax: Record<string, ColorValue>, bg: string) =>
-  analyzeColorDistinction(syntax, ADJACENCY_PAIRS, bg);
 
 /** Symbol icons - autocomplete, outline, breadcrumbs */
 const analyzeSymbolDistinction = (symbols: Record<string, ColorValue>, bg: string) =>
@@ -289,6 +279,163 @@ const analyzeTerminalSymbolDistinction = (symbols: Record<string, ColorValue>, b
 /** Extension icon distinction - marketplace icons */
 const analyzeExtensionIconDistinction = (icons: Record<string, ColorValue>, bg: string) =>
   analyzeColorDistinction(icons, EXTENSION_ICON_DISTINCTION_PAIRS, bg);
+
+// =============================================================================
+// SEMANTIC COLOR GROUP ANALYSIS
+// =============================================================================
+
+/**
+ * Analyze semantic color groups for proper distinction and cohesion.
+ *
+ * This is the key improvement over raw adjacency pair analysis:
+ * - Tokens in the SAME group SHOULD have similar colors (cohesion)
+ * - Tokens in DIFFERENT groups MUST be visually distinct (distinction)
+ *
+ * @param syntax - Syntax colors from theme
+ * @param bg - Background color for alpha compositing
+ */
+function analyzeSemanticDistinction(
+  syntax: Record<string, ColorValue>,
+  bg: string
+): SemanticDistinctionAnalysis {
+  const cohesion: GroupCohesionResult[] = [];
+  const distinction: CrossGroupDistinctionResult[] = [];
+
+  // ==========================================================================
+  // PART 1: Intra-group cohesion (tokens that should be similar)
+  // ==========================================================================
+
+  for (const [groupName, group] of Object.entries(SEMANTIC_COLOR_GROUPS)) {
+    const members: Array<{ token: string; color: string }> = [];
+
+    // Collect colors for all members in this group
+    for (const member of group.members) {
+      const cv = syntax[member];
+      if (cv && !cv.fallback) {
+        members.push({ token: member, color: cv.color });
+      }
+    }
+
+    // Need at least 2 members to compare
+    if (members.length < 2) {
+      cohesion.push({
+        group: groupName as SemanticGroupName,
+        members,
+        maxIntraGroupDeltaE: 0,
+        pass: true,
+        icon: '⚪',
+      });
+      continue;
+    }
+
+    // Find maximum ΔE within the group
+    let maxDeltaE = 0;
+    let maxPair: [string, string] | undefined;
+
+    for (let i = 0; i < members.length; i++) {
+      for (let j = i + 1; j < members.length; j++) {
+        const dE = deltaE00Hex(members[i].color, members[j].color, bg);
+        if (dE !== null && dE > maxDeltaE) {
+          maxDeltaE = dE;
+          maxPair = [members[i].token, members[j].token];
+        }
+      }
+    }
+
+    const pass = maxDeltaE <= INTRA_GROUP_MAX_DELTA_E;
+    cohesion.push({
+      group: groupName as SemanticGroupName,
+      members,
+      maxIntraGroupDeltaE: Math.round(maxDeltaE * 10) / 10,
+      maxPair,
+      pass,
+      icon: pass ? '✅' : '⚠️',
+    });
+  }
+
+  // ==========================================================================
+  // PART 2: Cross-group distinction (tokens that must be different)
+  // ==========================================================================
+
+  for (const [token1, token2, priority] of MUST_DISTINGUISH_PAIRS) {
+    const cv1 = syntax[token1];
+    const cv2 = syntax[token2];
+
+    // Skip if either token is missing or fallback
+    if (!cv1 || !cv2 || cv1.fallback || cv2.fallback) {
+      continue;
+    }
+
+    const group1 = getTokenGroup(token1);
+    const group2 = getTokenGroup(token2);
+
+    // Skip if same group (handled by cohesion analysis)
+    if (group1 === group2) {
+      continue;
+    }
+
+    const dE = deltaE00Hex(cv1.color, cv2.color, bg);
+    if (dE === null) continue;
+
+    const required = SEMANTIC_DISTINCTION_THRESHOLDS[priority];
+    const pass = dE >= required;
+
+    distinction.push({
+      token1,
+      token2,
+      group1: group1 ?? 'VARIABLE',  // Default for unknown tokens
+      group2: group2 ?? 'VARIABLE',
+      color1: cv1.color,
+      color2: cv2.color,
+      deltaE: Math.round(dE * 10) / 10,
+      required,
+      priority,
+      pass,
+      icon: pass ? '✅' : '❌',
+    });
+  }
+
+  // Sort distinction by deltaE ascending (worst first)
+  distinction.sort((a, b) => a.deltaE - b.deltaE);
+
+  // Calculate summary
+  const cohesionPass = cohesion.filter(c => c.pass).length;
+  const cohesionFail = cohesion.filter(c => !c.pass).length;
+  const distinctionPass = distinction.filter(d => d.pass).length;
+  const distinctionFail = distinction.filter(d => !d.pass).length;
+  const criticalFail = distinction.filter(d => !d.pass && d.priority === 'critical').length;
+
+  return {
+    cohesion,
+    distinction,
+    summary: {
+      groupsAnalyzed: cohesion.length,
+      cohesionPass,
+      cohesionFail,
+      distinctionPass,
+      distinctionFail,
+      criticalFail,
+    },
+  };
+}
+
+/**
+ * Format a semantic cohesion issue as a single line.
+ * WITHIN = tokens within same group have different colors (informational)
+ */
+function formatCohesionLine(r: GroupCohesionResult): string {
+  if (!r.maxPair) return '';
+  return `WITHIN ${r.group} ${r.maxPair[0]}↔${r.maxPair[1]} ΔE=${r.maxIntraGroupDeltaE} (same-group tokens differ)`;
+}
+
+/**
+ * Format a semantic distinction issue as a single line.
+ * TOOSIMILAR = tokens across groups are too similar (problem)
+ */
+function formatSemanticDistinctionLine(r: CrossGroupDistinctionResult): string {
+  const priorityTag = r.priority === 'critical' ? 'CRITICAL' : r.priority === 'high' ? 'HIGH' : 'STD';
+  return `TOOSIMILAR ${r.token1}↔${r.token2} ΔE=${r.deltaE} need≥${r.required} ${priorityTag}`;
+}
 
 // =============================================================================
 // OUTPUT FORMATTING (Plain text - one line per issue)
@@ -1011,47 +1158,31 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   ], LABELS.sectionNotebookStatus);
 
   // ==========================================================================
-  // COLOR DISTINCTION ANALYSIS (Delta E 2000)
+  // COLOR DISTINCTION ANALYSIS (Delta E 2000) - Non-syntax categories
+  // Note: Syntax token distinction is handled by semantic group analysis below
   // ==========================================================================
 
-  // 1. Syntax adjacency - commonly side-by-side token colors
-  const syntaxDistinction = analyzeSyntaxDistinction(c.syntax, c.bg.editor);
-
-  // 2. Status distinction - error/warning/info severity
   const statusDistinction = analyzeStatusDistinction(c.syntax, c.bg.editor);
-
-  // 3. Git distinction - file state colors
   const gitDistinction = analyzeGitDistinction(c.git, c.bg.sidebar);
-
-  // 4. State distinction - active/inactive UI elements
   const stateDistinction = analyzeStateDistinction(c.states, c.bg.editor);
-
-  // 5. Symbol discrimination - icon colors in autocomplete
   const symbolDistinction = analyzeSymbolDistinction(c.symbolIcons, c.bg.suggest);
-
-  // 6. Bracket distinction - rainbow brackets need adjacent level distinction
   const bracketDistinction = analyzeBracketDistinction(c.brackets, c.bg.editor);
-
-  // 7. Terminal ANSI distinction - red/green for error/success
   const terminalDistinction = analyzeTerminalDistinction(c.terminal, c.bg.terminal);
-
-  // 8. Markdown alert distinction - note/tip/warning/etc
   const markdownAlertDistinction = analyzeMarkdownAlertDistinction(c.markdownAlerts, c.bg.editor);
-
-  // 9. Testing icon distinction - pass/fail/error states
   const testingDistinction = analyzeTestingDistinction(c.testingIcons, c.bg.sidebar);
-
-  // 10. Debug icon distinction - breakpoint states, toolbar actions
   const debugIconDistinction = analyzeDebugIconDistinction(c.debugIcons, c.bg.editor);
-
-  // 11. SCM graph distinction - branch visualization colors
   const scmGraphDistinction = analyzeScmGraphDistinction(c.scmGraph, c.bg.sidebar);
-
-  // 12. Terminal symbol distinction - shell integration icons
   const terminalSymbolDistinction = analyzeTerminalSymbolDistinction(c.terminalSymbols, c.bg.terminal);
-
-  // 13. Extension icon distinction - marketplace icons
   const extensionIconDistinction = analyzeExtensionIconDistinction(c.extensionIcons, c.bg.sidebar);
+
+  // ==========================================================================
+  // SEMANTIC COLOR GROUP ANALYSIS (NEW - improved distinction logic)
+  // ==========================================================================
+
+  // Analyzes tokens by semantic group:
+  // - Intra-group cohesion: tokens in same group should be similar (ΔE < 10)
+  // - Cross-group distinction: tokens in different groups must differ (ΔE ≥ 12-18)
+  const semanticAnalysis = analyzeSemanticDistinction(c.syntax, c.bg.editor);
 
   // ==========================================================================
   // CHROMA ANALYSIS (Eye Fatigue) - Using perceptually uniform LCH
@@ -1102,21 +1233,20 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     results: [] as ColorResult[],
   }), { pass: 0, large: 0, expectedDim: 0, fail: 0, missing: 0, total: 0, results: [] as ColorResult[] });
 
-  // Collect all distinction results
+  // Collect all distinction results (syntax handled by semantic analysis)
   const allDistinctions: Array<{ category: string; pairs: DistinctionPair[] }> = [
-    { category: 'syntax', pairs: syntaxDistinction.pairs },
-    { category: 'status', pairs: statusDistinction.pairs },
-    { category: 'git', pairs: gitDistinction.pairs },
-    { category: 'state', pairs: stateDistinction.pairs },
-    { category: 'symbol', pairs: symbolDistinction.pairs },
-    { category: 'bracket', pairs: bracketDistinction.pairs },
-    { category: 'terminal', pairs: terminalDistinction.pairs },
-    { category: 'markdown-alert', pairs: markdownAlertDistinction.pairs },
-    { category: 'testing', pairs: testingDistinction.pairs },
-    { category: 'debug-icon', pairs: debugIconDistinction.pairs },
-    { category: 'scm-graph', pairs: scmGraphDistinction.pairs },
-    { category: 'terminal-symbol', pairs: terminalSymbolDistinction.pairs },
-    { category: 'extension-icon', pairs: extensionIconDistinction.pairs },
+    { category: 'status', pairs: statusDistinction },
+    { category: 'git', pairs: gitDistinction },
+    { category: 'state', pairs: stateDistinction },
+    { category: 'symbol', pairs: symbolDistinction },
+    { category: 'bracket', pairs: bracketDistinction },
+    { category: 'terminal', pairs: terminalDistinction },
+    { category: 'markdown-alert', pairs: markdownAlertDistinction },
+    { category: 'testing', pairs: testingDistinction },
+    { category: 'debug-icon', pairs: debugIconDistinction },
+    { category: 'scm-graph', pairs: scmGraphDistinction },
+    { category: 'terminal-symbol', pairs: terminalSymbolDistinction },
+    { category: 'extension-icon', pairs: extensionIconDistinction },
   ];
 
   // ==========================================================================
@@ -1133,10 +1263,14 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     s.results.filter(r => !r.analysis.pass && !r.fallback && !r.expectedDim)
   );
 
-  // Filter distinction issues (ΔE < 5)
+  // Filter distinction issues (ΔE below threshold)
   const distinctionIssues = allDistinctions.flatMap(d =>
     d.pairs.filter(p => !p.pass).map(p => ({ category: d.category, pair: p }))
   );
+
+  // Semantic analysis issues
+  const semanticCohesionIssues = semanticAnalysis.cohesion.filter(c => !c.pass);
+  const semanticDistinctionIssues = semanticAnalysis.distinction.filter(d => !d.pass);
 
   // Verbose mode: show ALL results grouped by section
   if (options.verbose) {
@@ -1150,7 +1284,28 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       output.push(`  [${section.stats.pass} pass, ${section.stats.fail} fail, ${section.stats.missing} missing]`);
     }
 
-    output.push(`\n=== DISTINCTION ANALYSIS ===`);
+    // NEW: Semantic group analysis (improved distinction logic)
+    output.push(`\n=== SEMANTIC GROUP ANALYSIS ===`);
+    output.push(`\n--- GROUP COHESION (tokens that should be similar, ΔE ≤ ${INTRA_GROUP_MAX_DELTA_E}) ---`);
+    for (const c of semanticAnalysis.cohesion) {
+      const memberStr = c.members.map(m => m.token).join(', ');
+      if (c.maxPair) {
+        output.push(`  ${c.icon} ${c.group.padEnd(12)} max ΔE=${c.maxIntraGroupDeltaE.toString().padStart(4)} (${c.maxPair[0]}↔${c.maxPair[1]})`);
+      } else {
+        output.push(`  ⚪ ${c.group.padEnd(12)} (${c.members.length} member${c.members.length !== 1 ? 's' : ''})`);
+      }
+    }
+
+    output.push(`\n--- CROSS-GROUP DISTINCTION (tokens that must differ) ---`);
+    for (const d of semanticAnalysis.distinction) {
+      const priorityTag = d.priority === 'critical' ? '[CRIT]' : d.priority === 'high' ? '[HIGH]' : '[STD]';
+      output.push(`  ${d.icon} ${d.token1}↔${d.token2} ΔE=${d.deltaE.toString().padStart(4)} need≥${d.required} ${priorityTag}`);
+    }
+
+    output.push(`\n  [Cohesion: ${semanticAnalysis.summary.cohesionPass}/${semanticAnalysis.summary.groupsAnalyzed} groups pass]`);
+    output.push(`  [Distinction: ${semanticAnalysis.summary.distinctionPass}/${semanticAnalysis.distinction.length} pairs pass, ${semanticAnalysis.summary.criticalFail} critical fails]`);
+
+    output.push(`\n=== ADJACENCY DISTINCTION (legacy) ===`);
     for (const d of allDistinctions) {
       output.push(`\n--- ${d.category.toUpperCase()} ---`);
       for (const p of d.pairs) {
@@ -1171,6 +1326,17 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       output.push(formatContrastLine(r));
     }
 
+    // Semantic cohesion issues (groups with too-different colors)
+    for (const c of semanticCohesionIssues) {
+      output.push(formatCohesionLine(c));
+    }
+
+    // Semantic distinction issues (cross-group pairs too similar)
+    for (const d of semanticDistinctionIssues) {
+      output.push(formatSemanticDistinctionLine(d));
+    }
+
+    // Non-syntax distinction issues (symbols, status, git, etc.)
     for (const { category, pair } of distinctionIssues) {
       output.push(formatDistinctionLine(category, pair));
     }
@@ -1183,15 +1349,18 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // Summary line
   const defined = total.total - total.missing;
   const distinctionFails = distinctionIssues.length;
+  const withinGroupVaries = semanticCohesionIssues.length;  // Informational: same-group tokens differ
+  const crossGroupTooSimilar = semanticDistinctionIssues.length;  // Problem: different-group tokens too close
   const chromaFails = chromaIssues.length;
-  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && chromaFails === 0;
+  // Only cross-group issues are real problems; within-group variance is informational
+  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && crossGroupTooSimilar === 0 && chromaFails === 0;
 
   output.push('');
-  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} ready=${ready}`);
+  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} too_similar=${crossGroupTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} within_vary=${withinGroupVaries} ready=${ready}`);
 
   // Print all output (or filter if --issues-only and ready)
   if (options.issuesOnly && ready) {
-    console.log('SUMMARY pass=' + total.pass + '/' + defined + ' fail=0 distinction_fail=0 chroma_fail=0 ready=true');
+    console.log('SUMMARY pass=' + total.pass + '/' + defined + ' fail=0 too_similar=0 distinction_fail=0 chroma_fail=0 within_vary=0 ready=true');
   } else {
     console.log(output.join('\n'));
   }

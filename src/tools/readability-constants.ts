@@ -2,6 +2,7 @@
  * Constants and configuration for the readability analysis tool.
  */
 
+import type { SemanticGroup, SemanticGroupName, DistinctionPriority } from './readability-types';
 
 // =============================================================================
 // BACKGROUND KEY MAPPINGS
@@ -476,7 +477,6 @@ export const ADJACENCY_PAIRS: Array<[string, string]> = [
   ['function', 'supportClass'],       // foo(Array) (71)
   ['function', 'supportType'],        // foo(): string (24)
   ['function', 'supportConstant'],    // foo(PI) (4)
-  ['function', 'supportFunction'],    // foo(bar()) (3)
   ['function', 'storageModifier'],    // async foo (40)
   ['function', 'variableLanguage'],   // foo(this) (23)
   ['function', 'property'],           // function accessing property (13)
@@ -510,7 +510,6 @@ export const ADJACENCY_PAIRS: Array<[string, string]> = [
   ['parameter', 'number'],            // foo(42, x) (17)
   ['variable', 'type'],               // x: Type
   ['variable', 'constant'],           // myVar vs MY_CONST
-  ['variable', 'supportVariable'],    // process vs myVar
   ['variable', 'variableLanguage'],   // this vs myVar (28)
   ['variable', 'supportConstant'],    // PI vs myConst (20)
   ['variable', 'supportClass'],       // Array vs myClass (19)
@@ -538,7 +537,6 @@ export const ADJACENCY_PAIRS: Array<[string, string]> = [
   ['constant', 'supportFunction'],    // console.log(TRUE) (26)
   ['constant', 'supportClass'],       // Array vs TRUE (14)
   ['constant', 'supportType'],        // string vs TRUE (7)
-  ['constant', 'supportConstant'],    // PI vs TRUE (5)
   ['constant', 'stringEscape'],       // TRUE vs "\n" (15)
   ['constant', 'type'],               // TRUE: Type (14)
   ['constant', 'function'],           // foo(TRUE) (42)
@@ -585,7 +583,6 @@ export const ADJACENCY_PAIRS: Array<[string, string]> = [
   ['type', 'string'],                 // "x": Type (26)
   ['type', 'variableLanguage'],       // this: Type (7)
   ['typeParameter', 'type'],          // T extends Base
-  ['supportType', 'type'],            // string vs MyType
   ['supportType', 'variable'],        // string vs myVar (16)
   ['supportType', 'supportClass'],    // string vs Array (4)
   ['supportType', 'struct'],          // string vs struct (1)
@@ -1016,3 +1013,216 @@ export const EXTENSION_ICON_DISTINCTION_PAIRS: Array<[string, string]> = [
   ['verified', 'preRelease'],
   ['preRelease', 'sponsor'],
 ];
+
+// =============================================================================
+// SEMANTIC COLOR GROUPS
+// =============================================================================
+
+/**
+ * The 10 semantic color groups for VS Code theme analysis.
+ *
+ * These groups represent semantically related tokens that typically share
+ * visual styling in well-designed themes. The analysis checks:
+ * - Intra-group cohesion: Tokens in the same group should be similar (ΔE ≤ 10)
+ * - Cross-group distinction: Tokens in different groups should differ (ΔE ≥ 12-18)
+ *
+ * Note: These are conservative groupings. Themes may legitimately differentiate
+ * tokens within the same group (e.g., `function` vs `macro`) for stylistic reasons.
+ */
+export const SEMANTIC_COLOR_GROUPS: Record<SemanticGroupName, SemanticGroup> = {
+  KEYWORD: {
+    name: 'Keywords',
+    description: 'Control flow, declarations, and storage keywords',
+    members: ['keyword', 'storage', 'storageModifier'],
+  },
+  OPERATOR: {
+    name: 'Operators',
+    description: 'Operators providing visual rhythm in code',
+    members: ['operator'],
+  },
+  CALLABLE: {
+    name: 'Callables',
+    description: 'Functions, methods, and macros',
+    members: ['function', 'method', 'supportFunction', 'macro'],
+  },
+  DECORATOR: {
+    name: 'Decorators',
+    description: 'Decorators and annotations (@syntax)',
+    members: ['decorator'],
+  },
+  TYPE: {
+    name: 'Types',
+    description: 'All type-related constructs: types, interfaces, classes, structs, enums, namespaces',
+    members: ['type', 'interface', 'typeParameter', 'supportType', 'class', 'struct', 'supportClass', 'enum', 'namespace'],
+  },
+  VARIABLE: {
+    name: 'Variables',
+    description: 'Variable identifiers, language variables, labels, and events',
+    members: ['variable', 'supportVariable', 'variableLanguage', 'label', 'event'],
+  },
+  PARAMETER: {
+    name: 'Parameters',
+    description: 'Function parameters, properties, and attributes',
+    members: ['parameter', 'property', 'attribute'],
+  },
+  STRING: {
+    name: 'Strings',
+    description: 'String literals and escape sequences',
+    members: ['string', 'stringEscape'],
+  },
+  REGEXP: {
+    name: 'Regular Expressions',
+    description: 'Regular expression patterns with complex internal syntax',
+    members: ['regexp'],
+  },
+  NUMERIC: {
+    name: 'Numerics',
+    description: 'Numbers, constants, and enum members',
+    members: ['number', 'constant', 'supportConstant', 'enumMember'],
+  },
+  MARKUP: {
+    name: 'Markup',
+    description: 'HTML/XML tags and markup formatting',
+    members: ['tag', 'link', 'markupHeading', 'markupBold', 'markupItalic', 'markupCode', 'markupQuote', 'markupList'],
+  },
+  COMMENT: {
+    name: 'Comments',
+    description: 'Comments and documentation',
+    members: ['comment', 'docComment'],
+  },
+} as const;
+
+/**
+ * Reverse lookup: token name -> group name.
+ * Built from SEMANTIC_COLOR_GROUPS for O(1) lookups.
+ */
+const TOKEN_TO_GROUP_MAP: Map<string, SemanticGroupName> = new Map();
+for (const [groupName, group] of Object.entries(SEMANTIC_COLOR_GROUPS)) {
+  for (const member of group.members) {
+    TOKEN_TO_GROUP_MAP.set(member, groupName as SemanticGroupName);
+  }
+}
+
+/**
+ * Get the semantic group for a token.
+ * Returns undefined if token is not in any group (e.g., punctuation, operator).
+ */
+export function getTokenGroup(token: string): SemanticGroupName | undefined {
+  return TOKEN_TO_GROUP_MAP.get(token);
+}
+
+// =============================================================================
+// CROSS-GROUP DISTINCTION PAIRS (tokens that MUST be different)
+// =============================================================================
+
+/**
+ * Delta E thresholds for cross-group distinction by priority.
+ */
+export const SEMANTIC_DISTINCTION_THRESHOLDS = {
+  critical: 18,  // Appear every few lines, confusion is costly
+  high: 15,      // Common adjacencies, should be clearly different
+  standard: 12,  // Less frequent but still need distinction
+} as const;
+
+/**
+ * Cross-group token pairs that MUST be visually distinguishable.
+ * These are ordered by priority (critical first).
+ *
+ * Structure: [token1, token2, priority]
+ */
+export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, DistinctionPriority]> = [
+  // ==========================================================================
+  // CRITICAL (ΔE ≥ 18) - Appear every few lines in any codebase
+  // ==========================================================================
+
+  // KEYWORD <-> VARIABLE (if x, return val, for item in list)
+  ['keyword', 'variable', 'critical'],
+  ['keyword', 'parameter', 'critical'],
+  ['storage', 'variable', 'critical'],
+  ['storage', 'function', 'critical'],
+  ['storageModifier', 'variable', 'critical'],
+
+  // CALLABLE <-> PARAMETER (foo(x), method(param))
+  ['function', 'parameter', 'critical'],
+  ['function', 'variable', 'critical'],
+  ['method', 'parameter', 'critical'],
+
+  // VARIABLE <-> PARAMETER (critical in function signatures)
+  ['parameter', 'variable', 'critical'],
+
+  // TYPE <-> VARIABLE (x: Type annotation)
+  ['type', 'variable', 'critical'],
+  ['type', 'parameter', 'critical'],
+
+  // STRING <-> VARIABLE (template literals ${x}, f-strings)
+  ['string', 'variable', 'critical'],
+
+  // COMMENT <-> CODE (must be obviously different)
+  ['comment', 'variable', 'critical'],
+  ['comment', 'keyword', 'critical'],
+
+  // ==========================================================================
+  // HIGH (ΔE ≥ 15) - Common adjacencies
+  // ==========================================================================
+
+  // KEYWORD <-> CALLABLE/TYPE
+  ['keyword', 'function', 'high'],
+  ['keyword', 'class', 'high'],
+  ['keyword', 'type', 'high'],
+
+  // CALLABLE <-> TYPE (return types: func(): Type)
+  ['function', 'type', 'high'],
+  ['method', 'type', 'high'],
+  ['function', 'class', 'high'],
+  ['method', 'class', 'high'],
+
+  // STRING <-> NUMERIC
+  ['string', 'number', 'high'],
+  ['string', 'constant', 'high'],
+
+  // PARAMETER <-> TYPE
+  ['property', 'type', 'high'],
+  // Note: type↔parameter is already in critical section above
+  ['attribute', 'string', 'high'],
+
+  // MARKUP <-> STRING (JSX: <Tag>"text")
+  ['tag', 'string', 'high'],
+  ['tag', 'variable', 'high'],
+
+  // COMMENT <-> other code (must be obviously different)
+  ['comment', 'string', 'high'],
+  ['comment', 'function', 'high'],
+  ['comment', 'type', 'high'],
+
+  // OPERATOR <-> adjacent tokens (visual rhythm)
+  ['operator', 'variable', 'high'],
+  ['operator', 'number', 'high'],
+  ['operator', 'keyword', 'high'],
+
+  // DECORATOR <-> adjacent tokens (@decorator class/function)
+  ['decorator', 'class', 'high'],
+  ['decorator', 'function', 'high'],
+
+  // REGEXP <-> STRING (both quoted, need distinction)
+  ['regexp', 'string', 'high'],
+
+  // ==========================================================================
+  // STANDARD (ΔE ≥ 12) - Less frequent but need distinction
+  // ==========================================================================
+
+  // MARKUP <-> PARAMETER (tag vs attribute)
+  ['tag', 'attribute', 'standard'],
+
+  // Note: Intra-group pairs (number↔constant, function↔supportFunction, etc.)
+  // are handled by cohesion analysis, not cross-group distinction.
+] as const;
+
+// =============================================================================
+// INTRA-GROUP COHESION
+// =============================================================================
+
+/**
+ * Maximum Delta E for tokens within the same semantic group.
+ * Tokens in the same group should have similar colors for cognitive consistency.
+ */
+export const INTRA_GROUP_MAX_DELTA_E = 10;
