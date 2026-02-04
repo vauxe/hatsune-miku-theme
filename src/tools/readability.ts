@@ -45,7 +45,6 @@ import {
   SEMANTIC_COLOR_GROUPS,
   MUST_DISTINGUISH_PAIRS,
   SEMANTIC_DISTINCTION_THRESHOLDS,
-  INTRA_GROUP_MAX_DELTA_E,
   getTokenGroup,
   // CVD (Color Vision Deficiency)
   CVD_CRITICAL_PAIRS,
@@ -53,6 +52,8 @@ import {
   // Compound background contrast
   COMPOUND_BACKGROUND_KEYS,
   COMPOUND_SYNTAX_TOKENS,
+  // UI visibility
+  UI_VISIBILITY,
 } from './readability-constants';
 import type { BgKeyName, ChromaTier, CompoundBgKeyName } from './readability-constants';
 
@@ -69,8 +70,6 @@ import {
   analyzeChroma,
   checkCVDDistinction,
   simulateCVD,
-  analyzeLightnessUniformity,
-  analyzeHueDistribution,
   suggestContrastFix,
   suggestDistinctionFix,
   suggestChromaFix,
@@ -90,12 +89,8 @@ import type {
   AnalysisOptions,
   APCATier,
   SemanticGroupName,
-  GroupCohesionResult,
   CrossGroupDistinctionResult,
-  SemanticDistinctionAnalysis,
   CVDFailure,
-  LightnessUniformityResult,
-  HueDistributionResult,
   CompoundBackgroundFailure,
   CompoundBackgroundIssue,
   CompoundBackgroundAnalysis,
@@ -304,11 +299,10 @@ const analyzeExtensionIconDistinction = (icons: Record<string, ColorValue>, bg: 
 // =============================================================================
 
 /**
- * Analyze semantic color groups for proper distinction and cohesion.
+ * Analyze semantic token pairs for proper visual distinction.
  *
- * This is the key improvement over raw adjacency pair analysis:
- * - Tokens in the SAME group SHOULD have similar colors (cohesion)
- * - Tokens in DIFFERENT groups MUST be visually distinct (distinction)
+ * Tokens in DIFFERENT semantic groups MUST be visually distinct.
+ * This catches issues like keyword↔variable or function↔parameter being too similar.
  *
  * @param syntax - Syntax colors from theme
  * @param bg - Background color for alpha compositing
@@ -316,65 +310,8 @@ const analyzeExtensionIconDistinction = (icons: Record<string, ColorValue>, bg: 
 function analyzeSemanticDistinction(
   syntax: Record<string, ColorValue>,
   bg: string
-): SemanticDistinctionAnalysis {
-  const cohesion: GroupCohesionResult[] = [];
+): { distinction: CrossGroupDistinctionResult[]; summary: { distinctionPass: number; distinctionFail: number; criticalFail: number } } {
   const distinction: CrossGroupDistinctionResult[] = [];
-
-  // ==========================================================================
-  // PART 1: Intra-group cohesion (tokens that should be similar)
-  // ==========================================================================
-
-  for (const [groupName, group] of Object.entries(SEMANTIC_COLOR_GROUPS)) {
-    const members: Array<{ token: string; color: string }> = [];
-
-    // Collect colors for all members in this group
-    for (const member of group.members) {
-      const cv = syntax[member];
-      if (cv && !cv.fallback) {
-        members.push({ token: member, color: cv.color });
-      }
-    }
-
-    // Need at least 2 members to compare
-    if (members.length < 2) {
-      cohesion.push({
-        group: groupName as SemanticGroupName,
-        members,
-        maxIntraGroupDeltaE: 0,
-        pass: true,
-        icon: '⚪',
-      });
-      continue;
-    }
-
-    // Find maximum ΔE within the group
-    let maxDeltaE = 0;
-    let maxPair: [string, string] | undefined;
-
-    for (let i = 0; i < members.length; i++) {
-      for (let j = i + 1; j < members.length; j++) {
-        const dE = deltaEzHex(members[i].color, members[j].color, bg);
-        if (dE !== null && dE > maxDeltaE) {
-          maxDeltaE = dE;
-          maxPair = [members[i].token, members[j].token];
-        }
-      }
-    }
-
-    const pass = maxDeltaE <= INTRA_GROUP_MAX_DELTA_E;
-    cohesion.push({
-      group: groupName as SemanticGroupName,
-      members,
-      maxIntraGroupDeltaE: Math.round(maxDeltaE * 10) / 10,
-      maxPair,
-      pass,
-      icon: pass ? '✅' : '⚠️',
-    });
-  }
-
-  // ==========================================================================
-  // PART 2: Cross-group distinction (tokens that must be different)
-  // ==========================================================================
 
   for (const [token1, token2, priority] of MUST_DISTINGUISH_PAIRS) {
     const cv1 = syntax[token1];
@@ -388,11 +325,6 @@ function analyzeSemanticDistinction(
     const group1 = getTokenGroup(token1);
     const group2 = getTokenGroup(token2);
 
-    // Skip if same group (handled by cohesion analysis)
-    if (group1 === group2) {
-      continue;
-    }
-
     const dE = deltaEzHex(cv1.color, cv2.color, bg);
     if (dE === null) continue;
 
@@ -402,7 +334,7 @@ function analyzeSemanticDistinction(
     distinction.push({
       token1,
       token2,
-      group1: group1 ?? 'VARIABLE',  // Default for unknown tokens
+      group1: group1 ?? 'VARIABLE',
       group2: group2 ?? 'VARIABLE',
       color1: cv1.color,
       color2: cv2.color,
@@ -417,24 +349,102 @@ function analyzeSemanticDistinction(
   // Sort distinction by deltaE ascending (worst first)
   distinction.sort((a, b) => a.deltaE - b.deltaE);
 
-  // Calculate summary
-  const cohesionPass = cohesion.filter(c => c.pass).length;
-  const cohesionFail = cohesion.filter(c => !c.pass).length;
   const distinctionPass = distinction.filter(d => d.pass).length;
   const distinctionFail = distinction.filter(d => !d.pass).length;
   const criticalFail = distinction.filter(d => !d.pass && d.priority === 'critical').length;
 
   return {
-    cohesion,
     distinction,
     summary: {
-      groupsAnalyzed: cohesion.length,
-      cohesionPass,
-      cohesionFail,
       distinctionPass,
       distinctionFail,
       criticalFail,
     },
+  };
+}
+
+// =============================================================================
+// UI VISIBILITY ANALYSIS
+// =============================================================================
+
+interface UIVisibilityResult {
+  name: string;
+  color1: string;
+  color2: string;
+  deltaE: number;
+  required: number;
+  pass: boolean;
+}
+
+/**
+ * Analyze UI element visibility - things users directly notice.
+ */
+function analyzeUIVisibility(bg: Record<string, string>): UIVisibilityResult[] {
+  const results: UIVisibilityResult[] = [];
+
+  // Selection visibility: Can you SEE the selection?
+  const selectionDeltaE = deltaEzHex(bg.selection, bg.editor, bg.editor);
+  if (selectionDeltaE !== null) {
+    results.push({
+      name: 'selection',
+      color1: bg.selection,
+      color2: bg.editor,
+      deltaE: Math.round(selectionDeltaE * 10) / 10,
+      required: UI_VISIBILITY.selectionVisibility,
+      pass: selectionDeltaE >= UI_VISIBILITY.selectionVisibility,
+    });
+  }
+
+  // Find match visibility: Can you see search results?
+  const findDeltaE = deltaEzHex(bg.findMatchActive, bg.editor, bg.editor);
+  if (findDeltaE !== null) {
+    results.push({
+      name: 'findMatch',
+      color1: bg.findMatchActive,
+      color2: bg.editor,
+      deltaE: Math.round(findDeltaE * 10) / 10,
+      required: UI_VISIBILITY.findMatchVisibility,
+      pass: findDeltaE >= UI_VISIBILITY.findMatchVisibility,
+    });
+  }
+
+  // Tab distinction: Active vs inactive tabs
+  const tabDeltaE = deltaEzHex(bg.tabBar, bg.editor, bg.editor);
+  if (tabDeltaE !== null) {
+    results.push({
+      name: 'tabActive↔inactive',
+      color1: bg.tabBar,
+      color2: bg.editor,
+      deltaE: Math.round(tabDeltaE * 10) / 10,
+      required: UI_VISIBILITY.tabDistinction,
+      pass: tabDeltaE >= UI_VISIBILITY.tabDistinction,
+    });
+  }
+
+  // Diff distinction: Added vs removed
+  const diffDeltaE = deltaEzHex(bg.diffInserted, bg.diffRemoved, bg.editor);
+  if (diffDeltaE !== null) {
+    results.push({
+      name: 'diffAdded↔removed',
+      color1: bg.diffInserted,
+      color2: bg.diffRemoved,
+      deltaE: Math.round(diffDeltaE * 10) / 10,
+      required: UI_VISIBILITY.diffDistinction,
+      pass: diffDeltaE >= UI_VISIBILITY.diffDistinction,
+    });
+  }
+
+  return results;
+}
+
+/**
+ * Check cursor visibility against editor background.
+ */
+function analyzeCursorVisibility(cursorColor: string, editorBg: string): { lc: number; pass: boolean } {
+  const result = getAPCAContrast(cursorColor, editorBg);
+  return {
+    lc: Math.round(Math.abs(result.lc) * 10) / 10,
+    pass: Math.abs(result.lc) >= UI_VISIBILITY.cursorContrast,
   };
 }
 
@@ -607,15 +617,6 @@ function analyzeCompoundBackgroundContrast(
 function formatCompoundLine(f: CompoundBackgroundFailure): string {
   const bgList = f.failingBackgrounds.map(b => b.bgName).join(', ');
   return `COMPOUND ${f.tokenName} fails on ${f.failingBackgrounds.length} bg(s): worst=${f.worstBgName} Lc=${f.worstLc} need≥${APCA_THRESHOLDS[f.tier]} (editor Lc=${f.editorLc}) [${bgList}]`;
-}
-
-/**
- * Format a semantic cohesion issue as a single line.
- * WITHIN = tokens within same group have different colors (informational)
- */
-function formatCohesionLine(r: GroupCohesionResult): string {
-  if (!r.maxPair) return '';
-  return `WITHIN ${r.group} ${r.maxPair[0]}↔${r.maxPair[1]} ΔE=${r.maxIntraGroupDeltaE} (same-group tokens differ)`;
 }
 
 /**
@@ -1435,25 +1436,15 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   );
 
   // ==========================================================================
-  // LIGHTNESS UNIFORMITY ANALYSIS
+  // UI VISIBILITY ANALYSIS
   // ==========================================================================
-  // Check that primary syntax colors have similar lightness for visual calm.
+  // Check things users directly notice: selection visibility, cursor, etc.
 
-  const primarySyntaxColors: Record<string, string> = {};
-  for (const name of PRIMARY_SYNTAX_ELEMENTS) {
-    const cv = c.syntax[name];
-    if (cv && !cv.fallback) {
-      primarySyntaxColors[name] = cv.color;
-    }
-  }
-  const lightnessAnalysis = analyzeLightnessUniformity(primarySyntaxColors);
-
-  // ==========================================================================
-  // HUE DISTRIBUTION ANALYSIS
-  // ==========================================================================
-  // Check that syntax colors are spread across the color wheel.
-
-  const hueAnalysis = analyzeHueDistribution(primarySyntaxColors);
+  const uiVisibility = analyzeUIVisibility(c.bg);
+  const cursorVisibility = analyzeCursorVisibility(
+    stripAlpha(c.cursor.cursor?.color ?? c.fg.color),
+    c.bg.editor
+  );
 
   // ==========================================================================
   // COMPOUND BACKGROUND CONTRAST ANALYSIS
@@ -1510,8 +1501,10 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   );
 
   // Semantic analysis issues
-  const semanticCohesionIssues = semanticAnalysis.cohesion.filter(c => !c.pass);
   const semanticDistinctionIssues = semanticAnalysis.distinction.filter(d => !d.pass);
+
+  // UI visibility issues
+  const uiVisibilityIssues = uiVisibility.filter(v => !v.pass);
 
   // Verbose mode: show ALL results grouped by section
   if (options.verbose) {
@@ -1525,26 +1518,14 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       output.push(`  [${section.stats.pass} pass, ${section.stats.fail} fail, ${section.stats.missing} missing]`);
     }
 
-    // NEW: Semantic group analysis (improved distinction logic)
-    output.push(`\n=== SEMANTIC GROUP ANALYSIS ===`);
-    output.push(`\n--- GROUP COHESION (tokens that should be similar, ΔE ≤ ${INTRA_GROUP_MAX_DELTA_E}) ---`);
-    for (const c of semanticAnalysis.cohesion) {
-      const memberStr = c.members.map(m => m.token).join(', ');
-      if (c.maxPair) {
-        output.push(`  ${c.icon} ${c.group.padEnd(12)} max ΔE=${c.maxIntraGroupDeltaE.toString().padStart(4)} (${c.maxPair[0]}↔${c.maxPair[1]})`);
-      } else {
-        output.push(`  ⚪ ${c.group.padEnd(12)} (${c.members.length} member${c.members.length !== 1 ? 's' : ''})`);
-      }
-    }
-
-    output.push(`\n--- CROSS-GROUP DISTINCTION (tokens that must differ) ---`);
+    // Semantic distinction analysis
+    output.push(`\n=== SEMANTIC DISTINCTION ===`);
+    output.push(`Tokens in different semantic groups must be visually distinct.`);
     for (const d of semanticAnalysis.distinction) {
       const priorityTag = d.priority === 'critical' ? '[CRIT]' : d.priority === 'high' ? '[HIGH]' : '[STD]';
       output.push(`  ${d.icon} ${d.token1}↔${d.token2} ΔE=${d.deltaE.toString().padStart(4)} need≥${d.required} ${priorityTag}`);
     }
-
-    output.push(`\n  [Cohesion: ${semanticAnalysis.summary.cohesionPass}/${semanticAnalysis.summary.groupsAnalyzed} groups pass]`);
-    output.push(`  [Distinction: ${semanticAnalysis.summary.distinctionPass}/${semanticAnalysis.distinction.length} pairs pass, ${semanticAnalysis.summary.criticalFail} critical fails]`);
+    output.push(`  [${semanticAnalysis.summary.distinctionPass}/${semanticAnalysis.distinction.length} pairs pass, ${semanticAnalysis.summary.criticalFail} critical fails]`);
 
     output.push(`\n=== UI ELEMENT DISTINCTION ===`);
     for (const d of allDistinctions) {
@@ -1572,37 +1553,15 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       }
     }
 
-    output.push(`\n=== LIGHTNESS UNIFORMITY ANALYSIS ===`);
-    output.push(`Checking that syntax colors have consistent lightness (Jz spread ≤ ${(lightnessAnalysis.maxSpread * 450).toFixed(0)}%).`);
-    const spreadPercent = (lightnessAnalysis.spread * 450).toFixed(1);
-    if (lightnessAnalysis.pass) {
-      output.push(`  ✓ Lightness spread: ${spreadPercent}% (uniform)`);
-    } else {
-      output.push(`  ✗ Lightness spread: ${spreadPercent}% (too wide)`);
-      if (lightnessAnalysis.darkest && lightnessAnalysis.lightest) {
-        output.push(`    Darkest:  ${lightnessAnalysis.darkest.name} (Jz=${(lightnessAnalysis.darkest.jz * 450).toFixed(1)}%)`);
-        output.push(`    Lightest: ${lightnessAnalysis.lightest.name} (Jz=${(lightnessAnalysis.lightest.jz * 450).toFixed(1)}%)`);
-      }
-      if (lightnessAnalysis.outliers.length > 0) {
-        output.push(`    Outliers: ${lightnessAnalysis.outliers.map(o => o.name).join(', ')}`);
-      }
+    output.push(`\n=== UI VISIBILITY ===`);
+    output.push(`Checking things users directly notice: selection, cursor, find match, diff.`);
+    for (const v of uiVisibility) {
+      const status = v.pass ? '✓' : '✗';
+      output.push(`  ${status} ${v.name.padEnd(20)} ΔE=${v.deltaE.toString().padStart(4)} need≥${v.required}`);
     }
+    output.push(`  Cursor: ${cursorVisibility.pass ? '✓' : '✗'} Lc=${cursorVisibility.lc} need≥${UI_VISIBILITY.cursorContrast}`);
 
-    output.push(`\n=== HUE DISTRIBUTION ANALYSIS ===`);
-    output.push(`Checking that syntax colors are spread across the color wheel (min gap ${hueAnalysis.minGap}°).`);
-    if (hueAnalysis.pass) {
-      output.push(`  ✓ Hues are well distributed`);
-    } else {
-      output.push(`  ✗ ${hueAnalysis.clusters.length} hue cluster(s) detected`);
-      for (const cluster of hueAnalysis.clusters) {
-        output.push(`    Cluster: ${cluster.colors.join(', ')} (hue ${cluster.hueRange[0].toFixed(0)}°-${cluster.hueRange[1].toFixed(0)}°)`);
-      }
-    }
-    if (hueAnalysis.smallestGap !== undefined) {
-      output.push(`  Smallest gap: ${hueAnalysis.smallestGap.toFixed(0)}°`);
-    }
-
-    output.push(`\n=== COMPOUND BACKGROUND CONTRAST ANALYSIS ===`);
+    output.push(`\n=== COMPOUND BACKGROUND CONTRAST ===`);
     output.push(`Testing syntax colors against ${Object.keys(COMPOUND_BACKGROUND_KEYS).length} overlay backgrounds.`);
     output.push(`A color might pass on editor.background but fail on selection/find/diff overlays.`);
     if (compoundAnalysis.pass) {
@@ -1621,11 +1580,6 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     // Default: only output issues
     for (const r of contrastIssues) {
       output.push(formatContrastLine(r));
-    }
-
-    // Semantic cohesion issues (groups with too-different colors)
-    for (const c of semanticCohesionIssues) {
-      output.push(formatCohesionLine(c));
     }
 
     // Semantic distinction issues (cross-group pairs too similar)
@@ -1647,17 +1601,12 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       output.push(formatCVDLine(f));
     }
 
-    // Lightness uniformity
-    if (!lightnessAnalysis.pass) {
-      const spread = (lightnessAnalysis.spread * 450).toFixed(1);
-      const max = (lightnessAnalysis.maxSpread * 450).toFixed(0);
-      output.push(`LIGHTNESS spread=${spread}% max=${max}% → ${lightnessAnalysis.suggestion ?? 'reduce spread'}`);
+    // UI visibility issues
+    for (const v of uiVisibilityIssues) {
+      output.push(`UI_VISIBLE ${v.name} ΔE=${v.deltaE} need≥${v.required} → increase visibility`);
     }
-
-    // Hue distribution
-    if (!hueAnalysis.pass) {
-      const clusterNames = hueAnalysis.clusters.map(c => c.colors.join('+')).join(', ');
-      output.push(`HUE_CLUSTER ${clusterNames} → ${hueAnalysis.suggestion ?? 'spread hues apart'}`);
+    if (!cursorVisibility.pass) {
+      output.push(`CURSOR Lc=${cursorVisibility.lc} need≥${UI_VISIBILITY.cursorContrast} → increase cursor contrast`);
     }
 
     // Compound background failures
@@ -1669,22 +1618,19 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // Summary line
   const defined = total.total - total.missing;
   const distinctionFails = distinctionIssues.length;
-  const withinGroupVaries = semanticCohesionIssues.length;  // Informational: same-group tokens differ
-  const crossGroupTooSimilar = semanticDistinctionIssues.length;  // Problem: different-group tokens too close
+  const crossGroupTooSimilar = semanticDistinctionIssues.length;
   const chromaFails = chromaIssues.length;
   const cvdFails = cvdFailures.length;
-  const lightnessFail = lightnessAnalysis.pass ? 0 : 1;
-  const hueFail = hueAnalysis.pass ? 0 : 1;
+  const uiVisibilityFails = uiVisibilityIssues.length + (cursorVisibility.pass ? 0 : 1);
   const compoundFails = compoundAnalysis.tokensFailing;
-  // Only cross-group issues are real problems; within-group variance is informational
-  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && crossGroupTooSimilar === 0 && chromaFails === 0 && cvdFails === 0 && lightnessFail === 0 && hueFail === 0 && compoundFails === 0;
+  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && crossGroupTooSimilar === 0 && chromaFails === 0 && cvdFails === 0 && uiVisibilityFails === 0 && compoundFails === 0;
 
   output.push('');
-  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} too_similar=${crossGroupTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} cvd_fail=${cvdFails} compound_fail=${compoundFails} lightness=${lightnessFail ? 'uneven' : 'ok'} hue=${hueFail ? 'clustered' : 'ok'} within_vary=${withinGroupVaries} ready=${ready}`);
+  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} too_similar=${crossGroupTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} cvd_fail=${cvdFails} ui_visible_fail=${uiVisibilityFails} compound_fail=${compoundFails} ready=${ready}`);
 
   // Print all output (or filter if --issues-only and ready)
   if (options.issuesOnly && ready) {
-    console.log('SUMMARY pass=' + total.pass + '/' + defined + ' fail=0 too_similar=0 distinction_fail=0 chroma_fail=0 cvd_fail=0 compound_fail=0 lightness=ok hue=ok within_vary=0 ready=true');
+    console.log('SUMMARY pass=' + total.pass + '/' + defined + ' fail=0 too_similar=0 distinction_fail=0 chroma_fail=0 cvd_fail=0 ui_visible_fail=0 compound_fail=0 ready=true');
   } else {
     console.log(output.join('\n'));
   }

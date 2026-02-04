@@ -50,34 +50,76 @@ export const chroma = {
 } as const;
 
 // =============================================================================
-// HUE PRIMITIVES
+// HUE PRIMITIVES - 12-TONE CHROMATIC SYSTEM
 // =============================================================================
-// JzCzhz hue angles (0-360°) - distributed for 30°+ separation
+// Based on musical equal temperament: 12 hues at exactly 30° intervals
+// F# (180°) = Miku's teal = The "tonic" of the theme
+//
+// Musical notes mapped to hue wheel:
+//   C=0°  C#=30°  D=60°  D#=90°  E=120°  F=150°
+//   F#=180° (MIKU)  G=210°  G#=240°  A=270°  A#=300°  B=330°
 
 export const hue = {
-  // Core brand identity
-  mikuTeal: JZ_HUE.mikuTeal,      // 178° - Signature
-  mikuPink: JZ_HUE.mikuPink,      // 340° - Accent
+  // ═══════════════════════════════════════════════════════════════════════════
+  // THE 12 CHROMATIC TONES (exactly 30° apart)
+  // ═══════════════════════════════════════════════════════════════════════════
 
-  // Syntax spectrum (evenly distributed)
-  coral: JZ_HUE.coral,            // 15°  - Tags, hot
-  red: JZ_HUE.red,                // 20°  - Terminal red
-  peach: JZ_HUE.peach,            // 40°  - Parameters
-  amber: JZ_HUE.amber,            // 70°  - Constants
-  gold: JZ_HUE.gold,              // 88°  - Functions
-  lime: JZ_HUE.lime,              // 120° - Classes
-  mint: JZ_HUE.mint,              // 145° - Strings
-  ice: JZ_HUE.ice,                // 195° - Enums
-  sky: JZ_HUE.sky,                // 210° - Variables
-  periwinkle: JZ_HUE.periwinkle,  // 250° - Macros
-  lavender: JZ_HUE.lavender,      // 275° - Comments
-  orchid: JZ_HUE.orchid,          // 290° - Types
-  magenta: JZ_HUE.magenta,        // 320° - Terminal
-  rose: JZ_HUE.rose,              // 330° - Interfaces
+  // C  - Red (0°) - Tritone from Miku = maximum tension
+  red: 0,              // Errors, critical, git deleted
 
-  // Git status
-  gitRed: JZ_HUE.gitRed,          // 10°  - Deleted
-  gitViolet: JZ_HUE.gitViolet,    // 265° - Conflict
+  // C# - Coral (30°) - Warm accent
+  coral: 30,           // Tags, parameters, warm identifiers
+
+  // D  - Gold (60°) - Relative minor to Miku
+  gold: 60,            // Functions, callables (energetic)
+
+  // D# - Lime (90°) - Chromatic passing tone
+  lime: 90,            // Regexp, escape sequences
+
+  // E  - Green (120°) - Submediant
+  green: 120,          // Strings, success, git added
+
+  // F  - Mint (150°) - Leading tone to Miku
+  mint: 150,           // Methods, storage (leads to keyword)
+
+  // F# - Teal (180°) - ★ MIKU TONIC ★
+  mikuTeal: 180,       // Keywords, info, the heart of code
+
+  // G  - Cyan (210°) - Supertonic/Dominant
+  cyan: 210,           // Variables, identifiers (common, neutral)
+
+  // G# - Blue (240°) - Flat 6
+  blue: 240,           // Numbers, constants
+
+  // A  - Violet (270°) - Relative major
+  violet: 270,         // Types, classes (stately, structural)
+
+  // A# - Magenta (300°) - Mediant
+  magenta: 300,        // Interfaces, decorators
+
+  // B  - Pink (330°) - Subdominant
+  pink: 330,           // Operators, special (Miku's accent color)
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // SEMANTIC ALIASES (for backward compatibility)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Core brand
+  mikuPink: 330,       // = B (Pink) - Headphone/accent color
+
+  // Syntax aliases (map to nearest chromatic tone)
+  peach: 30,           // = C# (Coral)
+  amber: 60,           // = D (Gold)
+  sky: 210,            // = G (Cyan)
+  ice: 210,            // = G (Cyan) - for enums
+  periwinkle: 240,     // = G# (Blue)
+  lavender: 270,       // = A (Violet)
+  orchid: 270,         // = A (Violet)
+  rose: 330,           // = B (Pink)
+
+  // Git status (using chromatic tones)
+  gitRed: 0,           // = C (Red)
+  gitViolet: 270,      // = A (Violet)
 } as const;
 
 // =============================================================================
@@ -219,21 +261,29 @@ export interface ChromaValues {
 }
 
 export interface HueValues {
-  mikuTeal: number;
+  // 12-tone chromatic scale
+  red: number;        // C  (0°)
+  coral: number;      // C# (30°)
+  gold: number;       // D  (60°)
+  lime: number;       // D# (90°)
+  green: number;      // E  (120°)
+  mint: number;       // F  (150°)
+  mikuTeal: number;   // F# (180°) - TONIC
+  cyan: number;       // G  (210°)
+  blue: number;       // G# (240°)
+  violet: number;     // A  (270°)
+  magenta: number;    // A# (300°)
+  pink: number;       // B  (330°)
+
+  // Semantic aliases
   mikuPink: number;
-  coral: number;
-  red: number;
   peach: number;
   amber: number;
-  gold: number;
-  lime: number;
-  mint: number;
-  ice: number;
   sky: number;
+  ice: number;
   periwinkle: number;
   lavender: number;
   orchid: number;
-  magenta: number;
   rose: number;
   gitRed: number;
   gitViolet: number;

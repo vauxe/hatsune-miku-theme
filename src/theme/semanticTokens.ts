@@ -8,9 +8,12 @@
  * Colors validated for APCA Lc 60+ against editor background.
  */
 
+// Token system provides themeColors bridge
+import { themeColors } from '../tokens';
+
+// Palette provides character and event colors
 import {
   character,
-  themeColors,
   snowMiku,
   digitalStars,
   leoNeed,

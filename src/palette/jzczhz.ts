@@ -152,33 +152,61 @@ export const CHROMA = {
 } as const;
 
 /**
- * Miku theme hue palette (JzCzhz hue angles)
- * Distributed for maximum distinction (30°+ separation)
+ * 12-TONE CHROMATIC HUE SYSTEM
+ *
+ * Based on musical equal temperament:
+ * - 12 hues at exactly 30° intervals (like 12 semitones in an octave)
+ * - F# (180°) = Miku's teal = The "tonic" of the theme
+ *
+ * Musical mapping:
+ *   C=0° C#=30° D=60° D#=90° E=120° F=150° F#=180° G=210° G#=240° A=270° A#=300° B=330°
+ *
+ * This ensures perfect 30° separation between all colors,
+ * creating natural visual harmony like musical intervals.
  */
 export const HUE = {
-  // Core Miku identity
-  mikuTeal: 178,      // Signature teal (from #39C5BB)
-  mikuPink: 340,      // Headphone accent
+  // ═══════════════════════════════════════════════════════════════════════════
+  // THE 12 CHROMATIC TONES
+  // ═══════════════════════════════════════════════════════════════════════════
 
-  // Syntax hues (evenly distributed)
-  gold: 88,           // Functions - warm
-  mint: 145,          // Strings - fresh
-  sky: 210,           // Variables - cool
-  orchid: 290,        // Types - purple
-  peach: 40,          // Parameters - warm
-  lime: 120,          // Classes - natural
-  coral: 15,          // Tags - warm accent
-  lavender: 275,      // Comments - neutral
-  amber: 70,          // Constants - earthy
-  rose: 330,          // Interfaces - accent
-  ice: 195,           // Enums - cool
-  periwinkle: 250,    // Macros - blue-violet
+  // C  (0°)   - Red     : Errors, critical (tritone = max tension from Miku)
+  // C# (30°)  - Coral   : Tags, parameters (warm accent)
+  // D  (60°)  - Gold    : Functions (relative minor - energetic)
+  // D# (90°)  - Lime    : Regexp, escapes (chromatic passing)
+  // E  (120°) - Green   : Strings, success (submediant)
+  // F  (150°) - Mint    : Methods, storage (leading tone)
+  // F# (180°) - Teal    : ★ MIKU TONIC ★ Keywords, info
+  // G  (210°) - Cyan    : Variables (dominant - neutral)
+  // G# (240°) - Blue    : Numbers (flat 6)
+  // A  (270°) - Violet  : Types, classes (relative major)
+  // A# (300°) - Magenta : Interfaces, decorators (mediant)
+  // B  (330°) - Pink    : Operators (subdominant - accent)
 
-  // Terminal ANSI hues
-  red: 20,            // Terminal red - warm coral
-  magenta: 320,       // Terminal magenta
+  // Core Miku identity (chromatic positions)
+  mikuTeal: 180,      // F# - THE TONIC - signature teal
+  mikuPink: 330,      // B  - Subdominant - headphone accent
 
-  // Git hues
-  gitRed: 10,         // Git deleted - pure red
-  gitViolet: 265,     // Git conflict - violet
+  // Syntax hues (chromatic scale)
+  red: 0,             // C  - Terminal red, errors
+  coral: 30,          // C# - Tags, warm accent
+  gold: 60,           // D  - Functions
+  lime: 90,           // D# - Regexp, escapes
+  green: 120,         // E  - Strings (alias)
+  mint: 150,          // F  - Methods, storage
+  // mikuTeal: 180    // F# - (defined above)
+  sky: 210,           // G  - Variables
+  ice: 210,           // G  - Enums (same as sky)
+  periwinkle: 240,    // G# - Macros
+  lavender: 270,      // A  - Comments (muted violet)
+  orchid: 270,        // A  - Types (same as violet)
+  magenta: 300,       // A# - Terminal magenta
+  rose: 330,          // B  - Interfaces (same as pink)
+
+  // Semantic aliases
+  peach: 30,          // = C# (Coral)
+  amber: 60,          // = D (Gold)
+
+  // Git status
+  gitRed: 0,          // C  - Deleted (pure red)
+  gitViolet: 270,     // A  - Conflict (violet)
 } as const;

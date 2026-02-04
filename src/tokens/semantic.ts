@@ -97,6 +97,134 @@ export interface GitTokens {
   untracked: SemanticRole;
   conflicting: SemanticRole;
   renamed: SemanticRole;
+  stageModified: SemanticRole;
+  stageDeleted: SemanticRole;
+  submodule: SemanticRole;
+}
+
+// =============================================================================
+// TERMINAL TOKENS
+// =============================================================================
+
+export interface TerminalTokens {
+  black: SemanticRole;
+  red: SemanticRole;
+  green: SemanticRole;
+  yellow: SemanticRole;
+  blue: SemanticRole;
+  magenta: SemanticRole;
+  cyan: SemanticRole;
+  white: SemanticRole;
+  brightBlack: SemanticRole;
+  brightRed: SemanticRole;
+  brightGreen: SemanticRole;
+  brightYellow: SemanticRole;
+  brightBlue: SemanticRole;
+  brightMagenta: SemanticRole;
+  brightCyan: SemanticRole;
+  brightWhite: SemanticRole;
+}
+
+// =============================================================================
+// SYMBOL TOKENS
+// =============================================================================
+
+export interface SymbolTokens {
+  array: SemanticRole;
+  boolean: SemanticRole;
+  constant: SemanticRole;
+  constructor: SemanticRole;
+  enumerator: SemanticRole;
+  enumeratorMember: SemanticRole;
+  field: SemanticRole;
+  folder: SemanticRole;
+  function: SemanticRole;
+  interface: SemanticRole;
+  method: SemanticRole;
+  module: SemanticRole;
+  namespace: SemanticRole;
+  number: SemanticRole;
+  operator: SemanticRole;
+  package: SemanticRole;
+  property: SemanticRole;
+  reference: SemanticRole;
+  snippet: SemanticRole;
+  string: SemanticRole;
+  struct: SemanticRole;
+  typeParameter: SemanticRole;
+  variable: SemanticRole;
+}
+
+// =============================================================================
+// BRACKET TOKENS
+// =============================================================================
+
+export interface BracketTokens {
+  bracket1: SemanticRole;
+  bracket2: SemanticRole;
+  bracket3: SemanticRole;
+  bracket4: SemanticRole;
+  bracket5: SemanticRole;
+  bracket6: SemanticRole;
+}
+
+// =============================================================================
+// SUPPORT TOKENS (Built-in/Library colors)
+// =============================================================================
+
+export interface SupportTokens {
+  function: SemanticRole;
+  class: SemanticRole;
+  type: SemanticRole;
+  constant: SemanticRole;
+  variable: SemanticRole;
+}
+
+// =============================================================================
+// MARKDOWN TOKENS
+// =============================================================================
+
+export interface MarkdownTokens {
+  codeBlock: SemanticRole;
+  quote: SemanticRole;
+  docComment: SemanticRole;
+  alertImportant: SemanticRole;
+  alertNote: SemanticRole;
+  alertTip: SemanticRole;
+}
+
+// =============================================================================
+// DEBUG TOKENS
+// =============================================================================
+
+export interface DebugTokens {
+  name: SemanticRole;
+  value: SemanticRole;
+  string: SemanticRole;
+}
+
+// =============================================================================
+// EXTENDED UI TOKENS
+// =============================================================================
+
+export interface ExtendedUITokens {
+  void: SemanticRole;
+  pureWhite: SemanticRole;
+  nearWhite: SemanticRole;
+  tertiary: SemanticRole;
+  disabled: SemanticRole;
+  disabledSubtle: SemanticRole;
+  ghostText: SemanticRole;
+  placeholder: SemanticRole;
+  whitespace: SemanticRole;
+  ruler: SemanticRole;
+  terminalHint: SemanticRole;
+  terminalGuide: SemanticRole;
+  operator: SemanticRole;
+  deprecated: SemanticRole;
+  variableLanguage: SemanticRole;
+  minimapOpacity: string; // Special: not a role, just a hex value
+  error: SemanticRole;
 }
 
 // =============================================================================
@@ -142,10 +270,16 @@ export interface InteractiveTokens {
 
 export interface SemanticTokens {
   syntax: SyntaxTokens;
-  ui: UITokens;
+  ui: UITokens & ExtendedUITokens;
   status: StatusTokens;
   git: GitTokens;
   interactive: InteractiveTokens;
+  terminal: TerminalTokens;
+  symbol: SymbolTokens;
+  bracket: BracketTokens;
+  support: SupportTokens;
+  markdown: MarkdownTokens;
+  debug: DebugTokens;
 }
 
 // =============================================================================
@@ -363,7 +497,7 @@ export function createSemanticTokens(
       ),
       type: role(
         'Type annotations - orchid',
-        L.primary, C.comfortable, H.orchid
+        L.primary + 0.015, C.comfortable, H.orchid  // Boosted lightness for variable distinction
       ),
       typeParameter: role(
         'Generic type parameters - muted sky',
@@ -385,7 +519,7 @@ export function createSemanticTokens(
       // FUNCTIONS - Gold (Magical Mirai wand)
       function: role(
         'Functions - vibrant gold',
-        L.vibrant, C.vibrant, H.gold
+        L.vibrant + 0.01, C.vibrant, H.gold  // Boosted lightness for compound bg
       ),
       method: role(
         'Methods - distinct from keyword',
@@ -395,7 +529,7 @@ export function createSemanticTokens(
       // CLASSES - Negi lime / Pink accent
       class: role(
         'Classes - negi lime',
-        L.vibrant, C.vibrant, H.lime
+        L.vibrant - 0.01, C.vibrant, H.lime  // Slightly darker for function distinction
       ),
       interface: role(
         'Interfaces - Miku pink',
@@ -406,10 +540,11 @@ export function createSemanticTokens(
         L.vibrant, C.vibrant, H.lime
       ),
 
-      // VARIABLES - Sky / Warm peach
+      // VARIABLES - Blue (G# = 240°) - shifted for keyword distinction
+      // 60° from keyword (180°) instead of 30°
       variable: role(
         'Variables - blue',
-        L.primary, C.comfortable, 235 // Shifted for keyword distinction
+        L.primary - 0.01, C.comfortable, H.blue  // 240° - lower lightness + different hue
       ),
       parameter: role(
         'Parameters - warm peach',
@@ -436,8 +571,8 @@ export function createSemanticTokens(
 
       // NUMBERS & LITERALS
       number: role(
-        'Numbers - muted blue',
-        L.muted, C.muted, H.sky + 15
+        'Numbers - muted cyan',
+        L.muted, C.muted, H.cyan  // 210° - muted, distinct from variable (240°)
       ),
       boolean: role(
         'Booleans - muted orchid',
@@ -458,14 +593,16 @@ export function createSemanticTokens(
         L.primaryWarm, C.comfortable, H.amber - 5
       ),
 
-      // COMMENTS
+      // COMMENTS - Gray-green (D# = 90° Lime with very low chroma)
+      // Positioned between functions (60°) and strings (120°)
+      // Very low chroma makes it appear gray with subtle warmth
       comment: role(
-        'Comments - muted gold',
-        L.muted, C.muted, 60 // Far from keyword/type/variable
+        'Comments - gray-green',
+        L.muted - 0.015, C.gray, H.lime  // 90° - warm gray, distinct from cool syntax
       ),
       commentDoc: role(
         'Doc comments - muted teal',
-        L.muted, C.muted, H.mikuTeal - 5
+        L.muted, C.muted, H.mikuTeal  // 180° - Miku's voice in the margins
       ),
 
       // OPERATORS
@@ -543,6 +680,72 @@ export function createSemanticTokens(
         'Active link - vibrant teal',
         L.vibrant, C.vibrant, H.mikuTeal
       ),
+      // Extended UI tokens
+      void: roleFromHex(
+        'Deepest void - near black',
+        '#0A0D10'
+      ),
+      pureWhite: roleFromHex(
+        'Pure white - maximum contrast',
+        '#FFFFFF'
+      ),
+      nearWhite: roleFromHex(
+        'Near white - soft white',
+        '#F8F8F8'
+      ),
+      tertiary: role(
+        'Tertiary text - muted sky',
+        L.tertiary, 0.015, H.sky
+      ),
+      disabled: role(
+        'Disabled state - same as tertiary',
+        L.tertiary, 0.015, H.sky
+      ),
+      disabledSubtle: role(
+        'Very subtle disabled',
+        0.08, 0.015, H.sky
+      ),
+      ghostText: role(
+        'Ghost text - Lc 45+ teal hint',
+        L.tertiary + 0.02, 0.025, H.mikuTeal
+      ),
+      placeholder: role(
+        'Placeholder text - Non-Text Lc 30+',
+        L.tertiary, 0.020, H.sky
+      ),
+      whitespace: role(
+        'Whitespace markers',
+        L.tertiary, 0.015, H.sky
+      ),
+      ruler: role(
+        'Rulers',
+        L.tertiary, 0.015, H.sky
+      ),
+      terminalHint: role(
+        'Terminal hints - Lc 40',
+        0.10, 0.030, H.mikuTeal
+      ),
+      terminalGuide: role(
+        'Terminal command guide',
+        0.07, 0.025, H.mikuTeal
+      ),
+      operator: role(
+        'Operators - pink/magenta',
+        L.primaryWarm, C.comfortable, H.mikuPink
+      ),
+      deprecated: role(
+        'Deprecated - lavender',
+        L.primary, C.comfortable, H.lavender
+      ),
+      variableLanguage: role(
+        'Language variables - shifted teal',
+        L.vibrant, C.vibrant, H.mikuTeal - 3
+      ),
+      minimapOpacity: '#000000DD',
+      error: role(
+        'Pink error - accent tier',
+        L.vibrantWarm, C.vibrant, H.mikuPink
+      ),
     },
 
     // =========================================================================
@@ -595,12 +798,126 @@ export function createSemanticTokens(
         'Git renamed - lavender',
         L.primary, C.comfortable, H.lavender
       ),
+      stageModified: role(
+        'Git stage modified - cyan',
+        L.vibrant, C.vibrant, H.ice
+      ),
+      stageDeleted: role(
+        'Git stage deleted - light lavender',
+        L.primary, C.comfortable, H.lavender
+      ),
+      submodule: role(
+        'Git submodule - sky blue',
+        L.primary, C.comfortable, H.sky
+      ),
     },
 
     // =========================================================================
     // INTERACTIVE TOKENS
     // =========================================================================
     interactive: createInteractiveTokens(p),
+
+    // =========================================================================
+    // TERMINAL TOKENS (ANSI colors)
+    // =========================================================================
+    terminal: {
+      black: roleFromHex('Terminal black - darker than text', '#15191D'),
+      red: role('Terminal red - warm coral', L.vibrantWarm, C.vibrant, H.red),
+      green: role('Terminal green - mint', L.vibrant, C.vibrant, H.mint),
+      yellow: role('Terminal yellow - gold', L.vibrant, C.vibrant, H.gold),
+      blue: role('Terminal blue - periwinkle', L.primary, C.comfortable, H.periwinkle),
+      magenta: role('Terminal magenta', L.vibrantWarm, C.vibrant, H.magenta),
+      cyan: role('Terminal cyan - Miku teal', L.vibrant, C.vibrant, H.mikuTeal),
+      white: role('Terminal white - warm off-white', L.muted, C.muted, H.peach),
+      brightBlack: role('Terminal bright black - gray', L.tertiary + 0.03, 0.020, H.sky),
+      brightRed: role('Terminal bright red - light coral', L.primaryWarm, C.comfortable, H.red),
+      brightGreen: role('Terminal bright green - mint', L.primary, C.comfortable, H.mint),
+      brightYellow: role('Terminal bright yellow - warm amber', L.primaryWarm, C.comfortable, H.amber),
+      brightBlue: role('Terminal bright blue - light blue', L.primary, C.comfortable, H.sky),
+      brightMagenta: role('Terminal bright magenta - light rose', L.primaryWarm, C.comfortable, H.rose),
+      brightCyan: role('Terminal bright cyan', L.primary, C.comfortable, H.mikuTeal),
+      brightWhite: role('Terminal bright white - icy', L.primary, 0.030, H.ice),
+    },
+
+    // =========================================================================
+    // SYMBOL TOKENS (VS Code symbol icons)
+    // =========================================================================
+    symbol: {
+      // Red-orange range (0-60°)
+      property: role('Symbol property - pure red', L.vibrantWarm, C.vibrant, 0),
+      typeParameter: role('Symbol type parameter - coral', L.primaryWarm, C.comfortable, 20),
+      field: role('Symbol field - peach', L.primaryWarm, C.comfortable, 40),
+      // Orange-yellow range (60-120°)
+      function: role('Symbol function - amber', L.primaryWarm, C.comfortable, 60),
+      package: role('Symbol package - gold', L.primaryWarm, C.comfortable, 80),
+      reference: role('Symbol reference - yellow-lime', L.primaryWarm, C.comfortable, 100),
+      enumeratorMember: role('Symbol enum member - lime', L.primary, C.comfortable, 120),
+      // Green range (120-180°)
+      struct: role('Symbol struct - mint', L.primary, C.comfortable, 145),
+      constructor: role('Symbol constructor - teal-mint', L.primary, C.comfortable, 158),
+      folder: role('Symbol folder - teal', L.vibrant, C.vibrant, 172),
+      // Cyan range (180-240°)
+      array: role('Symbol array - Miku teal', L.primary, C.comfortable, H.mikuTeal),
+      operator: role('Symbol operator - cyan', L.primary, C.comfortable, 205),
+      number: role('Symbol number - sky', L.primary, C.comfortable, 220),
+      interface: role('Symbol interface - indigo', L.primary, C.comfortable, 265),
+      // Blue-violet range (240-300°)
+      boolean: role('Symbol boolean - indigo', L.primary, C.comfortable, 260),
+      namespace: role('Symbol namespace - lavender', L.primary, C.comfortable, 275),
+      method: role('Symbol method - violet', L.primary, C.comfortable, 290),
+      enumerator: role('Symbol enumerator - orchid', L.primary, C.comfortable, 305),
+      // Magenta-pink range (300-360°)
+      snippet: role('Symbol snippet - magenta', L.primary, C.comfortable, 310),
+      string: role('Symbol string - lime-green', L.primary, C.comfortable, 115),
+      constant: role('Symbol constant - rose', L.primaryWarm, C.comfortable, 340),
+      // Special icons (vibrant)
+      variable: role('Symbol variable - sky-blue', L.vibrant, C.vibrant, 228),
+      module: role('Symbol module - blue', L.primary, C.comfortable, 240),
+    },
+
+    // =========================================================================
+    // BRACKET TOKENS (Rainbow brackets)
+    // =========================================================================
+    bracket: {
+      bracket1: role('Bracket 1 - peach', L.accent, C.comfortable, H.peach),
+      bracket2: role('Bracket 2 - lavender', L.accent, C.comfortable, H.lavender),
+      bracket3: role('Bracket 3 - lime', L.accent, C.comfortable, H.lime),
+      bracket4: role('Bracket 4 - teal', L.accent, C.comfortable, H.mikuTeal),
+      bracket5: role('Bracket 5 - sky', L.accent, C.comfortable, H.sky),
+      bracket6: role('Bracket 6 - gold', L.accent, C.comfortable, H.gold),
+    },
+
+    // =========================================================================
+    // SUPPORT TOKENS (Built-in/Library colors)
+    // =========================================================================
+    support: {
+      function: role('Support function - vibrant gold', L.vibrant, C.vibrant, H.gold),
+      class: role('Support class - negi lime', L.vibrant, C.vibrant, H.lime),
+      type: role('Support type - orchid', L.primary, C.comfortable, H.orchid),
+      constant: role('Support constant - amber', L.primaryWarm, C.comfortable, H.amber),
+      variable: role('Support variable - sky', L.primary, C.comfortable, H.sky),
+    },
+
+    // =========================================================================
+    // MARKDOWN TOKENS
+    // =========================================================================
+    markdown: {
+      codeBlock: role('Markdown code - bright cyan', L.vibrant, C.vibrant, H.ice),
+      quote: role('Block quotes - sky cyan', L.vibrant, C.vibrant, H.sky),
+      docComment: role('Doc comments - silver-cyan', L.primary, C.comfortable, H.ice),
+      alertImportant: role('Alert important - magenta', L.vibrantWarm, C.vibrant, H.magenta),
+      alertNote: role('Alert note - bright cyan', L.vibrant, C.vibrant, H.ice),
+      alertTip: role('Alert tip - bright mint', L.vibrant, C.vibrant, H.mint),
+    },
+
+    // =========================================================================
+    // DEBUG TOKENS
+    // =========================================================================
+    debug: {
+      name: role('Debug name - soft rose', L.primaryWarm, C.comfortable, H.rose),
+      value: role('Debug value - lime green', L.vibrant, C.vibrant, H.lime),
+      string: role('Debug string - lime', L.primary, C.comfortable, H.lime + 5),
+    },
   };
 }
 
@@ -805,6 +1122,72 @@ export function getStatusColors(tokens: SemanticTokens = semanticTokens): Record
 export function getGitColors(tokens: SemanticTokens = semanticTokens): Record<string, string> {
   const result: Record<string, string> = {};
   for (const [key, value] of Object.entries(tokens.git)) {
+    result[key] = value.hex;
+  }
+  return result;
+}
+
+/**
+ * Get all terminal colors as a flat hex map
+ */
+export function getTerminalColors(tokens: SemanticTokens = semanticTokens): Record<string, string> {
+  const result: Record<string, string> = {};
+  for (const [key, value] of Object.entries(tokens.terminal)) {
+    result[key] = value.hex;
+  }
+  return result;
+}
+
+/**
+ * Get all symbol colors as a flat hex map
+ */
+export function getSymbolColors(tokens: SemanticTokens = semanticTokens): Record<string, string> {
+  const result: Record<string, string> = {};
+  for (const [key, value] of Object.entries(tokens.symbol)) {
+    result[key] = value.hex;
+  }
+  return result;
+}
+
+/**
+ * Get all bracket colors as a flat hex map
+ */
+export function getBracketColors(tokens: SemanticTokens = semanticTokens): Record<string, string> {
+  const result: Record<string, string> = {};
+  for (const [key, value] of Object.entries(tokens.bracket)) {
+    result[key] = value.hex;
+  }
+  return result;
+}
+
+/**
+ * Get all support colors as a flat hex map
+ */
+export function getSupportColors(tokens: SemanticTokens = semanticTokens): Record<string, string> {
+  const result: Record<string, string> = {};
+  for (const [key, value] of Object.entries(tokens.support)) {
+    result[key] = value.hex;
+  }
+  return result;
+}
+
+/**
+ * Get all markdown colors as a flat hex map
+ */
+export function getMarkdownColors(tokens: SemanticTokens = semanticTokens): Record<string, string> {
+  const result: Record<string, string> = {};
+  for (const [key, value] of Object.entries(tokens.markdown)) {
+    result[key] = value.hex;
+  }
+  return result;
+}
+
+/**
+ * Get all debug colors as a flat hex map
+ */
+export function getDebugColors(tokens: SemanticTokens = semanticTokens): Record<string, string> {
+  const result: Record<string, string> = {};
+  for (const [key, value] of Object.entries(tokens.debug)) {
     result[key] = value.hex;
   }
   return result;

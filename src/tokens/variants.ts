@@ -114,29 +114,36 @@ export const lightCharacter: CharacterColors = {
  * Sakura Miku: Teal becomes pink, other hues shifted accordingly
  */
 export const sakuraHue: HueValues = {
-  // Core brand identity - pink instead of teal
-  mikuTeal: 340,         // Pink (was 178° teal)
-  mikuPink: 280,         // Purple (was 340° pink)
+  // 12-tone chromatic scale for Sakura theme
+  // Tonal center shifts: Teal (180°) → Pink (330°)
+  // The "tonic" becomes cherry blossom pink
+  red: 0,
+  coral: 30,
+  gold: 60,
+  lime: 90,
+  green: 120,
+  mint: 150,
+  mikuTeal: 330,         // Pink becomes the new "tonic"
+  cyan: 210,
+  blue: 240,
+  violet: 270,
+  magenta: 300,
+  pink: 180,             // Teal becomes the accent (swapped)
 
-  // Syntax spectrum - rotated to complement pink
-  coral: 15,             // Keep warm
-  red: 20,
-  peach: 40,
-  amber: 70,
-  gold: 88,
-  lime: 150,             // Shifted green
-  mint: 170,             // Shifted mint
-  ice: 195,
+  // Semantic aliases - rotated for sakura
+  mikuPink: 180,         // Teal accent (was pink)
+  peach: 30,
+  amber: 60,
   sky: 210,
-  periwinkle: 250,
-  lavender: 275,
-  orchid: 310,           // Shifted to pink-magenta
-  magenta: 330,
-  rose: 350,             // Warmer rose
+  ice: 210,
+  periwinkle: 240,
+  lavender: 270,
+  orchid: 300,           // Shifted toward magenta
+  rose: 330,
 
   // Git status
-  gitRed: 10,
-  gitViolet: 265,
+  gitRed: 0,
+  gitViolet: 270,
 };
 
 /**

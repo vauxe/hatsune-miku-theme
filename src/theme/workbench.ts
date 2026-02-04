@@ -12,9 +12,12 @@
  * - Semantic: green (success), gold (warning), red (error)
  */
 
+// Token system provides themeColors bridge
+import { themeColors } from '../tokens';
+
+// Palette provides character, voicebank, event, and game colors
 import {
   character,
-  themeColors,
   // Voicebanks - Miku's evolution
   mikuV2,
   mikuV3,

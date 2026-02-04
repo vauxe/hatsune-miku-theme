@@ -1263,14 +1263,24 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
 ] as const;
 
 // =============================================================================
-// INTRA-GROUP COHESION
+// UI VISIBILITY THRESHOLDS
 // =============================================================================
 
 /**
- * Maximum Delta E for tokens within the same semantic group.
- * Tokens in the same group should have similar colors for cognitive consistency.
+ * Thresholds for UI element visibility that users directly notice.
  */
-export const INTRA_GROUP_MAX_DELTA_E = 10;
+export const UI_VISIBILITY = {
+  /** Minimum ΔE for selection background vs editor background (can you SEE the selection?) */
+  selectionVisibility: 8,
+  /** Minimum ΔE for find match background vs editor background */
+  findMatchVisibility: 12,
+  /** Minimum APCA Lc for cursor against editor background */
+  cursorContrast: 60,
+  /** Minimum ΔE for active vs inactive tab backgrounds */
+  tabDistinction: 8,
+  /** Minimum ΔE for diff added vs removed backgrounds */
+  diffDistinction: 15,
+} as const;
 
 // =============================================================================
 // COMPOUND BACKGROUND CONTRAST

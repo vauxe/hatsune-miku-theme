@@ -10,10 +10,11 @@
  * Colors validated for APCA Lc 60+ against editor background.
  */
 
-import {
-  themeColors,
-  character,
-} from '../palette';
+// Token system provides themeColors bridge
+import { themeColors } from '../tokens';
+
+// Palette provides character colors
+import { character } from '../palette';
 
 // ============================================================================
 // COLOR DEFINITIONS - All sourced from palette
