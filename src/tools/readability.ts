@@ -47,8 +47,14 @@ import {
   SEMANTIC_DISTINCTION_THRESHOLDS,
   INTRA_GROUP_MAX_DELTA_E,
   getTokenGroup,
+  // CVD (Color Vision Deficiency)
+  CVD_CRITICAL_PAIRS,
+  CVD_DISTINCTION_THRESHOLD,
+  // Compound background contrast
+  COMPOUND_BACKGROUND_KEYS,
+  COMPOUND_SYNTAX_TOKENS,
 } from './readability-constants';
-import type { BgKeyName, ChromaTier } from './readability-constants';
+import type { BgKeyName, ChromaTier, CompoundBgKeyName } from './readability-constants';
 
 import {
   isValidHex,
@@ -61,6 +67,13 @@ import {
   getDistinctionLevel,
   getChroma,
   analyzeChroma,
+  checkCVDDistinction,
+  simulateCVD,
+  analyzeLightnessUniformity,
+  analyzeHueDistribution,
+  suggestContrastFix,
+  suggestDistinctionFix,
+  suggestChromaFix,
 } from './readability-color';
 
 import {
@@ -80,6 +93,12 @@ import type {
   GroupCohesionResult,
   CrossGroupDistinctionResult,
   SemanticDistinctionAnalysis,
+  CVDFailure,
+  LightnessUniformityResult,
+  HueDistributionResult,
+  CompoundBackgroundFailure,
+  CompoundBackgroundIssue,
+  CompoundBackgroundAnalysis,
 } from './readability-types';
 
 // =============================================================================
@@ -419,6 +438,177 @@ function analyzeSemanticDistinction(
   };
 }
 
+// =============================================================================
+// COLOR VISION DEFICIENCY (CVD) ANALYSIS
+// =============================================================================
+
+/**
+ * Analyze critical color pairs for distinguishability under color vision deficiency.
+ * ~8% of males have red-green color blindness (protanopia/deuteranopia).
+ *
+ * @param colors - All extracted theme colors organized by category
+ * @param bg - Background color for alpha compositing
+ * @returns Array of CVD failures (pairs that become indistinguishable under CVD)
+ */
+function analyzeCVD(
+  colors: {
+    git: Record<string, ColorValue>;
+    syntax: Record<string, ColorValue>;
+    terminal: Record<string, ColorValue>;
+    testing: Record<string, ColorValue>;
+  },
+  bg: string
+): CVDFailure[] {
+  const failures: CVDFailure[] = [];
+
+  // Map category names to color sources
+  const colorSources: Record<string, Record<string, ColorValue>> = {
+    git: colors.git,
+    status: colors.syntax,  // error/warning/info are in syntax
+    terminal: colors.terminal,
+    testing: colors.testing,
+    diff: colors.syntax,  // markup colors are in syntax
+  };
+
+  for (const { category, pairs } of CVD_CRITICAL_PAIRS) {
+    const source = colorSources[category];
+    if (!source) continue;
+
+    for (const [name1, name2] of pairs) {
+      const cv1 = source[name1];
+      const cv2 = source[name2];
+
+      // Skip if colors not defined
+      if (!cv1 || !cv2 || cv1.fallback || cv2.fallback) continue;
+
+      const result = checkCVDDistinction(cv1.color, cv2.color, bg);
+
+      // Check if worst CVD type fails the threshold
+      if (result.worstDeltaE < CVD_DISTINCTION_THRESHOLD) {
+        failures.push({
+          name1,
+          name2,
+          color1: cv1.color,
+          color2: cv2.color,
+          category,
+          result,
+          required: CVD_DISTINCTION_THRESHOLD,
+        });
+      }
+    }
+  }
+
+  return failures;
+}
+
+/**
+ * Format a CVD failure as a single line:
+ * CVD category pair1↔pair2 worst=type ΔE=X need=Y (normal=Z)
+ */
+function formatCVDLine(f: CVDFailure): string {
+  const typeLabels = { protan: 'red-blind', deutan: 'green-blind', tritan: 'blue-blind' };
+  const typeLabel = typeLabels[f.result.worstType];
+  return `CVD ${f.category} ${f.name1}↔${f.name2} ${typeLabel} ΔE=${f.result.worstDeltaE.toFixed(1)} need=${f.required} (normal=${f.result.normal.toFixed(1)})`;
+}
+
+// =============================================================================
+// COMPOUND BACKGROUND CONTRAST ANALYSIS
+// =============================================================================
+
+/**
+ * Analyze syntax colors against all overlay backgrounds.
+ *
+ * A syntax color might be readable on editor.background (Lc 80) but fail
+ * when an overlay is applied (selection, find match, diff background).
+ * This analysis finds these hidden failures.
+ *
+ * @param syntax - All syntax colors from theme
+ * @param bg - All resolved background colors
+ * @returns Analysis with any failing token/background combinations
+ */
+function analyzeCompoundBackgroundContrast(
+  syntax: Record<string, ColorValue>,
+  bg: Record<string, string>
+): CompoundBackgroundAnalysis {
+  const failures: CompoundBackgroundFailure[] = [];
+  let tokensAnalyzed = 0;
+  let tokensPassing = 0;
+
+  // Test each primary syntax color using the actual record keys
+  for (const tokenName of COMPOUND_SYNTAX_TOKENS) {
+    const cv = syntax[tokenName];
+    if (!cv || cv.fallback) continue;
+
+    tokensAnalyzed++;
+
+    // First check if it passes on editor.background
+    const editorBg = bg.editor;
+    const editorResult = getAPCAContrast(cv.color, editorBg);
+    const editorLc = Math.abs(editorResult.lc);
+    const tier: APCATier = 'primary';
+    const required = APCA_THRESHOLDS[tier];
+
+    // Skip if it doesn't even pass on editor background (already reported elsewhere)
+    if (editorLc < required) continue;
+
+    // Test against all compound backgrounds
+    const failingBackgrounds: CompoundBackgroundIssue[] = [];
+
+    for (const [bgName, bgKey] of Object.entries(COMPOUND_BACKGROUND_KEYS)) {
+      const bgHex = bg[bgName as keyof typeof bg];
+      if (!bgHex || bgHex === editorBg) continue; // Skip if same as editor or not defined
+
+      const result = getAPCAContrast(cv.color, bgHex);
+      const lc = Math.abs(result.lc);
+
+      if (lc < required) {
+        failingBackgrounds.push({
+          bgName,
+          bgKey,
+          bgHex,
+          lc: Math.round(lc * 10) / 10,
+          required,
+        });
+      }
+    }
+
+    if (failingBackgrounds.length > 0) {
+      // Sort by worst Lc first
+      failingBackgrounds.sort((a, b) => a.lc - b.lc);
+      const worst = failingBackgrounds[0];
+
+      failures.push({
+        tokenName,
+        tokenHex: cv.color,
+        editorLc: Math.round(editorLc * 10) / 10,
+        tier,
+        failingBackgrounds,
+        worstLc: worst.lc,
+        worstBgName: worst.bgName,
+      });
+    } else {
+      tokensPassing++;
+    }
+  }
+
+  return {
+    tokensAnalyzed,
+    tokensPassing,
+    tokensFailing: failures.length,
+    failures,
+    pass: failures.length === 0,
+  };
+}
+
+/**
+ * Format a compound background failure as a single line:
+ * COMPOUND token fails on N backgrounds: worst=bgName Lc=X need≥Y (editor Lc=Z)
+ */
+function formatCompoundLine(f: CompoundBackgroundFailure): string {
+  const bgList = f.failingBackgrounds.map(b => b.bgName).join(', ');
+  return `COMPOUND ${f.tokenName} fails on ${f.failingBackgrounds.length} bg(s): worst=${f.worstBgName} Lc=${f.worstLc} need≥${APCA_THRESHOLDS[f.tier]} (editor Lc=${f.editorLc}) [${bgList}]`;
+}
+
 /**
  * Format a semantic cohesion issue as a single line.
  * WITHIN = tokens within same group have different colors (informational)
@@ -443,16 +633,20 @@ function formatSemanticDistinctionLine(r: CrossGroupDistinctionResult): string {
 
 /**
  * Format a contrast issue as a single line:
- * CONTRAST file:key Lc=X need=Y tier=T bg=background.key reason
+ * CONTRAST file:key Lc=X need=Y tier=T reason → suggestion
  */
 function formatContrastLine(r: ColorResult): string {
   const file = getSourceFile(r.source?.type ?? 'workbench');
   const key = r.source?.key ?? 'unknown';
   const lc = Math.round(Math.abs(r.lc) * 10) / 10;
   const isHalation = r.analysis.failReason === 'halation';
-  const need = isHalation ? `≤${APCA_THRESHOLDS.max}` : `≥${APCA_THRESHOLDS[r.tier]}`;
+  const targetLc = isHalation ? APCA_THRESHOLDS.max : APCA_THRESHOLDS[r.tier];
+  const need = isHalation ? `≤${targetLc}` : `≥${targetLc}`;
   const reason = isHalation ? 'halation' : 'too-dim';
-  return `CONTRAST ${file}:${key} Lc=${lc} need=${need} tier=${r.tier} ${reason}`;
+  const suggestion = isHalation
+    ? 'darken foreground slightly'
+    : suggestContrastFix(r.lc, targetLc, r.analysis.polarity);
+  return `CONTRAST ${file}:${key} Lc=${lc} need=${need} tier=${r.tier} ${reason} → ${suggestion}`;
 }
 
 /**
@@ -531,12 +725,13 @@ function analyzeColorChroma(colors: Record<string, ColorValue>): ChromaResult[] 
 
 /**
  * Format a chroma issue as a single line:
- * CHROMA element color Cz=X tier=T need=min-max reason
+ * CHROMA element color Cz=X tier=T need=min-max reason → suggestion
  */
 function formatChromaLine(r: ChromaResult): string {
   const { min, max } = CHROMA_THRESHOLDS[r.tier];
   const reason = r.failReason === 'too-low' ? 'too-gray' : 'too-vivid';
-  return `CHROMA ${r.name} ${r.color} Cz=${r.chroma} tier=${r.tier} need=${min}-${max} ${reason}`;
+  const suggestion = suggestChromaFix(r.chroma, min, max);
+  return `CHROMA ${r.name} ${r.color} Cz=${r.chroma} tier=${r.tier} need=${min}-${max} ${reason} → ${suggestion}`;
 }
 
 // =============================================================================
@@ -1223,6 +1418,51 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   const chromaResults = analyzeColorChroma(chromaColors);
   const chromaIssues = chromaResults.filter(r => !r.pass);
 
+  // ==========================================================================
+  // CVD (Color Vision Deficiency) ANALYSIS
+  // ==========================================================================
+  // Test critical color pairs for distinguishability under color blindness.
+  // ~8% of males have red-green color blindness (protanopia/deuteranopia).
+
+  const cvdFailures = analyzeCVD(
+    {
+      git: c.git,
+      syntax: c.syntax,
+      terminal: c.terminal,
+      testing: c.testing,
+    },
+    c.bg.editor
+  );
+
+  // ==========================================================================
+  // LIGHTNESS UNIFORMITY ANALYSIS
+  // ==========================================================================
+  // Check that primary syntax colors have similar lightness for visual calm.
+
+  const primarySyntaxColors: Record<string, string> = {};
+  for (const name of PRIMARY_SYNTAX_ELEMENTS) {
+    const cv = c.syntax[name];
+    if (cv && !cv.fallback) {
+      primarySyntaxColors[name] = cv.color;
+    }
+  }
+  const lightnessAnalysis = analyzeLightnessUniformity(primarySyntaxColors);
+
+  // ==========================================================================
+  // HUE DISTRIBUTION ANALYSIS
+  // ==========================================================================
+  // Check that syntax colors are spread across the color wheel.
+
+  const hueAnalysis = analyzeHueDistribution(primarySyntaxColors);
+
+  // ==========================================================================
+  // COMPOUND BACKGROUND CONTRAST ANALYSIS
+  // ==========================================================================
+  // Test syntax colors against ALL overlay backgrounds they might appear on.
+  // A color might be readable on editor.background but fail on selection/find/diff.
+
+  const compoundAnalysis = analyzeCompoundBackgroundContrast(c.syntax, c.bg);
+
   // Aggregate stats
   const total = allStats.reduce((acc, s) => ({
     pass: acc.pass + s.pass,
@@ -1320,6 +1560,62 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       const status = r.pass ? '✓' : '✗';
       output.push(`  ${status} ${r.name.padEnd(20)} ${r.color} Cz=${r.chroma.toString().padStart(3)} ${r.level.padEnd(11)} [${r.tier}]`);
     }
+
+    output.push(`\n=== CVD (COLOR VISION DEFICIENCY) ANALYSIS ===`);
+    output.push(`Testing critical pairs under protanopia, deuteranopia, tritanopia simulation.`);
+    output.push(`Threshold: ΔE ≥ ${CVD_DISTINCTION_THRESHOLD} under worst-case CVD type.`);
+    if (cvdFailures.length === 0) {
+      output.push(`  ✓ All critical pairs pass CVD check`);
+    } else {
+      for (const f of cvdFailures) {
+        output.push(`  ✗ ${f.category}: ${f.name1}↔${f.name2} fails under ${f.result.worstType} (ΔE=${f.result.worstDeltaE.toFixed(1)})`);
+      }
+    }
+
+    output.push(`\n=== LIGHTNESS UNIFORMITY ANALYSIS ===`);
+    output.push(`Checking that syntax colors have consistent lightness (Jz spread ≤ ${(lightnessAnalysis.maxSpread * 450).toFixed(0)}%).`);
+    const spreadPercent = (lightnessAnalysis.spread * 450).toFixed(1);
+    if (lightnessAnalysis.pass) {
+      output.push(`  ✓ Lightness spread: ${spreadPercent}% (uniform)`);
+    } else {
+      output.push(`  ✗ Lightness spread: ${spreadPercent}% (too wide)`);
+      if (lightnessAnalysis.darkest && lightnessAnalysis.lightest) {
+        output.push(`    Darkest:  ${lightnessAnalysis.darkest.name} (Jz=${(lightnessAnalysis.darkest.jz * 450).toFixed(1)}%)`);
+        output.push(`    Lightest: ${lightnessAnalysis.lightest.name} (Jz=${(lightnessAnalysis.lightest.jz * 450).toFixed(1)}%)`);
+      }
+      if (lightnessAnalysis.outliers.length > 0) {
+        output.push(`    Outliers: ${lightnessAnalysis.outliers.map(o => o.name).join(', ')}`);
+      }
+    }
+
+    output.push(`\n=== HUE DISTRIBUTION ANALYSIS ===`);
+    output.push(`Checking that syntax colors are spread across the color wheel (min gap ${hueAnalysis.minGap}°).`);
+    if (hueAnalysis.pass) {
+      output.push(`  ✓ Hues are well distributed`);
+    } else {
+      output.push(`  ✗ ${hueAnalysis.clusters.length} hue cluster(s) detected`);
+      for (const cluster of hueAnalysis.clusters) {
+        output.push(`    Cluster: ${cluster.colors.join(', ')} (hue ${cluster.hueRange[0].toFixed(0)}°-${cluster.hueRange[1].toFixed(0)}°)`);
+      }
+    }
+    if (hueAnalysis.smallestGap !== undefined) {
+      output.push(`  Smallest gap: ${hueAnalysis.smallestGap.toFixed(0)}°`);
+    }
+
+    output.push(`\n=== COMPOUND BACKGROUND CONTRAST ANALYSIS ===`);
+    output.push(`Testing syntax colors against ${Object.keys(COMPOUND_BACKGROUND_KEYS).length} overlay backgrounds.`);
+    output.push(`A color might pass on editor.background but fail on selection/find/diff overlays.`);
+    if (compoundAnalysis.pass) {
+      output.push(`  ✓ All ${compoundAnalysis.tokensAnalyzed} syntax tokens pass on all backgrounds`);
+    } else {
+      output.push(`  ✗ ${compoundAnalysis.tokensFailing} token(s) fail on overlay backgrounds:`);
+      for (const f of compoundAnalysis.failures) {
+        output.push(`    ${f.tokenName} ${f.tokenHex}: editor Lc=${f.editorLc} (ok), fails on:`);
+        for (const bg of f.failingBackgrounds) {
+          output.push(`      - ${bg.bgName} Lc=${bg.lc} (need≥${bg.required})`);
+        }
+      }
+    }
     output.push('');
   } else {
     // Default: only output issues
@@ -1345,6 +1641,29 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     for (const r of chromaIssues) {
       output.push(formatChromaLine(r));
     }
+
+    // CVD failures
+    for (const f of cvdFailures) {
+      output.push(formatCVDLine(f));
+    }
+
+    // Lightness uniformity
+    if (!lightnessAnalysis.pass) {
+      const spread = (lightnessAnalysis.spread * 450).toFixed(1);
+      const max = (lightnessAnalysis.maxSpread * 450).toFixed(0);
+      output.push(`LIGHTNESS spread=${spread}% max=${max}% → ${lightnessAnalysis.suggestion ?? 'reduce spread'}`);
+    }
+
+    // Hue distribution
+    if (!hueAnalysis.pass) {
+      const clusterNames = hueAnalysis.clusters.map(c => c.colors.join('+')).join(', ');
+      output.push(`HUE_CLUSTER ${clusterNames} → ${hueAnalysis.suggestion ?? 'spread hues apart'}`);
+    }
+
+    // Compound background failures
+    for (const f of compoundAnalysis.failures) {
+      output.push(formatCompoundLine(f));
+    }
   }
 
   // Summary line
@@ -1353,15 +1672,19 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   const withinGroupVaries = semanticCohesionIssues.length;  // Informational: same-group tokens differ
   const crossGroupTooSimilar = semanticDistinctionIssues.length;  // Problem: different-group tokens too close
   const chromaFails = chromaIssues.length;
+  const cvdFails = cvdFailures.length;
+  const lightnessFail = lightnessAnalysis.pass ? 0 : 1;
+  const hueFail = hueAnalysis.pass ? 0 : 1;
+  const compoundFails = compoundAnalysis.tokensFailing;
   // Only cross-group issues are real problems; within-group variance is informational
-  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && crossGroupTooSimilar === 0 && chromaFails === 0;
+  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && crossGroupTooSimilar === 0 && chromaFails === 0 && cvdFails === 0 && lightnessFail === 0 && hueFail === 0 && compoundFails === 0;
 
   output.push('');
-  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} too_similar=${crossGroupTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} within_vary=${withinGroupVaries} ready=${ready}`);
+  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} too_similar=${crossGroupTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} cvd_fail=${cvdFails} compound_fail=${compoundFails} lightness=${lightnessFail ? 'uneven' : 'ok'} hue=${hueFail ? 'clustered' : 'ok'} within_vary=${withinGroupVaries} ready=${ready}`);
 
   // Print all output (or filter if --issues-only and ready)
   if (options.issuesOnly && ready) {
-    console.log('SUMMARY pass=' + total.pass + '/' + defined + ' fail=0 too_similar=0 distinction_fail=0 chroma_fail=0 within_vary=0 ready=true');
+    console.log('SUMMARY pass=' + total.pass + '/' + defined + ' fail=0 too_similar=0 distinction_fail=0 chroma_fail=0 cvd_fail=0 compound_fail=0 lightness=ok hue=ok within_vary=0 ready=true');
   } else {
     console.log(output.join('\n'));
   }

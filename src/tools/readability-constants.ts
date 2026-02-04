@@ -252,6 +252,59 @@ export const CRITICAL_DISTINCTION_PAIRS = new Set([
 ]);
 
 /**
+ * CVD-critical distinction pairs - colors that rely on red-green distinction.
+ * ~8% of males have red-green color blindness (protanopia/deuteranopia).
+ * These pairs MUST remain distinguishable under CVD simulation.
+ *
+ * Minimum ΔE under CVD: 12 (reduced from normal 15 due to gamut compression)
+ */
+export const CVD_CRITICAL_PAIRS: {
+  category: string;
+  pairs: readonly (readonly [string, string])[];
+}[] = [
+  {
+    category: 'git',
+    pairs: [
+      ['added', 'deleted'],
+      ['added', 'modified'],
+      ['modified', 'deleted'],
+    ],
+  },
+  {
+    category: 'status',
+    pairs: [
+      ['error', 'warning'],
+      ['error', 'info'],
+    ],
+  },
+  {
+    category: 'terminal',
+    pairs: [
+      ['ansiRed', 'ansiGreen'],
+      ['ansiRed', 'ansiYellow'],
+      ['ansiGreen', 'ansiYellow'],
+    ],
+  },
+  {
+    category: 'testing',
+    pairs: [
+      ['passed', 'failed'],
+      ['passed', 'errored'],
+      ['failed', 'errored'],
+    ],
+  },
+  {
+    category: 'diff',
+    pairs: [
+      ['markupInserted', 'markupDeleted'],
+    ],
+  },
+];
+
+/** Minimum Delta E required under CVD simulation (lower than normal due to gamut compression) */
+export const CVD_DISTINCTION_THRESHOLD = 12;
+
+/**
  * JzCzhz Chroma thresholds (percentage scale: raw Jzazbz Cz * 525)
  *
  * Jzazbz (Safdar et al. 2017) is more perceptually uniform than OKLCH or CIE LCH:
@@ -311,27 +364,6 @@ export const SECONDARY_CHROMA_ELEMENTS = new Set([
   'comment', 'docComment',
   'punctuation', 'operator',
 ]);
-
-
-// APCA constants (APCA-W3 0.0.98G-4g)
-// Reference: https://github.com/Myndex/SAPC-APCA
-export const APCA = {
-  sRco: 0.2126729,
-  sGco: 0.7151522,
-  sBco: 0.0721750,
-  mainTRC: 2.4,
-  normBG: 0.56,
-  normTXT: 0.57,
-  revTXT: 0.62,
-  revBG: 0.65,
-  blkThrs: 0.022,
-  blkClmp: 1.414,
-  scaleBoW: 1.14,
-  scaleWoB: 1.14,
-  loBoWoffset: 0.027,
-  loWoBoffset: 0.027,
-  loClip: 0.1,
-} as const;
 
 // =============================================================================
 // EXPECTED DIM ELEMENTS
@@ -1239,3 +1271,107 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
  * Tokens in the same group should have similar colors for cognitive consistency.
  */
 export const INTRA_GROUP_MAX_DELTA_E = 10;
+
+// =============================================================================
+// COMPOUND BACKGROUND CONTRAST
+// =============================================================================
+
+/**
+ * Background keys to test syntax colors against for compound contrast checking.
+ *
+ * A syntax color might be readable on editor.background but illegible when
+ * the editor applies an overlay (selection, find match, diff, etc.).
+ *
+ * Organized by priority:
+ * - TIER 1: Constant focus (current line, selection)
+ * - TIER 2: Frequent overlays (autocomplete, hover, find)
+ * - TIER 3: Navigation/review (diff, peek, search)
+ */
+export const COMPOUND_BACKGROUND_KEYS = {
+  // TIER 1: Where you're constantly looking
+  lineHighlight: 'editor.lineHighlightBackground',      // Current line (cursor here always)
+  selection: 'editor.selectionBackground',              // Selected text (very common)
+  selectionHighlight: 'editor.selectionHighlightBackground', // Other occurrences of selection
+
+  // TIER 2: Frequent editing overlays
+  suggest: 'editorSuggestWidget.background',            // Autocomplete dropdown
+  suggestSelected: 'editorSuggestWidget.selectedBackground', // Selected autocomplete item
+  hover: 'editorHoverWidget.background',                // Hover tooltips (type info, docs)
+  findMatchActive: 'editor.findMatchBackground',        // Current search match
+  findMatch: 'editor.findMatchHighlightBackground',     // Other search matches
+  wordHighlight: 'editor.wordHighlightBackground',      // Symbol occurrences
+  wordHighlightStrong: 'editor.wordHighlightStrongBackground', // Write occurrences
+
+  // TIER 3: Navigation and code review
+  stickyScroll: 'editorStickyScroll.background',        // Sticky headers
+  rangeHighlight: 'editor.rangeHighlightBackground',    // Go to definition highlight
+  bracketMatch: 'editorBracketMatch.background',        // Matching bracket highlight
+
+  // TIER 4: Diff and merge (code review)
+  diffInserted: 'diffEditor.insertedTextBackground',    // Added code in diff
+  diffRemoved: 'diffEditor.removedTextBackground',      // Removed code in diff
+  mergeCurrentContent: 'merge.currentContentBackground', // Current in merge conflict
+  mergeIncomingContent: 'merge.incomingContentBackground', // Incoming in merge conflict
+
+  // TIER 5: Other editor contexts
+  peekViewEditor: 'peekViewEditor.background',          // Peek definition
+  inlineChat: 'inlineChat.background',                  // AI chat context
+  linkedEditing: 'editor.linkedEditingBackground',      // HTML tag pair editing
+} as const;
+
+export type CompoundBgKeyName = keyof typeof COMPOUND_BACKGROUND_KEYS;
+
+/**
+ * Syntax token keys to test for compound background contrast.
+ * These are the record keys from extractColors().syntax, not display names.
+ *
+ * Tests all primary syntax colors that appear frequently in code.
+ * Excludes comments (intentionally muted) and UI-only colors.
+ */
+export const COMPOUND_SYNTAX_TOKENS = [
+  // Core tokens (high frequency)
+  'variable',
+  'variableLanguage',
+  'parameter',
+  'property',
+  'keyword',
+  'operator',
+  'storage',
+  'storageModifier',
+  // Callables
+  'function',
+  'method',
+  'supportFunction',
+  // Types
+  'class',
+  'type',
+  'interface',
+  'namespace',
+  'enum',
+  'enumMember',
+  'typeParameter',
+  'struct',
+  'supportClass',
+  'supportType',
+  // Literals
+  'number',
+  'string',
+  'stringEscape',
+  'constant',
+  'regexp',
+  'supportConstant',
+  // Decorators and macros
+  'decorator',
+  'macro',
+  // Markup
+  'tag',
+  'attribute',
+  'link',
+  'markupHeading',
+  'markupBold',
+  'markupCode',
+  // CSS
+  'cssSelector',
+  'cssPropertyName',
+  'colorValue',
+] as const;

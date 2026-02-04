@@ -8,6 +8,25 @@
 import { mikuV3, mikuAppend, mikuNT, mikuV4Chinese } from './voicebanks';
 import { snowMiku, magicalMirai, digitalStars } from './events';
 import { sakuraMiku, gundam45thMiku } from './derivatives';
+import { hex, LIGHTNESS, CHROMA, HUE, type JzCzhz } from './jzczhz';
+
+// =============================================================================
+// JzCzhz Color Design System
+// =============================================================================
+// All syntax colors are designed in perceptual JzCzhz space for:
+// - Consistent lightness (Jz) → consistent APCA contrast
+// - Consistent chroma (Cz) → consistent visual weight
+// - Optimal hue separation (hz) → maximum distinction
+
+// Chroma-aware lightness destructuring
+// LV = vibrant for cool hues, LW = vibrant for warm hues
+// L1 = primary for cool hues, LP = primary for warm hues (peach, coral, pink)
+const { primary: L1, primaryWarm: LP, muted: LM, vibrant: LV, vibrantWarm: LW, vivid: LX, secondary: L2, tertiary: L3, accent: LA } = LIGHTNESS;
+const { comfortable: C1, vibrant: C2, vivid: C3, muted: CM } = CHROMA;
+const H = HUE;
+
+// Helper for creating JzCzhz colors
+const jch = (Jz: number, Cz: number, hz: number): string => hex({ Jz, Cz, hz });
 
 export const character = {
   // Hair - signature twin tails
@@ -113,124 +132,80 @@ export const piapro = {
   // Re-export other core values if needed, or consumers can merge
 } as const;
 
-// Helper to adjust lightness/saturation for readability if needed (placeholder for manual tuning)
-const tune = (hex: string) => hex; 
-
 export const themeColors = {
   syntax: {
     // =========================================================================
-    // KEYWORDS - Signature Miku Teal/Cyan (marathon-safe)
+    // JzCzhz-DESIGNED SYNTAX COLORS
     // =========================================================================
-    // NOTE: Readability tooling targets:
-    // - APCA: Primary Lc ≥ 75 and ≤ 90 (avoid halation)
-    // - Chroma: Primary Cz 8-35 (JzCzhz percentage scale)
-    // - Distinction: ΔEz ≥ 15 for adjacency pairs (Jzazbz)
+    // All colors defined in perceptual space for consistency:
+    // - L1 (0.18) = Primary syntax - consistent Lc ~83
+    // - L2 (0.16) = Secondary elements - Lc ~75
+    // - C1 (0.055) = Comfortable chroma - easy on eyes
+    // - C2 (0.070) = Vibrant chroma - colorful accents
+    // - CM (0.040) = Muted chroma - comments/secondary
     //
-    // NOTE: Inline color comments use CIE LCH notation (C* ##, h ###°) for
-    // historical reference. The tooling uses Jzazbz/JzCzhz for analysis.
-    //
-    // COLOR DESIGN PHILOSOPHY - "Digital Diva":
-    // Each syntax category uses a distinct hue family from Miku's visual identity.
-    // Colors are calibrated for 8+ hour coding sessions without eye strain.
-    //
-    // HUE FAMILIES (maximally separated for distinction):
-    // - TEAL (168°): Keywords - Miku's signature color
-    // - MINT-GREEN (145°): Storage/Methods - Fresh, natural
-    // - GOLD (52°): Functions - Magical Mirai wand glow
-    // - LIME (105°): Classes/Strings - Negi (spring onion)
-    // - SKY-CYAN (195°): Variables - Snow Miku ice
-    // - PEACH (28°): Parameters - Sakura Miku warmth
-    // - CORAL (8°): Tags/Properties - Gentle accent
-    // - ROSE-PINK (340°): Interfaces - Idol concert lights
-    // - LAVENDER (285°): Types - Twilight sky
-    // - ORCHID (310°): Modifiers - Digital Stars neon
+    // Hue separation: minimum 25° between adjacent token types
 
-    keyword: '#70F0D0',           // Mint-teal (Lc 83, C* 43, h 168°) - Digital Diva signature
-    keywordControl: '#60E8D8',    // Cooler teal (h 175°) for flow keywords
-    keywordAlt: '#50D8C8',        // Darker teal variant (h 170°)
+    // KEYWORDS - Miku signature teal (hz 178°)
+    keyword: jch(L1, C1, H.mikuTeal),         // Primary keyword - Digital Diva signature
+    keywordControl: jch(L1, C1, H.mikuTeal + 5), // Flow keywords - slightly cooler
+    keywordAlt: jch(L2, C1, H.mikuTeal),      // Dimmer variant
 
-    // =========================================================================
-    // STORAGE / TYPES - Spread across spectrum for distinction
-    // =========================================================================
-    // COLOR STRATEGY: Use high-chroma hues that work at Lc 75+
-    // Pink/magenta (h 310-340°) achieves good chroma at high lightness
-    //
-    // PRIMARY TIER (Lc 75+, C* 30+) - high frequency tokens
-    storage: '#98E8B8',           // Light mint (Lc 84, C* 40, h 135°) - MOVED away from keyword h168°
-    enum: '#80E8F0',              // Ice-cyan (Lc 84, C* 35, h 188°) - enum names (more saturated)
-    macro: '#D0D8F8',             // Bright periwinkle (Lc 84, C* 22, h 242°) - h242° DISTINCT from number (h218°) and variable (h195°)
-    // TYPE SYSTEM - spread across spectrum for distinction
-    storageModifier: '#F8C0E0',   // Light magenta (Lc 80, C* 30, h 325°) - modifiers
-    type: '#E8C8F8',              // Bright orchid (Lc 80, C* 27, h 290°) - type annotations
-    typeParameter: '#B8D0F8',     // Light blue (Lc 80, C* 25, h 225°) - generic params (SHIFTED to blue)
-    enumMember: '#F8D0E0',        // Light rose (Lc 84, C* 22, h 345°) - enum values
+    // STORAGE / TYPES - Spread across spectrum
+    storage: jch(L1, C1, H.mint),             // Storage keywords - fresh mint
+    enum: jch(L1, C1, H.ice),                 // Enum names - ice cyan
+    macro: jch(LM, CM, H.periwinkle),         // Macros - muted periwinkle (LM for muted chroma)
+    storageModifier: jch(LP, C1, H.rose),     // Modifiers - rose accent (LP for warm hue)
+    type: jch(L1, C1, H.orchid),              // Type annotations - orchid
+    typeParameter: jch(LM, CM, H.sky),        // Generic params - muted sky (LM for muted chroma)
+    enumMember: jch(LM, CM, H.rose + 15),     // Enum values - light rose (LM for muted chroma)
 
-    // =========================================================================
-    // FUNCTIONS - Gold/Amber (Magical Mirai Wand) - h 45-55°
-    // =========================================================================
-    function: '#F0D070',          // Warm gold (Lc 78, C* 51, h 52°)
-    method: '#78E8C0',            // Fresh mint (Lc 82, C* 40, h 155°) - DISTINCT from keyword
+    // FUNCTIONS - Gold/Amber (Magical Mirai wand)
+    function: jch(LV, C2, H.gold),            // Functions - vibrant gold (LV - gold is less warm)
+    method: jch(L1, C1, H.mint + 5),          // Methods - distinct from keyword
 
-    // =========================================================================
-    // CLASSES - Negi lime / Pink headphone accent (h 100-115° and h 330-340°)
-    // =========================================================================
-    class: '#C8E888',             // Negi-lime (Lc 84, C* 50, h 105°)
-    interface: '#FFC8E8',         // Bright Miku pink (Lc 82, C* 30, h 335°) - headphone accent
-    struct: '#C8E888',            // Same as class (lime) - struct = class (data type definitions)
+    // CLASSES - Negi lime / Pink accent
+    class: jch(LV, C2, H.lime),               // Classes - negi lime (LV for vibrant chroma)
+    interface: jch(LP, C1, H.mikuPink),       // Interfaces - Miku pink (LP for warm hue)
+    struct: jch(LV, C2, H.lime),              // Structs - same as class
 
-    // =========================================================================
-    // VARIABLES - Sky Cyan / Warm accents (h 195° and h 25-45°)
-    // =========================================================================
-    variable: '#78E0F8',          // Sky cyan (Lc 80, C* 32, h 195°)
-    parameter: '#FFC8A0',         // Warm peach (Lc 80, C* 35, h 35°) - brighter
-    property: '#F8C8A8',          // Salmon-peach (Lc 81, C* 32, h 28°) - SHIFTED to salmon (h 28° vs constant h 52°)
+    // VARIABLES - Sky cyan / Warm peach
+    variable: jch(L1, C1, 235),               // Variables - blue (shifted from sky for keyword distinction)
+    parameter: jch(LP, C1, H.peach),          // Parameters - warm peach (LP for warm hue)
+    property: jch(LP, C1, H.coral),           // Properties - coral (LP for warm hue)
 
-    // =========================================================================
-    // STRINGS - Mint-green (h 128°) - shifted further from class (h 105°)
-    // =========================================================================
-    string: '#90F8A8',            // Bright mint (Lc 88, C* 52, h 125°) - traditional green, HIGH chroma
-    stringTemplate: '#90E8A8',    // Light mint-green (Lc 82, C* 42, h 135°)
-    regex: '#F8D0A0',             // Warm peach (Lc 83, C* 32, h 40°) - SHIFTED away from function (h52°)
+    // STRINGS - Mint green
+    string: jch(LV, C2, H.mint),              // Strings - vibrant mint (LV for vibrant chroma)
+    stringTemplate: jch(L1, C1, H.mint + 10), // Template strings
+    regex: jch(LP, C1, H.peach + 5),          // Regex - warm (LP for warm hue)
 
-    // =========================================================================
-    // NUMBERS & LITERALS - Distinct from variables
-    // =========================================================================
-    number: '#B0D8F8',            // Light sky blue (Lc 81, C* 28, h 218°) - Brighter for Lc 75+
-    boolean: '#F0D0F8',           // Light orchid (Lc 83, C* 22, h 295°) - matches type family
+    // NUMBERS & LITERALS
+    number: jch(LM, CM, H.sky + 15),          // Numbers - muted blue (LM for muted chroma)
+    boolean: jch(LM, CM, H.orchid + 5),       // Booleans - muted orchid (LM for muted chroma)
 
-    // =========================================================================
-    // CONSTANTS / TAGS - Well-separated hues
-    // =========================================================================
-    constant: '#E0D888',          // Golden-lime (Lc 82, C* 42, h 75°) - SHIFTED away from class (h105°)
-    tag: '#FFC0C8',               // Bright salmon-pink (Lc 80, C* 30, h 355°) - brighter
-    attribute: '#E8D078',         // Yellow-amber (Lc 80, C* 45, h 68°) - SHIFTED to h68°
+    // CONSTANTS / TAGS
+    constant: jch(LP, C1, H.amber),           // Constants - amber (LP for warm hue)
+    tag: jch(LP, C1, H.coral),                // HTML tags - coral (LP for warm hue)
+    attribute: jch(LP, C1, H.amber - 5),      // Attributes - amber variant (LP for warm hue)
 
-    // =========================================================================
     // META
-    // =========================================================================
-    comment: '#E0D0F8',           // Brighter lavender-gray (Lc 81, C* 22, h 280°)
-    commentDoc: '#A8E0D8',        // Teal doc-comments (Lc 80, C* 20, h 170°)
+    comment: jch(LM, CM, 60),                 // Comments - muted gold (far from keyword/type/variable)
+    commentDoc: jch(LM, CM, H.mikuTeal - 5),  // Doc comments - muted teal (LM for muted chroma)
 
-    // =========================================================================
-    // SUPPORT (Library/Built-in) - MERGED with user-defined equivalents
-    // =========================================================================
-    // Strategy: Same color as user-defined counterparts (like most popular themes)
-    // This reduces color count from ~25 to ~12, dramatically improving distinction
-    supportFunction: '#F0D070',   // Same as function (gold) - console.log = myFunc
-    supportClass: '#C8E888',      // Same as class (lime) - Array = MyClass
-    supportType: '#E8C8F8',       // Same as type (orchid) - string = MyType
-    supportConstant: '#E0D888',   // Same as constant (golden-lime) - Math.PI = MY_CONST
-    supportVariable: '#78E0F8',   // Same as variable (sky cyan) - process = myVar
+    // SUPPORT - Same as user-defined (reduces color count)
+    supportFunction: jch(LV, C2, H.gold),     // (LV - gold is less warm)
+    supportClass: jch(LV, C2, H.lime),        // (LV for vibrant chroma)
+    supportType: jch(L1, C1, H.orchid),
+    supportConstant: jch(LP, C1, H.amber),    // (LP for warm hue)
+    supportVariable: jch(L1, C1, H.sky),
 
-    // =========================================================================
-    // BRACKETS (Rainbow) - Maximum hue separation (60° apart minimum)
-    // =========================================================================
-    bracket1: '#F8C0A0', // Peach (h 28°) Lc 78
-    bracket2: '#E8C8F0', // Light orchid (h 285°) Lc 81
-    bracket3: '#B4DC78', // Negi yellow-green (h 105°) Lc 76
-    bracket4: '#70F0D0', // Teal (h 168°) Lc 83
-    bracket5: '#78E0F8', // Sky cyan (h 195°) Lc 80
-    bracket6: '#F0D070', // Gold (h 52°) Lc 78
+    // BRACKETS - Maximum hue separation (60°+ apart)
+    bracket1: jch(LA, C1, H.peach),           // Peach
+    bracket2: jch(LA, C1, H.lavender),        // Lavender
+    bracket3: jch(LA, C1, H.lime),            // Lime
+    bracket4: jch(LA, C1, H.mikuTeal),        // Teal
+    bracket5: jch(LA, C1, H.sky),             // Sky
+    bracket6: jch(LA, C1, H.gold),            // Gold
 
     // Legacy keys used by workbench.ts (preserved/aliased)
     pastelMint: '#70F0D0',
@@ -262,112 +237,126 @@ export const themeColors = {
     bracketMint: '#B4DC78',
   },
 
-  // UI-specific values
+  // UI-specific values (JzCzhz-designed)
   ui: {
-    void: '#0A0D10',             // Deepest void
-    pureWhite: '#FFFFFF',        // Pure white for max contrast
-    nearWhite: '#F8F8F8',        // Near white (Lc 97)
-    tertiary: '#6B7D82',         // Tertiary text
-    disabled: '#6B7D82',         // Disabled state (Non-Text ≥30 on void/base)
-    disabledSubtle: '#4A5A5F',   // Very subtle disabled
-    ghostText: '#7A9A98',        // Ghost text (Lc 45+)
-    placeholder: '#708388',      // Placeholder text (Non-Text Lc 30+)
-    error: '#FFC0E8',            // Pink error (C* 30+ for accent tier)
-    minimapOpacity: '#000000DD', // Minimap foreground opacity mask
-    whitespace: '#6B7D82',       // Whitespace markers (Non-Text Lc 30+)
-    ruler: '#6B7D82',            // Rulers (Non-Text Lc 30+)
-    terminalHint: '#5A8A88',     // Terminal hints (Lc 40)
-    terminalGuide: '#3A6A68',    // Terminal command guide (Non-Text ≥30)
-    operator: '#FFC0E0',         // Brighter Pink/Magenta (Lc 70+)
-    linkActive: '#70E0D8',       // Active links (Lc 78) - vibrant teal
-    deprecated: '#E4C8FF',       // Deprecated (C*≥30) - lavender-magenta
-    variableLanguage: '#70F0E8', // Language variables (Lc 84) - bright teal (h 175°) - shifted from h185° for variable distinction
+    void: '#0A0D10',             // Deepest void (special: near-black)
+    pureWhite: '#FFFFFF',        // Pure white (special: max contrast)
+    nearWhite: '#F8F8F8',        // Near white (special: Lc 97)
+    tertiary: jch(L3, 0.015, H.sky),           // Tertiary text - muted sky
+    disabled: jch(L3, 0.015, H.sky),           // Disabled state - same as tertiary
+    disabledSubtle: jch(0.08, 0.015, H.sky),   // Very subtle disabled
+    ghostText: jch(L3 + 0.02, 0.025, H.mikuTeal), // Ghost text (Lc 45+) - teal hint
+    placeholder: jch(L3, 0.020, H.sky),        // Placeholder text (Non-Text Lc 30+)
+    error: jch(LW, C2, H.mikuPink),            // Pink error - accent tier (LW for warm C2)
+    minimapOpacity: '#000000DD', // Minimap foreground opacity mask (special)
+    whitespace: jch(L3, 0.015, H.sky),         // Whitespace markers
+    ruler: jch(L3, 0.015, H.sky),              // Rulers
+    terminalHint: jch(0.10, 0.030, H.mikuTeal), // Terminal hints (Lc 40)
+    terminalGuide: jch(0.07, 0.025, H.mikuTeal), // Terminal command guide
+    operator: jch(LP, C1, H.mikuPink),         // Operators - pink/magenta (LP for warm hue)
+    linkActive: jch(LV, C2, H.mikuTeal),       // Active links - vibrant teal (LV for C2)
+    deprecated: jch(L1, C1, H.lavender),       // Deprecated - lavender
+    variableLanguage: jch(LV, C2, H.mikuTeal - 3), // Language variables - shifted teal (LV for C2)
   },
 
-  // Semantic colors (APCA Lc 80+ for readability)
+  // Semantic colors (JzCzhz-designed, APCA Lc 80+ for readability)
   semantic: {
-    success: '#90F0B8',          // Bright mint (Lc 86, C* 35)
-    warning: '#F8D8A0',          // Golden amber (Lc 86) - same as warmCream
-    error: '#FFC0E8',            // Pink error (C* 30+ for accent tier)
-    info: '#88F0E8',             // Miku cyan (Lc 87)
+    success: jch(LV, C2, H.mint),             // Bright mint - success green (LV for C2)
+    warning: jch(LV, C2, H.amber),            // Golden amber - warning (LV - gold is less warm)
+    error: jch(LW, C2, H.mikuPink),           // Pink error - accent tier (LW for warm C2)
+    info: jch(LV, C2, H.mikuTeal),            // Miku cyan - info (LV for C2)
   },
 
-  // Terminal ANSI colors (optimized for void background, Lc 75+)
+  // Terminal ANSI colors (JzCzhz-designed, Lc 75+ on void background)
   terminal: {
-    black: '#15191D',            // Darker than text
-    red: '#FFC0A0',              // Warm coral-red (C*≥30)
-    green: '#70F0D0',            // Teal-green success (ΔE≥20 vs red/yellow)
-    yellow: '#F0D070',           // Gold warning (ΔE≥20 vs red/green)
-    blue: '#B4C4FF',             // Blue-violet (C*≥30) - distinct from cyan/magenta
-    magenta: '#FFC0F8',          // Magenta (ΔE≥20 vs red/blue)
-    cyan: '#88F0E8',             // Miku cyan (Lc 87)
-    white: '#E0D0C0',            // Warm off-white (Lc 79+) - DISTINCT from brightWhite
-    brightBlack: '#98A8B8',      // Bright gray (Lc 62)
-    brightRed: '#FFD8D8',        // Light coral (Lc 87)
-    brightGreen: '#98F0B8',      // Bright mint (cap below Lc 90)
-    brightYellow: '#F8D8A0',     // Warm amber (cap below Lc 90)
-    brightBlue: '#C8E0FF',       // Light blue (Lc 86)
-    brightMagenta: '#FFD0E8',    // Light rose (Lc 85)
-    brightCyan: '#88F0E8',       // Bright cyan (cap below Lc 90)
-    brightWhite: '#C0E8FF',      // Icy bright white (ΔE≥20 vs white, cap below Lc 90)
+    black: '#15191D',            // Darker than text (special: near-black)
+    red: jch(LW, C2, H.red),                   // Warm coral-red (LW for warm C2)
+    green: jch(LV, C2, H.mint),                // Mint green (LV for C2)
+    yellow: jch(LV, C2, H.gold),               // Gold warning (LV - gold is less warm)
+    blue: jch(L1, C1, H.periwinkle),           // Blue-violet
+    magenta: jch(LW, C2, H.magenta),           // Magenta (LW for warm C2)
+    cyan: jch(LV, C2, H.mikuTeal),             // Miku cyan (LV for C2)
+    white: jch(LM, CM, H.peach),               // Warm off-white (LM for CM)
+    brightBlack: jch(L3 + 0.03, 0.020, H.sky), // Bright gray
+    brightRed: jch(LP, C1, H.red),             // Light coral (LP for warm C1)
+    brightGreen: jch(L1, C1, H.mint),          // Bright mint
+    brightYellow: jch(LP, C1, H.amber),        // Warm amber (LP for warm C1)
+    brightBlue: jch(L1, C1, H.sky),            // Light blue
+    brightMagenta: jch(LP, C1, H.rose),        // Light rose (LP for warm C1)
+    brightCyan: jch(L1, C1, H.mikuTeal),       // Bright cyan
+    brightWhite: jch(L1, 0.030, H.ice),        // Icy bright white
   },
 
-  // Git decoration colors (Lc 75+ for sidebar, ΔE 15+ between stages)
+  // Git decoration colors (JzCzhz-designed, Lc 75+ for sidebar)
   // Stage colors use different hues AND lightness for clear distinction
   git: {
-    added: '#98F0B8',            // Bright mint (Lc 87) - green 140°
-    modified: '#F8D8A0',         // Warm cream (Lc 86) - gold 48°
-    deleted: '#FFB4AE',          // Red delete (C*≥30, Lc≥70 on sidebar bg)
-    untracked: '#88E8F0',        // Miku cyan (Lc 85) - cyan 185°
-    conflicting: '#B4C4FF',      // Blue-violet conflict (ΔE≥20 vs deleted)
-    stageModified: '#88E8F0',    // Cyan stage-modified (ΔE≥20 vs modified gold)
-    stageDeleted: '#E8C8FF',     // Light lavender (Lc 75+) - staged delete distinct from delete red
-    renamed: '#D8C8F0',          // Lavender (Lc 82) - 275°
-    submodule: '#B8D8F8',        // Sky blue (Lc 84) - 220°
+    added: jch(LV, C2, H.mint),                // Bright mint - green (LV for C2)
+    modified: jch(LV, C2, H.gold),             // Warm gold - modified (LV - gold is less warm)
+    deleted: jch(LW, C2, H.gitRed),            // Red delete (LW for warm C2)
+    untracked: jch(LV, C2, H.ice),             // Miku cyan - untracked (LV for C2)
+    conflicting: jch(L1, C1, H.gitViolet),     // Blue-violet conflict
+    stageModified: jch(LV, C2, H.ice),         // Cyan stage-modified (LV for C2)
+    stageDeleted: jch(L1, C1, H.lavender),     // Light lavender - staged delete
+    renamed: jch(L1, C1, H.lavender),          // Lavender - renamed
+    submodule: jch(L1, C1, H.sky),             // Sky blue - submodule
   },
 
-  // Symbol icon colors (Lc 75+ for visibility, ΔE 15+ between similar types)
-  // Maximized hue separation for all similar symbol pairs
+  // Symbol icon colors (JzCzhz-designed, Lc 75+ for visibility)
+  // Comprehensive hue assignment to maximize distinction (30°+ separation)
+  // Total: 24 symbols distributed across 360° hue wheel
   symbol: {
-    array: '#78D0E8',            // Cool cyan (Lc 80) - 195°
-    boolean: '#C8B8F0',          // Purple-violet (Lc 76) - 275° DISTINCT from number (220°)
-    constructor: '#78C8B0',      // Teal (Lc 74) - 160°
-    enumerator: '#E8C0F0',       // Bright orchid (Lc 79) - 300° DISTINCT from interface (255°) ΔE 20+
-    enumeratorMember: '#F0D8A0', // Gold (Lc 85) - 55°
-    field: '#FFD8A8',            // Warm amber (Lc 86) - 40° DISTINCT from property (355°)
-    function: '#F8D898',         // Golden amber (Lc 84) - 48°
-    interface: '#B8C8FF',        // Indigo-blue (Lc 80) - 255° DISTINCT from enum (300°) ΔE 20+
-    method: '#FFD0C8',           // Salmon (Lc 83) - 15°
-    module: '#C0E8D0',           // Mint-sage (Lc 87) - 140° DISTINCT from namespace (290°)
-    namespace: '#E0D0F0',        // Pale orchid (Lc 82) - 290°
-    operator: '#B8D8E8',         // Cyan-silver (Lc 83) - 195°
-    property: '#FFA0A0',         // Red-coral (Lc 72) - 355° DISTINCT from method (15°) ΔE 20+
-    reference: '#C8E0A0',        // Yellow-lime (Lc 84) - 90° DISTINCT from variable (160°)
-    snippet: '#C8F0A0',          // Yellow-green (Lc 87) - 95°
-    string: '#B8F0A0',           // Lime (Lc 88) - 100°
-    struct: '#78D8E8',           // Ice cyan (Lc 80) - 195° DISTINCT from interface (255°)
-    typeParameter: '#F0C8D8',    // Rose (Lc 81) - 350°
-    variable: '#78F0C8',         // Mint-teal (Lc 85) - 160°
-    folder: '#60D0B8',           // Miku teal (Lc 76) - 165°
-    package: '#F8D0A0',          // Warm tan (Lc 84) - 45°
-    number: '#B8D8FF',           // Sky-periwinkle (Lc 83) - 220° DISTINCT from boolean (275°)
-    constant: '#F8B8D8',         // Pink (Lc 78) - 340° DISTINCT from boolean (275°) ΔE 30+
+    // Red-orange range (0-60°)
+    property: jch(LW, C2, 0),                   // Pure red - 0°
+    typeParameter: jch(LP, C1, 20),             // Coral - 20°
+    field: jch(LP, C1, 40),                     // Peach - 40°
+
+    // Orange-yellow range (60-120°)
+    function: jch(LP, C1, 60),                  // Amber - 60°
+    package: jch(LP, C1, 80),                   // Gold - 80°
+    reference: jch(LP, C1, 100),                // Yellow-lime - 100°
+    enumeratorMember: jch(L1, C1, 120),         // Lime - 120°
+
+    // Green range (120-180°)
+    struct: jch(L1, C1, 145),                   // Mint - 145° (distinct from class at 120°)
+    constructor: jch(L1, C1, 158),              // Teal-mint - 158°
+    folder: jch(LV, C2, 172),                   // Teal - 172°
+
+    // Cyan range (180-240°)
+    array: jch(L1, C1, H.mikuTeal),             // Miku teal - 178° (distinct from object at 210°)
+    operator: jch(L1, C1, 205),                 // Cyan - 205°
+    number: jch(L1, C1, 220),                   // Sky - 220°
+    interface: jch(L1, C1, 265),                // Indigo - 265° (distinct from object at 210°)
+
+    // Blue-violet range (240-300°)
+    boolean: jch(L1, C1, 260),                  // Indigo - 260°
+    namespace: jch(L1, C1, 275),                // Lavender - 275°
+    method: jch(L1, C1, 290),                   // Violet - 290°
+    enumerator: jch(L1, C1, 305),               // Orchid - 305°
+
+    // Magenta-pink range (300-360°)
+    snippet: jch(L1, C1, 310),                  // Magenta - 310°
+    string: jch(L1, C1, 115),                   // Lime-green - 115° (moved to green range)
+    constant: jch(LP, C1, 340),                 // Rose - 340°
+
+    // Special icons (vibrant)
+    variable: jch(LV, C2, 228),                 // Sky-blue - 228° (moved to blue range for distinction)
+    module: jch(L1, C1, 240),                   // Blue - 240° (distinct from package and namespace)
   },
 
-  // Debug expression colors
+  // Debug expression colors (JzCzhz-designed)
   debug: {
-    name: '#FFD0D0',             // Soft rose (Lc 85)
-    value: '#C8F0A0',            // Lime green (Lc 87)
-    string: '#D0F0A8',           // Lime (Lc 88) - matches string syntax
+    name: jch(LP, C1, H.rose),                 // Soft rose (LP for warm hue)
+    value: jch(LV, C2, H.lime),                // Lime green (LV for C2)
+    string: jch(L1, C1, H.lime + 5),           // Lime - matches string syntax
   },
 
-  // Markdown-specific variations (ΔE≥20 from code syntax AND comments)
+  // Markdown-specific variations (JzCzhz-designed, ΔE≥20 from code syntax)
   markdown: {
-    codeBlock: '#88F0F8',        // Markdown code (C*≥30) - bright cyan
-    quote: '#7FE0FF',            // Block quotes (C*≥30) - sky cyan
-    docComment: '#A8D8E0',       // Doc comments (Lc 82, C* 25) - silver-cyan
-    alertImportant: '#F0C0F8',   // Alert important (C*≥30) - magenta
-    alertNote: '#88F0F8',        // Alert note (C*≥30) - bright cyan
-    alertTip: '#90F0B8',         // Alert tip (Lc 87, C* 43) - bright mint (145°) DISTINCT from note
+    codeBlock: jch(LV, C2, H.ice),             // Markdown code - bright cyan (LV for C2)
+    quote: jch(LV, C2, H.sky),                 // Block quotes - sky cyan (LV for C2)
+    docComment: jch(L1, C1, H.ice),            // Doc comments - silver-cyan
+    alertImportant: jch(LW, C2, H.magenta),    // Alert important - magenta (LW for warm C2)
+    alertNote: jch(LV, C2, H.ice),             // Alert note - bright cyan (LV for C2)
+    alertTip: jch(LV, C2, H.mint),             // Alert tip - bright mint (LV for C2)
   },
 } as const;

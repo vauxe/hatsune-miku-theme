@@ -1,10 +1,18 @@
 /**
  * Color manipulation utilities for the readability analysis tool.
- * Includes RGB/hex conversions, alpha blending, APCA contrast, and Jzazbz ΔEz.
+ * Uses Color.js for perceptually uniform color space calculations.
+ * Uses culori for color vision deficiency (CVD) simulation.
  */
 
+import Color from 'colorjs.io';
 import {
-  APCA,
+  filterDeficiencyProt,
+  filterDeficiencyDeuter,
+  filterDeficiencyTrit,
+  formatHex,
+} from 'culori';
+
+import {
   APCA_THRESHOLDS,
   DISTINCTION_THRESHOLDS,
   CHROMA_THRESHOLDS,
@@ -16,6 +24,10 @@ import type {
   APCAResult,
   APCAAnalysis,
   DistinctionLevel,
+  CVDType,
+  CVDDistinctionResult,
+  LightnessUniformityResult,
+  HueDistributionResult,
 } from './readability-types';
 
 // =============================================================================
@@ -26,288 +38,36 @@ export function isValidHex(hex: string): boolean {
   return /^#?([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$/.test(hex);
 }
 
-export function hexToRgb(hex: string): RGB | null {
-  let h = hex.replace('#', '');
-
-  if (h.length === 3) {
-    h = h.split('').map(c => c + c).join('');
-  } else if (h.length === 8) {
-    h = h.slice(0, 6);
+function hexToRgb(hex: string): RGB | null {
+  try {
+    const color = new Color(hex);
+    const [r, g, b] = color.to('srgb').coords;
+    return { r, g, b };
+  } catch {
+    return null;
   }
-
-  if (h.length !== 6) return null;
-
-  const match = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h);
-  if (!match) return null;
-
-  return {
-    r: parseInt(match[1], 16) / 255,
-    g: parseInt(match[2], 16) / 255,
-    b: parseInt(match[3], 16) / 255,
-  };
 }
 
-export function rgbToHex(rgb: RGB): string {
-  const toHex = (n: number) => {
-    const clamped = Math.max(0, Math.min(1, n));
-    return Math.round(clamped * 255).toString(16).padStart(2, '0');
-  };
-  return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
+function rgbToHex(rgb: RGB): string {
+  const color = new Color('srgb', [rgb.r, rgb.g, rgb.b]);
+  return color.to('srgb').toString({ format: 'hex' });
 }
 
 // =============================================================================
-// Jzazbz / JzCzhz COLOR SPACE (State-of-the-Art Perceptual Uniformity)
+// JzCzhz COLOR SPACE (via Color.js)
 // =============================================================================
-// Jzazbz (Safdar, Hardeberg, Luo 2017) is more perceptually uniform than:
-// - OKLCH (simpler but less accurate)
-// - CIE Lab/LCH (blue-purple shift, non-uniform)
-// - CIEDE2000 (complex corrections for Lab's non-uniformity)
-//
-// Benefits:
-// - Designed for HDR and wide color gamut (future-proof)
-// - Excellent perceptual uniformity across entire gamut
-// - Simple Euclidean distance works well (unlike Lab)
-// - Used by modern color science tools
-//
-// Reference: https://observablehq.com/@jrus/jzazbz
-
-export interface Jzazbz {
-  Jz: number; // Lightness: 0-~1 for SDR (can exceed 1 for HDR)
-  az: number; // Green-red axis
-  bz: number; // Blue-yellow axis
-}
-
-export interface JzCzhz {
-  Jz: number; // Lightness: 0-~1 for SDR
-  Cz: number; // Chroma: 0-~0.5 for sRGB gamut
-  hz: number; // Hue: 0-360 degrees
-}
-
-// Jzazbz constants
-const JZ_B = 1.15;
-const JZ_G = 0.66;
-const JZ_C1 = 3424 / 4096;           // 0.8359375
-const JZ_C2 = 2413 / 128;            // 18.8515625
-const JZ_C3 = 2392 / 128;            // 18.6875
-const JZ_N = 2610 / 16384;           // 0.15930175781
-const JZ_P = 1.7 * 2523 / 32;        // 134.034375
-const JZ_D = -0.56;
-const JZ_D0 = 1.6295499532821566e-11;
-
-// SDR reference luminance (cd/m²) for PQ encoding
-// 203 is the standard SDR reference white in PQ
-const SDR_WHITE_LUMINANCE = 203;
-
-/**
- * PQ (Perceptual Quantizer) OETF - forward transfer function
- * Maps absolute luminance to perceptual signal
- */
-function pqOETF(x: number): number {
-  if (x <= 0) return 0;
-  const xNorm = x / 10000; // PQ reference is 10000 cd/m²
-  const num = JZ_C1 + JZ_C2 * Math.pow(xNorm, JZ_N);
-  const den = 1 + JZ_C3 * Math.pow(xNorm, JZ_N);
-  return Math.pow(num / den, JZ_P);
-}
-
-/**
- * PQ (Perceptual Quantizer) EOTF - inverse transfer function
- * Maps perceptual signal back to absolute luminance
- */
-function pqEOTF(x: number): number {
-  if (x <= 0) return 0;
-  const xP = Math.pow(x, 1 / JZ_P);
-  const num = Math.max(0, xP - JZ_C1);
-  const den = JZ_C2 - JZ_C3 * xP;
-  return 10000 * Math.pow(num / den, 1 / JZ_N);
-}
-
-/**
- * Convert linear RGB to Jzazbz
- * @param r Linear RGB red (0-1)
- * @param g Linear RGB green (0-1)
- * @param b Linear RGB blue (0-1)
- */
-function linearRgbToJzazbz(r: number, g: number, b: number): Jzazbz {
-  // Linear RGB to XYZ D65
-  const x = 0.4124564 * r + 0.3575761 * g + 0.1804375 * b;
-  const y = 0.2126729 * r + 0.7151522 * g + 0.0721750 * b;
-  const z = 0.0193339 * r + 0.1191920 * g + 0.9503041 * b;
-
-  // Scale to absolute luminance (cd/m²)
-  const X = x * SDR_WHITE_LUMINANCE;
-  const Y = y * SDR_WHITE_LUMINANCE;
-  const Z = z * SDR_WHITE_LUMINANCE;
-
-  // XYZ to X'Y'Z' (Jzazbz-specific adjustment)
-  const Xp = JZ_B * X - (JZ_B - 1) * Z;
-  const Yp = JZ_G * Y - (JZ_G - 1) * X;
-
-  // X'Y'Z' to LMS
-  const L = 0.41478972 * Xp + 0.579999 * Yp + 0.0146480 * Z;
-  const M = -0.2015100 * Xp + 1.120649 * Yp + 0.0531008 * Z;
-  const S = -0.0166008 * Xp + 0.264800 * Yp + 0.6684799 * Z;
-
-  // Apply PQ transfer function
-  const Lp = pqOETF(L);
-  const Mp = pqOETF(M);
-  const Sp = pqOETF(S);
-
-  // LMS' to Izazbz
-  const Iz = 0.5 * Lp + 0.5 * Mp;
-  const az = 3.524000 * Lp - 4.066708 * Mp + 0.542708 * Sp;
-  const bz = 0.199076 * Lp + 1.096799 * Mp - 1.295875 * Sp;
-
-  // Iz to Jz (perceptual lightness adjustment)
-  const Jz = ((1 + JZ_D) * Iz) / (1 + JZ_D * Iz) - JZ_D0;
-
-  return { Jz: Math.max(0, Jz), az, bz };
-}
-
-/**
- * Convert Jzazbz to linear RGB
- * Inverse of linearRgbToJzazbz
- */
-function jzazbzToLinearRgb(jab: Jzazbz): { r: number; g: number; b: number } {
-  const { Jz, az, bz } = jab;
-
-  // Jz to Iz (invert perceptual adjustment)
-  const Iz = (Jz + JZ_D0) / (1 + JZ_D - JZ_D * (Jz + JZ_D0));
-
-  // Izazbz to LMS' (invert matrix)
-  const Lp = Iz + 0.1386050432715393 * az + 0.05804731615611886 * bz;
-  const Mp = Iz - 0.1386050432715393 * az - 0.05804731615611886 * bz;
-  const Sp = Iz - 0.09601924202631895 * az - 0.8118918960560388 * bz;
-
-  // LMS' to LMS (invert PQ)
-  const L = pqEOTF(Lp);
-  const M = pqEOTF(Mp);
-  const S = pqEOTF(Sp);
-
-  // LMS to X'Y'Z' (invert matrix)
-  const Xp = 1.9242264357876067 * L - 1.0047923125953657 * M + 0.037651404030618 * S;
-  const Yp = 0.35031676209499907 * L + 0.7264811939316552 * M - 0.06538442294808501 * S;
-  const Z = -0.09098281098284752 * L - 0.3127282905230739 * M + 1.5227665613052603 * S;
-
-  // X'Y'Z' to XYZ (invert Jzazbz adjustment)
-  const X = (Xp + (JZ_B - 1) * Z) / JZ_B;
-  const Y = (Yp + (JZ_G - 1) * X) / JZ_G;
-
-  // Scale from absolute luminance back to relative
-  const x = X / SDR_WHITE_LUMINANCE;
-  const y = Y / SDR_WHITE_LUMINANCE;
-  const z = Z / SDR_WHITE_LUMINANCE;
-
-  // XYZ to linear RGB (invert matrix)
-  const r = 3.2404541621141054 * x - 1.5371385940306089 * y - 0.49853140955601579 * z;
-  const g = -0.96926603050518312 * x + 1.8760108454466942 * y + 0.041556017530349834 * z;
-  const b = 0.055643430959114726 * x - 0.20397695888897652 * y + 1.0572251882231791 * z;
-
-  return { r, g, b };
-}
-
-/**
- * Convert JzCzhz (polar) to Jzazbz (rectangular)
- */
-export function jzczhzToJzazbz(jch: JzCzhz): Jzazbz {
-  const hRad = jch.hz * Math.PI / 180;
-  return {
-    Jz: jch.Jz,
-    az: jch.Cz * Math.cos(hRad),
-    bz: jch.Cz * Math.sin(hRad),
-  };
-}
-
-/**
- * Convert Jzazbz to sRGB hex
- * Returns null if color is out of sRGB gamut
- */
-export function jzazbzToHex(jab: Jzazbz): string {
-  const linear = jzazbzToLinearRgb(jab);
-
-  // Linear RGB to sRGB (gamma encode)
-  const gamma = (c: number) =>
-    c > 0.0031308 ? 1.055 * Math.pow(c, 1 / 2.4) - 0.055 : 12.92 * c;
-
-  // Clamp to sRGB gamut
-  const clamp = (c: number) => Math.max(0, Math.min(1, c));
-
-  return rgbToHex({
-    r: clamp(gamma(linear.r)),
-    g: clamp(gamma(linear.g)),
-    b: clamp(gamma(linear.b)),
-  });
-}
-
-/**
- * Convert JzCzhz to sRGB hex
- * This is the main function for designing colors in perceptual space
- *
- * @example
- * // Design a color with specific perceptual properties:
- * jzczhzToHex({ Jz: 0.14, Cz: 0.06, hz: 175 }) // Miku teal at comfortable lightness
- */
-export function jzczhzToHex(jch: JzCzhz): string {
-  return jzazbzToHex(jzczhzToJzazbz(jch));
-}
-
-/**
- * Convert sRGB hex to Jzazbz
- */
-export function hexToJzazbz(hex: string): Jzazbz | null {
-  const rgb = hexToRgb(stripAlpha(hex));
-  if (!rgb) return null;
-
-  // sRGB to linear RGB (gamma decode)
-  const linearize = (c: number) =>
-    c > 0.04045 ? Math.pow((c + 0.055) / 1.055, 2.4) : c / 12.92;
-
-  return linearRgbToJzazbz(
-    linearize(rgb.r),
-    linearize(rgb.g),
-    linearize(rgb.b)
-  );
-}
-
-/**
- * Convert Jzazbz to JzCzhz (polar/cylindrical form)
- */
-export function jzazbzToJzczhz(jab: Jzazbz): JzCzhz {
-  const Cz = Math.sqrt(jab.az * jab.az + jab.bz * jab.bz);
-  const hz = jab.az === 0 && jab.bz === 0
-    ? 0
-    : (Math.atan2(jab.bz, jab.az) * 180 / Math.PI + 360) % 360;
-  return { Jz: jab.Jz, Cz, hz };
-}
 
 /**
  * Get JzCzhz from hex color
  */
-export function hexToJzczhz(hex: string): JzCzhz | null {
-  const jab = hexToJzazbz(stripAlpha(hex));
-  if (!jab) return null;
-  return jzazbzToJzczhz(jab);
-}
-
-/**
- * Calculate Jzazbz Delta E (Euclidean distance)
- * Unlike CIEDE2000, simple Euclidean works well in Jzazbz due to its uniformity
- * @returns ΔEz value (scale similar to CIEDE2000 for familiarity)
- */
-export function deltaEz(jab1: Jzazbz, jab2: Jzazbz): number {
-  const dJz = jab1.Jz - jab2.Jz;
-  const daz = jab1.az - jab2.az;
-  const dbz = jab1.bz - jab2.bz;
-
-  // Scale factor to make values comparable to CIEDE2000
-  // Jz is ~0-0.17 for sRGB, we scale to ~0-100 range
-  const scale = 500;
-
-  return Math.sqrt(
-    Math.pow(dJz * scale, 2) +
-    Math.pow(daz * scale, 2) +
-    Math.pow(dbz * scale, 2)
-  );
+function hexToJzczhz(hex: string): { Jz: number; Cz: number; hz: number } | null {
+  try {
+    const color = new Color(stripAlpha(hex));
+    const [Jz, Cz, hz] = color.to('jzczhz').coords;
+    return { Jz, Cz, hz: hz ?? 0 };
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -327,18 +87,18 @@ export function deltaEzHex(hex1: string, hex2: string, bg?: string): number | nu
     return blendAlpha(base, bg, alpha);
   };
 
-  const jab1 = hexToJzazbz(resolve(hex1));
-  const jab2 = hexToJzazbz(resolve(hex2));
-  if (!jab1 || !jab2) return null;
-
-  return deltaEz(jab1, jab2);
+  try {
+    const color1 = new Color(resolve(hex1));
+    const color2 = new Color(resolve(hex2));
+    return color1.deltaE(color2, 'Jz') * 500;
+  } catch {
+    return null;
+  }
 }
 
 /**
  * Get JzCzhz Chroma from a hex color
- * Jzazbz chroma is more perceptually uniform than OKLCH or CIE LCH
- * Scale: 0-~0.19 for sRGB gamut (blue #0000FF has highest at ~0.19)
- * @returns Raw Cz value, or null if invalid hex
+ * @returns Raw Cz value (0-~0.19 for sRGB), or null if invalid hex
  */
 export function getChroma(hex: string): number | null {
   const jch = hexToJzczhz(hex);
@@ -347,51 +107,12 @@ export function getChroma(hex: string): number | null {
 }
 
 /**
- * Get JzCzhz chroma as a percentage-like value (0-100 scale)
- * Multiply raw Jzazbz chroma by 525 (since max sRGB chroma ~0.19 → 100)
- */
-export function getChromaPercent(hex: string): number | null {
-  const c = getChroma(hex);
-  if (c === null) return null;
-  return c * 525; // Scale to ~0-100 range
-}
-
-/**
- * Get JzCzhz lightness from a hex color
- * @returns Jz value (0-~0.22 for SDR sRGB white), or null if invalid
- */
-export function getLightness(hex: string): number | null {
-  const jch = hexToJzczhz(hex);
-  if (!jch) return null;
-  return jch.Jz;
-}
-
-/**
- * Get JzCzhz lightness as percentage (0-100 scale)
- * Multiply raw Jz by 450 (since sRGB white ~0.22 → 100)
- */
-export function getLightnessPercent(hex: string): number | null {
-  const jz = getLightness(hex);
-  if (jz === null) return null;
-  return jz * 450; // Scale to ~0-100 range
-}
-
-/**
  * Analyze JzCzhz chroma level for comfortable extended reading.
- *
- * JzCzhz chroma thresholds (scaled to 0-100 for intuitive comparison):
- * - Primary (8-35): Core syntax - comfortable to vibrant
- * - Secondary (5-35): Comments, UI - can be muted
- * - Accent (8-45): Errors, highlights - attention-grabbing
- *
- * Note: Raw Jzazbz chroma is 0-~0.19 for sRGB. We scale by 525 for percentage-like values.
- * Jzazbz is more perceptually uniform than OKLCH or CIE LCH.
- *
- * @param chroma - JzCzhz chroma value (raw 0-~0.19 scale)
- * @param tier - 'primary', 'secondary', or 'accent' (default: 'primary')
- * @returns Icon, level, pass status, and fail reason if applicable
  */
-export function analyzeChroma(chroma: number, tier: ChromaTier = 'primary'): {
+export function analyzeChroma(
+  chroma: number,
+  tier: ChromaTier = 'primary'
+): {
   icon: string;
   level: string;
   pass: boolean;
@@ -399,12 +120,8 @@ export function analyzeChroma(chroma: number, tier: ChromaTier = 'primary'): {
   tier: ChromaTier;
   chromaPercent: number;
 } {
-  // Convert raw JzCzhz chroma to percentage-like scale (0-100)
-  // Raw Jzazbz: 0-~0.19 for sRGB → multiply by 525 → 0-100
   const chromaPercent = chroma * 525;
 
-  // Determine descriptive level based on Jzazbz percentage scale
-  // Aligned with primary tier thresholds (8-35)
   let level: string;
   if (chromaPercent < 5) {
     level = 'Gray';
@@ -422,13 +139,11 @@ export function analyzeChroma(chroma: number, tier: ChromaTier = 'primary'): {
     level = 'Extreme';
   }
 
-  // Check against tier-specific thresholds
   const { min, max } = CHROMA_THRESHOLDS[tier];
   const tooLow = chromaPercent < min;
   const tooHigh = chromaPercent > max;
   const pass = !tooLow && !tooHigh;
 
-  // Determine icon
   let icon: string;
   if (tooLow) {
     icon = '⚪';
@@ -452,7 +167,7 @@ export function analyzeChroma(chroma: number, tier: ChromaTier = 'primary'): {
 // ALPHA UTILITIES
 // =============================================================================
 
-export function hexAlphaToDecimal(hexAlpha: string): number {
+function hexAlphaToDecimal(hexAlpha: string): number {
   return parseInt(hexAlpha, 16) / 255;
 }
 
@@ -485,50 +200,26 @@ export function blendAlpha(fg: string, bg: string, alpha: number): string {
 }
 
 // =============================================================================
-// APCA CONTRAST
+// APCA CONTRAST (via Color.js)
 // =============================================================================
 
 export function getAPCAContrast(text: string, background: string): APCAResult {
-  const txtRgb = hexToRgb(text);
-  const bgRgb = hexToRgb(background);
-  if (!txtRgb) throw new Error(`Invalid text color: "${text}"`);
-  if (!bgRgb) throw new Error(`Invalid background color: "${background}"`);
+  const txtColor = new Color(text);
+  const bgColor = new Color(background);
 
-  const toY = (rgb: RGB) =>
-    APCA.sRco * Math.pow(rgb.r, APCA.mainTRC) +
-    APCA.sGco * Math.pow(rgb.g, APCA.mainTRC) +
-    APCA.sBco * Math.pow(rgb.b, APCA.mainTRC);
+  // Color.js contrast with APCA method
+  const lc = txtColor.contrast(bgColor, 'APCA');
 
-  const softClamp = (Y: number) =>
-    Y < 0 ? 0 : Y < APCA.blkThrs ? Y + Math.pow(APCA.blkThrs - Y, APCA.blkClmp) : Y;
-
-  const txtY = softClamp(toY(txtRgb));
-  const bgY = softClamp(toY(bgRgb));
-
-  // Polarity is determined by luminance comparison, not by Lc sign
-  // (Lc can be clipped to 0, losing polarity information)
+  // Determine polarity from luminance
+  const txtY = txtColor.to('xyz-d65').coords[1];
+  const bgY = bgColor.to('xyz-d65').coords[1];
   const polarity: Polarity = bgY > txtY ? 'dark-on-light' : 'light-on-dark';
-  let contrast: number;
 
-  if (bgY > txtY) {
-    // BoW: Black on White (dark text, light bg) → positive Lc
-    const SAPC = (Math.pow(bgY, APCA.normBG) - Math.pow(txtY, APCA.normTXT)) * APCA.scaleBoW;
-    contrast = SAPC < APCA.loClip ? 0 : SAPC - APCA.loBoWoffset;
-  } else {
-    // WoB: White on Black (light text, dark bg) → negative Lc
-    const SAPC = (Math.pow(bgY, APCA.revBG) - Math.pow(txtY, APCA.revTXT)) * APCA.scaleWoB;
-    contrast = SAPC > -APCA.loClip ? 0 : SAPC + APCA.loWoBoffset;
-  }
-
-  return { lc: contrast * 100, polarity };
+  return { lc, polarity };
 }
 
 /**
  * Analyze APCA result with tiered pass threshold.
- *
- * @param result - Raw APCA calculation result
- * @param tier - 'primary' (Lc 75-90), 'secondary' (Lc 70-90), or 'tertiary' (Lc ≥45)
- * @returns Analysis with level and pass/fail based on tier threshold
  */
 export function analyzeAPCA(
   result: APCAResult,
@@ -537,7 +228,6 @@ export function analyzeAPCA(
   const { lc, polarity } = result;
   const absLc = Math.abs(lc);
 
-  // Determine level (always the same regardless of tier)
   let level: APCAAnalysis['level'];
   let icon: string;
   if (absLc >= 90) {
@@ -560,21 +250,18 @@ export function analyzeAPCA(
     icon = '❌';
   }
 
-  // Determine pass based on tier threshold (min and max)
   const minThreshold = APCA_THRESHOLDS[tier];
   const maxThreshold = APCA_THRESHOLDS.max;
   const tooLow = absLc < minThreshold;
-  const tooHigh = tier !== 'tertiary' && absLc > maxThreshold; // tertiary elements can be any contrast
+  const tooHigh = tier !== 'tertiary' && absLc > maxThreshold;
   const pass = !tooLow && !tooHigh;
 
-  // Determine fail reason
   const failReason = tooHigh ? 'halation' : tooLow ? 'too-low' : undefined;
 
-  // Adjust icon based on pass status
   if (tooHigh) {
-    icon = '⚡'; // Too bright - halation risk
+    icon = '⚡';
   } else if (tooLow && icon === '✅') {
-    icon = '⚠️'; // Below tier threshold
+    icon = '⚠️';
   }
 
   return { lc, level, icon, pass, polarity, failReason };
@@ -586,12 +273,11 @@ export function analyzeAPCA(
 
 /**
  * Get distinction level based on Jzazbz ΔEz color difference value.
- *
- * @param dE - Jzazbz ΔEz color difference value
- * @param isCritical - If true, use higher threshold (18 vs 15) for safety-critical pairs
- * @returns Level, icon, and pass status
  */
-export function getDistinctionLevel(dE: number, isCritical = false): { level: DistinctionLevel; icon: string; pass: boolean } {
+export function getDistinctionLevel(
+  dE: number,
+  isCritical = false
+): { level: DistinctionLevel; icon: string; pass: boolean } {
   let level: DistinctionLevel;
   if (dE < 1) {
     level = 'Imperceptible';
@@ -607,10 +293,359 @@ export function getDistinctionLevel(dE: number, isCritical = false): { level: Di
     level = 'Obvious';
   }
 
-  const threshold = isCritical ? DISTINCTION_THRESHOLDS.critical : DISTINCTION_THRESHOLDS.standard;
+  const threshold = isCritical
+    ? DISTINCTION_THRESHOLDS.critical
+    : DISTINCTION_THRESHOLDS.standard;
   const pass = dE >= threshold;
 
   const icon = pass ? '✅' : '❌';
 
   return { level, icon, pass };
+}
+
+// =============================================================================
+// COLOR VISION DEFICIENCY (CVD) SIMULATION
+// =============================================================================
+
+/**
+ * Simulate how a color appears to someone with color vision deficiency.
+ * Uses Brettel, Viénot, and Mollon (1997) simulation model via culori.
+ *
+ * @param hex - Color to simulate
+ * @param type - Type of CVD: 'protan' (red-blind), 'deutan' (green-blind), 'tritan' (blue-blind)
+ * @param severity - Severity from 0 (normal) to 1 (full dichromacy), default 1
+ * @returns Simulated color as hex string
+ */
+export function simulateCVD(hex: string, type: CVDType, severity = 1): string {
+  const filters = {
+    protan: filterDeficiencyProt(severity),
+    deutan: filterDeficiencyDeuter(severity),
+    tritan: filterDeficiencyTrit(severity),
+  };
+
+  const simulated = filters[type](hex);
+  return formatHex(simulated) ?? hex;
+}
+
+/**
+ * Check if two colors are distinguishable under all types of color vision deficiency.
+ *
+ * @param hex1 - First color
+ * @param hex2 - Second color
+ * @param bg - Background color for alpha compositing
+ * @returns Delta E values for normal vision and each CVD type
+ */
+export function checkCVDDistinction(
+  hex1: string,
+  hex2: string,
+  bg?: string
+): CVDDistinctionResult {
+  const normal = deltaEzHex(hex1, hex2, bg) ?? 0;
+
+  // Simulate both colors under each CVD type, then measure distinction
+  const protan = deltaEzHex(
+    simulateCVD(hex1, 'protan'),
+    simulateCVD(hex2, 'protan'),
+    bg ? simulateCVD(bg, 'protan') : undefined
+  ) ?? 0;
+
+  const deutan = deltaEzHex(
+    simulateCVD(hex1, 'deutan'),
+    simulateCVD(hex2, 'deutan'),
+    bg ? simulateCVD(bg, 'deutan') : undefined
+  ) ?? 0;
+
+  const tritan = deltaEzHex(
+    simulateCVD(hex1, 'tritan'),
+    simulateCVD(hex2, 'tritan'),
+    bg ? simulateCVD(bg, 'tritan') : undefined
+  ) ?? 0;
+
+  // Find the worst case
+  const minCVD = Math.min(protan, deutan, tritan);
+  const worstType: CVDType =
+    minCVD === protan ? 'protan' :
+    minCVD === deutan ? 'deutan' : 'tritan';
+
+  return {
+    normal,
+    protan,
+    deutan,
+    tritan,
+    worstType,
+    worstDeltaE: minCVD,
+  };
+}
+
+// =============================================================================
+// LIGHTNESS UNIFORMITY ANALYSIS
+// =============================================================================
+
+/**
+ * Analyze lightness uniformity across a set of colors.
+ * Syntax colors should have similar Jz lightness to avoid visual "jumps."
+ *
+ * @param colors - Map of color names to hex values
+ * @param maxSpread - Maximum allowed Jz spread (default 0.03 = ~13% of range)
+ * @returns Analysis with min/max lightness and outliers
+ */
+export function analyzeLightnessUniformity(
+  colors: Record<string, string>,
+  maxSpread = 0.03
+): LightnessUniformityResult {
+  const values: Array<{ name: string; hex: string; jz: number }> = [];
+
+  for (const [name, hex] of Object.entries(colors)) {
+    const jch = hexToJzczhz(hex);
+    if (jch) {
+      values.push({ name, hex, jz: jch.Jz });
+    }
+  }
+
+  if (values.length < 2) {
+    return {
+      pass: true,
+      spread: 0,
+      maxSpread,
+      colors: values,
+      darkest: values[0],
+      lightest: values[0],
+      outliers: [],
+    };
+  }
+
+  // Sort by lightness
+  values.sort((a, b) => a.jz - b.jz);
+
+  const darkest = values[0];
+  const lightest = values[values.length - 1];
+  const spread = lightest.jz - darkest.jz;
+  const pass = spread <= maxSpread;
+
+  // Calculate median and find outliers (>1.5x IQR from median)
+  const median = values[Math.floor(values.length / 2)].jz;
+  const q1 = values[Math.floor(values.length * 0.25)].jz;
+  const q3 = values[Math.floor(values.length * 0.75)].jz;
+  const iqr = q3 - q1;
+  const lowerBound = q1 - 1.5 * iqr;
+  const upperBound = q3 + 1.5 * iqr;
+
+  const outliers = values.filter(v => v.jz < lowerBound || v.jz > upperBound);
+
+  return {
+    pass,
+    spread,
+    maxSpread,
+    colors: values,
+    darkest,
+    lightest,
+    outliers,
+    median,
+    suggestion: pass ? undefined : `Reduce lightness spread from ${(spread * 450).toFixed(0)}% to ≤${(maxSpread * 450).toFixed(0)}%`,
+  };
+}
+
+// =============================================================================
+// HUE DISTRIBUTION ANALYSIS
+// =============================================================================
+
+/**
+ * Analyze hue distribution to detect clustering.
+ * Evenly distributed hues maximize color distinction.
+ *
+ * @param colors - Map of color names to hex values
+ * @param minGap - Minimum desired hue gap in degrees (default 30°)
+ * @returns Analysis with hue gaps and clusters
+ */
+export function analyzeHueDistribution(
+  colors: Record<string, string>,
+  minGap = 30
+): HueDistributionResult {
+  const values: Array<{ name: string; hex: string; hue: number; chroma: number }> = [];
+
+  for (const [name, hex] of Object.entries(colors)) {
+    const jch = hexToJzczhz(hex);
+    if (jch && jch.Cz > 0.01) { // Skip near-gray colors (no meaningful hue)
+      values.push({ name, hex, hue: jch.hz, chroma: jch.Cz });
+    }
+  }
+
+  if (values.length < 2) {
+    return {
+      pass: true,
+      colors: values,
+      clusters: [],
+      gaps: [],
+      minGap,
+      suggestion: undefined,
+    };
+  }
+
+  // Sort by hue
+  values.sort((a, b) => a.hue - b.hue);
+
+  // Calculate gaps between adjacent hues (circular)
+  const gaps: Array<{ from: string; to: string; gap: number }> = [];
+  for (let i = 0; i < values.length; i++) {
+    const current = values[i];
+    const next = values[(i + 1) % values.length];
+    let gap = next.hue - current.hue;
+    if (gap < 0) gap += 360; // Wrap around
+    gaps.push({ from: current.name, to: next.name, gap });
+  }
+
+  // Find clusters (colors within minGap of each other)
+  const clusters: Array<{ colors: string[]; hueRange: [number, number] }> = [];
+  let currentCluster: string[] = [values[0].name];
+  let clusterStart = values[0].hue;
+
+  for (let i = 1; i < values.length; i++) {
+    const hueDiff = values[i].hue - values[i - 1].hue;
+    if (hueDiff < minGap) {
+      currentCluster.push(values[i].name);
+    } else {
+      if (currentCluster.length > 1) {
+        clusters.push({
+          colors: currentCluster,
+          hueRange: [clusterStart, values[i - 1].hue],
+        });
+      }
+      currentCluster = [values[i].name];
+      clusterStart = values[i].hue;
+    }
+  }
+
+  // Check wrap-around cluster
+  if (currentCluster.length > 0) {
+    const wrapGap = (values[0].hue + 360) - values[values.length - 1].hue;
+    if (wrapGap < minGap && currentCluster.length > 1) {
+      // Merge with first cluster if exists
+      if (clusters.length > 0 && clusters[0].colors.includes(values[0].name)) {
+        clusters[0].colors = [...currentCluster, ...clusters[0].colors];
+        clusters[0].hueRange[0] = clusterStart;
+      } else if (currentCluster.length > 1) {
+        clusters.push({
+          colors: currentCluster,
+          hueRange: [clusterStart, values[values.length - 1].hue],
+        });
+      }
+    } else if (currentCluster.length > 1) {
+      clusters.push({
+        colors: currentCluster,
+        hueRange: [clusterStart, values[values.length - 1].hue],
+      });
+    }
+  }
+
+  const pass = clusters.length === 0;
+  const smallestGap = Math.min(...gaps.map(g => g.gap));
+
+  return {
+    pass,
+    colors: values,
+    clusters,
+    gaps: gaps.sort((a, b) => a.gap - b.gap),
+    minGap,
+    smallestGap,
+    suggestion: pass ? undefined : `${clusters.length} hue cluster(s) found. Spread hues at least ${minGap}° apart.`,
+  };
+}
+
+// =============================================================================
+// FIX SUGGESTIONS
+// =============================================================================
+
+/**
+ * Suggest a fix for a contrast issue.
+ *
+ * @param currentLc - Current APCA Lc value
+ * @param targetLc - Target Lc threshold
+ * @param polarity - Light on dark or dark on light
+ * @returns Human-readable suggestion
+ */
+export function suggestContrastFix(
+  currentLc: number,
+  targetLc: number,
+  polarity: Polarity
+): string {
+  const absLc = Math.abs(currentLc);
+  const diff = targetLc - absLc;
+
+  if (diff <= 0) {
+    return 'already passing';
+  }
+
+  // Rough estimate: 10 Lc points ≈ 10-15% lightness change
+  const percentChange = Math.round(diff * 1.2);
+
+  if (polarity === 'light-on-dark') {
+    return `lighten foreground by ~${percentChange}%`;
+  } else {
+    return `darken foreground by ~${percentChange}%`;
+  }
+}
+
+/**
+ * Suggest a fix for a distinction issue.
+ *
+ * @param currentDeltaE - Current Delta E value
+ * @param targetDeltaE - Target Delta E threshold
+ * @param color1Hue - Hue of first color (degrees)
+ * @param color2Hue - Hue of second color (degrees)
+ * @returns Human-readable suggestion
+ */
+export function suggestDistinctionFix(
+  currentDeltaE: number,
+  targetDeltaE: number,
+  color1Hue?: number,
+  color2Hue?: number
+): string {
+  const diff = targetDeltaE - currentDeltaE;
+
+  if (diff <= 0) {
+    return 'already passing';
+  }
+
+  // If we have hue info, suggest hue shift
+  if (color1Hue !== undefined && color2Hue !== undefined) {
+    let hueDiff = Math.abs(color1Hue - color2Hue);
+    if (hueDiff > 180) hueDiff = 360 - hueDiff;
+
+    if (hueDiff < 30) {
+      const suggestedShift = 30 - hueDiff + 10;
+      return `shift hues apart by ~${Math.round(suggestedShift)}°`;
+    }
+  }
+
+  // Generic suggestion
+  if (diff < 5) {
+    return 'adjust lightness or saturation slightly';
+  } else if (diff < 10) {
+    return 'increase hue separation or lightness difference';
+  } else {
+    return 'choose more distinct colors (different hue family)';
+  }
+}
+
+/**
+ * Suggest a fix for a chroma issue.
+ *
+ * @param currentChroma - Current chroma percentage
+ * @param minChroma - Minimum threshold
+ * @param maxChroma - Maximum threshold
+ * @returns Human-readable suggestion
+ */
+export function suggestChromaFix(
+  currentChroma: number,
+  minChroma: number,
+  maxChroma: number
+): string {
+  if (currentChroma < minChroma) {
+    const increase = minChroma - currentChroma;
+    return `increase saturation by ~${Math.round(increase)}%`;
+  } else if (currentChroma > maxChroma) {
+    const decrease = currentChroma - maxChroma;
+    return `decrease saturation by ~${Math.round(decrease)}%`;
+  }
+  return 'already passing';
 }

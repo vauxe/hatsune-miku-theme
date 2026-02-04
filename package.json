@@ -48,5 +48,9 @@
         "path": "./themes/hatsune-miku-theme-color-theme.json"
       }
     ]
+  },
+  "dependencies": {
+    "colorjs.io": "^0.6.1",
+    "culori": "^4.0.2"
   }
 }

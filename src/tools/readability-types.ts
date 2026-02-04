@@ -410,24 +410,6 @@ export interface SemanticGroup {
 export type DistinctionPriority = 'critical' | 'high' | 'standard';
 
 /**
- * A pair of tokens that MUST be visually distinguishable.
- */
-export interface MustDistinguishPair {
-  /** First token name */
-  token1: string;
-  /** Second token name */
-  token2: string;
-  /** Minimum Delta E required */
-  minDeltaE: number;
-  /** Priority level */
-  priority: DistinctionPriority;
-  /** Group of first token */
-  group1: SemanticGroupName;
-  /** Group of second token */
-  group2: SemanticGroupName;
-}
-
-/**
  * Result of analyzing semantic group cohesion.
  * Checks that tokens within the same group have similar colors.
  */
@@ -490,4 +472,169 @@ export interface SemanticDistinctionAnalysis {
     distinctionFail: number;
     criticalFail: number;
   };
+}
+
+// =============================================================================
+// COLOR VISION DEFICIENCY (CVD) TYPES
+// =============================================================================
+
+/**
+ * Types of color vision deficiency.
+ * - protan: Red-blind (protanopia/protanomaly) - ~1.3% of males
+ * - deutan: Green-blind (deuteranopia/deuteranomaly) - ~6% of males
+ * - tritan: Blue-blind (tritanopia/tritanomaly) - ~0.01% of population
+ */
+export type CVDType = 'protan' | 'deutan' | 'tritan';
+
+/**
+ * Result of checking color distinction under color vision deficiency.
+ */
+export interface CVDDistinctionResult {
+  /** Delta E with normal color vision */
+  normal: number;
+  /** Delta E as seen by protanopes (red-blind) */
+  protan: number;
+  /** Delta E as seen by deuteranopes (green-blind) */
+  deutan: number;
+  /** Delta E as seen by tritanopes (blue-blind) */
+  tritan: number;
+  /** Which CVD type has the worst distinction */
+  worstType: CVDType;
+  /** The worst Delta E value across all CVD types */
+  worstDeltaE: number;
+}
+
+/**
+ * A color pair that fails CVD distinction check.
+ */
+export interface CVDFailure {
+  /** First color name */
+  name1: string;
+  /** Second color name */
+  name2: string;
+  /** First color hex */
+  color1: string;
+  /** Second color hex */
+  color2: string;
+  /** Category of the pair (e.g., 'git', 'status', 'terminal') */
+  category: string;
+  /** Full CVD distinction result */
+  result: CVDDistinctionResult;
+  /** Required minimum Delta E */
+  required: number;
+}
+
+// =============================================================================
+// LIGHTNESS UNIFORMITY TYPES
+// =============================================================================
+
+/**
+ * Result of analyzing lightness uniformity across colors.
+ * Syntax colors should have similar Jz lightness for visual calm.
+ */
+export interface LightnessUniformityResult {
+  /** True if spread is within threshold */
+  pass: boolean;
+  /** Actual Jz spread (max - min) */
+  spread: number;
+  /** Maximum allowed spread */
+  maxSpread: number;
+  /** All colors with their Jz values, sorted by lightness */
+  colors: Array<{ name: string; hex: string; jz: number }>;
+  /** Darkest color */
+  darkest?: { name: string; hex: string; jz: number };
+  /** Lightest color */
+  lightest?: { name: string; hex: string; jz: number };
+  /** Colors that are statistical outliers */
+  outliers: Array<{ name: string; hex: string; jz: number }>;
+  /** Median Jz value */
+  median?: number;
+  /** Suggested fix if failing */
+  suggestion?: string;
+}
+
+// =============================================================================
+// HUE DISTRIBUTION TYPES
+// =============================================================================
+
+/**
+ * Result of analyzing hue distribution.
+ * Evenly distributed hues maximize color distinction.
+ */
+export interface HueDistributionResult {
+  /** True if no clusters detected */
+  pass: boolean;
+  /** All colors with their hue values */
+  colors: Array<{ name: string; hex: string; hue: number; chroma: number }>;
+  /** Detected hue clusters (colors too close together) */
+  clusters: Array<{
+    colors: string[];
+    hueRange: [number, number];
+  }>;
+  /** Gaps between adjacent hues, sorted smallest first */
+  gaps: Array<{ from: string; to: string; gap: number }>;
+  /** Minimum desired gap in degrees */
+  minGap: number;
+  /** Smallest actual gap found */
+  smallestGap?: number;
+  /** Suggested fix if failing */
+  suggestion?: string;
+}
+
+// =============================================================================
+// COMPOUND BACKGROUND CONTRAST TYPES
+// =============================================================================
+
+/**
+ * A single background that causes a syntax color to fail contrast.
+ * This represents a case where a syntax color passes on editor.background
+ * but fails on an overlay background (selection, find match, etc.).
+ */
+export interface CompoundBackgroundIssue {
+  /** Background name (e.g., 'selection', 'findMatch') */
+  bgName: string;
+  /** VS Code API key for the background */
+  bgKey: string;
+  /** Background hex color (after transparency resolution) */
+  bgHex: string;
+  /** APCA Lc value on this background */
+  lc: number;
+  /** Required Lc for this tier */
+  required: number;
+}
+
+/**
+ * A syntax token that fails contrast on one or more overlay backgrounds.
+ */
+export interface CompoundBackgroundFailure {
+  /** Syntax token name (e.g., 'variable', 'keyword') */
+  tokenName: string;
+  /** Token color hex value */
+  tokenHex: string;
+  /** APCA Lc on editor.background (should pass) */
+  editorLc: number;
+  /** APCA tier for this token */
+  tier: APCATier;
+  /** Backgrounds where this token fails */
+  failingBackgrounds: CompoundBackgroundIssue[];
+  /** Worst (lowest) Lc across all failing backgrounds */
+  worstLc: number;
+  /** Background name with worst contrast */
+  worstBgName: string;
+}
+
+/**
+ * Summary of compound background contrast analysis.
+ */
+export interface CompoundBackgroundAnalysis {
+  /** Total syntax tokens tested */
+  tokensAnalyzed: number;
+  /** Tokens that pass on all backgrounds */
+  tokensPassing: number;
+  /** Tokens that fail on at least one background */
+  tokensFailing: number;
+  /** All failures with details */
+  failures: CompoundBackgroundFailure[];
+  /** True if all tokens pass on all backgrounds */
+  pass: boolean;
 }
