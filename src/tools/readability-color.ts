@@ -515,26 +515,30 @@ export function analyzeHueDistribution(
     }
   }
 
-  // Check wrap-around cluster
-  if (currentCluster.length > 0) {
-    const wrapGap = (values[0].hue + 360) - values[values.length - 1].hue;
-    if (wrapGap < minGap && currentCluster.length > 1) {
-      // Merge with first cluster if exists
-      if (clusters.length > 0 && clusters[0].colors.includes(values[0].name)) {
-        clusters[0].colors = [...currentCluster, ...clusters[0].colors];
-        clusters[0].hueRange[0] = clusterStart;
-      } else if (currentCluster.length > 1) {
-        clusters.push({
-          colors: currentCluster,
-          hueRange: [clusterStart, values[values.length - 1].hue],
-        });
-      }
-    } else if (currentCluster.length > 1) {
+  // Check wrap-around: does the last color connect back to the first?
+  const wrapGap = (values[0].hue + 360) - values[values.length - 1].hue;
+  const wrapsAround = wrapGap < minGap;
+
+  if (wrapsAround) {
+    // The tail and head are close enough to form/extend a cluster
+    const firstClusterIdx = clusters.findIndex(c => c.colors.includes(values[0].name));
+    if (firstClusterIdx >= 0) {
+      // Merge trailing colors into the first cluster
+      clusters[firstClusterIdx].colors = [...currentCluster, ...clusters[firstClusterIdx].colors];
+      clusters[firstClusterIdx].hueRange[0] = clusterStart;
+    } else {
+      // First color was a singleton — combine with trailing cluster
       clusters.push({
-        colors: currentCluster,
-        hueRange: [clusterStart, values[values.length - 1].hue],
+        colors: [...currentCluster, values[0].name],
+        hueRange: [clusterStart, values[0].hue + 360],
       });
     }
+  } else if (currentCluster.length > 1) {
+    // No wrap-around, just push trailing cluster if it has multiple colors
+    clusters.push({
+      colors: currentCluster,
+      hueRange: [clusterStart, values[values.length - 1].hue],
+    });
   }
 
   const pass = clusters.length === 0;

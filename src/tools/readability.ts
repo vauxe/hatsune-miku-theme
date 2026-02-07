@@ -73,6 +73,8 @@ import {
   suggestContrastFix,
   suggestDistinctionFix,
   suggestChromaFix,
+  analyzeLightnessUniformity,
+  analyzeHueDistribution,
 } from './readability-color';
 
 import {
@@ -94,6 +96,8 @@ import type {
   CompoundBackgroundFailure,
   CompoundBackgroundIssue,
   CompoundBackgroundAnalysis,
+  LightnessUniformityResult,
+  HueDistributionResult,
 } from './readability-types';
 
 // =============================================================================
@@ -705,7 +709,7 @@ function analyzeColorChroma(colors: Record<string, ColorValue>): ChromaResult[] 
     const tier = getChromaTier(name);
     const analysis = analyzeChroma(rawChroma, tier);
 
-    // Use JzCzhz percentage scale for display (raw * 250)
+    // Use JzCzhz percentage scale for display (raw * 525)
     const chromaPercent = Math.round(analysis.chromaPercent);
 
     results.push({
@@ -757,17 +761,16 @@ function processSection(
 /**
  * Run full readability analysis on a VS Code theme.
  *
- * Performs three types of analysis:
- * 1. **APCA Contrast**: Tests foreground/background pairs for readability
- *    - Pass threshold: Lc ≥ 60 (Content level)
- *    - Tests syntax colors, UI elements, widgets across all backgrounds
- *
- * 2. **Color Distinction (ΔE00)**: Tests that related colors are distinguishable
- *    - Threshold: ΔE ≥ 15 for all pairs (clear distinction, zero effort)
- *
- * 3. **Chroma Analysis**: Tests syntax colors for eye fatigue risk
- *    - Pass threshold: Cz 8-35
- *    - Too low lacks color identity, too high causes eye strain
+ * Performs 9 types of analysis:
+ * 1. **APCA Contrast**: Foreground/background pairs (Lc 75/70/45 by tier, max 90)
+ * 2. **Semantic Distinction**: Cross-group token pairs (ΔEz 18/15/12 by priority)
+ * 3. **Element Distinction**: Symbol, status, git, bracket, terminal pairs (ΔEz ≥ 15)
+ * 4. **Chroma**: Saturation range for eye fatigue (Cz% 8-45 primary, 5-45 secondary, 8-60 accent)
+ * 5. **CVD Simulation**: Critical pairs under protanopia/deuteranopia/tritanopia (ΔEz ≥ 12)
+ * 6. **UI Visibility**: Selection, find match, tab, diff, cursor visibility
+ * 7. **Compound Background**: Syntax colors on all 20 overlay backgrounds (Lc ≥ 75)
+ * 8. **Lightness Uniformity**: Jz spread across primary syntax (≤ 0.03)
+ * 9. **Hue Distribution**: Minimum 30° gap between syntax hues
  *
  * @param themePath - Path to VS Code theme JSON file
  * @param options - Output options:
@@ -1430,7 +1433,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       git: c.git,
       syntax: c.syntax,
       terminal: c.terminal,
-      testing: c.testing,
+      testing: c.testingIcons,
     },
     c.bg.editor
   );
@@ -1442,7 +1445,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
 
   const uiVisibility = analyzeUIVisibility(c.bg);
   const cursorVisibility = analyzeCursorVisibility(
-    stripAlpha(c.cursor.cursor?.color ?? c.fg.color),
+    stripAlpha(c.cursor.editor?.color ?? c.fg.color),
     c.bg.editor
   );
 
@@ -1453,6 +1456,29 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // A color might be readable on editor.background but fail on selection/find/diff.
 
   const compoundAnalysis = analyzeCompoundBackgroundContrast(c.syntax, c.bg);
+
+  // ==========================================================================
+  // LIGHTNESS UNIFORMITY ANALYSIS
+  // ==========================================================================
+  // Primary syntax colors should have similar Jz lightness to avoid visual "jumps."
+  // A calm, even lightness plane lets the eye scan code without being pulled to bright spots.
+
+  const primarySyntaxColors: Record<string, string> = {};
+  for (const tokenName of COMPOUND_SYNTAX_TOKENS) {
+    const cv = c.syntax[tokenName];
+    if (cv && !cv.fallback) {
+      primarySyntaxColors[tokenName] = cv.color;
+    }
+  }
+  const lightnessResult = analyzeLightnessUniformity(primarySyntaxColors);
+
+  // ==========================================================================
+  // HUE DISTRIBUTION ANALYSIS
+  // ==========================================================================
+  // Syntax colors should be well-distributed around the color wheel.
+  // Clustered hues reduce distinction between token types.
+
+  const hueResult = analyzeHueDistribution(primarySyntaxColors);
 
   // Aggregate stats
   const total = allStats.reduce((acc, s) => ({
@@ -1575,6 +1601,33 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
         }
       }
     }
+    output.push(`\n=== LIGHTNESS UNIFORMITY ===`);
+    output.push(`Primary syntax colors should sit on a similar Jz lightness plane (spread ≤${lightnessResult.maxSpread}).`);
+    if (lightnessResult.pass) {
+      output.push(`  ✓ Spread=${(lightnessResult.spread * 450).toFixed(0)}% (${lightnessResult.colors.length} colors)`);
+    } else {
+      output.push(`  ✗ Spread=${(lightnessResult.spread * 450).toFixed(0)}% exceeds ≤${(lightnessResult.maxSpread * 450).toFixed(0)}%`);
+      if (lightnessResult.darkest && lightnessResult.lightest) {
+        output.push(`    Darkest: ${lightnessResult.darkest.name} ${lightnessResult.darkest.hex} Jz=${lightnessResult.darkest.jz.toFixed(4)}`);
+        output.push(`    Lightest: ${lightnessResult.lightest.name} ${lightnessResult.lightest.hex} Jz=${lightnessResult.lightest.jz.toFixed(4)}`);
+      }
+      if (lightnessResult.outliers.length > 0) {
+        output.push(`    Outliers: ${lightnessResult.outliers.map(o => o.name).join(', ')}`);
+      }
+    }
+
+    output.push(`\n=== HUE DISTRIBUTION ===`);
+    output.push(`Syntax hues should be spread ≥${hueResult.minGap}° apart to maximize distinction.`);
+    if (hueResult.pass) {
+      const smallest = hueResult.smallestGap !== undefined ? `${hueResult.smallestGap.toFixed(0)}°` : 'N/A';
+      output.push(`  ✓ No clusters (smallest gap: ${smallest}, ${hueResult.colors.length} chromatic colors)`);
+    } else {
+      output.push(`  ✗ ${hueResult.clusters.length} cluster(s) detected:`);
+      for (const cluster of hueResult.clusters) {
+        output.push(`    [${cluster.hueRange[0].toFixed(0)}°-${cluster.hueRange[1].toFixed(0)}°]: ${cluster.colors.join(', ')}`);
+      }
+    }
+
     output.push('');
   } else {
     // Default: only output issues
@@ -1613,6 +1666,20 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     for (const f of compoundAnalysis.failures) {
       output.push(formatCompoundLine(f));
     }
+
+    // Lightness uniformity
+    if (!lightnessResult.pass) {
+      const outlierNames = lightnessResult.outliers.map(o => o.name).join(', ');
+      const outlierSuffix = outlierNames ? ` outliers=[${outlierNames}]` : '';
+      output.push(`LIGHTNESS spread=${(lightnessResult.spread * 450).toFixed(0)}% need≤${(lightnessResult.maxSpread * 450).toFixed(0)}% darkest=${lightnessResult.darkest?.name} lightest=${lightnessResult.lightest?.name}${outlierSuffix} → ${lightnessResult.suggestion}`);
+    }
+
+    // Hue distribution
+    if (!hueResult.pass) {
+      for (const cluster of hueResult.clusters) {
+        output.push(`HUE_CLUSTER [${cluster.hueRange[0].toFixed(0)}°-${cluster.hueRange[1].toFixed(0)}°] ${cluster.colors.join(', ')} → spread hues ≥${hueResult.minGap}° apart`);
+      }
+    }
   }
 
   // Summary line
@@ -1623,14 +1690,16 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   const cvdFails = cvdFailures.length;
   const uiVisibilityFails = uiVisibilityIssues.length + (cursorVisibility.pass ? 0 : 1);
   const compoundFails = compoundAnalysis.tokensFailing;
-  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && crossGroupTooSimilar === 0 && chromaFails === 0 && cvdFails === 0 && uiVisibilityFails === 0 && compoundFails === 0;
+  const lightnessOk = lightnessResult.pass;
+  const hueOk = hueResult.pass;
+  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && crossGroupTooSimilar === 0 && chromaFails === 0 && cvdFails === 0 && uiVisibilityFails === 0 && compoundFails === 0 && lightnessOk && hueOk;
 
   output.push('');
-  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} too_similar=${crossGroupTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} cvd_fail=${cvdFails} ui_visible_fail=${uiVisibilityFails} compound_fail=${compoundFails} ready=${ready}`);
+  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} too_similar=${crossGroupTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} cvd_fail=${cvdFails} ui_visible_fail=${uiVisibilityFails} compound_fail=${compoundFails} lightness=${lightnessOk ? 'ok' : 'uneven'} hue=${hueOk ? 'ok' : 'clustered'} ready=${ready}`);
 
   // Print all output (or filter if --issues-only and ready)
   if (options.issuesOnly && ready) {
-    console.log('SUMMARY pass=' + total.pass + '/' + defined + ' fail=0 too_similar=0 distinction_fail=0 chroma_fail=0 cvd_fail=0 ui_visible_fail=0 compound_fail=0 ready=true');
+    console.log('SUMMARY pass=' + total.pass + '/' + defined + ' fail=0 too_similar=0 distinction_fail=0 chroma_fail=0 cvd_fail=0 ui_visible_fail=0 compound_fail=0 lightness=ok hue=ok ready=true');
   } else {
     console.log(output.join('\n'));
   }

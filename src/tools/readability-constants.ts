@@ -383,7 +383,6 @@ export const SECONDARY_CHROMA_ELEMENTS = new Set([
 export const EXPECTED_DIM_ELEMENTS = new Set([
   // Editor gutter elements (intentionally subtle)
   'Ghost Text',      // AI suggestions, expected to be subtle
-  'Ghost+Sel',       // Ghost text on selection (edge case)
   'Code Lens',       // Reference counts, clickable but not primary reading
   'Fold Control',    // Fold/unfold arrows in gutter
   'Fold Placeholder',// "..." text when code is folded
