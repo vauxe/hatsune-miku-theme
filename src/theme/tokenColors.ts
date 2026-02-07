@@ -6,99 +6,11 @@
  *
  * Color System (against #15191D background):
  * ===========================================
- * All colors sourced from the Miku palette - no hardcoded values.
+ * All colors sourced from the semantic token system - no hardcoded values.
  * Colors validated for APCA Lc 60+ against editor background.
  */
 
-// Token system provides themeColors bridge
-import { themeColors } from '../tokens';
-
-// Palette provides character colors
-import { character } from '../palette';
-
-// ============================================================================
-// COLOR DEFINITIONS - All sourced from palette
-// ============================================================================
-
-const syntax = {
-  // =========================================================================
-  // KEYWORDS - Signature Miku Teal
-  // =========================================================================
-  keyword: themeColors.syntax.keyword,          // #70F0D0 - Mint-teal (signature)
-  keywordAlt: themeColors.syntax.keywordAlt,    // #50D8C8 - Darker teal
-  keywordControl: themeColors.syntax.keywordControl, // #60E8D8 - Cool teal
-  storage: themeColors.syntax.storage,          // #90E8B0 - Mint-green (DISTINCT from keyword)
-  storageModifier: themeColors.syntax.storageModifier, // #E0B8F8 - Light violet
-  variableLanguage: themeColors.ui.variableLanguage, // #88F0F8 - Bright aqua
-
-  // =========================================================================
-  // FUNCTIONS - Gold (Magical Mirai Wand)
-  // =========================================================================
-  function: themeColors.syntax.function,        // #F0D070 - Warm gold
-  functionBuiltin: themeColors.syntax.supportFunction, // #88E8C0 - Mint (DISTINCT from function)
-  method: themeColors.syntax.method,            // #78E8C0 - Fresh mint (DISTINCT from keyword)
-  magicMethod: themeColors.syntax.method,       // Same as method
-
-  // =========================================================================
-  // LITERALS
-  // =========================================================================
-  string: themeColors.syntax.string,            // #B4DC78 - Negi yellow-green
-  stringTemplate: themeColors.syntax.stringTemplate, // #A0E8A0 - Light mint-green
-  number: themeColors.syntax.number,            // #90D8F8 - Bright sky blue (DISTINCT from variable)
-  boolean: themeColors.syntax.boolean,          // #F0D0F8 - Light orchid
-  operator: themeColors.ui.operator,            // #FFC0E0 - Pink/Magenta
-  punctuation: themeColors.syntax.bracket5,     // Sky cyan
-
-  // =========================================================================
-  // CLASSES - Negi lime / Pink for interfaces (DISTINCT from keywords)
-  // =========================================================================
-  class: themeColors.syntax.class,              // #C8E888 - Negi-lime
-  interface: themeColors.syntax.interface,      // #FFC8E8 - Bright Miku pink (DISTINCT from class)
-  type: themeColors.syntax.type,                // #E8C8F8 - Bright orchid (DISTINCT from parameter)
-  typeParameter: themeColors.syntax.typeParameter, // #F0D0F8 - Light violet
-  enum: themeColors.syntax.enum,                // #80E8F0 - Ice-cyan (DISTINCT from class)
-  struct: themeColors.syntax.struct,            // #70E8D8 - Teal-green (DISTINCT from keyword)
-  namespace: themeColors.syntax.supportType,    // #C8D0F8 - Light periwinkle (DISTINCT from type)
-
-  // =========================================================================
-  // VARIABLES & DATA
-  // =========================================================================
-  variable: themeColors.syntax.variable,        // #78E0F8 - Sky cyan
-  parameter: themeColors.syntax.parameter,      // #FFC8A0 - Warm peach (brighter)
-  property: themeColors.syntax.property,        // #F0D090 - Warm tan (DISTINCT from parameter)
-  constant: themeColors.syntax.constant,        // #F0D898 - Warm gold (DISTINCT from parameter)
-
-  // =========================================================================
-  // META
-  // =========================================================================
-  comment: themeColors.syntax.comment,          // #E0D0F8 - Lavender-gray
-  commentDoc: themeColors.syntax.commentDoc,    // #A8E0D8 - Teal doc-comments
-  decorator: themeColors.syntax.enum,           // #80E8F0 - Ice-cyan (for decorators)
-  macro: themeColors.syntax.macro,              // #B8D0F8 - Light blue (DISTINCT from variable)
-  lifetime: themeColors.syntax.keywordAlt,      // #50D8C8 - Dark teal (Rust lifetimes)
-  tag: themeColors.syntax.tag,                  // #FFC0C8 - Salmon-pink (HTML/JSX tags)
-  attribute: themeColors.syntax.attribute,      // #E8D078 - Yellow-amber
-
-  // =========================================================================
-  // HEADINGS & SPECIAL
-  // =========================================================================
-  heading: themeColors.syntax.function,         // #F0D070 - Gold for headings
-  sqlKeyword: themeColors.syntax.keywordControl,// #60E8D8 - Cool teal
-
-  // =========================================================================
-  // MARKDOWN
-  // =========================================================================
-  markupCode: themeColors.markdown.codeBlock,
-  markupQuote: themeColors.markdown.quote,
-
-  // =========================================================================
-  // SPECIAL
-  // =========================================================================
-  regex: themeColors.syntax.regex,              // #F0C870 - Warm amber
-  escape: themeColors.syntax.parameter,         // #FFC0A0 - Peach (string escapes)
-  deprecated: themeColors.ui.deprecated,
-  invalid: themeColors.ui.error,
-};
+import { syntax, markup } from './colors';
 
 // Helper type for token color rules
 interface TokenColorRule {
@@ -158,7 +70,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Storage Types',
     scope: ['storage.type', 'storage.type.function', 'storage.type.class'],
     settings: {
-      foreground: syntax.storage, // Mint-green (DISTINCT from keyword teal)
+      foreground: syntax.storage,
     },
   },
   {
@@ -290,14 +202,14 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Support/Library Classes',
     scope: ['support.class'],
     settings: {
-      foreground: themeColors.syntax.supportClass, // #C8B8F8 - Soft violet (DISTINCT from user class)
+      foreground: syntax.supportClass,
     },
   },
   {
     name: 'Support/Built-in Types',
     scope: ['support.type'],
     settings: {
-      foreground: themeColors.syntax.supportType, // #A8C8F8 - Sky blue (DISTINCT from type)
+      foreground: syntax.supportType,
     },
   },
   {
@@ -398,7 +310,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Support Constants',
     scope: ['support.constant', 'constant.other'],
     settings: {
-      foreground: themeColors.syntax.supportConstant, // #C8D8A8 - Sage green (DISTINCT from constant)
+      foreground: syntax.supportConstant,
     },
   },
   {
@@ -413,7 +325,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Support Variable',
     scope: ['support.variable', 'support.variable.property'],
     settings: {
-      foreground: themeColors.syntax.supportVariable, // #90E8E8 - Aqua (DISTINCT from variable)
+      foreground: syntax.supportVariable,
     },
   },
 
@@ -620,7 +532,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markdown List',
     scope: ['markup.list', 'punctuation.definition.list.begin.markdown'],
     settings: {
-      // Must meet primary chroma threshold (Cz ≥ 8)
+      // Must meet primary chroma threshold (Cz >= 8)
       foreground: syntax.method,
     },
   },
@@ -770,7 +682,7 @@ export const tokenColors: TokenColorRule[] = [
     name: 'CSS Color Values',
     scope: ['constant.rgb-value', 'constant.other.color', 'support.constant.color'],
     settings: {
-      foreground: syntax.regex, // Warm amber (DISTINCT from number)
+      foreground: syntax.regex,
     },
   },
   {
@@ -1196,21 +1108,21 @@ export const tokenColors: TokenColorRule[] = [
     name: 'Markup Inserted',
     scope: ['markup.inserted'],
     settings: {
-      foreground: character.negi.bright,
+      foreground: markup.inserted,
     },
   },
   {
     name: 'Markup Deleted',
     scope: ['markup.deleted'],
     settings: {
-      foreground: themeColors.ui.error,
+      foreground: markup.deleted,
     },
   },
   {
     name: 'Markup Changed',
     scope: ['markup.changed'],
     settings: {
-      foreground: syntax.heading,  // #A8D8D8 - Soft aqua (low-fatigue)
+      foreground: markup.changed,
     },
   },
 
@@ -1224,7 +1136,7 @@ export const tokenColors: TokenColorRule[] = [
       'entity.name.deprecated',
       'entity.name.function.deprecated',
       'entity.name.type.deprecated',
-      'invalid.deprecated',  // Moved here for deprecated-specific color
+      'invalid.deprecated',
     ],
     settings: {
       foreground: syntax.deprecated,
@@ -1233,7 +1145,7 @@ export const tokenColors: TokenColorRule[] = [
   },
   {
     name: 'Invalid',
-    scope: ['invalid', 'invalid.illegal'],  // Removed invalid.deprecated
+    scope: ['invalid', 'invalid.illegal'],
     settings: {
       foreground: syntax.invalid,
     },

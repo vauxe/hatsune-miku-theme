@@ -4,72 +4,12 @@
  * Semantic tokens provide language-aware syntax highlighting (LSP-based).
  * Design Philosophy: "Digital Diva" - Clear distinction, consistent with TextMate tokens.
  *
- * All colors sourced from the Miku palette - no hardcoded values.
+ * All colors sourced from the shared colors.ts mapping and semantic token system.
  * Colors validated for APCA Lc 60+ against editor background.
  */
 
-// Token system provides themeColors bridge
-import { themeColors } from '../tokens';
-
-// Palette provides character and event colors
-import {
-  character,
-  snowMiku,
-  digitalStars,
-  leoNeed,
-  wonderlandsShowtime,
-  nightcord,
-} from '../palette';
-
-// ============================================================================
-// COLOR DEFINITIONS - All sourced from palette
-// ============================================================================
-
-/**
- * Consistent with tokenColors.ts - same hue distribution strategy
- */
-const colors = {
-  // Core semantic categories (APCA + chroma + distinction tuned in `themeColors.syntax`)
-  // Each color is DISTINCT to ensure visual differentiation in code
-  keyword: themeColors.syntax.keyword,           // #70F0D0 - Mint-teal (signature)
-  keywordAlt: themeColors.syntax.keywordAlt,     // #50D8C8 - Darker teal
-  storageModifier: themeColors.syntax.storageModifier, // #E0B8F8 - Light violet
-
-  function: themeColors.syntax.function,         // #F0D070 - Warm gold
-  functionBuiltin: themeColors.syntax.supportFunction, // #88E8C0 - Mint (DISTINCT from function)
-  method: themeColors.syntax.method,             // #78E8C0 - Fresh mint (DISTINCT from keyword)
-  magicMethod: themeColors.syntax.method,        // Same as method
-
-  class: themeColors.syntax.class,               // #C8E888 - Negi-lime
-  interface: themeColors.syntax.interface,       // #FFC8E8 - Bright Miku pink (DISTINCT)
-  type: themeColors.syntax.type,                 // #E8C8F8 - Bright orchid (DISTINCT)
-  typeParameter: themeColors.syntax.typeParameter, // #F0D0F8 - Light violet
-  enum: themeColors.syntax.enum,                 // #80E8F0 - Ice-cyan (DISTINCT from class)
-  enumMember: themeColors.syntax.enumMember,     // #F8D0E0 - Light rose (DISTINCT)
-  struct: themeColors.syntax.struct,             // #70E8D8 - Teal-green (DISTINCT)
-  namespace: themeColors.syntax.supportType,     // #C8D0F8 - Light periwinkle (DISTINCT from type)
-
-  variable: themeColors.syntax.variable,         // #78E0F8 - Sky cyan
-  parameter: themeColors.syntax.parameter,       // #FFC8A0 - Warm peach (brighter)
-  property: themeColors.syntax.property,         // #F0D090 - Warm tan (DISTINCT from parameter)
-  constant: themeColors.syntax.constant,         // #F0D898 - Warm gold (DISTINCT)
-
-  string: themeColors.syntax.string,             // #B4DC78 - Negi yellow-green
-  number: themeColors.syntax.number,             // #90D8F8 - Bright sky blue (DISTINCT from variable)
-  boolean: themeColors.syntax.boolean,           // #F0D0F8 - Light orchid
-  regex: themeColors.syntax.regex,               // #F0C870 - Warm amber
-
-  operator: themeColors.ui.operator,             // #FFC0E0 - Pink/Magenta
-
-  comment: themeColors.syntax.comment,           // #E0D0F8 - Lavender-gray
-  commentDoc: themeColors.syntax.commentDoc,     // #A8E0D8 - Teal doc-comments
-  decorator: themeColors.syntax.enum,            // #A0E0F8 - Ice-blue (for decorators)
-  lifetime: themeColors.syntax.keywordAlt,       // #50D8C8 - Darker teal
-
-  heading: themeColors.syntax.function,          // #F0D070 - Gold for headings
-  deprecated: themeColors.ui.deprecated,
-  variableLanguage: themeColors.ui.variableLanguage, // #88F0F8 - Bright aqua
-};
+import { syntax } from './colors';
+import { semanticTokens as t } from '../tokens';
 
 // Helper type for semantic token settings
 type SemanticTokenSetting =
@@ -83,167 +23,167 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   // ==========================================================================
   // KEYWORDS
   // ==========================================================================
-  keyword: colors.keyword,
-  'keyword.control': colors.keyword,
-  'keyword.controlFlow': colors.keyword,
+  keyword: syntax.keyword,
+  'keyword.control': syntax.keyword,
+  'keyword.controlFlow': syntax.keyword,
 
   // ==========================================================================
   // FUNCTIONS
   // ==========================================================================
-  function: colors.function,
-  'function.declaration': colors.function,
-  'function.call': colors.function,
-  'function.defaultLibrary': colors.functionBuiltin,
-  'function.builtin': colors.functionBuiltin,
+  function: syntax.function,
+  'function.declaration': syntax.function,
+  'function.call': syntax.function,
+  'function.defaultLibrary': syntax.functionBuiltin,
+  'function.builtin': syntax.functionBuiltin,
 
   // ==========================================================================
   // METHODS
   // ==========================================================================
-  method: colors.method,
-  'method.declaration': colors.method,
-  'method.static': colors.method,
-  'method.defaultLibrary': colors.functionBuiltin,
+  method: syntax.method,
+  'method.declaration': syntax.method,
+  'method.static': syntax.method,
+  'method.defaultLibrary': syntax.functionBuiltin,
 
   // ==========================================================================
   // CLASSES
   // ==========================================================================
-  class: colors.class,
-  'class.declaration': colors.class,
-  'class.defaultLibrary': colors.class,
+  class: syntax.class,
+  'class.declaration': syntax.class,
+  'class.defaultLibrary': syntax.class,
 
   // ==========================================================================
   // INTERFACES
   // ==========================================================================
-  interface: colors.interface,
-  'interface.declaration': colors.interface,
+  interface: syntax.interface,
+  'interface.declaration': syntax.interface,
 
   // ==========================================================================
   // TYPES
   // ==========================================================================
-  type: colors.type,
-  'type.declaration': colors.type,
-  'type.defaultLibrary': colors.type,
-  typeParameter: colors.typeParameter,
-  'typeParameter.declaration': colors.typeParameter,
+  type: syntax.type,
+  'type.declaration': syntax.type,
+  'type.defaultLibrary': syntax.type,
+  typeParameter: syntax.typeParameter,
+  'typeParameter.declaration': syntax.typeParameter,
 
   // ==========================================================================
   // STRUCTS
   // ==========================================================================
-  struct: colors.struct,
-  'struct.declaration': colors.struct,
+  struct: syntax.struct,
+  'struct.declaration': syntax.struct,
 
   // ==========================================================================
   // ENUMS
   // ==========================================================================
-  enum: colors.enum,
-  'enum.declaration': colors.enum,
-  enumMember: colors.enumMember,       // #CE93D8 - WxS purple (distinct from enum & constant)
-  'enumMember.readonly': colors.enumMember,
+  enum: syntax.enum,
+  'enum.declaration': syntax.enum,
+  enumMember: syntax.enumMember,       // #CE93D8 - WxS purple (distinct from enum & constant)
+  'enumMember.readonly': syntax.enumMember,
 
   // ==========================================================================
   // NAMESPACES & MODULES
   // ==========================================================================
-  namespace: colors.namespace,
-  'namespace.declaration': colors.namespace,
-  module: colors.namespace,
-  'module.declaration': colors.namespace,
+  namespace: syntax.namespace,
+  'namespace.declaration': syntax.namespace,
+  module: syntax.namespace,
+  'module.declaration': syntax.namespace,
 
   // ==========================================================================
   // VARIABLES
   // ==========================================================================
-  variable: colors.variable,
-  'variable.declaration': colors.variable,
-  'variable.readonly': colors.constant,
-  'variable.constant': colors.constant,
+  variable: syntax.variable,
+  'variable.declaration': syntax.variable,
+  'variable.readonly': syntax.constant,
+  'variable.constant': syntax.constant,
   'variable.defaultLibrary': {
-    foreground: colors.variableLanguage,
+    foreground: syntax.variableLanguage,
     fontStyle: 'italic',
   },
-  'variable.local': colors.variable,
+  'variable.local': syntax.variable,
 
   // ==========================================================================
   // PROPERTIES
   // ==========================================================================
-  property: colors.property,
-  'property.declaration': colors.property,
-  'property.readonly': colors.constant,
-  'property.static': colors.property,
-  'property.defaultLibrary': colors.property,
+  property: syntax.property,
+  'property.declaration': syntax.property,
+  'property.readonly': syntax.constant,
+  'property.static': syntax.property,
+  'property.defaultLibrary': syntax.property,
 
   // ==========================================================================
   // PARAMETERS
   // ==========================================================================
-  parameter: colors.parameter,
-  'parameter.declaration': colors.parameter,
-  'parameter.readonly': colors.parameter,
+  parameter: syntax.parameter,
+  'parameter.declaration': syntax.parameter,
+  'parameter.readonly': syntax.parameter,
 
   // ==========================================================================
   // STRINGS
   // ==========================================================================
-  string: colors.string,
-  'string.regexp': colors.regex,
+  string: syntax.string,
+  'string.regexp': syntax.regex,
 
   // ==========================================================================
   // REGEXP
   // ==========================================================================
-  regexp: colors.regex,
+  regexp: syntax.regex,
 
   // ==========================================================================
   // NUMBERS
   // ==========================================================================
-  number: colors.number,
+  number: syntax.number,
 
   // ==========================================================================
   // BOOLEANS
   // ==========================================================================
-  boolean: colors.boolean,
+  boolean: syntax.boolean,
 
   // ==========================================================================
   // OPERATORS
   // ==========================================================================
-  operator: colors.operator,
-  'operator.controlFlow': colors.keyword,
+  operator: syntax.operator,
+  'operator.controlFlow': syntax.keyword,
 
   // ==========================================================================
   // COMMENTS
   // ==========================================================================
   comment: {
-    foreground: colors.comment,
+    foreground: syntax.comment,
     fontStyle: 'italic',
   },
   'comment.documentation': {
-    foreground: colors.commentDoc,
+    foreground: syntax.commentDoc,
     fontStyle: 'italic',
   },
 
   // ==========================================================================
   // DECORATORS
   // ==========================================================================
-  decorator: colors.decorator,
-  'decorator.declaration': colors.decorator,
-  annotation: colors.decorator,
+  decorator: syntax.decorator,
+  'decorator.declaration': syntax.decorator,
+  annotation: syntax.decorator,
 
   // ==========================================================================
   // MACROS
   // ==========================================================================
-  macro: themeColors.syntax.macro,   // #B8D0F8 - Light blue (DISTINCT from variable)
+  macro: syntax.macro,
 
   // ==========================================================================
   // LABELS
   // ==========================================================================
-  label: colors.decorator,
+  label: syntax.decorator,
 
   // ==========================================================================
   // EVENTS
   // ==========================================================================
-  event: colors.class,
+  event: syntax.class,
 
   // ==========================================================================
   // MODIFIER STYLES
   // ==========================================================================
   // Readonly modifier - use constant coloring
   '*.readonly': {
-    foreground: colors.constant,
+    foreground: syntax.constant,
   },
 
   // Static modifier - keep base color
@@ -251,7 +191,7 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
 
   // Deprecated - strikethrough
   '*.deprecated': {
-    foreground: colors.deprecated,
+    foreground: syntax.deprecated,
     fontStyle: 'strikethrough',
   },
 

@@ -1,98 +1,38 @@
 /**
  * Hatsune Miku Theme - Generator
  *
- * Compiles TypeScript source into VS Code theme JSON
+ * Compiles TypeScript source into VS Code theme JSON.
+ * Supports multi-variant generation (dark, light, sakura, highContrast).
  */
 
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { palette } from './palette';
 import { workbenchColors, tokenColors, semanticTokenColors } from './theme';
 
 // =============================================================================
 // THEME METADATA
 // =============================================================================
 
-interface ThemeMetadata {
-  $schema: string;
+interface VariantDefinition {
+  id: string;
   name: string;
   type: 'dark' | 'light';
-  semanticHighlighting: boolean;
+  filename: string;
 }
 
-const metadata: ThemeMetadata = {
-  $schema: 'vscode://schemas/color-theme',
-  name: 'Hatsune Miku Theme',
-  type: 'dark',
-  semanticHighlighting: true,
-};
-
-// =============================================================================
-// PALETTE DOCUMENTATION (preserved in output for reference)
-// =============================================================================
-
-function generatePaletteDocumentation() {
-  return {
-    _description: 'Hatsune Miku Theme - Character Design Palette Reference',
-
-    _designPhilosophy: {
-      _identity: `${palette.mikuV3.hair.base} - THE canonical Miku teal since 2007 (KEI design)`,
-      _uiMapping: {
-        identity: { version: 'V2/V3 Classic', color: palette.mikuV3.hair.base, usage: 'Primary brand, focus states' },
-        stage: { version: 'Project SEKAI', color: palette.projectSekai.virtualSinger.hair.base, usage: 'Multi-cursor, stage elements' },
-        modern: { version: 'NT', color: palette.mikuNT.hair.base, usage: 'Soft, organic elements' },
-        accent: { version: 'Append', color: palette.mikuAppend.hair.base, usage: 'Vivid highlights' },
-      },
-    },
-
-    // =========================================================================
-    // CORE CHARACTER
-    // =========================================================================
-    _character: palette.character,
-
-    // =========================================================================
-    // VOICEBANK VARIANTS
-    // =========================================================================
-    _voicebanks: {
-      mikuV2: palette.mikuV2,
-      mikuAppend: palette.mikuAppend,
-      mikuV3: palette.mikuV3,
-      mikuV3English: palette.mikuV3English,
-      mikuV4X: palette.mikuV4X,
-      mikuV4Chinese: palette.mikuV4Chinese,
-      mikuNT: palette.mikuNT,
-    },
-
-    // =========================================================================
-    // DERIVATIVE CHARACTERS
-    // =========================================================================
-    _derivatives: {
-      sakuraMiku: palette.sakuraMiku,
-      miku15thAnniversary: palette.miku15thAnniversary,
-      miku16thAnniversary: palette.miku16thAnniversary,
-      gundam45thMiku: palette.gundam45thMiku,
-      lawson50thMiku: palette.lawson50thMiku,
-    },
-
-    // =========================================================================
-    // ANNUAL EVENTS
-    // =========================================================================
-    _events: {
-      snowMiku: palette.snowMiku,
-      magicalMirai: palette.magicalMirai,
-      mikuExpo: palette.mikuExpo,
-      digitalStars: palette.digitalStars,
-    },
-
-    // =========================================================================
-    // GAME APPEARANCES
-    // =========================================================================
-    _games: {
-      projectSekai: palette.projectSekai,
-    },
-  };
-}
+const variants: VariantDefinition[] = [
+  {
+    id: 'dark',
+    name: 'Hatsune Miku Theme',
+    type: 'dark',
+    filename: 'hatsune-miku-theme-color-theme.json',
+  },
+  // Future variants:
+  // { id: 'light', name: 'Hatsune Miku Theme Light', type: 'light', filename: 'hatsune-miku-light-color-theme.json' },
+  // { id: 'sakura', name: 'Sakura Miku Theme', type: 'dark', filename: 'sakura-miku-color-theme.json' },
+  // { id: 'highContrast', name: 'Hatsune Miku Theme High Contrast', type: 'dark', filename: 'hatsune-miku-hc-color-theme.json' },
+];
 
 // =============================================================================
 // THEME GENERATION
@@ -103,7 +43,6 @@ interface VSCodeTheme {
   name: string;
   type: 'dark' | 'light';
   semanticHighlighting: boolean;
-  _palette: ReturnType<typeof generatePaletteDocumentation>;
   colors: Record<string, string>;
   tokenColors: Array<{
     name: string;
@@ -116,10 +55,14 @@ interface VSCodeTheme {
   semanticTokenColors: Record<string, unknown>;
 }
 
-function generateTheme(): VSCodeTheme {
+function generateTheme(variant: VariantDefinition): VSCodeTheme {
+  // Currently only dark variant is implemented
+  // Future: use createSemanticTokens(variantPrimitives) to generate different palettes
   return {
-    ...metadata,
-    _palette: generatePaletteDocumentation(),
+    $schema: 'vscode://schemas/color-theme',
+    name: variant.name,
+    type: variant.type,
+    semanticHighlighting: true,
     colors: workbenchColors,
     tokenColors: tokenColors,
     semanticTokenColors: semanticTokenColors,
@@ -130,20 +73,18 @@ function generateTheme(): VSCodeTheme {
 // FILE OUTPUT
 // =============================================================================
 
-function writeTheme(outputPath: string): void {
-  const theme = generateTheme();
+function writeTheme(outputPath: string, variant: VariantDefinition): void {
+  const theme = generateTheme(variant);
   const json = JSON.stringify(theme, null, '\t');
 
-  // Ensure output directory exists
   const dir = path.dirname(outputPath);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
 
   fs.writeFileSync(outputPath, json, 'utf-8');
-  console.log(`✓ Theme generated: ${outputPath}`);
+  console.log(`Theme generated: ${outputPath}`);
 
-  // Print some stats
   const colorCount = Object.keys(workbenchColors).length;
   const tokenCount = tokenColors.length;
   const semanticCount = Object.keys(semanticTokenColors).length;
@@ -156,9 +97,9 @@ function writeTheme(outputPath: string): void {
 // MAIN
 // =============================================================================
 
-const outputFile = path.resolve(
-  __dirname,
-  '../themes/hatsune-miku-theme-color-theme.json'
-);
+const themesDir = path.resolve(__dirname, '../themes');
 
-writeTheme(outputFile);
+for (const variant of variants) {
+  const outputFile = path.join(themesDir, variant.filename);
+  writeTheme(outputFile, variant);
+}

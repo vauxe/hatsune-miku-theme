@@ -84,49 +84,6 @@ export const INTERVAL = {
   octave: 12,          // 360° - Same hue (wrap)
 } as const;
 
-/**
- * Get the hue at a given interval from a base tone
- */
-export function interval(baseTone: number, semitones: number): number {
-  return (baseTone + semitones * 30) % 360;
-}
-
-/**
- * Get the complementary hue (tritone)
- */
-export function complement(tone: number): number {
-  return interval(tone, INTERVAL.tritone);
-}
-
-/**
- * Get the dominant hue (perfect 5th)
- */
-export function dominant(tone: number): number {
-  return interval(tone, INTERVAL.perfect5th);
-}
-
-/**
- * Get a major triad (root, major 3rd, perfect 5th)
- */
-export function majorTriad(root: number): [number, number, number] {
-  return [
-    root,
-    interval(root, INTERVAL.major3rd),
-    interval(root, INTERVAL.perfect5th),
-  ];
-}
-
-/**
- * Get a minor triad (root, minor 3rd, perfect 5th)
- */
-export function minorTriad(root: number): [number, number, number] {
-  return [
-    root,
-    interval(root, INTERVAL.minor3rd),
-    interval(root, INTERVAL.perfect5th),
-  ];
-}
-
 // =============================================================================
 // MIKU-CENTRIC SCALE
 // =============================================================================

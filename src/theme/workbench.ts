@@ -5,101 +5,65 @@
  * Design Philosophy: "Digital Diva" - Serene, immersive, 8+ hour coding comfort.
  *
  * Color Architecture:
- * - Background layers: eyes.pupil (#0D1114) → skirt.base (#15191D) → armWarmers (#111417)
+ * - Background layers: eyes.pupil (#0D1114) -> skirt.base (#15191D) -> armWarmers (#111417)
  * - Primary accent: hair.base (#39C5BB) - canonical Miku teal
  * - Secondary accent: hair.highlight (#5DE4DB) - attention states
  * - Tertiary accent: hairTies.outline (#E05096) - cursor/focus magenta
  * - Semantic: green (success), gold (warning), red (error)
  */
 
-// Token system provides themeColors bridge
-import { themeColors } from '../tokens';
-
-// Palette provides character, voicebank, event, and game colors
-import {
-  character,
-  // Voicebanks - Miku's evolution
-  mikuV2,
-  mikuV3,
-  mikuAppend,
-  mikuV4X,
-  mikuNT,
-  // Events - Concert memories
-  snowMiku,
-  magicalMirai,
-  mikuExpo,
-  digitalStars,
-  // Derivatives
-  sakuraMiku,
-  miku16thAnniversary,
-  // Project SEKAI units
-  virtualSinger,
-  leoNeed,
-  moreMoreJump,
-  vividBadSquad,
-  wonderlandsShowtime,
-  nightcord,
-  // Project DIVA modules - iconic songs
-  deepSeaGirl,
-  darkAngel,
-  angel,
-  ghost,
-  powder,
-  rollingGirl,
-} from '../palette';
-
-// Helper for alpha channels
-const alpha = (hex: string, opacity: string): string => `${hex}${opacity}`;
+// Semantic token system - all colors flow through design tokens
+import { semanticTokens as t, withOpacity } from '../tokens';
 
 // ============================================================================
 // DESIGN SYSTEM CONSTANTS
 // ============================================================================
 
-// Background hierarchy (darkest to lightest) - all from character palette
+// Background hierarchy (darkest to lightest) - all from semantic UI tokens
 const bg = {
-  void: themeColors.ui.void,           // #0A0D10 - Deepest void (titlebar, panels)
-  base: character.skirt.base,          // #15191D - Primary editor background
-  elevated: character.armWarmers.base, // #111417 - Widgets, dropdowns
-  surface: character.headphones.frame, // #1A1F24 - Sidebar, cards
-  overlay: character.top.shadow,       // #263238 - Section headers
+  void: t.ui.void.hex,
+  base: t.ui.background.hex,
+  elevated: t.ui.backgroundElevated.hex,
+  surface: t.ui.backgroundSurface.hex,
+  overlay: t.ui.backgroundOverlay.hex,
 };
 
 // Text hierarchy - from Snow Miku and character palette
 const text = {
-  // NOTE: Avoid pure-white halation on deep dark surfaces (APCA max Lc ≤ 95)
+  // NOTE: Avoid pure-white halation on deep dark surfaces (APCA max Lc <= 95)
   // Tuned for comfort (Lc ~85-90)
-  primary: '#C0D8E0',                    // Soft Ice-White (Snow Miku inspired)
-  secondary: themeColors.syntax.silverBright, // #C0E0D0 - Secondary text
-  tertiary: themeColors.ui.tertiary,     // #6B7D82 - Tertiary/muted text
-  disabled: themeColors.ui.disabled,     // #6A7A80 - Disabled state (Lc 35+) - BOOSTED
-  ghost: themeColors.ui.ghostText,       // #7A9A98 - Ghost/suggestion text (Lc 45+)
-  placeholder: themeColors.ui.placeholder, // #5A6A70 - Placeholder text (Lc 25+)
+  primary: '#C0D8E0',
+  secondary: t.ui.foregroundMuted.hex,
+  tertiary: t.ui.tertiary.hex,
+  disabled: t.ui.disabled.hex,
+  ghost: t.ui.ghostText.hex,
+  placeholder: t.ui.placeholder.hex,
 };
 
 // Accent colors
 const accent = {
-  primary: character.hair.base,      // #39C5BB - Main brand teal
-  bright: character.hair.highlight,  // #5DE4DB - Bright teal
-  soft: character.hair.tip,          // #B2EBE7 - Soft teal
-  magenta: character.hairTies.outline, // #E05096 - Cursor/focus
+  primary: t.ui.accentPrimary.hex,
+  bright: t.ui.accentSecondary.hex,
+  soft: t.ui.accentTertiary.hex,
+  magenta: t.ui.cursor.hex,
 };
 
 // Semantic colors (APCA Lc 80+ for readability) - marathon coding optimized
 const semantic = {
-  success: themeColors.semantic.success,     // Bright mint (Lc 86, C* 35)
-  warning: themeColors.semantic.warning,     // Golden amber (Lc 86)
-  error: themeColors.semantic.error,         // Soft coral (Lc 80)
-  info: themeColors.semantic.info,           // Miku cyan (Lc 87)
+  success: t.status.success.hex,
+  warning: t.status.warning.hex,
+  error: t.status.error.hex,
+  info: t.status.info.hex,
 };
 
 // Pastel bracket colors (low-fatigue rainbow) - All APCA Lc 80+ for readability
 const bracketPastel = {
-  tan: themeColors.syntax.bracket1,
-  pink: themeColors.syntax.bracket2,
-  mint: themeColors.syntax.bracket3,
-  lavender: themeColors.syntax.bracket4,
-  aqua: themeColors.syntax.bracket5,
-  purple: themeColors.syntax.bracket6,
+  tan: t.bracket.bracket1.hex,
+  pink: t.bracket.bracket2.hex,
+  mint: t.bracket.bracket3.hex,
+  lavender: t.bracket.bracket4.hex,
+  aqua: t.bracket.bracket5.hex,
+  purple: t.bracket.bracket6.hex,
 };
 
 export const workbenchColors = {
@@ -112,55 +76,55 @@ export const workbenchColors = {
   'editorCursor.background': bg.void,
   'editorMultiCursor.primary.foreground': accent.magenta,
   'editorMultiCursor.primary.background': bg.surface,
-  'editorMultiCursor.secondary.foreground': leoNeed.hair.highlight,
+  'editorMultiCursor.secondary.foreground': t.decorative.multiCursorSecondary,
   'editorMultiCursor.secondary.background': bg.surface,
   'editor.placeholder.foreground': text.placeholder,
   'editor.compositionBorder': accent.bright,
 
   // Line highlighting
-  'editor.lineHighlightBackground': alpha(accent.primary, '08'),
-  'editor.lineHighlightBorder': alpha(accent.primary, '15'),
-  'editor.inactiveLineHighlightBackground': alpha(accent.primary, '04'),
+  'editor.lineHighlightBackground': withOpacity(accent.primary, '08'),
+  'editor.lineHighlightBorder': withOpacity(accent.primary, '15'),
+  'editor.inactiveLineHighlightBackground': withOpacity(accent.primary, '04'),
 
   // Selection
-  'editor.selectionBackground': alpha(accent.primary, '30'),
+  'editor.selectionBackground': withOpacity(accent.primary, '30'),
   'editor.selectionForeground': text.primary,
-  'editor.inactiveSelectionBackground': alpha(accent.primary, '18'),
-  'editor.selectionHighlightBackground': alpha(accent.bright, '15'),
-  'editor.selectionHighlightBorder': alpha(accent.bright, '30'),
+  'editor.inactiveSelectionBackground': withOpacity(accent.primary, '18'),
+  'editor.selectionHighlightBackground': withOpacity(accent.bright, '15'),
+  'editor.selectionHighlightBorder': withOpacity(accent.bright, '30'),
 
   // Word highlighting
-  'editor.wordHighlightBackground': alpha(accent.primary, '15'),
-  'editor.wordHighlightBorder': alpha(accent.primary, '35'),
-  'editor.wordHighlightStrongBackground': alpha(leoNeed.hair.highlight, '20'),
-  'editor.wordHighlightStrongBorder': alpha(leoNeed.hair.highlight, '45'),
-  'editor.wordHighlightTextBackground': alpha(accent.bright, '12'),
-  'editor.wordHighlightTextBorder': alpha(accent.bright, '30'),
+  'editor.wordHighlightBackground': withOpacity(accent.primary, '15'),
+  'editor.wordHighlightBorder': withOpacity(accent.primary, '35'),
+  'editor.wordHighlightStrongBackground': withOpacity(t.decorative.multiCursorSecondary, '20'),
+  'editor.wordHighlightStrongBorder': withOpacity(t.decorative.multiCursorSecondary, '45'),
+  'editor.wordHighlightTextBackground': withOpacity(accent.bright, '12'),
+  'editor.wordHighlightTextBorder': withOpacity(accent.bright, '30'),
 
   // Find & Replace
   // Slightly darker to preserve token contrast on match highlight
-  'editor.findMatchBackground': alpha(semantic.warning, '30'),
+  'editor.findMatchBackground': withOpacity(semantic.warning, '30'),
   'editor.findMatchForeground': text.primary,
-  'editor.findMatchBorder': alpha(semantic.warning, '80'),
-  'editor.findMatchHighlightBackground': alpha(accent.bright, '30'),
-  'editor.findMatchHighlightForeground': themeColors.syntax.function,
-  'editor.findMatchHighlightBorder': alpha(accent.bright, '50'),
-  'editor.findRangeHighlightBackground': alpha(accent.primary, '10'),
-  'editor.findRangeHighlightBorder': alpha(accent.primary, '25'),
+  'editor.findMatchBorder': withOpacity(semantic.warning, '80'),
+  'editor.findMatchHighlightBackground': withOpacity(accent.bright, '30'),
+  'editor.findMatchHighlightForeground': t.syntax.function.hex,
+  'editor.findMatchHighlightBorder': withOpacity(accent.bright, '50'),
+  'editor.findRangeHighlightBackground': withOpacity(accent.primary, '10'),
+  'editor.findRangeHighlightBorder': withOpacity(accent.primary, '25'),
   'search.resultsInfoForeground': text.secondary,
   // Darken slightly for comment readability in Search Editor
-  'searchEditor.findMatchBackground': alpha(semantic.warning, '20'),
-  'searchEditor.findMatchBorder': alpha(semantic.warning, '60'),
-  'searchEditor.textInputBorder': alpha(accent.primary, '40'),
+  'searchEditor.findMatchBackground': withOpacity(semantic.warning, '20'),
+  'searchEditor.findMatchBorder': withOpacity(semantic.warning, '60'),
+  'searchEditor.textInputBorder': withOpacity(accent.primary, '40'),
 
   // Hover
-  'editor.hoverHighlightBackground': alpha(accent.bright, '10'),
+  'editor.hoverHighlightBackground': withOpacity(accent.bright, '10'),
 
   // Range highlighting
-  'editor.rangeHighlightBackground': alpha(accent.primary, '08'),
-  'editor.rangeHighlightBorder': alpha(accent.primary, '20'),
-  'editor.symbolHighlightBackground': alpha(accent.bright, '12'),
-  'editor.symbolHighlightBorder': alpha(accent.bright, '30'),
+  'editor.rangeHighlightBackground': withOpacity(accent.primary, '08'),
+  'editor.rangeHighlightBorder': withOpacity(accent.primary, '20'),
+  'editor.symbolHighlightBackground': withOpacity(accent.bright, '12'),
+  'editor.symbolHighlightBorder': withOpacity(accent.bright, '30'),
 
   // ==========================================================================
   // LINE NUMBERS
@@ -172,30 +136,30 @@ export const workbenchColors = {
   // ==========================================================================
   // INDENT GUIDES - Rainbow Miku palette
   // ==========================================================================
-  // Indent guides - Miku's voicebank evolution (2007→2020)
-  'editorIndentGuide.background1': alpha(mikuV2.hair.base, '35'),        // V2 (2007) - Original
-  'editorIndentGuide.background2': alpha(mikuAppend.hair.base, '40'),    // Append (2010) - Dark era
-  'editorIndentGuide.background3': alpha(mikuV3.hair.base, '45'),        // V3 (2013) - Refined
-  'editorIndentGuide.background4': alpha(mikuV4X.hair.base, '50'),       // V4X (2016) - Variants
-  'editorIndentGuide.background5': alpha(mikuNT.hair.base, '55'),        // NT (2020) - Organic
-  'editorIndentGuide.background6': alpha(character.hair.base, '60'),     // Present - Canonical
-  'editorIndentGuide.activeBackground1': mikuV2.hair.base,
-  'editorIndentGuide.activeBackground2': mikuAppend.hair.base,
-  'editorIndentGuide.activeBackground3': mikuV3.hair.base,
-  'editorIndentGuide.activeBackground4': mikuV4X.hair.base,
-  'editorIndentGuide.activeBackground5': mikuNT.hair.base,
-  'editorIndentGuide.activeBackground6': character.hair.base,
+  // Indent guides - Miku's voicebank evolution (2007->2020)
+  'editorIndentGuide.background1': withOpacity(t.decorative.indentGuides[0], '35'),        // V2 (2007) - Original
+  'editorIndentGuide.background2': withOpacity(t.decorative.indentGuides[1], '40'),    // Append (2010) - Dark era
+  'editorIndentGuide.background3': withOpacity(t.decorative.indentGuides[2], '45'),        // V3 (2013) - Refined
+  'editorIndentGuide.background4': withOpacity(t.decorative.indentGuides[3], '50'),       // V4X (2016) - Variants
+  'editorIndentGuide.background5': withOpacity(t.decorative.indentGuides[4], '55'),        // NT (2020) - Organic
+  'editorIndentGuide.background6': withOpacity(t.decorative.indentGuides[5], '60'),     // Present - Canonical
+  'editorIndentGuide.activeBackground1': t.decorative.indentGuides[0],
+  'editorIndentGuide.activeBackground2': t.decorative.indentGuides[1],
+  'editorIndentGuide.activeBackground3': t.decorative.indentGuides[2],
+  'editorIndentGuide.activeBackground4': t.decorative.indentGuides[3],
+  'editorIndentGuide.activeBackground5': t.decorative.indentGuides[4],
+  'editorIndentGuide.activeBackground6': t.decorative.indentGuides[5],
 
   // ==========================================================================
   // RULERS & WHITESPACE
   // ==========================================================================
-  'editorRuler.foreground': themeColors.ui.ruler,      // #2A3A3C - Subtle but visible
-  'editorWhitespace.foreground': themeColors.ui.whitespace, // #3A4448 - Lc 15 subtle markers
+  'editorRuler.foreground': t.ui.ruler.hex,      // #2A3A3C - Subtle but visible
+  'editorWhitespace.foreground': t.ui.whitespace.hex, // #3A4448 - Lc 15 subtle markers
 
   // ==========================================================================
   // BRACKETS - Rainbow colorful (Miku-inspired palette)
   // ==========================================================================
-  'editorBracketMatch.background': alpha(accent.primary, '20'),
+  'editorBracketMatch.background': withOpacity(accent.primary, '20'),
   'editorBracketMatch.border': accent.bright,
 
   // Rainbow bracket pairs (APCA Lc 60+ validated)
@@ -209,39 +173,39 @@ export const workbenchColors = {
   'editorBracketHighlight.unexpectedBracket.foreground': semantic.error,
 
   // Bracket pair guides
-  'editorBracketPairGuide.background1': alpha(bracketPastel.tan, '20'),
-  'editorBracketPairGuide.background2': alpha(bracketPastel.pink, '20'),
-  'editorBracketPairGuide.background3': alpha(bracketPastel.mint, '20'),
-  'editorBracketPairGuide.background4': alpha(bracketPastel.lavender, '20'),
-  'editorBracketPairGuide.background5': alpha(bracketPastel.aqua, '20'),
-  'editorBracketPairGuide.background6': alpha(bracketPastel.purple, '20'),
-  'editorBracketPairGuide.activeBackground1': alpha(bracketPastel.tan, '45'),
-  'editorBracketPairGuide.activeBackground2': alpha(bracketPastel.pink, '45'),
-  'editorBracketPairGuide.activeBackground3': alpha(bracketPastel.mint, '45'),
-  'editorBracketPairGuide.activeBackground4': alpha(bracketPastel.lavender, '45'),
-  'editorBracketPairGuide.activeBackground5': alpha(bracketPastel.aqua, '45'),
-  'editorBracketPairGuide.activeBackground6': alpha(bracketPastel.purple, '45'),
+  'editorBracketPairGuide.background1': withOpacity(bracketPastel.tan, '20'),
+  'editorBracketPairGuide.background2': withOpacity(bracketPastel.pink, '20'),
+  'editorBracketPairGuide.background3': withOpacity(bracketPastel.mint, '20'),
+  'editorBracketPairGuide.background4': withOpacity(bracketPastel.lavender, '20'),
+  'editorBracketPairGuide.background5': withOpacity(bracketPastel.aqua, '20'),
+  'editorBracketPairGuide.background6': withOpacity(bracketPastel.purple, '20'),
+  'editorBracketPairGuide.activeBackground1': withOpacity(bracketPastel.tan, '45'),
+  'editorBracketPairGuide.activeBackground2': withOpacity(bracketPastel.pink, '45'),
+  'editorBracketPairGuide.activeBackground3': withOpacity(bracketPastel.mint, '45'),
+  'editorBracketPairGuide.activeBackground4': withOpacity(bracketPastel.lavender, '45'),
+  'editorBracketPairGuide.activeBackground5': withOpacity(bracketPastel.aqua, '45'),
+  'editorBracketPairGuide.activeBackground6': withOpacity(bracketPastel.purple, '45'),
 
   // ==========================================================================
   // GUTTER (Line decorations)
   // ==========================================================================
   'editorGutter.background': bg.base,
-  'editorGutter.addedBackground': alpha(semantic.success, '80'),
-  'editorGutter.modifiedBackground': alpha(semantic.warning, '80'),
-  'editorGutter.deletedBackground': alpha(semantic.error, '80'),
-  'editorGutter.addedSecondaryBackground': alpha(semantic.success, '40'),
-  'editorGutter.modifiedSecondaryBackground': alpha(semantic.warning, '40'),
-  'editorGutter.deletedSecondaryBackground': alpha(semantic.error, '40'),
+  'editorGutter.addedBackground': withOpacity(semantic.success, '80'),
+  'editorGutter.modifiedBackground': withOpacity(semantic.warning, '80'),
+  'editorGutter.deletedBackground': withOpacity(semantic.error, '80'),
+  'editorGutter.addedSecondaryBackground': withOpacity(semantic.success, '40'),
+  'editorGutter.modifiedSecondaryBackground': withOpacity(semantic.warning, '40'),
+  'editorGutter.deletedSecondaryBackground': withOpacity(semantic.error, '40'),
   'editorGutter.foldingControlForeground': accent.bright,
-  'editorGutter.commentRangeForeground': alpha(text.tertiary, '60'),
-  'editorGutter.commentGlyphForeground': wonderlandsShowtime.hair.highlight,
+  'editorGutter.commentRangeForeground': withOpacity(text.tertiary, '60'),
+  'editorGutter.commentGlyphForeground': t.decorative.commentGlyph,
   'editorGutter.commentUnresolvedGlyphForeground': semantic.warning,
   'editorGutter.commentDraftGlyphForeground': accent.soft,
 
   // ==========================================================================
   // FOLDING
   // ==========================================================================
-  'editor.foldBackground': alpha(accent.primary, '06'),
+  'editor.foldBackground': withOpacity(accent.primary, '06'),
   'editor.foldPlaceholderForeground': text.ghost,  // #7A9A98 - Lc 45+ for readable fold placeholders
 
   // ==========================================================================
@@ -249,39 +213,39 @@ export const workbenchColors = {
   // ==========================================================================
   'editorWidget.foreground': text.primary,
   'editorWidget.background': bg.elevated,
-  'editorWidget.border': alpha(accent.primary, '40'),
-  'editorWidget.resizeBorder': alpha(accent.bright, '60'),
-  'widget.border': alpha(accent.primary, '30'),
-  'widget.shadow': alpha(bg.void, '80'),
+  'editorWidget.border': withOpacity(accent.primary, '40'),
+  'editorWidget.resizeBorder': withOpacity(accent.bright, '60'),
+  'widget.border': withOpacity(accent.primary, '30'),
+  'widget.shadow': withOpacity(bg.void, '80'),
 
   // Hover widget
   'editorHoverWidget.foreground': text.primary,
-  'editorHoverWidget.background': alpha(bg.elevated, 'F8'),
-  'editorHoverWidget.border': alpha(accent.primary, '50'),
+  'editorHoverWidget.background': withOpacity(bg.elevated, 'F8'),
+  'editorHoverWidget.border': withOpacity(accent.primary, '50'),
   'editorHoverWidget.highlightForeground': accent.bright,
   'editorHoverWidget.statusBarBackground': bg.surface,
 
   // Ghost text (Copilot/AI suggestions)
   'editorGhostText.foreground': text.ghost,  // #7A9A98 - Lc 45+ for readable suggestions
-  'editorGhostText.border': alpha(accent.soft, '30'),
-  'editorGhostText.background': alpha(accent.soft, '05'),
+  'editorGhostText.border': withOpacity(accent.soft, '30'),
+  'editorGhostText.background': withOpacity(accent.soft, '05'),
 
   // Linked editing
-  'editor.linkedEditingBackground': alpha(accent.bright, '15'),
+  'editor.linkedEditingBackground': withOpacity(accent.bright, '15'),
 
   // Unnecessary code
-  'editorUnnecessaryCode.border': alpha(text.tertiary, '50'),
-  'editorUnnecessaryCode.opacity': alpha(bg.void, '70'),
+  'editorUnnecessaryCode.border': withOpacity(text.tertiary, '50'),
+  'editorUnnecessaryCode.opacity': withOpacity(bg.void, '70'),
 
   // ==========================================================================
   // SUGGEST WIDGET (Autocomplete)
   // ==========================================================================
-  'editorSuggestWidget.background': alpha(bg.elevated, 'FC'),
-  'editorSuggestWidget.border': alpha(accent.primary, '50'),
+  'editorSuggestWidget.background': withOpacity(bg.elevated, 'FC'),
+  'editorSuggestWidget.border': withOpacity(accent.primary, '50'),
   'editorSuggestWidget.foreground': text.primary,
   'editorSuggestWidget.highlightForeground': accent.bright,
   'editorSuggestWidget.focusHighlightForeground': text.primary, // #E8EEF2 - Bright text for visibility
-  'editorSuggestWidget.selectedBackground': alpha(accent.primary, '25'),
+  'editorSuggestWidget.selectedBackground': withOpacity(accent.primary, '25'),
   'editorSuggestWidget.selectedForeground': text.primary,
   'editorSuggestWidget.selectedIconForeground': text.primary,  // #E8EEF2 for Lc 75+ on selection bg
   'editorSuggestWidgetStatus.foreground': text.secondary,
@@ -290,34 +254,34 @@ export const workbenchColors = {
   // OVERVIEW RULER
   // ==========================================================================
   'editorOverviewRuler.background': bg.base,
-  'editorOverviewRuler.border': alpha(accent.primary, '20'),
-  'editorOverviewRuler.findMatchForeground': alpha(semantic.warning, '90'),
-  'editorOverviewRuler.rangeHighlightForeground': alpha(accent.primary, '50'),
-  'editorOverviewRuler.selectionHighlightForeground': alpha(accent.bright, '60'),
-  'editorOverviewRuler.wordHighlightForeground': alpha(accent.bright, '60'),
-  'editorOverviewRuler.wordHighlightStrongForeground': alpha(leoNeed.hair.highlight, '70'),
-  'editorOverviewRuler.wordHighlightTextForeground': alpha(accent.bright, '50'),
-  'editorOverviewRuler.modifiedForeground': alpha(semantic.warning, '90'),
-  'editorOverviewRuler.addedForeground': alpha(semantic.success, '90'),
-  'editorOverviewRuler.deletedForeground': alpha(semantic.error, '90'),
+  'editorOverviewRuler.border': withOpacity(accent.primary, '20'),
+  'editorOverviewRuler.findMatchForeground': withOpacity(semantic.warning, '90'),
+  'editorOverviewRuler.rangeHighlightForeground': withOpacity(accent.primary, '50'),
+  'editorOverviewRuler.selectionHighlightForeground': withOpacity(accent.bright, '60'),
+  'editorOverviewRuler.wordHighlightForeground': withOpacity(accent.bright, '60'),
+  'editorOverviewRuler.wordHighlightStrongForeground': withOpacity(t.decorative.multiCursorSecondary, '70'),
+  'editorOverviewRuler.wordHighlightTextForeground': withOpacity(accent.bright, '50'),
+  'editorOverviewRuler.modifiedForeground': withOpacity(semantic.warning, '90'),
+  'editorOverviewRuler.addedForeground': withOpacity(semantic.success, '90'),
+  'editorOverviewRuler.deletedForeground': withOpacity(semantic.error, '90'),
   'editorOverviewRuler.errorForeground': semantic.error,
   'editorOverviewRuler.warningForeground': semantic.warning,
   'editorOverviewRuler.infoForeground': accent.primary,
-  'editorOverviewRuler.bracketMatchForeground': alpha(accent.bright, '80'),
-  'editorOverviewRuler.commentForeground': alpha(text.tertiary, '50'),
-  'editorOverviewRuler.commentUnresolvedForeground': alpha(semantic.warning, '50'),
-  'editorOverviewRuler.commentDraftForeground': alpha(accent.soft, '50'),
-  'editorOverviewRuler.currentContentForeground': alpha(accent.bright, '60'),
-  'editorOverviewRuler.incomingContentForeground': alpha(semantic.success, '60'),
-  'editorOverviewRuler.commonContentForeground': alpha(text.tertiary, '40'),
+  'editorOverviewRuler.bracketMatchForeground': withOpacity(accent.bright, '80'),
+  'editorOverviewRuler.commentForeground': withOpacity(text.tertiary, '50'),
+  'editorOverviewRuler.commentUnresolvedForeground': withOpacity(semantic.warning, '50'),
+  'editorOverviewRuler.commentDraftForeground': withOpacity(accent.soft, '50'),
+  'editorOverviewRuler.currentContentForeground': withOpacity(accent.bright, '60'),
+  'editorOverviewRuler.incomingContentForeground': withOpacity(semantic.success, '60'),
+  'editorOverviewRuler.commonContentForeground': withOpacity(text.tertiary, '40'),
   // Inline chat (AI features)
-  'editorOverviewRuler.inlineChatInserted': alpha(semantic.success, '60'),
-  'editorOverviewRuler.inlineChatRemoved': alpha(semantic.error, '60'),
+  'editorOverviewRuler.inlineChatInserted': withOpacity(semantic.success, '60'),
+  'editorOverviewRuler.inlineChatRemoved': withOpacity(semantic.error, '60'),
 
   // ==========================================================================
   // LINKS & CODE LENS
   // ==========================================================================
-  'editorLink.activeForeground': themeColors.ui.linkActive,  // Vibrant teal (Lc 78)
+  'editorLink.activeForeground': t.ui.linkActive.hex,  // Vibrant teal (Lc 78)
   'editorCodeLens.foreground': text.ghost,  // #7A9A98 - Lc 45+ for readable code lens
 
   // ==========================================================================
@@ -330,34 +294,34 @@ export const workbenchColors = {
   // ==========================================================================
   // INLAY HINTS
   // ==========================================================================
-  'editorInlayHint.foreground': themeColors.syntax.silverBright, // #B0C0C8 - Lc 60 for readability
-  'editorInlayHint.background': alpha(bg.surface, '80'),
+  'editorInlayHint.foreground': t.ui.foregroundMuted.hex, // #B0C0C8 - Lc 60 for readability
+  'editorInlayHint.background': withOpacity(bg.surface, '80'),
   'editorInlayHint.typeForeground': accent.soft,   // #B2EBE7 - Full opacity teal
-  'editorInlayHint.typeBackground': alpha(bg.surface, '80'),
-  // Slightly darker to avoid halation (Lc ≤ 90)
-  'editorInlayHint.parameterForeground': character.skin.shadow,
-  'editorInlayHint.parameterBackground': alpha(bg.surface, '80'),
+  'editorInlayHint.typeBackground': withOpacity(bg.surface, '80'),
+  // Slightly darker to avoid halation (Lc <= 90)
+  'editorInlayHint.parameterForeground': t.decorative.inlayParameter,
+  'editorInlayHint.parameterBackground': withOpacity(bg.surface, '80'),
 
   // ==========================================================================
   // UNICODE HIGHLIGHT
   // ==========================================================================
-  'editorUnicodeHighlight.border': alpha(semantic.warning, '80'),
-  'editorUnicodeHighlight.background': alpha(semantic.warning, '12'),
+  'editorUnicodeHighlight.border': withOpacity(semantic.warning, '80'),
+  'editorUnicodeHighlight.background': withOpacity(semantic.warning, '12'),
 
   // ==========================================================================
   // ERROR/WARNING/INFO DECORATIONS
   // ==========================================================================
   'editorError.foreground': semantic.error,
-  'editorError.border': alpha(semantic.error, '00'),
-  'editorError.background': alpha(semantic.error, '10'),
+  'editorError.border': withOpacity(semantic.error, '00'),
+  'editorError.background': withOpacity(semantic.error, '10'),
   'editorWarning.foreground': semantic.warning,
-  'editorWarning.border': alpha(semantic.warning, '00'),
-  'editorWarning.background': alpha(semantic.warning, '10'),
+  'editorWarning.border': withOpacity(semantic.warning, '00'),
+  'editorWarning.background': withOpacity(semantic.warning, '10'),
   'editorInfo.foreground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
-  'editorInfo.border': alpha(accent.primary, '00'),
-  'editorInfo.background': alpha(accent.primary, '10'),
+  'editorInfo.border': withOpacity(accent.primary, '00'),
+  'editorInfo.background': withOpacity(accent.primary, '10'),
   'editorHint.foreground': accent.soft,
-  'editorHint.border': alpha(accent.soft, '00'),
+  'editorHint.border': withOpacity(accent.soft, '00'),
   'problemsErrorIcon.foreground': semantic.error,
   'problemsWarningIcon.foreground': semantic.warning,
   'problemsInfoIcon.foreground': accent.primary,
@@ -365,42 +329,42 @@ export const workbenchColors = {
   // ==========================================================================
   // STICKY SCROLL
   // ==========================================================================
-  'editorStickyScroll.background': alpha(bg.base, 'F5'),
-  'editorStickyScroll.border': alpha(accent.primary, '20'),
-  'editorStickyScroll.shadow': alpha(bg.void, '40'),
-  'editorStickyScrollGutter.background': alpha(bg.base, 'F5'),
-  'editorStickyScrollHover.background': alpha(accent.primary, '08'),
+  'editorStickyScroll.background': withOpacity(bg.base, 'F5'),
+  'editorStickyScroll.border': withOpacity(accent.primary, '20'),
+  'editorStickyScroll.shadow': withOpacity(bg.void, '40'),
+  'editorStickyScrollGutter.background': withOpacity(bg.base, 'F5'),
+  'editorStickyScrollHover.background': withOpacity(accent.primary, '08'),
 
   // ==========================================================================
   // MARKER NAVIGATION (F8 errors)
   // ==========================================================================
   'editorMarkerNavigation.background': bg.surface,
-  'editorMarkerNavigationError.background': alpha(semantic.error, '15'),
-  'editorMarkerNavigationWarning.background': alpha(semantic.warning, '15'),
-  'editorMarkerNavigationInfo.background': alpha(accent.primary, '15'),
-  'editorMarkerNavigationError.headerBackground': alpha(semantic.error, '10'),
-  'editorMarkerNavigationWarning.headerBackground': alpha(semantic.warning, '10'),
-  'editorMarkerNavigationInfo.headerBackground': alpha(accent.primary, '10'),
+  'editorMarkerNavigationError.background': withOpacity(semantic.error, '15'),
+  'editorMarkerNavigationWarning.background': withOpacity(semantic.warning, '15'),
+  'editorMarkerNavigationInfo.background': withOpacity(accent.primary, '15'),
+  'editorMarkerNavigationError.headerBackground': withOpacity(semantic.error, '10'),
+  'editorMarkerNavigationWarning.headerBackground': withOpacity(semantic.warning, '10'),
+  'editorMarkerNavigationInfo.headerBackground': withOpacity(accent.primary, '10'),
 
   // ==========================================================================
   // SNIPPETS
   // ==========================================================================
-  'editor.snippetTabstopHighlightBackground': alpha(accent.bright, '15'),
-  'editor.snippetTabstopHighlightBorder': alpha(accent.bright, '40'),
-  'editor.snippetFinalTabstopHighlightBackground': alpha(accent.magenta, '15'),
-  'editor.snippetFinalTabstopHighlightBorder': alpha(accent.magenta, '50'),
+  'editor.snippetTabstopHighlightBackground': withOpacity(accent.bright, '15'),
+  'editor.snippetTabstopHighlightBorder': withOpacity(accent.bright, '40'),
+  'editor.snippetFinalTabstopHighlightBackground': withOpacity(accent.magenta, '15'),
+  'editor.snippetFinalTabstopHighlightBorder': withOpacity(accent.magenta, '50'),
 
   // ==========================================================================
   // INLINE VALUES (Debugging)
   // ==========================================================================
-  'editor.inlineValuesForeground': themeColors.ui.linkActive,
-  'editor.inlineValuesBackground': alpha(themeColors.ui.linkActive, '12'),
+  'editor.inlineValuesForeground': t.ui.linkActive.hex,
+  'editor.inlineValuesBackground': withOpacity(t.ui.linkActive.hex, '12'),
 
   // ==========================================================================
   // DEBUG HIGHLIGHTS
   // ==========================================================================
-  'editor.stackFrameHighlightBackground': alpha(semantic.warning, '20'),
-  'editor.focusedStackFrameHighlightBackground': alpha(semantic.success, '20'),
+  'editor.stackFrameHighlightBackground': withOpacity(semantic.warning, '20'),
+  'editor.focusedStackFrameHighlightBackground': withOpacity(semantic.success, '20'),
 
   // ==========================================================================
   // ACTIVITY BAR
@@ -408,22 +372,22 @@ export const workbenchColors = {
   'activityBar.background': bg.void,
   'activityBar.foreground': accent.bright,
   'activityBar.inactiveForeground': text.tertiary,
-  'activityBar.border': alpha(accent.primary, '15'),
+  'activityBar.border': withOpacity(accent.primary, '15'),
   'activityBar.activeBorder': accent.magenta,
-  'activityBar.activeBackground': alpha(accent.primary, '12'),
+  'activityBar.activeBackground': withOpacity(accent.primary, '12'),
   'activityBar.activeFocusBorder': accent.bright,
   'activityBar.dropBorder': accent.primary,
   'activityBarBadge.background': '#B0307A', // Darker magenta for Lc 75+ with white text
-  'activityBarBadge.foreground': themeColors.ui.pureWhite,
+  'activityBarBadge.foreground': t.ui.pureWhite.hex,
   'activityBarTop.foreground': accent.bright,
   'activityBarTop.activeBorder': accent.magenta,
   'activityBarTop.inactiveForeground': text.tertiary,
   'activityBarTop.dropBorder': accent.primary,
   'activityBarTop.background': bg.void,
-  'activityBarTop.activeBackground': alpha(accent.primary, '12'),
-  'activityWarningBadge.foreground': character.eyes.pupil,
+  'activityBarTop.activeBackground': withOpacity(accent.primary, '12'),
+  'activityWarningBadge.foreground': t.decorative.darkForeground,
   'activityWarningBadge.background': semantic.warning,
-  'activityErrorBadge.foreground': character.eyes.pupil,
+  'activityErrorBadge.foreground': t.decorative.darkForeground,
   'activityErrorBadge.background': semantic.error,
 
   // ==========================================================================
@@ -431,56 +395,56 @@ export const workbenchColors = {
   // ==========================================================================
   'sideBar.background': bg.surface,
   'sideBar.foreground': text.primary,
-  'sideBar.border': alpha(accent.primary, '15'),
-  'sideBar.dropBackground': alpha(accent.primary, '15'),
+  'sideBar.border': withOpacity(accent.primary, '15'),
+  'sideBar.dropBackground': withOpacity(accent.primary, '15'),
   'sideBarTitle.foreground': accent.bright,
   'sideBarTitle.background': bg.surface,
-  'sideBarTitle.border': alpha(accent.primary, '15'),
+  'sideBarTitle.border': withOpacity(accent.primary, '15'),
   'sideBarSectionHeader.background': bg.overlay,
   'sideBarSectionHeader.foreground': accent.bright,
-  'sideBarSectionHeader.border': alpha(accent.primary, '20'),
-  'sideBarActivityBarTop.border': alpha(accent.primary, '15'),
+  'sideBarSectionHeader.border': withOpacity(accent.primary, '20'),
+  'sideBarActivityBarTop.border': withOpacity(accent.primary, '15'),
   'sideBarStickyScroll.background': bg.surface,
-  'sideBarStickyScroll.border': alpha(accent.primary, '15'),
-  'sideBarStickyScroll.shadow': alpha(bg.void, '40'),
+  'sideBarStickyScroll.border': withOpacity(accent.primary, '15'),
+  'sideBarStickyScroll.shadow': withOpacity(bg.void, '40'),
 
   // ==========================================================================
   // STATUS BAR
   // ==========================================================================
   'statusBar.background': bg.void,
   'statusBar.foreground': text.primary,
-  'statusBar.border': alpha(accent.primary, '20'),
-  'statusBar.debuggingBackground': alpha(semantic.warning, 'DD'),
+  'statusBar.border': withOpacity(accent.primary, '20'),
+  'statusBar.debuggingBackground': withOpacity(semantic.warning, 'DD'),
   'statusBar.debuggingForeground': text.primary,  // #E8EEF2 - Light text readable on both dark and light bgs
   'statusBar.debuggingBorder': semantic.warning,
   'statusBar.noFolderBackground': bg.void,
   'statusBar.noFolderForeground': text.secondary,
-  'statusBar.noFolderBorder': alpha(text.tertiary, '30'),
-  'statusBar.focusBorder': alpha(accent.bright, 'DD'),
-  'statusBarItem.activeBackground': alpha(accent.primary, '30'),
-  'statusBarItem.hoverBackground': alpha(accent.primary, '20'),
+  'statusBar.noFolderBorder': withOpacity(text.tertiary, '30'),
+  'statusBar.focusBorder': withOpacity(accent.bright, 'DD'),
+  'statusBarItem.activeBackground': withOpacity(accent.primary, '30'),
+  'statusBarItem.hoverBackground': withOpacity(accent.primary, '20'),
   'statusBarItem.hoverForeground': text.primary,
   'statusBarItem.prominentForeground': text.primary,  // #E8EEF2 for Lc 75+
-  'statusBarItem.prominentBackground': alpha(accent.primary, '20'),
-  'statusBarItem.prominentHoverBackground': alpha(accent.primary, '35'),
+  'statusBarItem.prominentBackground': withOpacity(accent.primary, '20'),
+  'statusBarItem.prominentHoverBackground': withOpacity(accent.primary, '35'),
   'statusBarItem.prominentHoverForeground': text.primary,
   'statusBarItem.remoteBackground': '#157570',  // Darker teal for Lc 75+ with white
-  'statusBarItem.remoteForeground': themeColors.ui.pureWhite,
+  'statusBarItem.remoteForeground': t.ui.pureWhite.hex,
   'statusBarItem.remoteHoverBackground': accent.primary,
-  'statusBarItem.remoteHoverForeground': themeColors.ui.pureWhite,
+  'statusBarItem.remoteHoverForeground': t.ui.pureWhite.hex,
   'statusBarItem.errorBackground': semantic.error,
-  'statusBarItem.errorForeground': character.headphones.frame,
-  'statusBarItem.errorHoverBackground': alpha(semantic.error, 'DD'),
-  'statusBarItem.errorHoverForeground': character.headphones.frame,
+  'statusBarItem.errorForeground': t.decorative.statusItemForeground,
+  'statusBarItem.errorHoverBackground': withOpacity(semantic.error, 'DD'),
+  'statusBarItem.errorHoverForeground': t.decorative.statusItemForeground,
   'statusBarItem.warningBackground': semantic.warning,
-  'statusBarItem.warningForeground': character.headphones.frame,
-  'statusBarItem.warningHoverBackground': alpha(semantic.warning, 'DD'),
-  'statusBarItem.warningHoverForeground': character.headphones.frame,
-  'statusBarItem.compactHoverBackground': alpha(accent.primary, '25'),
-  'statusBarItem.focusBorder': alpha(accent.bright, 'DD'),
-  'statusBarItem.offlineBackground': alpha(text.tertiary, 'AA'),  // Lighter background for better contrast
-  'statusBarItem.offlineForeground': themeColors.ui.pureWhite,    // Pure white for Lc 75+
-  'statusBarItem.offlineHoverBackground': alpha(text.tertiary, 'CC'),
+  'statusBarItem.warningForeground': t.decorative.statusItemForeground,
+  'statusBarItem.warningHoverBackground': withOpacity(semantic.warning, 'DD'),
+  'statusBarItem.warningHoverForeground': t.decorative.statusItemForeground,
+  'statusBarItem.compactHoverBackground': withOpacity(accent.primary, '25'),
+  'statusBarItem.focusBorder': withOpacity(accent.bright, 'DD'),
+  'statusBarItem.offlineBackground': withOpacity(text.tertiary, 'AA'),  // Lighter background for better contrast
+  'statusBarItem.offlineForeground': t.ui.pureWhite.hex,    // Pure white for Lc 75+
+  'statusBarItem.offlineHoverBackground': withOpacity(text.tertiary, 'CC'),
   'statusBarItem.offlineHoverForeground': text.primary,
 
   // ==========================================================================
@@ -490,148 +454,148 @@ export const workbenchColors = {
   'titleBar.activeForeground': text.primary,
   'titleBar.inactiveBackground': bg.void,
   'titleBar.inactiveForeground': text.tertiary,
-  'titleBar.border': alpha(accent.primary, '15'),
+  'titleBar.border': withOpacity(accent.primary, '15'),
 
   // ==========================================================================
   // TABS
   // ==========================================================================
-  'tab.activeBackground': alpha(accent.primary, '10'),
+  'tab.activeBackground': withOpacity(accent.primary, '10'),
   'tab.activeForeground': text.primary,
   'tab.activeBorderTop': accent.magenta,
-  'tab.activeBorder': alpha(accent.primary, '30'),
+  'tab.activeBorder': withOpacity(accent.primary, '30'),
   'tab.inactiveBackground': bg.base,
-  'tab.inactiveForeground': themeColors.ui.deprecated,
+  'tab.inactiveForeground': t.ui.deprecated.hex,
   'tab.border': bg.elevated,
-  'tab.hoverBackground': alpha(accent.primary, '15'),
-  // High-distinction hover state (state ΔE distinction)
-  'tab.hoverForeground': themeColors.syntax.function,
-  'tab.hoverBorder': alpha(accent.primary, '30'),
+  'tab.hoverBackground': withOpacity(accent.primary, '15'),
+  // High-distinction hover state (state DeltaE distinction)
+  'tab.hoverForeground': t.syntax.function.hex,
+  'tab.hoverBorder': withOpacity(accent.primary, '30'),
   'tab.unfocusedActiveBackground': bg.surface,
   'tab.unfocusedActiveForeground': text.secondary,
-  'tab.unfocusedActiveBorderTop': alpha(accent.magenta, '60'),
-  'tab.unfocusedActiveBorder': alpha(accent.primary, '20'),
+  'tab.unfocusedActiveBorderTop': withOpacity(accent.magenta, '60'),
+  'tab.unfocusedActiveBorder': withOpacity(accent.primary, '20'),
   'tab.unfocusedInactiveBackground': bg.base,
   'tab.unfocusedInactiveForeground': text.tertiary,
-  'tab.unfocusedHoverBackground': alpha(accent.primary, '08'),
+  'tab.unfocusedHoverBackground': withOpacity(accent.primary, '08'),
   'tab.unfocusedHoverForeground': text.secondary,
-  'tab.unfocusedHoverBorder': alpha(accent.primary, '20'),
-  'tab.lastPinnedBorder': alpha(accent.magenta, '50'),
+  'tab.unfocusedHoverBorder': withOpacity(accent.primary, '20'),
+  'tab.lastPinnedBorder': withOpacity(accent.magenta, '50'),
   'tab.activeModifiedBorder': accent.magenta,
-  'tab.inactiveModifiedBorder': alpha(accent.magenta, '50'),
-  'tab.unfocusedActiveModifiedBorder': alpha(accent.magenta, '60'),
-  'tab.unfocusedInactiveModifiedBorder': alpha(accent.magenta, '30'),
+  'tab.inactiveModifiedBorder': withOpacity(accent.magenta, '50'),
+  'tab.unfocusedActiveModifiedBorder': withOpacity(accent.magenta, '60'),
+  'tab.unfocusedInactiveModifiedBorder': withOpacity(accent.magenta, '30'),
   'tab.dragAndDropBorder': accent.primary,
   'tab.selectedBackground': bg.surface,
   'tab.selectedForeground': accent.bright,
   'tab.selectedBorderTop': accent.primary,
   'editorGroupHeader.tabsBackground': bg.elevated,
-  'editorGroupHeader.tabsBorder': alpha(accent.primary, '15'),
+  'editorGroupHeader.tabsBorder': withOpacity(accent.primary, '15'),
   'editorGroupHeader.noTabsBackground': bg.base,
-  'editorGroupHeader.border': alpha(accent.primary, '10'),
+  'editorGroupHeader.border': withOpacity(accent.primary, '10'),
 
   // ==========================================================================
   // EDITOR GROUPS
   // ==========================================================================
-  'editorGroup.border': alpha(accent.primary, '25'),
-  'editorGroup.dropBackground': alpha(accent.primary, '20'),
+  'editorGroup.border': withOpacity(accent.primary, '25'),
+  'editorGroup.dropBackground': withOpacity(accent.primary, '20'),
   'editorGroup.dropIntoPromptForeground': text.primary,
-  'editorGroup.dropIntoPromptBackground': alpha(bg.elevated, 'F5'),
-  'editorGroup.dropIntoPromptBorder': alpha(accent.primary, '50'),
+  'editorGroup.dropIntoPromptBackground': withOpacity(bg.elevated, 'F5'),
+  'editorGroup.dropIntoPromptBorder': withOpacity(accent.primary, '50'),
   'editorGroup.emptyBackground': bg.surface,
-  'editorGroup.focusedEmptyBorder': alpha(accent.primary, '40'),
+  'editorGroup.focusedEmptyBorder': withOpacity(accent.primary, '40'),
   'editorPane.background': bg.base,
-  'sideBySideEditor.horizontalBorder': alpha(accent.primary, '25'),
-  'sideBySideEditor.verticalBorder': alpha(accent.primary, '25'),
+  'sideBySideEditor.horizontalBorder': withOpacity(accent.primary, '25'),
+  'sideBySideEditor.verticalBorder': withOpacity(accent.primary, '25'),
 
   // ==========================================================================
   // LISTS & TREES
   // ==========================================================================
-  'list.activeSelectionBackground': alpha(accent.magenta, '30'), // Magenta for selection (distinct from teal focus)
+  'list.activeSelectionBackground': withOpacity(accent.magenta, '30'), // Magenta for selection (distinct from teal focus)
   'list.activeSelectionForeground': text.primary,
   'list.activeSelectionIconForeground': text.primary,  // #E8EEF2 for Lc 75+ on selection bg
-  'list.inactiveSelectionBackground': alpha(accent.primary, '15'),
+  'list.inactiveSelectionBackground': withOpacity(accent.primary, '15'),
   'list.inactiveSelectionForeground': text.primary,
   'list.inactiveSelectionIconForeground': text.secondary,
-  'list.hoverBackground': alpha(accent.primary, '10'),
-  // Give hover/focus states distinct foreground tints (state ΔE distinction)
-  'list.hoverForeground': themeColors.syntax.function,
-  'list.focusBackground': alpha(accent.primary, '20'),
-  'list.focusForeground': themeColors.ui.operator,  // High-distinction focus state
-  'list.focusOutline': alpha(accent.bright, 'DD'),
-  'list.focusAndSelectionOutline': alpha(accent.magenta, '80'),
+  'list.hoverBackground': withOpacity(accent.primary, '10'),
+  // Give hover/focus states distinct foreground tints (state DeltaE distinction)
+  'list.hoverForeground': t.syntax.function.hex,
+  'list.focusBackground': withOpacity(accent.primary, '20'),
+  'list.focusForeground': t.ui.operator.hex,  // High-distinction focus state
+  'list.focusOutline': withOpacity(accent.bright, 'DD'),
+  'list.focusAndSelectionOutline': withOpacity(accent.magenta, '80'),
   'list.focusHighlightForeground': text.primary,  // #E8EEF2 for Lc 75+ on focus bg
   'list.highlightForeground': accent.bright,
-  'list.dropBackground': alpha(accent.primary, '20'),
-  'list.dropBetweenBackground': alpha(accent.primary, '40'),
+  'list.dropBackground': withOpacity(accent.primary, '20'),
+  'list.dropBetweenBackground': withOpacity(accent.primary, '40'),
   'list.errorForeground': semantic.error,
   'list.warningForeground': semantic.warning,
   'list.invalidItemForeground': semantic.error,
   'list.deemphasizedForeground': text.secondary,   // #A1B3B6 - Brighter for readability
-  'list.inactiveFocusBackground': alpha(accent.primary, '10'),
-  'list.inactiveFocusOutline': alpha(accent.primary, '30'),
-  'list.filterMatchBackground': alpha(semantic.warning, '20'),
-  'list.filterMatchBorder': alpha(semantic.warning, '50'),
+  'list.inactiveFocusBackground': withOpacity(accent.primary, '10'),
+  'list.inactiveFocusOutline': withOpacity(accent.primary, '30'),
+  'list.filterMatchBackground': withOpacity(semantic.warning, '20'),
+  'list.filterMatchBorder': withOpacity(semantic.warning, '50'),
   'listFilterWidget.background': bg.elevated,
-  'listFilterWidget.outline': alpha(accent.primary, '60'),
+  'listFilterWidget.outline': withOpacity(accent.primary, '60'),
   'listFilterWidget.noMatchesOutline': semantic.error,
-  'listFilterWidget.shadow': alpha(bg.void, '60'),
+  'listFilterWidget.shadow': withOpacity(bg.void, '60'),
 
   // Tree
-  'tree.indentGuidesStroke': alpha(accent.primary, '30'),
-  'tree.inactiveIndentGuidesStroke': alpha(accent.primary, '15'),
-  'tree.tableColumnsBorder': alpha(accent.primary, '20'),
-  'tree.tableOddRowsBackground': alpha(accent.primary, '04'),
+  'tree.indentGuidesStroke': withOpacity(accent.primary, '30'),
+  'tree.inactiveIndentGuidesStroke': withOpacity(accent.primary, '15'),
+  'tree.tableColumnsBorder': withOpacity(accent.primary, '20'),
+  'tree.tableOddRowsBackground': withOpacity(accent.primary, '04'),
 
   // ==========================================================================
   // MINIMAP
   // ==========================================================================
-  'minimap.background': alpha(bg.base, 'CC'),
-  'minimap.foregroundOpacity': themeColors.ui.minimapOpacity,
-  'minimap.selectionHighlight': alpha(accent.primary, '50'),
-  'minimap.selectionOccurrenceHighlight': alpha(accent.primary, '35'),
-  'minimap.findMatchHighlight': alpha(semantic.warning, '70'),
-  'minimap.errorHighlight': alpha(semantic.error, '70'),
-  'minimap.warningHighlight': alpha(semantic.warning, '70'),
-  'minimap.infoHighlight': alpha(accent.primary, '70'),
-  'minimap.chatEditHighlight': alpha(accent.bright, '50'),
-  'minimapSlider.background': alpha(accent.primary, '12'),
-  'minimapSlider.hoverBackground': alpha(accent.primary, '25'),
-  'minimapSlider.activeBackground': alpha(accent.primary, '40'),
+  'minimap.background': withOpacity(bg.base, 'CC'),
+  'minimap.foregroundOpacity': t.ui.minimapOpacity,
+  'minimap.selectionHighlight': withOpacity(accent.primary, '50'),
+  'minimap.selectionOccurrenceHighlight': withOpacity(accent.primary, '35'),
+  'minimap.findMatchHighlight': withOpacity(semantic.warning, '70'),
+  'minimap.errorHighlight': withOpacity(semantic.error, '70'),
+  'minimap.warningHighlight': withOpacity(semantic.warning, '70'),
+  'minimap.infoHighlight': withOpacity(accent.primary, '70'),
+  'minimap.chatEditHighlight': withOpacity(accent.bright, '50'),
+  'minimapSlider.background': withOpacity(accent.primary, '12'),
+  'minimapSlider.hoverBackground': withOpacity(accent.primary, '25'),
+  'minimapSlider.activeBackground': withOpacity(accent.primary, '40'),
   'minimapGutter.addedBackground': semantic.success,
   'minimapGutter.modifiedBackground': semantic.warning,
   'minimapGutter.deletedBackground': semantic.error,
-  'editorMinimap.inlineChatInserted': alpha(semantic.success, '50'),
+  'editorMinimap.inlineChatInserted': withOpacity(semantic.success, '50'),
 
   // ==========================================================================
   // SCROLLBAR
   // ==========================================================================
-  'scrollbar.background': alpha(bg.base, '00'),
-  'scrollbar.shadow': alpha(bg.void, '60'),
-  'scrollbarSlider.background': alpha(accent.primary, '25'),
-  'scrollbarSlider.hoverBackground': alpha(accent.primary, '40'),
-  'scrollbarSlider.activeBackground': alpha(accent.primary, '55'),
+  'scrollbar.background': withOpacity(bg.base, '00'),
+  'scrollbar.shadow': withOpacity(bg.void, '60'),
+  'scrollbarSlider.background': withOpacity(accent.primary, '25'),
+  'scrollbarSlider.hoverBackground': withOpacity(accent.primary, '40'),
+  'scrollbarSlider.activeBackground': withOpacity(accent.primary, '55'),
 
   // ==========================================================================
   // PANEL (Bottom panel: Terminal, Output, etc.)
   // ==========================================================================
   'panel.background': bg.void,
-  'panel.border': alpha(accent.primary, '25'),
+  'panel.border': withOpacity(accent.primary, '25'),
   'panel.dropBorder': accent.primary,
   'panelTitle.activeBorder': accent.magenta,
   'panelTitle.activeForeground': accent.bright,
   'panelTitle.inactiveForeground': text.tertiary,
-  'panelTitle.border': alpha(accent.primary, '15'),
+  'panelTitle.border': withOpacity(accent.primary, '15'),
   'panelTitleBadge.background': accent.primary,
   'panelTitleBadge.foreground': text.primary,
-  'panelInput.border': alpha(accent.primary, '40'),
-  'panelSection.border': alpha(accent.primary, '20'),
-  'panelSection.dropBackground': alpha(accent.primary, '15'),
+  'panelInput.border': withOpacity(accent.primary, '40'),
+  'panelSection.border': withOpacity(accent.primary, '20'),
+  'panelSection.dropBackground': withOpacity(accent.primary, '15'),
   'panelSectionHeader.background': bg.elevated,
   'panelSectionHeader.foreground': accent.bright,
-  'panelSectionHeader.border': alpha(accent.primary, '20'),
+  'panelSectionHeader.border': withOpacity(accent.primary, '20'),
   'panelStickyScroll.background': bg.void,
-  'panelStickyScroll.border': alpha(accent.primary, '15'),
-  'panelStickyScroll.shadow': alpha(bg.void, '60'),
+  'panelStickyScroll.border': withOpacity(accent.primary, '15'),
+  'panelStickyScroll.shadow': withOpacity(bg.void, '60'),
   'outputView.background': bg.void,
   'outputViewStickyScroll.background': bg.void,
 
@@ -640,106 +604,106 @@ export const workbenchColors = {
   // ==========================================================================
   'terminal.background': bg.void,
   'terminal.foreground': text.primary,
-  'terminal.border': alpha(accent.primary, '25'),
-  'terminal.selectionBackground': alpha(accent.primary, '35'),
+  'terminal.border': withOpacity(accent.primary, '25'),
+  'terminal.selectionBackground': withOpacity(accent.primary, '35'),
   'terminal.selectionForeground': text.primary,
-  'terminal.inactiveSelectionBackground': alpha(accent.primary, '20'),
-  'terminal.findMatchBackground': alpha(semantic.warning, '40'),
-  'terminal.findMatchBorder': alpha(semantic.warning, '80'),
-  'terminal.findMatchHighlightBackground': alpha(accent.bright, '25'),
-  'terminal.findMatchHighlightBorder': alpha(accent.bright, '50'),
-  'terminal.hoverHighlightBackground': alpha(accent.primary, '15'),
-  'terminal.initialHintForeground': themeColors.ui.terminalHint,  // #5A8A88 - Lc 40+ readable hints
+  'terminal.inactiveSelectionBackground': withOpacity(accent.primary, '20'),
+  'terminal.findMatchBackground': withOpacity(semantic.warning, '40'),
+  'terminal.findMatchBorder': withOpacity(semantic.warning, '80'),
+  'terminal.findMatchHighlightBackground': withOpacity(accent.bright, '25'),
+  'terminal.findMatchHighlightBorder': withOpacity(accent.bright, '50'),
+  'terminal.hoverHighlightBackground': withOpacity(accent.primary, '15'),
+  'terminal.initialHintForeground': t.ui.terminalHint.hex,  // #5A8A88 - Lc 40+ readable hints
   'terminalCursor.foreground': accent.magenta,
   'terminalCursor.background': bg.void,
-  'terminal.dropBackground': alpha(accent.primary, '15'),
+  'terminal.dropBackground': withOpacity(accent.primary, '15'),
   'terminal.tab.activeBorder': accent.magenta,
 
   // ANSI Colors - APCA Lc 75+ for terminal readability
   // All colors optimized for void background
-  'terminal.ansiBlack': themeColors.terminal.black,
-  'terminal.ansiRed': themeColors.terminal.red,
-  'terminal.ansiGreen': themeColors.terminal.green,
-  'terminal.ansiYellow': themeColors.terminal.yellow,
-  'terminal.ansiBlue': themeColors.terminal.blue,
-  'terminal.ansiMagenta': themeColors.terminal.magenta,
-  'terminal.ansiCyan': themeColors.terminal.cyan,
-  'terminal.ansiWhite': themeColors.terminal.white,
-  'terminal.ansiBrightBlack': themeColors.terminal.brightBlack,
-  'terminal.ansiBrightRed': themeColors.terminal.brightRed,
-  'terminal.ansiBrightGreen': themeColors.terminal.brightGreen,
-  'terminal.ansiBrightYellow': themeColors.terminal.brightYellow,
-  'terminal.ansiBrightBlue': themeColors.terminal.brightBlue,
-  'terminal.ansiBrightMagenta': themeColors.terminal.brightMagenta,
-  'terminal.ansiBrightCyan': themeColors.terminal.brightCyan,
-  'terminal.ansiBrightWhite': themeColors.terminal.brightWhite,
+  'terminal.ansiBlack': t.terminal.black.hex,
+  'terminal.ansiRed': t.terminal.red.hex,
+  'terminal.ansiGreen': t.terminal.green.hex,
+  'terminal.ansiYellow': t.terminal.yellow.hex,
+  'terminal.ansiBlue': t.terminal.blue.hex,
+  'terminal.ansiMagenta': t.terminal.magenta.hex,
+  'terminal.ansiCyan': t.terminal.cyan.hex,
+  'terminal.ansiWhite': t.terminal.white.hex,
+  'terminal.ansiBrightBlack': t.terminal.brightBlack.hex,
+  'terminal.ansiBrightRed': t.terminal.brightRed.hex,
+  'terminal.ansiBrightGreen': t.terminal.brightGreen.hex,
+  'terminal.ansiBrightYellow': t.terminal.brightYellow.hex,
+  'terminal.ansiBrightBlue': t.terminal.brightBlue.hex,
+  'terminal.ansiBrightMagenta': t.terminal.brightMagenta.hex,
+  'terminal.ansiBrightCyan': t.terminal.brightCyan.hex,
+  'terminal.ansiBrightWhite': t.terminal.brightWhite.hex,
 
   // Terminal decorations
-  'terminalCommandDecoration.defaultBackground': alpha(text.tertiary, '40'),
-  'terminalCommandDecoration.successBackground': alpha(semantic.success, '60'),
-  'terminalCommandDecoration.errorBackground': alpha(semantic.error, '60'),
-  'terminalCommandGuide.foreground': themeColors.ui.terminalGuide,  // #2A4A48 - Lc 15 subtle guide
+  'terminalCommandDecoration.defaultBackground': withOpacity(text.tertiary, '40'),
+  'terminalCommandDecoration.successBackground': withOpacity(semantic.success, '60'),
+  'terminalCommandDecoration.errorBackground': withOpacity(semantic.error, '60'),
+  'terminalCommandGuide.foreground': t.ui.terminalGuide.hex,  // #2A4A48 - Lc 15 subtle guide
   'terminalOverviewRuler.cursorForeground': accent.magenta,
-  'terminalOverviewRuler.findMatchForeground': alpha(semantic.warning, '80'),
-  'terminalOverviewRuler.border': alpha(accent.primary, '20'),
+  'terminalOverviewRuler.findMatchForeground': withOpacity(semantic.warning, '80'),
+  'terminalOverviewRuler.border': withOpacity(accent.primary, '20'),
   'terminalStickyScroll.background': bg.void,
-  'terminalStickyScroll.border': alpha(accent.primary, '15'),
-  'terminalStickyScrollHover.background': alpha(accent.primary, '10'),
+  'terminalStickyScroll.border': withOpacity(accent.primary, '15'),
+  'terminalStickyScrollHover.background': withOpacity(accent.primary, '10'),
 
   // Terminal symbol icons
   'terminalSymbolIcon.aliasForeground': accent.soft,
   'terminalSymbolIcon.branchForeground': accent.bright,
-  // Lavender commit icons (Digital Stars) for ΔE separation from branch teal
-  'terminalSymbolIcon.commitForeground': digitalStars.y2021.outfit.gradient,
+  // Lavender commit icons (Digital Stars) for DeltaE separation from branch teal
+  'terminalSymbolIcon.commitForeground': t.decorative.commitIcon,
   'terminalSymbolIcon.flagForeground': semantic.warning,
   'terminalSymbolIcon.optionForeground': text.primary,
-  'terminalSymbolIcon.optionValueForeground': themeColors.symbol.snippet,
-  'terminalSymbolIcon.methodForeground': themeColors.symbol.method,
+  'terminalSymbolIcon.optionValueForeground': t.symbol.snippet.hex,
+  'terminalSymbolIcon.methodForeground': t.symbol.method.hex,
   'terminalSymbolIcon.argumentForeground': accent.soft,
-  'terminalSymbolIcon.inlineSuggestionForeground': themeColors.ui.linkActive,
+  'terminalSymbolIcon.inlineSuggestionForeground': t.ui.linkActive.hex,
   'terminalSymbolIcon.fileForeground': text.primary,
   'terminalSymbolIcon.folderForeground': accent.primary,
   'terminalSymbolIcon.pullRequestDoneForeground': semantic.success,
-  'terminalSymbolIcon.pullRequestForeground': leoNeed.hair.highlight,
-  'terminalSymbolIcon.remoteForeground': themeColors.symbol.interface,
+  'terminalSymbolIcon.pullRequestForeground': t.decorative.multiCursorSecondary,
+  'terminalSymbolIcon.remoteForeground': t.symbol.interface.hex,
   'terminalSymbolIcon.stashForeground': text.tertiary,
   'terminalSymbolIcon.symbolText': text.primary,
-  'terminalSymbolIcon.symbolicLinkFileForeground': themeColors.symbol.enumerator,
-  'terminalSymbolIcon.symbolicLinkFolderForeground': themeColors.symbol.enumerator,
+  'terminalSymbolIcon.symbolicLinkFileForeground': t.symbol.enumerator.hex,
+  'terminalSymbolIcon.symbolicLinkFolderForeground': t.symbol.enumerator.hex,
   'terminalSymbolIcon.tagForeground': semantic.warning,
 
   // ==========================================================================
   // DEBUGGER
   // ==========================================================================
-  'debugToolBar.background': alpha(bg.elevated, 'F8'),
-  'debugToolBar.border': alpha(semantic.warning, '40'),
+  'debugToolBar.background': withOpacity(bg.elevated, 'F8'),
+  'debugToolBar.border': withOpacity(semantic.warning, '40'),
   'debugIcon.breakpointForeground': semantic.error,
   'debugIcon.breakpointDisabledForeground': text.disabled,
-  'debugIcon.breakpointUnverifiedForeground': alpha(semantic.error, '70'),
+  'debugIcon.breakpointUnverifiedForeground': withOpacity(semantic.error, '70'),
   'debugIcon.breakpointCurrentStackframeForeground': semantic.warning,
   'debugIcon.breakpointStackframeForeground': semantic.success,
   'debugIcon.startForeground': semantic.success,
   'debugIcon.pauseForeground': semantic.warning,
   'debugIcon.stopForeground': semantic.error,
-  'debugIcon.disconnectForeground': alpha(semantic.error, '80'), // Distinct from stop
+  'debugIcon.disconnectForeground': withOpacity(semantic.error, '80'), // Distinct from stop
   'debugIcon.restartForeground': semantic.success,
   'debugIcon.stepOverForeground': accent.bright,
-  'debugIcon.stepIntoForeground': themeColors.ui.linkActive, // Different color for step into
-  'debugIcon.stepOutForeground': themeColors.syntax.pastelIndigo, // Different color for step out
+  'debugIcon.stepIntoForeground': t.ui.linkActive.hex, // Different color for step into
+  'debugIcon.stepOutForeground': t.syntax.typeParameter.hex, // Different color for step out
   'debugIcon.continueForeground': semantic.success,
-  // Magenta "step back" for clear ΔE separation from step over
+  // Magenta "step back" for clear DeltaE separation from step over
   'debugIcon.stepBackForeground': accent.magenta,
   'debugConsole.infoForeground': semantic.info,  // #88F0E8 - Miku cyan (Lc 87)
   'debugConsole.warningForeground': semantic.warning,
   'debugConsole.errorForeground': semantic.error,
   'debugConsole.sourceForeground': text.primary,
   'debugConsoleInputIcon.foreground': accent.primary,
-  'debugExceptionWidget.background': alpha(semantic.error, '15'),
+  'debugExceptionWidget.background': withOpacity(semantic.error, '15'),
   'debugExceptionWidget.border': semantic.error,
-  'debugTokenExpression.name': themeColors.debug.name,
-  'debugTokenExpression.value': themeColors.debug.value,
-  'debugTokenExpression.string': themeColors.debug.string,
-  'debugTokenExpression.boolean': themeColors.syntax.pastelIndigo,
+  'debugTokenExpression.name': t.debug.name.hex,
+  'debugTokenExpression.value': t.debug.value.hex,
+  'debugTokenExpression.string': t.debug.string.hex,
+  'debugTokenExpression.boolean': t.syntax.typeParameter.hex,
   'debugTokenExpression.number': semantic.success,
   'debugTokenExpression.error': semantic.error,
   'debugTokenExpression.type': accent.soft,
@@ -747,24 +711,24 @@ export const workbenchColors = {
   'debugView.exceptionLabelBackground': semantic.error,
   'debugView.stateLabelForeground': text.primary,
   'debugView.stateLabelBackground': semantic.success,
-  'debugView.valueChangedHighlight': alpha(accent.bright, '40'),
+  'debugView.valueChangedHighlight': withOpacity(accent.bright, '40'),
 
   // ==========================================================================
   // PEEK VIEW
   // ==========================================================================
-  'peekView.border': alpha(accent.primary, '60'),
+  'peekView.border': withOpacity(accent.primary, '60'),
   'peekViewTitle.background': bg.surface,
   'peekViewTitleLabel.foreground': accent.bright,
   'peekViewTitleDescription.foreground': text.secondary,
   'peekViewEditor.background': bg.base,
-  'peekViewEditor.matchHighlightBackground': alpha(semantic.warning, '30'),
-  'peekViewEditor.matchHighlightBorder': alpha(semantic.warning, '60'),
+  'peekViewEditor.matchHighlightBackground': withOpacity(semantic.warning, '30'),
+  'peekViewEditor.matchHighlightBorder': withOpacity(semantic.warning, '60'),
   'peekViewEditorGutter.background': bg.elevated,
   'peekViewResult.background': bg.surface,
   'peekViewResult.fileForeground': text.primary,
   'peekViewResult.lineForeground': text.secondary,
-  'peekViewResult.matchHighlightBackground': alpha(semantic.warning, '25'),
-  'peekViewResult.selectionBackground': alpha(accent.primary, '25'),
+  'peekViewResult.matchHighlightBackground': withOpacity(semantic.warning, '25'),
+  'peekViewResult.selectionBackground': withOpacity(accent.primary, '25'),
   'peekViewResult.selectionForeground': text.primary,
   'peekViewEditorStickyScroll.background': bg.base,
   'peekViewEditorStickyScrollGutter.background': bg.elevated,
@@ -772,22 +736,22 @@ export const workbenchColors = {
   // ==========================================================================
   // DIFF EDITOR
   // ==========================================================================
-  'diffEditor.insertedTextBackground': alpha(semantic.success, '12'),
-  'diffEditor.insertedTextBorder': alpha(semantic.success, '30'),
-  'diffEditor.insertedLineBackground': alpha(semantic.success, '08'),
-  'diffEditor.removedTextBackground': alpha(semantic.error, '15'),
-  'diffEditor.removedTextBorder': alpha(semantic.error, '30'),
-  'diffEditor.removedLineBackground': alpha(semantic.error, '08'),
-  'diffEditor.diagonalFill': alpha(text.tertiary, '15'),
-  'diffEditor.border': alpha(accent.primary, '25'),
-  'diffEditor.unchangedRegionBackground': alpha(bg.overlay, '30'),
+  'diffEditor.insertedTextBackground': withOpacity(semantic.success, '12'),
+  'diffEditor.insertedTextBorder': withOpacity(semantic.success, '30'),
+  'diffEditor.insertedLineBackground': withOpacity(semantic.success, '08'),
+  'diffEditor.removedTextBackground': withOpacity(semantic.error, '15'),
+  'diffEditor.removedTextBorder': withOpacity(semantic.error, '30'),
+  'diffEditor.removedLineBackground': withOpacity(semantic.error, '08'),
+  'diffEditor.diagonalFill': withOpacity(text.tertiary, '15'),
+  'diffEditor.border': withOpacity(accent.primary, '25'),
+  'diffEditor.unchangedRegionBackground': withOpacity(bg.overlay, '30'),
   'diffEditor.unchangedRegionForeground': text.tertiary,
-  'diffEditor.unchangedRegionShadow': alpha(bg.void, '40'),
-  'diffEditor.unchangedCodeBackground': alpha(bg.overlay, '15'),
-  'diffEditor.move.border': alpha(digitalStars.y2021_mg.outfit.gradient, '50'),
-  'diffEditor.moveActive.border': digitalStars.y2021_mg.outfit.gradient,
-  'diffEditorGutter.insertedLineBackground': alpha(semantic.success, '25'),
-  'diffEditorGutter.removedLineBackground': alpha(semantic.error, '25'),
+  'diffEditor.unchangedRegionShadow': withOpacity(bg.void, '40'),
+  'diffEditor.unchangedCodeBackground': withOpacity(bg.overlay, '15'),
+  'diffEditor.move.border': withOpacity(t.decorative.diffMoveBorder, '50'),
+  'diffEditor.moveActive.border': t.decorative.diffMoveBorder,
+  'diffEditorGutter.insertedLineBackground': withOpacity(semantic.success, '25'),
+  'diffEditorGutter.removedLineBackground': withOpacity(semantic.error, '25'),
   'diffEditorOverview.insertedForeground': semantic.success,
   'diffEditorOverview.removedForeground': semantic.error,
 
@@ -796,45 +760,45 @@ export const workbenchColors = {
   // ==========================================================================
   'multiDiffEditor.headerBackground': bg.surface,
   'multiDiffEditor.background': bg.base,
-  'multiDiffEditor.border': alpha(accent.primary, '25'),
+  'multiDiffEditor.border': withOpacity(accent.primary, '25'),
 
   // ==========================================================================
   // MERGE EDITOR
   // ==========================================================================
-  'merge.currentHeaderBackground': alpha(accent.bright, '35'),
-  'merge.currentContentBackground': alpha(accent.bright, '12'),
-  'merge.incomingHeaderBackground': alpha(semantic.success, '35'),
-  'merge.incomingContentBackground': alpha(semantic.success, '12'),
-  'merge.border': alpha(accent.primary, '40'),
-  'merge.commonContentBackground': alpha(bg.overlay, '25'),
-  'merge.commonHeaderBackground': alpha(bg.overlay, '40'),
-  'mergeEditor.change.background': alpha(accent.bright, '10'),
-  'mergeEditor.change.word.background': alpha(accent.bright, '25'),
-  'mergeEditor.conflict.unhandledUnfocused.border': alpha(semantic.warning, '50'),
+  'merge.currentHeaderBackground': withOpacity(accent.bright, '35'),
+  'merge.currentContentBackground': withOpacity(accent.bright, '12'),
+  'merge.incomingHeaderBackground': withOpacity(semantic.success, '35'),
+  'merge.incomingContentBackground': withOpacity(semantic.success, '12'),
+  'merge.border': withOpacity(accent.primary, '40'),
+  'merge.commonContentBackground': withOpacity(bg.overlay, '25'),
+  'merge.commonHeaderBackground': withOpacity(bg.overlay, '40'),
+  'mergeEditor.change.background': withOpacity(accent.bright, '10'),
+  'mergeEditor.change.word.background': withOpacity(accent.bright, '25'),
+  'mergeEditor.conflict.unhandledUnfocused.border': withOpacity(semantic.warning, '50'),
   'mergeEditor.conflict.unhandledFocused.border': semantic.warning,
-  'mergeEditor.conflict.handledUnfocused.border': alpha(semantic.success, '50'),
+  'mergeEditor.conflict.handledUnfocused.border': withOpacity(semantic.success, '50'),
   'mergeEditor.conflict.handledFocused.border': semantic.success,
   'mergeEditor.conflict.handled.minimapOverViewRuler': semantic.success,
   'mergeEditor.conflict.unhandled.minimapOverViewRuler': semantic.warning,
-  'mergeEditor.conflictingLines.background': alpha(semantic.warning, '15'),
-  'mergeEditor.changeBase.background': alpha(bg.overlay, '15'),
-  'mergeEditor.changeBase.word.background': alpha(bg.overlay, '30'),
-  'mergeEditor.conflict.input1.background': alpha(accent.bright, '12'),
-  'mergeEditor.conflict.input2.background': alpha(semantic.success, '12'),
+  'mergeEditor.conflictingLines.background': withOpacity(semantic.warning, '15'),
+  'mergeEditor.changeBase.background': withOpacity(bg.overlay, '15'),
+  'mergeEditor.changeBase.word.background': withOpacity(bg.overlay, '30'),
+  'mergeEditor.conflict.input1.background': withOpacity(accent.bright, '12'),
+  'mergeEditor.conflict.input2.background': withOpacity(semantic.success, '12'),
 
   // ==========================================================================
   // GIT DECORATIONS - All Lc 75+ for sidebar background
   // ==========================================================================
-  'gitDecoration.addedResourceForeground': themeColors.git.added,
-  'gitDecoration.modifiedResourceForeground': themeColors.git.modified,
-  'gitDecoration.deletedResourceForeground': themeColors.git.deleted,
-  'gitDecoration.untrackedResourceForeground': themeColors.git.untracked,
+  'gitDecoration.addedResourceForeground': t.git.added.hex,
+  'gitDecoration.modifiedResourceForeground': t.git.modified.hex,
+  'gitDecoration.deletedResourceForeground': t.git.deleted.hex,
+  'gitDecoration.untrackedResourceForeground': t.git.untracked.hex,
   'gitDecoration.ignoredResourceForeground': text.disabled,
-  'gitDecoration.conflictingResourceForeground': themeColors.git.conflicting,
-  'gitDecoration.stageModifiedResourceForeground': themeColors.git.stageModified,
-  'gitDecoration.stageDeletedResourceForeground': themeColors.git.stageDeleted,
-  'gitDecoration.renamedResourceForeground': themeColors.git.renamed,
-  'gitDecoration.submoduleResourceForeground': themeColors.git.submodule,
+  'gitDecoration.conflictingResourceForeground': t.git.conflicting.hex,
+  'gitDecoration.stageModifiedResourceForeground': t.git.stageModified.hex,
+  'gitDecoration.stageDeletedResourceForeground': t.git.stageDeleted.hex,
+  'gitDecoration.renamedResourceForeground': t.git.renamed.hex,
+  'gitDecoration.submoduleResourceForeground': t.git.submodule.hex,
   'git.blame.editorDecorationForeground': text.disabled,
 
   // ==========================================================================
@@ -842,17 +806,17 @@ export const workbenchColors = {
   // ==========================================================================
   'scmGraph.historyItemHoverLabelForeground': text.primary,
   'scmGraph.historyItemHoverDefaultLabelForeground': text.secondary,
-  'scmGraph.historyItemHoverDefaultLabelBackground': alpha(bg.surface, '80'),
+  'scmGraph.historyItemHoverDefaultLabelBackground': withOpacity(bg.surface, '80'),
   // SCM Graph - Project SEKAI unit colors (each branch is a unit's story)
-  'scmGraph.foreground1': virtualSinger.imageColor,        // Virtual Singer - main branch
-  'scmGraph.foreground2': leoNeed.unitColor,               // LEO/NEED - royal blue
-  'scmGraph.foreground3': moreMoreJump.unitColor,          // MORE MORE JUMP! - bright green
-  'scmGraph.foreground4': vividBadSquad.unitColor,         // VIVID BAD SQUAD - vivid pink
-  'scmGraph.foreground5': wonderlandsShowtime.unitColor,   // Wonderlands×Showtime - orange
+  'scmGraph.foreground1': t.decorative.scmGraph[0],        // Virtual Singer - main branch
+  'scmGraph.foreground2': t.decorative.scmGraph[1],               // LEO/NEED - royal blue
+  'scmGraph.foreground3': t.decorative.scmGraph[2],          // MORE MORE JUMP! - bright green
+  'scmGraph.foreground4': t.decorative.scmGraph[3],         // VIVID BAD SQUAD - vivid pink
+  'scmGraph.foreground5': t.decorative.scmGraph[4],   // Wonderlands x Showtime - orange
   'scmGraph.historyItemHoverAdditionsForeground': semantic.success,
   'scmGraph.historyItemHoverDeletionsForeground': semantic.error,
   'scmGraph.historyItemRefColor': accent.bright,
-  'scmGraph.historyItemRemoteRefColor': leoNeed.hair.highlight,
+  'scmGraph.historyItemRemoteRefColor': t.decorative.scmRemoteRef,
   'scmGraph.historyItemBaseRefColor': accent.primary,
 
   // ==========================================================================
@@ -860,12 +824,12 @@ export const workbenchColors = {
   // ==========================================================================
   'notifications.foreground': text.primary,
   'notifications.background': bg.elevated,
-  'notifications.border': alpha(accent.primary, '30'),
-  'notificationToast.border': alpha(accent.primary, '40'),
+  'notifications.border': withOpacity(accent.primary, '30'),
+  'notificationToast.border': withOpacity(accent.primary, '40'),
   'notificationCenterHeader.foreground': accent.bright,
   'notificationCenterHeader.background': bg.surface,
-  'notificationCenter.border': alpha(accent.primary, '30'),
-  'notificationLink.foreground': themeColors.ui.linkActive,
+  'notificationCenter.border': withOpacity(accent.primary, '30'),
+  'notificationLink.foreground': t.ui.linkActive.hex,
   'notificationsInfoIcon.foreground': accent.primary,
   'notificationsWarningIcon.foreground': semantic.warning,
   'notificationsErrorIcon.foreground': semantic.error,
@@ -875,13 +839,13 @@ export const workbenchColors = {
   // ==========================================================================
   'commandCenter.foreground': text.primary,
   'commandCenter.background': bg.void,
-  'commandCenter.border': alpha(accent.primary, '30'),
-  'commandCenter.activeForeground': themeColors.syntax.function,
-  'commandCenter.activeBackground': alpha(accent.primary, '15'),
-  'commandCenter.activeBorder': alpha(accent.primary, '50'),
+  'commandCenter.border': withOpacity(accent.primary, '30'),
+  'commandCenter.activeForeground': t.syntax.function.hex,
+  'commandCenter.activeBackground': withOpacity(accent.primary, '15'),
+  'commandCenter.activeBorder': withOpacity(accent.primary, '50'),
   'commandCenter.inactiveForeground': text.tertiary,
-  'commandCenter.inactiveBorder': alpha(text.tertiary, '25'),
-  'commandCenter.debuggingBackground': alpha(semantic.warning, '20'),
+  'commandCenter.inactiveBorder': withOpacity(text.tertiary, '25'),
+  'commandCenter.debuggingBackground': withOpacity(semantic.warning, '20'),
 
   // ==========================================================================
   // QUICK INPUT
@@ -889,28 +853,28 @@ export const workbenchColors = {
   'quickInput.background': bg.elevated,
   'quickInput.foreground': text.primary,
   'quickInputTitle.background': bg.surface,
-  'quickInputList.focusBackground': alpha(accent.primary, '25'),
+  'quickInputList.focusBackground': withOpacity(accent.primary, '25'),
   'quickInputList.focusForeground': text.primary,
   'quickInputList.focusIconForeground': text.primary,  // #E8EEF2 for Lc 75+ on focus bg
-  'pickerGroup.border': alpha(accent.primary, '30'),
+  'pickerGroup.border': withOpacity(accent.primary, '30'),
   'pickerGroup.foreground': accent.bright,
 
   // ==========================================================================
   // KEYBINDING LABELS
   // ==========================================================================
-  'keybindingLabel.background': alpha(accent.primary, '15'),
+  'keybindingLabel.background': withOpacity(accent.primary, '15'),
   'keybindingLabel.foreground': text.primary,
-  'keybindingLabel.border': alpha(accent.primary, '35'),
-  'keybindingLabel.bottomBorder': alpha(accent.primary, '50'),
+  'keybindingLabel.border': withOpacity(accent.primary, '35'),
+  'keybindingLabel.bottomBorder': withOpacity(accent.primary, '50'),
   'keybindingTable.headerBackground': bg.surface,
-  'keybindingTable.rowsBackground': alpha(accent.primary, '04'),
+  'keybindingTable.rowsBackground': withOpacity(accent.primary, '04'),
 
   // ==========================================================================
   // BREADCRUMBS
   // ==========================================================================
   'breadcrumb.foreground': text.secondary,
   'breadcrumb.background': bg.base,
-  'breadcrumb.focusForeground': themeColors.syntax.function,
+  'breadcrumb.focusForeground': t.syntax.function.hex,
   'breadcrumb.activeSelectionForeground': text.primary,
   'breadcrumbPicker.background': bg.elevated,
 
@@ -919,14 +883,14 @@ export const workbenchColors = {
   // ==========================================================================
   'menu.background': bg.elevated,
   'menu.foreground': text.primary,
-  'menu.selectionBackground': alpha(accent.primary, '25'),
+  'menu.selectionBackground': withOpacity(accent.primary, '25'),
   'menu.selectionForeground': text.primary,
-  'menu.selectionBorder': alpha(accent.primary, '35'),
-  'menu.separatorBackground': alpha(accent.primary, '25'),
-  'menu.border': alpha(accent.primary, '30'),
-  'menubar.selectionBackground': alpha(accent.primary, '20'),
+  'menu.selectionBorder': withOpacity(accent.primary, '35'),
+  'menu.separatorBackground': withOpacity(accent.primary, '25'),
+  'menu.border': withOpacity(accent.primary, '30'),
+  'menubar.selectionBackground': withOpacity(accent.primary, '20'),
   'menubar.selectionForeground': text.primary,
-  'menubar.selectionBorder': alpha(accent.primary, '30'),
+  'menubar.selectionBorder': withOpacity(accent.primary, '30'),
 
   // ==========================================================================
   // SETTINGS EDITOR
@@ -935,59 +899,59 @@ export const workbenchColors = {
   'settings.modifiedItemIndicator': accent.magenta,
   'settings.dropdownBackground': bg.elevated,
   'settings.dropdownForeground': text.primary,
-  'settings.dropdownBorder': alpha(accent.primary, '40'),
-  'settings.dropdownListBorder': alpha(accent.primary, '50'),
+  'settings.dropdownBorder': withOpacity(accent.primary, '40'),
+  'settings.dropdownListBorder': withOpacity(accent.primary, '50'),
   'settings.checkboxBackground': bg.elevated,
   'settings.checkboxForeground': accent.bright,    // #5DE4DB - Bright for visibility
-  'settings.checkboxBorder': alpha(accent.primary, '50'),
+  'settings.checkboxBorder': withOpacity(accent.primary, '50'),
   'settings.textInputBackground': bg.elevated,
   'settings.textInputForeground': text.primary,
-  'settings.textInputBorder': alpha(accent.primary, '40'),
+  'settings.textInputBorder': withOpacity(accent.primary, '40'),
   'settings.numberInputBackground': bg.elevated,
   'settings.numberInputForeground': text.primary,
-  'settings.numberInputBorder': alpha(accent.primary, '40'),
-  'settings.focusedRowBackground': alpha(accent.primary, '08'),
-  'settings.focusedRowBorder': alpha(accent.primary, '35'),
-  'settings.rowHoverBackground': alpha(accent.primary, '05'),
-  'settings.sashBorder': alpha(accent.primary, '25'),
-  'settings.headerBorder': alpha(accent.primary, '20'),
+  'settings.numberInputBorder': withOpacity(accent.primary, '40'),
+  'settings.focusedRowBackground': withOpacity(accent.primary, '08'),
+  'settings.focusedRowBorder': withOpacity(accent.primary, '35'),
+  'settings.rowHoverBackground': withOpacity(accent.primary, '05'),
+  'settings.sashBorder': withOpacity(accent.primary, '25'),
+  'settings.headerBorder': withOpacity(accent.primary, '20'),
   'settings.settingsHeaderHoverForeground': text.primary,
 
   // ==========================================================================
   // TESTING
   // ==========================================================================
-  // Separate "failed" vs "errored" for instant recognition (ΔE distinction)
+  // Separate "failed" vs "errored" for instant recognition (DeltaE distinction)
   'testing.iconErrored': accent.magenta,
   'testing.iconFailed': semantic.error,
   'testing.iconPassed': semantic.success,
   'testing.iconQueued': semantic.warning,
   'testing.iconUnset': text.tertiary,
   'testing.iconSkipped': text.tertiary,
-  'testing.iconErrored.retired': alpha(semantic.error, '50'),
-  'testing.iconFailed.retired': alpha(semantic.error, '50'),
-  'testing.iconPassed.retired': alpha(semantic.success, '50'),
-  'testing.iconQueued.retired': alpha(semantic.warning, '50'),
-  'testing.iconUnset.retired': alpha(text.tertiary, '50'),
-  'testing.iconSkipped.retired': alpha(text.tertiary, '50'),
+  'testing.iconErrored.retired': withOpacity(semantic.error, '50'),
+  'testing.iconFailed.retired': withOpacity(semantic.error, '50'),
+  'testing.iconPassed.retired': withOpacity(semantic.success, '50'),
+  'testing.iconQueued.retired': withOpacity(semantic.warning, '50'),
+  'testing.iconUnset.retired': withOpacity(text.tertiary, '50'),
+  'testing.iconSkipped.retired': withOpacity(text.tertiary, '50'),
   'testing.runAction': semantic.success,
-  'testing.peekBorder': alpha(accent.primary, '60'),
+  'testing.peekBorder': withOpacity(accent.primary, '60'),
   'testing.peekHeaderBackground': bg.surface,
-  'testing.message.error.lineBackground': alpha(semantic.error, '10'),
-  'testing.message.error.badgeBackground': alpha(semantic.error, '20'),
+  'testing.message.error.lineBackground': withOpacity(semantic.error, '10'),
+  'testing.message.error.badgeBackground': withOpacity(semantic.error, '20'),
   'testing.message.error.badgeBorder': semantic.error,
   'testing.message.error.badgeForeground': semantic.error,
   'testing.message.info.decorationForeground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
-  'testing.message.info.lineBackground': alpha(accent.primary, '10'),
+  'testing.message.info.lineBackground': withOpacity(accent.primary, '10'),
   'testing.messagePeekBorder': accent.primary,
   'testing.messagePeekHeaderBackground': bg.base,
-  'testing.coveredBackground': alpha(semantic.success, '10'),
-  'testing.coveredBorder': alpha(semantic.success, '35'),
-  'testing.coveredGutterBackground': alpha(semantic.success, '25'),
-  'testing.uncoveredBranchBackground': alpha(semantic.error, '15'),
-  'testing.uncoveredBackground': alpha(semantic.error, '10'),
-  'testing.uncoveredBorder': alpha(semantic.error, '35'),
-  'testing.uncoveredGutterBackground': alpha(semantic.error, '25'),
-  'testing.coverCountBadgeBackground': alpha(accent.primary, '20'),
+  'testing.coveredBackground': withOpacity(semantic.success, '10'),
+  'testing.coveredBorder': withOpacity(semantic.success, '35'),
+  'testing.coveredGutterBackground': withOpacity(semantic.success, '25'),
+  'testing.uncoveredBranchBackground': withOpacity(semantic.error, '15'),
+  'testing.uncoveredBackground': withOpacity(semantic.error, '10'),
+  'testing.uncoveredBorder': withOpacity(semantic.error, '35'),
+  'testing.uncoveredGutterBackground': withOpacity(semantic.error, '25'),
+  'testing.coverCountBadgeBackground': withOpacity(accent.primary, '20'),
   'testing.coverCountBadgeForeground': accent.bright,
 
   // ==========================================================================
@@ -995,8 +959,8 @@ export const workbenchColors = {
   // ==========================================================================
   'welcomePage.background': bg.base,
   'welcomePage.tileBackground': bg.surface,
-  'welcomePage.tileHoverBackground': alpha(accent.primary, '12'),
-  'welcomePage.tileBorder': alpha(accent.primary, '25'),
+  'welcomePage.tileHoverBackground': withOpacity(accent.primary, '12'),
+  'welcomePage.tileBorder': withOpacity(accent.primary, '25'),
   'welcomePage.progress.foreground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
   'welcomePage.progress.background': bg.elevated,
   'walkThrough.embeddedEditorBackground': bg.base,
@@ -1006,26 +970,26 @@ export const workbenchColors = {
   // EXTENSION BUTTONS
   // ==========================================================================
   'extensionButton.prominentBackground': '#157570',  // Darker teal for Lc 75+ with white
-  'extensionButton.prominentForeground': themeColors.ui.pureWhite,
+  'extensionButton.prominentForeground': t.ui.pureWhite.hex,
   'extensionButton.prominentHoverBackground': accent.primary,
-  'extensionButton.background': alpha(accent.primary, '25'),
+  'extensionButton.background': withOpacity(accent.primary, '25'),
   'extensionButton.foreground': text.primary,
-  'extensionButton.hoverBackground': alpha(accent.primary, '40'),
-  'extensionButton.separator': alpha(text.primary, '30'),
+  'extensionButton.hoverBackground': withOpacity(accent.primary, '40'),
+  'extensionButton.separator': withOpacity(text.primary, '30'),
   'extensionBadge.remoteBackground': accent.soft,  // #B2EBE7 - Light teal
   'extensionBadge.remoteForeground': bg.void,     // #0A0D10 - Dark text on light
   'extensionIcon.starForeground': semantic.warning,
   'extensionIcon.verifiedForeground': semantic.success,
   // Lavender (Digital Stars) reads as "experimental" and separates from sponsor magenta
-  'extensionIcon.preReleaseForeground': digitalStars.y2021.outfit.gradient,
+  'extensionIcon.preReleaseForeground': t.decorative.commitIcon,
   'extensionIcon.sponsorForeground': accent.magenta,
-  'extensionIcon.privateForeground': themeColors.symbol.enumerator,
+  'extensionIcon.privateForeground': t.symbol.enumerator.hex,
   'mcpIcon.starForeground': semantic.warning,
 
   // ==========================================================================
   // BANNER
   // ==========================================================================
-  'banner.background': alpha(accent.primary, '20'),
+  'banner.background': withOpacity(accent.primary, '20'),
   'banner.foreground': text.primary,
   'banner.iconForeground': accent.primary,
 
@@ -1034,45 +998,45 @@ export const workbenchColors = {
   // ==========================================================================
   'input.background': bg.elevated,
   'input.foreground': text.primary,
-  'input.border': alpha(accent.primary, '35'),
+  'input.border': withOpacity(accent.primary, '35'),
   'input.placeholderForeground': text.placeholder,  // #5A6A70 - Lc 25+ for visible placeholder
   'inputOption.activeBorder': accent.bright,
-  'inputOption.activeBackground': alpha(accent.primary, '25'),
+  'inputOption.activeBackground': withOpacity(accent.primary, '25'),
   'inputOption.activeForeground': text.primary,
-  'inputOption.hoverBackground': alpha(accent.primary, '15'),
-  'inputValidation.errorBackground': alpha(semantic.error, '20'),
+  'inputOption.hoverBackground': withOpacity(accent.primary, '15'),
+  'inputValidation.errorBackground': withOpacity(semantic.error, '20'),
   'inputValidation.errorForeground': text.primary,          // #E8EEF2 - High contrast on dark overlay
   'inputValidation.errorBorder': semantic.error,
-  'inputValidation.warningBackground': alpha(semantic.warning, '20'),
+  'inputValidation.warningBackground': withOpacity(semantic.warning, '20'),
   'inputValidation.warningForeground': text.primary,        // #E8EEF2 - High contrast on dark overlay
   'inputValidation.warningBorder': semantic.warning,
-  'inputValidation.infoBackground': alpha(semantic.info, '20'),
+  'inputValidation.infoBackground': withOpacity(semantic.info, '20'),
   'inputValidation.infoForeground': text.primary,           // #E8EEF2 - High contrast on dark overlay
   'inputValidation.infoBorder': semantic.info,
 
   // Dropdown
   'dropdown.background': bg.elevated,
   'dropdown.foreground': text.primary,
-  'dropdown.border': alpha(accent.primary, '35'),
+  'dropdown.border': withOpacity(accent.primary, '35'),
   'dropdown.listBackground': bg.elevated,
 
   // Button - use darker teal for better contrast
   'button.background': '#157570',  // Darker teal for Lc 75+ with white
-  'button.foreground': themeColors.ui.pureWhite,
-  'button.border': alpha(accent.bright, '50'),
-  'button.separator': alpha(themeColors.ui.pureWhite, '30'),
+  'button.foreground': t.ui.pureWhite.hex,
+  'button.border': withOpacity(accent.bright, '50'),
+  'button.separator': withOpacity(t.ui.pureWhite.hex, '30'),
   'button.hoverBackground': accent.primary,    // Brighter on hover
   'button.secondaryForeground': text.primary,
-  'button.secondaryBackground': alpha(accent.primary, '25'),
-  'button.secondaryHoverBackground': alpha(accent.primary, '40'),
+  'button.secondaryBackground': withOpacity(accent.primary, '25'),
+  'button.secondaryHoverBackground': withOpacity(accent.primary, '40'),
 
   // Checkbox - use brighter foreground
   'checkbox.background': bg.elevated,
   'checkbox.foreground': accent.bright,        // #5DE4DB - Bright teal (Lc 80+)
-  'checkbox.border': alpha(accent.primary, '50'),
-  'checkbox.selectBackground': alpha(accent.primary, '25'),
+  'checkbox.border': withOpacity(accent.primary, '50'),
+  'checkbox.selectBackground': withOpacity(accent.primary, '25'),
   'checkbox.selectBorder': accent.bright,
-  'checkbox.disabled.background': alpha(bg.surface, '50'),
+  'checkbox.disabled.background': withOpacity(bg.surface, '50'),
   'checkbox.disabled.foreground': text.disabled,
 
   // Radio buttons
@@ -1081,8 +1045,8 @@ export const workbenchColors = {
   'radio.activeBorder': accent.bright,
   'radio.inactiveForeground': text.secondary,
   'radio.inactiveBackground': bg.elevated,
-  'radio.inactiveBorder': alpha(accent.primary, '40'),
-  'radio.inactiveHoverBackground': alpha(accent.primary, '15'),
+  'radio.inactiveBorder': withOpacity(accent.primary, '40'),
+  'radio.inactiveHoverBackground': withOpacity(accent.primary, '15'),
 
   // ==========================================================================
   // BADGE
@@ -1098,14 +1062,14 @@ export const workbenchColors = {
   // ==========================================================================
   // TOOLBAR
   // ==========================================================================
-  'toolbar.hoverBackground': alpha(accent.primary, '15'),
-  'toolbar.hoverOutline': alpha(accent.primary, '30'),
-  'toolbar.activeBackground': alpha(accent.primary, '25'),
+  'toolbar.hoverBackground': withOpacity(accent.primary, '15'),
+  'toolbar.hoverOutline': withOpacity(accent.primary, '30'),
+  'toolbar.activeBackground': withOpacity(accent.primary, '25'),
 
   // ==========================================================================
   // ACTION BAR
   // ==========================================================================
-  'actionBar.toggledBackground': alpha(accent.primary, '25'),
+  'actionBar.toggledBackground': withOpacity(accent.primary, '25'),
 
   // ==========================================================================
   // PROFILE BADGE
@@ -1113,130 +1077,130 @@ export const workbenchColors = {
   'profileBadge.background': accent.primary,    // #39C5BB - Teal
   // Avoid halation on dark activity bar background
   'profileBadge.foreground': text.primary,
-  'profiles.sashBorder': alpha(accent.primary, '30'),
+  'profiles.sashBorder': withOpacity(accent.primary, '30'),
 
   // ==========================================================================
   // NOTEBOOK
   // ==========================================================================
   'notebook.editorBackground': bg.surface,
-  'notebook.cellBorderColor': alpha(accent.primary, '25'),
-  'notebook.cellHoverBackground': alpha(accent.primary, '08'),
+  'notebook.cellBorderColor': withOpacity(accent.primary, '25'),
+  'notebook.cellHoverBackground': withOpacity(accent.primary, '08'),
   'notebook.cellInsertionIndicator': accent.bright,
-  'notebook.cellStatusBarItemHoverBackground': alpha(accent.primary, '15'),
-  'notebook.cellToolbarSeparator': alpha(accent.primary, '25'),
+  'notebook.cellStatusBarItemHoverBackground': withOpacity(accent.primary, '15'),
+  'notebook.cellToolbarSeparator': withOpacity(accent.primary, '25'),
   'notebook.cellEditorBackground': bg.base,
-  'notebook.focusedCellBackground': alpha(accent.primary, '08'),
+  'notebook.focusedCellBackground': withOpacity(accent.primary, '08'),
   'notebook.focusedCellBorder': accent.bright,
-  'notebook.focusedEditorBorder': alpha(accent.bright, 'CC'),
-  'notebook.inactiveFocusedCellBorder': alpha(accent.primary, '50'),
-  'notebook.inactiveSelectedCellBorder': alpha(accent.primary, '40'),
+  'notebook.focusedEditorBorder': withOpacity(accent.bright, 'CC'),
+  'notebook.inactiveFocusedCellBorder': withOpacity(accent.primary, '50'),
+  'notebook.inactiveSelectedCellBorder': withOpacity(accent.primary, '40'),
   'notebook.outputContainerBackgroundColor': bg.base,
-  'notebook.outputContainerBorderColor': alpha(accent.primary, '20'),
-  'notebook.selectedCellBackground': alpha(accent.primary, '12'),
-  'notebook.selectedCellBorder': alpha(accent.primary, '50'),
-  'notebook.symbolHighlightBackground': alpha(accent.primary, '15'),
-  'notebookScrollbarSlider.activeBackground': alpha(accent.primary, '55'),
-  'notebookScrollbarSlider.background': alpha(accent.primary, '25'),
-  'notebookScrollbarSlider.hoverBackground': alpha(accent.primary, '40'),
+  'notebook.outputContainerBorderColor': withOpacity(accent.primary, '20'),
+  'notebook.selectedCellBackground': withOpacity(accent.primary, '12'),
+  'notebook.selectedCellBorder': withOpacity(accent.primary, '50'),
+  'notebook.symbolHighlightBackground': withOpacity(accent.primary, '15'),
+  'notebookScrollbarSlider.activeBackground': withOpacity(accent.primary, '55'),
+  'notebookScrollbarSlider.background': withOpacity(accent.primary, '25'),
+  'notebookScrollbarSlider.hoverBackground': withOpacity(accent.primary, '40'),
   'notebookStatusErrorIcon.foreground': semantic.error,
   'notebookStatusRunningIcon.foreground': semantic.warning,
   'notebookStatusSuccessIcon.foreground': semantic.success,
   'notebookEditorOverviewRuler.runningCellForeground': semantic.warning,
-  'interactive.activeCodeBorder': alpha(accent.bright, '60'),
-  'interactive.inactiveCodeBorder': alpha(accent.primary, '30'),
+  'interactive.activeCodeBorder': withOpacity(accent.bright, '60'),
+  'interactive.inactiveCodeBorder': withOpacity(accent.primary, '30'),
 
   // ==========================================================================
-  // SYMBOL ICONS - All Lc 75+ for visibility, ΔE 15+ between similar types
+  // SYMBOL ICONS - All Lc 75+ for visibility, DeltaE 15+ between similar types
   // ==========================================================================
-  'symbolIcon.arrayForeground': themeColors.symbol.array,
-  'symbolIcon.booleanForeground': themeColors.symbol.boolean,
-  'symbolIcon.classForeground': themeColors.syntax.class,
+  'symbolIcon.arrayForeground': t.symbol.array.hex,
+  'symbolIcon.booleanForeground': t.symbol.boolean.hex,
+  'symbolIcon.classForeground': t.syntax.class.hex,
   'symbolIcon.colorForeground': accent.magenta,
-  'symbolIcon.constantForeground': themeColors.symbol.constant,  // Orchid-pink (320°)
-  'symbolIcon.constructorForeground': themeColors.symbol.constructor,
-  'symbolIcon.enumeratorForeground': themeColors.symbol.enumerator,  // Purple (280°) DISTINCT from interface
-  'symbolIcon.enumeratorMemberForeground': themeColors.symbol.enumeratorMember,
-  'symbolIcon.eventForeground': themeColors.semantic.info,
-  'symbolIcon.fieldForeground': themeColors.symbol.field,  // Warm amber (40°) DISTINCT from property
+  'symbolIcon.constantForeground': t.symbol.constant.hex,  // Orchid-pink (320deg)
+  'symbolIcon.constructorForeground': t.symbol.constructor.hex,
+  'symbolIcon.enumeratorForeground': t.symbol.enumerator.hex,  // Purple (280deg) DISTINCT from interface
+  'symbolIcon.enumeratorMemberForeground': t.symbol.enumeratorMember.hex,
+  'symbolIcon.eventForeground': t.status.info.hex,
+  'symbolIcon.fieldForeground': t.symbol.field.hex,  // Warm amber (40deg) DISTINCT from property
   'symbolIcon.fileForeground': text.primary,
-  'symbolIcon.folderForeground': themeColors.symbol.folder,  // Miku teal (170°)
-  'symbolIcon.functionForeground': themeColors.symbol.function,
-  'symbolIcon.interfaceForeground': themeColors.symbol.interface,  // Sky blue (220°) DISTINCT from enum
-  'symbolIcon.keyForeground': themeColors.syntax.function,
-  'symbolIcon.keywordForeground': themeColors.syntax.tag,
-  'symbolIcon.methodForeground': themeColors.symbol.method,
-  'symbolIcon.moduleForeground': themeColors.symbol.module,  // Purple (275°) DISTINCT from namespace
-  'symbolIcon.namespaceForeground': themeColors.symbol.namespace,  // Lavender (290°)
+  'symbolIcon.folderForeground': t.symbol.folder.hex,  // Miku teal (170deg)
+  'symbolIcon.functionForeground': t.symbol.function.hex,
+  'symbolIcon.interfaceForeground': t.symbol.interface.hex,  // Sky blue (220deg) DISTINCT from enum
+  'symbolIcon.keyForeground': t.syntax.function.hex,
+  'symbolIcon.keywordForeground': t.syntax.tag.hex,
+  'symbolIcon.methodForeground': t.symbol.method.hex,
+  'symbolIcon.moduleForeground': t.symbol.module.hex,  // Purple (275deg) DISTINCT from namespace
+  'symbolIcon.namespaceForeground': t.symbol.namespace.hex,  // Lavender (290deg)
   'symbolIcon.nullForeground': text.tertiary,
-  'symbolIcon.numberForeground': themeColors.symbol.number,  // Periwinkle (230°) DISTINCT from boolean
-  'symbolIcon.objectForeground': themeColors.syntax.typeParameter,
-  'symbolIcon.operatorForeground': themeColors.syntax.keyword,
-  'symbolIcon.packageForeground': themeColors.symbol.package,  // Soft purple (260°) DISTINCT from folder
-  'symbolIcon.propertyForeground': themeColors.symbol.property,  // Coral (10°) DISTINCT from field
-  'symbolIcon.referenceForeground': themeColors.symbol.reference,
-  'symbolIcon.snippetForeground': themeColors.symbol.snippet,
-  'symbolIcon.stringForeground': themeColors.symbol.string,
-  'symbolIcon.structForeground': themeColors.symbol.struct,  // Ice cyan (200°) DISTINCT from interface
+  'symbolIcon.numberForeground': t.symbol.number.hex,  // Periwinkle (230deg) DISTINCT from boolean
+  'symbolIcon.objectForeground': t.syntax.typeParameter.hex,
+  'symbolIcon.operatorForeground': t.syntax.keyword.hex,
+  'symbolIcon.packageForeground': t.symbol.package.hex,  // Soft purple (260deg) DISTINCT from folder
+  'symbolIcon.propertyForeground': t.symbol.property.hex,  // Coral (10deg) DISTINCT from field
+  'symbolIcon.referenceForeground': t.symbol.reference.hex,
+  'symbolIcon.snippetForeground': t.symbol.snippet.hex,
+  'symbolIcon.stringForeground': t.symbol.string.hex,
+  'symbolIcon.structForeground': t.symbol.struct.hex,  // Ice cyan (200deg) DISTINCT from interface
   'symbolIcon.textForeground': text.primary,
-  'symbolIcon.typeParameterForeground': themeColors.symbol.typeParameter,  // Rose (340°) DISTINCT from namespace
+  'symbolIcon.typeParameterForeground': t.symbol.typeParameter.hex,  // Rose (340deg) DISTINCT from namespace
   'symbolIcon.unitForeground': accent.magenta,
-  'symbolIcon.variableForeground': themeColors.symbol.variable,
+  'symbolIcon.variableForeground': t.symbol.variable.hex,
 
   // ==========================================================================
   // INLINE CHAT
   // ==========================================================================
-  'inlineChat.background': alpha(bg.elevated, 'F8'),
+  'inlineChat.background': withOpacity(bg.elevated, 'F8'),
   'inlineChat.foreground': text.primary,
-  'inlineChat.border': alpha(accent.bright, '50'),
-  'inlineChat.shadow': alpha(bg.void, '60'),
+  'inlineChat.border': withOpacity(accent.bright, '50'),
+  'inlineChat.shadow': withOpacity(bg.void, '60'),
   'inlineChatInput.background': bg.elevated,
-  'inlineChatInput.border': alpha(accent.primary, '40'),
+  'inlineChatInput.border': withOpacity(accent.primary, '40'),
   'inlineChatInput.focusBorder': accent.bright,
   'inlineChatInput.placeholderForeground': text.placeholder,  // #5A6A70 - Lc 25+
-  'inlineChatDiff.inserted': alpha(semantic.success, '20'),
-  'inlineChatDiff.removed': alpha(semantic.error, '20'),
+  'inlineChatDiff.inserted': withOpacity(semantic.success, '20'),
+  'inlineChatDiff.removed': withOpacity(semantic.error, '20'),
 
   // ==========================================================================
   // CHAT
   // ==========================================================================
   'chat.requestBackground': bg.base,
-  'chat.requestBorder': alpha(accent.primary, '25'),
-  'chat.slashCommandBackground': alpha(accent.bright, '20'),
+  'chat.requestBorder': withOpacity(accent.primary, '25'),
+  'chat.slashCommandBackground': withOpacity(accent.bright, '20'),
   'chat.slashCommandForeground': accent.bright,
-  'chat.avatarBackground': alpha(accent.primary, '25'),
+  'chat.avatarBackground': withOpacity(accent.primary, '25'),
   'chat.avatarForeground': accent.bright,
-  'chat.editedFileForeground': themeColors.syntax.skyBlue,  // #C0E0FF - Lc 88 for sidebar visibility
+  'chat.editedFileForeground': t.syntax.variable.hex,  // #C0E0FF - Lc 88 for sidebar visibility
   'chat.linesAddedForeground': semantic.success,   // #90F0B8 - Mint green
   'chat.linesRemovedForeground': semantic.error,   // #FF9999 - Full opacity coral
-  'chat.requestCodeBorder': alpha(accent.bright, '35'),
-  'chat.requestBubbleBackground': alpha(accent.primary, '12'),
-  'chat.requestBubbleHoverBackground': alpha(accent.primary, '20'),
-  'chat.checkpointSeparator': alpha(accent.primary, '25'),
-  'chatManagement.sashBorder': alpha(accent.primary, '30'),
+  'chat.requestCodeBorder': withOpacity(accent.bright, '35'),
+  'chat.requestBubbleBackground': withOpacity(accent.primary, '12'),
+  'chat.requestBubbleHoverBackground': withOpacity(accent.primary, '20'),
+  'chat.checkpointSeparator': withOpacity(accent.primary, '25'),
+  'chatManagement.sashBorder': withOpacity(accent.primary, '30'),
 
   // ==========================================================================
   // INLINE EDIT
   // ==========================================================================
   'inlineEdit.gutterIndicator.primaryBorder': accent.bright,
   'inlineEdit.gutterIndicator.primaryForeground': accent.bright,
-  'inlineEdit.gutterIndicator.primaryBackground': alpha(accent.bright, '15'),
-  'inlineEdit.gutterIndicator.secondaryBorder': alpha(accent.primary, '50'),
+  'inlineEdit.gutterIndicator.primaryBackground': withOpacity(accent.bright, '15'),
+  'inlineEdit.gutterIndicator.secondaryBorder': withOpacity(accent.primary, '50'),
   'inlineEdit.gutterIndicator.secondaryForeground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
-  'inlineEdit.gutterIndicator.secondaryBackground': alpha(accent.primary, '10'),
+  'inlineEdit.gutterIndicator.secondaryBackground': withOpacity(accent.primary, '10'),
   'inlineEdit.gutterIndicator.successfulBorder': semantic.success,
   'inlineEdit.gutterIndicator.successfulForeground': semantic.success,
-  'inlineEdit.gutterIndicator.successfulBackground': alpha(semantic.success, '15'),
+  'inlineEdit.gutterIndicator.successfulBackground': withOpacity(semantic.success, '15'),
   'inlineEdit.gutterIndicator.background': bg.elevated,
-  'inlineEdit.originalBackground': alpha(bg.overlay, '08'),
-  'inlineEdit.modifiedBackground': alpha(accent.primary, '10'),
-  'inlineEdit.originalChangedLineBackground': alpha(semantic.error, '08'),
-  'inlineEdit.originalChangedTextBackground': alpha(semantic.error, '20'),
-  'inlineEdit.modifiedChangedLineBackground': alpha(semantic.success, '08'),
-  'inlineEdit.modifiedChangedTextBackground': alpha(semantic.success, '20'),
-  'inlineEdit.originalBorder': alpha(bg.overlay, '40'),
-  'inlineEdit.modifiedBorder': alpha(accent.bright, '40'),
-  'inlineEdit.tabWillAcceptModifiedBorder': alpha(semantic.success, '50'),
-  'inlineEdit.tabWillAcceptOriginalBorder': alpha(semantic.error, '50'),
+  'inlineEdit.originalBackground': withOpacity(bg.overlay, '08'),
+  'inlineEdit.modifiedBackground': withOpacity(accent.primary, '10'),
+  'inlineEdit.originalChangedLineBackground': withOpacity(semantic.error, '08'),
+  'inlineEdit.originalChangedTextBackground': withOpacity(semantic.error, '20'),
+  'inlineEdit.modifiedChangedLineBackground': withOpacity(semantic.success, '08'),
+  'inlineEdit.modifiedChangedTextBackground': withOpacity(semantic.success, '20'),
+  'inlineEdit.originalBorder': withOpacity(bg.overlay, '40'),
+  'inlineEdit.modifiedBorder': withOpacity(accent.bright, '40'),
+  'inlineEdit.tabWillAcceptModifiedBorder': withOpacity(semantic.success, '50'),
+  'inlineEdit.tabWillAcceptOriginalBorder': withOpacity(semantic.error, '50'),
 
   // ==========================================================================
   // EDITOR ACTION LIST
@@ -1244,7 +1208,7 @@ export const workbenchColors = {
   'editorActionList.background': bg.elevated,
   'editorActionList.foreground': text.primary,
   'editorActionList.focusForeground': text.primary,
-  'editorActionList.focusBackground': alpha(accent.primary, '25'),
+  'editorActionList.focusBackground': withOpacity(accent.primary, '25'),
 
   // ==========================================================================
   // PORTS
@@ -1256,50 +1220,50 @@ export const workbenchColors = {
   // ==========================================================================
   'commentsView.resolvedIcon': semantic.success,
   'commentsView.unresolvedIcon': semantic.warning,
-  'editorCommentsWidget.resolvedBorder': alpha(semantic.success, '50'),
-  'editorCommentsWidget.unresolvedBorder': alpha(semantic.warning, '50'),
-  'editorCommentsWidget.rangeBackground': alpha(accent.primary, '08'),
-  'editorCommentsWidget.rangeActiveBackground': alpha(accent.primary, '15'),
+  'editorCommentsWidget.resolvedBorder': withOpacity(semantic.success, '50'),
+  'editorCommentsWidget.unresolvedBorder': withOpacity(semantic.warning, '50'),
+  'editorCommentsWidget.rangeBackground': withOpacity(accent.primary, '08'),
+  'editorCommentsWidget.rangeActiveBackground': withOpacity(accent.primary, '15'),
   'editorCommentsWidget.replyInputBackground': bg.elevated,
 
   // ==========================================================================
   // SIMPLE FIND WIDGET
   // ==========================================================================
-  'simpleFindWidget.sashBorder': alpha(accent.primary, '30'),
+  'simpleFindWidget.sashBorder': withOpacity(accent.primary, '30'),
 
   // ==========================================================================
   // CHARTS
   // ==========================================================================
   // Charts - Magical Mirai concert evolution
   'charts.foreground': text.primary,
-  'charts.lines': alpha(accent.primary, '50'),
-  'charts.red': magicalMirai.y2014.accessories.ribbonWire,     // 2014 hot pink
-  'charts.blue': magicalMirai.y2013.outfit.dress,              // 2013 royal blue
-  'charts.yellow': magicalMirai.y2013.accessories.wandGold,    // Concert gold
-  'charts.orange': wonderlandsShowtime.unitColor,               // Stage orange
-  'charts.green': magicalMirai.y2013.accessories.wandOrb,      // 2013 emerald
-  'charts.purple': nightcord.unitColor,                         // Nightcord purple
+  'charts.lines': withOpacity(accent.primary, '50'),
+  'charts.red': t.decorative.charts.red,     // 2014 hot pink
+  'charts.blue': t.decorative.charts.blue,              // 2013 royal blue
+  'charts.yellow': t.decorative.charts.yellow,    // Concert gold
+  'charts.orange': t.decorative.charts.orange,               // Stage orange
+  'charts.green': t.decorative.charts.green,      // 2013 emerald
+  'charts.purple': t.decorative.charts.purple,                         // Nightcord purple
   'chart.line': accent.primary,
   'chart.axis': text.tertiary,
-  'chart.guide': alpha(accent.primary, '25'),
+  'chart.guide': withOpacity(accent.primary, '25'),
 
   // ==========================================================================
   // GAUGE
   // ==========================================================================
   'gauge.background': bg.elevated,
   'gauge.foreground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
-  'gauge.border': alpha(accent.primary, '30'),
-  'gauge.warningBackground': alpha(semantic.warning, '20'),
+  'gauge.border': withOpacity(accent.primary, '30'),
+  'gauge.warningBackground': withOpacity(semantic.warning, '20'),
   'gauge.warningForeground': semantic.warning,
-  'gauge.errorBackground': alpha(semantic.error, '20'),
+  'gauge.errorBackground': withOpacity(semantic.error, '20'),
   'gauge.errorForeground': semantic.error,
 
   // ==========================================================================
-  // MARKDOWN ALERTS - ΔE 15+ between note and tip
+  // MARKDOWN ALERTS - DeltaE 15+ between note and tip
   // ==========================================================================
-  'markdownAlert.note.foreground': themeColors.markdown.alertNote,  // #78D8F0 - cyan (195°)
-  'markdownAlert.tip.foreground': themeColors.markdown.alertTip,    // #98F0B8 - mint green (145°) ΔE 20+
-  'markdownAlert.important.foreground': themeColors.markdown.alertImportant,
+  'markdownAlert.note.foreground': t.markdown.alertNote.hex,  // #78D8F0 - cyan (195deg)
+  'markdownAlert.tip.foreground': t.markdown.alertTip.hex,    // #98F0B8 - mint green (145deg) DeltaE 20+
+  'markdownAlert.important.foreground': t.markdown.alertImportant.hex,
   'markdownAlert.warning.foreground': semantic.warning,
   'markdownAlert.caution.foreground': semantic.error,
 
@@ -1308,32 +1272,32 @@ export const workbenchColors = {
   // ==========================================================================
   'agentSessionReadIndicator.foreground': accent.bright,
   'agentSessionSelectedBadge.border': accent.primary,
-  'agentSessionSelectedUnfocusedBadge.border': alpha(accent.primary, '60'),
+  'agentSessionSelectedUnfocusedBadge.border': withOpacity(accent.primary, '60'),
 
   // ==========================================================================
   // GENERAL UI - Base values
   // ==========================================================================
-  'focusBorder': alpha(accent.bright, 'DD'),
+  'focusBorder': withOpacity(accent.bright, 'DD'),
   'foreground': text.primary,
   'disabledForeground': text.disabled,
-  'selection.background': alpha(accent.primary, '35'),
+  'selection.background': withOpacity(accent.primary, '35'),
   'descriptionForeground': text.secondary,
   'errorForeground': semantic.error,
   'icon.foreground': text.secondary,
-  'sash.hoverBorder': alpha(accent.magenta, '80'),
+  'sash.hoverBorder': withOpacity(accent.magenta, '80'),
 
   // ==========================================================================
   // TEXT BLOCKS
   // ==========================================================================
-  'textBlockQuote.background': alpha(accent.primary, '10'),
-  'textBlockQuote.border': alpha(accent.primary, '40'),
-  'textCodeBlock.background': alpha(bg.surface, '80'),
-  'textLink.activeForeground': themeColors.ui.linkActive,
+  'textBlockQuote.background': withOpacity(accent.primary, '10'),
+  'textBlockQuote.border': withOpacity(accent.primary, '40'),
+  'textCodeBlock.background': withOpacity(bg.surface, '80'),
+  'textLink.activeForeground': t.ui.linkActive.hex,
   'textLink.foreground': accent.bright,
   'textPreformat.foreground': accent.soft,
-  'textPreformat.background': alpha(bg.surface, '60'),
-  'textPreformat.border': alpha(accent.primary, '30'),
-  'textSeparator.foreground': alpha(accent.primary, '40'),
+  'textPreformat.background': withOpacity(bg.surface, '60'),
+  'textPreformat.border': withOpacity(accent.primary, '30'),
+  'textSeparator.foreground': withOpacity(accent.primary, '40'),
 };
 
 export type WorkbenchColors = typeof workbenchColors;

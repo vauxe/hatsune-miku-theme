@@ -27,11 +27,8 @@ import {
   type CharacterColors,
   type SpecialColors,
 } from './primitives';
-import {
-  createSemanticTokens,
-  type SemanticTokens,
-  type SemanticRole,
-} from './semantic';
+import { createSemanticTokens } from './semantic';
+import type { SemanticTokens, SemanticRole } from './types';
 
 // =============================================================================
 // VARIANT TYPES
