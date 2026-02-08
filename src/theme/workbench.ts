@@ -13,7 +13,7 @@
  */
 
 // Semantic token system - all colors flow through design tokens
-import { semanticTokens as t, withOpacity, lighten } from '../tokens';
+import { semanticTokens as t, withOpacity, lighten, darken } from '../tokens';
 
 // ============================================================================
 // DESIGN SYSTEM CONSTANTS
@@ -465,7 +465,7 @@ export const workbenchColors = {
   'tab.activeBorderTop': accent.magenta,
   'tab.activeBorder': withOpacity(accent.primary, '30'),
   'tab.inactiveBackground': bg.base,
-  'tab.inactiveForeground': t.ui.deprecated.hex,
+  'tab.inactiveForeground': t.terminal.brightBlack.hex,
   'tab.border': bg.elevated,
   'tab.hoverBackground': withOpacity(accent.primary, '15'),
   // High-distinction hover state (state DeltaE distinction)
@@ -737,12 +737,12 @@ export const workbenchColors = {
   // ==========================================================================
   // DIFF EDITOR
   // ==========================================================================
-  'diffEditor.insertedTextBackground': withOpacity(semantic.success, '15'),
+  'diffEditor.insertedTextBackground': withOpacity(semantic.success, '22'),
   'diffEditor.insertedTextBorder': withOpacity(semantic.success, '40'),
-  'diffEditor.insertedLineBackground': withOpacity(semantic.success, '20'),
-  'diffEditor.removedTextBackground': withOpacity(semantic.error, '15'),
+  'diffEditor.insertedLineBackground': withOpacity(semantic.success, '30'),
+  'diffEditor.removedTextBackground': withOpacity(semantic.error, '22'),
   'diffEditor.removedTextBorder': withOpacity(semantic.error, '40'),
-  'diffEditor.removedLineBackground': withOpacity(semantic.error, '20'),
+  'diffEditor.removedLineBackground': withOpacity(semantic.error, '30'),
   'diffEditor.diagonalFill': withOpacity(text.tertiary, '15'),
   'diffEditor.border': withOpacity(accent.primary, '25'),
   'diffEditor.unchangedRegionBackground': withOpacity(bg.overlay, '30'),
@@ -922,7 +922,7 @@ export const workbenchColors = {
   // TESTING
   // ==========================================================================
   // Separate "failed" vs "errored" for instant recognition (DeltaE distinction)
-  'testing.iconErrored': semantic.info,
+  'testing.iconErrored': darken(t.status.info, 0.035),
   'testing.iconFailed': semantic.error,
   'testing.iconPassed': semantic.success,
   'testing.iconQueued': semantic.warning,

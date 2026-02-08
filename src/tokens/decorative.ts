@@ -54,19 +54,19 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
     constructor: role('Symbol constructor - teal-mint', L.primary, C.comfortable, 162),
     folder: role('Symbol folder - teal', L.vibrant, C.vibrant, 178),
     // Cyan range (180-240deg) — widen array↔object gap via ΔL
-    array: role('Symbol array - teal-cyan (ΔL from object)', L.vibrant, C.vibrant, 195),
+    array: role('Symbol array - teal-cyan (ΔL from object)', L.vibrant + 0.032, C.comfortable, 195),
     operator: role('Symbol operator - cyan', L.primary, C.comfortable, 212),
-    number: role('Symbol number - sky-blue (ΔL from boolean)', L.vibrant, C.vibrant, 228),
+    number: role('Symbol number - sky-blue (ΔL from boolean)', L.vibrant + 0.010, C.vibrant, 228),
     interface: role('Symbol interface - indigo', L.primary, C.comfortable, 265),
     // Blue-violet range (240-300deg) — boolean uses chroma gap from number
     boolean: role('Symbol boolean - blue', L.primary, C.comfortable, 248),
     namespace: role('Symbol namespace - lavender', L.primary, C.comfortable, 282),
-    method: role('Symbol method - violet (ΔL from property)', L.secondary, C.comfortable, 298),
+    method: role('Symbol method - violet (ΔL from property)', L.secondary - 0.003, C.comfortable, 285),
     enumerator: role('Symbol enumerator - orchid', L.primary, C.comfortable, 312),
     // Magenta-pink range (300-360deg) — constant shifted away from unit/color
     snippet: role('Symbol snippet - magenta', L.primary, C.comfortable, 325),
     string: role('Symbol string - lime-green', L.primary, C.comfortable, 115),
-    constant: role('Symbol constant - coral (ΔE≥15 from unit/color at 358°)', L.secondary, C.comfortable, 15),
+    constant: role('Symbol constant - coral (ΔE≥15 from unit/color at 358°)', L.secondary - 0.020, C.comfortable, 15),
     // Special icons (vibrant)
     variable: role('Symbol variable - sky-blue (ΔL from object)', L.vibrant, C.vivid, 230),
     module: role('Symbol module - blue', L.primary, C.comfortable, 242),

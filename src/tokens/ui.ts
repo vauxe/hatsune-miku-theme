@@ -72,9 +72,9 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       'Selection — when you choose code, you highlight it with her color',
       char.hair.base
     ),
-    cursor: roleFromHex(
-      'Her presence — headphone cushion magenta at the point of creation',
-      char.headphones.cushion
+    cursor: role(
+      'Her presence — headphone cushion magenta, vivid at the point of creation',
+      0.176, 0.085, 336
     ),
     link: roleFromHex(
       'Links — her highlight color, clickable and alive',
@@ -180,9 +180,9 @@ export function createGitTokens(p: Primitives): GitTokens {
   const { lightness: L, chroma: C, hue: H, character: char } = p;
 
   return {
-    added: roleFromHex(
-      'New life — negi bright green, something was born',
-      char.negi.bright
+    added: role(
+      'New life — negi green in the code tree',
+      L.vibrant - 0.010, C.vivid, H.green
     ),
     modified: role(
       'Change — warm gold, the story evolves',

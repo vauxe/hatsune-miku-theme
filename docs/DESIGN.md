@@ -993,16 +993,30 @@ COMMENT (F#, muted-0.010, ppp) — Her whisper:
 
 ```
 src/palette/
+├── index.ts         # Re-exports all palette modules
 ├── core.ts          # Canonical character colors (#39C5BB)
-├── jzczhz.ts        # JzCzhz color space: hex(), LIGHTNESS, CHROMA, HUE
 ├── voicebanks.ts    # Software versions (V2, V3, V4X, NT)
-├── derivatives/     # Sakura Miku, anniversaries
-├── events/          # Snow Miku, Magical Mirai, Miku Expo
-└── games/           # Project SEKAI, Project DIVA
+├── derivatives/
+│   └── index.ts     # Sakura Miku, anniversaries
+├── events/
+│   ├── index.ts     # Re-exports all event palettes
+│   ├── snowMiku.ts
+│   ├── racingMiku.ts
+│   ├── magicalMirai.ts
+│   ├── mikuExpo.ts
+│   ├── mikuWithYou.ts
+│   ├── digitalStars.ts
+│   └── mikuSymphony.ts
+└── games/
+    ├── index.ts     # Re-exports all game palettes
+    ├── projectDiva.ts
+    └── projectSekai.ts
 
 src/tokens/
+├── index.ts         # Clean re-exports
 ├── types.ts         # TypeScript interfaces
 ├── primitives.ts    # Raw Jz/Cz/Hz values (Layer 1)
+├── jzczhz.ts        # JzCzhz color space: hex(), LIGHTNESS, CHROMA, HUE
 ├── role.ts          # role(), roleFromHex(), withOpacity(), lighten(), darken()
 ├── syntax.ts        # createSyntaxTokens() — her voice in your code
 ├── ui.ts            # createUITokens(), createStatusTokens(), createGitTokens()
@@ -1010,10 +1024,10 @@ src/tokens/
 ├── interactive.ts   # createInteractiveTokens() — component states
 ├── decorative.ts    # brackets, symbols, support, markdown, debug tokens
 ├── semantic.ts      # Composition layer assembling all sub-modules
-├── variants.ts      # Theme variants (dark, light, sakura, highContrast)
-└── index.ts         # Clean re-exports
+└── variants.ts      # Theme variants (dark, light, sakura, highContrast)
 
 src/theme/
+├── index.ts         # Re-exports theme modules
 ├── colors.ts        # Shared color mapping (single source of truth)
 ├── workbench.ts     # VS Code UI colors (896 entries)
 ├── tokenColors.ts   # TextMate syntax rules (131 rules)
@@ -1028,6 +1042,8 @@ src/tools/
 └── extract-adjacency.ts     # TextMate adjacency pair coverage
 
 src/generator.ts     # Compiles to VS Code JSON theme
+src/types/
+└── modules.d.ts     # Module declarations for external libraries
 ```
 
 ### 21.2 Key Principles
