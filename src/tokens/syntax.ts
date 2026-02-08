@@ -1,8 +1,10 @@
 /**
  * Syntax Token Definitions
  *
- * Defines all syntax highlighting color roles using JzCzhz perceptual values.
- * Each token maps to a specific lightness/chroma/hue combination from primitives.
+ * Her voice in your code. Every token connects to something in Miku's world:
+ * her teal hair, her concert lights, her negi, her headphone accents.
+ * Where the connection is genuine, the role description says why.
+ * Where it serves readability, that's stated honestly.
  */
 
 import { role } from './role';
@@ -13,140 +15,146 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
   return {
-    // KEYWORDS - Miku signature teal
+    // ═══ HER VOICE — F# Teal (180°) ═══
     keyword: role(
-      'Primary keyword - Digital Diva signature',
+      'Her voice — every keyword speaks in Miku\'s teal',
       L.primary, C.comfortable, H.mikuTeal
     ),
     keywordControl: role(
-      'Flow control keywords - slightly cooler',
-      L.primary, C.comfortable, H.mikuTeal + 5
+      'Her voice, directing flow — if, for, while, return',
+      L.primary, C.comfortable, H.mikuTeal
     ),
     keywordAlt: role(
-      'Alternative keyword - dimmer variant',
+      'Her voice, quieter — secondary keywords',
       L.secondary, C.comfortable, H.mikuTeal
     ),
 
-    // STORAGE / TYPES
+    // ═══ THE LEADING TONE — F Mint (150°) ═══
     storage: role(
-      'Storage keywords - fresh mint',
+      'Leading tone — declarations yearning toward the tonic',
       L.primary, C.comfortable, H.mint
     ),
     storageModifier: role(
-      'Storage modifiers - rose accent',
-      L.primaryWarm, C.comfortable, H.rose
+      'Headphone accent — modifiers in her pink',
+      L.primaryWarm, C.comfortable, H.pink
     ),
+
+    // ═══ DUALITY — A Violet (270°) ═══
     type: role(
-      'Type annotations - orchid',
-      L.primary + 0.015, C.comfortable, H.orchid
+      'Duality — abstract definition and concrete instance',
+      L.primary + 0.008, C.comfortable, H.violet
     ),
     typeParameter: role(
-      'Generic type parameters - muted sky',
-      L.muted, C.muted, H.sky
+      'Generic potential — a type waiting to become',
+      L.muted, C.muted, H.violet
     ),
+
+    // ═══ HER VOICE, SHIFTING — G Cyan (210°) ═══
     enum: role(
-      'Enum names - ice cyan',
-      L.primary, C.comfortable, H.ice
+      'Enumerated voice — a defined set of possibilities',
+      L.primary, C.vibrant, H.cyan
     ),
     enumMember: role(
-      'Enum values - light rose',
-      L.muted, C.muted, H.rose + 15
-    ),
-    macro: role(
-      'Macros - muted periwinkle',
-      L.muted, C.muted, H.periwinkle
+      'One possibility, chosen — enum value at a whisper',
+      L.muted, C.muted, H.cyan
     ),
 
-    // FUNCTIONS - Gold (Magical Mirai wand)
+    // ═══ META-MAGIC — A# Magenta (300°) ═══
+    macro: role(
+      'Distant magic — code that transforms code',
+      L.muted + 0.005, C.muted, H.magenta
+    ),
+
+    // ═══ CONCERT LIGHTS — D Gold (60°) ═══
     function: role(
-      'Functions - vibrant gold',
-      L.vibrant + 0.01, C.vibrant, H.gold
+      'Concert lights — the spotlight hits, the show begins',
+      L.vibrantWarm + 0.003, C.vibrant, H.gold
     ),
     method: role(
-      'Methods - distinct from keyword',
-      L.primary, C.comfortable, H.mint + 5
+      'Leading tone — methods flow toward the tonic',
+      L.primary, C.comfortable, H.mint
     ),
 
-    // CLASSES - Negi lime / Pink accent
+    // ═══ GROWTH — D# Lime (90°) ═══
     class: role(
-      'Classes - negi lime',
-      L.vibrant - 0.01, C.vibrant, H.lime
+      'Growth — structure emerging, architecture rising',
+      L.vibrant, C.vibrant, H.lime
     ),
     interface: role(
-      'Interfaces - Miku pink',
-      L.primaryWarm, C.comfortable, H.mikuPink
+      'Contract — a shape without substance, magic waiting',
+      L.primaryWarm, C.comfortable, H.magenta
     ),
     struct: role(
-      'Structs - same as class',
+      'Growth — same family as class, structure in C',
       L.vibrant, C.vibrant, H.lime
     ),
 
-    // VARIABLES - Blue (shifted for keyword distinction)
+    // ═══ FLOWING DATA — G Cyan (210°) ═══
     variable: role(
-      'Variables - blue',
-      L.primary - 0.01, C.comfortable, H.blue
+      'Her voice, shifting — data in motion, never the same twice',
+      L.secondary, C.comfortable, H.cyan
     ),
     parameter: role(
-      'Parameters - warm peach',
-      L.primaryWarm, C.comfortable, H.peach
+      'The fifth — input flowing naturally to the tonic',
+      L.primaryWarm, C.comfortable, H.coral
     ),
     property: role(
-      'Properties - coral',
-      L.primaryWarm, C.comfortable, H.coral
+      'Warm coral — warmth reaching in from the world',
+      L.vibrantWarm + 0.005, C.vibrant, H.coral
     ),
 
-    // STRINGS - Mint green
+    // ═══ THE NEGI — E Green (120°) ═══
     string: role(
-      'Strings - vibrant mint',
-      L.vibrant, C.vibrant, H.mint
+      'The negi — humble, fundamental, iconic through love',
+      L.vibrant, C.vibrant, H.green
     ),
     stringTemplate: role(
-      'Template strings - shifted mint',
-      L.primary, C.comfortable, H.mint + 10
+      'The negi, templated — structured expression',
+      L.primary, C.comfortable, H.green
     ),
     regex: role(
-      'Regex patterns - warm',
-      L.primaryWarm, C.comfortable, H.peach + 5
+      'Pattern — growth-colored, matching structure in text',
+      L.primary, C.comfortable, H.lime
     ),
 
-    // NUMBERS & LITERALS
+    // ═══ THE DEEP — G# Blue (240°) ═══
     number: role(
-      'Numbers - muted cyan',
-      L.muted, C.muted, H.cyan
+      'Deep sea — constants of the universe, quietly immutable',
+      L.muted, C.muted, H.blue
     ),
     boolean: role(
-      'Booleans - muted orchid',
-      L.muted, C.muted, H.orchid + 5
+      'Binary truth — duality at its simplest, violet whisper',
+      L.muted, C.muted, H.violet
     ),
 
-    // CONSTANTS / TAGS
+    // ═══ CONSTANTS & MARKUP ═══
     constant: role(
-      'Constants - amber',
-      L.primaryWarm, C.comfortable, H.amber
+      'Deep truth — immutable values, blue and certain',
+      L.primary + 0.005, C.comfortable, H.blue
     ),
     tag: role(
-      'HTML/JSX tags - coral',
-      L.primaryWarm, C.comfortable, H.coral
+      'Warm element — HTML/JSX structure, coral stage presence',
+      L.vibrantWarm + 0.005, C.vibrant, H.coral
     ),
     attribute: role(
-      'Attributes - amber variant',
-      L.primaryWarm, C.comfortable, H.amber - 5
+      'Stage lights — attributes in gold, modifying elements',
+      L.primaryWarm, C.comfortable, H.gold
     ),
 
-    // COMMENTS
+    // ═══ HER WHISPER — F# Teal at ppp ═══
     comment: role(
-      'Comments - gray-green',
-      L.muted - 0.015, C.gray, H.lime
+      'Her whisper — still teal, barely there, humming in the margins',
+      L.muted - 0.010, C.gray, H.mikuTeal
     ),
     commentDoc: role(
-      'Doc comments - muted teal',
+      'Her soft voice — doc comments, a little more present',
       L.muted, C.muted, H.mikuTeal
     ),
 
-    // OPERATORS
+    // ═══ HEADPHONE HARMONY — B Pink (330°) ═══
     operator: role(
-      'Operators - pink/magenta',
-      L.primaryWarm, C.comfortable, H.mikuPink
+      'Headphone harmony — pink accents connecting everything',
+      L.primaryWarm, C.comfortable, H.pink
     ),
   };
 }

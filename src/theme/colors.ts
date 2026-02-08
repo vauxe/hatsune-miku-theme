@@ -36,7 +36,7 @@ export const syntax = {
   enum: t.syntax.enum.hex,
   enumMember: t.syntax.enumMember.hex,
   struct: t.syntax.struct.hex,
-  namespace: t.support.type.hex,
+  namespace: t.syntax.type.hex,
   supportClass: t.support.class.hex,
   supportType: t.support.type.hex,
   supportConstant: t.support.constant.hex,
@@ -62,7 +62,7 @@ export const syntax = {
   // Meta
   comment: t.syntax.comment.hex,
   commentDoc: t.syntax.commentDoc.hex,
-  decorator: t.syntax.enum.hex,
+  decorator: t.syntax.macro.hex,
   macro: t.syntax.macro.hex,
   lifetime: t.syntax.keywordAlt.hex,
   tag: t.syntax.tag.hex,

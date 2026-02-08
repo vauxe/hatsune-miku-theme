@@ -125,19 +125,19 @@ export function hex(jch: JzCzhz): string {
  * - Low chroma (CM) always needs higher Jz for sufficient contrast
  */
 export const LIGHTNESS = {
-  // Chroma-aware primary tiers (all target Lc 75-85)
-  // Warm hues (red, coral, pink: 330°-70°) need +0.01 Jz vs cool hues
-  vivid: 0.175,       // For vivid chroma (C3) cool hues - prevents halation
-  vibrant: 0.185,     // For vibrant chroma (C2) cool hues - balanced
-  vibrantWarm: 0.207, // For vibrant chroma (C2) warm hues (red/pink)
-  primary: 0.190,     // For comfortable chroma (C1) cool hues
-  primaryWarm: 0.200, // For comfortable chroma (C1) warm hues (coral/peach/pink)
+  // Chroma-aware primary tiers (all target Lc 82+ for overlay survival)
+  // Warm hues (red, coral, pink: 330°-70°) need +0.015 Jz vs cool hues
+  vivid: 0.180,       // For vivid chroma (C3) cool hues - prevents halation
+  vibrant: 0.188,     // For vibrant chroma (C2) cool hues - balanced
+  vibrantWarm: 0.215, // For vibrant chroma (C2) warm hues (red/pink)
+  primary: 0.192,     // For comfortable chroma (C1) cool hues
+  primaryWarm: 0.210, // For comfortable chroma (C1) warm hues (coral/peach/pink)
   muted: 0.195,       // For muted chroma (CM) - comments need extra light
 
   // Standard tiers
   secondary: 0.185,   // Secondary elements (Lc ~75+)
   tertiary: 0.12,     // Tertiary/dim elements (Lc ~55) - ghost text
-  accent: 0.185,      // Accent elements (Lc ~78+) - brackets, highlights
+  accent: 0.190,      // Accent elements (Lc ~80+) - brackets, highlights
 } as const;
 
 /**
@@ -145,10 +145,10 @@ export const LIGHTNESS = {
  * Percentage scale: raw Cz * 525 ≈ percentage
  */
 export const CHROMA = {
-  comfortable: 0.055, // ~29% - easy on eyes for hours
-  vibrant: 0.070,     // ~37% - colorful but sustainable
-  vivid: 0.085,       // ~45% - attention-grabbing
-  muted: 0.040,       // ~21% - subtle, for comments
+  comfortable: 0.060, // ~31% - mp dynamic, easy on eyes for hours
+  vibrant: 0.075,     // ~39% - mf dynamic, colorful but sustainable
+  vivid: 0.090,       // ~47% - f dynamic, attention-grabbing
+  muted: 0.045,       // ~24% - p dynamic, subtle, for comments
 } as const;
 
 /**

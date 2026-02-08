@@ -32,7 +32,7 @@ const bg = {
 const text = {
   // NOTE: Avoid pure-white halation on deep dark surfaces (APCA max Lc <= 95)
   // Tuned for comfort (Lc ~85-90)
-  primary: '#C0D8E0',
+  primary: '#C8DEE5',
   secondary: t.ui.foregroundMuted.hex,
   tertiary: t.ui.tertiary.hex,
   disabled: t.ui.disabled.hex,
@@ -87,7 +87,7 @@ export const workbenchColors = {
   'editor.inactiveLineHighlightBackground': withOpacity(accent.primary, '04'),
 
   // Selection
-  'editor.selectionBackground': withOpacity(accent.primary, '30'),
+  'editor.selectionBackground': withOpacity(accent.primary, '25'),
   'editor.selectionForeground': text.primary,
   'editor.inactiveSelectionBackground': withOpacity(accent.primary, '18'),
   'editor.selectionHighlightBackground': withOpacity(accent.bright, '15'),
@@ -103,10 +103,10 @@ export const workbenchColors = {
 
   // Find & Replace
   // Slightly darker to preserve token contrast on match highlight
-  'editor.findMatchBackground': withOpacity(semantic.warning, '30'),
+  'editor.findMatchBackground': withOpacity(semantic.warning, '22'),
   'editor.findMatchForeground': text.primary,
   'editor.findMatchBorder': withOpacity(semantic.warning, '80'),
-  'editor.findMatchHighlightBackground': withOpacity(accent.bright, '30'),
+  'editor.findMatchHighlightBackground': withOpacity(accent.bright, '20'),
   'editor.findMatchHighlightForeground': t.syntax.function.hex,
   'editor.findMatchHighlightBorder': withOpacity(accent.bright, '50'),
   'editor.findRangeHighlightBackground': withOpacity(accent.primary, '10'),
@@ -245,7 +245,7 @@ export const workbenchColors = {
   'editorSuggestWidget.foreground': text.primary,
   'editorSuggestWidget.highlightForeground': accent.bright,
   'editorSuggestWidget.focusHighlightForeground': text.primary, // #E8EEF2 - Bright text for visibility
-  'editorSuggestWidget.selectedBackground': withOpacity(accent.primary, '25'),
+  'editorSuggestWidget.selectedBackground': withOpacity(accent.primary, '20'),
   'editorSuggestWidget.selectedForeground': text.primary,
   'editorSuggestWidget.selectedIconForeground': text.primary,  // #E8EEF2 for Lc 75+ on selection bg
   'editorSuggestWidgetStatus.foreground': text.secondary,
@@ -459,7 +459,7 @@ export const workbenchColors = {
   // ==========================================================================
   // TABS
   // ==========================================================================
-  'tab.activeBackground': withOpacity(accent.primary, '10'),
+  'tab.activeBackground': withOpacity(accent.primary, '35'),
   'tab.activeForeground': text.primary,
   'tab.activeBorderTop': accent.magenta,
   'tab.activeBorder': withOpacity(accent.primary, '30'),
@@ -488,7 +488,7 @@ export const workbenchColors = {
   'tab.selectedBackground': bg.surface,
   'tab.selectedForeground': accent.bright,
   'tab.selectedBorderTop': accent.primary,
-  'editorGroupHeader.tabsBackground': bg.elevated,
+  'editorGroupHeader.tabsBackground': bg.void,
   'editorGroupHeader.tabsBorder': withOpacity(accent.primary, '15'),
   'editorGroupHeader.noTabsBackground': bg.base,
   'editorGroupHeader.border': withOpacity(accent.primary, '10'),
@@ -736,12 +736,12 @@ export const workbenchColors = {
   // ==========================================================================
   // DIFF EDITOR
   // ==========================================================================
-  'diffEditor.insertedTextBackground': withOpacity(semantic.success, '12'),
-  'diffEditor.insertedTextBorder': withOpacity(semantic.success, '30'),
-  'diffEditor.insertedLineBackground': withOpacity(semantic.success, '08'),
+  'diffEditor.insertedTextBackground': withOpacity(semantic.success, '15'),
+  'diffEditor.insertedTextBorder': withOpacity(semantic.success, '40'),
+  'diffEditor.insertedLineBackground': withOpacity(semantic.success, '10'),
   'diffEditor.removedTextBackground': withOpacity(semantic.error, '15'),
-  'diffEditor.removedTextBorder': withOpacity(semantic.error, '30'),
-  'diffEditor.removedLineBackground': withOpacity(semantic.error, '08'),
+  'diffEditor.removedTextBorder': withOpacity(semantic.error, '40'),
+  'diffEditor.removedLineBackground': withOpacity(semantic.error, '10'),
   'diffEditor.diagonalFill': withOpacity(text.tertiary, '15'),
   'diffEditor.border': withOpacity(accent.primary, '25'),
   'diffEditor.unchangedRegionBackground': withOpacity(bg.overlay, '30'),
@@ -921,7 +921,7 @@ export const workbenchColors = {
   // TESTING
   // ==========================================================================
   // Separate "failed" vs "errored" for instant recognition (DeltaE distinction)
-  'testing.iconErrored': accent.magenta,
+  'testing.iconErrored': t.syntax.keyword.hex,
   'testing.iconFailed': semantic.error,
   'testing.iconPassed': semantic.success,
   'testing.iconQueued': semantic.warning,
@@ -1133,7 +1133,7 @@ export const workbenchColors = {
   'symbolIcon.namespaceForeground': t.symbol.namespace.hex,  // Lavender (290deg)
   'symbolIcon.nullForeground': text.tertiary,
   'symbolIcon.numberForeground': t.symbol.number.hex,  // Periwinkle (230deg) DISTINCT from boolean
-  'symbolIcon.objectForeground': t.syntax.typeParameter.hex,
+  'symbolIcon.objectForeground': t.syntax.attribute.hex,
   'symbolIcon.operatorForeground': t.syntax.keyword.hex,
   'symbolIcon.packageForeground': t.symbol.package.hex,  // Soft purple (260deg) DISTINCT from folder
   'symbolIcon.propertyForeground': t.symbol.property.hex,  // Coral (10deg) DISTINCT from field

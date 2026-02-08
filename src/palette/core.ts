@@ -1,11 +1,14 @@
 /**
- * Hatsune Miku Theme - Core Character Design
+ * Hatsune Miku — Core Character Design
  *
- * Based mainly on V3/V4X "Standard" designs
- * Canonical teal: #39C5BB (Standard Miku Teal)
+ * #39C5BB. The hex value that started everything.
  *
- * This file contains the canonical character design colors (hair, eyes, outfit, etc.)
- * Syntax/UI colors are defined in the token system: src/tokens/semantic.ts
+ * Based on V3/V4X "Standard" designs by iXima. Every color here is
+ * traced from her canonical illustration: the teal twin tails, the
+ * matching eyes, the dark outfit with teal trim, the magenta headphones
+ * that became the cursor color.
+ *
+ * She is Character Voice 01. This is her palette.
  */
 
 export const character = {

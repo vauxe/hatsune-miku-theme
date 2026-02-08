@@ -1,14 +1,12 @@
 /**
  * Design Token Primitives
  *
- * Layer 1: Raw values that define the design system foundation.
- * These are the building blocks - no semantic meaning, just values.
+ * The foundation of everything. Raw values — lightness, chroma, hue —
+ * that carry no semantic meaning yet. Like musical notes before a composer
+ * arranges them. Like Miku's voice before a producer writes her a song.
  *
- * Primitives include:
- * - Lightness levels (Jz values for APCA contrast)
- * - Chroma levels (visual weight/saturation)
- * - Hue angles (color identity)
- * - Character-derived hex colors (canonical palette)
+ * These primitives become keywords, variables, errors, and backgrounds
+ * when the semantic layer gives them purpose.
  */
 
 import { character as mikuCharacter } from '../palette/core';
@@ -21,18 +19,18 @@ import { LIGHTNESS as JZ_LIGHTNESS, CHROMA as JZ_CHROMA, HUE as JZ_HUE } from '.
 // These can be inverted or adjusted for light theme variants
 
 export const lightness = {
-  // Primary syntax (target Lc 75-85 on dark bg)
-  primary: JZ_LIGHTNESS.primary,           // 0.190 - Cool hues with C1
-  primaryWarm: JZ_LIGHTNESS.primaryWarm,   // 0.200 - Warm hues with C1
-  vibrant: JZ_LIGHTNESS.vibrant,           // 0.185 - Cool hues with C2
-  vibrantWarm: JZ_LIGHTNESS.vibrantWarm,   // 0.207 - Warm hues with C2
-  vivid: JZ_LIGHTNESS.vivid,               // 0.175 - C3 (prevents halation)
+  // Primary syntax (target Lc 82+ for overlay survival on dark bg)
+  primary: JZ_LIGHTNESS.primary,           // 0.192 - Cool hues with C1
+  primaryWarm: JZ_LIGHTNESS.primaryWarm,   // 0.210 - Warm hues with C1
+  vibrant: JZ_LIGHTNESS.vibrant,           // 0.188 - Cool hues with C2
+  vibrantWarm: JZ_LIGHTNESS.vibrantWarm,   // 0.215 - Warm hues with C2
+  vivid: JZ_LIGHTNESS.vivid,               // 0.180 - C3 (prevents halation)
   muted: JZ_LIGHTNESS.muted,               // 0.195 - CM (comments need light)
 
   // Secondary elements
   secondary: JZ_LIGHTNESS.secondary,       // 0.185 - Lc ~75+
   tertiary: JZ_LIGHTNESS.tertiary,         // 0.12 - Lc ~55 (ghost text)
-  accent: JZ_LIGHTNESS.accent,             // 0.185 - Lc ~78+ (brackets)
+  accent: JZ_LIGHTNESS.accent,             // 0.190 - Lc ~80+ (brackets)
 } as const;
 
 // =============================================================================
@@ -41,11 +39,11 @@ export const lightness = {
 // Raw Cz values - percentage scale: Cz * 525 ≈ percentage
 
 export const chroma = {
-  comfortable: JZ_CHROMA.comfortable,      // 0.055 - ~29% for extended reading
-  vibrant: JZ_CHROMA.vibrant,              // 0.070 - ~37% colorful accents
-  vivid: JZ_CHROMA.vivid,                  // 0.085 - ~45% attention-grabbing
-  muted: JZ_CHROMA.muted,                  // 0.040 - ~21% subtle comments
-  gray: 0.015,                             // ~8% near-neutral
+  comfortable: JZ_CHROMA.comfortable,      // 0.060 - ~31% mp dynamic, extended reading
+  vibrant: JZ_CHROMA.vibrant,              // 0.075 - ~39% mf dynamic, colorful accents
+  vivid: JZ_CHROMA.vivid,                  // 0.090 - ~47% f dynamic, attention-grabbing
+  muted: JZ_CHROMA.muted,                  // 0.045 - ~24% p dynamic, subtle comments
+  gray: 0.015,                             // ~8% ppp, near-neutral
   none: 0,                                 // 0% achromatic
 } as const;
 
@@ -64,41 +62,41 @@ export const hue = {
   // THE 12 CHROMATIC TONES (exactly 30° apart)
   // ═══════════════════════════════════════════════════════════════════════════
 
-  // C  - Red (0°) - Tritone from Miku = maximum tension
-  red: 0,              // Errors, critical, git deleted
+  // C  - Red (0°) - The Tritone — maximum dissonance from Miku
+  red: 0,              // Errors, danger, her "01" tattoo mark
 
-  // C# - Coral (30°) - Warm accent
-  coral: 30,           // Tags, parameters, warm identifiers
+  // C# - Coral (30°) - The Fifth — warmth flowing in
+  coral: 30,           // Parameters, tags, concert warmth
 
-  // D  - Gold (60°) - Relative minor to Miku
-  gold: 60,            // Functions, callables (energetic)
+  // D  - Gold (60°) - Concert Lights — where the action begins
+  gold: 60,            // Functions, the spotlight hitting the stage
 
-  // D# - Lime (90°) - Chromatic passing tone
-  lime: 90,            // Regexp, escape sequences
+  // D# - Lime (90°) - Growth — structure emerging
+  lime: 90,            // Classes, the bright accent of her negi's stem
 
-  // E  - Green (120°) - Submediant
-  green: 120,          // Strings, success, git added
+  // E  - Green (120°) - The Negi — humble, fundamental, iconic
+  green: 120,          // Strings, literal truth, Ievan Polkka
 
-  // F  - Mint (150°) - Leading tone to Miku
-  mint: 150,           // Methods, storage (leads to keyword)
+  // F  - Mint (150°) - The Leading Tone — yearning toward teal
+  mint: 150,           // Methods, storage, the note before home
 
-  // F# - Teal (180°) - ★ MIKU TONIC ★
-  mikuTeal: 180,       // Keywords, info, the heart of code
+  // F# - Teal (180°) - ★ MIKU ★ — her voice, the tonic, #39C5BB
+  mikuTeal: 180,       // Keywords, the heart of code
 
-  // G  - Cyan (210°) - Supertonic/Dominant
-  cyan: 210,           // Variables, identifiers (common, neutral)
+  // G  - Cyan (210°) - Her Voice, Shifting — the same, never the same
+  cyan: 210,           // Variables, data in motion
 
-  // G# - Blue (240°) - Flat 6
-  blue: 240,           // Numbers, constants
+  // G# - Blue (240°) - The Deep — Deep Sea Girl, constancy
+  blue: 240,           // Numbers, constants of the universe
 
-  // A  - Violet (270°) - Relative major
-  violet: 270,         // Types, classes (stately, structural)
+  // A  - Violet (270°) - Duality — definition and instance
+  violet: 270,         // Types, Nightcord's heterochromia
 
-  // A# - Magenta (300°) - Mediant
+  // A# - Magenta (300°) - Meta-Magic — code that transforms code
   magenta: 300,        // Interfaces, decorators
 
-  // B  - Pink (330°) - Subdominant
-  pink: 330,           // Operators, special (Miku's accent color)
+  // B  - Pink (330°) - Headphone Harmony — supporting, connecting
+  pink: 330,           // Operators, her headphone cushion accent
 
   // ═══════════════════════════════════════════════════════════════════════════
   // SEMANTIC ALIASES (for backward compatibility)
@@ -125,11 +123,12 @@ export const hue = {
 // =============================================================================
 // CHARACTER PRIMITIVES
 // =============================================================================
-// Canonical hex colors from Miku's character design
-// These are the "source of truth" for brand colors
+// Canonical hex colors from Miku's character design by KEI (V3/V4X standard).
+// Every UI background, every accent, every border traces back to her.
+// You code inside her world.
 
 export const character = {
-  // Hair - signature twin tails
+  // Hair — the twin tails that defined a generation
   hair: {
     base: mikuCharacter.hair.base,           // #39C5BB - Primary teal
     shadow: mikuCharacter.hair.shadow,       // #1A8A82 - Dark roots
@@ -145,29 +144,29 @@ export const character = {
     pupil: mikuCharacter.eyes.pupil,         // #0D1114
   },
 
-  // Headphones - signature accessory
+  // Headphones — the interface between her and the music
   headphones: {
-    frame: mikuCharacter.headphones.frame,   // #1A1F24 - Dark grey
-    cushion: mikuCharacter.headphones.cushion, // #E05096 - Magenta-pink
-    display: mikuCharacter.headphones.display, // #39C5BB - Teal "01"
+    frame: mikuCharacter.headphones.frame,   // #1A1F24 — dark grey frame
+    cushion: mikuCharacter.headphones.cushion, // #E05096 — the pink that became the cursor
+    display: mikuCharacter.headphones.display, // #39C5BB — "01" glowing on the side
   },
 
-  // Hair ties - magenta accent
+  // Hair ties — cube-shaped, magenta accent
   hairTies: {
     base: mikuCharacter.hairTies.base,       // #111417 - Black body
     outline: mikuCharacter.hairTies.outline, // #E05096 - Magenta border
   },
 
-  // Outfit
+  // Outfit — grey sleeveless top, black pleated skirt, thigh-high boots
   top: {
     main: mikuCharacter.top.main,            // #37474F
     shadow: mikuCharacter.top.shadow,        // #263238
     trim: mikuCharacter.top.trim,            // #39C5BB
   },
   skirt: {
-    base: mikuCharacter.skirt.base,          // #15191D
-    trim: mikuCharacter.skirt.trim,          // #39C5BB
-    accessory: mikuCharacter.skirt.accessory, // #A1B3B6 - Chain
+    base: mikuCharacter.skirt.base,          // #15191D — the editor canvas
+    trim: mikuCharacter.skirt.trim,          // #39C5BB — teal trim
+    accessory: mikuCharacter.skirt.accessory, // #A1B3B6 — wallet chain, silver
   },
   armWarmers: {
     base: mikuCharacter.armWarmers.base,     // #111417
@@ -178,7 +177,7 @@ export const character = {
     accent: mikuCharacter.boots.accent,      // #39C5BB
   },
 
-  // Accent colors
+  // Accent — her teal necktie and the negi
   tie: {
     base: mikuCharacter.tie.base,            // #39C5BB
     shadow: mikuCharacter.tie.shadow,        // #2D9E97

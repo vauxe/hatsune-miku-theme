@@ -1,7 +1,10 @@
 /**
  * UI, Status, and Git Token Definitions
  *
- * Defines color roles for editor UI, status indicators, and git decorations.
+ * You code inside her world. The editor background is her skirt,
+ * the sidebar is her top, the activity bar is her arm warmers.
+ * Status colors tell the story of your code: success in negi green,
+ * errors in tritone red. Git traces the narrative of creation and loss.
  */
 
 import { role, roleFromHex } from './role';
@@ -13,72 +16,72 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
 
   return {
     foreground: roleFromHex(
-      'Primary text - soft ice-white',
-      '#C0D8E0'
+      'Primary text — soft ice-white, readable for hours',
+      '#C8DEE5'
     ),
     foregroundMuted: role(
-      'Secondary text - silver',
+      'Secondary text — silver, the quiet accompaniment',
       L.secondary, C.gray, H.sky
     ),
     foregroundSubtle: role(
-      'Tertiary text - muted',
+      'Tertiary text — barely there, like distant reverb',
       L.tertiary, C.gray, H.sky
     ),
     background: roleFromHex(
-      'Editor background - skirt base',
+      'Editor canvas — her skirt, the stage you code on',
       char.skirt.base
     ),
     backgroundElevated: roleFromHex(
-      'Widget background - arm warmers',
+      'Deep panels — her arm warmers, black with digital pattern',
       char.armWarmers.base
     ),
     backgroundSurface: roleFromHex(
-      'Sidebar background - headphones frame',
+      'Surface — her headphone frame, holding everything together',
       char.headphones.frame
     ),
     backgroundOverlay: roleFromHex(
-      'Section headers - top shadow',
+      'Overlay — her top shadow, the layer beneath',
       char.top.shadow
     ),
     accentPrimary: roleFromHex(
-      'Primary accent - hair base',
+      'Primary accent — her hair, #39C5BB',
       char.hair.base
     ),
     accentSecondary: roleFromHex(
-      'Secondary accent - hair highlight',
+      'Secondary accent — hair highlight, light catching her twin tails',
       char.hair.highlight
     ),
     accentTertiary: roleFromHex(
-      'Tertiary accent - hair tip',
+      'Tertiary accent — hair tip, the lightest end of her color',
       char.hair.tip
     ),
     border: roleFromHex(
-      'Border - hair base with alpha',
+      'Border — drawn in her teal',
       char.hair.base
     ),
     borderSubtle: roleFromHex(
-      'Subtle border - hair base with lower alpha',
+      'Subtle border — a breath of teal',
       char.hair.base
     ),
     selection: roleFromHex(
-      'Selection background - hair base',
+      'Selection — when you choose code, you highlight it with her color',
       char.hair.base
     ),
-    cursor: roleFromHex(
-      'Cursor - magenta accent',
-      char.hairTies.outline
+    cursor: role(
+      'Her presence — vivid magenta at the point of creation',
+      0.20, C.vivid, H.magenta
     ),
     link: roleFromHex(
-      'Link text - hair highlight',
+      'Links — her highlight color, clickable and alive',
       char.hair.highlight
     ),
     linkActive: role(
-      'Active link - vibrant teal',
+      'Active link — vibrant teal, fully present',
       L.vibrant, C.vibrant, H.mikuTeal
     ),
     // Extended UI tokens
     void: roleFromHex(
-      'Deepest void - near black',
+      'The dark before the concert begins',
       '#0A0D10'
     ),
     pureWhite: roleFromHex(
@@ -102,7 +105,7 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       0.08, 0.015, H.sky
     ),
     ghostText: role(
-      'Ghost text - Lc 45+ teal hint',
+      'Ghost text — she suggests, faintly, in teal',
       L.tertiary + 0.02, 0.025, H.mikuTeal
     ),
     placeholder: role(
@@ -139,8 +142,8 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     ),
     minimapOpacity: '#000000DD',
     error: role(
-      'Pink error - accent tier',
-      L.vibrantWarm, C.vibrant, H.mikuPink
+      'The tritone — UI error, vivid red dissonance',
+      L.vibrantWarm + 0.010, C.vivid, H.red
     ),
   };
 }
@@ -150,20 +153,20 @@ export function createStatusTokens(p: Primitives): StatusTokens {
 
   return {
     success: role(
-      'Success - bright mint',
-      L.vibrant, C.vibrant, H.mint
+      'Negi green — it worked, new life',
+      L.vibrant, C.vivid, H.green
     ),
     warning: role(
-      'Warning - golden amber',
-      L.vibrant, C.vibrant, H.amber
+      'Stage lights dimming — caution, warm gold',
+      L.vibrant, C.comfortable, H.gold
     ),
     error: role(
-      'Error - pink (Miku pink accent)',
-      L.vibrantWarm, C.vibrant, H.mikuPink
+      'The tritone — maximum dissonance, something is wrong',
+      L.vibrantWarm + 0.020, C.vivid, H.red
     ),
     info: role(
-      'Info - Miku cyan',
-      L.vibrant, C.vibrant, H.mikuTeal
+      'Her calm voice — tonic teal, information without alarm',
+      L.vibrant - 0.01, C.vibrant, H.mikuTeal
     ),
   };
 }
@@ -173,40 +176,40 @@ export function createGitTokens(p: Primitives): GitTokens {
 
   return {
     added: role(
-      'Git added - bright mint',
-      L.vibrant, C.vibrant, H.mint
+      'New life — negi green, something was born',
+      L.vibrant - 0.010, C.vivid, H.green
     ),
     modified: role(
-      'Git modified - warm gold',
-      L.vibrant, C.vibrant, H.gold
+      'Change — warm gold, the story evolves',
+      L.vibrant, C.comfortable, H.gold
     ),
     deleted: role(
-      'Git deleted - red',
-      L.vibrantWarm, C.vibrant, H.gitRed
+      'Loss — tritone red, something was removed',
+      L.vibrantWarm + 0.015, C.vivid, H.gitRed
     ),
     untracked: role(
-      'Git untracked - Miku cyan',
-      L.vibrant, C.vibrant, H.ice
+      'Undiscovered — her cyan, not yet part of the story',
+      L.vibrant, C.vibrant, H.cyan
     ),
     conflicting: role(
-      'Git conflicting - blue-violet',
-      L.primary, C.comfortable, H.gitViolet
+      'Tension — violet, two truths that cannot coexist',
+      L.secondary, C.vibrant, H.violet
     ),
     renamed: role(
-      'Git renamed - lavender',
-      L.primary, C.comfortable, H.lavender
+      'Transformation — violet, the same thing with a new name',
+      L.primary, C.comfortable, H.violet
     ),
     stageModified: role(
-      'Git stage modified - cyan',
-      L.vibrant, C.vibrant, H.ice
+      'Prepared change — cyan, ready to become part of the story',
+      L.vibrant, C.vibrant, H.cyan
     ),
     stageDeleted: role(
-      'Git stage deleted - light lavender',
-      L.primary, C.comfortable, H.lavender
+      'Prepared removal — violet, loss accepted',
+      L.primary, C.comfortable, H.violet
     ),
     submodule: role(
-      'Git submodule - sky blue',
-      L.primary, C.comfortable, H.sky
+      'External world — deep blue, a reference beyond this repo',
+      L.primary, C.comfortable, H.blue
     ),
   };
 }
