@@ -33,10 +33,9 @@ TypeScript, JavaScript, TSX, JSX, HTML, CSS, SCSS, JSON, Rust, Go, C, C++, Java,
 
 ## Install
 
-1. Open Extensions (`Ctrl+Shift+X`)
-2. Search **"Hatsune Miku Theme"**
-3. Click **Install**
-4. `Ctrl+K Ctrl+T` → select **Hatsune Miku Theme**
+1. Download the latest `.vsix` from [Releases](../../releases)
+2. `Ctrl+Shift+P` → **Extensions: Install from VSIX...**
+3. Select the downloaded file
 
 ## Development
 
