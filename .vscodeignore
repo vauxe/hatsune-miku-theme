@@ -1,6 +1,8 @@
 # VS Code / Dev
 .vscode/**
 .vscode-test/**
+.claude/**
+.grammars/**
 
 # Git
 .git/**
@@ -10,6 +12,8 @@
 # Documentation (keep README, LICENSE)
 vsc-extension-quickstart.md
 CHANGELOG.md
+CLAUDE.md
+docs/**
 
 # Source (only themes/ JSON needed)
 src/**
@@ -29,6 +33,9 @@ package-lock.json
 # Assets (keep icon, exclude preview)
 images/preview.png
 examples/**
+
+# Temp
+tmp/**
 
 # Environment
 .env*
