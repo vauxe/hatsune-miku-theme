@@ -7,8 +7,10 @@
  * - Lc (Lightness Contrast): APCA's contrast value, ranges roughly -108 to +108
  *   Negative = light text on dark, Positive = dark text on light
  * - Jzazbz ΔEz: Perceptual color difference metric (more accurate than CIEDE2000)
+ *   Scaled: raw deltaE('Jz') × 500 (see DELTA_EZ_SCALE in readability-constants.ts)
  *   <1 imperceptible, 1-5 subtle, 5-10 noticeable, 10-20 clear, 20-40 distinct, 40+ obvious
  * - JzCzhz Chroma (Cz): Perceptually uniform colorfulness measure
+ *   Scaled: raw Cz × 525 → 0-100% (see CHROMA_SCALE in readability-constants.ts)
  *   More uniform than OKLCH or CIE LCH across all hues
  */
 
@@ -155,10 +157,17 @@ export interface ExtractedColors {
     activityBarBadge: string;
     dropdown: string;
     debugToolbar: string;
+    exceptionLabel: string;
+    stateLabel: string;
+    panelTitleBadge: string;
+    profileBadge: string;
+    radioActive: string;
+    statusBarDebugging: string;
     banner: string;
     keybindingLabel: string;
     checkbox: string;
     extensionButton: string;
+    extensionBadgeRemote: string;
     // Status bar items
     statusBarItemError: string;
     statusBarItemWarning: string;

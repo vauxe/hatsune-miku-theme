@@ -5,6 +5,33 @@
 import type { SemanticGroup, SemanticGroupName, DistinctionPriority } from './readability-types';
 
 // =============================================================================
+// SCALE CONSTANTS
+// =============================================================================
+
+/**
+ * Scale factors for converting raw Jzazbz values to human-friendly ranges.
+ *
+ * Raw Jzazbz coordinates are tiny (Jz: 0-0.222, Cz: 0-0.19, ΔE: 0-0.36)
+ * because the color space was designed for HDR (PQ transfer function).
+ * We scale them to integer-friendly ranges for thresholds and display.
+ *
+ * DELTA_EZ_SCALE (×500):
+ *   Raw ΔE × 500 → 0-180 range. Black↔white ≈ 111, JND ≈ 2-3.
+ *   All ΔEz thresholds in this codebase are on this scale.
+ *
+ * CHROMA_SCALE (×525):
+ *   Raw Cz × 525 → 0-100% range. sRGB blue (#0000FF) ≈ 100%.
+ *   All chroma thresholds use this percentage scale.
+ *
+ * JZ_TO_PERCENT (×450):
+ *   Raw Jz × 450 → 0-100% range. sRGB white (#FFFFFF) Jz≈0.222, ×450 ≈ 100%.
+ *   Used for lightness uniformity display.
+ */
+export const DELTA_EZ_SCALE = 500;
+export const CHROMA_SCALE = 525;
+export const JZ_TO_PERCENT = 450;
+
+// =============================================================================
 // BACKGROUND KEY MAPPINGS
 // =============================================================================
 
@@ -48,10 +75,17 @@ export const BG_KEYS = {
   activityBarBadge: 'activityBarBadge.background',
   dropdown: 'dropdown.background',
   debugToolbar: 'debugToolBar.background',
+  exceptionLabel: 'debugView.exceptionLabelBackground',
+  stateLabel: 'debugView.stateLabelBackground',
+  panelTitleBadge: 'panelTitleBadge.background',
+  profileBadge: 'profileBadge.background',
+  radioActive: 'radio.activeBackground',
+  statusBarDebugging: 'statusBar.debuggingBackground',
   banner: 'banner.background',
   keybindingLabel: 'keybindingLabel.background',
   checkbox: 'checkbox.background',
   extensionButton: 'extensionButton.prominentBackground',
+  extensionBadgeRemote: 'extensionBadge.remoteBackground',
   statusBarItemError: 'statusBarItem.errorBackground',
   statusBarItemWarning: 'statusBarItem.warningBackground',
   statusBarItemRemote: 'statusBarItem.remoteBackground',
@@ -222,10 +256,11 @@ export const PRIMARY_SYNTAX_ELEMENTS = new Set([
 ]);
 
 /**
- * Distinction threshold - minimum ΔE for color pairs to be distinguishable.
+ * Distinction threshold - minimum ΔEz for color pairs to be distinguishable.
+ * Values are on the DELTA_EZ_SCALE (×500) scale.
  *
- * Standard pairs require ΔE ≥ 15 (Clear level).
- * Critical pairs require ΔE ≥ 18 for safety-critical distinctions.
+ * Standard pairs require ΔEz ≥ 15 (Clear level).
+ * Critical pairs require ΔEz ≥ 18 for safety-critical distinctions.
  */
 export const DISTINCTION_THRESHOLDS = {
   critical: 18,  // Safety-critical pairs (error/warning, red/green)
@@ -301,18 +336,18 @@ export const CVD_CRITICAL_PAIRS: {
   },
 ];
 
-/** Minimum Delta E required under CVD simulation (lower than normal due to gamut compression) */
+/** Minimum ΔEz (×500 scale) required under CVD simulation (lower than normal due to gamut compression) */
 export const CVD_DISTINCTION_THRESHOLD = 12;
 
 /**
- * JzCzhz Chroma thresholds (percentage scale: raw Jzazbz Cz * 525)
+ * JzCzhz Chroma thresholds (percentage scale: raw Cz × CHROMA_SCALE)
  *
  * Jzazbz (Safdar et al. 2017) is more perceptually uniform than OKLCH or CIE LCH:
  * - Designed for HDR and wide color gamut (future-proof)
  * - Excellent uniformity across entire gamut
  * - Simple Euclidean distance works well (unlike Lab needing CIEDE2000)
  * - Raw Jzazbz chroma: 0-~0.19 for sRGB gamut (blue #0000FF = 100%)
- * - Percentage scale: 0-100 (multiply raw by 525)
+ * - Percentage scale: 0-100 (multiply raw by CHROMA_SCALE = 525)
  *
  * Reference values (Jz C%):
  * - 10-25: Comfortable pastels (easy on eyes for hours)
@@ -1160,7 +1195,7 @@ export function getTokenGroup(token: string): SemanticGroupName | undefined {
 // =============================================================================
 
 /**
- * Delta E thresholds for cross-group distinction by priority.
+ * ΔEz thresholds (×500 scale) for cross-group distinction by priority.
  */
 export const SEMANTIC_DISTINCTION_THRESHOLDS = {
   critical: 18,  // Appear every few lines, confusion is costly
@@ -1267,16 +1302,17 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
 
 /**
  * Thresholds for UI element visibility that users directly notice.
+ * ΔEz values are on the DELTA_EZ_SCALE (×500) scale.
  */
 export const UI_VISIBILITY = {
-  /** Minimum ΔE for selection background vs editor background (can you SEE the selection?) */
+  /** Minimum ΔEz for selection background vs editor background (can you SEE the selection?) */
   selectionVisibility: 8,
-  /** Minimum ΔE for find match background vs editor background */
+  /** Minimum ΔEz for find match background vs editor background */
   findMatchVisibility: 12,
   /** Minimum APCA Lc for cursor against editor background */
   cursorContrast: 60,
-  /** Minimum ΔE for active vs inactive tab backgrounds */
-  tabDistinction: 8,
+  /** Minimum ΔEz for tab bar vs editor — low for eye comfort (spatial cues suffice) */
+  tabDistinction: 3,
   /** Minimum ΔE for diff added vs removed backgrounds */
   diffDistinction: 15,
 } as const;

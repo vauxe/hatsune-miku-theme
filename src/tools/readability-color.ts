@@ -16,6 +16,9 @@ import {
   APCA_THRESHOLDS,
   DISTINCTION_THRESHOLDS,
   CHROMA_THRESHOLDS,
+  DELTA_EZ_SCALE,
+  CHROMA_SCALE,
+  JZ_TO_PERCENT,
   type ChromaTier,
 } from './readability-constants';
 import type {
@@ -74,7 +77,7 @@ export function deltaEzHex(hex1: string, hex2: string, bg?: string): number | nu
   try {
     const color1 = new Color(resolve(hex1));
     const color2 = new Color(resolve(hex2));
-    return color1.deltaE(color2, 'Jz') * 500;
+    return color1.deltaE(color2, 'Jz') * DELTA_EZ_SCALE;
   } catch {
     return null;
   }
@@ -104,7 +107,7 @@ export function analyzeChroma(
   tier: ChromaTier;
   chromaPercent: number;
 } {
-  const chromaPercent = chroma * 525;
+  const chromaPercent = chroma * CHROMA_SCALE;
 
   let level: string;
   if (chromaPercent < 5) {
@@ -424,7 +427,7 @@ export function analyzeLightnessUniformity(
     lightest,
     outliers,
     median,
-    suggestion: pass ? undefined : `Reduce lightness spread from ${(spread * 450).toFixed(0)}% to ≤${(maxSpread * 450).toFixed(0)}%`,
+    suggestion: pass ? undefined : `Reduce lightness spread from ${(spread * JZ_TO_PERCENT).toFixed(0)}% to ≤${(maxSpread * JZ_TO_PERCENT).toFixed(0)}%`,
   };
 }
 

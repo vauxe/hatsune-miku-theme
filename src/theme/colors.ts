@@ -8,7 +8,7 @@
  * All colors flow from the semantic token system - no hardcoded hex values.
  */
 
-import { semanticTokens as t } from '../tokens';
+import { semanticTokens as t, darken } from '../tokens';
 
 // =============================================================================
 // SYNTAX COLORS - Used by both tokenColors.ts and semanticTokens.ts
@@ -69,7 +69,7 @@ export const syntax = {
   attribute: t.syntax.attribute.hex,
 
   // Headings & Special
-  heading: t.syntax.function.hex,
+  heading: darken(t.syntax.function, 0.010),  // Bold compensation — dimmed to match non-bold perceived brightness
   sqlKeyword: t.syntax.keywordControl.hex,
 
   // Markdown

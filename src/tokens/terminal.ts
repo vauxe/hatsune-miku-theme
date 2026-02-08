@@ -14,7 +14,7 @@ export function createTerminalTokens(p: Primitives): TerminalTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
   return {
-    black: roleFromHex('Near-background — the stage floor', '#15191D'),
+    black: role('Near-background — visible dark on the stage floor', L.tertiary + 0.01, C.gray, H.sky),
     red: role('Alert — tritone red, danger in the output', L.vibrantWarm, C.vivid, H.red),
     green: role('Success — negi green, it worked', L.vibrant - 0.015, C.vibrant, H.green),
     yellow: role('Caution — concert gold, pay attention', L.vibrantWarm, C.vibrant, H.gold),
@@ -22,7 +22,7 @@ export function createTerminalTokens(p: Primitives): TerminalTokens {
     magenta: role('Special — violet timbre, distinct from red', L.secondary, C.vibrant, H.violet),
     cyan: role('Her voice — Miku teal in the terminal', L.vibrant, C.vibrant, H.mikuTeal),
     white: role('Muted foreground — warm off-white', L.muted, C.muted, H.peach),
-    brightBlack: role('Comment gray — the quiet background', L.tertiary + 0.03, 0.020, H.cyan),
+    brightBlack: role('Comment gray — the quiet background', L.tertiary + 0.05, 0.020, H.cyan),
     brightRed: role('Softer alert — coral, less urgent', L.primaryWarm, C.comfortable, H.red),
     brightGreen: role('Softer success — quieter negi', L.primary, C.comfortable, H.green),
     brightYellow: role('Softer warning — warm gold, gentle', L.primaryWarm, C.comfortable, H.gold),

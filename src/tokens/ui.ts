@@ -1,19 +1,27 @@
 /**
  * UI, Status, and Git Token Definitions
  *
- * You code inside her world. The editor background is her skirt,
- * the sidebar is her top shadow, the activity bar is her arm warmers,
- * the title bar is her headphone frame, the status bar is her top.
+ * Skirt-centered background steps: the skirt is the stage, the single
+ * anchor. Every other background tier is exactly N steps above or below
+ * it — uniform 0.003 Jz increments. When your eyes
+ * move between UI areas, the transition is smooth — like light falling
+ * across her outfit from the dark hem to the bright collar.
+ *
  * Status colors tell the story of your code: success in negi green,
  * errors in tritone red. Git traces the narrative of creation and loss.
  */
 
 import { role, roleFromHex } from './role';
+import { parseHex } from './jzczhz';
 import type { UITokens, ExtendedUITokens, StatusTokens, GitTokens } from './types';
 import type { Primitives } from './primitives';
 
 export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
   const { lightness: L, chroma: C, hue: H, character: char } = p;
+
+  // The skirt is the stage — one anchor, uniform steps up and down
+  const STEP = 0.003;
+  const skirt = parseHex(char.skirt.base);  // #15191D → Jz=0.0255, Cz=0.0073, hz=249°
 
   return {
     foreground: roleFromHex(
@@ -29,24 +37,24 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       L.tertiary, C.gray, H.sky
     ),
     background: roleFromHex(
-      'Editor canvas — her skirt, the stage you code on',
+      'The skirt — the editor canvas, the anchor (step 0)',
       char.skirt.base
     ),
-    backgroundElevated: roleFromHex(
-      'Deep panels — her arm warmers, black with digital pattern',
-      char.armWarmers.base
+    backgroundElevated: role(
+      'Inner pleat — one step darker than the stage (step −1)',
+      skirt.Jz - STEP, skirt.Cz, skirt.hz
     ),
-    backgroundSurface: roleFromHex(
-      'Surface — her headphone frame, holding everything together',
-      char.headphones.frame
+    backgroundSurface: role(
+      'Light rising above the skirt — title bar territory (step +1)',
+      skirt.Jz + STEP, skirt.Cz, skirt.hz
     ),
-    backgroundOverlay: roleFromHex(
-      'Overlay — her top shadow, the layer beneath',
-      char.top.shadow
+    backgroundOverlay: role(
+      'Audience light — sidebar territory (step +2)',
+      skirt.Jz + 2 * STEP, skirt.Cz, skirt.hz
     ),
-    backgroundHighest: roleFromHex(
-      'Highest surface — her top, the lightest background layer',
-      char.top.main
+    backgroundHighest: role(
+      'FOH — the brightest operational tier, status bar (step +3)',
+      skirt.Jz + 3 * STEP, skirt.Cz, skirt.hz
     ),
     accentPrimary: roleFromHex(
       'Primary accent — her hair, #39C5BB',
@@ -72,10 +80,13 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       'Selection — when you choose code, you highlight it with her color',
       char.hair.base
     ),
-    cursor: role(
-      'Her presence — headphone cushion magenta, vivid at the point of creation',
-      0.176, 0.085, 336
-    ),
+    cursor: (() => {
+      const cushion = parseHex(char.headphones.cushion);
+      return role(
+        'Her presence — headphone cushion magenta, lightened for cursor visibility',
+        cushion.Jz + 0.055, cushion.Cz, cushion.hz
+      );
+    })(),
     link: roleFromHex(
       'Links — her highlight color, clickable and alive',
       char.hair.highlight
@@ -85,17 +96,17 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       char.hair.bright
     ),
     // Extended UI tokens
-    void: roleFromHex(
-      'The dark before the concert begins',
-      '#0A0D10'
+    void: role(
+      'Deepest shadow below the stage — the void (step −2)',
+      skirt.Jz - 2 * STEP, skirt.Cz * 0.4, skirt.hz
     ),
     pureWhite: roleFromHex(
       'Pure white - maximum contrast',
       '#FFFFFF'
     ),
     nearWhite: roleFromHex(
-      'Near white - soft white',
-      '#F8F8F8'
+      'Negi white — the softest green light from her iconic prop',
+      char.negi.white
     ),
     tertiary: role(
       'Tertiary text - muted sky',
@@ -126,12 +137,12 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       L.tertiary, 0.015, H.sky
     ),
     terminalHint: role(
-      'Terminal hints - Lc 40',
-      0.10, 0.030, H.mikuTeal
+      'Terminal hints — her teal nudge, Lc 50+',
+      L.tertiary + 0.02, 0.030, H.mikuTeal
     ),
     terminalGuide: role(
-      'Terminal command guide',
-      0.07, 0.025, H.mikuTeal
+      'Terminal command guide — subtle teal path, Lc 45+',
+      L.tertiary + 0.01, 0.025, H.mikuTeal
     ),
     operator: role(
       'Operators - pink/magenta',
@@ -149,6 +160,24 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     error: role(
       'The tritone — UI error, vivid red dissonance',
       L.vibrantWarm + 0.020, C.vivid, H.red
+    ),
+    buttonBackground: (() => {
+      const hairShadow = parseHex(char.hair.shadow);
+      return role(
+        'Her hair shadow — roots darkened for button contrast',
+        hairShadow.Jz - 0.012, hairShadow.Cz, hairShadow.hz
+      );
+    })(),
+    badgeBackground: (() => {
+      const cushion = parseHex(char.headphones.cushion);
+      return role(
+        'Her headphone cushion — darkened for badge readability',
+        cushion.Jz - 0.050, cushion.Cz, cushion.hz
+      );
+    })(),
+    activeBorder: roleFromHex(
+      'Her headphone cushion — canonical magenta for active borders',
+      char.headphones.cushion
     ),
   };
 }

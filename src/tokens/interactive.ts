@@ -1,12 +1,19 @@
 /**
- * Interactive State Token Definitions
+ * Interactive State Token Definitions — Her Presence
  *
- * Defines state-based color tokens for interactive UI components
- * (list, button, input, tab) with full hover/active/focus/disabled/selected states.
+ * Each state draws from a different corner of Miku's world.
+ * Not the same teal at different volumes — three distinct hue families:
+ *
+ *   default  — transparent: the quiet stage (her teal world already there)
+ *   hover    — warm (#FF9900): stage lights warming, Wonderlands welcomes you
+ *   active   — teal (#39C5BB): contact, touching her world
+ *   focus    — magenta (#E05096): the spotlight, she sees you
+ *   selected — magenta: held gaze, sustained presence
+ *   disabled — desaturated: tacet, not this movement
  */
 
 import { withOpacity } from './role';
-import type { InteractiveTokens, StateTokens } from './types';
+import type { InteractiveTokens, StateTokens, UITokens, ExtendedUITokens } from './types';
 import type { Primitives, OpacityScale } from './primitives';
 
 // =============================================================================
@@ -39,6 +46,11 @@ function createBorderStateTokens(
     hoverOpacity?: string;
     activeOpacity?: string;
     focusOpacity?: string;
+    hoverColor?: string;
+    activeColor?: string;
+    focusColor?: string;
+    selectedColor?: string;
+    selectedOpacity?: string;
   } = {}
 ): StateTokens {
   const {
@@ -46,15 +58,21 @@ function createBorderStateTokens(
     hoverOpacity = op.strong,
     activeOpacity = op.heavy,
     focusOpacity = op.solid,
+    hoverColor,
+    activeColor,
+    focusColor,
+    selectedColor,
+    selectedOpacity,
   } = options;
 
   return {
     default: withOpacity(baseColor, defaultOpacity),
-    hover: withOpacity(baseColor, hoverOpacity),
-    active: withOpacity(baseColor, activeOpacity),
-    focus: withOpacity(baseColor, focusOpacity),
+    hover: withOpacity(hoverColor ?? baseColor, hoverOpacity),
+    active: withOpacity(activeColor ?? baseColor, activeOpacity),
+    focus: withOpacity(focusColor ?? baseColor, focusOpacity),
     disabled: withOpacity(baseColor, op.light),
-    selected: withOpacity(baseColor, activeOpacity),
+    // Selected follows focus by default — "held gaze" shares the spotlight's hue
+    selected: withOpacity(selectedColor ?? focusColor ?? activeColor ?? baseColor, selectedOpacity ?? focusOpacity),
   };
 }
 
@@ -62,50 +80,64 @@ function createBorderStateTokens(
 // INTERACTIVE TOKEN CREATION
 // =============================================================================
 
-export function createInteractiveTokens(p: Primitives): InteractiveTokens {
+export function createInteractiveTokens(
+  p: Primitives,
+  ui?: UITokens & ExtendedUITokens,
+  overrides?: { hoverAccent?: string }
+): InteractiveTokens {
   const { character: char, opacity: op } = p;
 
-  const accent = char.hair.base;
-  const accentBright = char.hair.highlight;
-  const focus = char.hairTies.outline;
-  const foreground = '#C0D8E0';
-  const foregroundMuted = '#8A9CA0';
-  const foregroundDisabled = '#5A6A70';
-  const background = char.skirt.base;
-  const backgroundElevated = char.armWarmers.base;
-  const backgroundSurface = char.headphones.frame;
+  // "Her Presence" — three hue families from her world
+  const warmApproach = overrides?.hoverAccent ?? char.tie.shadow;  // #FF9900 (Wonderlands) or fallback
+  const tonic = char.hair.base;              // #39C5BB — the teal home
+  const roots = char.hair.shadow;            // #1A8A82 — teal deepened
+  const spotlight = char.hairTies.outline;   // #E05096 — the magenta spotlight
+  const accentBright = char.hair.highlight;  // #5DE4DB — the bright overtone
+
+  const foreground = ui ? ui.foreground.hex : '#C0D8E0';
+  const foregroundMuted = ui ? ui.foregroundMuted.hex : '#8A9CA0';
+  const foregroundDisabled = ui ? ui.disabled.hex : '#5A6A70';
+  const background = ui ? ui.background.hex : char.skirt.base;
+  const backgroundElevated = ui ? ui.backgroundElevated.hex : char.armWarmers.base;
+  const backgroundSurface = ui ? ui.backgroundSurface.hex : char.headphones.frame;
 
   return {
-    // List items (sidebar, dropdowns, file explorer)
+    // List items (approaching the setlist — warm stage lights welcome you)
     list: {
       background: {
-        default: 'transparent',
-        hover: withOpacity(accent, op.subtle),
-        active: withOpacity(accent, op.light),
-        focus: withOpacity(accent, op.medium),
-        disabled: 'transparent',
-        selected: withOpacity(focus, op.medium),
+        default: 'transparent',                        // the quiet stage
+        hover: withOpacity(warmApproach, op.light),    // stage lights warming (warm orange glow)
+        active: withOpacity(tonic, op.medium),         // teal contact — needs medium to read against teal-tinted bg
+        focus: withOpacity(spotlight, op.medium),       // magenta spotlight — she sees you
+        disabled: 'transparent',                       // tacet — dampened string
+        selected: withOpacity(spotlight, op.medium),   // held gaze — sustained presence
       },
       foreground: createForegroundStateTokens(
         foreground,
-        accentBright,
+        accentBright,       // hover: bright overtone
         foreground,
-        focus,
+        spotlight,          // focus: the magenta spotlight
         foregroundDisabled,
         foreground
       ),
-      border: createBorderStateTokens(accent, op),
+      border: createBorderStateTokens(tonic, op, {
+        hoverColor: warmApproach,
+        activeColor: roots,
+        focusColor: spotlight,
+      }),
     },
 
-    // Primary buttons
+    // Primary buttons (piano key — brightness crescendo)
+    // rest (Jz=0.096) → hover/tonic (0.153) → active/accentBright (0.177)
+    // This IS p → f → ff in brightness — keep current progression
     button: {
       background: {
-        default: '#157570',
-        hover: accent,
-        active: accentBright,
-        focus: accent,
-        disabled: withOpacity(accent, op.medium),
-        selected: accent,
+        default: ui ? ui.buttonBackground.hex : '#157570',  // p — key at rest
+        hover: tonic,                                        // f — the home note rings
+        active: accentBright,                                // ff — bright overtone
+        focus: tonic,                                        // forte — tonic sustain
+        disabled: withOpacity(tonic, op.medium),             // tacet — dampened
+        selected: tonic,                                     // fermata — held
       },
       foreground: createForegroundStateTokens(
         '#FFFFFF',
@@ -116,41 +148,45 @@ export function createInteractiveTokens(p: Primitives): InteractiveTokens {
         '#FFFFFF'
       ),
       border: {
-        default: withOpacity(accentBright, op.heavy),
-        hover: accentBright,
-        active: accentBright,
-        focus: focus,
-        disabled: withOpacity(accent, op.light),
-        selected: accentBright,
+        default: withOpacity(accentBright, op.heavy),   // overtone border
+        hover: accentBright,                             // full overtone
+        active: accentBright,                            // bright contact
+        focus: spotlight,                                // the magenta solo
+        disabled: withOpacity(tonic, op.light),          // dampened
+        selected: accentBright,                          // sustained overtone
       },
     },
 
-    // Secondary buttons
+    // Secondary buttons (stage monitor — warm approach, teal contact)
     buttonSecondary: {
       background: {
-        default: withOpacity(accent, op.medium),
-        hover: withOpacity(accent, op.strong),
-        active: withOpacity(accent, op.heavy),
-        focus: withOpacity(accent, op.strong),
-        disabled: withOpacity(accent, op.light),
-        selected: withOpacity(accent, op.strong),
+        default: withOpacity(tonic, op.medium),           // monitor idle
+        hover: withOpacity(warmApproach, op.strong),       // warm crescendo
+        active: withOpacity(roots, op.heavy),              // teal forte
+        focus: withOpacity(tonic, op.strong),              // tonic sustain
+        disabled: withOpacity(tonic, op.light),            // tacet
+        selected: withOpacity(roots, op.strong),             // settled — deeper teal, she chose this one
       },
       foreground: createForegroundStateTokens(
         foreground,
         accentBright,
         foreground,
-        focus,
+        spotlight,
         foregroundDisabled,
         foreground
       ),
-      border: createBorderStateTokens(accent, op),
+      border: createBorderStateTokens(tonic, op, {
+        hoverColor: warmApproach,
+        activeColor: roots,
+        focusColor: spotlight,
+      }),
     },
 
-    // Input fields
+    // Input fields (microphone — border dynamics only, bg stays still)
     input: {
       background: {
-        default: backgroundElevated,
-        hover: backgroundElevated,
+        default: backgroundElevated,                         // the mic stand
+        hover: backgroundElevated,                           // doesn't move
         active: backgroundElevated,
         focus: backgroundElevated,
         disabled: withOpacity(backgroundSurface, op.heavy),
@@ -165,40 +201,40 @@ export function createInteractiveTokens(p: Primitives): InteractiveTokens {
         foreground
       ),
       border: {
-        default: withOpacity(accent, op.medium),
-        hover: withOpacity(accent, op.strong),
-        active: withOpacity(accent, op.heavy),
-        focus: accentBright,
-        disabled: withOpacity(accent, op.light),
-        selected: withOpacity(accent, op.strong),
+        default: withOpacity(tonic, op.medium),              // mic at rest
+        hover: withOpacity(warmApproach, op.strong),          // warming up
+        active: withOpacity(roots, op.heavy),                 // mic live
+        focus: accentBright,                                  // full signal
+        disabled: withOpacity(tonic, op.light),               // mic off
+        selected: withOpacity(roots, op.strong),               // selected — teal contact, you're here
       },
     },
 
-    // Tabs
+    // Tabs (songs in the setlist — warm approach, teal contact, magenta spotlight)
     tab: {
       background: {
-        default: background,
-        hover: withOpacity(accent, op.light),
-        active: withOpacity(accent, op.subtle),
-        focus: withOpacity(accent, op.light),
-        disabled: background,
-        selected: withOpacity(accent, op.subtle),
+        default: background,                                   // song at rest
+        hover: withOpacity(warmApproach, op.light),            // considering a song (warm glow)
+        active: withOpacity(tonic, op.subtle),                 // pressing play (teal contact)
+        focus: withOpacity(spotlight, op.light),               // highlighted (magenta spotlight)
+        disabled: background,                                  // unavailable
+        selected: withOpacity(spotlight, op.subtle),            // now playing — faint magenta, she's watching
       },
       foreground: createForegroundStateTokens(
         foregroundMuted,
-        accentBright,
+        accentBright,       // hover: bright overtone
         foreground,
-        focus,
+        spotlight,          // focus: the magenta spotlight
         foregroundDisabled,
         foreground
       ),
       border: {
-        default: backgroundElevated,
-        hover: withOpacity(accent, op.medium),
-        active: withOpacity(accent, op.medium),
-        focus: focus,
+        default: backgroundElevated,                           // resting border
+        hover: withOpacity(warmApproach, op.medium),           // warm approach
+        active: withOpacity(roots, op.medium),                 // teal contact
+        focus: spotlight,                                      // the magenta spotlight
         disabled: backgroundElevated,
-        selected: focus,
+        selected: spotlight,                                   // sustained spotlight
       },
     },
   };

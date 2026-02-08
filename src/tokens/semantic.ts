@@ -30,19 +30,23 @@ import type { SemanticTokens } from './types';
 export function createSemanticTokens(
   p: Primitives = primitives
 ): SemanticTokens {
+  const ui = createUITokens(p);
+  const decorative = createDecorativeTokens();
   return {
     syntax: createSyntaxTokens(p),
-    ui: createUITokens(p),
+    ui,
     status: createStatusTokens(p),
     git: createGitTokens(p),
-    interactive: createInteractiveTokens(p),
+    interactive: createInteractiveTokens(p, ui, {
+      hoverAccent: decorative.stageWarmth,
+    }),
     terminal: createTerminalTokens(p),
     symbol: createSymbolTokens(p),
     bracket: createBracketTokens(p),
     support: createSupportTokens(p),
     markdown: createMarkdownTokens(p),
     debug: createDebugTokens(p),
-    decorative: createDecorativeTokens(),
+    decorative,
   };
 }
 

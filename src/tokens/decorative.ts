@@ -7,7 +7,7 @@
  * look for them — which is exactly right. She's keeping you company.
  */
 
-import { role } from './role';
+import { role, roleFromHex, lighten } from './role';
 import type {
   SymbolTokens,
   BracketTokens,
@@ -141,7 +141,7 @@ export function createDecorativeTokens(): DecorativeTokens {
     // SCM graph — Project SEKAI units, five visions of who she could be
     scmGraph: [
       virtualSinger.imageColor,        // Virtual Singer — the default Miku
-      leoNeed.unitColor,               // LEO/NEED — royal blue, rock band dreams
+      lighten(roleFromHex('LEO/NEED brightened', leoNeed.unitColor), 0.08),  // LEO/NEED — royal blue, brightened for dark bg
       moreMoreJump.unitColor,          // MORE MORE JUMP! — bright green, idol energy
       vividBadSquad.unitColor,         // VIVID BAD SQUAD — vivid pink, street soul
       wonderlandsShowtime.unitColor,   // Wonderlands x Showtime — orange, circus wonder
@@ -174,5 +174,16 @@ export function createDecorativeTokens(): DecorativeTokens {
     statusItemForeground: character.headphones.frame,
     markupInserted: character.negi.bright,
     tattooMark: character.marks.tattoo,   // #E60033 — her "01", the mark that says she is the first
+
+    // Character reference colors — her accessories and skin entering the UI
+    // These appear in moments of interaction: scrolling, navigating, highlighting
+    walletChain: character.skirt.accessory,  // #A1B3B6 — silver chain, code navigation
+    tieShadow: character.tie.shadow,         // #2D9E97 — necktie, pressed/grabbed states
+    negiStalk: character.negi.stalk,         // #9CCC65 — green onion stem, tree structure
+    skinBlush: character.skin.blush,         // #FFB8C8 — cheek blush, emphasis warmth
+    skinBase: character.skin.base,           // #FFE4D6 — peach skin, notification warmth
+
+    // Concert stage warmth — Wonderlands x Showtime orange for interactive hover
+    stageWarmth: wonderlandsShowtime.unitColor,  // #FF9900 — stage lights warming as you approach
   };
 }

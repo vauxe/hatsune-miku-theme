@@ -54,6 +54,8 @@ import {
   COMPOUND_SYNTAX_TOKENS,
   // UI visibility
   UI_VISIBILITY,
+  // Scale constants
+  JZ_TO_PERCENT,
 } from './readability-constants';
 import type { BgKeyName, ChromaTier, CompoundBgKeyName } from './readability-constants';
 
@@ -709,7 +711,7 @@ function analyzeColorChroma(colors: Record<string, ColorValue>): ChromaResult[] 
     const tier = getChromaTier(name);
     const analysis = analyzeChroma(rawChroma, tier);
 
-    // Use JzCzhz percentage scale for display (raw * 525)
+    // Use JzCzhz percentage scale for display (raw × CHROMA_SCALE)
     const chromaPercent = Math.round(analysis.chromaPercent);
 
     results.push({
@@ -1033,7 +1035,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Act Top', c.ui.activityBarTop, 'activityBar'),
     a('Act Top Inact', c.ui.activityBarTopInactive, 'activityBar'),
     a('Status Bar', c.ui.statusBarText, 'statusBar'),
-    a('Status Debug', c.ui.statusBarDebug, 'statusBar'),
+    a('Status Debug', c.ui.statusBarDebug, 'statusBarDebugging'),
     a('Status NoFolder', c.ui.statusBarNoFolder, 'statusBar'),
     a('Status Error', c.ui.statusBarItemError, 'statusBarItemError'),
     a('Status Warning', c.ui.statusBarItemWarning, 'statusBarItemWarning'),
@@ -1043,7 +1045,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Status Hover', c.ui.statusBarItemHover, 'statusBar'),
     a('Panel Active', c.ui.panelTitle, 'panel'),
     a('Panel Inactive', c.ui.panelTitleInactive, 'panel'),
-    a('Panel Badge', c.ui.panelTitleBadge, 'panel'),
+    a('Panel Badge', c.ui.panelTitleBadge, 'panelTitleBadge'),
     a('Terminal', c.ui.terminal, 'terminal'),
     a('Input', c.ui.input, 'input'),
     a('Placeholder', c.ui.inputPlaceholder, 'input'),
@@ -1149,7 +1151,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Button', c.buttons.button, 'button'),
     a('Button 2nd', c.buttons.buttonSecondary, 'buttonSecondary'),
     a('Ext Button', c.buttons.extensionButton, 'extensionButton'),
-    a('Ext Badge Rem', c.buttons.extensionBadgeRemote, 'badge'),
+    a('Ext Badge Rem', c.buttons.extensionBadgeRemote, 'extensionBadgeRemote'),
     a('Badge', c.buttons.badge, 'badge'),
     a('Activity Badge', c.buttons.activityBarBadge, 'activityBarBadge'),
     a('Act Warn Badge', c.buttons.activityWarningBadge, 'activityWarningBadge'),
@@ -1167,8 +1169,8 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Token Error', c.debug.tokenError, 'sidebar'),
     a('Token Type', c.debug.tokenType, 'sidebar'),
     a('Inline Value', c.debug.inlineValue, 'editor'),
-    a('Exception', c.debug.exceptionLabel, 'sidebar'),
-    a('State Label', c.debug.stateLabel, 'sidebar'),
+    a('Exception', c.debug.exceptionLabel, 'exceptionLabel'),
+    a('State Label', c.debug.stateLabel, 'stateLabel'),
   ], LABELS.sectionDebug);
 
   // Debug Context - syntax colors on debug highlighting backgrounds
@@ -1216,7 +1218,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Term Init Hint', c.misc.terminalInitialHint, 'terminal'),
     a('Walkthrough Title', c.misc.walkthroughStepTitle, 'editor'),
     a('Welcome Progress', c.misc.welcomeProgress, 'editor'),
-    a('Profile Badge', c.misc.profileBadge, 'activityBar'),
+    a('Profile Badge', c.misc.profileBadge, 'profileBadge'),
     // Inline edit indicators (AI suggestions)
     a('InlineEdit Pri', c.misc.inlineEditPrimary, 'editor'),
     a('InlineEdit Sec', c.misc.inlineEditSecondary, 'editor'),
@@ -1228,7 +1230,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // Input Controls - buttons, toggles, radios
   section([
     a('Option Active', c.inputs.optionActive, 'input'),
-    a('Radio Active', c.inputs.radioActive, 'editor'),
+    a('Radio Active', c.inputs.radioActive, 'radioActive'),
     a('Radio Inactive', c.inputs.radioInactive, 'editor'),
     a('Checkbox Disabled', c.inputs.checkboxDisabled, 'checkbox'),
   ], LABELS.sectionInputControls);
@@ -1604,9 +1606,9 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     output.push(`\n=== LIGHTNESS UNIFORMITY ===`);
     output.push(`Primary syntax colors should sit on a similar Jz lightness plane (spread ≤${lightnessResult.maxSpread}).`);
     if (lightnessResult.pass) {
-      output.push(`  ✓ Spread=${(lightnessResult.spread * 450).toFixed(0)}% (${lightnessResult.colors.length} colors)`);
+      output.push(`  ✓ Spread=${(lightnessResult.spread * JZ_TO_PERCENT).toFixed(0)}% (${lightnessResult.colors.length} colors)`);
     } else {
-      output.push(`  ✗ Spread=${(lightnessResult.spread * 450).toFixed(0)}% exceeds ≤${(lightnessResult.maxSpread * 450).toFixed(0)}%`);
+      output.push(`  ✗ Spread=${(lightnessResult.spread * JZ_TO_PERCENT).toFixed(0)}% exceeds ≤${(lightnessResult.maxSpread * JZ_TO_PERCENT).toFixed(0)}%`);
       if (lightnessResult.darkest && lightnessResult.lightest) {
         output.push(`    Darkest: ${lightnessResult.darkest.name} ${lightnessResult.darkest.hex} Jz=${lightnessResult.darkest.jz.toFixed(4)}`);
         output.push(`    Lightest: ${lightnessResult.lightest.name} ${lightnessResult.lightest.hex} Jz=${lightnessResult.lightest.jz.toFixed(4)}`);
@@ -1671,7 +1673,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     if (!lightnessResult.pass) {
       const outlierNames = lightnessResult.outliers.map(o => o.name).join(', ');
       const outlierSuffix = outlierNames ? ` outliers=[${outlierNames}]` : '';
-      output.push(`LIGHTNESS spread=${(lightnessResult.spread * 450).toFixed(0)}% need≤${(lightnessResult.maxSpread * 450).toFixed(0)}% darkest=${lightnessResult.darkest?.name} lightest=${lightnessResult.lightest?.name}${outlierSuffix} → ${lightnessResult.suggestion}`);
+      output.push(`LIGHTNESS spread=${(lightnessResult.spread * JZ_TO_PERCENT).toFixed(0)}% need≤${(lightnessResult.maxSpread * JZ_TO_PERCENT).toFixed(0)}% darkest=${lightnessResult.darkest?.name} lightest=${lightnessResult.lightest?.name}${outlierSuffix} → ${lightnessResult.suggestion}`);
     }
 
     // Hue distribution
@@ -1819,7 +1821,7 @@ function testAPCAMatrix(fgColors: string[], bgColors: string[]): void {
 }
 
 /**
- * Test all pairs of N colors for distinction (ΔE00).
+ * Test all pairs of N colors for distinction (Jzazbz ΔEz).
  * Shows N×(N-1)/2 pairwise comparisons sorted by similarity.
  */
 function testDistinctionMatrix(colors: string[], bg?: string): void {
@@ -1839,7 +1841,7 @@ function testDistinctionMatrix(colors: string[], bg?: string): void {
   // Sort by ΔE (most similar first)
   pairs.sort((a, b) => a.dE - b.dE);
 
-  console.log('\nDISTINCTION MATRIX (ΔE00 - sorted by similarity)');
+  console.log('\nDISTINCTION MATRIX (Jzazbz ΔEz - sorted by similarity)');
   if (bg) {
     console.log(`Background for alpha: ${bg}`);
   }
@@ -1990,7 +1992,7 @@ Levels (aligned with primary tier threshold, percentage scale):
   Intense     (Cz 46-60)  - Very saturated, fails all tiers
   Extreme     (Cz 61+)    - Way too harsh
 
-Tiered thresholds (percentage scale: raw Jzazbz Cz * 525):
+Tiered thresholds (percentage scale: raw Cz × CHROMA_SCALE=525):
   Primary   (Cz 8-45):  Variables, keywords, types, strings - comfortable to vibrant
   Secondary (Cz 5-45):  Comments, punctuation - can be slightly muted
   Accent    (Cz 8-60):  Errors, warnings, brackets - attention-grabbing

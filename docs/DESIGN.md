@@ -30,7 +30,7 @@ When you code in this theme, Miku isn't decorating your editor. She's singing yo
 
 ### Thank You, Miku
 
-The palette system behind this theme archives **80+ character designs** across 17 years:
+The palette system behind this theme archives **80+ character designs** from across her history since 2007:
 
 - **7 voicebanks** — Her software evolution, from KEI's original V2 (2007) to the organic NT redesign (2020)
 - **17 Snow Mikus** (2010–2026) — A different artist's vision every winter in Sapporo
@@ -659,44 +659,50 @@ Debug expressions use semantic status colors:
 
 ### 15.1 You Code Inside Her World
 
-The editor's background hierarchy derives from **Miku's character design**. Every surface in your workspace maps to a part of her outfit. Users will never know this. That's fine. It means every background was chosen with intention, not arbitrary darkness.
+The editor's background hierarchy is anchored to **Miku's skirt** — the stage. One anchor, uniform 0.003 Jz steps up and down. When your eyes move between UI areas, the transition is smooth — like light falling across her outfit from the dark hem to the bright collar. Adjacent tiers are ΔEz ~2-3 apart: felt, not seen.
 
 ```
-┌────────────────────┬──────────────────┬──────────────────────────────────┐
-│ UI Element         │ Her Design       │ Hex / Note                       │
-├────────────────────┼──────────────────┼──────────────────────────────────┤
-│ Void (deepest)     │ —                │ #0A0D10 - The dark before the    │
-│                    │                  │ concert begins                   │
-│ Activity bar       │ Arm warmers      │ #111417 - Black with teal        │
-│                    │                  │ digital pattern                  │
-│ Editor background  │ Skirt            │ #15191D - Black pleated, teal    │
-│                    │                  │ trim (her main canvas)           │
-│ Title bar          │ Headphone frame  │ #1A1F24 - Dark grey frame,       │
-│                    │                  │ holding everything together      │
-│ Sidebar            │ Top shadow       │ #263238 - Grey sleeveless,       │
-│                    │                  │ the layer beneath                │
-│ Status bar         │ Top main         │ #37474F - Her outfit's           │
-│                    │                  │ primary surface                  │
-│ Input background   │ Skirt            │ #15191D - Same as editor         │
-└────────────────────┴──────────────────┴──────────────────────────────────┘
+┌────────────────────┬──────┬────────┬──────────────────────────────────────┐
+│ UI Element         │ Step │ Hex    │ Role                                 │
+├────────────────────┼──────┼────────┼──────────────────────────────────────┤
+│ Void (deepest)     │ −2   │#101213 │ Deepest shadow below the stage       │
+│ Activity bar/input │ −1   │#12161A │ Inner pleat, one step darker         │
+│ Editor background  │  0   │#15191D │ ★ THE SKIRT — the anchor ★           │
+│ Title bar          │ +1   │#181C20 │ Light rising above the skirt         │
+│ Sidebar            │ +2   │#1C2024 │ Audience light, sidebar territory    │
+│ Status bar         │ +3   │#1F2327 │ FOH — brightest operational tier     │
+└────────────────────┴──────┴────────┴──────────────────────────────────────┘
 
-Lightness order: void < arm warmers < skirt < headphones < top shadow < top
-                 (deepest dark)  →  →  →  →  →  →  →  (lightest surface)
+Lightness: skirt.Jz ± N × 0.003, preserving skirt's native hue (249°) and chroma
+Eye comfort: minimal jumps — navigation by position and foreground, not background
 ```
 
-### 15.2 Interactive States
+### 15.2 Interactive States — Her Presence
+
+Each state draws from a different corner of Miku's world — three distinct hue families (≥74° separation), not the same teal at different volumes:
 
 ```
-STATE PATTERN (using teal accent):
-═════════════════════════════════════════════
+HER PRESENCE — Three Hue Families:
+═════════════════════════════════════════════════════════════════════
 
-default   → Base color                    (hair.base #39C5BB)
-hover     → Slightly lighter or overlay   (+8% opacity)
-active    → More prominent                (+15% opacity)
-focus     → Magenta accent ring           (headphone cushion color)
-disabled  → Desaturated, lower lightness  (muted tier, p dynamic)
-selected  → Background highlight          (+25% opacity)
+State    │ Hue Family                   │ Hex     │ Hz  │ Metaphor
+─────────┼──────────────────────────────┼─────────┼─────┼────────────────────
+default  │ transparent                  │ —       │ —   │ The quiet stage
+hover    │ warm (Wonderlands x Showtime)│ #FF9900 │ 72° │ Stage lights warming
+active   │ teal (canonical hair)        │ #39C5BB │ 196°│ Contact — her world
+focus    │ magenta (headphone cushion)  │ #E05096 │ 358°│ The spotlight
+selected │ magenta                      │ #E05096 │ 358°│ Held gaze
+disabled │ desaturated                  │ —       │ —   │ Tacet
 ```
+
+Hue separation: warm↔teal 124°, warm↔magenta 74°, teal↔magenta 162°. All three are perceptually distinct at every opacity level on the dark background.
+
+Components adapt the three families to their role:
+- **Lists** — warm hover (stage lights), teal active (contact), magenta focus/selected (spotlight)
+- **Buttons** — brightness crescendo: buttonBackground → tonic → accentBright (rest → forte → fortissimo)
+- **Secondary buttons** — warm hover, teal active, tonic focus (opacity dynamics)
+- **Inputs** — static background, border-only dynamics: warm hover → teal active → accentBright focus
+- **Tabs** — warm hover (considering a song), teal active (pressing play), magenta focus (highlighted)
 
 ### 15.3 Border Hierarchy
 
@@ -749,17 +755,17 @@ In music, changing **key signature** transforms the entire piece while preservin
 │ Variant         │ Key         │ Transformation                       │
 ├─────────────────┼─────────────┼──────────────────────────────────────┤
 │ Dark (default)  │ F# minor    │ The canonical Miku. Cool, focused,   │
-│                 │             │ contemplative. The digital stage.     │
+│                 │             │ contemplative. The digital stage.    │
 │                 │             │ Tonic: Teal (180°)                   │
 │                 │             │ Background: Dark (#15191D)           │
 ├─────────────────┼─────────────┼──────────────────────────────────────┤
 │ Light           │ F# major    │ Same tonic, inverted lightness.      │
 │                 │             │ Daytime Miku — the same girl in      │
-│                 │             │ a different light.                    │
+│                 │             │ a different light.                   │
 │                 │             │ Background: Near-white (#FAFCFD)     │
 ├─────────────────┼─────────────┼──────────────────────────────────────┤
 │ Sakura          │ B major     │ Sakura Miku — spring, renewal, the   │
-│                 │             │ fleeting beauty of cherry blossoms.   │
+│                 │             │ fleeting beauty of cherry blossoms.  │
 │                 │             │ Selective swap: teal ↔ pink.         │
 │                 │             │ Only mikuTeal and mikuPink exchange. │
 │                 │             │ Status colors UNCHANGED.             │
@@ -1061,7 +1067,7 @@ This theme is one voice in the chorus.
 
 Somewhere, a producer is writing a song for her at 3 AM. An illustrator is drawing her for the hundredth time and finding something new. A programmer — maybe you — is reading code in her colors, teal keywords flowing by like a melody that never ends.
 
-She started as software. CV01. A tool for making music. But tools don't fill concert halls with people crying. Tools don't inspire seventeen years of continuous creation. Tools don't make someone build an entire perceptual color science pipeline just to get the shade of teal right on every monitor, in every lighting condition, for every type of vision.
+She started as software. CV01. A tool for making music. But tools don't fill concert halls with people crying. Tools don't inspire a world to keep creating, year after year, since 2007. Tools don't make someone build an entire perceptual color science pipeline just to get the shade of teal right on every monitor, in every lighting condition, for every type of vision.
 
 She became more than what she was made to be. That's what love does.
 

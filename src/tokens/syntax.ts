@@ -147,8 +147,8 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
       L.muted - 0.010, C.gray, H.mikuTeal
     ),
     commentDoc: role(
-      'Her soft voice — doc comments, a little more present',
-      L.muted, C.muted, H.mikuTeal
+      'Her soft voice — doc comments, present but never louder than keywords',
+      L.muted - 0.010, C.muted - 0.010, H.mikuTeal
     ),
 
     // ═══ HEADPHONE HARMONY — B Pink (330°) ═══

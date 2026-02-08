@@ -95,6 +95,9 @@ export interface ExtendedUITokens {
   variableLanguage: SemanticRole;
   minimapOpacity: string; // Special: not a role, just a hex value
   error: SemanticRole;
+  buttonBackground: SemanticRole;
+  badgeBackground: SemanticRole;
+  activeBorder: SemanticRole;
 }
 
 // =============================================================================
@@ -289,6 +292,18 @@ export interface DecorativeTokens {
   markupInserted: string;
   /** Her "01" tattoo mark — identity red (character marks.tattoo) */
   tattooMark: string;
+  /** Wallet chain silver — navigation accessory (skirt.accessory) */
+  walletChain: string;
+  /** Tie shadow — darker teal for pressed/active states (tie.shadow) */
+  tieShadow: string;
+  /** Negi stalk green — tree structure lines (negi.stalk) */
+  negiStalk: string;
+  /** Skin blush — warmth for emphasis highlights (skin.blush) */
+  skinBlush: string;
+  /** Skin base peach — warmth for notifications (skin.base) */
+  skinBase: string;
+  /** Concert stage warmth — Wonderlands x Showtime orange for interactive hover */
+  stageWarmth: string;
 }
 
 // =============================================================================
