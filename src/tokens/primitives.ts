@@ -10,7 +10,7 @@
  */
 
 import { character as mikuCharacter } from '../palette/core';
-import { LIGHTNESS as JZ_LIGHTNESS, CHROMA as JZ_CHROMA, HUE as JZ_HUE } from '../palette/jzczhz';
+import { LIGHTNESS as JZ_LIGHTNESS, CHROMA as JZ_CHROMA, HUE as JZ_HUE } from './jzczhz';
 
 // =============================================================================
 // LIGHTNESS PRIMITIVES

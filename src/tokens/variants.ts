@@ -11,7 +11,7 @@
  * - Sakura Miku: Swap hue primitives (teal → pink)
  */
 
-import { hex, type JzCzhz } from '../palette/jzczhz';
+import { hex, type JzCzhz } from './jzczhz';
 import {
   primitives,
   lightness as darkLightness,

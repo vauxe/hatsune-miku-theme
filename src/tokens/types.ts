@@ -5,7 +5,7 @@
  * Extracted for clean separation of concerns.
  */
 
-import type { JzCzhz } from '../palette/jzczhz';
+import type { JzCzhz } from './jzczhz';
 
 // =============================================================================
 // CORE TYPES

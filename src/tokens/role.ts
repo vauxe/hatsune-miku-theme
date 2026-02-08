@@ -5,7 +5,7 @@
  * Provides color manipulation functions (lighten, darken, desaturate, opacity).
  */
 
-import { hex, parseHex, type JzCzhz } from '../palette/jzczhz';
+import { hex, parseHex, type JzCzhz } from './jzczhz';
 import type { SemanticRole } from './types';
 
 // =============================================================================
