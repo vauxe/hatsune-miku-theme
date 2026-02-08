@@ -5,7 +5,7 @@
  * Provides color manipulation functions (lighten, darken, desaturate, opacity).
  */
 
-import { hex, type JzCzhz } from '../palette/jzczhz';
+import { hex, parseHex, type JzCzhz } from '../palette/jzczhz';
 import type { SemanticRole } from './types';
 
 // =============================================================================
@@ -25,15 +25,13 @@ export function role(description: string, Jz: number, Cz: number, hz: number): S
 }
 
 /**
- * Create a semantic role from an existing hex color
- *
- * Note: jzczhz is zeroed - lighten/darken/desaturate will be no-ops.
- * For full variant support, these should be converted via colorjs.io.
+ * Create a semantic role from an existing hex color.
+ * Parses hex → JzCzhz via colorjs.io so lighten/darken/desaturate work.
  */
 export function roleFromHex(description: string, hexColor: string): SemanticRole {
   return {
     description,
-    jzczhz: { Jz: 0, Cz: 0, hz: 0 },
+    jzczhz: parseHex(hexColor),
     hex: hexColor,
   };
 }
@@ -60,9 +58,6 @@ export function withOpacity(hexColor: string, alpha: string): string {
  * @returns New hex color
  */
 export function lighten(semanticRole: SemanticRole, delta: number): string {
-  if (semanticRole.jzczhz.Jz === 0) {
-    return semanticRole.hex;
-  }
   const newJz = Math.min(0.22, semanticRole.jzczhz.Jz + delta);
   return hex({ ...semanticRole.jzczhz, Jz: newJz });
 }
@@ -74,9 +69,6 @@ export function lighten(semanticRole: SemanticRole, delta: number): string {
  * @returns New hex color
  */
 export function darken(semanticRole: SemanticRole, delta: number): string {
-  if (semanticRole.jzczhz.Jz === 0) {
-    return semanticRole.hex;
-  }
   const newJz = Math.max(0, semanticRole.jzczhz.Jz - delta);
   return hex({ ...semanticRole.jzczhz, Jz: newJz });
 }
@@ -88,9 +80,6 @@ export function darken(semanticRole: SemanticRole, delta: number): string {
  * @returns New hex color
  */
 export function desaturate(semanticRole: SemanticRole, factor: number): string {
-  if (semanticRole.jzczhz.Jz === 0) {
-    return semanticRole.hex;
-  }
   const newCz = semanticRole.jzczhz.Cz * factor;
   return hex({ ...semanticRole.jzczhz, Cz: newCz });
 }

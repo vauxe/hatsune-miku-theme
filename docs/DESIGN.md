@@ -52,7 +52,7 @@ This theme uses one voice — the canonical design. But it carries the community
 
 **The syntax is her orchestra.** Gold functions, green strings, violet types, teal keywords — each instrument finding its voice before the composition begins. The colors are varied enough to be interesting but constrained enough to be harmonious. No color screams. Every color sings.
 
-**The cursor is her presence.** Vivid magenta, blinking at the point of creation. Where new code appears, she appears. The headphone display color — the interface between the performer and the performance.
+**The cursor is her presence.** Vivid magenta, blinking at the point of creation. Where new code appears, she appears. The headphone cushion color — the interface between the performer and the performance.
 
 **Hours should feel like minutes.** The lightness levels are tuned so that no color fatigues the eye. Chroma defaults to *mp* (mezzo-piano) — conversational, comfortable, like background music you can code to for hours. Vivid colors are reserved for moments that matter: errors that need attention, strings that carry meaning, classes that define architecture.
 

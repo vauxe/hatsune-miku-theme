@@ -2,7 +2,8 @@
  * UI, Status, and Git Token Definitions
  *
  * You code inside her world. The editor background is her skirt,
- * the sidebar is her top, the activity bar is her arm warmers.
+ * the sidebar is her top shadow, the activity bar is her arm warmers,
+ * the title bar is her headphone frame, the status bar is her top.
  * Status colors tell the story of your code: success in negi green,
  * errors in tritone red. Git traces the narrative of creation and loss.
  */
@@ -43,6 +44,10 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       'Overlay — her top shadow, the layer beneath',
       char.top.shadow
     ),
+    backgroundHighest: roleFromHex(
+      'Highest surface — her top, the lightest background layer',
+      char.top.main
+    ),
     accentPrimary: roleFromHex(
       'Primary accent — her hair, #39C5BB',
       char.hair.base
@@ -67,17 +72,17 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       'Selection — when you choose code, you highlight it with her color',
       char.hair.base
     ),
-    cursor: role(
-      'Her presence — vivid magenta at the point of creation',
-      0.20, C.vivid, H.magenta
+    cursor: roleFromHex(
+      'Her presence — headphone cushion magenta at the point of creation',
+      char.headphones.cushion
     ),
     link: roleFromHex(
       'Links — her highlight color, clickable and alive',
       char.hair.highlight
     ),
-    linkActive: role(
-      'Active link — vibrant teal, fully present',
-      L.vibrant, C.vibrant, H.mikuTeal
+    linkActive: roleFromHex(
+      'Active link — her brightest hair highlight, fully present',
+      char.hair.bright
     ),
     // Extended UI tokens
     void: roleFromHex(
@@ -143,18 +148,18 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     minimapOpacity: '#000000DD',
     error: role(
       'The tritone — UI error, vivid red dissonance',
-      L.vibrantWarm + 0.010, C.vivid, H.red
+      L.vibrantWarm + 0.020, C.vivid, H.red
     ),
   };
 }
 
 export function createStatusTokens(p: Primitives): StatusTokens {
-  const { lightness: L, chroma: C, hue: H } = p;
+  const { lightness: L, chroma: C, hue: H, character: char } = p;
 
   return {
-    success: role(
-      'Negi green — it worked, new life',
-      L.vibrant, C.vivid, H.green
+    success: roleFromHex(
+      'Negi bright green — it worked, new life',
+      char.negi.bright
     ),
     warning: role(
       'Stage lights dimming — caution, warm gold',
@@ -162,7 +167,7 @@ export function createStatusTokens(p: Primitives): StatusTokens {
     ),
     error: role(
       'The tritone — maximum dissonance, something is wrong',
-      L.vibrantWarm + 0.020, C.vivid, H.red
+      L.vibrantWarm + 0.025, C.vivid, H.red
     ),
     info: role(
       'Her calm voice — tonic teal, information without alarm',
@@ -172,12 +177,12 @@ export function createStatusTokens(p: Primitives): StatusTokens {
 }
 
 export function createGitTokens(p: Primitives): GitTokens {
-  const { lightness: L, chroma: C, hue: H } = p;
+  const { lightness: L, chroma: C, hue: H, character: char } = p;
 
   return {
-    added: role(
-      'New life — negi green, something was born',
-      L.vibrant - 0.010, C.vivid, H.green
+    added: roleFromHex(
+      'New life — negi bright green, something was born',
+      char.negi.bright
     ),
     modified: role(
       'Change — warm gold, the story evolves',
@@ -185,7 +190,7 @@ export function createGitTokens(p: Primitives): GitTokens {
     ),
     deleted: role(
       'Loss — tritone red, something was removed',
-      L.vibrantWarm + 0.015, C.vivid, H.gitRed
+      L.vibrantWarm + 0.025, C.vivid, H.gitRed
     ),
     untracked: role(
       'Undiscovered — her cyan, not yet part of the story',

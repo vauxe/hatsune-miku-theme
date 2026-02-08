@@ -20,95 +20,34 @@ export interface JzCzhz {
 }
 
 // =============================================================================
-// Constants
+// JzCzhz to Hex Conversion (via colorjs.io)
 // =============================================================================
 
-const JZ_B = 1.15;
-const JZ_G = 0.66;
-const JZ_C1 = 3424 / 4096;
-const JZ_C2 = 2413 / 128;
-const JZ_C3 = 2392 / 128;
-const JZ_N = 2610 / 16384;
-const JZ_P = 1.7 * 2523 / 32;
-const JZ_D = -0.56;
-const JZ_D0 = 1.6295499532821566e-11;
-const SDR_WHITE = 203;
-
-// =============================================================================
-// PQ Transfer Functions
-// =============================================================================
-
-function pqEOTF(x: number): number {
-  if (x <= 0) return 0;
-  const xP = Math.pow(x, 1 / JZ_P);
-  const num = Math.max(0, xP - JZ_C1);
-  const den = JZ_C2 - JZ_C3 * xP;
-  return 10000 * Math.pow(num / den, 1 / JZ_N);
-}
-
-// =============================================================================
-// JzCzhz to Hex Conversion
-// =============================================================================
+import Color from 'colorjs.io';
 
 /**
  * Convert JzCzhz to sRGB hex color
  *
+ * Uses colorjs.io for JzCzhz → sRGB conversion. Out-of-gamut values are
+ * clamped (not perceptually mapped) because the design system deliberately
+ * pushes warm hues above the sRGB gamut boundary for sufficient APCA contrast.
+ *
  * @example
- * jch('#70F0D0') // Analyze existing color
  * hex({ Jz: 0.18, Cz: 0.06, hz: 178 }) // Design new color
  */
 export function hex(jch: JzCzhz): string {
-  const { Jz, Cz, hz } = jch;
+  const color = new Color('jzczhz', [jch.Jz, jch.Cz, jch.hz]);
+  const srgb = color.to('srgb') as Color & { toGamut(opts: { method: string }): Color };
+  return srgb.toGamut({ method: 'clip' }).toString({ format: 'hex' }).toUpperCase();
+}
 
-  // JzCzhz to Jzazbz (polar to rectangular)
-  const hRad = hz * Math.PI / 180;
-  const az = Cz * Math.cos(hRad);
-  const bz = Cz * Math.sin(hRad);
-
-  // Jz to Iz
-  const Iz = (Jz + JZ_D0) / (1 + JZ_D - JZ_D * (Jz + JZ_D0));
-
-  // Izazbz to LMS'
-  const Lp = Iz + 0.1386050432715393 * az + 0.05804731615611886 * bz;
-  const Mp = Iz - 0.1386050432715393 * az - 0.05804731615611886 * bz;
-  const Sp = Iz - 0.09601924202631895 * az - 0.8118918960560388 * bz;
-
-  // LMS' to LMS (inverse PQ)
-  const L = pqEOTF(Lp);
-  const M = pqEOTF(Mp);
-  const S = pqEOTF(Sp);
-
-  // LMS to X'Y'Z'
-  const Xp = 1.9242264357876067 * L - 1.0047923125953657 * M + 0.037651404030618 * S;
-  const Yp = 0.35031676209499907 * L + 0.7264811939316552 * M - 0.06538442294808501 * S;
-  const Z = -0.09098281098284752 * L - 0.3127282905230739 * M + 1.5227665613052603 * S;
-
-  // X'Y'Z' to XYZ
-  const X = (Xp + (JZ_B - 1) * Z) / JZ_B;
-  const Y = (Yp + (JZ_G - 1) * X) / JZ_G;
-
-  // XYZ to linear RGB
-  const x = X / SDR_WHITE;
-  const y = Y / SDR_WHITE;
-  const z = Z / SDR_WHITE;
-
-  let r = 3.2404541621141054 * x - 1.5371385940306089 * y - 0.49853140955601579 * z;
-  let g = -0.96926603050518312 * x + 1.8760108454466942 * y + 0.041556017530349834 * z;
-  let b = 0.055643430959114726 * x - 0.20397695888897652 * y + 1.0572251882231791 * z;
-
-  // Linear RGB to sRGB (gamma encode + clamp)
-  const gamma = (c: number) => {
-    c = Math.max(0, Math.min(1, c));
-    return c > 0.0031308 ? 1.055 * Math.pow(c, 1 / 2.4) - 0.055 : 12.92 * c;
-  };
-
-  r = gamma(r);
-  g = gamma(g);
-  b = gamma(b);
-
-  // RGB to hex
-  const toHex = (n: number) => Math.round(n * 255).toString(16).padStart(2, '0');
-  return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+/**
+ * Parse a hex color string into JzCzhz coordinates
+ */
+export function parseHex(hexColor: string): JzCzhz {
+  const color = new Color(hexColor);
+  const [Jz, Cz, hz] = color.to('jzczhz').coords;
+  return { Jz: Jz ?? 0, Cz: Cz ?? 0, hz: hz ?? 0 };
 }
 
 // =============================================================================

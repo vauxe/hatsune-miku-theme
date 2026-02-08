@@ -66,7 +66,7 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
     // Magenta-pink range (300-360deg) — constant shifted away from unit/color
     snippet: role('Symbol snippet - magenta', L.primary, C.comfortable, 325),
     string: role('Symbol string - lime-green', L.primary, C.comfortable, 115),
-    constant: role('Symbol constant - warm rose (ΔL from unit)', L.secondary, C.comfortable, 350),
+    constant: role('Symbol constant - coral (ΔE≥15 from unit/color at 358°)', L.secondary, C.comfortable, 15),
     // Special icons (vibrant)
     variable: role('Symbol variable - sky-blue (ΔL from object)', L.vibrant, C.vivid, 230),
     module: role('Symbol module - blue', L.primary, C.comfortable, 242),
@@ -173,5 +173,6 @@ export function createDecorativeTokens(): DecorativeTokens {
     inlayParameter: character.skin.shadow,
     statusItemForeground: character.headphones.frame,
     markupInserted: character.negi.bright,
+    tattooMark: character.marks.tattoo,   // #E60033 — her "01", the mark that says she is the first
   };
 }

@@ -19,7 +19,6 @@ import {
   type ChromaTier,
 } from './readability-constants';
 import type {
-  RGB,
   Polarity,
   APCAResult,
   APCAAnalysis,
@@ -31,26 +30,11 @@ import type {
 } from './readability-types';
 
 // =============================================================================
-// RGB UTILITIES
+// COLOR UTILITIES (via colorjs.io)
 // =============================================================================
 
 export function isValidHex(hex: string): boolean {
   return /^#?([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$/.test(hex);
-}
-
-function hexToRgb(hex: string): RGB | null {
-  try {
-    const color = new Color(hex);
-    const [r, g, b] = color.to('srgb').coords;
-    return { r, g, b };
-  } catch {
-    return null;
-  }
-}
-
-function rgbToHex(rgb: RGB): string {
-  const color = new Color('srgb', [rgb.r, rgb.g, rgb.b]);
-  return color.to('srgb').toString({ format: 'hex' });
 }
 
 // =============================================================================
@@ -164,12 +148,8 @@ export function analyzeChroma(
 }
 
 // =============================================================================
-// ALPHA UTILITIES
+// ALPHA UTILITIES (via colorjs.io)
 // =============================================================================
-
-function hexAlphaToDecimal(hexAlpha: string): number {
-  return parseInt(hexAlpha, 16) / 255;
-}
 
 export function hasAlphaChannel(hex: string): boolean {
   const len = hex.startsWith('#') ? hex.length - 1 : hex.length;
@@ -183,20 +163,23 @@ export function stripAlpha(hex: string): string {
 
 export function extractAlpha(hex: string): number {
   if (!hasAlphaChannel(hex)) return 1.0;
-  return hexAlphaToDecimal(hex.slice(-2));
+  return parseInt(hex.slice(-2), 16) / 255;
 }
 
 export function blendAlpha(fg: string, bg: string, alpha: number): string {
-  const fgRgb = hexToRgb(fg);
-  const bgRgb = hexToRgb(bg);
-  if (!fgRgb || !bgRgb) throw new Error(`Invalid color: fg="${fg}", bg="${bg}"`);
-
+  const fgColor = new Color(fg);
+  const bgColor = new Color(bg);
   const a = Math.max(0, Math.min(1, alpha));
-  return rgbToHex({
-    r: fgRgb.r * a + bgRgb.r * (1 - a),
-    g: fgRgb.g * a + bgRgb.g * (1 - a),
-    b: fgRgb.b * a + bgRgb.b * (1 - a),
-  });
+
+  const [fR, fG, fB] = fgColor.to('srgb').coords;
+  const [bR, bG, bB] = bgColor.to('srgb').coords;
+
+  const blended = new Color('srgb', [
+    fR * a + bR * (1 - a),
+    fG * a + bG * (1 - a),
+    fB * a + bB * (1 - a),
+  ]);
+  return blended.toString({ format: 'hex' });
 }
 
 // =============================================================================

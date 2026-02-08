@@ -65,6 +65,7 @@ export interface UITokens {
   backgroundElevated: SemanticRole;
   backgroundSurface: SemanticRole;
   backgroundOverlay: SemanticRole;
+  backgroundHighest: SemanticRole;
   accentPrimary: SemanticRole;
   accentSecondary: SemanticRole;
   accentTertiary: SemanticRole;
@@ -286,6 +287,8 @@ export interface DecorativeTokens {
   statusItemForeground: string;
   /** Markup inserted color (character negi.bright) */
   markupInserted: string;
+  /** Her "01" tattoo mark — identity red (character marks.tattoo) */
+  tattooMark: string;
 }
 
 // =============================================================================

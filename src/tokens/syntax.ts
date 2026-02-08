@@ -68,7 +68,7 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     // ═══ CONCERT LIGHTS — D Gold (60°) ═══
     function: role(
       'Concert lights — the spotlight hits, the show begins',
-      L.vibrantWarm + 0.003, C.vibrant, H.gold
+      L.vibrantWarm + 0.004, C.vibrant, H.gold
     ),
     method: role(
       'Leading tone — methods flow toward the tonic',
@@ -92,7 +92,7 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     // ═══ FLOWING DATA — G Cyan (210°) ═══
     variable: role(
       'Her voice, shifting — data in motion, never the same twice',
-      L.secondary, C.comfortable, H.cyan
+      L.secondary, C.vibrant, H.cyan
     ),
     parameter: role(
       'The fifth — input flowing naturally to the tonic',

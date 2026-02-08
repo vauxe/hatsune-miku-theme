@@ -4,16 +4,16 @@
  * VS Code UI element colors using the Miku palette.
  * Design Philosophy: "Digital Diva" - Serene, immersive, 8+ hour coding comfort.
  *
- * Color Architecture:
- * - Background layers: eyes.pupil (#0D1114) -> skirt.base (#15191D) -> armWarmers (#111417)
+ * Color Architecture (DESIGN.md §15.1):
+ * - Background layers: void (#0A0D10) < armWarmers (#111417) < skirt (#15191D) < headphones (#1A1F24) < top.shadow (#263238) < top.main (#37474F)
  * - Primary accent: hair.base (#39C5BB) - canonical Miku teal
  * - Secondary accent: hair.highlight (#5DE4DB) - attention states
- * - Tertiary accent: hairTies.outline (#E05096) - cursor/focus magenta
+ * - Cursor/focus: vivid magenta from headphone cushion (#E05096)
  * - Semantic: green (success), gold (warning), red (error)
  */
 
 // Semantic token system - all colors flow through design tokens
-import { semanticTokens as t, withOpacity } from '../tokens';
+import { semanticTokens as t, withOpacity, lighten } from '../tokens';
 
 // ============================================================================
 // DESIGN SYSTEM CONSTANTS
@@ -21,11 +21,12 @@ import { semanticTokens as t, withOpacity } from '../tokens';
 
 // Background hierarchy (darkest to lightest) - all from semantic UI tokens
 const bg = {
-  void: t.ui.void.hex,
-  base: t.ui.background.hex,
-  elevated: t.ui.backgroundElevated.hex,
-  surface: t.ui.backgroundSurface.hex,
-  overlay: t.ui.backgroundOverlay.hex,
+  void: t.ui.void.hex,             // #0A0D10 — deepest black
+  elevated: t.ui.backgroundElevated.hex, // #111417 — arm warmers (activity bar)
+  base: t.ui.background.hex,       // #15191D — skirt (editor, inputs)
+  surface: t.ui.backgroundSurface.hex,   // #1A1F24 — headphone frame (title bar)
+  overlay: t.ui.backgroundOverlay.hex,   // #263238 — top shadow (sidebar)
+  highest: t.ui.backgroundHighest.hex,   // #37474F — top main (status bar)
 };
 
 // Text hierarchy - from Snow Miku and character palette
@@ -369,7 +370,7 @@ export const workbenchColors = {
   // ==========================================================================
   // ACTIVITY BAR
   // ==========================================================================
-  'activityBar.background': bg.void,
+  'activityBar.background': bg.elevated,
   'activityBar.foreground': accent.bright,
   'activityBar.inactiveForeground': text.tertiary,
   'activityBar.border': withOpacity(accent.primary, '15'),
@@ -383,7 +384,7 @@ export const workbenchColors = {
   'activityBarTop.activeBorder': accent.magenta,
   'activityBarTop.inactiveForeground': text.tertiary,
   'activityBarTop.dropBorder': accent.primary,
-  'activityBarTop.background': bg.void,
+  'activityBarTop.background': bg.elevated,
   'activityBarTop.activeBackground': withOpacity(accent.primary, '12'),
   'activityWarningBadge.foreground': t.decorative.darkForeground,
   'activityWarningBadge.background': semantic.warning,
@@ -393,32 +394,32 @@ export const workbenchColors = {
   // ==========================================================================
   // SIDEBAR
   // ==========================================================================
-  'sideBar.background': bg.surface,
+  'sideBar.background': bg.overlay,
   'sideBar.foreground': text.primary,
   'sideBar.border': withOpacity(accent.primary, '15'),
   'sideBar.dropBackground': withOpacity(accent.primary, '15'),
   'sideBarTitle.foreground': accent.bright,
-  'sideBarTitle.background': bg.surface,
+  'sideBarTitle.background': bg.overlay,
   'sideBarTitle.border': withOpacity(accent.primary, '15'),
-  'sideBarSectionHeader.background': bg.overlay,
+  'sideBarSectionHeader.background': bg.highest,
   'sideBarSectionHeader.foreground': accent.bright,
   'sideBarSectionHeader.border': withOpacity(accent.primary, '20'),
   'sideBarActivityBarTop.border': withOpacity(accent.primary, '15'),
-  'sideBarStickyScroll.background': bg.surface,
+  'sideBarStickyScroll.background': bg.overlay,
   'sideBarStickyScroll.border': withOpacity(accent.primary, '15'),
   'sideBarStickyScroll.shadow': withOpacity(bg.void, '40'),
 
   // ==========================================================================
   // STATUS BAR
   // ==========================================================================
-  'statusBar.background': bg.void,
+  'statusBar.background': bg.highest,
   'statusBar.foreground': text.primary,
   'statusBar.border': withOpacity(accent.primary, '20'),
   'statusBar.debuggingBackground': withOpacity(semantic.warning, 'DD'),
   'statusBar.debuggingForeground': text.primary,  // #E8EEF2 - Light text readable on both dark and light bgs
   'statusBar.debuggingBorder': semantic.warning,
-  'statusBar.noFolderBackground': bg.void,
-  'statusBar.noFolderForeground': text.secondary,
+  'statusBar.noFolderBackground': bg.highest,
+  'statusBar.noFolderForeground': text.primary,
   'statusBar.noFolderBorder': withOpacity(text.tertiary, '30'),
   'statusBar.focusBorder': withOpacity(accent.bright, 'DD'),
   'statusBarItem.activeBackground': withOpacity(accent.primary, '30'),
@@ -450,16 +451,16 @@ export const workbenchColors = {
   // ==========================================================================
   // TITLE BAR
   // ==========================================================================
-  'titleBar.activeBackground': bg.void,
+  'titleBar.activeBackground': bg.surface,
   'titleBar.activeForeground': text.primary,
-  'titleBar.inactiveBackground': bg.void,
+  'titleBar.inactiveBackground': bg.surface,
   'titleBar.inactiveForeground': text.tertiary,
   'titleBar.border': withOpacity(accent.primary, '15'),
 
   // ==========================================================================
   // TABS
   // ==========================================================================
-  'tab.activeBackground': withOpacity(accent.primary, '35'),
+  'tab.activeBackground': withOpacity(accent.primary, '50'),
   'tab.activeForeground': text.primary,
   'tab.activeBorderTop': accent.magenta,
   'tab.activeBorder': withOpacity(accent.primary, '30'),
@@ -468,7 +469,7 @@ export const workbenchColors = {
   'tab.border': bg.elevated,
   'tab.hoverBackground': withOpacity(accent.primary, '15'),
   // High-distinction hover state (state DeltaE distinction)
-  'tab.hoverForeground': t.syntax.function.hex,
+  'tab.hoverForeground': accent.bright,
   'tab.hoverBorder': withOpacity(accent.primary, '30'),
   'tab.unfocusedActiveBackground': bg.surface,
   'tab.unfocusedActiveForeground': text.secondary,
@@ -512,10 +513,10 @@ export const workbenchColors = {
   // ==========================================================================
   'list.activeSelectionBackground': withOpacity(accent.magenta, '30'), // Magenta for selection (distinct from teal focus)
   'list.activeSelectionForeground': text.primary,
-  'list.activeSelectionIconForeground': text.primary,  // #E8EEF2 for Lc 75+ on selection bg
+  'list.activeSelectionIconForeground': text.primary,
   'list.inactiveSelectionBackground': withOpacity(accent.primary, '15'),
   'list.inactiveSelectionForeground': text.primary,
-  'list.inactiveSelectionIconForeground': text.secondary,
+  'list.inactiveSelectionIconForeground': text.primary,
   'list.hoverBackground': withOpacity(accent.primary, '10'),
   // Give hover/focus states distinct foreground tints (state DeltaE distinction)
   'list.hoverForeground': t.syntax.function.hex,
@@ -677,9 +678,9 @@ export const workbenchColors = {
   // ==========================================================================
   'debugToolBar.background': withOpacity(bg.elevated, 'F8'),
   'debugToolBar.border': withOpacity(semantic.warning, '40'),
-  'debugIcon.breakpointForeground': semantic.error,
+  'debugIcon.breakpointForeground': t.decorative.tattooMark,    // Her "01" mark — a breakpoint is an identity mark you place in code
   'debugIcon.breakpointDisabledForeground': text.disabled,
-  'debugIcon.breakpointUnverifiedForeground': withOpacity(semantic.error, '70'),
+  'debugIcon.breakpointUnverifiedForeground': withOpacity(t.decorative.tattooMark, '70'),
   'debugIcon.breakpointCurrentStackframeForeground': semantic.warning,
   'debugIcon.breakpointStackframeForeground': semantic.success,
   'debugIcon.startForeground': semantic.success,
@@ -738,10 +739,10 @@ export const workbenchColors = {
   // ==========================================================================
   'diffEditor.insertedTextBackground': withOpacity(semantic.success, '15'),
   'diffEditor.insertedTextBorder': withOpacity(semantic.success, '40'),
-  'diffEditor.insertedLineBackground': withOpacity(semantic.success, '10'),
+  'diffEditor.insertedLineBackground': withOpacity(semantic.success, '20'),
   'diffEditor.removedTextBackground': withOpacity(semantic.error, '15'),
   'diffEditor.removedTextBorder': withOpacity(semantic.error, '40'),
-  'diffEditor.removedLineBackground': withOpacity(semantic.error, '10'),
+  'diffEditor.removedLineBackground': withOpacity(semantic.error, '20'),
   'diffEditor.diagonalFill': withOpacity(text.tertiary, '15'),
   'diffEditor.border': withOpacity(accent.primary, '25'),
   'diffEditor.unchangedRegionBackground': withOpacity(bg.overlay, '30'),
@@ -750,8 +751,8 @@ export const workbenchColors = {
   'diffEditor.unchangedCodeBackground': withOpacity(bg.overlay, '15'),
   'diffEditor.move.border': withOpacity(t.decorative.diffMoveBorder, '50'),
   'diffEditor.moveActive.border': t.decorative.diffMoveBorder,
-  'diffEditorGutter.insertedLineBackground': withOpacity(semantic.success, '25'),
-  'diffEditorGutter.removedLineBackground': withOpacity(semantic.error, '25'),
+  'diffEditorGutter.insertedLineBackground': withOpacity(semantic.success, '40'),
+  'diffEditorGutter.removedLineBackground': withOpacity(semantic.error, '40'),
   'diffEditorOverview.insertedForeground': semantic.success,
   'diffEditorOverview.removedForeground': semantic.error,
 
@@ -794,7 +795,7 @@ export const workbenchColors = {
   'gitDecoration.deletedResourceForeground': t.git.deleted.hex,
   'gitDecoration.untrackedResourceForeground': t.git.untracked.hex,
   'gitDecoration.ignoredResourceForeground': text.disabled,
-  'gitDecoration.conflictingResourceForeground': t.git.conflicting.hex,
+  'gitDecoration.conflictingResourceForeground': lighten(t.git.conflicting, 0.015),
   'gitDecoration.stageModifiedResourceForeground': t.git.stageModified.hex,
   'gitDecoration.stageDeletedResourceForeground': t.git.stageDeleted.hex,
   'gitDecoration.renamedResourceForeground': t.git.renamed.hex,
@@ -840,7 +841,7 @@ export const workbenchColors = {
   'commandCenter.foreground': text.primary,
   'commandCenter.background': bg.void,
   'commandCenter.border': withOpacity(accent.primary, '30'),
-  'commandCenter.activeForeground': t.syntax.function.hex,
+  'commandCenter.activeForeground': accent.bright,
   'commandCenter.activeBackground': withOpacity(accent.primary, '15'),
   'commandCenter.activeBorder': withOpacity(accent.primary, '50'),
   'commandCenter.inactiveForeground': text.tertiary,
@@ -897,17 +898,17 @@ export const workbenchColors = {
   // ==========================================================================
   'settings.headerForeground': accent.bright,
   'settings.modifiedItemIndicator': accent.magenta,
-  'settings.dropdownBackground': bg.elevated,
+  'settings.dropdownBackground': bg.base,
   'settings.dropdownForeground': text.primary,
   'settings.dropdownBorder': withOpacity(accent.primary, '40'),
   'settings.dropdownListBorder': withOpacity(accent.primary, '50'),
-  'settings.checkboxBackground': bg.elevated,
+  'settings.checkboxBackground': bg.base,
   'settings.checkboxForeground': accent.bright,    // #5DE4DB - Bright for visibility
   'settings.checkboxBorder': withOpacity(accent.primary, '50'),
-  'settings.textInputBackground': bg.elevated,
+  'settings.textInputBackground': bg.base,
   'settings.textInputForeground': text.primary,
   'settings.textInputBorder': withOpacity(accent.primary, '40'),
-  'settings.numberInputBackground': bg.elevated,
+  'settings.numberInputBackground': bg.base,
   'settings.numberInputForeground': text.primary,
   'settings.numberInputBorder': withOpacity(accent.primary, '40'),
   'settings.focusedRowBackground': withOpacity(accent.primary, '08'),
@@ -921,7 +922,7 @@ export const workbenchColors = {
   // TESTING
   // ==========================================================================
   // Separate "failed" vs "errored" for instant recognition (DeltaE distinction)
-  'testing.iconErrored': t.syntax.keyword.hex,
+  'testing.iconErrored': semantic.info,
   'testing.iconFailed': semantic.error,
   'testing.iconPassed': semantic.success,
   'testing.iconQueued': semantic.warning,
@@ -996,7 +997,7 @@ export const workbenchColors = {
   // ==========================================================================
   // INPUT & FORMS
   // ==========================================================================
-  'input.background': bg.elevated,
+  'input.background': bg.base,
   'input.foreground': text.primary,
   'input.border': withOpacity(accent.primary, '35'),
   'input.placeholderForeground': text.placeholder,  // #5A6A70 - Lc 25+ for visible placeholder
@@ -1015,10 +1016,10 @@ export const workbenchColors = {
   'inputValidation.infoBorder': semantic.info,
 
   // Dropdown
-  'dropdown.background': bg.elevated,
+  'dropdown.background': bg.base,
   'dropdown.foreground': text.primary,
   'dropdown.border': withOpacity(accent.primary, '35'),
-  'dropdown.listBackground': bg.elevated,
+  'dropdown.listBackground': bg.base,
 
   // Button - use darker teal for better contrast
   'button.background': '#157570',  // Darker teal for Lc 75+ with white
@@ -1031,7 +1032,7 @@ export const workbenchColors = {
   'button.secondaryHoverBackground': withOpacity(accent.primary, '40'),
 
   // Checkbox - use brighter foreground
-  'checkbox.background': bg.elevated,
+  'checkbox.background': bg.base,
   'checkbox.foreground': accent.bright,        // #5DE4DB - Bright teal (Lc 80+)
   'checkbox.border': withOpacity(accent.primary, '50'),
   'checkbox.selectBackground': withOpacity(accent.primary, '25'),
@@ -1044,7 +1045,7 @@ export const workbenchColors = {
   'radio.activeBackground': accent.primary,
   'radio.activeBorder': accent.bright,
   'radio.inactiveForeground': text.secondary,
-  'radio.inactiveBackground': bg.elevated,
+  'radio.inactiveBackground': bg.base,
   'radio.inactiveBorder': withOpacity(accent.primary, '40'),
   'radio.inactiveHoverBackground': withOpacity(accent.primary, '15'),
 
