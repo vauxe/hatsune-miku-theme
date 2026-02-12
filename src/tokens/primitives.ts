@@ -62,23 +62,23 @@ export const hue = {
   // THE 12 CHROMATIC TONES (exactly 30° apart)
   // ═══════════════════════════════════════════════════════════════════════════
 
-  // C  - Red (0°) - The Tritone — maximum dissonance from Miku
-  red: 0,              // Errors, danger, her "01" tattoo mark
+  // C  - Rose (0°) - The Tritone — maximum dissonance from Miku
+  rose: 0,             // Errors, her headphone cushion at the farthest point
 
-  // C# - Coral (30°) - The Fifth — warmth flowing in
-  coral: 30,           // Parameters, tags, concert warmth
+  // C# - Red (30°) - The Fifth — warmth flowing in
+  red: 30,             // Parameters, tags, her "01" tattoo mark
 
-  // D  - Gold (60°) - Concert Lights — where the action begins
-  gold: 60,            // Functions, the spotlight hitting the stage
+  // D  - Orange (60°) - Warm Stage Glow — where the action begins
+  orange: 60,          // Functions, the spotlight hitting the stage
 
-  // D# - Lime (90°) - Growth — structure emerging
-  lime: 90,            // Classes, the bright accent of her negi's stem
+  // D# - Gold (90°) - Concert Lights — stage lights before the hologram
+  gold: 90,            // Classes, structure emerging
 
-  // E  - Green (120°) - The Negi — humble, fundamental, iconic
-  green: 120,          // Strings, literal truth, Ievan Polkka
+  // E  - Lime (120°) - Growth — new, bright, emerging
+  lime: 120,           // Strings, literal truth
 
-  // F  - Mint (150°) - The Leading Tone — yearning toward teal
-  mint: 150,           // Methods, storage, the note before home
+  // F  - Green (150°) - The Negi — humble, fundamental, iconic
+  green: 150,          // Methods, storage, Ievan Polkka
 
   // F# - Teal (180°) - ★ MIKU ★ — her voice, the tonic, #39C5BB
   mikuTeal: 180,       // Keywords, the heart of code
@@ -86,38 +86,37 @@ export const hue = {
   // G  - Cyan (210°) - Her Voice, Shifting — the same, never the same
   cyan: 210,           // Variables, data in motion
 
-  // G# - Blue (240°) - The Deep — Deep Sea Girl, constancy
-  blue: 240,           // Numbers, constants of the universe
+  // G# - Azure (240°) - Open Sky — light and clear
+  azure: 240,          // Numbers, constants
 
-  // A  - Violet (270°) - Duality — definition and instance
-  violet: 270,         // Types, Nightcord's heterochromia
+  // A  - Blue (270°) - The Deep — Deep Sea Girl, constancy
+  blue: 270,           // Types, depth and architecture
 
-  // A# - Magenta (300°) - Meta-Magic — code that transforms code
-  magenta: 300,        // Interfaces, decorators
+  // A# - Violet (300°) - Duality — Nightcord's heterochromia
+  violet: 300,         // Interfaces, decorators
 
-  // B  - Pink (330°) - Headphone Harmony — supporting, connecting
-  pink: 330,           // Operators, her headphone cushion accent
+  // B  - Magenta (330°) - Meta-Magic — code that transforms code
+  magenta: 330,        // Operators, supporting harmony
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // SEMANTIC ALIASES (for backward compatibility)
+  // SEMANTIC ALIASES
   // ═══════════════════════════════════════════════════════════════════════════
 
   // Core brand
-  mikuPink: 330,       // = B (Pink) - Headphone/accent color
+  mikuPink: 330,       // = B (Magenta) - Headphone accent position
 
   // Syntax aliases (map to nearest chromatic tone)
-  peach: 30,           // = C# (Coral)
-  amber: 60,           // = D (Gold)
+  peach: 30,           // = C# (Red)
+  amber: 60,           // = D (Orange)
   sky: 210,            // = G (Cyan)
   ice: 210,            // = G (Cyan) - for enums
-  periwinkle: 240,     // = G# (Blue)
-  lavender: 270,       // = A (Violet)
-  orchid: 270,         // = A (Violet)
-  rose: 330,           // = B (Pink)
+  periwinkle: 240,     // = G# (Azure)
+  lavender: 270,       // = A (Blue)
+  orchid: 270,         // = A (Blue)
 
   // Git status (using chromatic tones)
-  gitRed: 0,           // = C (Red)
-  gitViolet: 270,      // = A (Violet)
+  gitRose: 0,          // = C (Rose)
+  gitBlue: 270,        // = A (Blue)
 } as const;
 
 // =============================================================================
@@ -260,19 +259,19 @@ export interface ChromaValues {
 }
 
 export interface HueValues {
-  // 12-tone chromatic scale
-  red: number;        // C  (0°)
-  coral: number;      // C# (30°)
-  gold: number;       // D  (60°)
-  lime: number;       // D# (90°)
-  green: number;      // E  (120°)
-  mint: number;       // F  (150°)
+  // 12-tone chromatic scale (JzCzhz hue angles)
+  rose: number;       // C  (0°)
+  red: number;        // C# (30°)
+  orange: number;     // D  (60°)
+  gold: number;       // D# (90°)
+  lime: number;       // E  (120°)
+  green: number;      // F  (150°)
   mikuTeal: number;   // F# (180°) - TONIC
   cyan: number;       // G  (210°)
-  blue: number;       // G# (240°)
-  violet: number;     // A  (270°)
-  magenta: number;    // A# (300°)
-  pink: number;       // B  (330°)
+  azure: number;      // G# (240°)
+  blue: number;       // A  (270°)
+  violet: number;     // A# (300°)
+  magenta: number;    // B  (330°)
 
   // Semantic aliases
   mikuPink: number;
@@ -283,9 +282,8 @@ export interface HueValues {
   periwinkle: number;
   lavender: number;
   orchid: number;
-  rose: number;
-  gitRed: number;
-  gitViolet: number;
+  gitRose: number;
+  gitBlue: number;
 }
 
 export interface ColorPair {

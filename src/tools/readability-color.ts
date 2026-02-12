@@ -470,65 +470,105 @@ export function analyzeHueDistribution(
   // Sort by hue
   values.sort((a, b) => a.hue - b.hue);
 
-  // Calculate gaps between adjacent hues (circular)
+  // Per-token gaps for backward compatibility (verbose output)
   const gaps: Array<{ from: string; to: string; gap: number }> = [];
   for (let i = 0; i < values.length; i++) {
     const current = values[i];
     const next = values[(i + 1) % values.length];
     let gap = next.hue - current.hue;
-    if (gap < 0) gap += 360; // Wrap around
+    if (gap < 0) gap += 360;
     gaps.push({ from: current.name, to: next.name, gap });
   }
 
-  // Find clusters (colors within minGap of each other)
-  const clusters: Array<{ colors: string[]; hueRange: [number, number] }> = [];
-  let currentCluster: string[] = [values[0].name];
-  let clusterStart = values[0].hue;
+  // --- Group into hue families (tokens within 10° of anchor) ---
+  const FAMILY_RADIUS = 10;
+  type Family = { names: string[]; hues: number[] };
+  const families: Family[] = [];
+  const assigned = new Set<number>();
 
-  for (let i = 1; i < values.length; i++) {
-    const hueDiff = values[i].hue - values[i - 1].hue;
-    if (hueDiff < minGap) {
-      currentCluster.push(values[i].name);
-    } else {
-      if (currentCluster.length > 1) {
-        clusters.push({
-          colors: currentCluster,
-          hueRange: [clusterStart, values[i - 1].hue],
-        });
+  // First pass: linear grouping on sorted hues
+  for (let i = 0; i < values.length; i++) {
+    if (assigned.has(i)) continue;
+    const anchor = values[i].hue;
+    const family: Family = { names: [values[i].name], hues: [anchor] };
+    assigned.add(i);
+    for (let j = i + 1; j < values.length; j++) {
+      if (assigned.has(j)) continue;
+      if (values[j].hue - anchor <= FAMILY_RADIUS) {
+        family.names.push(values[j].name);
+        family.hues.push(values[j].hue);
+        assigned.add(j);
+      } else {
+        break; // sorted, so no more within radius
       }
-      currentCluster = [values[i].name];
-      clusterStart = values[i].hue;
+    }
+    families.push(family);
+  }
+
+  // Wrap-around: merge last family into first if within radius
+  if (families.length >= 2) {
+    const first = families[0];
+    const last = families[families.length - 1];
+    const wrapDist = (first.hues[0] + 360) - last.hues[last.hues.length - 1];
+    if (wrapDist <= FAMILY_RADIUS) {
+      first.names = [...last.names, ...first.names];
+      first.hues = [...last.hues, ...first.hues];
+      families.pop();
     }
   }
 
-  // Check wrap-around: does the last color connect back to the first?
-  const wrapGap = (values[0].hue + 360) - values[values.length - 1].hue;
-  const wrapsAround = wrapGap < minGap;
+  // Compute family centroids (circular mean for wrap-around safety)
+  const centroids: number[] = families.map(f => {
+    if (f.hues.length === 1) return f.hues[0];
+    // Use first hue as reference to handle wrap-around
+    const ref = f.hues[0];
+    let sum = 0;
+    for (const h of f.hues) {
+      let diff = h - ref;
+      if (diff > 180) diff -= 360;
+      if (diff < -180) diff += 360;
+      sum += ref + diff;
+    }
+    const mean = sum / f.hues.length;
+    return ((mean % 360) + 360) % 360;
+  });
 
-  if (wrapsAround) {
-    // The tail and head are close enough to form/extend a cluster
-    const firstClusterIdx = clusters.findIndex(c => c.colors.includes(values[0].name));
-    if (firstClusterIdx >= 0) {
-      // Merge trailing colors into the first cluster
-      clusters[firstClusterIdx].colors = [...currentCluster, ...clusters[firstClusterIdx].colors];
-      clusters[firstClusterIdx].hueRange[0] = clusterStart;
-    } else {
-      // First color was a singleton — combine with trailing cluster
+  // Sort families by centroid
+  const familyOrder = centroids.map((c, i) => ({ centroid: c, idx: i }));
+  familyOrder.sort((a, b) => a.centroid - b.centroid);
+
+  // Compute gaps between adjacent families and flag clusters
+  const clusters: Array<{ colors: string[]; hueRange: [number, number] }> = [];
+
+  for (let i = 0; i < familyOrder.length; i++) {
+    const curr = familyOrder[i];
+    const next = familyOrder[(i + 1) % familyOrder.length];
+    let familyGap = next.centroid - curr.centroid;
+    if (familyGap <= 0) familyGap += 360;
+
+    if (familyGap < minGap) {
+      const fA = families[curr.idx];
+      const fB = families[next.idx];
+      const allNames = [...fA.names, ...fB.names];
+      const allHues = [...fA.hues, ...fB.hues];
       clusters.push({
-        colors: [...currentCluster, values[0].name],
-        hueRange: [clusterStart, values[0].hue + 360],
+        colors: allNames,
+        hueRange: [Math.min(...allHues), Math.max(...allHues)],
       });
     }
-  } else if (currentCluster.length > 1) {
-    // No wrap-around, just push trailing cluster if it has multiple colors
-    clusters.push({
-      colors: currentCluster,
-      hueRange: [clusterStart, values[values.length - 1].hue],
-    });
+  }
+
+  // Smallest gap is between families, not individual tokens
+  let smallestFamilyGap = 360;
+  for (let i = 0; i < familyOrder.length; i++) {
+    const curr = familyOrder[i];
+    const next = familyOrder[(i + 1) % familyOrder.length];
+    let familyGap = next.centroid - curr.centroid;
+    if (familyGap <= 0) familyGap += 360;
+    if (familyGap < smallestFamilyGap) smallestFamilyGap = familyGap;
   }
 
   const pass = clusters.length === 0;
-  const smallestGap = Math.min(...gaps.map(g => g.gap));
 
   return {
     pass,
@@ -536,7 +576,7 @@ export function analyzeHueDistribution(
     clusters,
     gaps: gaps.sort((a, b) => a.gap - b.gap),
     minGap,
-    smallestGap,
+    smallestGap: smallestFamilyGap,
     suggestion: pass ? undefined : `${clusters.length} hue cluster(s) found. Spread hues at least ${minGap}° apart.`,
   };
 }

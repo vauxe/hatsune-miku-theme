@@ -29,24 +29,24 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
       L.secondary, C.comfortable, H.mikuTeal
     ),
 
-    // ═══ THE LEADING TONE — F Mint (150°) ═══
+    // ═══ THE LEADING TONE — F Green (150°) ═══
     storage: role(
       'Leading tone — declarations yearning toward the tonic',
-      L.primary, C.comfortable, H.mint
+      L.primary, C.comfortable, H.green
     ),
     storageModifier: role(
-      'Headphone accent — modifiers in her pink',
-      L.primaryWarm, C.comfortable, H.pink
+      'Supporting harmony — modifiers in magenta',
+      L.primaryWarm, C.comfortable, H.magenta
     ),
 
-    // ═══ DUALITY — A Violet (270°) ═══
+    // ═══ THE DEEP — A Blue (270°) ═══
     type: role(
-      'Duality — abstract definition and concrete instance',
-      L.primary + 0.008, C.comfortable, H.violet
+      'Depth — abstract definition and concrete instance',
+      L.primary + 0.008, C.comfortable, H.blue
     ),
     typeParameter: role(
       'Generic potential — a type waiting to become',
-      L.muted, C.muted, H.violet
+      L.muted, C.muted, H.blue
     ),
 
     // ═══ HER VOICE, SHIFTING — G Cyan (210°) ═══
@@ -59,34 +59,34 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
       L.muted, C.muted, H.cyan
     ),
 
-    // ═══ META-MAGIC — A# Magenta (300°) ═══
+    // ═══ DUALITY — A# Violet (300°) ═══
     macro: role(
       'Distant magic — code that transforms code',
-      L.muted + 0.005, C.muted, H.magenta
+      L.muted + 0.005, C.muted, H.violet
     ),
 
-    // ═══ CONCERT LIGHTS — D Gold (60°) ═══
+    // ═══ WARM STAGE GLOW — D Orange (60°) ═══
     function: role(
-      'Concert lights — the spotlight hits, the show begins',
-      L.vibrantWarm + 0.004, C.vibrant, H.gold
+      'Stage glow — the spotlight hits, the show begins',
+      L.vibrantWarm + 0.004, C.vibrant, H.orange
     ),
     method: role(
       'Leading tone — methods flow toward the tonic',
-      L.primary, C.comfortable, H.mint
+      L.primary, C.comfortable, H.green
     ),
 
-    // ═══ GROWTH — D# Lime (90°) ═══
+    // ═══ CONCERT LIGHTS — D# Gold (90°) ═══
     class: role(
-      'Growth — structure emerging, architecture rising',
-      L.vibrant, C.vibrant, H.lime
+      'Concert lights — structure emerging, architecture rising',
+      L.vibrant, C.vibrant, H.gold
     ),
     interface: role(
       'Contract — a shape without substance, magic waiting',
-      L.primaryWarm, C.comfortable, H.magenta
+      L.primaryWarm, C.comfortable, H.violet
     ),
     struct: role(
-      'Growth — same family as class, structure in C',
-      L.vibrant, C.vibrant, H.lime
+      'Concert lights — same family as class, structure in C',
+      L.vibrant, C.vibrant, H.gold
     ),
 
     // ═══ FLOWING DATA — G Cyan (210°) ═══
@@ -96,49 +96,49 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     ),
     parameter: role(
       'The fifth — input flowing naturally to the tonic',
-      L.primaryWarm, C.comfortable, H.coral
+      L.primaryWarm, C.comfortable, H.red
     ),
     property: role(
-      'Warm coral — warmth reaching in from the world',
-      L.vibrantWarm + 0.005, C.vibrant, H.coral
+      'Warm red — warmth reaching in from the world',
+      L.vibrantWarm + 0.005, C.vibrant, H.red
     ),
 
-    // ═══ THE NEGI — E Green (120°) ═══
+    // ═══ GROWTH — E Lime (120°) ═══
     string: role(
-      'The negi — humble, fundamental, iconic through love',
-      L.vibrant, C.vibrant, H.green
+      'Growth — literal truth, humble and fundamental',
+      L.vibrant, C.vibrant, H.lime
     ),
     stringTemplate: role(
-      'The negi, templated — structured expression',
-      L.primary, C.comfortable, H.green
-    ),
-    regex: role(
-      'Pattern — growth-colored, matching structure in text',
+      'Growth, templated — structured expression',
       L.primary, C.comfortable, H.lime
     ),
+    regex: role(
+      'Pattern — gold-colored, matching structure in text',
+      L.primary, C.comfortable, H.gold
+    ),
 
-    // ═══ THE DEEP — G# Blue (240°) ═══
+    // ═══ OPEN SKY — G# Azure (240°) ═══
     number: role(
-      'Deep sea — constants of the universe, quietly immutable',
-      L.muted, C.muted, H.blue
+      'Open sky — constants of the universe, quietly immutable',
+      L.muted, C.muted, H.azure
     ),
     boolean: role(
-      'Binary truth — duality at its simplest, violet whisper',
-      L.muted, C.muted, H.violet
+      'Binary truth — depth at its simplest, blue whisper',
+      L.muted, C.muted, H.blue
     ),
 
     // ═══ CONSTANTS & MARKUP ═══
     constant: role(
-      'Deep truth — immutable values, blue and certain',
-      L.primary + 0.005, C.comfortable, H.blue
+      'Deep truth — immutable values, azure and certain',
+      L.primary + 0.005, C.comfortable, H.azure
     ),
     tag: role(
-      'Warm element — HTML/JSX structure, coral stage presence',
-      L.vibrantWarm + 0.005, C.vibrant, H.coral
+      'Warm element — HTML/JSX structure, red stage presence',
+      L.vibrantWarm + 0.005, C.vibrant, H.red
     ),
     attribute: role(
-      'Stage lights — attributes in gold, modifying elements',
-      L.primaryWarm, C.comfortable, H.gold
+      'Stage glow — attributes in orange, modifying elements',
+      L.primaryWarm, C.comfortable, H.orange
     ),
 
     // ═══ HER WHISPER — F# Teal at ppp ═══
@@ -151,10 +151,10 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
       L.muted - 0.010, C.muted - 0.010, H.mikuTeal
     ),
 
-    // ═══ HEADPHONE HARMONY — B Pink (330°) ═══
+    // ═══ SUPPORTING HARMONY — B Magenta (330°) ═══
     operator: role(
-      'Headphone harmony — pink accents connecting everything',
-      L.primaryWarm, C.comfortable, H.pink
+      'Supporting harmony — magenta accents connecting everything',
+      L.primaryWarm, C.comfortable, H.magenta
     ),
   };
 }

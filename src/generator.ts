@@ -2,7 +2,7 @@
  * Hatsune Miku Theme - Generator
  *
  * Compiles TypeScript source into VS Code theme JSON.
- * Supports multi-variant generation (dark, light, sakura, highContrast).
+ * Supports multi-variant generation (dark, light).
  */
 
 import * as fs from 'fs';
@@ -28,10 +28,8 @@ const variants: VariantDefinition[] = [
     type: 'dark',
     filename: 'hatsune-miku-theme-color-theme.json',
   },
-  // Future variants:
+  // Future variant:
   // { id: 'light', name: 'Hatsune Miku Theme Light', type: 'light', filename: 'hatsune-miku-light-color-theme.json' },
-  // { id: 'sakura', name: 'Sakura Miku Theme', type: 'dark', filename: 'sakura-miku-color-theme.json' },
-  // { id: 'highContrast', name: 'Hatsune Miku Theme High Contrast', type: 'dark', filename: 'hatsune-miku-hc-color-theme.json' },
 ];
 
 // =============================================================================

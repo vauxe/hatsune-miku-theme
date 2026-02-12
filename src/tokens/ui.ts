@@ -158,8 +158,8 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     ),
     minimapOpacity: '#000000DD',
     error: role(
-      'The tritone — UI error, vivid red dissonance',
-      L.vibrantWarm + 0.020, C.vivid, H.red
+      'The tritone — UI error, vivid rose dissonance',
+      L.vibrantWarm + 0.020, C.vivid, H.rose
     ),
     buttonBackground: (() => {
       const hairShadow = parseHex(char.hair.shadow);
@@ -191,12 +191,12 @@ export function createStatusTokens(p: Primitives): StatusTokens {
       char.negi.bright
     ),
     warning: role(
-      'Stage lights dimming — caution, warm gold',
-      L.vibrant, C.comfortable, H.gold
+      'Stage glow dimming — caution, warm orange',
+      L.vibrant, C.comfortable, H.orange
     ),
     error: role(
       'The tritone — maximum dissonance, something is wrong',
-      L.vibrantWarm + 0.025, C.vivid, H.red
+      L.vibrantWarm + 0.025, C.vivid, H.rose
     ),
     info: role(
       'Her calm voice — tonic teal, information without alarm',
@@ -210,40 +210,40 @@ export function createGitTokens(p: Primitives): GitTokens {
 
   return {
     added: role(
-      'New life — negi green in the code tree',
-      L.vibrant - 0.010, C.vivid, H.green
+      'New life — lime in the code tree',
+      L.vibrant - 0.010, C.vivid, H.lime
     ),
     modified: role(
-      'Change — warm gold, the story evolves',
-      L.vibrant, C.comfortable, H.gold
+      'Change — warm orange, the story evolves',
+      L.vibrant, C.comfortable, H.orange
     ),
     deleted: role(
-      'Loss — tritone red, something was removed',
-      L.vibrantWarm + 0.025, C.vivid, H.gitRed
+      'Loss — tritone rose, something was removed',
+      L.vibrantWarm + 0.025, C.vivid, H.gitRose
     ),
     untracked: role(
       'Undiscovered — her cyan, not yet part of the story',
       L.vibrant, C.vibrant, H.cyan
     ),
     conflicting: role(
-      'Tension — violet, two truths that cannot coexist',
-      L.secondary, C.vibrant, H.violet
+      'Tension — blue, two truths that cannot coexist',
+      L.secondary, C.vibrant, H.blue
     ),
     renamed: role(
-      'Transformation — violet, the same thing with a new name',
-      L.primary, C.comfortable, H.violet
+      'Transformation — blue, the same thing with a new name',
+      L.primary, C.comfortable, H.blue
     ),
     stageModified: role(
       'Prepared change — cyan, ready to become part of the story',
       L.vibrant, C.vibrant, H.cyan
     ),
     stageDeleted: role(
-      'Prepared removal — violet, loss accepted',
-      L.primary, C.comfortable, H.violet
+      'Prepared removal — blue, loss accepted',
+      L.primary, C.comfortable, H.blue
     ),
     submodule: role(
-      'External world — deep blue, a reference beyond this repo',
-      L.primary, C.comfortable, H.blue
+      'External world — azure, a reference beyond this repo',
+      L.primary, C.comfortable, H.azure
     ),
   };
 }

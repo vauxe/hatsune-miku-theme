@@ -88,7 +88,7 @@ export function createInteractiveTokens(
   const { character: char, opacity: op } = p;
 
   // "Her Presence" — three hue families from her world
-  const warmApproach = overrides?.hoverAccent ?? char.tie.shadow;  // #FF9900 (Wonderlands) or fallback
+  const warmApproach = overrides?.hoverAccent ?? char.tie.shadow;  // Override: #FF9900 (Wonderlands), fallback: tie shadow
   const tonic = char.hair.base;              // #39C5BB — the teal home
   const roots = char.hair.shadow;            // #1A8A82 — teal deepened
   const spotlight = char.hairTies.outline;   // #E05096 — the magenta spotlight

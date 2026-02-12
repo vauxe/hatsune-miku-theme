@@ -2,19 +2,15 @@
  * Theme Variant Derivation System
  *
  * Layer 3: Transform semantic tokens into theme variants.
- * This enables generating light themes, high-contrast themes,
- * and alternate color schemes (Sakura Miku) from the same semantic tokens.
+ * This enables generating light themes from the same semantic tokens.
  *
  * Derivation strategies:
  * - Light theme: Invert lightness, adjust chroma for new background
- * - High contrast: Increase lightness spread and chroma
- * - Sakura Miku: Swap hue primitives (teal → pink)
  */
 
 import { hex, type JzCzhz } from './jzczhz';
 import {
   primitives,
-  lightness as darkLightness,
   chroma,
   hue as baseHue,
   character as darkCharacter,
@@ -22,8 +18,6 @@ import {
   opacity,
   type Primitives,
   type LightnessValues,
-  type ChromaValues,
-  type HueValues,
   type CharacterColors,
   type SpecialColors,
 } from './primitives';
@@ -34,7 +28,7 @@ import type { SemanticTokens, SemanticRole } from './types';
 // VARIANT TYPES
 // =============================================================================
 
-export type ThemeVariant = 'dark' | 'light' | 'sakura' | 'highContrast';
+export type ThemeVariant = 'dark' | 'light';
 
 export interface VariantConfig {
   name: string;
@@ -104,114 +98,6 @@ export const lightCharacter: CharacterColors = {
 };
 
 // =============================================================================
-// SAKURA MIKU HUE REMAPPING
-// =============================================================================
-
-/**
- * Sakura Miku: Teal becomes pink, other hues shifted accordingly
- */
-export const sakuraHue: HueValues = {
-  // 12-tone chromatic scale for Sakura theme
-  // Tonal center shifts: Teal (180°) → Pink (330°)
-  // The "tonic" becomes cherry blossom pink
-  red: 0,
-  coral: 30,
-  gold: 60,
-  lime: 90,
-  green: 120,
-  mint: 150,
-  mikuTeal: 330,         // Pink becomes the new "tonic"
-  cyan: 210,
-  blue: 240,
-  violet: 270,
-  magenta: 300,
-  pink: 180,             // Teal becomes the accent (swapped)
-
-  // Semantic aliases - rotated for sakura
-  mikuPink: 180,         // Teal accent (was pink)
-  peach: 30,
-  amber: 60,
-  sky: 210,
-  ice: 210,
-  periwinkle: 240,
-  lavender: 270,
-  orchid: 300,           // Shifted toward magenta
-  rose: 330,
-
-  // Git status
-  gitRed: 0,
-  gitViolet: 270,
-};
-
-/**
- * Sakura Miku character colors (pink-dominant)
- */
-export const sakuraCharacter: CharacterColors = {
-  hair: {
-    base: '#FFB8C8',      // Sakura pink
-    shadow: '#E8A0B0',    // Darker pink
-    highlight: '#FFD0DC', // Light pink
-    bright: '#FFE0E8',    // Brightest pink
-    tip: '#FFF0F4',       // Palest pink
-  },
-  eyes: {
-    iris: '#FFB8C8',
-    highlight: '#FFD0DC',
-    pupil: '#0D1114',
-  },
-  headphones: {
-    frame: '#1A1F24',
-    cushion: '#39C5BB',   // Teal cushion (inverted accent)
-    display: '#FFB8C8',   // Pink display
-  },
-  hairTies: {
-    base: '#111417',
-    outline: '#39C5BB',   // Teal outline (inverted)
-  },
-  top: { ...darkCharacter.top },
-  skirt: { ...darkCharacter.skirt },
-  armWarmers: { ...darkCharacter.armWarmers },
-  boots: { ...darkCharacter.boots },
-  tie: {
-    base: '#FFB8C8',
-    shadow: '#E8A0B0',
-  },
-  negi: { ...darkCharacter.negi },
-};
-
-// =============================================================================
-// HIGH CONTRAST ADJUSTMENTS
-// =============================================================================
-
-/**
- * High contrast lightness - increased spread for accessibility
- */
-export const highContrastLightness: LightnessValues = {
-  primary: 0.200,        // Brighter primaries
-  primaryWarm: 0.210,
-  vibrant: 0.195,
-  vibrantWarm: 0.215,
-  vivid: 0.185,
-  muted: 0.180,          // Brighter comments
-
-  secondary: 0.195,
-  tertiary: 0.140,       // More visible tertiary
-  accent: 0.200,
-};
-
-/**
- * High contrast chroma - increased saturation for distinction
- */
-export const highContrastChroma: ChromaValues = {
-  comfortable: 0.065,    // ~34% - more saturated
-  vibrant: 0.080,        // ~42%
-  vivid: 0.095,          // ~50%
-  muted: 0.050,          // ~26% - more visible comments
-  gray: 0.020,
-  none: 0,
-};
-
-// =============================================================================
 // VARIANT FACTORIES
 // =============================================================================
 
@@ -242,34 +128,6 @@ export function createLightPrimitives(): Primitives {
   };
 }
 
-/**
- * Create primitives for Sakura Miku variant
- */
-export function createSakuraPrimitives(): Primitives {
-  return {
-    lightness: darkLightness,
-    chroma,
-    hue: sakuraHue,
-    character: sakuraCharacter,
-    special,
-    opacity,
-  };
-}
-
-/**
- * Create primitives for high contrast variant
- */
-export function createHighContrastPrimitives(): Primitives {
-  return {
-    lightness: highContrastLightness,
-    chroma: highContrastChroma,
-    hue: baseHue,
-    character: darkCharacter,
-    special,
-    opacity,
-  };
-}
-
 // =============================================================================
 // VARIANT CONFIGURATIONS
 // =============================================================================
@@ -286,18 +144,6 @@ export const variants: Record<ThemeVariant, VariantConfig> = {
     variant: 'light',
     description: 'Light theme with dark text on light backgrounds',
     primitives: createLightPrimitives(),
-  },
-  sakura: {
-    name: 'Sakura Miku Theme',
-    variant: 'sakura',
-    description: 'Cherry blossom variant with pink accents',
-    primitives: createSakuraPrimitives(),
-  },
-  highContrast: {
-    name: 'Hatsune Miku Theme High Contrast',
-    variant: 'highContrast',
-    description: 'High contrast variant for accessibility',
-    primitives: createHighContrastPrimitives(),
   },
 };
 
@@ -320,8 +166,6 @@ export function generateAllVariants(): Record<ThemeVariant, SemanticTokens> {
   return {
     dark: generateVariantTokens('dark'),
     light: generateVariantTokens('light'),
-    sakura: generateVariantTokens('sakura'),
-    highContrast: generateVariantTokens('highContrast'),
   };
 }
 

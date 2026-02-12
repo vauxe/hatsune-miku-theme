@@ -108,44 +108,46 @@ export const HUE = {
   // THE 12 CHROMATIC TONES
   // ═══════════════════════════════════════════════════════════════════════════
 
-  // C  (0°)   - Red     : Errors, critical (tritone = max tension from Miku)
-  // C# (30°)  - Coral   : Tags, parameters (warm accent)
-  // D  (60°)  - Gold    : Functions (relative minor - energetic)
-  // D# (90°)  - Lime    : Regexp, escapes (chromatic passing)
-  // E  (120°) - Green   : Strings, success (submediant)
-  // F  (150°) - Mint    : Methods, storage (leading tone)
+  // C  (0°)   - Rose    : Errors, critical (tritone = max tension from Miku)
+  // C# (30°)  - Red     : Tags, parameters (warm accent)
+  // D  (60°)  - Orange  : Functions (relative minor - energetic)
+  // D# (90°)  - Gold    : Regexp, escapes (chromatic passing)
+  // E  (120°) - Lime    : Strings, success (submediant)
+  // F  (150°) - Green   : Methods, storage (leading tone)
   // F# (180°) - Teal    : ★ MIKU TONIC ★ Keywords, info
   // G  (210°) - Cyan    : Variables (dominant - neutral)
-  // G# (240°) - Blue    : Numbers (flat 6)
-  // A  (270°) - Violet  : Types, classes (relative major)
-  // A# (300°) - Magenta : Interfaces, decorators (mediant)
-  // B  (330°) - Pink    : Operators (subdominant - accent)
+  // G# (240°) - Azure   : Numbers (flat 6)
+  // A  (270°) - Blue    : Types, classes (relative major)
+  // A# (300°) - Violet  : Interfaces, decorators (mediant)
+  // B  (330°) - Magenta : Operators (subdominant - accent)
 
   // Core Miku identity (chromatic positions)
   mikuTeal: 180,      // F# - THE TONIC - signature teal
   mikuPink: 330,      // B  - Subdominant - headphone accent
 
   // Syntax hues (chromatic scale)
-  red: 0,             // C  - Terminal red, errors
-  coral: 30,          // C# - Tags, warm accent
-  gold: 60,           // D  - Functions
-  lime: 90,           // D# - Regexp, escapes
-  green: 120,         // E  - Strings (alias)
-  mint: 150,          // F  - Methods, storage
+  rose: 0,            // C  - Errors, tritone
+  red: 30,            // C# - Tags, warm accent
+  orange: 60,         // D  - Functions
+  gold: 90,           // D# - Regexp, escapes
+  lime: 120,          // E  - Strings
+  green: 150,         // F  - Methods, storage
   // mikuTeal: 180    // F# - (defined above)
   sky: 210,           // G  - Variables
   ice: 210,           // G  - Enums (same as sky)
-  periwinkle: 240,    // G# - Macros
-  lavender: 270,      // A  - Comments (muted violet)
-  orchid: 270,        // A  - Types (same as violet)
-  magenta: 300,       // A# - Terminal magenta
-  rose: 330,          // B  - Interfaces (same as pink)
+  azure: 240,         // G# - Numbers
+  blue: 270,          // A  - Types
+  violet: 300,        // A# - Interfaces, decorators
+  magenta: 330,       // B  - Operators
 
   // Semantic aliases
-  peach: 30,          // = C# (Coral)
-  amber: 60,          // = D (Gold)
+  peach: 30,          // = C# (Red)
+  amber: 60,          // = D (Orange)
+  periwinkle: 240,    // = G# (Azure)
+  lavender: 270,      // = A (Blue)
+  orchid: 270,        // = A (Blue)
 
   // Git status
-  gitRed: 0,          // C  - Deleted (pure red)
-  gitViolet: 270,     // A  - Conflict (violet)
+  gitRose: 0,         // C  - Deleted (tritone)
+  gitBlue: 270,       // A  - Conflict (blue)
 } as const;

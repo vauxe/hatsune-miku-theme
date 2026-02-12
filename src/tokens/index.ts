@@ -11,7 +11,7 @@
  *   Split across: syntax.ts, ui.ts, terminal.ts, decorative.ts, interactive.ts
  *
  * Layer 3: Variants (variants.ts)
- *   Theme variations: dark, light, sakura, highContrast
+ *   Theme variations: dark, light
  *
  * Usage:
  * ```typescript
@@ -83,17 +83,11 @@ export {
   generateAllVariants,
   createDarkPrimitives,
   createLightPrimitives,
-  createSakuraPrimitives,
-  createHighContrastPrimitives,
   adjustLightness,
   shiftHue,
   scaleChroma,
   lightLightness,
   lightCharacter,
-  sakuraHue,
-  sakuraCharacter,
-  highContrastLightness,
-  highContrastChroma,
   type ThemeVariant,
   type VariantConfig,
 } from './variants';

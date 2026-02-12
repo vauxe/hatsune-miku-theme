@@ -1119,33 +1119,33 @@ export const workbenchColors = {
   'symbolIcon.booleanForeground': t.symbol.boolean.hex,
   'symbolIcon.classForeground': t.syntax.class.hex,
   'symbolIcon.colorForeground': accent.magenta,
-  'symbolIcon.constantForeground': t.symbol.constant.hex,  // Orchid-pink (320deg)
+  'symbolIcon.constantForeground': t.symbol.constant.hex,  // Azure (240°)
   'symbolIcon.constructorForeground': t.symbol.constructor.hex,
-  'symbolIcon.enumeratorForeground': t.symbol.enumerator.hex,  // Purple (280deg) DISTINCT from interface
+  'symbolIcon.enumeratorForeground': t.symbol.enumerator.hex,  // Cyan (210°)
   'symbolIcon.enumeratorMemberForeground': t.symbol.enumeratorMember.hex,
   'symbolIcon.eventForeground': t.status.info.hex,
-  'symbolIcon.fieldForeground': t.symbol.field.hex,  // Warm amber (40deg) DISTINCT from property
+  'symbolIcon.fieldForeground': t.symbol.field.hex,  // Red (30°) — ΔJz+ΔCz from property
   'symbolIcon.fileForeground': text.primary,
-  'symbolIcon.folderForeground': t.symbol.folder.hex,  // Miku teal (170deg)
+  'symbolIcon.folderForeground': t.symbol.folder.hex,  // Teal (180°)
   'symbolIcon.functionForeground': t.symbol.function.hex,
-  'symbolIcon.interfaceForeground': t.symbol.interface.hex,  // Sky blue (220deg) DISTINCT from enum
+  'symbolIcon.interfaceForeground': t.symbol.interface.hex,  // Violet (300°)
   'symbolIcon.keyForeground': t.syntax.function.hex,
   'symbolIcon.keywordForeground': t.syntax.tag.hex,
   'symbolIcon.methodForeground': t.symbol.method.hex,
-  'symbolIcon.moduleForeground': t.symbol.module.hex,  // Purple (275deg) DISTINCT from namespace
-  'symbolIcon.namespaceForeground': t.symbol.namespace.hex,  // Lavender (290deg)
+  'symbolIcon.moduleForeground': t.symbol.module.hex,  // Azure (240°)
+  'symbolIcon.namespaceForeground': t.symbol.namespace.hex,  // Violet (300°)
   'symbolIcon.nullForeground': text.tertiary,
-  'symbolIcon.numberForeground': t.symbol.number.hex,  // Periwinkle (230deg) DISTINCT from boolean
+  'symbolIcon.numberForeground': t.symbol.number.hex,  // Azure (240°)
   'symbolIcon.objectForeground': t.syntax.attribute.hex,
   'symbolIcon.operatorForeground': t.syntax.keyword.hex,
-  'symbolIcon.packageForeground': t.symbol.package.hex,  // Soft purple (260deg) DISTINCT from folder
-  'symbolIcon.propertyForeground': t.symbol.property.hex,  // Coral (10deg) DISTINCT from field
+  'symbolIcon.packageForeground': t.symbol.package.hex,  // Gold (90°)
+  'symbolIcon.propertyForeground': t.symbol.property.hex,  // Red (30°)
   'symbolIcon.referenceForeground': t.symbol.reference.hex,
   'symbolIcon.snippetForeground': t.symbol.snippet.hex,
   'symbolIcon.stringForeground': t.symbol.string.hex,
-  'symbolIcon.structForeground': t.symbol.struct.hex,  // Ice cyan (200deg) DISTINCT from interface
+  'symbolIcon.structForeground': t.symbol.struct.hex,  // Gold (90°)
   'symbolIcon.textForeground': text.primary,
-  'symbolIcon.typeParameterForeground': t.symbol.typeParameter.hex,  // Rose (340deg) DISTINCT from namespace
+  'symbolIcon.typeParameterForeground': t.symbol.typeParameter.hex,  // Blue (270°)
   'symbolIcon.unitForeground': accent.magenta,
   'symbolIcon.variableForeground': t.symbol.variable.hex,
 
