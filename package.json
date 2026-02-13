@@ -26,7 +26,7 @@
   ],
   "scripts": {
     "build": "tsc && node dist/generator.js",
-    "build:theme": "node dist/generator.js",
+    "build:theme": "tsc && node dist/generator.js",
     "watch": "tsc -w",
     "compile": "tsc",
     "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\"",

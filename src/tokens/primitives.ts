@@ -129,62 +129,62 @@ export const hue = {
 export const character = {
   // Hair — the twin tails that defined a generation
   hair: {
-    base: mikuCharacter.hair.base,           // #39C5BB - Primary teal
-    shadow: mikuCharacter.hair.shadow,       // #1A8A82 - Dark roots
-    highlight: mikuCharacter.hair.highlight, // #5DE4DB - Light shine
-    bright: mikuCharacter.hair.bright,       // #7FEDE5 - Brightest
-    tip: mikuCharacter.hair.tip,             // #B2EBE7 - Lightest tips
+    base: mikuCharacter.hair.base,
+    shadow: mikuCharacter.hair.shadow,
+    highlight: mikuCharacter.hair.highlight,
+    bright: mikuCharacter.hair.bright,
+    tip: mikuCharacter.hair.tip,
   },
 
   // Eyes - matching teal
   eyes: {
-    iris: mikuCharacter.eyes.iris,           // #39C5BB
-    highlight: mikuCharacter.eyes.highlight, // #5DE4DB
-    pupil: mikuCharacter.eyes.pupil,         // #0D1114
+    iris: mikuCharacter.eyes.iris,
+    highlight: mikuCharacter.eyes.highlight,
+    pupil: mikuCharacter.eyes.pupil,
   },
 
   // Headphones — the interface between her and the music
   headphones: {
-    frame: mikuCharacter.headphones.frame,   // #1A1F24 — dark grey frame
-    cushion: mikuCharacter.headphones.cushion, // #E05096 — the pink that became the cursor
-    display: mikuCharacter.headphones.display, // #39C5BB — "01" glowing on the side
+    frame: mikuCharacter.headphones.frame,
+    cushion: mikuCharacter.headphones.cushion,
+    display: mikuCharacter.headphones.display,
   },
 
   // Hair ties — cube-shaped, magenta accent
   hairTies: {
-    base: mikuCharacter.hairTies.base,       // #111417 - Black body
-    outline: mikuCharacter.hairTies.outline, // #E05096 - Magenta border
+    base: mikuCharacter.hairTies.base,
+    outline: mikuCharacter.hairTies.outline,
   },
 
-  // Outfit — grey sleeveless top, black pleated skirt, thigh-high boots
+  // Outfit — medium grey vest over white blouse, dark pleated skirt, thigh-high boots
   top: {
-    main: mikuCharacter.top.main,            // #37474F
-    shadow: mikuCharacter.top.shadow,        // #263238
-    trim: mikuCharacter.top.trim,            // #39C5BB
+    main: mikuCharacter.top.main,
+    shadow: mikuCharacter.top.shadow,
+    trim: mikuCharacter.top.trim,
   },
   skirt: {
-    base: mikuCharacter.skirt.base,          // #15191D — the editor canvas
-    trim: mikuCharacter.skirt.trim,          // #39C5BB — teal trim
-    accessory: mikuCharacter.skirt.accessory, // #A1B3B6 — wallet chain, silver
+    base: mikuCharacter.skirt.base,
+    trim: mikuCharacter.skirt.trim,
+    accessory: mikuCharacter.skirt.accessory,
   },
   armWarmers: {
-    base: mikuCharacter.armWarmers.base,     // #111417
-    pattern: mikuCharacter.armWarmers.pattern, // #39C5BB
+    base: mikuCharacter.armWarmers.base,
+    pattern: mikuCharacter.armWarmers.pattern,
   },
   boots: {
-    base: mikuCharacter.boots.base,          // #111417
-    accent: mikuCharacter.boots.accent,      // #39C5BB
+    base: mikuCharacter.boots.base,
+    accent: mikuCharacter.boots.accent,
   },
 
   // Accent — her teal necktie and the negi
   tie: {
-    base: mikuCharacter.tie.base,            // #39C5BB
-    shadow: mikuCharacter.tie.shadow,        // #2D9E97
+    base: mikuCharacter.tie.base,
+    shadow: mikuCharacter.tie.shadow,
   },
   negi: {
-    stalk: mikuCharacter.negi.stalk,         // #9CCC65
-    bright: mikuCharacter.negi.bright,       // #69F0AE
-    white: mikuCharacter.negi.white,         // #E8F5E9
+    stalk: mikuCharacter.negi.stalk,
+    bright: mikuCharacter.negi.bright,
+    white: mikuCharacter.negi.white,
   },
 } as const;
 

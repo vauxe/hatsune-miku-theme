@@ -21,7 +21,7 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
 
   // The skirt is the stage — one anchor, uniform steps up and down
   const STEP = 0.003;
-  const skirt = parseHex(char.skirt.base);  // #15191D → Jz=0.0255, Cz=0.0073, hz=249°
+  const skirt = parseHex(char.skirt.base);
 
   return {
     foreground: roleFromHex(

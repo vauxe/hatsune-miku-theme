@@ -189,17 +189,17 @@ export function createDecorativeTokens(): DecorativeTokens {
     inlayParameter: character.skin.shadow,
     statusItemForeground: character.headphones.frame,
     markupInserted: character.negi.bright,
-    tattooMark: character.marks.tattoo,   // #E60033 — her "01", the mark that says she is the first
+    tattooMark: character.marks.tattoo,
 
     // Character reference colors — her accessories and skin entering the UI
     // These appear in moments of interaction: scrolling, navigating, highlighting
-    walletChain: character.skirt.accessory,  // #A1B3B6 — silver chain, code navigation
-    tieShadow: character.tie.shadow,         // #2D9E97 — necktie, pressed/grabbed states
-    negiStalk: character.negi.stalk,         // #9CCC65 — green onion stem, tree structure
-    skinBlush: character.skin.blush,         // #FFB8C8 — cheek blush, emphasis warmth
-    skinBase: character.skin.base,           // #FFE4D6 — peach skin, notification warmth
+    walletChain: character.skirt.accessory,
+    tieShadow: character.tie.shadow,
+    negiStalk: character.negi.stalk,
+    skinBlush: character.skin.blush,
+    skinBase: character.skin.base,
 
     // Concert stage warmth — Wonderlands x Showtime orange for interactive hover
-    stageWarmth: wonderlandsShowtime.unitColor,  // #FF9900 — stage lights warming as you approach
+    stageWarmth: wonderlandsShowtime.unitColor,
   };
 }

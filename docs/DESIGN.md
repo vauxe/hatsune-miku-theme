@@ -153,9 +153,9 @@ Each interval has a feeling in music, and the feeling matches the syntax role:
 
 ### The Canonical Teal
 
-The hex from Miku's official character design sits at JzCzhz hue **196°**, not 180°. The theme places the tonic at exactly 180° for equal 30° spacing. At Jz=0.192, Cz=0.060, hz=180°, the keyword computes to `#6DFCDC` — lighter and cooler than `#39C5BB`.
+The hex from Miku's official character design sits at JzCzhz hue **196°**, not 180°. The theme places the tonic at exactly 180° for equal 30° spacing. The keyword teal computes lighter and cooler than `#39C5BB`.
 
-This is intentional. `#39C5BB` belongs to KEI's illustration palette, optimized for character art on white backgrounds. `#6DFCDC` belongs to the perceptual system, optimized for APCA contrast on dark backgrounds. Both are unmistakably Miku. The canonical hex appears in accent colors, links, and character-derived UI elements. The 180° tonal center governs syntax, where perceptual uniformity takes precedence.
+This is intentional. `#39C5BB` belongs to KEI's illustration palette, optimized for character art on white backgrounds. The 180° teal belongs to the perceptual system, optimized for APCA contrast on dark backgrounds. Both are unmistakably Miku. The canonical hex appears in accent colors, links, and character-derived UI elements. The 180° tonal center governs syntax, where perceptual uniformity takes precedence.
 
 ### Warm Hue Gamut
 
@@ -172,7 +172,7 @@ Red (C#)     30°        ~27°        ~3°      minimal
 Gold (D#)    90°        ~93-97°     ~3-7°    minimal
 ```
 
-Rose (0°) is the most affected — error color `#FFC5FF` reads as pink-purple after clipping, not true rose. The musical metaphor operates on input coordinates; this section documents the gap between design intent and rendered output.
+Rose (0°) is the most affected — the error color reads as pink-purple after clipping, not true rose. The musical metaphor operates on input coordinates; this section documents the gap between design intent and rendered output.
 
 ---
 
@@ -232,64 +232,64 @@ An orchestra has twelve chromatic pitches and dozens of instruments. A violin an
 Values are *input* coordinates passed to `role()`. See Section 4 for post-clipping shifts on warm hues.
 
 ```
-Token              Note   Hue    Tier           Jz       Dyn   Cz      Hex
-═══════════════════════════════════════════════════════════════════════════════
+Token              Note   Hue    Tier           Jz       Dyn   Cz
+═══════════════════════════════════════════════════════════════════
 
 KEYWORDS — Her Voice
-  keyword          F#     180°   primary        0.192    mp    0.060   #6DFCDC
-  keywordControl   F#     180°   primary        0.192    mp    0.060   #6DFCDC
-  keywordAlt       F#     180°   secondary      0.185    mp    0.060   #66F3D3
-  storage          F      150°   primary        0.192    mp    0.060   #94FAB9
-  storageModifier  B      330°   primaryWarm    0.210    mp    0.060   #FFC3FF
+  keyword          F#     180°   primary        0.192    mp    0.060
+  keywordControl   F#     180°   primary        0.192    mp    0.060
+  keywordAlt       F#     180°   secondary      0.185    mp    0.060
+  storage          F      150°   primary        0.192    mp    0.060
+  storageModifier  B      330°   primaryWarm    0.210    mp    0.060
 
 CALLABLES — The Spotlight
-  function         D       60°   vibrantWarm+   0.219    mf    0.075   #FFE1AC
-  method           F      150°   primary        0.192    mp    0.060   #94FAB9
-  macro            A#     300°   muted+         0.200    p     0.045   #F4CDFF
+  function         D       60°   vibrantWarm+   0.219    mf    0.075
+  method           F      150°   primary        0.192    mp    0.060
+  macro            A#     300°   muted+         0.200    p     0.045
 
 TYPES — The Architecture
-  type             A      270°   primary+       0.200    mp    0.060   #D1D8FF
-  typeParameter    A      270°   muted          0.195    p     0.045   #CFD6FF
-  class            D#      90°   vibrant        0.188    mf    0.075   #EDD57E
-  struct           D#      90°   vibrant        0.188    mf    0.075   #EDD57E
-  interface        A#     300°   primaryWarm    0.210    mp    0.060   #FFD0FF
-  enum             G      210°   primary        0.192    mf    0.075   #34FAFF
-  enumMember       G      210°   muted          0.195    p     0.045   #97F2F7
+  type             A      270°   primary+       0.200    mp    0.060
+  typeParameter    A      270°   muted          0.195    p     0.045
+  class            D#      90°   vibrant        0.188    mf    0.075
+  struct           D#      90°   vibrant        0.188    mf    0.075
+  interface        A#     300°   primaryWarm    0.210    mp    0.060
+  enum             G      210°   primary        0.192    mf    0.075
+  enumMember       G      210°   muted          0.195    p     0.045
 
 VARIABLES — Flowing Data
-  variable         G      210°   secondary      0.185    mf    0.075   #27F1FC
-  parameter        C#      30°   primaryWarm    0.210    mp    0.060   #FFCACB
-  property         C#      30°   vibrantWarm+   0.220    mf    0.075   #FFCACE
-  constant         G#     240°   primary+       0.197    mp    0.060   #9FEAFF
+  variable         G      210°   secondary      0.185    mf    0.075
+  parameter        C#      30°   primaryWarm    0.210    mp    0.060
+  property         C#      30°   vibrantWarm+   0.220    mf    0.075
+  constant         G#     240°   primary+       0.197    mp    0.060
 
 LITERALS — Natural Truth
-  string           E      120°   vibrant        0.188    mf    0.075   #BAEC8B
-  stringTemplate   E      120°   primary        0.192    mp    0.060   #C4ED9F
-  number           G#     240°   muted          0.195    p     0.045   #AFE6FF
-  boolean          A      270°   muted          0.195    p     0.045   #CFD6FF
-  regex            D#      90°   primary        0.192    mp    0.060   #EDDB95
+  string           E      120°   vibrant        0.188    mf    0.075
+  stringTemplate   E      120°   primary        0.192    mp    0.060
+  number           G#     240°   muted          0.195    p     0.045
+  boolean          A      270°   muted          0.195    p     0.045
+  regex            D#      90°   primary        0.192    mp    0.060
 
 MARKUP
-  tag              C#      30°   vibrantWarm+   0.220    mf    0.075   #FFCACE
-  attribute        D       60°   primaryWarm    0.210    mp    0.060   #FFDCB2
-  link             —       —     (character)    —        —     —       #5DE4DB
+  tag              C#      30°   vibrantWarm+   0.220    mf    0.075
+  attribute        D       60°   primaryWarm    0.210    mp    0.060
+  link             —       —     (character)    —        —     —
 
 META — Background Voices
-  comment          F#     180°   muted−         0.185    ppp   0.015   #BDD9D1
-  commentDoc       F#     180°   muted−         0.185    p−    0.035   #9EE5D2
-  punctuation      F#     180°   tertiary       0.120    ppp   0.015   (context)
+  comment          F#     180°   muted−         0.185    ppp   0.015
+  commentDoc       F#     180°   muted−         0.185    p−    0.035
+  punctuation      F#     180°   tertiary       0.120    ppp   0.015
 
 OPERATORS — Supporting Harmony
-  operator         B      330°   primaryWarm    0.210    mp    0.060   #FFC3FF
+  operator         B      330°   primaryWarm    0.210    mp    0.060
 
 STATUS — Dramatic Signals
-  error            C        0°   vibrantWarm++  0.240    f     0.090   #FFC5FF*
-  warning          D       60°   vibrant(Jz)    0.188    mp    0.060   #FFC19A
-  success          —        —    (character)    —        —     —       #69F0AE
-  info             F#     180°   vibrant−       0.178    mf    0.075   #00F1CB
+  error            C        0°   vibrantWarm++  0.240    f     0.090
+  warning          D       60°   vibrant(Jz)    0.188    mp    0.060
+  success          —        —    (character)    —        —     —
+  info             F#     180°   vibrant−       0.178    mf    0.075
 ```
 
-\* Error input hue is 0° (rose) but shifts to ~318° after sRGB gamut clipping.
+Error input hue is 0° (rose) but shifts to ~318° after sRGB gamut clipping.
 
 The tonic (180°) is the most populated position — six tokens — because her voice carries the theme. No two share the same tier and dynamic: keywords are primary/mp, comments are muted−/ppp, doc comments are muted−/p−, punctuation is tertiary/ppp, info is vibrant−/mf, keywordAlt is secondary/mp.
 
@@ -297,7 +297,7 @@ Note on tier naming: "muted−" denotes muted Jz with a negative offset, landing
 
 ### Collisions
 
-Three pairs produce the same hex — method ↔ storage, operator ↔ storageModifier, property ↔ tag — distinguished only by syntactic context. Several other pairs differ on paper but produce nearly identical rendered colors due to gamut clipping absorbing both Jz and Cz differences. These are tolerable because the tokens rarely appear adjacent, but they represent a genuine limitation of 12 hues at 30+ tokens.
+Three pairs produce identical output — method ↔ storage, operator ↔ storageModifier, property ↔ tag — distinguished only by syntactic context. Several other pairs differ on paper but produce nearly identical rendered colors due to gamut clipping absorbing both Jz and Cz differences. These are tolerable because the tokens rarely appear adjacent, but they represent a genuine limitation of 12 hues at 30+ tokens.
 
 ---
 
@@ -312,16 +312,16 @@ Every background, border, accent, and shadow maps to her design — her skirt, h
 The editor canvas is anchored to **Miku's skirt** — the dark pleated garment she wears on every stage. One anchor point, uniform 0.003 Jz steps, preserving the skirt's native hue (249°) and chroma at every tier. Adjacent levels are ΔEz ~2–3 apart: felt, not seen.
 
 ```
-Step   UI Element         Hex      Her Outfit
+Step   UI Element         Her Outfit
 ═════════════════════════════════════════════════════════════════
- −2    Void               *        Deepest shadow beneath the hem
- −1    Activity bar       #12161A  Inner pleat, one fold darker
-  0    Editor background  #15191D  ★ THE SKIRT — the anchor ★
- +1    Title bar          #181C20  Fabric rising above the waist
- +2    Sidebar            #1C2024  Light catching the outer fold
- +3    Status bar         #1F2327  Brightest operational tier
+ −2    Void               Deepest shadow beneath the hem
+ −1    Activity bar       Inner pleat, one fold darker
+  0    Editor background  ★ THE SKIRT — the anchor ★
+ +1    Title bar          Fabric rising above the waist
+ +2    Sidebar            Light catching the outer fold
+ +3    Status bar         Brightest operational tier
 
-* Void uses skirt.Jz − 2×STEP with reduced chroma (×0.4).
+Void uses skirt.Jz − 2×STEP with reduced chroma (×0.4).
 ```
 
 Three text tiers sit atop this hierarchy:
@@ -340,22 +340,22 @@ Tertiary     Distant reverb           ~45   Felt, not read
 Her Design               UI Element              Why
 ═════════════════════════════════════════════════════════════════
 Hair base (#39C5BB)      Primary accent           She is the accent
-Hair highlight (#5DE4DB) Bright accent, links     Light catching twin tails
-Hair tip (#B2EBE7)       Soft accent, ghost       The lightest strand
-Hair shadow (#1A8A82)    Button background         Roots darkened for contrast
+Hair highlight           Bright accent, links     Light catching twin tails
+Hair tip                 Soft accent, ghost       The lightest strand
+Hair shadow              Button background         Roots darkened for contrast
 
 Headphone cushion        Cursor, focus borders    Magenta at the point of creation
 Headphone frame          Status item foreground   Structure around her voice
 
-Skin base (#FFE4D6)      Notification borders     Warm presence, a gentle alert
+Skin base                Notification borders     Warm presence, a gentle alert
 Skin shadow              Inlay parameter hints    Quiet warmth beside code
-Skin blush (#FFB8C8)     Strong word highlight    Her cheek coloring your emphasis
+Skin blush               Strong word highlight    Her cheek coloring your emphasis
 
-Tattoo "01" (#E60033)    Badges, breakpoints      Her mark — the first, the original
-Negi stalk (#9CCC65)     Tree indent guides       Her companion, guiding structure
-Tie shadow (#2D9E97)     Scrollbar active         Dark teal, grabbed and held
-Wallet chain (#A1B3B6)   De-emphasized text       Silver accessory, neutral calm
-Eye pupil (#0D1114)      Dark foreground          The deepest look
+Tattoo "01"              Badges, breakpoints      Her mark — the first, the original
+Negi stalk               Tree indent guides       Her companion, guiding structure
+Tie shadow               Scrollbar active         Dark teal, grabbed and held
+Wallet chain             De-emphasized text       Silver accessory, neutral calm
+Eye pupil                Dark foreground          The deepest look
 ```
 
 Every interaction touches her design. Scrolling grabs her tie. Searching highlights with her hair. Errors are marked by her tattoo. The cursor blinks in her headphone cushion. None of this is visible unless you know to look.
@@ -365,14 +365,14 @@ Every interaction touches her design. Scrolling grabs her tie. Searching highlig
 Three hue families at ≥74° separation — not the same teal at different volumes:
 
 ```
-State      Source                    Hex      Hz    Story
+State      Source                    Hz    Story
 ═════════════════════════════════════════════════════════════════
-default    transparent               —        —     The quiet stage
-hover      Wonderlands x Showtime    #FF9900  72°   Stage lights warming
-active     Canonical hair            #39C5BB  196°  Contact — her world
-focus      Headphone cushion         #E05096  358°  The spotlight finds you
-selected   Headphone cushion         #E05096  358°  Held gaze
-disabled   Desaturated               —        —     Tacet
+default    transparent               —     The quiet stage
+hover      Wonderlands x Showtime    72°   Stage lights warming
+active     Canonical hair (#39C5BB)  196°  Contact — her world
+focus      Headphone cushion         358°  The spotlight finds you
+selected   Headphone cushion         358°  Held gaze
+disabled   Desaturated               —     Tacet
 ```
 
 Five components adapt these families. Buttons follow a brightness crescendo: rest → hover → active maps to Jz 0.096 → 0.153 → 0.177. The tab you are working in is the song now playing.
@@ -386,9 +386,9 @@ Overlay                  Color              Opacity   Source
 ═════════════════════════════════════════════════════════════════
 Selection                Teal (#39C5BB)     25%       Her hair — chosen code
 Inactive selection       Teal               18%       Hair, fading
-Selection highlight      Bright (#5DE4DB)   15%       Hair highlight
+Selection highlight      Hair highlight     15%       Light on twin tails
 Word highlight           Teal               15%       Recognizing a pattern
-Word highlight strong    Blush (#FFB8C8)    12%       Her cheek — emphasis
+Word highlight strong    Skin blush         12%       Her cheek — emphasis
 Find match               Orange (warning)   22%       Stage light seeking
 Diff inserted            Darkened lime      80%       New growth
 Diff removed             Darkened rose      80%       Loss
@@ -413,7 +413,7 @@ Accent    FF (100%)  ff    Active tab indicator, brand
 
 ### The Community in the Details
 
-**Indent guides** trace her voicebank evolution. Each indentation level carries the hair color of a different software version — V2 (2007), Append (2010), V3 (2013), V4X (2016), NT (2020), and the present (#39C5BB). Six levels of nesting, six chapters of her life.
+**Indent guides** trace her voicebank evolution. Each indentation level carries the hair color of a different software version — V2 (2007), Append (2010), V3 (2013), V4X (2016), NT (2020), and the present (`#39C5BB`). Six levels of nesting, six chapters of her life.
 
 **SCM graph branches** use Project SEKAI unit colors — five visions of who she could be: Virtual Singer, LEO/NEED, MORE MORE JUMP!, VIVID BAD SQUAD, and Wonderlands x Showtime. Every branch of your code is a parallel world.
 
@@ -441,14 +441,14 @@ Two rules govern the progression:
 Six levels, alternating warm and cool. The tonic appears at level 4 — most code reaches deepest nesting at 3–4 levels. Miku's teal at the heart of the structure.
 
 ```
-Level   Note   Hue    Hex      Temperature
+Level   Note   Hue    Temperature
 ═════════════════════════════════════════════════════════════════
-  1     C#      30°   #FFB3B4  Warm — red opening
-  2     A      270°   #C5CCFF  Cool — blue contrast
-  3     D#      90°   #EAD893  Warm — gold, concert lights
-  4     F#     180°   #6BF9D9  Cool — ★ MIKU at the heart ★
-  5     G#     240°   #97E1FF  Cool — azure continuation
-  6     D       60°   #FFBE8D  Warm — orange close (mf chroma)
+  1     C#      30°   Warm — red opening
+  2     A      270°   Cool — blue contrast
+  3     D#      90°   Warm — gold, concert lights
+  4     F#     180°   Cool — ★ MIKU at the heart ★
+  5     G#     240°   Cool — azure continuation
+  6     D       60°   Warm — orange close (mf chroma)
 ```
 
 All brackets share accent Jz (≈0.190) and comfortable chroma (0.060), except B6 which uses mf (0.075) to separate from B1.
@@ -463,52 +463,51 @@ The terminal has 16 ANSI colors — eight normal at higher chroma (the singing v
 
 ```
 NORMAL (vivid, emphatic):
-Color      Note   Hue    Jz      Cz      Hex
-─────────  ─────  ─────  ──────  ──────  ───────
-black      G      210°   0.130   0.015   #7D9495
-red        C        0°   0.215   0.090   #FFA9F2  *
-green      E      120°   0.173   0.075   #A9D97B
-yellow     D       60°   0.215   0.075   #FFDCA7
-blue       G#     240°   0.192   0.060   #9AE4FF
-magenta    A      270°   0.185   0.075   #BCC2FF
-cyan       F#     180°   0.188   0.075   #1CFFD7
-white      C#      30°   0.195   0.045   #FFC3C2
+Color      Note   Hue    Jz      Cz
+─────────  ─────  ─────  ──────  ──────
+black      G      210°   0.130   0.015
+red        C        0°   0.215   0.090
+green      E      120°   0.173   0.075
+yellow     D       60°   0.215   0.075
+blue       G#     240°   0.192   0.060
+magenta    A      270°   0.185   0.075
+cyan       F#     180°   0.188   0.075
+white      C#      30°   0.195   0.045
 
 BRIGHT (comfortable, sustained):
-Color      Note   Hue    Jz      Cz      Hex
-─────────  ─────  ─────  ──────  ──────  ───────
-br.black   G      210°   0.170   0.020   #A5C7C9
-br.red     C        0°   0.210   0.060   #FFC1ED
-br.green   E      120°   0.192   0.060   #C4ED9F
-br.yellow  D       60°   0.210   0.060   #FFDCB2
-br.blue    G#     240°   0.192   0.060   #9AE4FF  **
-br.mag.    A#     300°   0.210   0.060   #FFD0FF
-br.cyan    F#     180°   0.185   0.060   #66F3D3
-br.white   G      210°   0.192   0.030   #AFE7EA
+Color      Note   Hue    Jz      Cz
+─────────  ─────  ─────  ──────  ──────
+br.black   G      210°   0.170   0.020
+br.red     C        0°   0.210   0.060
+br.green   E      120°   0.192   0.060
+br.yellow  D       60°   0.210   0.060
+br.blue    G#     240°   0.192   0.060
+br.mag.    A#     300°   0.210   0.060
+br.cyan    F#     180°   0.185   0.060
+br.white   G      210°   0.192   0.030
 ```
 
-\* Terminal red input hz=0° shifts to ~326° after sRGB clipping.
-\*\* blue and brightBlue produce the same hex (known issue).
+Terminal red input hz=0° shifts after sRGB clipping. Blue and brightBlue produce identical output (known limitation).
 
 Normal magenta uses blue (270°) instead of violet (300°) for CVD safety — the 90° gap from rose survives red-blind simulation. White is warm (30°) to contrast with brightWhite's cool (210°). Green is darkened (Jz 0.173) so the lightness gap from yellow (0.215) survives green-blind simulation.
 
 ### Git
 
 ```
-Status        Note  Hue    Jz      Cz      Hex
+Status        Note  Hue    Jz      Cz
 ═════════════════════════════════════════════════════════════════
-added         E     120°   0.178   0.090   #A9E36F
-modified      D      60°   0.188   0.060   #FFC19A
-deleted       C       0°   0.240   0.090   #FFC5FF  *
-untracked     G     210°   0.188   0.075   #2DF5FF
-renamed       A     270°   0.192   0.060   #C8CFFF
-conflicting   A     270°   0.185   0.075   #BCC2FF
-stageModified G     210°   0.188   0.075   #2DF5FF
-stageDeleted  A     270°   0.192   0.060   #C8CFFF
-submodule     G#    240°   0.192   0.060   #9AE4FF
+added         E     120°   0.178   0.090
+modified      D      60°   0.188   0.060
+deleted       C       0°   0.240   0.090
+untracked     G     210°   0.188   0.075
+renamed       A     270°   0.192   0.060
+conflicting   A     270°   0.185   0.075
+stageModified G     210°   0.188   0.075
+stageDeleted  A     270°   0.192   0.060
+submodule     G#    240°   0.192   0.060
 ```
 
-\* Deleted input hz=0° shifts after clipping. See Section 4.
+Deleted input hz=0° shifts after clipping. See Section 4.
 
 The critical triangle — added (lime), modified (orange), deleted (rose) — spans the hue wheel with wide separation. Under CVD simulation, the lightness fallback (Jz 0.178 / 0.188 / 0.240) keeps all three distinguishable even when hue collapses.
 
@@ -517,53 +516,53 @@ The critical triangle — added (lime), modified (orange), deleted (rose) — sp
 23 icons on the 12-tone grid, each aligned with its syntax counterpart's hue. Same-hue icons are distinguished by tier (Jz) and dynamic (Cz) — the same principle that lets the syntax map fit 30+ tokens into 12 positions.
 
 ```
-Icon               Note   Hue    Tier           Jz      Dyn   Cz      Hex
-═══════════════════════════════════════════════════════════════════════════════
+Icon               Note   Hue    Tier           Jz      Dyn   Cz
+═══════════════════════════════════════════════════════════════════
 
 C# RED (30°)
-  property         C#      30°   vibrantWarm    0.215   f     0.090   #FFB8BF
-  field            C#      30°   secondary−     0.155   mp    0.060   #E38B8C
+  property         C#      30°   vibrantWarm    0.215   f     0.090
+  field            C#      30°   secondary−     0.155   mp    0.060
 
 D ORANGE (60°)
-  function         D       60°   primaryWarm    0.210   f     0.090   #FFCF91
+  function         D       60°   primaryWarm    0.210   f     0.090
 
 D# GOLD (90°)
-  struct           D#      90°   vibrant        0.188   mf    0.075   #EDD57E
-  package          D#      90°   primaryWarm    0.210   mp    0.060   #FFF2A8
+  struct           D#      90°   vibrant        0.188   mf    0.075
+  package          D#      90°   primaryWarm    0.210   mp    0.060
 
 E LIME (120°)
-  string           E      120°   vibrant        0.188   mf    0.075   #BAEC8B
-  reference        E      120°   primaryWarm    0.210   mp    0.060   #DAFFB3
+  string           E      120°   vibrant        0.188   mf    0.075
+  reference        E      120°   primaryWarm    0.210   mp    0.060
 
 F GREEN (150°)
-  method           F      150°   primary        0.192   p     0.045   #A9F2C2
-  constructor      F      150°   vibrant        0.188   f     0.090   #54FFA4
+  method           F      150°   primary        0.192   p     0.045
+  constructor      F      150°   vibrant        0.188   f     0.090
 
 F# TEAL (180°) — ★ MIKU ★
-  folder           F#     180°   vibrant        0.188   f     0.090   #00FFD8
-  array            F#     180°   vibrant+       0.230   mp    0.060   #97FFFF
+  folder           F#     180°   vibrant        0.188   f     0.090
+  array            F#     180°   vibrant+       0.230   mp    0.060
 
 G CYAN (210°)
-  variable         G      210°   vibrant        0.188   f     0.090   #00FAFF
-  enumeratorMember G      210°   secondary      0.185   p     0.045   #8CE5EA
-  enumerator       G      210°   primaryWarm    0.210   mp    0.060   #85FFFF
+  variable         G      210°   vibrant        0.188   f     0.090
+  enumeratorMember G      210°   secondary      0.185   p     0.045
+  enumerator       G      210°   primaryWarm    0.210   mp    0.060
 
 G# AZURE (240°)
-  constant         G#     240°   secondary−     0.165   mp    0.060   #7CC1ED
-  number           G#     240°   vibrant        0.188   f     0.090   #67E1FF
-  module           G#     240°   primaryWarm    0.210   mp    0.060   #AEFBFF
+  constant         G#     240°   secondary−     0.165   mp    0.060
+  number           G#     240°   vibrant        0.188   f     0.090
+  module           G#     240°   primaryWarm    0.210   mp    0.060
 
 A BLUE (270°)
-  typeParameter    A      270°   primary        0.192   mp    0.060   #C8CFFF
-  boolean          A      270°   primary        0.192   p     0.045   #CCD2FF
+  typeParameter    A      270°   primary        0.192   mp    0.060
+  boolean          A      270°   primary        0.192   p     0.045
 
 A# VIOLET (300°)
-  interface        A#     300°   vibrantWarm    0.215   mp    0.060   #FFD6FF
-  namespace        A#     300°   primary        0.192   p     0.045   #E9C4FF
+  interface        A#     300°   vibrantWarm    0.215   mp    0.060
+  namespace        A#     300°   primary        0.192   p     0.045
 
 B MAGENTA (330°)
-  operator         B      330°   vibrantWarm    0.215   mp    0.060   #FFC9FF
-  snippet          B      330°   primary        0.192   p     0.045   #FFBAEF
+  operator         B      330°   vibrantWarm    0.215   mp    0.060
+  snippet          B      330°   primary        0.192   p     0.045
 ```
 
 `class` reuses syntax gold (D# 90°) via `symbolIcon.classForeground`. Three-icon groups (cyan, azure) use a three-tier spread for ΔEz ≥ 12 between all pairs.
@@ -573,11 +572,11 @@ B MAGENTA (330°)
 Debug expression colors use the status vocabulary: orange for change, rose for error, teal for observation, cyan for fade. Inline tokens during stepping:
 
 ```
-Token          Note   Tier          Dyn   hz     Hex
+Token          Note   Tier          Dyn   hz
 ═════════════════════════════════════════════════════════════════
-debug.name     B      primaryWarm   mp    330°   #FFC3FF
-debug.value    D#     vibrant       mf     90°   #EDD57E
-debug.string   D#     primary       mp     90°   #EDDB95
+debug.name     B      primaryWarm   mp    330°
+debug.value    D#     vibrant       mf     90°
+debug.string   D#     primary       mp     90°
 ```
 
 The warm magenta/gold split distinguishes debug annotations from the teal/cyan of surrounding code.
@@ -703,10 +702,10 @@ In music, modulation shifts the tonal center while preserving relationships betw
 ### The Two Variants
 
 ```
-Variant          Background   Tonic    Character
+Variant          Tonic    Character
 ═════════════════════════════════════════════════════════════════
-Dark (default)   #15191D      180°     Cool, focused — the concert hall at night
-Light            #FAFCFD      180°     Same tonic, inverted — daytime Miku
+Dark (default)   180°     Cool, focused — the concert hall at night
+Light            180°     Same tonic, inverted — daytime Miku
 ```
 
 Light theme inverts lightness while holding hue and chroma steady:
