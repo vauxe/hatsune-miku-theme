@@ -319,7 +319,7 @@ Step   UI Element         Her Outfit
   0    Editor background  ★ THE SKIRT — the anchor ★
  +1    Title bar          Fabric rising above the waist
  +2    Sidebar            Light catching the outer fold
- +3    Status bar         Brightest operational tier
+ +3    Status bar         Outermost pleat, stage-lit
 
 Void uses skirt.Jz − 2×STEP with reduced chroma (×0.4).
 ```
@@ -327,59 +327,92 @@ Void uses skirt.Jz − 2×STEP with reduced chroma (×0.4).
 Three text tiers sit atop this hierarchy:
 
 ```
-Tier         Character               Lc on base
+Tier         Her Source               Lc on base
 ═════════════════════════════════════════════════════════════════
-Primary      Soft ice-white           ~82   Readable for hours
-Secondary    Silver accompaniment     ~70   Quiet but present
-Tertiary     Distant reverb           ~45   Felt, not read
+Primary      Eye highlight            ~82   The brightest point on her face
+Secondary    Headphone frame          ~70   Silver structure around her voice
+Tertiary     Shadow beneath the hem   ~45   There if you look
 ```
 
+Syntax is her voice. UI text is not — it is the venue. The setlist, the stage directions, the house lights. Primary text carries the warmth of her eye highlights. Secondary takes the silver of her headphone frame. Tertiary fades to the shadow beneath her hem.
+
 ### Her Body Becomes Your Editor
+
+The cursor — where thought becomes code — takes the headphone cushion, where her voice enters her ear. The accent takes her hair. Warmth takes her skin. The periphery takes her accessories. The more focused the element, the more intimate the source.
 
 ```
 Her Design               UI Element              Why
 ═════════════════════════════════════════════════════════════════
+Headphone cushion        Cursor, focus borders    Where her voice enters her ear
+
 Hair base (#39C5BB)      Primary accent           She is the accent
 Hair highlight           Bright accent, links     Light catching twin tails
 Hair tip                 Soft accent, ghost       The lightest strand
-Hair shadow              Button background         Roots darkened for contrast
+Hair shadow              Button background        Roots in shadow
 
-Headphone cushion        Cursor, focus borders    Magenta at the point of creation
-Headphone frame          Status item foreground   Structure around her voice
-
-Skin base                Notification borders     Warm presence, a gentle alert
+Skin base                Notification borders     A gentle alert
 Skin shadow              Inlay parameter hints    Quiet warmth beside code
 Skin blush               Strong word highlight    Her cheek coloring your emphasis
 
-Tattoo "01"              Badges, breakpoints      Her mark — the first, the original
-Negi stalk               Tree indent guides       Her companion, guiding structure
+SEKAI hair (#33CCBB)     Activity bar badges      She is telling you something
+Tattoo "01"              Breakpoints              You marked this spot
+
+Headphone frame          Status item foreground   Structure around her voice
+Arm interface            Command palette accent   She responds when you call
 Tie shadow               Scrollbar active         Dark teal, grabbed and held
-Wallet chain             De-emphasized text       Silver accessory, neutral calm
-Eye pupil                Dark foreground          The deepest look
+Wallet chain             Breadcrumb text          Silver links tracing the path
 ```
 
-Every interaction touches her design. Scrolling grabs her tie. Searching highlights with her hair. Errors are marked by her tattoo. The cursor blinks in her headphone cushion. None of this is visible unless you know to look.
+Every interaction touches her design. Scrolling grabs her tie. Searching highlights with her hair. Breakpoints carry her tattoo. The cursor blinks in her headphone cushion. You invoke the command palette and her arm interface answers.
+
+Not every element maps to her body. The minimap is the concert hall seen from the balcony. The empty editor is the stage before the first note. The air between panels is the darkness between spotlights. These are not her — they are the world she fills by being in it. Forcing a metaphor where none lives would cheapen the metaphors that do.
 
 ### Her Presence — Interactive States
 
-Three hue families at ≥74° separation — not the same teal at different volumes:
+Sections 3 through 6 design the score — every color at rest. Interactive states are the **performance**. The performance serves the score. It does not add notes the composer did not write.
+
+Two voices. Not chosen — derived.
+
+Four states — hover, active, selected, disabled — are **dynamics**: how much is happening here. A gradient from silence to forte. One voice: the **pedal tone**. The tonic held in the bass while upper voices move freely. Teal (F#, 180°) at varying intensity. Hover does not introduce a foreign hue. It brightens her world in her own color — the way ten thousand glow sticks brighten a concert hall without changing the stage.
 
 ```
-State      Source                    Hz    Story
+State      Dynamic   The pedal tone
 ═════════════════════════════════════════════════════════════════
-default    transparent               —     The quiet stage
-hover      Wonderlands x Showtime    72°   Stage lights warming
-active     Canonical hair (#39C5BB)  196°  Contact — her world
-focus      Headphone cushion         358°  The spotlight finds you
-selected   Headphone cushion         358°  Held gaze
-disabled   Desaturated               —     Tacet
+default    rest      Silent — the score plays unaccompanied
+hover      pp        A breath — barely there
+active     f         The downbeat — full voice, brief
+selected   mp        Sustained — held beneath the melody
+disabled   tacet     Muted — the string is damped
 ```
 
-Five components adapt these families. Buttons follow a brightness crescendo: rest → hover → active maps to Jz 0.096 → 0.153 → 0.177. The tab you are working in is the song now playing.
+One state — focus — is **identity**: which element receives keyboard input. Not intensity but category. The cursor already answers this: magenta, headphone cushion, 330° (B), the perfect fourth. Focus is the cursor at a larger scale. The **solo voice** enters on its own axis — a border, not a fill. Both voices can sound together. Bass and treble in a two-part invention.
+
+```
+Voice       Mechanism      Source                Hz     Role
+═════════════════════════════════════════════════════════════════
+Pedal tone  Teal fill      Tonic (#39C5BB)       180°   Engagement dynamics
+Solo voice  Magenta ring   Headphone cushion     330°   Input identity
+```
+
+Hue separation: 150°. No CVD simulation collapses this interval.
+
+**Branded components** (primary buttons) are already teal. The pedal tone raises their own lightness — a crescendo: Jz 0.096 → 0.118 → 0.177. **Neutral components** (lists, tabs, inputs) start transparent. The pedal tone enters as a teal overlay.
+
+```
+Component     hover         active        selected       focus
+═════════════════════════════════════════════════════════════════
+List          teal pp       teal mf       teal mp        magenta ring
+Tab           teal pp       —             teal accent    magenta ring
+Button        Jz + 0.02    Jz + 0.04     —              magenta ring
+Button 2nd    teal pp       teal mf       teal mp        magenta ring
+Input         teal pp       Jz shift      —              magenta border
+```
+
+The teal is inherited from the tonic. The magenta is inherited from the cursor. The number two is forced by the independence of dynamics and identity. No free parameters.
 
 ### Overlays
 
-Selections, search matches, diffs, and hovers stack translucent layers on the canvas. Each uses a distinct color family:
+Selections, search matches, and diffs stack translucent layers on the canvas — composed colors, part of the score. Each uses a distinct color family:
 
 ```
 Overlay                  Color              Opacity   Source
@@ -389,7 +422,7 @@ Inactive selection       Teal               18%       Hair, fading
 Selection highlight      Hair highlight     15%       Light on twin tails
 Word highlight           Teal               15%       Recognizing a pattern
 Word highlight strong    Skin blush         12%       Her cheek — emphasis
-Find match               Orange (warning)   22%       Stage light seeking
+Find match               Orange             22%       Cutting through teal to find you
 Diff inserted            Darkened lime      80%       New growth
 Diff removed             Darkened rose      80%       Loss
 ```
@@ -398,7 +431,7 @@ Every overlay is tuned so syntax colors maintain Lc ≥75 through two stacked la
 
 ### Borders
 
-Borders follow an opacity crescendo from silence to full voice:
+Borders are accent teal at varying opacity — a single color, an opacity crescendo from silence to full voice:
 
 ```
 Level     Opacity    Dyn   Usage
@@ -410,6 +443,8 @@ Focus     40 (25%)   mf    Active focus rings
 Strong    60 (38%)   f     Selected tabs, important divisions
 Accent    FF (100%)  ff    Active tab indicator, brand
 ```
+
+Focus rings use the solo voice — magenta at the same dynamic, a different timbre.
 
 ### The Community in the Details
 
