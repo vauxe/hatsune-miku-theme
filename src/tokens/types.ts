@@ -292,6 +292,8 @@ export interface DecorativeTokens {
   markupInserted: string;
   /** Her "01" tattoo mark — identity red (character marks.tattoo) */
   tattooMark: string;
+  /** SEKAI Virtual Singer hair — her game incarnation's teal (virtualSinger.hair.base) */
+  sekaiHair: string;
   /** Wallet chain silver — navigation accessory (skirt.accessory) */
   walletChain: string;
   /** Tie shadow — darker teal for pressed/active states (tie.shadow) */

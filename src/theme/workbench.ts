@@ -379,8 +379,8 @@ export const workbenchColors = {
   'activityBar.activeBackground': withOpacity(accent.primary, '12'),
   'activityBar.activeFocusBorder': accent.bright,
   'activityBar.dropBorder': accent.primary,
-  'activityBarBadge.background': t.decorative.tattooMark,  // #E60033 — her "01" tattoo mark
-  'activityBarBadge.foreground': t.ui.pureWhite.hex,
+  'activityBarBadge.background': t.decorative.sekaiHair,  // #33CCBB — SEKAI Virtual Singer hair
+  'activityBarBadge.foreground': t.decorative.darkForeground,
   'activityBarTop.foreground': accent.bright,
   'activityBarTop.activeBorder': accent.magenta,
   'activityBarTop.inactiveForeground': text.tertiary,
@@ -587,8 +587,8 @@ export const workbenchColors = {
   'panelTitle.activeForeground': accent.bright,
   'panelTitle.inactiveForeground': text.tertiary,
   'panelTitle.border': withOpacity(accent.primary, '15'),
-  'panelTitleBadge.background': darken(t.ui.accentPrimary, 0.06),
-  'panelTitleBadge.foreground': t.ui.pureWhite.hex,
+  'panelTitleBadge.background': t.decorative.sekaiHair,  // #33CCBB — SEKAI Virtual Singer hair
+  'panelTitleBadge.foreground': t.decorative.darkForeground,
   'panelInput.border': withOpacity(accent.primary, '40'),
   'panelSection.border': withOpacity(accent.primary, '20'),
   'panelSection.dropBackground': withOpacity(accent.primary, '15'),
@@ -980,8 +980,8 @@ export const workbenchColors = {
   'extensionButton.foreground': text.primary,
   'extensionButton.hoverBackground': withOpacity(accent.primary, '40'),
   'extensionButton.separator': withOpacity(text.primary, '30'),
-  'extensionBadge.remoteBackground': t.decorative.tattooMark,  // #E60033 — her "01" tattoo mark
-  'extensionBadge.remoteForeground': t.ui.pureWhite.hex,
+  'extensionBadge.remoteBackground': t.decorative.sekaiHair,  // #33CCBB — SEKAI Virtual Singer hair
+  'extensionBadge.remoteForeground': t.decorative.darkForeground,
   'extensionIcon.starForeground': semantic.warning,
   'extensionIcon.verifiedForeground': semantic.success,
   // Lavender (Digital Stars) reads as "experimental" and separates from sponsor magenta
@@ -1055,8 +1055,8 @@ export const workbenchColors = {
   // ==========================================================================
   // BADGE
   // ==========================================================================
-  'badge.foreground': t.ui.pureWhite.hex,
-  'badge.background': t.decorative.tattooMark,  // #E60033 — her "01" tattoo mark
+  'badge.foreground': t.decorative.darkForeground,
+  'badge.background': t.decorative.sekaiHair,  // #33CCBB — SEKAI Virtual Singer hair
 
   // ==========================================================================
   // PROGRESS BAR
@@ -1078,8 +1078,8 @@ export const workbenchColors = {
   // ==========================================================================
   // PROFILE BADGE
   // ==========================================================================
-  'profileBadge.background': darken(t.ui.accentPrimary, 0.06),
-  'profileBadge.foreground': t.ui.pureWhite.hex,
+  'profileBadge.background': t.decorative.sekaiHair,  // #33CCBB — SEKAI Virtual Singer hair
+  'profileBadge.foreground': t.decorative.darkForeground,
   'profiles.sashBorder': withOpacity(accent.primary, '30'),
 
   // ==========================================================================

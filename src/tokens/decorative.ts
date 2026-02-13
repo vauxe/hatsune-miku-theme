@@ -190,6 +190,7 @@ export function createDecorativeTokens(): DecorativeTokens {
     statusItemForeground: character.headphones.frame,
     markupInserted: character.negi.bright,
     tattooMark: character.marks.tattoo,
+    sekaiHair: virtualSinger.hair.base,
 
     // Character reference colors — her accessories and skin entering the UI
     // These appear in moments of interaction: scrolling, navigating, highlighting
