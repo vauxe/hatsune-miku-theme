@@ -4,25 +4,30 @@
  * Different Miku voicebank software versions with distinct visual designs
  */
 
+// NOTE:
+// Crypton does not publish full per-element hex specs for these voicebanks.
+// Values below are sampled from official product image packs (ec.crypton.co.jp /
+// sonicwire.com), not user-submitted palette sites.
+
 // =============================================================================
 // MIKU V2 (2007) - The Original
 // Designer: KEI
 // =============================================================================
 
 export const mikuV2 = {
-  // Hair - A slightly softer, more turquoise green than V3
+  // Sampled from official img_hatsune_miku_v2_01/02.png
   hair: {
-    base: '#86CECB',       // Official V2 Turquoise (Kei), close to Piapro's #33BBAD
-    shadow: '#39A09D',
-    highlight: '#A2E2DF',
+    base: '#94D2D2',
+    shadow: '#067C82',
+    highlight: '#9ED6E2',
   },
   eyes: {
-    iris: '#86CECB',
+    iris: '#067C82',
   },
   outfit: {
-    top: '#93A4A9',        // Cooler grey
-    skirt: '#15191D',
-    trim: '#86CECB',
+    top: '#BEC8D0',
+    skirt: '#282E30',
+    trim: '#009EBC',
   },
 } as const;
 
@@ -31,29 +36,29 @@ export const mikuV2 = {
 // =============================================================================
 
 export const mikuAppend = {
-  // Hair - lighter turquoise than standard, very sleek
+  // Sampled from official img_hatsune_miku_append_01/02.png
   hair: {
-    base: '#00B2A9',       // Vivid Turquoise (Corrected from green)
-    shadow: '#008C84',     // Deeper turquoise
-    highlight: '#65E3A3',  // Retaining some green tint in highlights as seen in art
+    base: '#4CB896',
+    shadow: '#0E664C',
+    highlight: '#86CCC4',
   },
 
   // Eyes
   eyes: {
-    iris: '#00B2A9',
+    iris: '#4CB896',
   },
 
-  // Bodysuit - black with metallic accents
+  // Bodysuit - dark with metallic accents
   bodysuit: {
-    base: '#1A1A1A',
-    metallic: '#A1B3B6',   // Silver panels
-    circuit: '#2BBF7A',    // Glowing circuit lines matches hair
+    base: '#0C0E0E',
+    metallic: '#9A9A9A',
+    circuit: '#68C2B8',
   },
 
   // Accessories
   accessories: {
-    headphones: '#2D2D2D',
-    glow: '#89F6D3',       // Cyan-ish glow accents
+    headphones: '#1A1A1A',
+    glow: '#70C4BA',
   },
 
   marks: {
@@ -67,23 +72,23 @@ export const mikuAppend = {
 // =============================================================================
 
 export const mikuV3 = {
-  // Hair - standard teal, refined proportions
+  // Sampled from official img_hatsune_miku_v3_01/02.png and settei sheet
   hair: {
-    base: '#39C5BB',
-    shadow: '#1A8A82',
-    highlight: '#5DE4DB',
+    base: '#58B8B8',
+    shadow: '#005480',
+    highlight: '#98D2C6',
   },
 
   // Eyes
   eyes: {
-    iris: '#39C5BB',
+    iris: '#007692',
   },
 
-  // Outfit - classic style, polished
+  // Outfit - classic style
   outfit: {
-    top: '#37474F',        // Grey
-    skirt: '#15191D',      // Black
-    trim: '#39C5BB',       // Teal trim
+    top: '#BEC8D1',
+    skirt: '#2A2E36',
+    trim: '#58B8B8',
   },
 
   accessories: {
@@ -92,7 +97,7 @@ export const mikuV3 = {
       base: '#1A1F24',
       outline: '#E05096',
     },
-    tie: '#39C5BB',
+    tie: '#58B8B8',
   },
 
   marks: {
@@ -106,21 +111,20 @@ export const mikuV3 = {
 // =============================================================================
 
 export const mikuV3English = {
-  // Hair - slightly more blue/cyan than standard V3
+  // No separate official color spec is published; align with official V3 bundle art.
   hair: {
-    base: '#00C2B2',       // Vibrant Cyan-Turquoise
-    shadow: '#008F84',
-    highlight: '#A2EBE7',
+    base: '#58B8B8',
+    shadow: '#005480',
+    highlight: '#98D2C6',
   },
 
   eyes: {
-    iris: '#00C2B2',
+    iris: '#007692',
   },
 
   outfit: {
-    // Zain's design often features a starker white/black contrast
-    top: '#FFFFFF',        // White shirt emphasis
-    trim: '#00C2B2',
+    top: '#BEC8D1',
+    trim: '#58B8B8',
   },
 } as const;
 
@@ -129,18 +133,18 @@ export const mikuV3English = {
 // =============================================================================
 
 export const mikuV4X = {
-  // Base Design (Original/Solid)
+  // Sampled from official img_hatsune_miku_v4x_01/02/03.png and settei sheet
   hair: {
-    base: '#39C5BB',
-    shadow: '#1A8A82',
-    highlight: '#5DE4DB',
+    base: '#2EA2B4',
+    shadow: '#003E5E',
+    highlight: '#84CCC8',
   },
   eyes: {
-    iris: '#39C5BB',
+    iris: '#2EA2B4',
   },
   outfit: {
-    top: '#37474F',
-    trim: '#39C5BB',
+    top: '#F2F4F6',
+    trim: '#00B2C2',
   },
 } as const;
 
@@ -150,18 +154,19 @@ export const mikuV4X = {
 // =============================================================================
 
 export const mikuV4Chinese = {
+  // Sampled from official img_hatsune_miku_v4c_01/02.png
   hair: {
-    base: '#39C5BB',
+    base: '#56B2C2',
   },
 
   outfit: {
-    dress: '#DE2910',      // China red
-    trim: '#FFD700',       // Gold trim
-    accent: '#39C5BB',
+    dress: '#FEFAF2',
+    trim: '#6CB6CC',
+    accent: '#2A2E2E',
   },
 
   accessories: {
-    hairOrnament: '#FFD700',
+    hairOrnament: '#E42084',
   },
 
   marks: {
@@ -175,32 +180,32 @@ export const mikuV4Chinese = {
 // =============================================================================
 
 export const mikuNT = {
-  // Hair - Cleaner, softer palette (New Type)
+  // Sampled from official img_hatsune_miku_nt_01/02.png and settei sheet
   hair: {
-    base: '#89CDC6',       // Official NT Soft Turquoise
-    highlight: '#B4EBE6',
-    shadow: '#5C5A60',     // Desaturated shadow
+    base: '#88CCC6',
+    highlight: '#92D0C6',
+    shadow: '#426670',
   },
 
   // Eyes
   eyes: {
-    iris: '#89CDC6',
+    iris: '#44869C',
   },
 
-  // Outfit - white with organic frills
+  // Outfit - white with soft frills
   outfit: {
-    dress: '#FEF5F7',      // Very pale pink/white
-    frills: '#FFFFFF',
-    accent: '#338296',     // Deep teal accent
+    dress: '#FEF0E6',
+    frills: '#FCF4F6',
+    accent: '#50A2AC',
   },
 
   // Accessories - pin microphone instead of tie
   accessories: {
-    headphones: '#1A1F24',
-    microphone: '#338296',
+    headphones: '#2E2E32',
+    microphone: '#50A2AC',
     hairTies: {
-      base: '#FEF5F7',    // White/Silver
-      outline: '#E43D82', // Vivid Magenta accent
+      base: '#FCF4F6',
+      outline: '#E63884',
     },
   },
 

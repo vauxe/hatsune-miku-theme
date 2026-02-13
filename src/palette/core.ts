@@ -1,39 +1,37 @@
 /**
  * Hatsune Miku — Core Character Design
  *
- * #39C5BB. The hex value that started everything.
- *
- * Based on V3/V4X "Standard" designs by iXima. Every color here is
- * traced from her canonical illustration: the teal twin tails, the
- * matching eyes, the dark outfit with teal trim, the magenta headphones
- * that became the cursor color.
- *
- * She is Character Voice 01. This is her palette.
+ * Canonical, non-versioned identity palette.
+ * - This captures the baseline "Miku" look used across media.
+ * - It must stay independent from voicebank releases.
+ * - Voicebank-specific colors live in `voicebanks.ts` and are the
+ *   source of truth for release-era variation.
  */
 
 export const character = {
-  // Hair - signature twin tails
+  // Identity anchors
+  // These are stable signature colors (not tied to a specific voicebank release).
   hair: {
     base: '#39C5BB',       // Primary hair color (canonical teal)
-    shadow: '#1A8A82',     // Darker areas near roots
-    highlight: '#5DE4DB',  // Light shine areas
-    bright: '#7FEDE5',     // Brightest highlights
-    tip: '#B2EBE7',        // Lightest tips in some art
+    shadow: '#067C82',     // Root/shaded teal
+    highlight: '#84CCC8',  // Main shine
+    bright: '#98D2C6',     // Bright sheen
+    tip: '#C0E2D8',        // Pale tip glow
   },
 
-  // Eyes - matching teal
+  // Eyes
   eyes: {
-    iris: '#39C5BB',
-    highlight: '#5DE4DB',
+    iris: '#2EA2B4',
+    highlight: '#84CCC8',
     pupil: '#0D1114',
   },
 
   // Skin
   skin: {
-    base: '#FFE4D6',
-    shadow: '#E8C8BC',
-    blush: '#FFB8C8',
-    highlight: '#FFF5F0',  // Skin highlight
+    base: '#FCE6DC',
+    shadow: '#E2C2B8',
+    blush: '#E8B4B6',
+    highlight: '#FEF0E8',
     nails: '#39C5BB',      // Teal nail polish
   },
 
@@ -45,72 +43,64 @@ export const character = {
   // Headphones - signature accessory
   headphones: {
     frame: '#1A1F24',         // Dark grey frame
-    cushion: '#E05096',       // Magenta-pink cushion
+    cushion: '#E62084',       // Magenta cushion accent
     display: '#39C5BB',       // Teal "01" display
   },
 
-  // Hair ties - cube-shaped (Black with magenta border)
+  // Hair ties - cube-shaped
   hairTies: {
-    base: '#111417',          // Black/Dark Grey body
-    outline: '#E05096',       // Magenta pink border
+    base: '#111417',
+    outline: '#E62084',
   },
 
-  // Top - grey sleeveless with teal trim
+  // Costume neutrals (canonical silhouette)
   top: {
-    main: '#37474F',
-    shadow: '#263238',
+    blouse: '#FCF8F0',        // Off-white shirt
+    main: '#BEC8D1',          // Silver vest
+    shadow: '#AEB8C2',        // Fold shadow tone
     trim: '#39C5BB',
   },
 
-  // Arm warmers - black with digital pattern
+  // Arm warmers - dark fabric with synth-like pattern
   armWarmers: {
     base: '#111417',
-    pattern: '#39C5BB',
-    trim: '#39C5BB',       // Teal cuff trim
+    pattern: '#86CECB',
+    trim: '#39C5BB',
   },
 
-  // Skirt - black pleated with teal trim
+  // Skirt - dark pleated with luminous bar details
   skirt: {
-    base: '#15191D',
+    base: '#1A1F24',
+    bars: '#86CECB',
     trim: '#39C5BB',
-    accessory: '#A1B3B6',  // Wallet chain (Silver)
+    accessory: '#A1B3B6',
   },
 
   // Boots - thigh-high black
   boots: {
-    base: '#111417',
-    hardware: '#263238',   // Boot hardware
+    base: '#14181D',
+    hardware: '#2A2E36',
     accent: '#39C5BB',
-    soles: '#39C5BB',      // Teal soles
+    soles: '#39C5BB',
   },
 
-  // Tie - teal necktie
+  // Tie
   tie: {
     base: '#39C5BB',
-    shadow: '#2D9E97',
+    shadow: '#1A8A82',
   },
 
-  // Arm display - digital readout
+  // Arm display
   armDisplay: {
     screen: '#39C5BB',
-    data: '#5DE4DB',       // Data display color
-    frame: '#37474F',
+    data: '#84CCC8',
+    frame: '#1A1F24',
   },
 
+  // Meme accessory (kept for decorative token usage)
   negi: {
-    stalk: '#9CCC65',
-    bright: '#69F0AE',
-    white: '#E8F5E9',
+    stalk: '#8FBF68',
+    bright: '#79E2A8',
+    white: '#EAF6E8',
   },
-} as const;
-
-/**
- * Official Piapro Color Specification
- * Common brand color associated with Piapro Studio interface
- */
-export const piapro = {
-  hair: {
-    base: '#33BBAD',       // Official Piapro Turquoise (Blue-Green)
-  },
-  // Re-export other core values if needed, or consumers can merge
 } as const;
