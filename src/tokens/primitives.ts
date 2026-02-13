@@ -62,48 +62,48 @@ export const hue = {
   // THE 12 CHROMATIC TONES (exactly 30° apart)
   // ═══════════════════════════════════════════════════════════════════════════
 
-  // C  - Rose (0°) - The Tritone — maximum dissonance from Miku
-  rose: 0,             // Errors, her headphone cushion at the farthest point
+  // F# - Teal (180°) - Unison — she sings
+  mikuTeal: 180,       // Keywords, comments, info
 
-  // C# - Red (30°) - The Fifth — warmth flowing in
-  red: 30,             // Parameters, tags, her "01" tattoo mark
+  // G  - Cyan (210°) - Minor 2nd — a whisper from home
+  cyan: 210,           // Variables, enums
 
-  // D  - Orange (60°) - Warm Stage Glow — where the action begins
-  orange: 60,          // Functions, the spotlight hitting the stage
-
-  // D# - Gold (90°) - Concert Lights — stage lights before the hologram
-  gold: 90,            // Classes, structure emerging
-
-  // E  - Lime (120°) - Growth — new, bright, emerging
-  lime: 120,           // Strings, literal truth
-
-  // F  - Green (150°) - The Negi — humble, fundamental, iconic
-  green: 150,          // Methods, storage, Ievan Polkka
-
-  // F# - Teal (180°) - ★ MIKU ★ — her voice, the tonic, #39C5BB
-  mikuTeal: 180,       // Keywords, the heart of code
-
-  // G  - Cyan (210°) - Her Voice, Shifting — the same, never the same
-  cyan: 210,           // Variables, data in motion
-
-  // G# - Azure (240°) - Open Sky — light and clear
+  // G# - Azure (240°) - Major 2nd — the open ground
   azure: 240,          // Numbers, constants
 
-  // A  - Blue (270°) - The Deep — Deep Sea Girl, constancy
-  blue: 270,           // Types, depth and architecture
+  // A  - Blue (270°) - Minor 3rd — the shape beneath
+  blue: 270,           // Types, booleans
 
-  // A# - Violet (300°) - Duality — Nightcord's heterochromia
-  violet: 300,         // Interfaces, decorators
+  // A# - Violet (300°) - Major 3rd — a promise
+  violet: 300,         // Interfaces, decorators, macros
 
-  // B  - Magenta (330°) - Meta-Magic — code that transforms code
-  magenta: 330,        // Operators, supporting harmony
+  // B  - Magenta (330°) - Perfect 4th — the heartbeat
+  magenta: 330,        // Operators, storage modifiers
+
+  // C  - Rose (0°) - Tritone — she stumbles
+  rose: 0,             // Errors, deleted
+
+  // C# - Red (30°) - Perfect 5th — what you give her
+  red: 30,             // Parameters, properties, tags
+
+  // D  - Orange (60°) - Minor 6th — she reaches
+  orange: 60,          // Functions, attributes, warnings
+
+  // D# - Gold (90°) - Major 6th — the score, written with love
+  gold: 90,            // Classes, structs, regex
+
+  // E  - Lime (120°) - Minor 7th — someone's truth
+  lime: 120,           // Strings, success
+
+  // F  - Green (150°) - Major 7th — one breath from home
+  green: 150,          // Methods, storage
 
   // ═══════════════════════════════════════════════════════════════════════════
   // SEMANTIC ALIASES
   // ═══════════════════════════════════════════════════════════════════════════
 
   // Core brand
-  mikuPink: 330,       // = B (Magenta) - Headphone accent position
+  mikuPink: 330,       // = B (Magenta) - Perfect 4th — headphone accent
 
   // Syntax aliases (map to nearest chromatic tone)
   peach: 30,           // = C# (Red)

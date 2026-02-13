@@ -42,48 +42,48 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
   // 23 icons on the 12-tone grid, aligned with syntax counterpart hues.
   // Same-hue pairs distinguished by tier (Jz) and dynamic (Cz), ΔEz ≥ 12.
   return {
-    // ═══ C# Red (30°) — warmth and identity ═══
+    // ═══ C# Red (30°) — Perfect 5th ═══
     property: role('Symbol property — red, vivid warmth', L.vibrantWarm, C.vivid, H.red),
     field: role('Symbol field — red, dark', L.secondary - 0.030, C.comfortable, H.red),
 
-    // ═══ D Orange (60°) — the spotlight ═══
+    // ═══ D Orange (60°) — Minor 6th ═══
     function: role('Symbol function — orange spotlight', L.primaryWarm, C.vivid, H.orange),
 
-    // ═══ D# Gold (90°) — concert structure ═══
+    // ═══ D# Gold (90°) — Major 6th ═══
     struct: role('Symbol struct — gold architecture', L.vibrant, C.vibrant, H.gold),
     package: role('Symbol package — warm gold', L.primaryWarm, C.comfortable, H.gold),
 
-    // ═══ E Lime (120°) — growth ═══
+    // ═══ E Lime (120°) — Minor 7th ═══
     string: role('Symbol string — lime, literal truth', L.vibrant, C.vibrant, H.lime),
     reference: role('Symbol reference — warm lime', L.primaryWarm, C.comfortable, H.lime),
 
-    // ═══ F Green (150°) — the leading tone ═══
+    // ═══ F Green (150°) — Major 7th ═══
     method: role('Symbol method — green, quiet flow', L.primary, C.muted, H.green),
     constructor: role('Symbol constructor — green, vivid creation', L.vibrant, C.vivid, H.green),
 
-    // ═══ F# Teal (180°) — ★ MIKU ★ ═══
+    // ═══ F# Teal (180°) — Unison ★ ═══
     folder: role('Symbol folder — teal, her home', L.vibrant, C.vivid, H.mikuTeal),
     array: role('Symbol array — bright teal', L.vibrant + 0.042, C.comfortable, H.mikuTeal),
 
-    // ═══ G Cyan (210°) — shifting data ═══
+    // ═══ G Cyan (210°) — Minor 2nd ═══
     variable: role('Symbol variable — cyan, vivid data', L.vibrant, C.vivid, H.cyan),
     enumeratorMember: role('Symbol enum member — cyan, one possibility', L.secondary, C.muted, H.cyan),
     enumerator: role('Symbol enumerator — cyan, warm set', L.primaryWarm, C.comfortable, H.cyan),
 
-    // ═══ G# Azure (240°) — open sky ═══
+    // ═══ G# Azure (240°) — Major 2nd ═══
     constant: role('Symbol constant — azure, deep truth', L.secondary - 0.020, C.comfortable, H.azure),
     number: role('Symbol number — azure, vivid quantity', L.vibrant, C.vivid, H.azure),
     module: role('Symbol module — azure, warm container', L.primaryWarm, C.comfortable, H.azure),
 
-    // ═══ A Blue (270°) — depth ═══
+    // ═══ A Blue (270°) — Minor 3rd ═══
     typeParameter: role('Symbol type param — blue, standard', L.primary, C.comfortable, H.blue),
     boolean: role('Symbol boolean — blue, quiet truth', L.primary, C.muted, H.blue),
 
-    // ═══ A# Violet (300°) — duality ═══
+    // ═══ A# Violet (300°) — Major 3rd ═══
     interface: role('Symbol interface — violet, warm contract', L.vibrantWarm, C.comfortable, H.violet),
     namespace: role('Symbol namespace — violet, quiet scope', L.primary, C.muted, H.violet),
 
-    // ═══ B Magenta (330°) — harmony ═══
+    // ═══ B Magenta (330°) — Perfect 4th ═══
     operator: role('Symbol operator — magenta, warm harmony', L.vibrantWarm, C.comfortable, H.magenta),
     snippet: role('Symbol snippet — magenta, quiet template', L.primary, C.muted, H.magenta),
   };
@@ -95,7 +95,7 @@ export function createBracketTokens(p: Primitives): BracketTokens {
   return {
     bracket1: role('Warm opening — red arpeggio begins', L.accent, C.comfortable, H.red),
     bracket2: role('Cool contrast — blue deepens', L.accent, C.comfortable, H.blue),
-    bracket3: role('Fresh step — gold, concert lights', L.accent, C.comfortable, H.gold),
+    bracket3: role('Major 6th — gold, warm step', L.accent, C.comfortable, H.gold),
     bracket4: role('★ MIKU — teal at the heart of nesting', L.accent, C.comfortable, H.mikuTeal),
     bracket5: role('Deep continuation — azure, going further', L.accent, C.comfortable, H.azure),
     bracket6: role('Warm close — orange, the arpeggio resolves', L.accent, C.vibrant, H.orange),

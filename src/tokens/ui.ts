@@ -191,7 +191,7 @@ export function createStatusTokens(p: Primitives): StatusTokens {
       char.negi.bright
     ),
     warning: role(
-      'Stage glow dimming — caution, warm orange',
+      'Minor 6th — caution, warm orange',
       L.vibrant, C.comfortable, H.orange
     ),
     error: role(

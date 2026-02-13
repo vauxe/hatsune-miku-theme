@@ -108,37 +108,37 @@ export const HUE = {
   // THE 12 CHROMATIC TONES
   // ═══════════════════════════════════════════════════════════════════════════
 
-  // C  (0°)   - Rose    : Errors, critical (tritone = max tension from Miku)
-  // C# (30°)  - Red     : Tags, parameters (warm accent)
-  // D  (60°)  - Orange  : Functions (relative minor - energetic)
-  // D# (90°)  - Gold    : Regexp, escapes (chromatic passing)
-  // E  (120°) - Lime    : Strings, success (submediant)
-  // F  (150°) - Green   : Methods, storage (leading tone)
-  // F# (180°) - Teal    : ★ MIKU TONIC ★ Keywords, info
-  // G  (210°) - Cyan    : Variables (dominant - neutral)
-  // G# (240°) - Azure   : Numbers (flat 6)
-  // A  (270°) - Blue    : Types, classes (relative major)
-  // A# (300°) - Violet  : Interfaces, decorators (mediant)
-  // B  (330°) - Magenta : Operators (subdominant - accent)
+  // F# (180°) - Teal    : Keywords, comments, info         ★ Unison
+  // G  (210°) - Cyan    : Variables, enums                   Minor 2nd
+  // G# (240°) - Azure   : Numbers, constants                 Major 2nd
+  // A  (270°) - Blue    : Types, booleans                    Minor 3rd
+  // A# (300°) - Violet  : Interfaces, decorators, macros     Major 3rd
+  // B  (330°) - Magenta : Operators, storage modifiers       Perfect 4th
+  // C  (0°)   - Rose    : Errors, deleted                    Tritone
+  // C# (30°)  - Red     : Parameters, properties, tags       Perfect 5th
+  // D  (60°)  - Orange  : Functions, attributes, warnings    Minor 6th
+  // D# (90°)  - Gold    : Classes, structs, regex            Major 6th
+  // E  (120°) - Lime    : Strings, success                   Minor 7th
+  // F  (150°) - Green   : Methods, storage                   Major 7th
 
   // Core Miku identity (chromatic positions)
-  mikuTeal: 180,      // F# - THE TONIC - signature teal
-  mikuPink: 330,      // B  - Subdominant - headphone accent
+  mikuTeal: 180,      // F# - Unison — keywords, comments, info
+  mikuPink: 330,      // B  - Perfect 4th — headphone accent
 
-  // Syntax hues (chromatic scale)
-  rose: 0,            // C  - Errors, tritone
-  red: 30,            // C# - Tags, warm accent
-  orange: 60,         // D  - Functions
-  gold: 90,           // D# - Regexp, escapes
-  lime: 120,          // E  - Strings
-  green: 150,         // F  - Methods, storage
+  // Syntax hues (chromatic scale, ascending from tonic)
+  rose: 0,            // C  - Tritone — errors, deleted
+  red: 30,            // C# - Perfect 5th — parameters, properties, tags
+  orange: 60,         // D  - Minor 6th — functions, attributes, warnings
+  gold: 90,           // D# - Major 6th — classes, structs, regex
+  lime: 120,          // E  - Minor 7th — strings, success
+  green: 150,         // F  - Major 7th — methods, storage
   // mikuTeal: 180    // F# - (defined above)
-  sky: 210,           // G  - Variables
-  ice: 210,           // G  - Enums (same as sky)
-  azure: 240,         // G# - Numbers
-  blue: 270,          // A  - Types
-  violet: 300,        // A# - Interfaces, decorators
-  magenta: 330,       // B  - Operators
+  sky: 210,           // G  - Minor 2nd — variables
+  ice: 210,           // G  - Minor 2nd — enums (same as sky)
+  azure: 240,         // G# - Major 2nd — numbers, constants
+  blue: 270,          // A  - Minor 3rd — types, booleans
+  violet: 300,        // A# - Major 3rd — interfaces, decorators, macros
+  magenta: 330,       // B  - Perfect 4th — operators, storage modifiers
 
   // Semantic aliases
   peach: 30,          // = C# (Red)
@@ -148,6 +148,6 @@ export const HUE = {
   orchid: 270,        // = A (Blue)
 
   // Git status
-  gitRose: 0,         // C  - Deleted (tritone)
-  gitBlue: 270,       // A  - Conflict (blue)
+  gitRose: 0,         // C  - Tritone — deleted
+  gitBlue: 270,       // A  - Minor 3rd — conflict
 } as const;

@@ -22,7 +22,7 @@ export const syntax = {
   storage: t.syntax.storage.hex,
   storageModifier: t.syntax.storageModifier.hex,
 
-  // Functions - Gold
+  // Functions - Orange (Minor 6th)
   function: t.syntax.function.hex,
   functionBuiltin: t.support.function.hex,
   method: t.syntax.method.hex,
@@ -69,7 +69,7 @@ export const syntax = {
   attribute: t.syntax.attribute.hex,
 
   // Headings & Special
-  heading: darken(t.syntax.function, 0.010),  // Bold compensation — dimmed to match non-bold perceived brightness
+  heading: darken(t.syntax.function, 0.004),  // Bold compensation — lands at vibrantWarm (Jz 0.215)
   sqlKeyword: t.syntax.keywordControl.hex,
 
   // Markdown
