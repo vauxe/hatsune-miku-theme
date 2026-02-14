@@ -304,8 +304,6 @@ export interface DecorativeTokens {
   skinBlush: string;
   /** Skin base peach — warmth for notifications (skin.base) */
   skinBase: string;
-  /** Concert stage warmth — Wonderlands x Showtime orange for interactive hover */
-  stageWarmth: string;
 }
 
 // =============================================================================

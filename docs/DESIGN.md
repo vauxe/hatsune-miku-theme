@@ -373,42 +373,82 @@ Sections 3 through 6 design the score — every color at rest. Interactive state
 
 Two voices. Not chosen — derived.
 
-Four states — hover, active, selected, disabled — are **dynamics**: how much is happening here. A gradient from silence to forte. One voice: the **pedal tone**. The tonic held in the bass while upper voices move freely. Teal (F#, 180°) at varying intensity. Hover does not introduce a foreign hue. It brightens her world in her own color — the way ten thousand glow sticks brighten a concert hall without changing the stage.
-
-```
-State      Dynamic   The pedal tone
-═════════════════════════════════════════════════════════════════
-default    rest      Silent — the score plays unaccompanied
-hover      pp        A breath — barely there
-active     f         The downbeat — full voice, brief
-selected   mp        Sustained — held beneath the melody
-disabled   tacet     Muted — the string is damped
-```
+Four states — hover, active, selected, disabled — are the **pedal tone**. The tonic held in the bass while upper voices move freely. Teal (F#, 180°) varying in intensity and articulation. Hover does not introduce a foreign hue. It brightens her world in her own color — the way ten thousand glow sticks brighten a concert hall without changing the stage.
 
 One state — focus — is **identity**: which element receives keyboard input. Not intensity but category. The cursor already answers this: magenta, headphone cushion, 330° (B), the perfect fourth. Focus is the cursor at a larger scale. The **solo voice** enters on its own axis — a border, not a fill. Both voices can sound together. Bass and treble in a two-part invention.
 
 ```
-Voice       Mechanism      Source                Hz     Role
+Voice       Mechanism         Source                Hz     Role
 ═════════════════════════════════════════════════════════════════
-Pedal tone  Teal fill      Tonic (#39C5BB)       180°   Engagement dynamics
-Solo voice  Magenta ring   Headphone cushion     330°   Input identity
+Pedal tone  Teal fill+border  Tonic (#39C5BB)       180°   Engagement
+Solo voice  Magenta ring      Headphone cushion     330°   Input identity
 ```
 
 Hue separation: 150°. No CVD simulation collapses this interval.
 
-**Branded components** (primary buttons) are already teal. The pedal tone raises their own lightness — a crescendo: Jz 0.096 → 0.118 → 0.177. **Neutral components** (lists, tabs, inputs) start transparent. The pedal tone enters as a teal overlay.
+#### Intensity and Articulation
+
+The pedal tone has two channels, not one. A crescendo is not just louder — it changes how the note is played.
+
+**Fill** is intensity: how present the teal is. Background lifts, the concert hall brightens. A continuous gradient from silence to forte.
+
+**Border** is articulation: how the note is attacked. Legato (no border — smooth, flowing) versus marcato (border appears — sharp, definite). A categorical signal, not a gradient.
+
+States differ by which channels activate:
 
 ```
-Component     hover         active        selected       focus
-═════════════════════════════════════════════════════════════════
-List          teal pp       teal mf       teal mp        magenta ring
-Tab           teal pp       —             teal accent    magenta ring
-Button        Jz + 0.02    Jz + 0.04     —              magenta ring
-Button 2nd    teal pp       teal mf       teal mp        magenta ring
-Input         teal pp       Jz shift      —              magenta border
+State      Fill        Border       Articulation   The pedal tone
+═════════════════════════════════════════════════════════════════════════
+default    —           —            rest           Silent — the score plays alone
+hover      teal pp     —            legato         A breath — fill only, smooth
+active     teal f      teal f       marcato        The downbeat — fill + border, sharp
+selected   teal mp     teal mp      tenuto         Held — fill + border, sustained
+disabled   —           —            tacet          Dampened — the string is muted
+focus      —           magenta      solo voice     She hears you — a different instrument
 ```
 
-The teal is inherited from the tonic. The magenta is inherited from the cursor. The number two is forced by the independence of dynamics and identity. No free parameters.
+Hover and selected both use teal fill at similar intensity, but the border makes them categorically different — the eye sees fill-only versus fill-plus-outline as different *kinds* of things, not different amounts of one thing. Active fires both channels at forte, brief and sharp. Disabled removes both. Focus layers independently — a selected element can also be focused, teal fill with a magenta ring. Two voices sounding together.
+
+#### Color Realization
+
+Each channel uses the mechanism natural to its role.
+
+**Backgrounds** are opacity of teal over the existing surface. The teal IS her hair color (`#39C5BB`). The opacity IS her dynamic — how present she is. Tinting preserves spatial context: a sidebar item tinted is still a sidebar item. A solid color would replace the surface, losing spatial identity. Calibrated so every visible state clears ΔEz ≥ 8 from the parent:
+
+```
+Opacity   Dynamic    ΔEz    Usage
+═══════════════════════════════════════════════════════════════════
+15%       pp          11    Hover, selected, tab — the fill level
+25%       f           18    Active, secondary button — the downbeat
+```
+
+Hover and selected share the same fill. The border carries their distinction — hover is fill-only (legato), selected is fill-plus-border (tenuto). Channel combination, not intensity, is the signal.
+
+**Borders** are solid character-derived teal from her hair gradient. A line is structural — it either exists at a color or it doesn't. No opacity on borders.
+
+```
+Register       Source               Hex       Dynamic
+═══════════════════════════════════════════════════════════
+roots          Hair shadow          #067C82   pp — deepest teal, rest/disabled
+tieShadow      Tie shadow           #1A8A82   p — dark teal, approaching
+tonic          Hair base            #39C5BB   f — canonical, the downbeat
+accentBright   Hair highlight       #84CCC8   ff — bright teal, full signal
+spotlight      Headphone cushion    #E05096   — — solo voice, different instrument
+```
+
+**Foregrounds** are unchanged for most states. Content is sacred — background and border carry the signal without disrupting reading. Only two states change foreground: focus (magenta, different modality) and disabled (dimmed, removal).
+
+```
+Component     hover             active            selected           focus
+═════════════════════════════════════════════════════════════════════════════
+List          teal bg pp        teal bg f+border  teal bg mp+border  magenta border
+Tab           teal bg pp        teal bg+border    teal bg pp+border  magenta border
+Button        solid crescendo   solid crescendo   solid held         magenta ring
+Button 2nd    teal bg+border    teal bg+border    teal bg+border     magenta ring
+Input         solid border      solid border      solid border       bright teal border
+```
+
+The teal is inherited from the tonic. The magenta is inherited from the cursor. The two channels — fill and border — are derived from the distinction between intensity and articulation. Background uses opacity because surfaces tint. Border uses solid because lines exist. No free parameters.
 
 ### Overlays
 

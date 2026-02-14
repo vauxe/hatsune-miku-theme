@@ -1,80 +1,48 @@
 /**
  * Interactive State Token Definitions — Her Presence
  *
- * Each state draws from a different corner of Miku's world.
- * Not the same teal at different volumes — three distinct hue families:
+ * Two voices. Not chosen — derived.
  *
- *   default  — transparent: the quiet stage (her teal world already there)
- *   hover    — warm (#FF9900): stage lights warming, Wonderlands welcomes you
- *   active   — teal (#39C5BB): contact, touching her world
- *   focus    — magenta (#E05096): the spotlight, she sees you
- *   selected — magenta: held gaze, sustained presence
- *   disabled — desaturated: tacet, not this movement
+ * PEDAL TONE — teal (#39C5BB), the tonic, varying in intensity and articulation.
+ * The concert hall brightens in its own color.
+ *
+ *   hover    — legato: fill only, a breath (pp)
+ *   active   — marcato: fill + border, the downbeat (f)
+ *   selected — tenuto: fill + border, sustained (mp)
+ *   disabled — tacet: dampened, the string is muted
+ *
+ * SOLO VOICE — magenta (#E05096), headphone cushion, input identity.
+ *   focus    — which element receives keyboard input
+ *
+ * MECHANISM — each channel uses the mechanism natural to its role:
+ *
+ *   Background: opacity of teal over the existing surface. The teal IS her
+ *   hair color. The opacity IS her dynamic — how present she is. Tinting
+ *   preserves spatial context: a sidebar item tinted is still a sidebar item.
+ *     medium (15%) ΔEz≈11  — hover, selected, tab (fill level)
+ *     strong (25%) ΔEz≈18  — active, secondary button hover (downbeat)
+ *   Hover and selected share the same fill — the border carries their
+ *   distinction. Channel combination, not intensity, is the signal.
+ *
+ *   Border: solid character-derived teal from her hair gradient. A line is
+ *   structural — it exists at a color or it doesn't.
+ *     roots       #067C82  — pp, rest/disabled
+ *     tieShadow   #1A8A82  — p, sustained presence
+ *     tonic       #39C5BB  — f, the downbeat
+ *     accentBright #84CCC8 — ff, full signal (input focus)
+ *     spotlight   #E05096  — solo voice (all focus states)
+ *
+ *   Foreground: unchanged for most states. Content is sacred — background
+ *   and border carry the signal without disrupting reading. Magenta for
+ *   focus (different modality), dimmed for disabled (removal).
+ *
+ * Distinction comes from channel combination (fill vs fill+border),
+ * not from fine gradations of one channel.
  */
 
 import { withOpacity } from './role';
-import type { InteractiveTokens, StateTokens, UITokens, ExtendedUITokens } from './types';
-import type { Primitives, OpacityScale } from './primitives';
-
-// =============================================================================
-// STATE TOKEN FACTORIES
-// =============================================================================
-
-function createForegroundStateTokens(
-  defaultColor: string,
-  hoverColor: string,
-  activeColor: string,
-  focusColor: string,
-  disabledColor: string,
-  selectedColor: string
-): StateTokens {
-  return {
-    default: defaultColor,
-    hover: hoverColor,
-    active: activeColor,
-    focus: focusColor,
-    disabled: disabledColor,
-    selected: selectedColor,
-  };
-}
-
-function createBorderStateTokens(
-  baseColor: string,
-  op: OpacityScale,
-  options: {
-    defaultOpacity?: string;
-    hoverOpacity?: string;
-    activeOpacity?: string;
-    focusOpacity?: string;
-    hoverColor?: string;
-    activeColor?: string;
-    focusColor?: string;
-    selectedColor?: string;
-    selectedOpacity?: string;
-  } = {}
-): StateTokens {
-  const {
-    defaultOpacity = op.medium,
-    hoverOpacity = op.strong,
-    activeOpacity = op.heavy,
-    focusOpacity = op.solid,
-    hoverColor,
-    activeColor,
-    focusColor,
-    selectedColor,
-    selectedOpacity,
-  } = options;
-
-  return {
-    default: withOpacity(baseColor, defaultOpacity),
-    hover: withOpacity(hoverColor ?? baseColor, hoverOpacity),
-    active: withOpacity(activeColor ?? baseColor, activeOpacity),
-    focus: withOpacity(focusColor ?? baseColor, focusOpacity),
-    disabled: withOpacity(baseColor, op.light),
-    // Selected follows focus by default — "held gaze" shares the spotlight's hue
-    selected: withOpacity(selectedColor ?? focusColor ?? activeColor ?? baseColor, selectedOpacity ?? focusOpacity),
-  };
-}
+import type { InteractiveTokens, UITokens, ExtendedUITokens } from './types';
+import type { Primitives } from './primitives';
 
 // =============================================================================
 // INTERACTIVE TOKEN CREATION
@@ -83,17 +51,27 @@ function createBorderStateTokens(
 export function createInteractiveTokens(
   p: Primitives,
   ui?: UITokens & ExtendedUITokens,
-  overrides?: { hoverAccent?: string }
 ): InteractiveTokens {
   const { character: char, opacity: op } = p;
 
-  // "Her Presence" — three hue families from her world
-  const warmApproach = overrides?.hoverAccent ?? char.tie.shadow;  // Override: #FF9900 (Wonderlands), fallback: tie shadow
-  const tonic = char.hair.base;              // #39C5BB — the teal home
-  const roots = char.hair.shadow;            // #1A8A82 — teal deepened
-  const spotlight = char.hairTies.outline;   // #E05096 — the magenta spotlight
-  const accentBright = char.hair.highlight;  // #5DE4DB — the bright overtone
+  // ═══════════════════════════════════════════════════════════════════════════
+  // THE PEDAL TONE — teal, her canonical hair color
+  // ═══════════════════════════════════════════════════════════════════════════
+  // Applied as opacity over the existing surface. The teal IS her hair.
+  // The opacity level IS her dynamic — how present she is.
+  const tonic = char.hair.base;              // #39C5BB — the color itself
 
+  // Solid registers for borders — her hair gradient from root to tip
+  const tieShadow = char.tie.shadow;         // #1A8A82 — dark teal (piano)
+  const roots = char.hair.shadow;            // #067C82 — deepest teal (pianissimo)
+  const accentBright = char.hair.highlight;  // #84CCC8 — bright teal (fortissimo)
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // THE SOLO VOICE — magenta, headphone cushion, input identity
+  // ═══════════════════════════════════════════════════════════════════════════
+  const spotlight = char.hairTies.outline;   // #E05096 — solid magenta
+
+  // UI fallbacks
   const foreground = ui ? ui.foreground.hex : '#C0D8E0';
   const foregroundMuted = ui ? ui.foregroundMuted.hex : '#8A9CA0';
   const foregroundDisabled = ui ? ui.disabled.hex : '#5A6A70';
@@ -102,139 +80,153 @@ export function createInteractiveTokens(
   const backgroundSurface = ui ? ui.backgroundSurface.hex : char.headphones.frame;
 
   return {
-    // List items (approaching the setlist — warm stage lights welcome you)
+    // =========================================================================
+    // LIST — opacity teal bg + solid teal borders
+    // =========================================================================
     list: {
       background: {
-        default: 'transparent',                        // the quiet stage
-        hover: withOpacity(warmApproach, op.light),    // stage lights warming (warm orange glow)
-        active: withOpacity(tonic, op.medium),         // teal contact — needs medium to read against teal-tinted bg
-        focus: withOpacity(spotlight, op.medium),       // magenta spotlight — she sees you
-        disabled: 'transparent',                       // tacet — dampened string
-        selected: withOpacity(spotlight, op.medium),   // held gaze — sustained presence
+        default: 'transparent',
+        hover: withOpacity(tonic, op.medium),      // 15% ΔEz≈11 — a breath of teal
+        active: withOpacity(tonic, op.strong),      // 25% ΔEz≈18 — the downbeat, brief
+        focus: 'transparent',                       // solo voice uses border only
+        disabled: 'transparent',
+        selected: withOpacity(tonic, op.medium),    // 15% ΔEz≈11 — same bg as hover; border carries distinction
       },
-      foreground: createForegroundStateTokens(
-        foreground,
-        accentBright,       // hover: bright overtone
-        foreground,
-        spotlight,          // focus: the magenta spotlight
-        foregroundDisabled,
-        foreground
-      ),
-      border: createBorderStateTokens(tonic, op, {
-        hoverColor: warmApproach,
-        activeColor: roots,
-        focusColor: spotlight,
-      }),
+      foreground: {
+        default: foreground,
+        hover: foreground,                          // unchanged — bg carries the signal
+        active: foreground,
+        focus: spotlight,                           // solo voice — magenta
+        disabled: foregroundDisabled,
+        selected: foreground,
+      },
+      border: {
+        default: 'transparent',
+        hover: 'transparent',                       // legato — fill only, no border
+        active: tonic,                              // marcato — solid canonical teal
+        focus: spotlight,                           // solo voice — solid magenta
+        disabled: 'transparent',
+        selected: tieShadow,                        // tenuto — solid dark teal, sustained
+      },
     },
 
-    // Primary buttons (piano key — brightness crescendo)
-    // rest (Jz=0.096) → hover/tonic (0.153) → active/accentBright (0.177)
-    // This IS p → f → ff in brightness — keep current progression
+    // =========================================================================
+    // PRIMARY BUTTON — solid character-derived registers
+    // =========================================================================
     button: {
       background: {
-        default: ui ? ui.buttonBackground.hex : '#157570',  // p — key at rest
-        hover: tonic,                                        // f — the home note rings
-        active: accentBright,                                // ff — bright overtone
-        focus: tonic,                                        // forte — tonic sustain
-        disabled: withOpacity(tonic, op.medium),             // tacet — dampened
-        selected: tonic,                                     // fermata — held
+        default: ui ? ui.buttonBackground.hex : '#157570',
+        hover: tonic,                               // f — solid tonic
+        active: accentBright,                       // ff — solid bright overtone
+        focus: tonic,                               // f — solid tonic sustain
+        disabled: roots,                            // tacet — solid deepest teal
+        selected: tonic,                            // f — solid held
       },
-      foreground: createForegroundStateTokens(
-        '#FFFFFF',
-        '#FFFFFF',
-        '#FFFFFF',
-        '#FFFFFF',
-        foregroundMuted,
-        '#FFFFFF'
-      ),
+      foreground: {
+        default: '#FFFFFF',
+        hover: '#FFFFFF',
+        active: '#FFFFFF',
+        focus: '#FFFFFF',
+        disabled: foregroundMuted,
+        selected: '#FFFFFF',
+      },
       border: {
-        default: withOpacity(accentBright, op.heavy),   // overtone border
-        hover: accentBright,                             // full overtone
-        active: accentBright,                            // bright contact
-        focus: spotlight,                                // the magenta solo
-        disabled: withOpacity(tonic, op.light),          // dampened
-        selected: accentBright,                          // sustained overtone
+        default: tieShadow,                         // solid dark teal at rest
+        hover: tonic,                               // solid canonical teal
+        active: accentBright,                       // solid bright overtone
+        focus: spotlight,                           // solo voice — solid magenta
+        disabled: roots,                            // solid deepest teal
+        selected: tonic,                            // solid canonical teal
       },
     },
 
-    // Secondary buttons (stage monitor — warm approach, teal contact)
+    // =========================================================================
+    // SECONDARY BUTTON — opacity teal bg + solid teal borders
+    // =========================================================================
     buttonSecondary: {
       background: {
-        default: withOpacity(tonic, op.medium),           // monitor idle
-        hover: withOpacity(warmApproach, op.strong),       // warm crescendo
-        active: withOpacity(roots, op.heavy),              // teal forte
-        focus: withOpacity(tonic, op.strong),              // tonic sustain
-        disabled: withOpacity(tonic, op.light),            // tacet
-        selected: withOpacity(roots, op.strong),             // settled — deeper teal, she chose this one
+        default: withOpacity(tonic, op.medium),     // 15% — moderate teal at rest
+        hover: withOpacity(tonic, op.strong),       // 25% — brighter
+        active: withOpacity(tonic, op.heavy),       // 38% — the downbeat
+        focus: withOpacity(tonic, op.strong),       // 25% — same as hover
+        disabled: withOpacity(tonic, op.light),     // 8% — faint
+        selected: withOpacity(tonic, op.strong),    // 25% — bright
       },
-      foreground: createForegroundStateTokens(
-        foreground,
-        accentBright,
-        foreground,
-        spotlight,
-        foregroundDisabled,
-        foreground
-      ),
-      border: createBorderStateTokens(tonic, op, {
-        hoverColor: warmApproach,
-        activeColor: roots,
-        focusColor: spotlight,
-      }),
+      foreground: {
+        default: foreground,
+        hover: accentBright,                        // solid bright teal
+        active: foreground,
+        focus: spotlight,                           // solo voice — solid magenta
+        disabled: foregroundDisabled,
+        selected: foreground,
+      },
+      border: {
+        default: roots,                             // solid deepest teal
+        hover: tieShadow,                           // solid dark teal — pedal tone rises
+        active: tonic,                              // solid canonical teal — forte
+        focus: spotlight,                           // solo voice — solid magenta
+        disabled: roots,                            // solid deepest teal
+        selected: tieShadow,                        // solid dark teal — tenuto
+      },
     },
 
-    // Input fields (microphone — border dynamics only, bg stays still)
+    // =========================================================================
+    // INPUT — solid bg, solid border articulation
+    // =========================================================================
     input: {
       background: {
-        default: backgroundElevated,                         // the mic stand
-        hover: backgroundElevated,                           // doesn't move
+        default: backgroundElevated,
+        hover: backgroundElevated,
         active: backgroundElevated,
         focus: backgroundElevated,
-        disabled: withOpacity(backgroundSurface, op.heavy),
+        disabled: backgroundSurface,
         selected: backgroundElevated,
       },
-      foreground: createForegroundStateTokens(
-        foreground,
-        foreground,
-        foreground,
-        foreground,
-        foregroundDisabled,
-        foreground
-      ),
+      foreground: {
+        default: foreground,
+        hover: foreground,
+        active: foreground,
+        focus: foreground,
+        disabled: foregroundDisabled,
+        selected: foreground,
+      },
       border: {
-        default: withOpacity(tonic, op.medium),              // mic at rest
-        hover: withOpacity(warmApproach, op.strong),          // warming up
-        active: withOpacity(roots, op.heavy),                 // mic live
-        focus: accentBright,                                  // full signal
-        disabled: withOpacity(tonic, op.light),               // mic off
-        selected: withOpacity(roots, op.strong),               // selected — teal contact, you're here
+        default: roots,                             // solid deepest teal — mic at rest
+        hover: tieShadow,                           // solid dark teal — approaching
+        active: tonic,                              // solid canonical teal — mic live
+        focus: accentBright,                        // solid bright teal — full signal
+        disabled: roots,                            // solid deepest teal — mic off
+        selected: tieShadow,                        // solid dark teal — held
       },
     },
 
-    // Tabs (songs in the setlist — warm approach, teal contact, magenta spotlight)
+    // =========================================================================
+    // TAB — opacity teal bg + solid borders
+    // =========================================================================
     tab: {
       background: {
-        default: background,                                   // song at rest
-        hover: withOpacity(warmApproach, op.light),            // considering a song (warm glow)
-        active: withOpacity(tonic, op.subtle),                 // pressing play (teal contact)
-        focus: withOpacity(spotlight, op.light),               // highlighted (magenta spotlight)
-        disabled: background,                                  // unavailable
-        selected: withOpacity(spotlight, op.subtle),            // now playing — faint magenta, she's watching
+        default: background,
+        hover: withOpacity(tonic, op.medium),       // 15% ΔEz≈11 — teal breath
+        active: withOpacity(tonic, op.light),       // 8% — subtle press
+        focus: 'transparent',                       // solo voice uses border
+        disabled: background,
+        selected: withOpacity(tonic, op.medium),    // 15% — teal presence + border
       },
-      foreground: createForegroundStateTokens(
-        foregroundMuted,
-        accentBright,       // hover: bright overtone
-        foreground,
-        spotlight,          // focus: the magenta spotlight
-        foregroundDisabled,
-        foreground
-      ),
+      foreground: {
+        default: foregroundMuted,
+        hover: foreground,                          // brighter text — pedal tone lifts
+        active: foreground,
+        focus: spotlight,                           // solo voice — solid magenta
+        disabled: foregroundDisabled,
+        selected: foreground,
+      },
       border: {
-        default: backgroundElevated,                           // resting border
-        hover: withOpacity(warmApproach, op.medium),           // warm approach
-        active: withOpacity(roots, op.medium),                 // teal contact
-        focus: spotlight,                                      // the magenta spotlight
+        default: backgroundElevated,                // solid bg-tier — resting
+        hover: 'transparent',                       // legato — no border
+        active: tieShadow,                          // solid dark teal — marcato
+        focus: spotlight,                           // solid magenta — solo voice
         disabled: backgroundElevated,
-        selected: spotlight,                                   // sustained spotlight
+        selected: tieShadow,                        // solid dark teal — tenuto
       },
     },
   };

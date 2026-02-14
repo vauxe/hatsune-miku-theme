@@ -37,9 +37,7 @@ export function createSemanticTokens(
     ui,
     status: createStatusTokens(p),
     git: createGitTokens(p),
-    interactive: createInteractiveTokens(p, ui, {
-      hoverAccent: decorative.stageWarmth,
-    }),
+    interactive: createInteractiveTokens(p, ui),
     terminal: createTerminalTokens(p),
     symbol: createSymbolTokens(p),
     bracket: createBracketTokens(p),

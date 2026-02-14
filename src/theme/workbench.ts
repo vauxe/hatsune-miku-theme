@@ -512,15 +512,15 @@ export const workbenchColors = {
   // ==========================================================================
   // LISTS & TREES
   // ==========================================================================
-  'list.activeSelectionBackground': withOpacity(accent.magenta, '30'), // Magenta for selection (distinct from teal focus)
+  'list.activeSelectionBackground': t.interactive.list.background.selected,  // Pedal tone tenuto — teal fill, magenta outline via focusAndSelectionOutline
   'list.activeSelectionForeground': text.primary,
   'list.activeSelectionIconForeground': text.primary,
-  'list.inactiveSelectionBackground': withOpacity(accent.primary, '15'),
+  'list.inactiveSelectionBackground': withOpacity(accent.primary, '20'),     // Selected but unfocused — slightly less than active
   'list.inactiveSelectionForeground': text.primary,
   'list.inactiveSelectionIconForeground': text.primary,
   'list.hoverBackground': t.interactive.list.background.hover,
-  // Give hover/focus states distinct foreground tints (state DeltaE distinction)
-  'list.hoverForeground': t.syntax.function.hex,
+  // Pedal tone lives in the fill — foreground stays neutral for readability
+  'list.hoverForeground': text.primary,
   'list.focusBackground': t.interactive.list.background.focus,
   'list.focusForeground': t.ui.operator.hex,  // High-distinction focus state
   'list.focusOutline': withOpacity(accent.bright, 'DD'),
@@ -1066,9 +1066,9 @@ export const workbenchColors = {
   // ==========================================================================
   // TOOLBAR
   // ==========================================================================
-  'toolbar.hoverBackground': withOpacity(t.decorative.stageWarmth, '15'),
-  'toolbar.hoverOutline': withOpacity(t.decorative.stageWarmth, '30'),
-  'toolbar.activeBackground': withOpacity(t.decorative.stageWarmth, '25'),
+  'toolbar.hoverBackground': withOpacity(accent.primary, '15'),
+  'toolbar.hoverOutline': withOpacity(accent.primary, '30'),
+  'toolbar.activeBackground': withOpacity(accent.primary, '25'),
 
   // ==========================================================================
   // ACTION BAR

@@ -200,7 +200,5 @@ export function createDecorativeTokens(): DecorativeTokens {
     skinBlush: character.skin.blush,
     skinBase: character.skin.base,
 
-    // Concert stage warmth — Wonderlands x Showtime orange for interactive hover
-    stageWarmth: wonderlandsShowtime.unitColor,
   };
 }
