@@ -1080,6 +1080,42 @@ export const tokenColors: TokenColorRule[] = [
   },
 
   // ==========================================================================
+  // INI
+  // ==========================================================================
+  {
+    name: 'INI Section Header',
+    scope: ['entity.name.section.group-title.ini'],
+    settings: {
+      foreground: syntax.class,
+    },
+  },
+
+  // ==========================================================================
+  // MARKDOWN EXTENDED
+  // ==========================================================================
+  {
+    name: 'Markdown Strikethrough',
+    scope: ['markup.strikethrough'],
+    settings: {
+      fontStyle: 'strikethrough',
+    },
+  },
+  {
+    name: 'Markdown Table',
+    scope: ['markup.table'],
+    settings: {
+      foreground: syntax.punctuation,
+    },
+  },
+  {
+    name: 'Markdown Heading Punctuation',
+    scope: ['punctuation.definition.heading.markdown'],
+    settings: {
+      foreground: syntax.heading,
+    },
+  },
+
+  // ==========================================================================
   // MARKUP EXTENDED
   // ==========================================================================
   {
