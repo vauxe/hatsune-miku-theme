@@ -60,10 +60,13 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       'Primary accent — her hair, #39C5BB',
       char.hair.base
     ),
-    accentSecondary: roleFromHex(
-      'Secondary accent — hair highlight, light catching her twin tails',
-      char.hair.highlight
-    ),
+    accentSecondary: (() => {
+      const hl = parseHex(char.hair.highlight);
+      return role(
+        'Secondary accent — hair highlight, lightened for Lc≥70 as foreground',
+        hl.Jz + 0.015, hl.Cz, hl.hz
+      );
+    })(),
     accentTertiary: roleFromHex(
       'Tertiary accent — hair tip, the lightest end of her color',
       char.hair.tip

@@ -74,6 +74,7 @@ export type {
   StateTokens,
   InteractiveToken,
   InteractiveTokens,
+  SliderStateTokens,
   DecorativeTokens,
 } from './types';
 

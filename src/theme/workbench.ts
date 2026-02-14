@@ -88,10 +88,10 @@ export const workbenchColors = {
   'editor.lineHighlightBorder': withOpacity(t.decorative.cursorLineFrost, '40'),
   'editor.inactiveLineHighlightBackground': withOpacity(t.decorative.cursorLineFrost, '15'),
 
-  // Selection
-  'editor.selectionBackground': withOpacity(accent.primary, '25'),
+  // Selection — frost voice (persistent)
+  'editor.selectionBackground': withOpacity(t.decorative.cursorLineFrost, '25'),
   'editor.selectionForeground': text.primary,
-  'editor.inactiveSelectionBackground': withOpacity(accent.primary, '18'),
+  'editor.inactiveSelectionBackground': withOpacity(t.decorative.cursorLineFrost, '18'),
   'editor.selectionHighlightBackground': withOpacity(accent.bright, '15'),
   'editor.selectionHighlightBorder': withOpacity(accent.bright, '30'),
 
@@ -109,7 +109,7 @@ export const workbenchColors = {
   'editor.findMatchForeground': text.primary,
   'editor.findMatchBorder': withOpacity(semantic.warning, '80'),
   'editor.findMatchHighlightBackground': withOpacity(accent.bright, '18'),
-  'editor.findMatchHighlightForeground': t.syntax.function.hex,
+  // findMatchHighlightForeground intentionally omitted — lets syntax highlighting show through
   'editor.findMatchHighlightBorder': withOpacity(accent.bright, '50'),
   'editor.findRangeHighlightBackground': withOpacity(accent.primary, '10'),
   'editor.findRangeHighlightBorder': withOpacity(accent.primary, '25'),
@@ -247,9 +247,9 @@ export const workbenchColors = {
   'editorSuggestWidget.foreground': text.primary,
   'editorSuggestWidget.highlightForeground': accent.bright,
   'editorSuggestWidget.focusHighlightForeground': text.primary, // #E8EEF2 - Bright text for visibility
-  'editorSuggestWidget.selectedBackground': withOpacity(accent.primary, '20'),
-  'editorSuggestWidget.selectedForeground': text.primary,
-  'editorSuggestWidget.selectedIconForeground': text.primary,  // #E8EEF2 for Lc 75+ on selection bg
+  'editorSuggestWidget.selectedBackground': t.interactive.list.background.selected,
+  'editorSuggestWidget.selectedForeground': t.interactive.list.foreground.selected,
+  'editorSuggestWidget.selectedIconForeground': t.interactive.list.foreground.selected,
   'editorSuggestWidgetStatus.foreground': text.secondary,
 
   // ==========================================================================
@@ -335,7 +335,7 @@ export const workbenchColors = {
   'editorStickyScroll.border': withOpacity(accent.primary, '20'),
   'editorStickyScroll.shadow': withOpacity(bg.void, '40'),
   'editorStickyScrollGutter.background': withOpacity(bg.base, 'F5'),
-  'editorStickyScrollHover.background': withOpacity(accent.primary, '08'),
+  'editorStickyScrollHover.background': t.interactive.toolbar.background.hover,
 
   // ==========================================================================
   // MARKER NAVIGATION (F8 errors)
@@ -376,7 +376,7 @@ export const workbenchColors = {
   'activityBar.inactiveForeground': text.tertiary,
   'activityBar.border': withOpacity(accent.primary, '15'),
   'activityBar.activeBorder': accent.magenta,
-  'activityBar.activeBackground': withOpacity(accent.primary, '12'),
+  'activityBar.activeBackground': t.interactive.toolbar.background.hover,
   'activityBar.activeFocusBorder': accent.bright,
   'activityBar.dropBorder': accent.primary,
   'activityBarBadge.background': t.decorative.sekaiHair,  // #33CCBB — SEKAI Virtual Singer hair
@@ -386,7 +386,7 @@ export const workbenchColors = {
   'activityBarTop.inactiveForeground': text.tertiary,
   'activityBarTop.dropBorder': accent.primary,
   'activityBarTop.background': bg.elevated,
-  'activityBarTop.activeBackground': withOpacity(accent.primary, '12'),
+  'activityBarTop.activeBackground': t.interactive.toolbar.background.hover,
   'activityWarningBadge.foreground': t.decorative.darkForeground,
   'activityWarningBadge.background': semantic.warning,
   'activityErrorBadge.foreground': t.decorative.darkForeground,
@@ -417,23 +417,23 @@ export const workbenchColors = {
   'statusBar.foreground': text.primary,
   'statusBar.border': withOpacity(accent.primary, '20'),
   'statusBar.debuggingBackground': t.decorative.diffRemoved,  // Sakura pink — lovely debugging
-  'statusBar.debuggingForeground': t.decorative.statusItemForeground,
-  'statusBar.debuggingBorder': t.decorative.diffRemoved,
+  'statusBar.debuggingForeground': t.decorative.darkForeground,  // Darkest character color for max contrast on bright sakura
+  'statusBar.debuggingBorder': withOpacity(t.decorative.diffRemoved, '00'),  // Transparent — prevents pink gap above remote item
   'statusBar.noFolderBackground': bg.highest,
   'statusBar.noFolderForeground': text.primary,
   'statusBar.noFolderBorder': withOpacity(text.tertiary, '30'),
   'statusBar.focusBorder': withOpacity(accent.bright, 'DD'),
-  'statusBarItem.activeBackground': withOpacity(accent.primary, '30'),
-  'statusBarItem.hoverBackground': withOpacity(accent.primary, '20'),
+  'statusBarItem.activeBackground': t.interactive.toolbar.background.active,
+  'statusBarItem.hoverBackground': t.interactive.toolbar.background.hover,
   'statusBarItem.hoverForeground': text.primary,
   'statusBarItem.prominentForeground': text.primary,
-  'statusBarItem.prominentBackground': withOpacity(accent.primary, '20'),
-  'statusBarItem.prominentHoverBackground': withOpacity(accent.primary, '35'),
+  'statusBarItem.prominentBackground': t.interactive.toolbar.background.hover,
+  'statusBarItem.prominentHoverBackground': t.interactive.toolbar.background.active,
   'statusBarItem.prominentHoverForeground': text.primary,
   'statusBarItem.remoteBackground': accent.primary,  // Miku teal — full, her presence
-  'statusBarItem.remoteForeground': t.decorative.statusItemForeground,
+  'statusBarItem.remoteForeground': t.decorative.darkForeground,  // Darkest character color for max contrast on teal
   'statusBarItem.remoteHoverBackground': accent.bright,
-  'statusBarItem.remoteHoverForeground': t.decorative.statusItemForeground,
+  'statusBarItem.remoteHoverForeground': t.decorative.darkForeground,
   'statusBarItem.errorBackground': darken(t.ui.activeBorder, 0.03),  // Magenta — attention
   'statusBarItem.errorForeground': t.ui.pureWhite.hex,
   'statusBarItem.errorHoverBackground': darken(t.ui.activeBorder, 0.01),
@@ -442,7 +442,7 @@ export const workbenchColors = {
   'statusBarItem.warningForeground': t.ui.pureWhite.hex,
   'statusBarItem.warningHoverBackground': darken(t.status.warning, 0.08),
   'statusBarItem.warningHoverForeground': t.ui.pureWhite.hex,
-  'statusBarItem.compactHoverBackground': withOpacity(accent.primary, '25'),
+  'statusBarItem.compactHoverBackground': t.interactive.toolbar.background.active,
   'statusBarItem.focusBorder': withOpacity(accent.bright, 'DD'),
   'statusBarItem.offlineBackground': withOpacity(text.tertiary, 'AA'),
   'statusBarItem.offlineForeground': t.ui.pureWhite.hex,
@@ -461,11 +461,11 @@ export const workbenchColors = {
   // ==========================================================================
   // TABS
   // ==========================================================================
-  'tab.activeBackground': bg.base,
+  'tab.activeBackground': t.interactive.tab.background.active,
   'tab.activeForeground': accent.bright,
   'tab.activeBorderTop': accent.magenta,
   'tab.activeBorder': withOpacity(accent.primary, '30'),
-  'tab.inactiveBackground': bg.void,
+  'tab.inactiveBackground': t.interactive.tab.background.default,
   'tab.inactiveForeground': text.tertiary,
   'tab.border': bg.elevated,
   'tab.hoverBackground': t.interactive.tab.background.hover,
@@ -487,7 +487,7 @@ export const workbenchColors = {
   'tab.unfocusedActiveModifiedBorder': withOpacity(accent.magenta, '60'),
   'tab.unfocusedInactiveModifiedBorder': withOpacity(accent.magenta, '30'),
   'tab.dragAndDropBorder': accent.primary,
-  'tab.selectedBackground': bg.surface,
+  'tab.selectedBackground': t.interactive.tab.background.selected,
   'tab.selectedForeground': accent.bright,
   'tab.selectedBorderTop': accent.primary,
   'editorGroupHeader.tabsBackground': bg.void,
@@ -513,16 +513,15 @@ export const workbenchColors = {
   // LISTS & TREES
   // ==========================================================================
   'list.activeSelectionBackground': t.interactive.list.background.selected,  // Pedal tone tenuto — teal fill, magenta outline via focusAndSelectionOutline
-  'list.activeSelectionForeground': text.primary,
-  'list.activeSelectionIconForeground': text.primary,
-  'list.inactiveSelectionBackground': withOpacity(accent.primary, '20'),     // Selected but unfocused — slightly less than active
+  'list.activeSelectionForeground': t.interactive.list.foreground.selected,
+  'list.activeSelectionIconForeground': t.interactive.list.foreground.selected,
+  'list.inactiveSelectionBackground': withOpacity(t.decorative.cursorLineFrost, '18'), // Frost, fading
   'list.inactiveSelectionForeground': text.primary,
   'list.inactiveSelectionIconForeground': text.primary,
   'list.hoverBackground': t.interactive.list.background.hover,
-  // Pedal tone lives in the fill — foreground stays neutral for readability
-  'list.hoverForeground': text.primary,
+  'list.hoverForeground': t.interactive.list.foreground.hover,
   'list.focusBackground': t.interactive.list.background.focus,
-  'list.focusForeground': t.ui.operator.hex,  // High-distinction focus state
+  'list.focusForeground': t.interactive.list.foreground.focus,  // identity — magenta
   'list.focusOutline': withOpacity(accent.bright, 'DD'),
   'list.focusAndSelectionOutline': withOpacity(accent.magenta, '80'),
   'list.focusHighlightForeground': text.primary,  // #E8EEF2 for Lc 75+ on focus bg
@@ -560,9 +559,9 @@ export const workbenchColors = {
   'minimap.warningHighlight': withOpacity(semantic.warning, '70'),
   'minimap.infoHighlight': withOpacity(accent.primary, '70'),
   'minimap.chatEditHighlight': withOpacity(accent.bright, '50'),
-  'minimapSlider.background': withOpacity(accent.primary, '12'),
-  'minimapSlider.hoverBackground': withOpacity(accent.primary, '25'),
-  'minimapSlider.activeBackground': withOpacity(accent.primary, '40'),
+  'minimapSlider.background': t.interactive.slider.background.rest,
+  'minimapSlider.hoverBackground': t.interactive.slider.background.hover,
+  'minimapSlider.activeBackground': t.interactive.slider.background.active,
   'minimapGutter.addedBackground': semantic.success,
   'minimapGutter.modifiedBackground': semantic.warning,
   'minimapGutter.deletedBackground': semantic.error,
@@ -573,9 +572,9 @@ export const workbenchColors = {
   // ==========================================================================
   'scrollbar.background': withOpacity(bg.base, '00'),
   'scrollbar.shadow': withOpacity(bg.void, '60'),
-  'scrollbarSlider.background': withOpacity(accent.primary, '25'),
-  'scrollbarSlider.hoverBackground': withOpacity(accent.primary, '40'),
-  'scrollbarSlider.activeBackground': withOpacity(t.decorative.tieShadow, '55'),
+  'scrollbarSlider.background': t.interactive.slider.background.rest,
+  'scrollbarSlider.hoverBackground': t.interactive.slider.background.hover,
+  'scrollbarSlider.activeBackground': t.interactive.slider.background.active,
 
   // ==========================================================================
   // PANEL (Bottom panel: Terminal, Output, etc.)
@@ -607,14 +606,14 @@ export const workbenchColors = {
   'terminal.background': t.decorative.bootsBase,  // Her thigh-high boots — the terminal's home
   'terminal.foreground': text.primary,
   'terminal.border': withOpacity(accent.primary, '25'),
-  'terminal.selectionBackground': withOpacity(accent.primary, '35'),
+  'terminal.selectionBackground': withOpacity(t.decorative.cursorLineFrost, '35'),
   'terminal.selectionForeground': text.primary,
-  'terminal.inactiveSelectionBackground': withOpacity(accent.primary, '20'),
+  'terminal.inactiveSelectionBackground': withOpacity(t.decorative.cursorLineFrost, '20'),
   'terminal.findMatchBackground': withOpacity(semantic.warning, '40'),
   'terminal.findMatchBorder': withOpacity(semantic.warning, '80'),
   'terminal.findMatchHighlightBackground': withOpacity(accent.bright, '25'),
   'terminal.findMatchHighlightBorder': withOpacity(accent.bright, '50'),
-  'terminal.hoverHighlightBackground': withOpacity(accent.primary, '15'),
+  'terminal.hoverHighlightBackground': t.interactive.list.background.hover,
   'terminal.initialHintForeground': t.ui.terminalHint.hex,  // #5A8A88 - Lc 40+ readable hints
   'terminalCursor.foreground': accent.cursor,
   'terminalCursor.background': bg.void,
@@ -650,7 +649,7 @@ export const workbenchColors = {
   'terminalOverviewRuler.border': withOpacity(accent.primary, '20'),
   'terminalStickyScroll.background': bg.void,
   'terminalStickyScroll.border': withOpacity(accent.primary, '15'),
-  'terminalStickyScrollHover.background': withOpacity(accent.primary, '10'),
+  'terminalStickyScrollHover.background': t.interactive.toolbar.background.hover,
 
   // Terminal symbol icons
   'terminalSymbolIcon.aliasForeground': accent.soft,
@@ -730,8 +729,8 @@ export const workbenchColors = {
   'peekViewResult.fileForeground': text.primary,
   'peekViewResult.lineForeground': text.secondary,
   'peekViewResult.matchHighlightBackground': withOpacity(semantic.warning, '25'),
-  'peekViewResult.selectionBackground': withOpacity(accent.primary, '25'),
-  'peekViewResult.selectionForeground': text.primary,
+  'peekViewResult.selectionBackground': t.interactive.list.background.selected,
+  'peekViewResult.selectionForeground': t.interactive.list.foreground.selected,
   'peekViewEditorStickyScroll.background': bg.base,
   'peekViewEditorStickyScrollGutter.background': bg.elevated,
 
@@ -813,7 +812,7 @@ export const workbenchColors = {
   // ==========================================================================
   // SCM GRAPH
   // ==========================================================================
-  'scmGraph.historyItemHoverLabelForeground': text.primary,
+  'scmGraph.historyItemHoverLabelForeground': t.decorative.darkForeground,  // Dark on bright ref pill bg
   'scmGraph.historyItemHoverDefaultLabelForeground': text.secondary,
   'scmGraph.historyItemHoverDefaultLabelBackground': withOpacity(bg.surface, '80'),
   // SCM Graph - Project SEKAI unit colors (each branch is a unit's story)
@@ -850,7 +849,7 @@ export const workbenchColors = {
   'commandCenter.background': bg.void,
   'commandCenter.border': withOpacity(accent.primary, '30'),
   'commandCenter.activeForeground': accent.bright,
-  'commandCenter.activeBackground': withOpacity(accent.primary, '15'),
+  'commandCenter.activeBackground': t.interactive.toolbar.background.hover,
   'commandCenter.activeBorder': withOpacity(accent.primary, '50'),
   'commandCenter.inactiveForeground': text.tertiary,
   'commandCenter.inactiveBorder': withOpacity(text.tertiary, '25'),
@@ -862,9 +861,9 @@ export const workbenchColors = {
   'quickInput.background': bg.elevated,
   'quickInput.foreground': text.primary,
   'quickInputTitle.background': bg.surface,
-  'quickInputList.focusBackground': withOpacity(accent.primary, '25'),
-  'quickInputList.focusForeground': text.primary,
-  'quickInputList.focusIconForeground': text.primary,  // #E8EEF2 for Lc 75+ on focus bg
+  'quickInputList.focusBackground': t.interactive.list.background.selected,
+  'quickInputList.focusForeground': t.interactive.list.foreground.selected,
+  'quickInputList.focusIconForeground': t.interactive.list.foreground.selected,
   'pickerGroup.border': withOpacity(accent.primary, '30'),
   'pickerGroup.foreground': accent.bright,
 
@@ -892,13 +891,13 @@ export const workbenchColors = {
   // ==========================================================================
   'menu.background': bg.elevated,
   'menu.foreground': text.primary,
-  'menu.selectionBackground': withOpacity(accent.primary, '25'),
-  'menu.selectionForeground': text.primary,
-  'menu.selectionBorder': withOpacity(accent.primary, '35'),
+  'menu.selectionBackground': t.interactive.list.background.selected,
+  'menu.selectionForeground': t.interactive.list.foreground.selected,
+  'menu.selectionBorder': t.interactive.list.border.selected,
   'menu.separatorBackground': withOpacity(accent.primary, '25'),
   'menu.border': withOpacity(accent.primary, '30'),
-  'menubar.selectionBackground': withOpacity(accent.primary, '20'),
-  'menubar.selectionForeground': text.primary,
+  'menubar.selectionBackground': t.interactive.list.background.hover,
+  'menubar.selectionForeground': t.interactive.list.foreground.hover,
   'menubar.selectionBorder': withOpacity(accent.primary, '30'),
 
   // ==========================================================================
@@ -919,9 +918,9 @@ export const workbenchColors = {
   'settings.numberInputBackground': bg.base,
   'settings.numberInputForeground': text.primary,
   'settings.numberInputBorder': withOpacity(accent.primary, '40'),
-  'settings.focusedRowBackground': withOpacity(accent.primary, '08'),
-  'settings.focusedRowBorder': withOpacity(accent.primary, '35'),
-  'settings.rowHoverBackground': withOpacity(accent.primary, '05'),
+  'settings.focusedRowBackground': t.interactive.list.background.focus,
+  'settings.focusedRowBorder': t.interactive.list.border.focus,
+  'settings.rowHoverBackground': t.interactive.list.background.hover,
   'settings.sashBorder': withOpacity(accent.primary, '25'),
   'settings.headerBorder': withOpacity(accent.primary, '20'),
   'settings.settingsHeaderHoverForeground': text.primary,
@@ -968,7 +967,7 @@ export const workbenchColors = {
   // ==========================================================================
   'welcomePage.background': bg.base,
   'welcomePage.tileBackground': bg.surface,
-  'welcomePage.tileHoverBackground': withOpacity(accent.primary, '12'),
+  'welcomePage.tileHoverBackground': t.interactive.toolbar.background.hover,
   'welcomePage.tileBorder': withOpacity(accent.primary, '25'),
   'welcomePage.progress.foreground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
   'welcomePage.progress.background': bg.elevated,
@@ -980,10 +979,10 @@ export const workbenchColors = {
   // ==========================================================================
   'extensionButton.prominentBackground': t.ui.buttonBackground.hex,
   'extensionButton.prominentForeground': t.ui.pureWhite.hex,
-  'extensionButton.prominentHoverBackground': darken(t.ui.accentPrimary, 0.05),
-  'extensionButton.background': withOpacity(accent.primary, '25'),
-  'extensionButton.foreground': text.primary,
-  'extensionButton.hoverBackground': withOpacity(accent.primary, '40'),
+  'extensionButton.prominentHoverBackground': t.interactive.button.background.hover,
+  'extensionButton.background': t.interactive.buttonSecondary.background.default,
+  'extensionButton.foreground': t.interactive.buttonSecondary.foreground.default,
+  'extensionButton.hoverBackground': t.interactive.buttonSecondary.background.hover,
   'extensionButton.separator': withOpacity(text.primary, '30'),
   'extensionBadge.remoteBackground': t.decorative.sekaiHair,  // #33CCBB — SEKAI Virtual Singer hair
   'extensionBadge.remoteForeground': t.decorative.darkForeground,
@@ -1009,10 +1008,10 @@ export const workbenchColors = {
   'input.foreground': t.interactive.input.foreground.default,
   'input.border': t.interactive.input.border.default,
   'input.placeholderForeground': text.placeholder,  // Lc 25+ for visible placeholder
-  'inputOption.activeBorder': accent.bright,
-  'inputOption.activeBackground': withOpacity(accent.primary, '25'),
-  'inputOption.activeForeground': text.primary,
-  'inputOption.hoverBackground': withOpacity(accent.primary, '15'),
+  'inputOption.activeBorder': t.interactive.toggle.border.selected,
+  'inputOption.activeBackground': t.interactive.toggle.background.selected,
+  'inputOption.activeForeground': t.interactive.toggle.foreground.selected,
+  'inputOption.hoverBackground': t.interactive.toggle.background.hover,
   'inputValidation.errorBackground': withOpacity(semantic.error, '20'),
   'inputValidation.errorForeground': text.primary,          // #E8EEF2 - High contrast on dark overlay
   'inputValidation.errorBorder': semantic.error,
@@ -1034,28 +1033,28 @@ export const workbenchColors = {
   'button.foreground': t.interactive.button.foreground.default,
   'button.border': t.interactive.button.border.default,
   'button.separator': withOpacity(t.ui.pureWhite.hex, '30'),
-  'button.hoverBackground': darken(t.ui.accentPrimary, 0.05),
+  'button.hoverBackground': t.interactive.button.background.hover,
   'button.secondaryForeground': t.interactive.buttonSecondary.foreground.default,
   'button.secondaryBackground': t.interactive.buttonSecondary.background.default,
   'button.secondaryHoverBackground': t.interactive.buttonSecondary.background.hover,
 
-  // Checkbox - use brighter foreground
-  'checkbox.background': bg.base,
-  'checkbox.foreground': accent.bright,        // #5DE4DB - Bright teal (Lc 80+)
-  'checkbox.border': withOpacity(accent.primary, '50'),
-  'checkbox.selectBackground': withOpacity(accent.primary, '25'),
-  'checkbox.selectBorder': accent.bright,
-  'checkbox.disabled.background': withOpacity(bg.surface, '50'),
-  'checkbox.disabled.foreground': text.disabled,
+  // Checkbox — toggle material
+  'checkbox.background': t.interactive.toggle.background.default,
+  'checkbox.foreground': t.interactive.toggle.foreground.selected,
+  'checkbox.border': t.interactive.toggle.border.default,
+  'checkbox.selectBackground': t.interactive.toggle.background.selected,
+  'checkbox.selectBorder': t.interactive.toggle.border.selected,
+  'checkbox.disabled.background': t.interactive.toggle.background.disabled,
+  'checkbox.disabled.foreground': t.interactive.toggle.foreground.disabled,
 
-  // Radio buttons
-  'radio.activeForeground': t.ui.pureWhite.hex,
-  'radio.activeBackground': darken(t.ui.accentPrimary, 0.06),
-  'radio.activeBorder': accent.bright,
-  'radio.inactiveForeground': text.secondary,
-  'radio.inactiveBackground': bg.base,
-  'radio.inactiveBorder': withOpacity(accent.primary, '40'),
-  'radio.inactiveHoverBackground': withOpacity(accent.primary, '15'),
+  // Radio buttons — toggle material
+  'radio.activeForeground': t.interactive.toggle.foreground.active,
+  'radio.activeBackground': t.interactive.toggle.background.selected,
+  'radio.activeBorder': t.interactive.toggle.border.selected,
+  'radio.inactiveForeground': t.interactive.toggle.foreground.default,
+  'radio.inactiveBackground': t.interactive.toggle.background.default,
+  'radio.inactiveBorder': t.interactive.toggle.border.default,
+  'radio.inactiveHoverBackground': t.interactive.toggle.background.hover,
 
   // ==========================================================================
   // BADGE
@@ -1069,16 +1068,16 @@ export const workbenchColors = {
   'progressBar.background': accent.primary,
 
   // ==========================================================================
-  // TOOLBAR
+  // TOOLBAR — fabric (minimal)
   // ==========================================================================
-  'toolbar.hoverBackground': withOpacity(accent.primary, '15'),
-  'toolbar.hoverOutline': withOpacity(accent.primary, '30'),
-  'toolbar.activeBackground': withOpacity(accent.primary, '25'),
+  'toolbar.hoverBackground': t.interactive.toolbar.background.hover,
+  'toolbar.hoverOutline': '#00000000',
+  'toolbar.activeBackground': t.interactive.toolbar.background.active,
 
   // ==========================================================================
   // ACTION BAR
   // ==========================================================================
-  'actionBar.toggledBackground': withOpacity(accent.primary, '25'),
+  'actionBar.toggledBackground': t.interactive.toggle.background.selected,
 
   // ==========================================================================
   // PROFILE BADGE
@@ -1092,24 +1091,24 @@ export const workbenchColors = {
   // ==========================================================================
   'notebook.editorBackground': bg.surface,
   'notebook.cellBorderColor': withOpacity(accent.primary, '25'),
-  'notebook.cellHoverBackground': withOpacity(accent.primary, '08'),
+  'notebook.cellHoverBackground': t.interactive.list.background.hover,
   'notebook.cellInsertionIndicator': accent.bright,
-  'notebook.cellStatusBarItemHoverBackground': withOpacity(accent.primary, '15'),
+  'notebook.cellStatusBarItemHoverBackground': t.interactive.toolbar.background.hover,
   'notebook.cellToolbarSeparator': withOpacity(accent.primary, '25'),
   'notebook.cellEditorBackground': bg.base,
-  'notebook.focusedCellBackground': withOpacity(accent.primary, '08'),
+  'notebook.focusedCellBackground': t.interactive.list.background.focus,
   'notebook.focusedCellBorder': accent.bright,
   'notebook.focusedEditorBorder': withOpacity(accent.bright, 'CC'),
   'notebook.inactiveFocusedCellBorder': withOpacity(accent.primary, '50'),
   'notebook.inactiveSelectedCellBorder': withOpacity(accent.primary, '40'),
   'notebook.outputContainerBackgroundColor': bg.base,
   'notebook.outputContainerBorderColor': withOpacity(accent.primary, '20'),
-  'notebook.selectedCellBackground': withOpacity(accent.primary, '12'),
+  'notebook.selectedCellBackground': withOpacity(t.decorative.cursorLineFrost, '12'),
   'notebook.selectedCellBorder': withOpacity(accent.primary, '50'),
   'notebook.symbolHighlightBackground': withOpacity(accent.primary, '15'),
-  'notebookScrollbarSlider.activeBackground': withOpacity(accent.primary, '55'),
-  'notebookScrollbarSlider.background': withOpacity(accent.primary, '25'),
-  'notebookScrollbarSlider.hoverBackground': withOpacity(accent.primary, '40'),
+  'notebookScrollbarSlider.activeBackground': t.interactive.slider.background.active,
+  'notebookScrollbarSlider.background': t.interactive.slider.background.rest,
+  'notebookScrollbarSlider.hoverBackground': t.interactive.slider.background.hover,
   'notebookStatusErrorIcon.foreground': semantic.error,
   'notebookStatusRunningIcon.foreground': semantic.warning,
   'notebookStatusSuccessIcon.foreground': semantic.success,
@@ -1178,11 +1177,11 @@ export const workbenchColors = {
   'chat.avatarBackground': withOpacity(accent.primary, '25'),
   'chat.avatarForeground': accent.bright,
   'chat.editedFileForeground': t.syntax.variable.hex,  // #C0E0FF - Lc 88 for sidebar visibility
-  'chat.linesAddedForeground': semantic.success,   // #90F0B8 - Mint green
-  'chat.linesRemovedForeground': semantic.error,   // #FF9999 - Full opacity coral
+  'chat.linesAddedForeground': withOpacity(semantic.success, '80'),   // Semi-transparent — must not obscure content
+  'chat.linesRemovedForeground': withOpacity(semantic.error, '80'),   // Semi-transparent — must not obscure content
   'chat.requestCodeBorder': withOpacity(accent.bright, '35'),
   'chat.requestBubbleBackground': withOpacity(accent.primary, '12'),
-  'chat.requestBubbleHoverBackground': withOpacity(accent.primary, '20'),
+  'chat.requestBubbleHoverBackground': t.interactive.toolbar.background.hover,
   'chat.checkpointSeparator': withOpacity(accent.primary, '25'),
   'chatManagement.sashBorder': withOpacity(accent.primary, '30'),
 
@@ -1215,8 +1214,8 @@ export const workbenchColors = {
   // ==========================================================================
   'editorActionList.background': bg.elevated,
   'editorActionList.foreground': text.primary,
-  'editorActionList.focusForeground': text.primary,
-  'editorActionList.focusBackground': withOpacity(accent.primary, '25'),
+  'editorActionList.focusForeground': t.interactive.list.foreground.selected,
+  'editorActionList.focusBackground': t.interactive.list.background.selected,
 
   // ==========================================================================
   // PORTS
@@ -1288,7 +1287,7 @@ export const workbenchColors = {
   'focusBorder': withOpacity(accent.bright, 'DD'),
   'foreground': text.primary,
   'disabledForeground': text.disabled,
-  'selection.background': withOpacity(accent.primary, '35'),
+  'selection.background': withOpacity(t.decorative.cursorLineFrost, '35'),
   'descriptionForeground': text.secondary,
   'errorForeground': semantic.error,
   'icon.foreground': text.secondary,

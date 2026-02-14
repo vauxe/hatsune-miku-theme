@@ -68,9 +68,9 @@ export const LIGHTNESS = {
   // Warm hues (red, coral, pink: 330°-70°) need +0.015 Jz vs cool hues
   vivid: 0.180,       // For vivid chroma (C3) cool hues - prevents halation
   vibrant: 0.188,     // For vibrant chroma (C2) cool hues - balanced
-  vibrantWarm: 0.215, // For vibrant chroma (C2) warm hues (red/pink)
+  vibrantWarm: 0.218, // For vibrant chroma (C2) warm hues (red/pink) — +0.003 for overlay survival
   primary: 0.192,     // For comfortable chroma (C1) cool hues
-  primaryWarm: 0.210, // For comfortable chroma (C1) warm hues (coral/peach/pink)
+  primaryWarm: 0.213, // For comfortable chroma (C1) warm hues — +0.003 for overlay survival
   muted: 0.195,       // For muted chroma (CM) - comments need extra light
 
   // Standard tiers

@@ -67,7 +67,7 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     // ═══ MINOR 6TH — D Orange (60°) — She reaches ═══
     function: role(
       'Minor 6th — she reaches into the light',
-      L.vibrantWarm + 0.004, C.vibrant, H.orange
+      L.vibrantWarm + 0.002, C.vibrant, H.orange
     ),
     method: role(
       'Major 7th — methods, one breath from the tonic',
@@ -99,7 +99,7 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     ),
     property: role(
       'Perfect 5th — warmth reaching in from the world',
-      L.vibrantWarm + 0.005, C.vibrant, H.red
+      L.vibrantWarm + 0.002, C.vibrant, H.red
     ),
 
     // ═══ MINOR 7TH — E Lime (120°) — Someone's truth ═══
@@ -133,7 +133,7 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     ),
     tag: role(
       'Perfect 5th — HTML/JSX structure, what you give her',
-      L.vibrantWarm + 0.005, C.vibrant, H.red
+      L.vibrantWarm + 0.002, C.vibrant, H.red
     ),
     attribute: role(
       'Minor 6th — attributes in orange, modifying elements',
@@ -142,12 +142,18 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
 
     // ═══ UNISON at ppp — F# Teal — Her whisper ═══
     comment: role(
-      'Unison at ppp — her whisper, barely there',
-      L.muted - 0.010, C.gray, H.mikuTeal
+      'Unison at ppp — her whisper, softened but Lc≥70 on editor',
+      L.muted, C.gray, H.mikuTeal
     ),
     commentDoc: role(
       'Unison at p — her soft voice, never louder than keywords',
-      L.muted - 0.010, C.muted - 0.010, H.mikuTeal
+      L.muted, C.muted - 0.010, H.mikuTeal
+    ),
+
+    // ═══ UNISON at ppp — F# Teal — The space between notes ═══
+    punctuation: role(
+      'Unison at ppp — bar lines, not notes',
+      L.tertiary, C.gray, H.mikuTeal
     ),
 
     // ═══ PERFECT 4TH — B Magenta (330°) — The heartbeat ═══

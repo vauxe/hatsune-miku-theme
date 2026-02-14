@@ -50,6 +50,7 @@ export interface SyntaxTokens {
   attribute: SemanticRole;
   comment: SemanticRole;
   commentDoc: SemanticRole;
+  punctuation: SemanticRole;
   operator: SemanticRole;
 }
 
@@ -243,12 +244,29 @@ export interface InteractiveToken {
   border: StateTokens;
 }
 
+export interface SliderStateTokens {
+  rest: string;
+  hover: string;
+  active: string;
+}
+
 export interface InteractiveTokens {
+  /** Fabric — lists, menus, trees, suggest, notebook cells */
   list: InteractiveToken;
+  /** Metal — primary buttons, prominent actions */
   button: InteractiveToken;
+  /** Metal (secondary) — secondary buttons, extension buttons */
   buttonSecondary: InteractiveToken;
+  /** Glass — text inputs, search boxes, dropdowns */
   input: InteractiveToken;
+  /** Architecture — editor tabs, panel tabs */
   tab: InteractiveToken;
+  /** Fabric (minimal) — toolbar icons, activity bar items */
+  toolbar: InteractiveToken;
+  /** Toggle — checkboxes, radio buttons, input options */
+  toggle: InteractiveToken;
+  /** Air — scrollbars, minimap sliders, sashes */
+  slider: { background: SliderStateTokens };
 }
 
 // =============================================================================

@@ -325,7 +325,7 @@ Every background, border, accent, and shadow maps to her design — her skirt, h
 
 ### The Stage
 
-The editor canvas is anchored to **Miku's skirt** — the dark pleated garment she wears on every stage. One anchor point, uniform 0.003 Jz steps, preserving the skirt's native hue (249°) and chroma at every tier. Adjacent levels are ΔEz ~2–3 apart.
+The editor canvas is anchored to **Miku's skirt** — the dark pleated garment she wears on every stage. One anchor point, uniform 0.004 Jz steps, preserving the skirt's native hue (249°) and chroma at every tier. Adjacent levels are ΔEz ~3–4 apart.
 
 ```
 Step   UI Element         Her Outfit
@@ -340,7 +340,7 @@ Step   UI Element         Her Outfit
 Void uses skirt.Jz − 2×STEP with reduced chroma (×0.4).
 ```
 
-A 0.003 Jz step at this lightness (Jz ≈ 0.035) sits near the threshold of perceptibility. This is correct — the background hierarchy is spatial, not visual. The gradient reinforces structure subliminally, the way a room where the ceiling is slightly darker than the walls feels natural without anyone noticing why. If you notice the gradient, it is too strong. The eye should read syntax, not compare backgrounds.
+A 0.004 Jz step at this lightness (Jz ≈ 0.035) sits just above the threshold of perceptibility. This is correct — the background hierarchy is spatial, not visual. The gradient reinforces structure subliminally, the way a room where the ceiling is slightly darker than the walls feels natural without anyone noticing why. If you notice the gradient, it is too strong. The eye should read syntax, not compare backgrounds.
 
 Three text tiers sit atop this hierarchy:
 
@@ -387,115 +387,181 @@ Not every element maps to her body. The minimap is the concert hall seen from th
 
 ### Her Presence — Interactive States
 
-Sections 3 through 6 design the score — every color at rest. Interactive states are the **performance**. The performance does not add notes the composer did not write.
+Sections 3 through 6 design the score — every color at rest. Interactive states are the **performance**.
 
-Two voices. Not chosen — derived.
-
-Four states — hover, active, selected, disabled — are the **pedal tone**. The tonic held in the bass while upper voices move freely. Teal (F#, 180°) varying in intensity and articulation. Hover does not introduce a foreign hue — it brightens her world in her own color.
-
-One state — focus — is **identity**: which element receives keyboard input. Not intensity but category. The cursor already answers this: magenta, headphone cushion, 330° (B), the perfect fourth. Focus is the cursor at a larger scale. The **solo voice** enters on its own axis — a border, not a fill. Both voices can sound together. Bass and treble in a two-part invention.
+#### Four Voices
 
 ```
-Voice       Mechanism         Source                Hz     Role
-═════════════════════════════════════════════════════════════════
-Pedal tone  Teal fill+border  Tonic (#39C5BB)       180°   Engagement
-Solo voice  Magenta ring      Headphone cushion     330°   Input identity
+Voice       Source               Hz     Mechanism        Role
+═══════════════════════════════════════════════════════════════════════════
+Structure   Skirt (hz≈249°)      249°   Solid Jz steps   Where am I?
+Engagement  Tonic (#39C5BB)      180°   Opacity tint      Transient — hover, active
+Selection   Snow frost (#81D4FA) ~220°  Opacity tint      Persistent — selected, cursor line
+Identity    Cushion (#E05096)    330°   Solid border      Focus — keyboard target
 ```
 
-Hue separation: 150°. No CVD simulation collapses this interval.
+**Structure** is the skirt — the passive background hierarchy. It never changes in response to interaction.
 
-#### Intensity and Articulation
+**Engagement** is the pedal tone — teal varying in intensity. Transient: appears during interaction, vanishes when you stop.
 
-The pedal tone has two channels, not one. A crescendo is not just louder — it changes how the note is played.
+**Selection** is Snow Miku's ice — frost (`#81D4FA`, Snow Miku 2025 ice prism, ~220° in JzCzhz). Persistent: marks what was *chosen*. Touching warms (teal). Choosing crystallizes (frost). The 40° hue gap is subliminal — unified but distinguishable.
 
-**Fill** is intensity: how present the teal is. Background lifts, the concert hall brightens. A continuous gradient from silence to forte.
+**Identity** is the solo voice — magenta, the headphone cushion, a border not a fill. Focus layers independently atop any other state: frost fill with a magenta ring.
 
-**Border** is articulation: how the note is attacked. Legato (no border — smooth, flowing) versus marcato (border appears — sharp, definite). A categorical signal, not a gradient.
+Hue separations: engagement↔selection 40°, engagement↔identity 150°, selection↔identity 110°. No CVD simulation collapses these.
 
-States differ by which channels activate:
+#### States
+
+**Fill** is intensity — how present the voice is. **Border** is articulation — legato (no border) versus marcato (border appears). States differ by which voice sounds and which channels activate:
 
 ```
-State      Fill        Border       Articulation   The pedal tone
-═════════════════════════════════════════════════════════════════════════
-default    —           —            rest           Silent — the score plays alone
-hover      teal pp     —            legato         A breath — fill only, smooth
-active     teal f      teal f       marcato        The downbeat — fill + border, sharp
-selected   teal mp     teal mp      tenuto         Held — fill + border, sustained
-disabled   —           —            tacet          Dampened — the string is muted
-focus      —           magenta      solo voice     She hears you — a different instrument
+State      Fill          Border       Voice
+═══════════════════════════════════════════════════════════════════
+default    —             —            rest
+hover      teal mp       —            engagement, legato
+active     teal f        teal f       engagement, marcato
+selected   frost mp      teal mp      selection, tenuto
+disabled   —             —            tacet
+focus      —             magenta      identity, solo voice
 ```
 
-Hover and selected both use teal fill at similar intensity, but the border makes them categorically different — the eye sees fill-only versus fill-plus-outline as different *kinds* of things, not different amounts of one thing. Active fires both channels at forte, brief and sharp. Disabled removes both. Focus layers independently — a selected element can also be focused, teal fill with a magenta ring. Two voices sounding together.
+#### Five Materials
+
+Same vocabulary (four voices, one palette). Different grammar — *how* colors apply depends on what the element is made of.
+
+**Fabric** — surfaces you see through. Lists, menus, trees, quick input, suggest widget, notebook cells. Her outfit: concert light tints the fabric without losing its texture.
+
+*Opacity tint over the existing surface.*
+
+```
+State       Background           Foreground    Border
+═══════════════════════════════════════════════════════════════════
+rest        transparent          primary       —
+hover       teal tint (25%)      primary       —
+selected    frost tint (25%)     primary       teal (p)
+sel+focus   frost tint (25%)     primary       magenta
+active      teal tint (38%)      primary       teal (f)
+disabled    transparent          dimmed        —
+```
+
+**Metal** — solid objects. Primary buttons, badges. Her accessories: headphone frame, hair tie cubes. Metal does not tint — it shifts to a different solid color under pressure.
+
+*Solid colors, swapping between registers of the hair gradient.*
+
+```
+State       Background           Foreground    Border
+═══════════════════════════════════════════════════════════════════
+rest        hair shadow          white         tie shadow
+hover       tonic                white         tonic
+active      accent bright        white         accent bright
+focus       tonic                white         magenta
+disabled    roots                dimmed        roots
+```
+
+**Glass** — containers you type into. Inputs, search boxes, dropdowns. Her arm interface displays: the screen stays dark, only the bezel glows.
+
+*Static fill, border-only articulation.*
+
+```
+State       Background           Foreground    Border
+═══════════════════════════════════════════════════════════════════
+rest        elevated             primary       roots
+hover       elevated             primary       tie shadow
+focus       elevated             primary       accent bright
+disabled    surface              dimmed        roots
+error       elevated             primary       rose
+warning     elevated             primary       orange
+```
+
+**Architecture** — structural elements. Tabs, activity bar, panel titles. Her stage. Does not tint — *reconfigures*. The active tab merges with the editor canvas. The inactive tab recedes to void.
+
+*Background tier assignment.*
+
+```
+State       Background           Foreground    Border-top
+═══════════════════════════════════════════════════════════════════
+inactive    void tier            tertiary      —
+hover       teal tint (15%)      primary       —
+active      base tier            bright        magenta
+unfocused   surface tier         secondary     dimmed magenta
+```
+
+**Air** — translucent handles. Scrollbars, minimap sliders, sashes. The space between spotlights. Never becomes solid.
+
+*Opacity tint, fill only.*
+
+```
+State       Background
+═══════════════════════════════════════
+rest        teal tint (25%)
+hover       teal tint (38%)
+active      teal tint (50%)
+```
+
+#### Invariants
+
+Across all materials:
+
+- Teal means transient engagement. Frost means persistent selection. Magenta means focus.
+- Foreground unchanged for engagement states. Content is sacred.
+- Disabled always dims. Tacet is tacet.
+
+Teal is teal whether it is in her hair (fabric), her arm interface (glass), her headphone frame (metal), or the concert lighting (air). Same color, different material, different behavior.
 
 #### Color Realization
 
-Each channel uses the mechanism natural to its role.
-
-**Backgrounds are opacity of teal over the existing surface.** The teal IS her hair color (`#39C5BB`). The opacity IS her dynamic — how present she is. Tinting preserves spatial context: a sidebar item tinted is still recognizably a sidebar item. A solid replacement color would sever the element from its background tier — fill the room with light instead of brightening it.
-
-But opacity compositing happens in sRGB, not in perceptual space (Section 3). The same alpha produces different ΔEz values against different background tiers:
+**Tint backgrounds** use opacity of a source color over the existing surface. Tinting preserves spatial context. Compositing happens in sRGB (Section 3):
 
 ```
-Opacity   Dynamic    ΔEz on base    ΔEz range across tiers    Usage
-═══════════════════════════════════════════════════════════════════════
-15%       pp         ~11            ~9–13                      Hover, selected, tab
-25%       f          ~18            ~15–21                     Active, secondary button
+Source   Opacity   ΔEz on base    ΔEz range     Usage
+═══════════════════════════════════════════════════════════════════
+Teal     25%       ~18            ~15–21         Hover, tab, selected
+Teal     38%       ~25            ~21–29         Active, 2nd button
+Frost    25%       ~16            ~13–19         Selected, cursor line
+Frost    38%       ~22            ~18–26         Strong selection
 ```
 
-On darker tiers (void, elevated), the sRGB gap between teal and background is wider, producing a larger lightness shift for the same alpha. On brighter tiers (overlay, highest), the gap narrows. The design accepts this variation because the interactive state's identity comes from channel combination — fill versus fill-plus-border — not from precise ΔEz. A hover needs to be visible. It does not need to be identically visible everywhere.
+The same alpha produces different ΔEz on different tiers. The design accepts this — state identity comes from voice and channel combination, not precise ΔEz.
 
-**Borders are solid character-derived teal from her hair gradient.** No opacity on borders — the hex you specify is the hex that renders. Where backgrounds are deliberately fuzzy, borders provide the categorical anchor.
+**Solid borders** use the character-derived hair gradient. No opacity — the hex you specify is the hex that renders.
 
 ```
 Register       Source               Hex       Dynamic
 ═══════════════════════════════════════════════════════
-roots          Hair shadow          #067C82   pp — deepest teal, rest/disabled
-tieShadow      Tie shadow           #1A8A82   p — dark teal, approaching
-tonic          Hair base            #39C5BB   f — canonical, the downbeat
-accentBright   Hair highlight       #84CCC8   ff — bright teal, full signal
-spotlight      Headphone cushion    #E05096   — — solo voice, different instrument
+roots          Hair shadow          #067C82   pp
+tieShadow      Tie shadow           #1A8A82   p
+tonic          Hair base            #39C5BB   f
+accentBright   Hair highlight       #84CCC8   ff
+spotlight      Headphone cushion    #E05096   solo voice
 ```
 
-Five colors forming a register stack in JzCzhz: ascending Jz at roughly constant hue, each a character-derived hex with stable perceptual coordinates.
-
-**Foregrounds are unchanged for most states.** Content is sacred — background and border carry the signal without disrupting reading. Only two states change foreground: focus (magenta, different modality) and disabled (dimmed, removal).
-
-```
-Component     hover             active            selected           focus
-═════════════════════════════════════════════════════════════════════════════
-List          teal bg pp        teal bg f+border  teal bg mp+border  magenta border
-Tab           teal bg pp        teal bg+border    teal bg pp+border  magenta border
-Button        solid crescendo   solid crescendo   solid held         magenta ring
-Button 2nd    teal bg+border    teal bg+border    teal bg+border     magenta ring
-Input         solid border      solid border      solid border       bright teal border
-```
-
-Background uses opacity because surfaces tint. Border uses solid because lines exist. No free parameters.
+**Foregrounds** unchanged for most states. Only focus (magenta) and disabled (dimmed) change foreground.
 
 ### Overlays
 
-Selections, search matches, and diffs stack translucent layers on the canvas. Each uses a distinct color family:
+Content states — what is in the code, not what is happening to a widget.
 
 ```
-Overlay                  Color              Opacity   Source
-═════════════════════════════════════════════════════════════════
-Selection                Teal (#39C5BB)     25%       Her hair — chosen code
-Inactive selection       Teal               18%       Hair, fading
-Selection highlight      Hair highlight     15%       Light on twin tails
-Word highlight           Teal               15%       Recognizing a pattern
-Word highlight strong    Skin blush         12%       Her cheek — emphasis
-Find match               Orange             22%       Cutting through teal to find you
-Diff inserted            Darkened lime      80%       New growth
-Diff removed             Darkened rose      80%       Loss
+Overlay                  Voice       Color              Opacity   Source
+═══════════════════════════════════════════════════════════════════════════
+Cursor line              Selection   Frost (#81D4FA)    20%       Snow Miku ice prism
+Selection                Selection   Frost              25%       What you chose
+Inactive selection       Selection   Frost              18%       Fading
+Selection highlight      Selection   Hair highlight     15%       Light on twin tails
+Word highlight           Engagement  Teal (#39C5BB)     15%       Pattern recognition
+Word highlight strong    —           Skin blush         12%       Emphasis
+Find match               —           Orange             22%       Cutting through to find you
+Diff inserted            —           JUMP green         33%       New growth
+Diff removed             —           Sakura pink        33%       Lovely departure
 ```
 
-Overlays are where the two-space problem matters most. A syntax color achieving Lc 82 on the bare canvas may fail when a selection or diff shifts the effective background. The readability tool tests every primary syntax token against all twenty overlay backgrounds. The threshold does not drop: Lc ≥ 75 on every composite surface.
+Cursor line and selection use frost (persistent). Word highlight uses teal (transient). Find match uses orange (attention — cuts through both).
 
-This is why the primary syntax tier targets Lc 82–85, not Lc 75. The headroom is not caution — it is the measured cost of two stacked translucent layers. A selection inside a diff. A find match inside a selection. Every overlay erodes contrast. The original Jz must be high enough that the erosion never reaches the foundation.
+Overlays erode syntax contrast. The readability tool tests every primary syntax token against all twenty overlay backgrounds. Threshold: Lc ≥ 75 on every composite surface. This is why the primary syntax tier targets Lc 82–85 — the headroom is the measured cost of stacked translucent layers.
 
 ### Borders
 
-Borders are accent teal at varying opacity — a single color, an opacity crescendo from silence to full voice:
+An opacity crescendo from silence to full voice:
 
 ```
 Level     Opacity    Dyn   Usage
@@ -508,9 +574,7 @@ Strong    60 (38%)   f     Selected tabs, important divisions
 Accent    FF (100%)  ff    Active tab indicator, brand
 ```
 
-The opacity scale maps hex bytes to musical dynamics. Neither is perceptually linear — both follow compressive curves (Stevens' power law governs both auditory loudness and brightness perception). The difference between *pianissimo* and *piano* is small; between *forte* and *fortissimo*, enormous. Opacity bends the same way.
-
-Focus rings use the solo voice — magenta at the same dynamic, a different timbre.
+The opacity scale follows compressive curves (Stevens' power law). Focus rings use magenta at the same dynamic — a different timbre.
 
 ### The Community in the Details
 

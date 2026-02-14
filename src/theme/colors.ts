@@ -57,7 +57,7 @@ export const syntax = {
 
   // Operators & Punctuation
   operator: t.ui.operator.hex,
-  punctuation: t.bracket.bracket5.hex,
+  punctuation: t.syntax.punctuation.hex,
 
   // Meta
   comment: t.syntax.comment.hex,

@@ -1,48 +1,28 @@
 /**
  * Interactive State Token Definitions — Her Presence
  *
- * Two voices. Not chosen — derived.
+ * Four voices:
  *
- * PEDAL TONE — teal (#39C5BB), the tonic, varying in intensity and articulation.
- * The concert hall brightens in its own color.
+ * STRUCTURE  — skirt (hz≈249°), solid Jz steps. Where am I?
+ * ENGAGEMENT — teal (#39C5BB), opacity tint. Transient — hover, active.
+ * SELECTION  — frost (#81D4FA), opacity tint. Persistent — selected, cursor line.
+ * IDENTITY   — magenta (#E05096), solid border. Focus — keyboard target.
  *
- *   hover    — legato: fill only, a breath (pp)
- *   active   — marcato: fill + border, the downbeat (f)
- *   selected — tenuto: fill + border, sustained (mp)
- *   disabled — tacet: dampened, the string is muted
+ * Five materials:
  *
- * SOLO VOICE — magenta (#E05096), headphone cushion, input identity.
- *   focus    — which element receives keyboard input
+ * Fabric       — opacity tint over surface (lists, menus, trees)
+ * Metal        — solid register swap (primary buttons, badges)
+ * Glass        — static fill, border articulation (inputs, search)
+ * Architecture — tier assignment (tabs, activity bar)
+ * Air          — opacity tint, fill only (scrollbars, sliders)
  *
- * MECHANISM — each channel uses the mechanism natural to its role:
- *
- *   Background: opacity of teal over the existing surface. The teal IS her
- *   hair color. The opacity IS her dynamic — how present she is. Tinting
- *   preserves spatial context: a sidebar item tinted is still a sidebar item.
- *     medium (15%) ΔEz≈11  — hover, selected, tab (fill level)
- *     strong (25%) ΔEz≈18  — active, secondary button hover (downbeat)
- *   Hover and selected share the same fill — the border carries their
- *   distinction. Channel combination, not intensity, is the signal.
- *
- *   Border: solid character-derived teal from her hair gradient. A line is
- *   structural — it exists at a color or it doesn't.
- *     roots       #067C82  — pp, rest/disabled
- *     tieShadow   #1A8A82  — p, sustained presence
- *     tonic       #39C5BB  — f, the downbeat
- *     accentBright #84CCC8 — ff, full signal (input focus)
- *     spotlight   #E05096  — solo voice (all focus states)
- *
- *   Foreground: unchanged for most states. Content is sacred — background
- *   and border carry the signal without disrupting reading. Magenta for
- *   focus (different modality), dimmed for disabled (removal).
- *
- * Distinction comes from channel combination (fill vs fill+border),
- * not from fine gradations of one channel.
+ * Same vocabulary, different grammar.
  */
 
 import { withOpacity } from './role';
 import type { InteractiveTokens, UITokens, ExtendedUITokens } from './types';
 import type { Primitives } from './primitives';
+import { snowMiku } from '../palette';
 
 // =============================================================================
 // INTERACTIVE TOKEN CREATION
@@ -55,72 +35,79 @@ export function createInteractiveTokens(
   const { character: char, opacity: op } = p;
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // THE PEDAL TONE — teal, her canonical hair color
+  // ENGAGEMENT — teal, transient interaction
   // ═══════════════════════════════════════════════════════════════════════════
-  // Applied as opacity over the existing surface. The teal IS her hair.
-  // The opacity level IS her dynamic — how present she is.
-  const tonic = char.hair.base;              // #39C5BB — the color itself
+  const tonic = char.hair.base;              // #39C5BB
 
-  // Solid registers for borders — her hair gradient from root to tip
-  const tieShadow = char.tie.shadow;         // #1A8A82 — dark teal (piano)
-  const roots = char.hair.shadow;            // #067C82 — deepest teal (pianissimo)
-  const accentBright = char.hair.highlight;  // #84CCC8 — bright teal (fortissimo)
+  // Solid registers — hair gradient from root to tip
+  const roots = char.hair.shadow;            // #067C82 — pp
+  const tieShadow = char.tie.shadow;         // #1A8A82 — p
+  const accentBright = ui ? ui.accentSecondary.hex : char.hair.highlight;  // Lightened hair highlight — ff
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // THE SOLO VOICE — magenta, headphone cushion, input identity
+  // SELECTION — Snow Miku frost, persistent state
   // ═══════════════════════════════════════════════════════════════════════════
-  const spotlight = char.hairTies.outline;   // #E05096 — solid magenta
+  const frost = snowMiku.y2025.accessories.crystal; // #81D4FA — ~220° in JzCzhz
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // IDENTITY — magenta, focus / keyboard target
+  // ═══════════════════════════════════════════════════════════════════════════
+  const spotlight = char.hairTies.outline;   // #E05096
 
   // UI fallbacks
   const foreground = ui ? ui.foreground.hex : '#C0D8E0';
+  // Colored foregrounds — voices speak as text
+  const foregroundFrost = snowMiku.y2022.hair;    // #B2EBF2 — selection voice (Snow Miku ocean blue)
+  const foregroundTeal = accentBright;            // Lightened hair highlight — engagement highlight (light teal)
   const foregroundMuted = ui ? ui.foregroundMuted.hex : '#8A9CA0';
   const foregroundDisabled = ui ? ui.disabled.hex : '#5A6A70';
+  const backgroundVoid = ui ? ui.void.hex : '#0A1214';
   const background = ui ? ui.background.hex : char.skirt.base;
   const backgroundElevated = ui ? ui.backgroundElevated.hex : char.armWarmers.base;
   const backgroundSurface = ui ? ui.backgroundSurface.hex : char.headphones.frame;
 
   return {
     // =========================================================================
-    // LIST — opacity teal bg + solid teal borders
+    // FABRIC — lists, menus, trees, suggest, notebook cells
     // =========================================================================
     list: {
       background: {
-        default: 'transparent',
-        hover: withOpacity(tonic, op.medium),      // 15% ΔEz≈11 — a breath of teal
-        active: withOpacity(tonic, op.strong),      // 25% ΔEz≈18 — the downbeat, brief
-        focus: 'transparent',                       // solo voice uses border only
-        disabled: 'transparent',
-        selected: withOpacity(tonic, op.medium),    // 15% ΔEz≈11 — same bg as hover; border carries distinction
+        default: '#00000000',
+        hover: withOpacity(tonic, op.strong),       // 25% — engagement, transient
+        active: withOpacity(tonic, op.heavy),        // 38% — engagement, marcato
+        focus: '#00000000',                        // identity uses border only
+        disabled: '#00000000',
+        selected: withOpacity(frost, op.strong),     // 25% — selection, persistent
       },
       foreground: {
         default: foreground,
-        hover: foreground,                          // unchanged — bg carries the signal
-        active: foreground,
-        focus: spotlight,                           // solo voice — magenta
+        hover: foreground,
+        active: foregroundTeal,                      // engagement highlight on press
+        focus: foreground,                           // identity is border-only
         disabled: foregroundDisabled,
-        selected: foreground,
+        selected: foregroundFrost,                   // selection voice as text
       },
       border: {
-        default: 'transparent',
-        hover: 'transparent',                       // legato — fill only, no border
-        active: tonic,                              // marcato — solid canonical teal
-        focus: spotlight,                           // solo voice — solid magenta
-        disabled: 'transparent',
-        selected: tieShadow,                        // tenuto — solid dark teal, sustained
+        default: '#00000000',
+        hover: '#00000000',                       // legato — fill only
+        active: tonic,                              // marcato — solid teal
+        focus: spotlight,                           // identity — solid magenta
+        disabled: '#00000000',
+        selected: tieShadow,                        // tenuto — solid dark teal
       },
     },
 
     // =========================================================================
-    // PRIMARY BUTTON — solid character-derived registers
+    // METAL (primary) — solid register swap
     // =========================================================================
     button: {
       background: {
         default: ui ? ui.buttonBackground.hex : '#157570',
-        hover: tonic,                               // f — solid tonic
-        active: accentBright,                       // ff — solid bright overtone
-        focus: tonic,                               // f — solid tonic sustain
-        disabled: roots,                            // tacet — solid deepest teal
-        selected: tonic,                            // f — solid held
+        hover: tonic,                               // f
+        active: accentBright,                       // ff
+        focus: tonic,
+        disabled: roots,                            // tacet
+        selected: tonic,
       },
       foreground: {
         default: '#FFFFFF',
@@ -131,47 +118,47 @@ export function createInteractiveTokens(
         selected: '#FFFFFF',
       },
       border: {
-        default: tieShadow,                         // solid dark teal at rest
-        hover: tonic,                               // solid canonical teal
-        active: accentBright,                       // solid bright overtone
-        focus: spotlight,                           // solo voice — solid magenta
-        disabled: roots,                            // solid deepest teal
-        selected: tonic,                            // solid canonical teal
+        default: tieShadow,
+        hover: tonic,
+        active: accentBright,
+        focus: spotlight,                           // identity — magenta
+        disabled: roots,
+        selected: tonic,
       },
     },
 
     // =========================================================================
-    // SECONDARY BUTTON — opacity teal bg + solid teal borders
+    // METAL (secondary) — tint bg + solid borders
     // =========================================================================
     buttonSecondary: {
       background: {
-        default: withOpacity(tonic, op.medium),     // 15% — moderate teal at rest
-        hover: withOpacity(tonic, op.strong),       // 25% — brighter
-        active: withOpacity(tonic, op.heavy),       // 38% — the downbeat
-        focus: withOpacity(tonic, op.strong),       // 25% — same as hover
-        disabled: withOpacity(tonic, op.light),     // 8% — faint
-        selected: withOpacity(tonic, op.strong),    // 25% — bright
+        default: withOpacity(tonic, op.strong),      // 25%
+        hover: withOpacity(tonic, op.heavy),         // 38%
+        active: withOpacity(tonic, op.solid),        // 50%
+        focus: withOpacity(tonic, op.heavy),
+        disabled: withOpacity(tonic, op.medium),     // 15%
+        selected: withOpacity(tonic, op.heavy),
       },
       foreground: {
         default: foreground,
-        hover: accentBright,                        // solid bright teal
+        hover: accentBright,
         active: foreground,
-        focus: spotlight,                           // solo voice — solid magenta
+        focus: foreground,                           // content is sacred — identity is border-only
         disabled: foregroundDisabled,
         selected: foreground,
       },
       border: {
-        default: roots,                             // solid deepest teal
-        hover: tieShadow,                           // solid dark teal — pedal tone rises
-        active: tonic,                              // solid canonical teal — forte
-        focus: spotlight,                           // solo voice — solid magenta
-        disabled: roots,                            // solid deepest teal
-        selected: tieShadow,                        // solid dark teal — tenuto
+        default: roots,
+        hover: tieShadow,
+        active: tonic,
+        focus: spotlight,                           // identity — magenta
+        disabled: roots,
+        selected: tieShadow,
       },
     },
 
     // =========================================================================
-    // INPUT — solid bg, solid border articulation
+    // GLASS — static fill, border articulation
     // =========================================================================
     input: {
       background: {
@@ -191,42 +178,113 @@ export function createInteractiveTokens(
         selected: foreground,
       },
       border: {
-        default: roots,                             // solid deepest teal — mic at rest
-        hover: tieShadow,                           // solid dark teal — approaching
-        active: tonic,                              // solid canonical teal — mic live
-        focus: accentBright,                        // solid bright teal — full signal
-        disabled: roots,                            // solid deepest teal — mic off
-        selected: tieShadow,                        // solid dark teal — held
+        default: roots,
+        hover: tieShadow,
+        active: tonic,
+        focus: accentBright,                        // full signal
+        disabled: roots,
+        selected: tieShadow,
       },
     },
 
     // =========================================================================
-    // TAB — opacity teal bg + solid borders
+    // ARCHITECTURE — tier assignment (solid tiers, not tints)
     // =========================================================================
     tab: {
       background: {
-        default: background,
-        hover: withOpacity(tonic, op.medium),       // 15% ΔEz≈11 — teal breath
-        active: withOpacity(tonic, op.light),       // 8% — subtle press
-        focus: 'transparent',                       // solo voice uses border
-        disabled: background,
-        selected: withOpacity(tonic, op.medium),    // 15% — teal presence + border
+        default: backgroundVoid,                    // inactive — void tier (recedes)
+        hover: withOpacity(tonic, op.strong),        // 25% — engagement tint (transient OK)
+        active: background,                         // shown tab — base tier (merges with editor)
+        focus: '#00000000',                       // identity uses border only
+        disabled: backgroundVoid,                   // same as inactive
+        selected: backgroundSurface,                // unfocused active — surface tier
       },
       foreground: {
         default: foregroundMuted,
-        hover: foreground,                          // brighter text — pedal tone lifts
+        hover: foreground,
         active: foreground,
-        focus: spotlight,                           // solo voice — solid magenta
+        focus: foreground,                           // content is sacred — identity is border-only
         disabled: foregroundDisabled,
         selected: foreground,
       },
       border: {
-        default: backgroundElevated,                // solid bg-tier — resting
-        hover: 'transparent',                       // legato — no border
-        active: tieShadow,                          // solid dark teal — marcato
-        focus: spotlight,                           // solid magenta — solo voice
+        default: backgroundElevated,
+        hover: '#00000000',                       // legato
+        active: tieShadow,                          // marcato
+        focus: spotlight,                           // identity — magenta
         disabled: backgroundElevated,
-        selected: tieShadow,                        // solid dark teal — tenuto
+        selected: tieShadow,                        // tenuto
+      },
+    },
+
+    // =========================================================================
+    // FABRIC (minimal) — toolbar icons, activity bar items
+    // =========================================================================
+    toolbar: {
+      background: {
+        default: '#00000000',
+        hover: withOpacity(tonic, op.strong),        // 25%
+        active: withOpacity(tonic, op.heavy),        // 38%
+        focus: '#00000000',
+        disabled: '#00000000',
+        selected: withOpacity(frost, op.strong),     // 25% — toggled/selected
+      },
+      foreground: {
+        default: foregroundMuted,
+        hover: foreground,
+        active: foreground,
+        focus: foreground,
+        disabled: foregroundDisabled,
+        selected: foreground,
+      },
+      border: {
+        default: '#00000000',
+        hover: '#00000000',                       // no border on icon hover
+        active: '#00000000',
+        focus: spotlight,                           // identity — magenta
+        disabled: '#00000000',
+        selected: '#00000000',
+      },
+    },
+
+    // =========================================================================
+    // TOGGLE — checkboxes, radio buttons, input options
+    // =========================================================================
+    toggle: {
+      background: {
+        default: background,                        // off
+        hover: withOpacity(tonic, op.strong),        // off + hover
+        active: tonic,                              // on + hover
+        focus: background,
+        disabled: withOpacity(backgroundSurface, '80'),
+        selected: ui ? ui.buttonBackground.hex : '#157570', // on
+      },
+      foreground: {
+        default: foregroundMuted,                   // off — dim
+        hover: foreground,                          // off + hover — brighter
+        active: '#FFFFFF',                          // on + hover
+        focus: foreground,
+        disabled: foregroundDisabled,
+        selected: accentBright,                     // on — bright teal checkmark
+      },
+      border: {
+        default: withOpacity(tonic, op.heavy),      // off — teal tint border
+        hover: tieShadow,                           // off + hover
+        active: accentBright,                       // on + hover
+        focus: spotlight,                           // identity — magenta
+        disabled: roots,
+        selected: tonic,                            // on
+      },
+    },
+
+    // =========================================================================
+    // AIR — scrollbars, minimap sliders, sashes
+    // =========================================================================
+    slider: {
+      background: {
+        rest: withOpacity(tonic, op.strong),         // 25%
+        hover: withOpacity(tonic, op.heavy),         // 38%
+        active: withOpacity(tonic, op.solid),        // 50%
       },
     },
   };
