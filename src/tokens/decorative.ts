@@ -28,6 +28,8 @@ import {
   character,
   magicalMirai,
   digitalStars,
+  snowMiku,
+  sakuraMiku,
   virtualSinger,
   leoNeed,
   moreMoreJump,
@@ -173,7 +175,9 @@ export function createDecorativeTokens(): DecorativeTokens {
       purple: nightcord.unitColor,                        // Nightcord — 25:00, the quiet hours
     },
 
-    // Diff editor
+    // Diff editor — cute character colors
+    diffInserted: moreMoreJump.unitColor,         // MORE MORE JUMP! bright green — idol energy, new code
+    diffRemoved: sakuraMiku.hair.base, // Vivid sakura — cherry blossom hue at 2.2× chroma, lovely departure
     diffMoveBorder: digitalStars.y2021_mg.outfit.gradient,
     diffMoveActiveBorder: digitalStars.y2021_mg.outfit.gradient,
 
@@ -200,5 +204,10 @@ export function createDecorativeTokens(): DecorativeTokens {
     skinBlush: character.skin.blush,
     skinBase: character.skin.base,
 
+    // Snow Miku — icy cursor line frost
+    cursorLineFrost: snowMiku.y2025.accessories.crystal, // 2025 Sparkling Snow ice prism #81D4FA
+
+    // Boots — terminal lives inside her thigh-highs
+    bootsBase: character.boots.base, // #14181D — deep near-black with blue tint
   };
 }

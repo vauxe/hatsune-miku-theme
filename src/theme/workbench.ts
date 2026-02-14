@@ -83,10 +83,10 @@ export const workbenchColors = {
   'editor.placeholder.foreground': text.placeholder,
   'editor.compositionBorder': accent.bright,
 
-  // Line highlighting
-  'editor.lineHighlightBackground': withOpacity(accent.primary, '08'),
-  'editor.lineHighlightBorder': withOpacity(accent.primary, '15'),
-  'editor.inactiveLineHighlightBackground': withOpacity(accent.primary, '04'),
+  // Line highlighting — Snow Miku ice prism frost
+  'editor.lineHighlightBackground': withOpacity(t.decorative.cursorLineFrost, '33'),
+  'editor.lineHighlightBorder': withOpacity(t.decorative.cursorLineFrost, '40'),
+  'editor.inactiveLineHighlightBackground': withOpacity(t.decorative.cursorLineFrost, '15'),
 
   // Selection
   'editor.selectionBackground': withOpacity(accent.primary, '25'),
@@ -416,9 +416,9 @@ export const workbenchColors = {
   'statusBar.background': bg.highest,
   'statusBar.foreground': text.primary,
   'statusBar.border': withOpacity(accent.primary, '20'),
-  'statusBar.debuggingBackground': darken(t.ui.activeBorder, 0.03),  // Magenta — the spotlight is on your code
-  'statusBar.debuggingForeground': t.ui.pureWhite.hex,
-  'statusBar.debuggingBorder': t.ui.activeBorder.hex,
+  'statusBar.debuggingBackground': t.decorative.diffRemoved,  // Sakura pink — lovely debugging
+  'statusBar.debuggingForeground': t.decorative.statusItemForeground,
+  'statusBar.debuggingBorder': t.decorative.diffRemoved,
   'statusBar.noFolderBackground': bg.highest,
   'statusBar.noFolderForeground': text.primary,
   'statusBar.noFolderBorder': withOpacity(text.tertiary, '30'),
@@ -426,14 +426,14 @@ export const workbenchColors = {
   'statusBarItem.activeBackground': withOpacity(accent.primary, '30'),
   'statusBarItem.hoverBackground': withOpacity(accent.primary, '20'),
   'statusBarItem.hoverForeground': text.primary,
-  'statusBarItem.prominentForeground': text.primary,  // #E8EEF2 for Lc 75+
+  'statusBarItem.prominentForeground': text.primary,
   'statusBarItem.prominentBackground': withOpacity(accent.primary, '20'),
   'statusBarItem.prominentHoverBackground': withOpacity(accent.primary, '35'),
   'statusBarItem.prominentHoverForeground': text.primary,
-  'statusBarItem.remoteBackground': darken(t.ui.accentPrimary, 0.06),
-  'statusBarItem.remoteForeground': t.ui.pureWhite.hex,
-  'statusBarItem.remoteHoverBackground': darken(t.ui.accentPrimary, 0.05),
-  'statusBarItem.remoteHoverForeground': t.ui.pureWhite.hex,
+  'statusBarItem.remoteBackground': accent.primary,  // Miku teal — full, her presence
+  'statusBarItem.remoteForeground': t.decorative.statusItemForeground,
+  'statusBarItem.remoteHoverBackground': accent.bright,
+  'statusBarItem.remoteHoverForeground': t.decorative.statusItemForeground,
   'statusBarItem.errorBackground': darken(t.ui.activeBorder, 0.03),  // Magenta — attention
   'statusBarItem.errorForeground': t.ui.pureWhite.hex,
   'statusBarItem.errorHoverBackground': darken(t.ui.activeBorder, 0.01),
@@ -444,8 +444,8 @@ export const workbenchColors = {
   'statusBarItem.warningHoverForeground': t.ui.pureWhite.hex,
   'statusBarItem.compactHoverBackground': withOpacity(accent.primary, '25'),
   'statusBarItem.focusBorder': withOpacity(accent.bright, 'DD'),
-  'statusBarItem.offlineBackground': withOpacity(text.tertiary, 'AA'),  // Lighter background for better contrast
-  'statusBarItem.offlineForeground': t.ui.pureWhite.hex,    // Pure white for Lc 75+
+  'statusBarItem.offlineBackground': withOpacity(text.tertiary, 'AA'),
+  'statusBarItem.offlineForeground': t.ui.pureWhite.hex,
   'statusBarItem.offlineHoverBackground': withOpacity(text.tertiary, 'CC'),
   'statusBarItem.offlineHoverForeground': t.ui.pureWhite.hex,
 
@@ -604,7 +604,7 @@ export const workbenchColors = {
   // ==========================================================================
   // TERMINAL
   // ==========================================================================
-  'terminal.background': bg.void,
+  'terminal.background': t.decorative.bootsBase,  // Her thigh-high boots — the terminal's home
   'terminal.foreground': text.primary,
   'terminal.border': withOpacity(accent.primary, '25'),
   'terminal.selectionBackground': withOpacity(accent.primary, '35'),
@@ -738,14 +738,23 @@ export const workbenchColors = {
   // ==========================================================================
   // DIFF EDITOR
   // ==========================================================================
-  // Dark chromatic diff: overlay Jz near editor bg but high chroma → ΔE from hue, not lightness
-  // This preserves compound contrast (syntax readable on top) while ensuring added↔removed ΔE ≥ 15
-  'diffEditor.insertedTextBackground': withOpacity(darken(t.git.added, 0.14), '80'),
-  'diffEditor.insertedTextBorder': withOpacity(semantic.success, '00'),
-  'diffEditor.insertedLineBackground': withOpacity(semantic.success, '30'),
-  'diffEditor.removedTextBackground': withOpacity(darken(t.git.deleted, 0.20), '80'),
-  'diffEditor.removedTextBorder': withOpacity(semantic.error, '00'),
-  'diffEditor.removedLineBackground': withOpacity(semantic.error, '30'),
+  // Same bright character colors everywhere — minimap, editor, gutter.
+  // Opacity tints the editor background so the hue matches the minimap exactly.
+  //
+  //   Inserted — MORE MORE JUMP! green (#88DD44), idol energy
+  //   Removed  — Sakura Miku vivid candy sakura (#FF6BCA), lovely departure
+  //
+  // Line = 20%, text = 25% (~5% step), minimap = solid.
+  'diffEditor.insertedLineBackground':        withOpacity(t.decorative.diffInserted, '33'),
+  'diffEditor.insertedTextBackground':         withOpacity(t.decorative.diffInserted, '40'),
+  'diffEditor.insertedTextBorder':             withOpacity(t.decorative.diffInserted, '00'),
+  'diffEditorGutter.insertedLineBackground':   withOpacity(t.decorative.diffInserted, '33'),
+  'diffEditor.removedLineBackground':          withOpacity(t.decorative.diffRemoved, '33'),
+  'diffEditor.removedTextBackground':          withOpacity(t.decorative.diffRemoved, '40'),
+  'diffEditor.removedTextBorder':              withOpacity(t.decorative.diffRemoved, '00'),
+  'diffEditorGutter.removedLineBackground':    withOpacity(t.decorative.diffRemoved, '33'),
+  'diffEditorOverview.insertedForeground': t.decorative.diffInserted,
+  'diffEditorOverview.removedForeground': t.decorative.diffRemoved,
   'diffEditor.diagonalFill': withOpacity(text.tertiary, '15'),
   'diffEditor.border': withOpacity(accent.primary, '25'),
   'diffEditor.unchangedRegionBackground': withOpacity(bg.overlay, '30'),
@@ -754,10 +763,6 @@ export const workbenchColors = {
   'diffEditor.unchangedCodeBackground': withOpacity(bg.overlay, '15'),
   'diffEditor.move.border': withOpacity(t.decorative.diffMoveBorder, '50'),
   'diffEditor.moveActive.border': t.decorative.diffMoveBorder,
-  'diffEditorGutter.insertedLineBackground': withOpacity(semantic.success, '40'),
-  'diffEditorGutter.removedLineBackground': withOpacity(semantic.error, '40'),
-  'diffEditorOverview.insertedForeground': semantic.success,
-  'diffEditorOverview.removedForeground': semantic.error,
 
   // ==========================================================================
   // MULTI-DIFF EDITOR

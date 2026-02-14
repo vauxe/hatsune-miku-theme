@@ -20,7 +20,7 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
   const { lightness: L, chroma: C, hue: H, character: char } = p;
 
   // The skirt is the stage — one anchor, uniform steps up and down
-  const STEP = 0.003;
+  const STEP = 0.004;
   const skirt = parseHex(char.skirt.base);
 
   return {
@@ -226,24 +226,24 @@ export function createGitTokens(p: Primitives): GitTokens {
       L.vibrant, C.vibrant, H.cyan
     ),
     conflicting: role(
-      'Tension — blue, two truths that cannot coexist',
-      L.secondary, C.vibrant, H.blue
+      'Tension — blue, demanding manual resolution',
+      L.vibrant, C.vibrant, H.blue
     ),
     renamed: role(
-      'Transformation — blue, the same thing with a new name',
-      L.primary, C.comfortable, H.blue
+      'Transformation — green, same content at a new address',
+      L.primary, C.comfortable, H.green
     ),
     stageModified: role(
-      'Prepared change — cyan, ready to become part of the story',
-      L.vibrant, C.vibrant, H.cyan
+      'Change accepted — muted teal, resting in the tonic',
+      L.muted, C.muted, H.mikuTeal
     ),
     stageDeleted: role(
-      'Prepared removal — blue, loss accepted',
-      L.primary, C.comfortable, H.blue
+      'Loss accepted — azure, cooled from parent rose',
+      L.primary, C.comfortable, H.azure
     ),
     submodule: role(
-      'External world — azure, a reference beyond this repo',
-      L.primary, C.comfortable, H.azure
+      'External world — muted azure, a reference beyond this repo',
+      L.secondary, C.muted, H.azure
     ),
   };
 }

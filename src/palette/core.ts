@@ -43,14 +43,14 @@ export const character = {
   // Headphones - signature accessory
   headphones: {
     frame: '#1A1F24',         // Dark grey frame
-    cushion: '#E62084',       // Magenta cushion accent
+    cushion: '#E05096',       // Magenta cushion accent
     display: '#39C5BB',       // Teal "01" display
   },
 
   // Hair ties - cube-shaped
   hairTies: {
     base: '#111417',
-    outline: '#E62084',
+    outline: '#E05096',
   },
 
   // Costume neutrals (canonical silhouette)

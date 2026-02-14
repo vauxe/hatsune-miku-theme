@@ -14,7 +14,7 @@
 export const sakuraMiku = {
     // Hair - pink instead of teal
     hair: {
-        base: '#FFB7C5',       // Cherry blossom pink
+        base: '#FF6BCA',       // Vivid candy sakura (hue 350°, Cz 0.10) — cute and lovely
         shadow: '#F58F98',     // Deeper pink
         highlight: '#FEEEED',  // Pale sakura white-pink
         tip: '#EEBBCB',        // Purple-pink gradient at tips

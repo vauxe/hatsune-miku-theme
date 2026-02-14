@@ -269,6 +269,9 @@ export interface DecorativeTokens {
     green: string;
     purple: string;
   };
+  /** Diff editor colors — cute character palette */
+  diffInserted: string;
+  diffRemoved: string;
   /** Diff editor move border */
   diffMoveBorder: string;
   diffMoveActiveBorder: string;
@@ -304,6 +307,10 @@ export interface DecorativeTokens {
   skinBlush: string;
   /** Skin base peach — warmth for notifications (skin.base) */
   skinBase: string;
+  /** Snow Miku ice prism — frosty cursor line shimmer (snowMiku.y2025) */
+  cursorLineFrost: string;
+  /** Boots base — deep near-black for terminal (character.boots.base) */
+  bootsBase: string;
 }
 
 // =============================================================================

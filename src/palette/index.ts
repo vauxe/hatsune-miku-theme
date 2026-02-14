@@ -9,14 +9,7 @@
  * future theme variants.
  */
 
-// ==========================================================================
-// CORE - Original KEI Design (2007)
-// ==========================================================================
 export { character } from './core';
-
-// ==========================================================================
-// VOICEBANK VARIANTS - Used for indent guide colors
-// ==========================================================================
 export {
   mikuV2,
   mikuAppend,
@@ -24,16 +17,10 @@ export {
   mikuV4X,
   mikuNT,
 } from './voicebanks';
-
-// ==========================================================================
-// ANNUAL EVENT COSTUMES - Used for chart/decorative colors
-// ==========================================================================
 export { digitalStars } from './events';
 export { magicalMirai } from './events';
-
-// ==========================================================================
-// GAME APPEARANCES - Used for SCM graph colors
-// ==========================================================================
+export { snowMiku } from './events';
+export { sakuraMiku } from './derivatives';
 export {
   virtualSinger,
   leoNeed,
