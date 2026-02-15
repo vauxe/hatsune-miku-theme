@@ -37,7 +37,7 @@ import type {
 // =============================================================================
 
 export function isValidHex(hex: string): boolean {
-  return /^#?([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$/.test(hex);
+  return /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{4}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$/.test(hex);
 }
 
 // =============================================================================
@@ -95,6 +95,9 @@ export function getChroma(hex: string): number | null {
 
 /**
  * Analyze JzCzhz chroma level for comfortable extended reading.
+ *
+ * @param chroma - Raw Cz value from JzCzhz
+ * @param tier - Element tier (primary, secondary, accent)
  */
 export function analyzeChroma(
   chroma: number,
@@ -156,17 +159,32 @@ export function analyzeChroma(
 
 export function hasAlphaChannel(hex: string): boolean {
   const len = hex.startsWith('#') ? hex.length - 1 : hex.length;
-  return len === 8;
+  return len === 4 || len === 8;
 }
 
 export function stripAlpha(hex: string): string {
   if (!hasAlphaChannel(hex)) return hex;
-  return hex.slice(0, hex.startsWith('#') ? 7 : 6);
+  const hasHash = hex.startsWith('#');
+  const raw = hasHash ? hex.slice(1) : hex;
+
+  if (raw.length === 4) {
+    const rgb = raw.slice(0, 3);
+    return hasHash ? `#${rgb}` : rgb;
+  }
+
+  return hasHash ? `#${raw.slice(0, 6)}` : raw.slice(0, 6);
 }
 
 export function extractAlpha(hex: string): number {
   if (!hasAlphaChannel(hex)) return 1.0;
-  return parseInt(hex.slice(-2), 16) / 255;
+  const raw = hex.startsWith('#') ? hex.slice(1) : hex;
+
+  if (raw.length === 4) {
+    const a = raw[3];
+    return parseInt(a + a, 16) / 255;
+  }
+
+  return parseInt(raw.slice(6, 8), 16) / 255;
 }
 
 export function blendAlpha(fg: string, bg: string, alpha: number): string {
@@ -239,7 +257,9 @@ export function analyzeAPCA(
   const minThreshold = APCA_THRESHOLDS[tier];
   const maxThreshold = APCA_THRESHOLDS.max;
   const tooLow = absLc < minThreshold;
-  const tooHigh = tier !== 'tertiary' && absLc > maxThreshold;
+  // Halation (text bloom) only affects light text on dark backgrounds.
+  // Dark text on light backgrounds doesn't bloom — high Lc is just high contrast.
+  const tooHigh = tier !== 'tertiary' && polarity === 'light-on-dark' && absLc > maxThreshold;
   const pass = !tooLow && !tooHigh;
 
   const failReason = tooHigh ? 'halation' : tooLow ? 'too-low' : undefined;
@@ -326,25 +346,34 @@ export function checkCVDDistinction(
   hex2: string,
   bg?: string
 ): CVDDistinctionResult {
-  const normal = deltaEzHex(hex1, hex2, bg) ?? 0;
+  // Resolve alpha before simulation so CVD checks include overlay blending.
+  const resolveAlpha = (hex: string): string => {
+    if (!hasAlphaChannel(hex)) return hex;
+    const alpha = extractAlpha(hex);
+    const base = stripAlpha(hex);
+    if (alpha >= 0.99) return base;
+    return bg ? blendAlpha(base, bg, alpha) : base;
+  };
 
-  // Simulate both colors under each CVD type, then measure distinction
+  const resolved1 = resolveAlpha(hex1);
+  const resolved2 = resolveAlpha(hex2);
+
+  const normal = deltaEzHex(resolved1, resolved2) ?? 0;
+
+  // Simulate both resolved colors under each CVD type, then measure distinction.
   const protan = deltaEzHex(
-    simulateCVD(hex1, 'protan'),
-    simulateCVD(hex2, 'protan'),
-    bg ? simulateCVD(bg, 'protan') : undefined
+    simulateCVD(resolved1, 'protan'),
+    simulateCVD(resolved2, 'protan')
   ) ?? 0;
 
   const deutan = deltaEzHex(
-    simulateCVD(hex1, 'deutan'),
-    simulateCVD(hex2, 'deutan'),
-    bg ? simulateCVD(bg, 'deutan') : undefined
+    simulateCVD(resolved1, 'deutan'),
+    simulateCVD(resolved2, 'deutan')
   ) ?? 0;
 
   const tritan = deltaEzHex(
-    simulateCVD(hex1, 'tritan'),
-    simulateCVD(hex2, 'tritan'),
-    bg ? simulateCVD(bg, 'tritan') : undefined
+    simulateCVD(resolved1, 'tritan'),
+    simulateCVD(resolved2, 'tritan')
   ) ?? 0;
 
   // Find the worst case

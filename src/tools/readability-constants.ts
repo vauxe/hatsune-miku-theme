@@ -198,7 +198,7 @@ export const LABELS = {
   errMissingColors: 'Error: Theme missing required "colors" object.',
   errMissingEditorBg: 'Error: Theme missing "editor.background" color.',
   errMissingEditorFg: 'Error: Theme missing "editor.foreground" color.',
-  errInvalidColor: (c: string) => `Error: Invalid color "${c}". Use #RGB, #RRGGBB, or #RRGGBBAA`,
+  errInvalidColor: (c: string) => `Error: Invalid color "${c}". Use #RGB, #RGBA, #RRGGBB, or #RRGGBBAA`,
 } as const;
 
 // =============================================================================
@@ -211,7 +211,9 @@ export const LABELS = {
  * Primary (Lc 75-90): High-frequency syntax - body text level, avoiding harsh extremes
  * Secondary (Lc 70-90): UI elements, comments - can be slightly softer
  * Tertiary (Lc ≥ 45): Intentionally subdued elements
- * Max (Lc ≤ 90): Prevents halation (text bloom) - Lc 90+ can feel harsh all-day
+ * Max (Lc ≤ 90): Prevents halation (text bloom) on dark themes only.
+ *   Halation occurs when bright text glows on dark backgrounds (light-on-dark polarity).
+ *   Dark text on light backgrounds (dark-on-light) doesn't bloom — high Lc is fine.
  */
 export const APCA_THRESHOLDS = {
   primary: 75,    // Body text level - comfortable for marathon coding
@@ -410,10 +412,10 @@ export const SECONDARY_CHROMA_ELEMENTS = new Set([
  *
  * Note: Names must match exactly as used in analyze() calls.
  *
- * Note on terminal colors: ANSI black/bright black are included because:
- * - Black is typically invisible on dark terminals (same as background)
- * - Bright black is conventionally used as a dim/gray color
- * Most terminal applications don't use black for primary text on dark backgrounds.
+ * Terminal ANSI colors near the background are included for both polarities:
+ * - Dark themes: Black/Bright Black are near-background
+ * - Light themes: White/Bright White are near-background
+ * High-contrast entries (e.g. White on dark) pass anyway, so the flag is inert.
  */
 export const EXPECTED_DIM_ELEMENTS = new Set([
   // Editor gutter elements (intentionally subtle)
@@ -448,9 +450,6 @@ export const EXPECTED_DIM_ELEMENTS = new Set([
   'List Deemph',     // Explicitly deemphasized list items
   // Git
   'Ignored',         // Git ignored files
-  // Terminal (black colors are invisible/dim by design on dark backgrounds)
-  'Black',           // Terminal black
-  'Bright Black',    // Terminal dim text (ANSI bright black is gray)
   // Icons - communicate via SHAPE not text, need only visibility (Lc≥45)
   // Testing icons
   'Passed', 'Failed', 'Errored', 'Queued', 'Unset', 'Skipped', 'Run Action',
@@ -471,6 +470,11 @@ export const EXPECTED_DIM_ELEMENTS = new Set([
   'Star', 'Verified', 'Pre-Release', 'Sponsor', 'Private',
   // Notebook status icons (prefixed to avoid collision with Debug Console names)
   'NB Error', 'NB Running', 'NB Success',
+  // Terminal colors near background (polarity-dependent, both included)
+  'Black',           // Near-background on dark themes
+  'Bright Black',    // Dim gray on dark themes
+  'White',           // Near-background on light themes
+  'Bright White',    // Near-background on light themes
 ]);
 
 // =============================================================================

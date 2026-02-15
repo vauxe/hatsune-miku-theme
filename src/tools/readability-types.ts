@@ -18,13 +18,6 @@
 // COLOR TYPES
 // =============================================================================
 
-/** sRGB color with channels normalized to 0-1 */
-export interface RGB {
-  r: number;
-  g: number;
-  b: number;
-}
-
 /** Text/background luminance relationship */
 export type Polarity = 'light-on-dark' | 'dark-on-light';
 
@@ -289,7 +282,7 @@ export interface ColorResult {
   lc: number;
   /** Full APCA analysis with level and pass/fail */
   analysis: APCAAnalysis;
-  /** APCA tier used for threshold (primary=80, secondary=75, tertiary=45) */
+  /** APCA tier used for threshold (primary=75, secondary=70, tertiary=45) */
   tier: APCATier;
   /** Original alpha if color was semi-transparent (e.g., "50%") */
   alpha?: string;
@@ -419,25 +412,6 @@ export interface SemanticGroup {
 export type DistinctionPriority = 'critical' | 'high' | 'standard';
 
 /**
- * Result of analyzing semantic group cohesion.
- * Checks that tokens within the same group have similar colors.
- */
-export interface GroupCohesionResult {
-  /** The semantic group being analyzed */
-  group: SemanticGroupName;
-  /** Tokens in this group with their colors */
-  members: Array<{ token: string; color: string }>;
-  /** Maximum Delta E between any two members */
-  maxIntraGroupDeltaE: number;
-  /** Pair with maximum Delta E */
-  maxPair?: [string, string];
-  /** True if all pairs are within cohesion threshold (ΔE < 10) */
-  pass: boolean;
-  /** Status icon */
-  icon: string;
-}
-
-/**
  * Result of analyzing cross-group distinction.
  */
 export interface CrossGroupDistinctionResult {
@@ -462,25 +436,6 @@ export interface CrossGroupDistinctionResult {
   pass: boolean;
   /** Status icon */
   icon: string;
-}
-
-/**
- * Complete semantic distinction analysis results.
- */
-export interface SemanticDistinctionAnalysis {
-  /** Intra-group cohesion results (tokens that should be similar) */
-  cohesion: GroupCohesionResult[];
-  /** Cross-group distinction results (tokens that must differ) */
-  distinction: CrossGroupDistinctionResult[];
-  /** Summary statistics */
-  summary: {
-    groupsAnalyzed: number;
-    cohesionPass: number;
-    cohesionFail: number;
-    distinctionPass: number;
-    distinctionFail: number;
-    criticalFail: number;
-  };
 }
 
 // =============================================================================

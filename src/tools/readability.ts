@@ -42,7 +42,6 @@ import {
   TERMINAL_SYMBOL_DISTINCTION_PAIRS,
   EXTENSION_ICON_DISTINCTION_PAIRS,
   // Semantic color groups
-  SEMANTIC_COLOR_GROUPS,
   MUST_DISTINGUISH_PAIRS,
   SEMANTIC_DISTINCTION_THRESHOLDS,
   getTokenGroup,
@@ -57,7 +56,7 @@ import {
   // Scale constants
   JZ_TO_PERCENT,
 } from './readability-constants';
-import type { BgKeyName, ChromaTier, CompoundBgKeyName } from './readability-constants';
+import type { BgKeyName } from './readability-constants';
 
 import {
   isValidHex,
@@ -71,9 +70,7 @@ import {
   getChroma,
   analyzeChroma,
   checkCVDDistinction,
-  simulateCVD,
   suggestContrastFix,
-  suggestDistinctionFix,
   suggestChromaFix,
   analyzeLightnessUniformity,
   analyzeHueDistribution,
@@ -92,14 +89,11 @@ import type {
   SectionData,
   AnalysisOptions,
   APCATier,
-  SemanticGroupName,
   CrossGroupDistinctionResult,
   CVDFailure,
   CompoundBackgroundFailure,
   CompoundBackgroundIssue,
   CompoundBackgroundAnalysis,
-  LightnessUniformityResult,
-  HueDistributionResult,
 } from './readability-types';
 
 // =============================================================================
@@ -165,7 +159,7 @@ function getSourceFile(keyType: 'workbench' | 'textmate' | 'semantic'): string {
  * Compute statistics from analysis results.
  *
  * Categorizes results into:
- * - pass: Meets tier threshold (primary 80+, secondary 75+, tertiary 45+)
+ * - pass: Meets tier threshold (primary 75+, secondary 70+, tertiary 45+)
  * - large: Large/Non-Text level (Lc 30-60) but NOT expectedDim - needs attention
  * - expectedDim: Large/Non-Text level AND in EXPECTED_DIM_ELEMENTS - intentionally subtle, OK
  * - fail: Below tier threshold and not Large/Non-Text level (includes Content level
@@ -252,54 +246,6 @@ function analyzeColorDistinction(
   return pairs.sort((a, b) => a.deltaE - b.deltaE);
 }
 
-/** Symbol icons - autocomplete, outline, breadcrumbs */
-const analyzeSymbolDistinction = (symbols: Record<string, ColorValue>, bg: string) =>
-  analyzeColorDistinction(symbols, SYMBOL_DISCRIMINATION_PAIRS, bg);
-
-/** Status distinction - error/warning/info severity */
-const analyzeStatusDistinction = (syntax: Record<string, ColorValue>, bg: string) =>
-  analyzeColorDistinction(syntax, STATUS_DISTINCTION_PAIRS, bg);
-
-/** Git distinction - added/modified/deleted/untracked */
-const analyzeGitDistinction = (git: Record<string, ColorValue>, bg: string) =>
-  analyzeColorDistinction(git, GIT_DISTINCTION_PAIRS, bg);
-
-/** State distinction - active vs inactive UI elements */
-const analyzeStateDistinction = (states: Record<string, ColorValue>, bg: string) =>
-  analyzeColorDistinction(states, STATE_DISTINCTION_PAIRS, bg);
-
-/** Bracket distinction - rainbow brackets adjacent levels */
-const analyzeBracketDistinction = (brackets: Record<string, ColorValue>, bg: string) =>
-  analyzeColorDistinction(brackets, BRACKET_DISTINCTION_PAIRS, bg);
-
-/** Terminal ANSI distinction - red/green for error/success */
-const analyzeTerminalDistinction = (terminal: Record<string, ColorValue>, bg: string) =>
-  analyzeColorDistinction(terminal, TERMINAL_DISTINCTION_PAIRS, bg);
-
-/** Markdown alert distinction - note/tip/warning/etc */
-const analyzeMarkdownAlertDistinction = (alerts: Record<string, ColorValue>, bg: string) =>
-  analyzeColorDistinction(alerts, MARKDOWN_ALERT_DISTINCTION_PAIRS, bg);
-
-/** Testing icon distinction - pass/fail/error states */
-const analyzeTestingDistinction = (testing: Record<string, ColorValue>, bg: string) =>
-  analyzeColorDistinction(testing, TESTING_DISTINCTION_PAIRS, bg);
-
-/** Debug icon distinction - breakpoint states, toolbar actions */
-const analyzeDebugIconDistinction = (debug: Record<string, ColorValue>, bg: string) =>
-  analyzeColorDistinction(debug, DEBUG_ICON_DISTINCTION_PAIRS, bg);
-
-/** SCM graph distinction - branch visualization colors */
-const analyzeScmGraphDistinction = (scm: Record<string, ColorValue>, bg: string) =>
-  analyzeColorDistinction(scm, SCM_GRAPH_DISTINCTION_PAIRS, bg);
-
-/** Terminal symbol distinction - shell integration icons */
-const analyzeTerminalSymbolDistinction = (symbols: Record<string, ColorValue>, bg: string) =>
-  analyzeColorDistinction(symbols, TERMINAL_SYMBOL_DISTINCTION_PAIRS, bg);
-
-/** Extension icon distinction - marketplace icons */
-const analyzeExtensionIconDistinction = (icons: Record<string, ColorValue>, bg: string) =>
-  analyzeColorDistinction(icons, EXTENSION_ICON_DISTINCTION_PAIRS, bg);
-
 // =============================================================================
 // SEMANTIC COLOR GROUP ANALYSIS
 // =============================================================================
@@ -316,20 +262,15 @@ const analyzeExtensionIconDistinction = (icons: Record<string, ColorValue>, bg: 
 function analyzeSemanticDistinction(
   syntax: Record<string, ColorValue>,
   bg: string
-): { distinction: CrossGroupDistinctionResult[]; summary: { distinctionPass: number; distinctionFail: number; criticalFail: number } } {
-  const distinction: CrossGroupDistinctionResult[] = [];
+): CrossGroupDistinctionResult[] {
+  const results: CrossGroupDistinctionResult[] = [];
 
   for (const [token1, token2, priority] of MUST_DISTINGUISH_PAIRS) {
     const cv1 = syntax[token1];
     const cv2 = syntax[token2];
 
     // Skip if either token is missing or fallback
-    if (!cv1 || !cv2 || cv1.fallback || cv2.fallback) {
-      continue;
-    }
-
-    const group1 = getTokenGroup(token1);
-    const group2 = getTokenGroup(token2);
+    if (!cv1 || !cv2 || cv1.fallback || cv2.fallback) continue;
 
     const dE = deltaEzHex(cv1.color, cv2.color, bg);
     if (dE === null) continue;
@@ -337,14 +278,14 @@ function analyzeSemanticDistinction(
     const required = SEMANTIC_DISTINCTION_THRESHOLDS[priority];
     const pass = dE >= required;
 
-    distinction.push({
+    results.push({
       token1,
       token2,
-      group1: group1 ?? 'VARIABLE',
-      group2: group2 ?? 'VARIABLE',
+      group1: getTokenGroup(token1) ?? 'VARIABLE',
+      group2: getTokenGroup(token2) ?? 'VARIABLE',
       color1: cv1.color,
       color2: cv2.color,
-      deltaE: Math.round(dE * 10) / 10,
+      deltaE: dE,
       required,
       priority,
       pass,
@@ -352,21 +293,7 @@ function analyzeSemanticDistinction(
     });
   }
 
-  // Sort distinction by deltaE ascending (worst first)
-  distinction.sort((a, b) => a.deltaE - b.deltaE);
-
-  const distinctionPass = distinction.filter(d => d.pass).length;
-  const distinctionFail = distinction.filter(d => !d.pass).length;
-  const criticalFail = distinction.filter(d => !d.pass && d.priority === 'critical').length;
-
-  return {
-    distinction,
-    summary: {
-      distinctionPass,
-      distinctionFail,
-      criticalFail,
-    },
-  };
+  return results.sort((a, b) => a.deltaE - b.deltaE);
 }
 
 // =============================================================================
@@ -386,72 +313,21 @@ interface UIVisibilityResult {
  * Analyze UI element visibility - things users directly notice.
  */
 function analyzeUIVisibility(bg: Record<string, string>): UIVisibilityResult[] {
+  const checks = [
+    { name: 'selection',         color1: bg.selection,      color2: bg.editor,      required: UI_VISIBILITY.selectionVisibility },
+    { name: 'findMatch',         color1: bg.findMatchActive,color2: bg.editor,      required: UI_VISIBILITY.findMatchVisibility },
+    { name: 'tabActive↔inactive',color1: bg.tabBar,         color2: bg.editor,      required: UI_VISIBILITY.tabDistinction },
+    { name: 'diffAdded↔removed', color1: bg.diffInserted,   color2: bg.diffRemoved, required: UI_VISIBILITY.diffDistinction },
+  ];
+
   const results: UIVisibilityResult[] = [];
-
-  // Selection visibility: Can you SEE the selection?
-  const selectionDeltaE = deltaEzHex(bg.selection, bg.editor, bg.editor);
-  if (selectionDeltaE !== null) {
-    results.push({
-      name: 'selection',
-      color1: bg.selection,
-      color2: bg.editor,
-      deltaE: Math.round(selectionDeltaE * 10) / 10,
-      required: UI_VISIBILITY.selectionVisibility,
-      pass: selectionDeltaE >= UI_VISIBILITY.selectionVisibility,
-    });
+  for (const { name, color1, color2, required } of checks) {
+    const de = deltaEzHex(color1, color2, bg.editor);
+    if (de === null) continue;
+    const deltaE = Math.round(de * 10) / 10;
+    results.push({ name, color1, color2, deltaE, required, pass: de >= required });
   }
-
-  // Find match visibility: Can you see search results?
-  const findDeltaE = deltaEzHex(bg.findMatchActive, bg.editor, bg.editor);
-  if (findDeltaE !== null) {
-    results.push({
-      name: 'findMatch',
-      color1: bg.findMatchActive,
-      color2: bg.editor,
-      deltaE: Math.round(findDeltaE * 10) / 10,
-      required: UI_VISIBILITY.findMatchVisibility,
-      pass: findDeltaE >= UI_VISIBILITY.findMatchVisibility,
-    });
-  }
-
-  // Tab distinction: Active vs inactive tabs
-  const tabDeltaE = deltaEzHex(bg.tabBar, bg.editor, bg.editor);
-  if (tabDeltaE !== null) {
-    results.push({
-      name: 'tabActive↔inactive',
-      color1: bg.tabBar,
-      color2: bg.editor,
-      deltaE: Math.round(tabDeltaE * 10) / 10,
-      required: UI_VISIBILITY.tabDistinction,
-      pass: tabDeltaE >= UI_VISIBILITY.tabDistinction,
-    });
-  }
-
-  // Diff distinction: Added vs removed
-  const diffDeltaE = deltaEzHex(bg.diffInserted, bg.diffRemoved, bg.editor);
-  if (diffDeltaE !== null) {
-    results.push({
-      name: 'diffAdded↔removed',
-      color1: bg.diffInserted,
-      color2: bg.diffRemoved,
-      deltaE: Math.round(diffDeltaE * 10) / 10,
-      required: UI_VISIBILITY.diffDistinction,
-      pass: diffDeltaE >= UI_VISIBILITY.diffDistinction,
-    });
-  }
-
   return results;
-}
-
-/**
- * Check cursor visibility against editor background.
- */
-function analyzeCursorVisibility(cursorColor: string, editorBg: string): { lc: number; pass: boolean } {
-  const result = getAPCAContrast(cursorColor, editorBg);
-  return {
-    lc: Math.round(Math.abs(result.lc) * 10) / 10,
-    pass: Math.abs(result.lc) >= UI_VISIBILITY.cursorContrast,
-  };
 }
 
 // =============================================================================
@@ -473,7 +349,7 @@ function analyzeCVD(
     terminal: Record<string, ColorValue>;
     testing: Record<string, ColorValue>;
   },
-  bg: string
+  bgByCategory: Record<string, string>
 ): CVDFailure[] {
   const failures: CVDFailure[] = [];
 
@@ -497,6 +373,7 @@ function analyzeCVD(
       // Skip if colors not defined
       if (!cv1 || !cv2 || cv1.fallback || cv2.fallback) continue;
 
+      const bg = bgByCategory[category] ?? bgByCategory.default;
       const result = checkCVDDistinction(cv1.color, cv2.color, bg);
 
       // Check if worst CVD type fails the threshold
@@ -557,9 +434,13 @@ function analyzeCompoundBackgroundContrast(
 
     tokensAnalyzed++;
 
-    // First check if it passes on editor.background
     const editorBg = bg.editor;
-    const editorResult = getAPCAContrast(cv.color, editorBg);
+    const alpha = extractAlpha(cv.color);
+    const baseFg = stripAlpha(cv.color);
+
+    // First check if it passes on editor.background
+    const editorFg = alpha < 1 ? blendAlpha(baseFg, editorBg, alpha) : baseFg;
+    const editorResult = getAPCAContrast(editorFg, editorBg);
     const editorLc = Math.abs(editorResult.lc);
     const tier: APCATier = 'primary';
     const required = APCA_THRESHOLDS[tier];
@@ -574,7 +455,9 @@ function analyzeCompoundBackgroundContrast(
       const bgHex = bg[bgName as keyof typeof bg];
       if (!bgHex || bgHex === editorBg) continue; // Skip if same as editor or not defined
 
-      const result = getAPCAContrast(cv.color, bgHex);
+      // Composite against each overlay bg individually (text renders on top of overlay)
+      const resolvedFg = alpha < 1 ? blendAlpha(baseFg, bgHex, alpha) : baseFg;
+      const result = getAPCAContrast(resolvedFg, bgHex);
       const lc = Math.abs(result.lc);
 
       if (lc < required) {
@@ -631,7 +514,7 @@ function formatCompoundLine(f: CompoundBackgroundFailure): string {
  */
 function formatSemanticDistinctionLine(r: CrossGroupDistinctionResult): string {
   const priorityTag = r.priority === 'critical' ? 'CRITICAL' : r.priority === 'high' ? 'HIGH' : 'STD';
-  return `TOOSIMILAR ${r.token1}↔${r.token2} ΔE=${r.deltaE} need≥${r.required} ${priorityTag}`;
+  return `TOOSIMILAR ${r.token1}↔${r.token2} ΔE=${r.deltaE.toFixed(1)} need≥${r.required} ${priorityTag}`;
 }
 
 // =============================================================================
@@ -666,99 +549,9 @@ function formatDistinctionLine(category: string, p: DistinctionPair): string {
   return `DISTINCTION ${category} ${p.name1}↔${p.name2} ΔE=${p.deltaE.toFixed(1)} need=${need}${criticalTag}`;
 }
 
-/**
- * Chroma analysis result (using perceptually uniform LCH)
- */
-interface ChromaResult {
-  name: string;
-  color: string;
-  chroma: number;
-  icon: string;
-  level: string;
-  pass: boolean;
-  failReason?: 'too-low' | 'too-high';
-  tier: ChromaTier;
-}
-
-/**
- * Determine chroma tier for an element.
- * - Accent: errors, warnings, brackets, git status - can be vibrant
- * - Secondary: comments, punctuation - can be muted
- * - Primary: everything else - balanced
- */
-function getChromaTier(name: string): ChromaTier {
-  if (ACCENT_CHROMA_ELEMENTS.has(name)) return 'accent';
-  if (SECONDARY_CHROMA_ELEMENTS.has(name)) return 'secondary';
-  return 'primary';
-}
-
-/**
- * Analyze chroma of colors for comfortable extended viewing.
- * Uses JzCzhz Chroma (Cz) which is perceptually uniform across hues.
- * Applies tier-specific thresholds based on element type.
- *
- * @param colors - Color record to analyze (syntax, git, brackets, terminal, etc.)
- */
-function analyzeColorChroma(colors: Record<string, ColorValue>): ChromaResult[] {
-  const results: ChromaResult[] = [];
-
-  for (const [name, cv] of Object.entries(colors)) {
-    if (cv.fallback) continue;
-
-    const rawChroma = getChroma(cv.color);
-    if (rawChroma === null) continue;
-
-    const tier = getChromaTier(name);
-    const analysis = analyzeChroma(rawChroma, tier);
-
-    // Use JzCzhz percentage scale for display (raw × CHROMA_SCALE)
-    const chromaPercent = Math.round(analysis.chromaPercent);
-
-    results.push({
-      name,
-      color: cv.color,
-      chroma: chromaPercent,
-      icon: analysis.icon,
-      level: analysis.level,
-      pass: analysis.pass,
-      failReason: analysis.failReason,
-      tier,
-    });
-  }
-
-  // Sort by chroma descending (highest first)
-  return results.sort((a, b) => b.chroma - a.chroma);
-}
-
-/**
- * Format a chroma issue as a single line:
- * CHROMA element color Cz=X tier=T need=min-max reason → suggestion
- */
-function formatChromaLine(r: ChromaResult): string {
-  const { min, max } = CHROMA_THRESHOLDS[r.tier];
-  const reason = r.failReason === 'too-low' ? 'too-gray' : 'too-vivid';
-  const suggestion = suggestChromaFix(r.chroma, min, max);
-  return `CHROMA ${r.name} ${r.color} Cz=${r.chroma} tier=${r.tier} need=${min}-${max} ${reason} → ${suggestion}`;
-}
-
 // =============================================================================
 // MAIN ANALYSIS
 // =============================================================================
-
-/**
- * Process a section of color results for output.
- *
- * @param results - Color analysis results for this section
- * @param title - Section title (e.g., "SYNTAX", "WIDGETS")
- * @returns Section data with title, results, and computed statistics
- */
-function processSection(
-  results: ColorResult[],
-  title: string
-): SectionData {
-  const stats = computeStats(results);
-  return { title, results, stats };
-}
 
 /**
  * Run full readability analysis on a VS Code theme.
@@ -785,13 +578,10 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   const c = extractColors(theme);
 
   const allSections: SectionData[] = [];
-  const allStats: Stats[] = [];
 
   // Helper to process a section and collect results
   const section = (results: ColorResult[], title: string) => {
-    const data = processSection(results, title);
-    allSections.push(data);
-    allStats.push(data.stats);
+    allSections.push({ title, results, stats: computeStats(results) });
   };
 
   // Helper to analyze with background key tracking
@@ -1364,18 +1154,20 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // Note: Syntax token distinction is handled by semantic group analysis below
   // ==========================================================================
 
-  const statusDistinction = analyzeStatusDistinction(c.syntax, c.bg.editor);
-  const gitDistinction = analyzeGitDistinction(c.git, c.bg.sidebar);
-  const stateDistinction = analyzeStateDistinction(c.states, c.bg.editor);
-  const symbolDistinction = analyzeSymbolDistinction(c.symbolIcons, c.bg.suggest);
-  const bracketDistinction = analyzeBracketDistinction(c.brackets, c.bg.editor);
-  const terminalDistinction = analyzeTerminalDistinction(c.terminal, c.bg.terminal);
-  const markdownAlertDistinction = analyzeMarkdownAlertDistinction(c.markdownAlerts, c.bg.editor);
-  const testingDistinction = analyzeTestingDistinction(c.testingIcons, c.bg.sidebar);
-  const debugIconDistinction = analyzeDebugIconDistinction(c.debugIcons, c.bg.editor);
-  const scmGraphDistinction = analyzeScmGraphDistinction(c.scmGraph, c.bg.sidebar);
-  const terminalSymbolDistinction = analyzeTerminalSymbolDistinction(c.terminalSymbols, c.bg.terminal);
-  const extensionIconDistinction = analyzeExtensionIconDistinction(c.extensionIcons, c.bg.sidebar);
+  const allDistinctions = [
+    { category: 'status',          pairs: analyzeColorDistinction(c.syntax,          STATUS_DISTINCTION_PAIRS,          c.bg.editor) },
+    { category: 'git',             pairs: analyzeColorDistinction(c.git,             GIT_DISTINCTION_PAIRS,             c.bg.sidebar) },
+    { category: 'state',           pairs: analyzeColorDistinction(c.states,          STATE_DISTINCTION_PAIRS,           c.bg.editor) },
+    { category: 'symbol',          pairs: analyzeColorDistinction(c.symbolIcons,     SYMBOL_DISCRIMINATION_PAIRS,       c.bg.suggest) },
+    { category: 'bracket',         pairs: analyzeColorDistinction(c.brackets,        BRACKET_DISTINCTION_PAIRS,         c.bg.editor) },
+    { category: 'terminal',        pairs: analyzeColorDistinction(c.terminal,        TERMINAL_DISTINCTION_PAIRS,        c.bg.terminal) },
+    { category: 'markdown-alert',  pairs: analyzeColorDistinction(c.markdownAlerts,  MARKDOWN_ALERT_DISTINCTION_PAIRS,  c.bg.editor) },
+    { category: 'testing',         pairs: analyzeColorDistinction(c.testingIcons,    TESTING_DISTINCTION_PAIRS,         c.bg.sidebar) },
+    { category: 'debug-icon',      pairs: analyzeColorDistinction(c.debugIcons,      DEBUG_ICON_DISTINCTION_PAIRS,      c.bg.editor) },
+    { category: 'scm-graph',       pairs: analyzeColorDistinction(c.scmGraph,        SCM_GRAPH_DISTINCTION_PAIRS,       c.bg.sidebar) },
+    { category: 'terminal-symbol', pairs: analyzeColorDistinction(c.terminalSymbols, TERMINAL_SYMBOL_DISTINCTION_PAIRS, c.bg.terminal) },
+    { category: 'extension-icon',  pairs: analyzeColorDistinction(c.extensionIcons,  EXTENSION_ICON_DISTINCTION_PAIRS,  c.bg.sidebar) },
+  ];
 
   // ==========================================================================
   // SEMANTIC COLOR GROUP ANALYSIS (NEW - improved distinction logic)
@@ -1384,7 +1176,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // Analyzes tokens by semantic group:
   // - Intra-group cohesion: tokens in same group should be similar (ΔE < 10)
   // - Cross-group distinction: tokens in different groups must differ (ΔE ≥ 12-18)
-  const semanticAnalysis = analyzeSemanticDistinction(c.syntax, c.bg.editor);
+  const semanticDistinction = analyzeSemanticDistinction(c.syntax, c.bg.editor);
 
   // ==========================================================================
   // CHROMA ANALYSIS (Eye Fatigue) - Using perceptually uniform LCH
@@ -1421,7 +1213,14 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     alertCaution: c.markdownAlerts.caution,
   };
 
-  const chromaResults = analyzeColorChroma(chromaColors);
+  const chromaResults = Object.entries(chromaColors).flatMap(([name, cv]) => {
+    if (cv.fallback) return [];
+    const rawChroma = getChroma(cv.color);
+    if (rawChroma === null) return [];
+    const tier = ACCENT_CHROMA_ELEMENTS.has(name) ? 'accent' as const
+      : SECONDARY_CHROMA_ELEMENTS.has(name) ? 'secondary' as const : 'primary' as const;
+    return [{ name, color: cv.color, ...analyzeChroma(rawChroma, tier) }];
+  }).sort((a, b) => b.chromaPercent - a.chromaPercent);
   const chromaIssues = chromaResults.filter(r => !r.pass);
 
   // ==========================================================================
@@ -1437,7 +1236,14 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       terminal: c.terminal,
       testing: c.testingIcons,
     },
-    c.bg.editor
+    {
+      default: c.bg.editor,
+      git: c.bg.sidebar,
+      status: c.bg.editor,
+      terminal: c.bg.terminal,
+      testing: c.bg.sidebar,
+      diff: c.bg.editor,
+    }
   );
 
   // ==========================================================================
@@ -1446,10 +1252,9 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // Check things users directly notice: selection visibility, cursor, etc.
 
   const uiVisibility = analyzeUIVisibility(c.bg);
-  const cursorVisibility = analyzeCursorVisibility(
-    stripAlpha(c.cursor.editor?.color ?? c.fg.color),
-    c.bg.editor
-  );
+  const cursorResult = getAPCAContrast(stripAlpha(c.cursor.editor?.color ?? c.fg.color), c.bg.editor);
+  const cursorLc = Math.round(Math.abs(cursorResult.lc) * 10) / 10;
+  const cursorPass = Math.abs(cursorResult.lc) >= UI_VISIBILITY.cursorContrast;
 
   // ==========================================================================
   // COMPOUND BACKGROUND CONTRAST ANALYSIS
@@ -1483,31 +1288,15 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   const hueResult = analyzeHueDistribution(primarySyntaxColors);
 
   // Aggregate stats
-  const total = allStats.reduce((acc, s) => ({
-    pass: acc.pass + s.pass,
-    large: acc.large + s.large,
-    expectedDim: acc.expectedDim + s.expectedDim,
-    fail: acc.fail + s.fail,
-    missing: acc.missing + s.missing,
-    total: acc.total + s.total,
-    results: [] as ColorResult[],
-  }), { pass: 0, large: 0, expectedDim: 0, fail: 0, missing: 0, total: 0, results: [] as ColorResult[] });
-
-  // Collect all distinction results (syntax handled by semantic analysis)
-  const allDistinctions: Array<{ category: string; pairs: DistinctionPair[] }> = [
-    { category: 'status', pairs: statusDistinction },
-    { category: 'git', pairs: gitDistinction },
-    { category: 'state', pairs: stateDistinction },
-    { category: 'symbol', pairs: symbolDistinction },
-    { category: 'bracket', pairs: bracketDistinction },
-    { category: 'terminal', pairs: terminalDistinction },
-    { category: 'markdown-alert', pairs: markdownAlertDistinction },
-    { category: 'testing', pairs: testingDistinction },
-    { category: 'debug-icon', pairs: debugIconDistinction },
-    { category: 'scm-graph', pairs: scmGraphDistinction },
-    { category: 'terminal-symbol', pairs: terminalSymbolDistinction },
-    { category: 'extension-icon', pairs: extensionIconDistinction },
-  ];
+  const total: Stats = { pass: 0, large: 0, expectedDim: 0, fail: 0, missing: 0, total: 0, results: [] };
+  for (const { stats: s } of allSections) {
+    total.pass += s.pass;
+    total.large += s.large;
+    total.expectedDim += s.expectedDim;
+    total.fail += s.fail;
+    total.missing += s.missing;
+    total.total += s.total;
+  }
 
   // ==========================================================================
   // PLAIN TEXT OUTPUT
@@ -1529,7 +1318,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   );
 
   // Semantic analysis issues
-  const semanticDistinctionIssues = semanticAnalysis.distinction.filter(d => !d.pass);
+  const semanticDistinctionIssues = semanticDistinction.filter(d => !d.pass);
 
   // UI visibility issues
   const uiVisibilityIssues = uiVisibility.filter(v => !v.pass);
@@ -1549,11 +1338,13 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     // Semantic distinction analysis
     output.push(`\n=== SEMANTIC DISTINCTION ===`);
     output.push(`Tokens in different semantic groups must be visually distinct.`);
-    for (const d of semanticAnalysis.distinction) {
+    for (const d of semanticDistinction) {
       const priorityTag = d.priority === 'critical' ? '[CRIT]' : d.priority === 'high' ? '[HIGH]' : '[STD]';
-      output.push(`  ${d.icon} ${d.token1}↔${d.token2} ΔE=${d.deltaE.toString().padStart(4)} need≥${d.required} ${priorityTag}`);
+      output.push(`  ${d.icon} ${d.token1}↔${d.token2} ΔE=${d.deltaE.toFixed(1).padStart(4)} need≥${d.required} ${priorityTag}`);
     }
-    output.push(`  [${semanticAnalysis.summary.distinctionPass}/${semanticAnalysis.distinction.length} pairs pass, ${semanticAnalysis.summary.criticalFail} critical fails]`);
+    const semPass = semanticDistinction.filter(d => d.pass).length;
+    const semCritFail = semanticDistinctionIssues.filter(d => d.priority === 'critical').length;
+    output.push(`  [${semPass}/${semanticDistinction.length} pairs pass, ${semCritFail} critical fails]`);
 
     output.push(`\n=== UI ELEMENT DISTINCTION ===`);
     for (const d of allDistinctions) {
@@ -1567,7 +1358,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     output.push(`\n=== CHROMA ANALYSIS ===`);
     for (const r of chromaResults) {
       const status = r.pass ? '✓' : '✗';
-      output.push(`  ${status} ${r.name.padEnd(20)} ${r.color} Cz=${r.chroma.toString().padStart(3)} ${r.level.padEnd(11)} [${r.tier}]`);
+      output.push(`  ${status} ${r.name.padEnd(20)} ${r.color} Cz=${Math.round(r.chromaPercent).toString().padStart(3)} ${r.level.padEnd(11)} [${r.tier}]`);
     }
 
     output.push(`\n=== CVD (COLOR VISION DEFICIENCY) ANALYSIS ===`);
@@ -1587,7 +1378,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       const status = v.pass ? '✓' : '✗';
       output.push(`  ${status} ${v.name.padEnd(20)} ΔE=${v.deltaE.toString().padStart(4)} need≥${v.required}`);
     }
-    output.push(`  Cursor: ${cursorVisibility.pass ? '✓' : '✗'} Lc=${cursorVisibility.lc} need≥${UI_VISIBILITY.cursorContrast}`);
+    output.push(`  Cursor: ${cursorPass ? '✓' : '✗'} Lc=${cursorLc} need≥${UI_VISIBILITY.cursorContrast}`);
 
     output.push(`\n=== COMPOUND BACKGROUND CONTRAST ===`);
     output.push(`Testing syntax colors against ${Object.keys(COMPOUND_BACKGROUND_KEYS).length} overlay backgrounds.`);
@@ -1648,7 +1439,10 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     }
 
     for (const r of chromaIssues) {
-      output.push(formatChromaLine(r));
+      const { min, max } = CHROMA_THRESHOLDS[r.tier];
+      const cz = Math.round(r.chromaPercent);
+      const reason = r.failReason === 'too-low' ? 'too-gray' : 'too-vivid';
+      output.push(`CHROMA ${r.name} ${r.color} Cz=${cz} tier=${r.tier} need=${min}-${max} ${reason} → ${suggestChromaFix(cz, min, max)}`);
     }
 
     // CVD failures
@@ -1660,8 +1454,8 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     for (const v of uiVisibilityIssues) {
       output.push(`UI_VISIBLE ${v.name} ΔE=${v.deltaE} need≥${v.required} → increase visibility`);
     }
-    if (!cursorVisibility.pass) {
-      output.push(`CURSOR Lc=${cursorVisibility.lc} need≥${UI_VISIBILITY.cursorContrast} → increase cursor contrast`);
+    if (!cursorPass) {
+      output.push(`CURSOR Lc=${cursorLc} need≥${UI_VISIBILITY.cursorContrast} → increase cursor contrast`);
     }
 
     // Compound background failures
@@ -1690,7 +1484,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   const crossGroupTooSimilar = semanticDistinctionIssues.length;
   const chromaFails = chromaIssues.length;
   const cvdFails = cvdFailures.length;
-  const uiVisibilityFails = uiVisibilityIssues.length + (cursorVisibility.pass ? 0 : 1);
+  const uiVisibilityFails = uiVisibilityIssues.length + (cursorPass ? 0 : 1);
   const compoundFails = compoundAnalysis.tokensFailing;
   const lightnessOk = lightnessResult.pass;
   const hueOk = hueResult.pass;
@@ -1699,9 +1493,9 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   output.push('');
   output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} too_similar=${crossGroupTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} cvd_fail=${cvdFails} ui_visible_fail=${uiVisibilityFails} compound_fail=${compoundFails} lightness=${lightnessOk ? 'ok' : 'uneven'} hue=${hueOk ? 'ok' : 'clustered'} ready=${ready}`);
 
-  // Print all output (or filter if --issues-only and ready)
+  // Print all output (or summary only if --issues-only and clean)
   if (options.issuesOnly && ready) {
-    console.log('SUMMARY pass=' + total.pass + '/' + defined + ' fail=0 too_similar=0 distinction_fail=0 chroma_fail=0 cvd_fail=0 ui_visible_fail=0 compound_fail=0 lightness=ok hue=ok ready=true');
+    console.log(output[output.length - 1]);
   } else {
     console.log(output.join('\n'));
   }
@@ -1716,17 +1510,16 @@ function testColor(fg: string, bg: string, name = 'Custom'): void {
 
   console.log(`\n${name}: ${fg}${result.alpha ? ` @ ${result.alpha}` : ''} on ${bg}`);
   if (result.alpha) console.log(`  Blended: ${result.color}`);
-  console.log(`  Lc ${result.lc.toFixed(1).padStart(6)} ${result.analysis.icon} ${result.analysis.level}`);
+  console.log(`  Lc ${Math.abs(result.lc).toFixed(1).padStart(6)} ${result.analysis.icon} ${result.analysis.level}`);
   if (chroma !== null) {
-    // Show pass/fail for each tier using JzCzhz percentage scale
     const primary = analyzeChroma(chroma, 'primary');
     const secondary = analyzeChroma(chroma, 'secondary');
     const accent = analyzeChroma(chroma, 'accent');
     const c = Math.round(primary.chromaPercent);
     console.log(`  C% ${c.toString().padStart(5)} ${primary.level} (JzCzhz)`);
-    console.log(`     Primary:   ${primary.icon} (8-45)`);
-    console.log(`     Secondary: ${secondary.icon} (5-45)`);
-    console.log(`     Accent:    ${accent.icon} (8-60)`);
+    console.log(`     Primary:   ${primary.icon} (${CHROMA_THRESHOLDS.primary.min}-${CHROMA_THRESHOLDS.primary.max})`);
+    console.log(`     Secondary: ${secondary.icon} (${CHROMA_THRESHOLDS.secondary.min}-${CHROMA_THRESHOLDS.secondary.max})`);
+    console.log(`     Accent:    ${accent.icon} (${CHROMA_THRESHOLDS.accent.min}-${CHROMA_THRESHOLDS.accent.max})`);
   }
 }
 
@@ -1744,9 +1537,9 @@ function testChroma(hex: string, name = 'Custom'): void {
   console.log(`\n${name}: ${hex}`);
   console.log(`  Chroma (JzCzhz): ${c}% - ${primary.level}`);
   console.log(`  Tier results:`);
-  console.log(`    Primary   (8-45):  ${primary.icon} ${primary.pass ? 'pass' : primary.failReason}`);
-  console.log(`    Secondary (5-45):  ${secondary.icon} ${secondary.pass ? 'pass' : secondary.failReason}`);
-  console.log(`    Accent    (8-60):  ${accent.icon} ${accent.pass ? 'pass' : accent.failReason}`);
+  console.log(`    Primary   (${CHROMA_THRESHOLDS.primary.min}-${CHROMA_THRESHOLDS.primary.max}):  ${primary.icon} ${primary.pass ? 'pass' : primary.failReason}`);
+  console.log(`    Secondary (${CHROMA_THRESHOLDS.secondary.min}-${CHROMA_THRESHOLDS.secondary.max}):  ${secondary.icon} ${secondary.pass ? 'pass' : secondary.failReason}`);
+  console.log(`    Accent    (${CHROMA_THRESHOLDS.accent.min}-${CHROMA_THRESHOLDS.accent.max}):  ${accent.icon} ${accent.pass ? 'pass' : accent.failReason}`);
 }
 
 // =============================================================================
@@ -1765,6 +1558,13 @@ function parseColorList(arg: string): string[] {
  */
 function validateColorList(colors: string[]): string[] {
   return colors.filter(c => !isValidHex(c));
+}
+
+/**
+ * Check whether any color has alpha < 1 and needs explicit compositing background.
+ */
+function hasSemiTransparentColor(colors: string[]): boolean {
+  return colors.some(c => extractAlpha(c) < 1);
 }
 
 /**
@@ -1895,9 +1695,9 @@ function testMultiChroma(colors: string[]): void {
 
   console.log('');
   console.log(`SUMMARY: ${total} colors`);
-  console.log(`  Primary   (8-45):  ${primaryPass}/${total} pass`);
-  console.log(`  Secondary (5-45):  ${secondaryPass}/${total} pass`);
-  console.log(`  Accent    (8-60):  ${accentPass}/${total} pass`);
+  console.log(`  Primary   (${CHROMA_THRESHOLDS.primary.min}-${CHROMA_THRESHOLDS.primary.max}):  ${primaryPass}/${total} pass`);
+  console.log(`  Secondary (${CHROMA_THRESHOLDS.secondary.min}-${CHROMA_THRESHOLDS.secondary.max}):  ${secondaryPass}/${total} pass`);
+  console.log(`  Accent    (${CHROMA_THRESHOLDS.accent.min}-${CHROMA_THRESHOLDS.accent.max}):  ${accentPass}/${total} pass`);
 }
 
 // =============================================================================
@@ -1930,7 +1730,7 @@ Options:
   --chroma COLOR(S)       Test color chroma (single or comma-separated list)
   --matrix-apca FG BG     Test NxM foreground/background combinations
   --matrix-distinction C  Test all pairs for ΔE distinction
-  --bg BG                 Background for alpha compositing (with --matrix-distinction)
+  --bg BG                 Background for alpha compositing (required for transparent colors in --matrix-distinction)
   --help, -h              Show this help
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -2096,6 +1896,10 @@ if (args[0] === '--help' || args[0] === '-h') {
     }
     if (bgForAlpha && !isValidHex(bgForAlpha)) {
       console.error(LABELS.errInvalidColor(bgForAlpha));
+      process.exit(1);
+    }
+    if (hasSemiTransparentColor(matrixDistinction.colors) && !bgForAlpha) {
+      console.error('Error: --matrix-distinction with transparent colors requires --bg <hex>');
       process.exit(1);
     }
     testDistinctionMatrix(matrixDistinction.colors, bgForAlpha);
