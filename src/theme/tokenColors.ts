@@ -10,7 +10,8 @@
  * Colors validated for APCA Lc 60+ against editor background.
  */
 
-import { syntax, markup } from './colors';
+import { createSyntaxColors, createMarkupColors } from './colors';
+import type { SemanticTokens } from '../tokens';
 
 // Helper type for token color rules
 interface TokenColorRule {
@@ -22,7 +23,10 @@ interface TokenColorRule {
   };
 }
 
-export const tokenColors: TokenColorRule[] = [
+export function createTokenColors(t: SemanticTokens): TokenColorRule[] {
+const syntax = createSyntaxColors(t);
+const markup = createMarkupColors(t);
+return [
   // ==========================================================================
   // COMMENTS - Visible but subdued
   // ==========================================================================
@@ -1187,5 +1191,5 @@ export const tokenColors: TokenColorRule[] = [
     },
   },
 ];
+}
 
-export type TokenColors = typeof tokenColors;

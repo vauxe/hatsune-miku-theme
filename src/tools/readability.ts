@@ -24,9 +24,12 @@ import {
   EXPECTED_DIM_ELEMENTS,
   PRIMARY_SYNTAX_ELEMENTS,
   APCA_THRESHOLDS,
+  APCA_THRESHOLDS_LIGHT,
+  type APCAThresholdConfig,
   DISTINCTION_THRESHOLDS,
   CRITICAL_DISTINCTION_PAIRS,
   CHROMA_THRESHOLDS,
+  CHROMA_THRESHOLDS_LIGHT,
   ACCENT_CHROMA_ELEMENTS,
   SECONDARY_CHROMA_ELEMENTS,
   SYMBOL_DISCRIMINATION_PAIRS,
@@ -113,7 +116,13 @@ import type {
  * @param bgKey - VS Code API key for the background (shown in output for debugging)
  * @returns Analysis result with Lc value, level, and pass/fail status
  */
-function analyze(name: string, fgValue: ColorValue, bg: string, bgKey = ''): ColorResult {
+function analyze(
+  name: string,
+  fgValue: ColorValue,
+  bg: string,
+  bgKey = '',
+  thresholds: APCAThresholdConfig = APCA_THRESHOLDS
+): ColorResult {
   const fg = fgValue.color;
   const alpha = extractAlpha(fg);
   const baseColor = stripAlpha(fg);
@@ -132,7 +141,7 @@ function analyze(name: string, fgValue: ColorValue, bg: string, bgKey = ''): Col
     bgColor: bg,
     bgKey,
     lc: result.lc,
-    analysis: analyzeAPCA(result, apcaTier),
+    analysis: analyzeAPCA(result, apcaTier, thresholds),
     tier: apcaTier,
     alpha: alphaStr,
     fallback: fgValue.fallback,
@@ -421,7 +430,8 @@ function formatCVDLine(f: CVDFailure): string {
  */
 function analyzeCompoundBackgroundContrast(
   syntax: Record<string, ColorValue>,
-  bg: Record<string, string>
+  bg: Record<string, string>,
+  thresholds: APCAThresholdConfig = APCA_THRESHOLDS
 ): CompoundBackgroundAnalysis {
   const failures: CompoundBackgroundFailure[] = [];
   let tokensAnalyzed = 0;
@@ -443,7 +453,7 @@ function analyzeCompoundBackgroundContrast(
     const editorResult = getAPCAContrast(editorFg, editorBg);
     const editorLc = Math.abs(editorResult.lc);
     const tier: APCATier = 'primary';
-    const required = APCA_THRESHOLDS[tier];
+    const required = thresholds[tier];
 
     // Skip if it doesn't even pass on editor background (already reported elsewhere)
     if (editorLc < required) continue;
@@ -503,9 +513,9 @@ function analyzeCompoundBackgroundContrast(
  * Format a compound background failure as a single line:
  * COMPOUND token fails on N backgrounds: worst=bgName Lc=X need≥Y (editor Lc=Z)
  */
-function formatCompoundLine(f: CompoundBackgroundFailure): string {
+function formatCompoundLine(f: CompoundBackgroundFailure, thresholds: typeof APCA_THRESHOLDS = APCA_THRESHOLDS): string {
   const bgList = f.failingBackgrounds.map(b => b.bgName).join(', ');
-  return `COMPOUND ${f.tokenName} fails on ${f.failingBackgrounds.length} bg(s): worst=${f.worstBgName} Lc=${f.worstLc} need≥${APCA_THRESHOLDS[f.tier]} (editor Lc=${f.editorLc}) [${bgList}]`;
+  return `COMPOUND ${f.tokenName} fails on ${f.failingBackgrounds.length} bg(s): worst=${f.worstBgName} Lc=${f.worstLc} need≥${thresholds[f.tier]} (editor Lc=${f.editorLc}) [${bgList}]`;
 }
 
 /**
@@ -525,12 +535,12 @@ function formatSemanticDistinctionLine(r: CrossGroupDistinctionResult): string {
  * Format a contrast issue as a single line:
  * CONTRAST file:key Lc=X need=Y tier=T reason → suggestion
  */
-function formatContrastLine(r: ColorResult): string {
+function formatContrastLine(r: ColorResult, thresholds: typeof APCA_THRESHOLDS = APCA_THRESHOLDS): string {
   const file = getSourceFile(r.source?.type ?? 'workbench');
   const key = r.source?.key ?? 'unknown';
   const lc = Math.round(Math.abs(r.lc) * 10) / 10;
   const isHalation = r.analysis.failReason === 'halation';
-  const targetLc = isHalation ? APCA_THRESHOLDS.max : APCA_THRESHOLDS[r.tier];
+  const targetLc = isHalation ? thresholds.max : thresholds[r.tier];
   const need = isHalation ? `≤${targetLc}` : `≥${targetLc}`;
   const reason = isHalation ? 'halation' : 'too-dim';
   const suggestion = isHalation
@@ -577,6 +587,11 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   const theme = loadTheme(themePath);
   const c = extractColors(theme);
 
+  // Detect theme polarity for polarity-aware thresholds
+  const isLightTheme = theme.type === 'light';
+  const apcaThresholds = isLightTheme ? APCA_THRESHOLDS_LIGHT : APCA_THRESHOLDS;
+  const chromaThresholds = isLightTheme ? CHROMA_THRESHOLDS_LIGHT : CHROMA_THRESHOLDS;
+
   const allSections: SectionData[] = [];
 
   // Helper to process a section and collect results
@@ -586,7 +601,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
 
   // Helper to analyze with background key tracking
   const a = (name: string, fgValue: ColorValue, bgKey: BgKeyName) =>
-    analyze(name, fgValue, c.bg[bgKey], BG_KEYS[bgKey]);
+    analyze(name, fgValue, c.bg[bgKey], BG_KEYS[bgKey], apcaThresholds);
 
   // Text
   section([
@@ -1219,7 +1234,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     if (rawChroma === null) return [];
     const tier = ACCENT_CHROMA_ELEMENTS.has(name) ? 'accent' as const
       : SECONDARY_CHROMA_ELEMENTS.has(name) ? 'secondary' as const : 'primary' as const;
-    return [{ name, color: cv.color, ...analyzeChroma(rawChroma, tier) }];
+    return [{ name, color: cv.color, ...analyzeChroma(rawChroma, tier, chromaThresholds) }];
   }).sort((a, b) => b.chromaPercent - a.chromaPercent);
   const chromaIssues = chromaResults.filter(r => !r.pass);
 
@@ -1262,7 +1277,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // Test syntax colors against ALL overlay backgrounds they might appear on.
   // A color might be readable on editor.background but fail on selection/find/diff.
 
-  const compoundAnalysis = analyzeCompoundBackgroundContrast(c.syntax, c.bg);
+  const compoundAnalysis = analyzeCompoundBackgroundContrast(c.syntax, c.bg, apcaThresholds);
 
   // ==========================================================================
   // LIGHTNESS UNIFORMITY ANALYSIS
@@ -1277,7 +1292,9 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       primarySyntaxColors[tokenName] = cv.color;
     }
   }
-  const lightnessResult = analyzeLightnessUniformity(primarySyntaxColors);
+  // Light themes use wider Jz spread (per-hue tuning for gamut-limited hues)
+  const lightnessMaxSpread = isLightTheme ? 0.05 : 0.03;
+  const lightnessResult = analyzeLightnessUniformity(primarySyntaxColors, lightnessMaxSpread);
 
   // ==========================================================================
   // HUE DISTRIBUTION ANALYSIS
@@ -1425,7 +1442,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   } else {
     // Default: only output issues
     for (const r of contrastIssues) {
-      output.push(formatContrastLine(r));
+      output.push(formatContrastLine(r, apcaThresholds));
     }
 
     // Semantic distinction issues (cross-group pairs too similar)
@@ -1439,7 +1456,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     }
 
     for (const r of chromaIssues) {
-      const { min, max } = CHROMA_THRESHOLDS[r.tier];
+      const { min, max } = chromaThresholds[r.tier];
       const cz = Math.round(r.chromaPercent);
       const reason = r.failReason === 'too-low' ? 'too-gray' : 'too-vivid';
       output.push(`CHROMA ${r.name} ${r.color} Cz=${cz} tier=${r.tier} need=${min}-${max} ${reason} → ${suggestChromaFix(cz, min, max)}`);
@@ -1460,7 +1477,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
 
     // Compound background failures
     for (const f of compoundAnalysis.failures) {
-      output.push(formatCompoundLine(f));
+      output.push(formatCompoundLine(f, apcaThresholds));
     }
 
     // Lightness uniformity

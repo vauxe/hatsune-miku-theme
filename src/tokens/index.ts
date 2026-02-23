@@ -90,6 +90,7 @@ export {
   scaleChroma,
   lightLightness,
   lightCharacter,
+  lightOpacity,
   type ThemeVariant,
   type VariantConfig,
 } from './variants';

@@ -20,6 +20,7 @@ import {
   CHROMA_SCALE,
   JZ_TO_PERCENT,
   type ChromaTier,
+  type APCAThresholdConfig,
 } from './readability-constants';
 import type {
   Polarity,
@@ -98,10 +99,12 @@ export function getChroma(hex: string): number | null {
  *
  * @param chroma - Raw Cz value from JzCzhz
  * @param tier - Element tier (primary, secondary, accent)
+ * @param thresholds - Optional threshold overrides (e.g., light theme relaxed limits)
  */
 export function analyzeChroma(
   chroma: number,
-  tier: ChromaTier = 'primary'
+  tier: ChromaTier = 'primary',
+  thresholds: Record<ChromaTier, { readonly min: number; readonly max: number }> = CHROMA_THRESHOLDS
 ): {
   icon: string;
   level: string;
@@ -129,7 +132,7 @@ export function analyzeChroma(
     level = 'Extreme';
   }
 
-  const { min, max } = CHROMA_THRESHOLDS[tier];
+  const { min, max } = thresholds[tier];
   const tooLow = chromaPercent < min;
   const tooHigh = chromaPercent > max;
   const pass = !tooLow && !tooHigh;
@@ -224,10 +227,15 @@ export function getAPCAContrast(text: string, background: string): APCAResult {
 
 /**
  * Analyze APCA result with tiered pass threshold.
+ *
+ * @param result - Raw APCA calculation result
+ * @param tier - Element tier (primary, secondary, tertiary)
+ * @param thresholds - Optional threshold overrides (e.g., light theme relaxed limits)
  */
 export function analyzeAPCA(
   result: APCAResult,
-  tier: 'primary' | 'secondary' | 'tertiary' = 'secondary'
+  tier: 'primary' | 'secondary' | 'tertiary' = 'secondary',
+  thresholds: APCAThresholdConfig = APCA_THRESHOLDS
 ): APCAAnalysis {
   const { lc, polarity } = result;
   const absLc = Math.abs(lc);
@@ -254,8 +262,8 @@ export function analyzeAPCA(
     icon = '❌';
   }
 
-  const minThreshold = APCA_THRESHOLDS[tier];
-  const maxThreshold = APCA_THRESHOLDS.max;
+  const minThreshold = thresholds[tier];
+  const maxThreshold = thresholds.max;
   const tooLow = absLc < minThreshold;
   // Halation (text bloom) only affects light text on dark backgrounds.
   // Dark text on light backgrounds doesn't bloom — high Lc is just high contrast.

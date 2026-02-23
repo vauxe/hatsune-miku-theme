@@ -7,7 +7,8 @@
  * look for them — which is exactly right. She's keeping you company.
  */
 
-import { role, roleFromHex, lighten } from './role';
+import { role, roleFromHex, lighten, darken } from './role';
+import { hex } from './jzczhz';
 import type {
   SymbolTokens,
   BracketTokens,
@@ -87,7 +88,8 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
 
     // ═══ B Magenta (330°) — Perfect 4th ═══
     operator: role('Symbol operator — magenta, warm harmony', L.vibrantWarm, C.comfortable, H.magenta),
-    snippet: role('Symbol snippet — magenta, quiet template', L.primary, C.muted, H.magenta),
+    snippet: role('Symbol snippet — magenta, quiet template',
+      p.polarity === 'light' ? L.primary + 0.006 : L.primary, C.muted, H.magenta),
   };
 }
 
@@ -110,7 +112,8 @@ export function createSupportTokens(p: Primitives): SupportTokens {
   return {
     function: role('Support function — orange glow, built-in action', L.vibrantWarm, C.vibrant, H.orange),
     class: role('Support class — gold, built-in structure', L.vibrant, C.vibrant, H.gold),
-    type: role('Support type — blue depth, built-in architecture', L.primary + 0.008, C.comfortable, H.blue),
+    type: role('Support type — blue depth, built-in architecture',
+      p.polarity === 'light' ? L.primary + 0.014 : L.primary + 0.008, C.comfortable, H.blue),
     constant: role('Support constant — orange, built-in truth', L.primaryWarm, C.comfortable, H.orange),
     variable: role('Support variable — cyan, built-in data', L.primary, C.comfortable, H.cyan),
   };
@@ -143,11 +146,18 @@ export function createDebugTokens(p: Primitives): DebugTokens {
  * Create decorative tokens from palette colors.
  * Centralizes all direct palette references for thematic elements.
  */
-export function createDecorativeTokens(): DecorativeTokens {
+export function createDecorativeTokens(p: Primitives): DecorativeTokens {
   return {
     // Indent guides — her voicebank evolution, 2007 to present
     // Each level of indentation is a chapter of her life
-    indentGuides: [
+    indentGuides: p.polarity === 'light' ? [
+      hex({ Jz: 0.120, Cz: 0.040, hz: 55 }),   // Cinnamon
+      hex({ Jz: 0.130, Cz: 0.045, hz: 65 }),   // Caramel
+      hex({ Jz: 0.140, Cz: 0.035, hz: 75 }),   // Honey
+      hex({ Jz: 0.110, Cz: 0.050, hz: 45 }),   // Cocoa
+      hex({ Jz: 0.150, Cz: 0.030, hz: 85 }),   // Butter
+      hex({ Jz: 0.125, Cz: 0.042, hz: 60 }),   // Toffee
+    ] : [
       mikuV2.hair.base,        // V2 (2007) — KEI's original, where it all began
       mikuAppend.hair.base,    // Append (2010) — the dark era, vivid turquoise
       mikuV3.hair.base,        // V3 (2013) — iXima's refinement, canonical
@@ -157,7 +167,13 @@ export function createDecorativeTokens(): DecorativeTokens {
     ],
 
     // SCM graph — Project SEKAI units, five visions of who she could be
-    scmGraph: [
+    scmGraph: p.polarity === 'light' ? [
+      darken(roleFromHex('Virtual Singer darkened', virtualSinger.imageColor), 0.06),
+      leoNeed.unitColor,                // LEO/NEED — royal blue, already dark enough for snow
+      darken(roleFromHex('MORE MORE JUMP! darkened', moreMoreJump.unitColor), 0.08),
+      vividBadSquad.unitColor,          // VIVID BAD SQUAD — vivid pink, already dark enough
+      darken(roleFromHex('Wonderlands darkened', wonderlandsShowtime.unitColor), 0.04),
+    ] : [
       virtualSinger.imageColor,        // Virtual Singer — the default Miku
       lighten(roleFromHex('LEO/NEED brightened', leoNeed.unitColor), 0.08),  // LEO/NEED — royal blue, brightened for dark bg
       moreMoreJump.unitColor,          // MORE MORE JUMP! — bright green, idol energy
@@ -176,8 +192,12 @@ export function createDecorativeTokens(): DecorativeTokens {
     },
 
     // Diff editor — cute character colors
-    diffInserted: moreMoreJump.unitColor,         // MORE MORE JUMP! bright green — idol energy, new code
-    diffRemoved: sakuraMiku.hair.base, // Vivid sakura — cherry blossom hue at 2.2× chroma, lovely departure
+    diffInserted: p.polarity === 'light'
+      ? hex({ Jz: 0.120, Cz: 0.110, hz: 150 })   // Warm matcha — vivid sage green, bright enough for light overlay
+      : moreMoreJump.unitColor,                    // MORE MORE JUMP! bright green — idol energy, new code
+    diffRemoved: p.polarity === 'light'
+      ? hex({ Jz: 0.120, Cz: 0.110, hz: 15 })    // Warm rose — vivid terracotta pink, distinct from matcha
+      : sakuraMiku.hair.base,                      // Vivid sakura — cherry blossom hue, lovely departure
     diffMoveBorder: digitalStars.y2021_mg.outfit.gradient,
     diffMoveActiveBorder: digitalStars.y2021_mg.outfit.gradient,
 
@@ -190,24 +210,33 @@ export function createDecorativeTokens(): DecorativeTokens {
 
     // Character palette utility colors
     darkForeground: character.eyes.pupil,
-    inlayParameter: character.skin.shadow,
+    inlayParameter: p.polarity === 'light'
+      ? hex({ Jz: 0.095, Cz: 0.020, hz: 50 })  // Warm gray — visible on snow
+      : character.skin.shadow,
     statusItemForeground: character.headphones.frame,
-    markupInserted: character.negi.bright,
+    markupInserted: p.polarity === 'light'
+      ? hex({ Jz: 0.075, Cz: 0.080, hz: 150 })  // Dark green — readable on snow
+      : character.negi.bright,
     tattooMark: character.marks.tattoo,
     sekaiHair: virtualSinger.hair.base,
 
     // Character reference colors — her accessories and skin entering the UI
     // These appear in moments of interaction: scrolling, navigating, highlighting
-    walletChain: character.skirt.accessory,
-    tieShadow: character.tie.shadow,
+    walletChain: p.character.skirt.accessory, // Variant-aware — warm gray on cream, cool gray on dark
+    tieShadow: p.character.tie.shadow,
     negiStalk: character.negi.stalk,
     skinBlush: character.skin.blush,
     skinBase: character.skin.base,
 
     // Snow Miku — icy cursor line frost
-    cursorLineFrost: snowMiku.y2025.accessories.crystal, // 2025 Sparkling Snow ice prism #81D4FA
+    cursorLineFrost: p.polarity === 'light'
+      ? hex({ Jz: 0.130, Cz: 0.060, hz: 220 }) // Darker ice blue for visibility on snow
+      : snowMiku.y2025.accessories.crystal, // 2025 Sparkling Snow ice prism #81D4FA
 
     // Boots — terminal lives inside her thigh-highs
-    bootsBase: character.boots.base, // #14181D — deep near-black with blue tint
+    bootsBase: p.character.boots.base, // dark=#14181D, light=sunlit snow
+    armWarmersBase: p.character.armWarmers.base, // dark=#1A222B, light=snow shade
+    topMain: p.character.top.main, // dark=#151B22, light=ice (activity bar)
+    topShadow: p.character.top.shadow, // dark=#11171E, light=deep ice (status bar)
   };
 }

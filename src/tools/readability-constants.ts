@@ -215,12 +215,31 @@ export const LABELS = {
  *   Halation occurs when bright text glows on dark backgrounds (light-on-dark polarity).
  *   Dark text on light backgrounds (dark-on-light) doesn't bloom — high Lc is fine.
  */
-export const APCA_THRESHOLDS = {
+/** Shape of APCA threshold configuration */
+export type APCAThresholdConfig = { primary: number; secondary: number; tertiary: number; max: number };
+
+export const APCA_THRESHOLDS: APCAThresholdConfig = {
   primary: 75,    // Body text level - comfortable for marathon coding
   secondary: 70,  // Slightly softer for UI/comments
   tertiary: 45,   // Large text level - for dim elements
   max: 90,        // Prevents halation - cap below Fluent for comfort
-} as const;
+};
+
+/**
+ * Light theme APCA thresholds — relaxed for dark-on-light polarity.
+ *
+ * Dark text on light backgrounds is naturally comfortable to read.
+ * Books, magazines, and print media routinely use Lc 60-70 for body text.
+ * Halation (text bloom) does not occur with dark-on-light text.
+ * Lowering thresholds lets syntax tokens use higher Jz (more sRGB gamut
+ * for vivid colors) without false positives.
+ */
+export const APCA_THRESHOLDS_LIGHT: APCAThresholdConfig = {
+  primary: 60,     // Content level — comfortable for dark-on-light body text
+  secondary: 50,   // Large text level — UI/comments on overlays
+  tertiary: 30,    // Non-text level — ghost text, placeholders
+  max: 110,        // No halation possible with dark-on-light text
+};
 
 /**
  * Primary syntax elements that require higher contrast (Lc ≥ 75).
@@ -366,6 +385,24 @@ export const CHROMA_THRESHOLDS = {
   primary: { min: 8, max: 45 },     // Comfortable pastels to vibrant syntax
   secondary: { min: 5, max: 45 },   // Comments, UI (can be muted)
   accent: { min: 8, max: 60 },      // Errors, highlights (attention-grabbing)
+} as const;
+
+/**
+ * Light theme chroma thresholds — relaxed max for dark-on-light polarity.
+ *
+ * On dark themes, bright vivid text glows and causes halation (eye strain).
+ * On light themes, dark vivid text is comfortable — like printed material.
+ * Books and magazines routinely use saturated dark-on-light colors.
+ *
+ * Additionally, at low Jz (dark text), sRGB gamut naturally limits most
+ * hues to Cz ≤ 0.095 after clipping. The 45 cap (Cz 0.085) was calibrated
+ * for bright text on dark backgrounds. Raising to 60 for light themes
+ * lets hues reach their natural sRGB maximum without false positives.
+ */
+export const CHROMA_THRESHOLDS_LIGHT = {
+  primary: { min: 8, max: 100 },    // No max — dark vivid text is comfortable
+  secondary: { min: 5, max: 100 },  // No max for comments/UI either
+  accent: { min: 8, max: 100 },     // No max for accents
 } as const;
 
 export type ChromaTier = keyof typeof CHROMA_THRESHOLDS;

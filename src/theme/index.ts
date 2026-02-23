@@ -4,6 +4,6 @@
  * Central export for all theme components
  */
 
-export { workbenchColors } from './workbench';
-export { tokenColors } from './tokenColors';
-export { semanticTokenColors } from './semanticTokens';
+export { createWorkbenchColors } from './workbench';
+export { createTokenColors } from './tokenColors';
+export { createSemanticTokenColors } from './semanticTokens';

@@ -47,6 +47,11 @@
         "label": "Hatsune Miku Theme",
         "uiTheme": "vs-dark",
         "path": "./themes/hatsune-miku-theme-color-theme.json"
+      },
+      {
+        "label": "Hatsune Miku Theme (Snow Miku)",
+        "uiTheme": "vs",
+        "path": "./themes/hatsune-miku-snow-color-theme.json"
       }
     ]
   },

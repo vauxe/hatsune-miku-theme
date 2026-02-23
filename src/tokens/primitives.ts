@@ -227,8 +227,9 @@ export const opacity = {
 
 export const special = {
   void: '#0A0D10',       // Deepest black (near-zero luminance)
+  foreground: '#C8DEE5', // Primary text (soft ice-white)
   pureWhite: '#FFFFFF',  // Maximum contrast white
-  nearWhite: '#F8F8F8',  // Soft white (Lc ~97)
+  nearWhite: '#EAF6E8',  // Negi white — softest green light (matches char.negi.white)
   transparent: '#00000000',
 } as const;
 
@@ -314,6 +315,7 @@ export interface CharacterColors {
 
 export interface SpecialColors {
   void: string;
+  foreground: string;
   pureWhite: string;
   nearWhite: string;
   transparent: string;
@@ -340,6 +342,7 @@ export type Opacity = typeof opacity;
 
 // Flexible interface for variants
 export interface Primitives {
+  polarity: 'dark' | 'light';
   lightness: LightnessValues;
   chroma: ChromaValues;
   hue: HueValues;
@@ -349,6 +352,7 @@ export interface Primitives {
 }
 
 export const primitives: Primitives = {
+  polarity: 'dark',
   lightness,
   chroma,
   hue,

@@ -31,7 +31,7 @@ export function createSemanticTokens(
   p: Primitives = primitives
 ): SemanticTokens {
   const ui = createUITokens(p);
-  const decorative = createDecorativeTokens();
+  const decorative = createDecorativeTokens(p);
   return {
     syntax: createSyntaxTokens(p),
     ui,

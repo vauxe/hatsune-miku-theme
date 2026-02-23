@@ -8,8 +8,8 @@
  * Colors validated for APCA Lc 60+ against editor background.
  */
 
-import { syntax } from './colors';
-import { semanticTokens as t } from '../tokens';
+import { createSyntaxColors } from './colors';
+import type { SemanticTokens } from '../tokens';
 
 // Helper type for semantic token settings
 type SemanticTokenSetting =
@@ -19,7 +19,9 @@ type SemanticTokenSetting =
     fontStyle?: string;
   };
 
-export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
+export function createSemanticTokenColors(t: SemanticTokens): Record<string, SemanticTokenSetting> {
+const syntax = createSyntaxColors(t);
+return {
   // ==========================================================================
   // KEYWORDS
   // ==========================================================================
@@ -220,5 +222,5 @@ export const semanticTokenColors: Record<string, SemanticTokenSetting> = {
   // Default library - use built-in styling
   '*.defaultLibrary': {},
 };
+}
 
-export type SemanticTokenColors = typeof semanticTokenColors;

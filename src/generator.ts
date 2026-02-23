@@ -8,7 +8,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { workbenchColors, tokenColors, semanticTokenColors } from './theme';
+import { createWorkbenchColors, createTokenColors, createSemanticTokenColors } from './theme';
+import { generateVariantTokens } from './tokens';
 
 // =============================================================================
 // THEME METADATA
@@ -28,8 +29,12 @@ const variants: VariantDefinition[] = [
     type: 'dark',
     filename: 'hatsune-miku-theme-color-theme.json',
   },
-  // Future variant:
-  // { id: 'light', name: 'Hatsune Miku Theme Light', type: 'light', filename: 'hatsune-miku-light-color-theme.json' },
+  {
+    id: 'light',
+    name: 'Hatsune Miku Theme (Snow Miku)',
+    type: 'light',
+    filename: 'hatsune-miku-snow-color-theme.json',
+  },
 ];
 
 // =============================================================================
@@ -54,16 +59,15 @@ interface VSCodeTheme {
 }
 
 function generateTheme(variant: VariantDefinition): VSCodeTheme {
-  // Currently only dark variant is implemented
-  // Future: use createSemanticTokens(variantPrimitives) to generate different palettes
+  const tokens = generateVariantTokens(variant.type);
   return {
     $schema: 'vscode://schemas/color-theme',
     name: variant.name,
     type: variant.type,
     semanticHighlighting: true,
-    colors: workbenchColors,
-    tokenColors: tokenColors,
-    semanticTokenColors: semanticTokenColors,
+    colors: createWorkbenchColors(tokens, variant.type),
+    tokenColors: createTokenColors(tokens),
+    semanticTokenColors: createSemanticTokenColors(tokens),
   };
 }
 
@@ -83,9 +87,9 @@ function writeTheme(outputPath: string, variant: VariantDefinition): void {
   fs.writeFileSync(outputPath, json, 'utf-8');
   console.log(`Theme generated: ${outputPath}`);
 
-  const colorCount = Object.keys(workbenchColors).length;
-  const tokenCount = tokenColors.length;
-  const semanticCount = Object.keys(semanticTokenColors).length;
+  const colorCount = Object.keys(theme.colors).length;
+  const tokenCount = theme.tokenColors.length;
+  const semanticCount = Object.keys(theme.semanticTokenColors).length;
   console.log(`  - Workbench colors: ${colorCount}`);
   console.log(`  - Token color rules: ${tokenCount}`);
   console.log(`  - Semantic token rules: ${semanticCount}`);

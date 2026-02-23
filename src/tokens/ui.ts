@@ -20,13 +20,15 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
   const { lightness: L, chroma: C, hue: H, character: char } = p;
 
   // The skirt is the stage — one anchor, uniform steps up and down
-  const STEP = 0.004;
+  const STEP = p.polarity === 'light' ? 0.005 : 0.004;
   const skirt = parseHex(char.skirt.base);
+  // Above-base tiers: lighter in dark, darker in light
+  const aboveDir = p.polarity === 'light' ? -1 : 1;
 
   return {
     foreground: roleFromHex(
       'Primary text — soft ice-white, readable for hours',
-      '#C8DEE5'
+      p.special.foreground
     ),
     foregroundMuted: role(
       'Secondary text — silver, the quiet accompaniment',
@@ -46,70 +48,91 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     ),
     backgroundSurface: role(
       'Light rising above the skirt — title bar territory (step +1)',
-      skirt.Jz + STEP, skirt.Cz, skirt.hz
+      skirt.Jz + aboveDir * STEP, skirt.Cz, skirt.hz
     ),
     backgroundOverlay: role(
       'Audience light — sidebar territory (step +2)',
-      skirt.Jz + 2 * STEP, skirt.Cz, skirt.hz
+      skirt.Jz + aboveDir * 2 * STEP, skirt.Cz, skirt.hz
     ),
     backgroundHighest: role(
       'FOH — the brightest operational tier, status bar (step +3)',
-      skirt.Jz + 3 * STEP, skirt.Cz, skirt.hz
+      skirt.Jz + aboveDir * 3 * STEP, skirt.Cz, skirt.hz
     ),
-    accentPrimary: roleFromHex(
-      'Primary accent — her hair, #39C5BB',
-      char.hair.base
-    ),
+    accentPrimary: p.polarity === 'light'
+      ? roleFromHex('Primary accent — sleeve amber, warm pâtisserie frame', char.tie.base)
+      : roleFromHex('Primary accent — her hair, #39C5BB', char.hair.base),
     accentSecondary: (() => {
+      if (p.polarity === 'light') {
+        // Use the bow terracotta directly — Lc≈73 on cream, passes secondary threshold,
+        // and matches the illustration's vivid terracotta bows against warm cream
+        return roleFromHex(
+          'Secondary accent — bow terracotta, her warm presence on snow',
+          char.headphones.cushion
+        );
+      }
       const hl = parseHex(char.hair.highlight);
       return role(
         'Secondary accent — hair highlight, lightened for Lc≥70 as foreground',
         hl.Jz + 0.015, hl.Cz, hl.hz
       );
     })(),
-    accentTertiary: roleFromHex(
-      'Tertiary accent — hair tip, the lightest end of her color',
-      char.hair.tip
-    ),
-    border: roleFromHex(
-      'Border — drawn in her teal',
-      char.hair.base
-    ),
-    borderSubtle: roleFromHex(
-      'Subtle border — a breath of teal',
-      char.hair.base
-    ),
-    selection: roleFromHex(
-      'Selection — when you choose code, you highlight it with her color',
-      char.hair.base
-    ),
+    accentTertiary: (() => {
+      if (p.polarity === 'light') {
+        const hs = parseHex(char.hair.shadow);
+        return role('Tertiary accent — hair shadow darkened for Lc≥70 on snow', hs.Jz - 0.015, hs.Cz, hs.hz);
+      }
+      return roleFromHex('Tertiary accent — hair tip, the lightest end of her color', char.hair.tip);
+    })(),
+    border: p.polarity === 'light'
+      ? roleFromHex('Warm border — sleeve amber frame', char.tie.base)
+      : roleFromHex('Border — drawn in her teal', char.hair.base),
+    borderSubtle: p.polarity === 'light'
+      ? roleFromHex('Subtle warm border — faint sleeve amber', char.tie.base)
+      : roleFromHex('Subtle border — a breath of teal', char.hair.base),
+    selection: p.polarity === 'light'
+      ? roleFromHex('Warm selection — honey highlight', char.tie.base)
+      : roleFromHex('Selection — when you choose code, you highlight it with her color', char.hair.base),
     cursor: (() => {
       const cushion = parseHex(char.headphones.cushion);
+      if (p.polarity === 'light') {
+        return role(
+          'Her presence — headphone cushion magenta, darkened for visibility on snow',
+          cushion.Jz - 0.015, cushion.Cz, cushion.hz
+        );
+      }
       return role(
         'Her presence — headphone cushion magenta, lightened for cursor visibility',
         cushion.Jz + 0.055, cushion.Cz, cushion.hz
       );
     })(),
-    link: roleFromHex(
-      'Links — her highlight color, clickable and alive',
-      char.hair.highlight
-    ),
-    linkActive: roleFromHex(
-      'Active link — her brightest hair highlight, fully present',
-      char.hair.bright
-    ),
+    link: (() => {
+      if (p.polarity === 'light') {
+        const hs = parseHex(char.hair.shadow);
+        return role('Links — hair shadow darkened for Lc≥70 on snow', hs.Jz - 0.015, hs.Cz, hs.hz);
+      }
+      return roleFromHex('Links — her highlight color, clickable and alive', char.hair.highlight);
+    })(),
+    linkActive: (() => {
+      if (p.polarity === 'light') {
+        const ts = parseHex(char.tie.shadow);
+        return role('Active link — tie shadow darkened for Lc≥70 on snow', ts.Jz - 0.020, ts.Cz, ts.hz);
+      }
+      return roleFromHex('Active link — her brightest hair highlight, fully present', char.hair.bright);
+    })(),
     // Extended UI tokens
     void: role(
       'Deepest shadow below the stage — the void (step −2)',
-      skirt.Jz - 2 * STEP, skirt.Cz * 0.4, skirt.hz
+      skirt.Jz - 2 * STEP,
+      p.polarity === 'light' ? skirt.Cz * 0.85 : skirt.Cz * 0.4,  // Light: keep warm (0.017), dark: desaturate
+      skirt.hz
     ),
     pureWhite: roleFromHex(
       'Pure white - maximum contrast',
-      '#FFFFFF'
+      p.special.pureWhite
     ),
     nearWhite: roleFromHex(
       'Negi white — the softest green light from her iconic prop',
-      char.negi.white
+      p.special.nearWhite
     ),
     tertiary: role(
       'Tertiary text - muted sky',
@@ -153,18 +176,23 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     ),
     deprecated: role(
       'Deprecated - lavender',
-      L.primary, C.comfortable, H.lavender
+      p.polarity === 'light' ? L.primary + 0.014 : L.primary, C.comfortable, H.lavender
     ),
     variableLanguage: role(
       'Language variables - shifted teal',
-      L.vibrant, C.vibrant, H.mikuTeal - 3
+      p.polarity === 'light' ? 0.058 : L.vibrant, p.polarity === 'light' ? 0.048 : C.vibrant,
+      p.polarity === 'light' ? 197 : H.mikuTeal - 3
     ),
-    minimapOpacity: '#000000DD',
+    minimapOpacity: p.polarity === 'light' ? '#FFFFFFDD' : '#000000DD',
     error: role(
       'The tritone — UI error, vivid rose dissonance',
       L.vibrantWarm + 0.020, C.vivid, H.rose
     ),
     buttonBackground: (() => {
+      if (p.polarity === 'light') {
+        // Light: bow terracotta — warm, eye-catching on cream
+        return roleFromHex('Terracotta button — the bow, eye-catching on cream', char.headphones.cushion);
+      }
       const hairShadow = parseHex(char.hair.shadow);
       return role(
         'Her hair shadow — roots darkened for button contrast',
@@ -172,31 +200,36 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       );
     })(),
     badgeBackground: (() => {
+      if (p.polarity === 'light') {
+        // Light: bow terracotta — warm, attention-grabbing on cream
+        return roleFromHex('SM2024 bow terracotta — warm badge on cream', char.headphones.cushion);
+      }
       const cushion = parseHex(char.headphones.cushion);
       return role(
         'Her headphone cushion — darkened for badge readability',
         cushion.Jz - 0.050, cushion.Cz, cushion.hz
       );
     })(),
-    activeBorder: roleFromHex(
-      'Her headphone cushion — canonical magenta for active borders',
-      char.headphones.cushion
-    ),
+    activeBorder: p.polarity === 'light'
+      ? roleFromHex('Active border — sleeve amber, warm indicator trim', char.tie.base)
+      : roleFromHex('Her headphone cushion — canonical magenta for active borders', char.headphones.cushion),
   };
 }
 
 export function createStatusTokens(p: Primitives): StatusTokens {
   const { lightness: L, chroma: C, hue: H, character: char } = p;
 
+  if (p.polarity === 'light') {
+    return {
+      success: role('Sage success — organic green on cream', 0.072, 0.085, 155),
+      warning: role('Amber warning — warm caution', 0.082, 0.080, 75),
+      error: role('Terracotta error — vivid alert', 0.075, 0.110, 20),
+      info: role('Teal info — calm tonic', 0.060, 0.075, 200),
+    };
+  }
   return {
-    success: roleFromHex(
-      'Negi bright green — it worked, new life',
-      char.negi.bright
-    ),
-    warning: role(
-      'Minor 6th — caution, warm orange',
-      L.vibrant, C.comfortable, H.orange
-    ),
+    success: roleFromHex('Negi bright green — it worked, new life', char.negi.bright),
+    warning: role('Minor 6th — caution, warm orange', L.vibrant, C.comfortable, H.orange),
     error: role(
       'The tritone — maximum dissonance, something is wrong',
       L.vibrantWarm + 0.025, C.vivid, H.rose
@@ -211,11 +244,21 @@ export function createStatusTokens(p: Primitives): StatusTokens {
 export function createGitTokens(p: Primitives): GitTokens {
   const { lightness: L, chroma: C, hue: H, character: char } = p;
 
+  if (p.polarity === 'light') {
+    return {
+      added: role('Blue-teal added — deep blue axis for CVD safety', 0.058, 0.090, 220),
+      modified: role('Amber modified — warm change', 0.072, 0.080, 75),
+      deleted: role('Terracotta deleted — vivid loss, Jz 0.100 for CVD tier separation', 0.100, 0.110, 20),
+      untracked: role('Teal untracked — not yet tracked', 0.072, 0.085, 200),
+      conflicting: role('Blue conflicting — demands resolution', 0.072, 0.085, 260),
+      renamed: role('Sage renamed — same content, new address', 0.058, 0.075, 155),
+      stageModified: role('Muted teal staged — accepted change', 0.072, 0.050, 200),
+      stageDeleted: role('Azure staged delete — cooled from parent', 0.055, 0.080, 260),
+      submodule: role('Muted azure submodule — external reference', 0.058, 0.050, 260),
+    };
+  }
   return {
-    added: role(
-      'New life — lime in the code tree',
-      L.vibrant - 0.010, C.vivid, H.lime
-    ),
+    added: role('New life — lime in the code tree', L.vibrant - 0.010, C.vivid, H.lime),
     modified: role(
       'Change — warm orange, the story evolves',
       L.vibrant, C.comfortable, H.orange

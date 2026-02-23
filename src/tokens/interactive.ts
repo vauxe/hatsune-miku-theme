@@ -35,14 +35,17 @@ export function createInteractiveTokens(
   const { character: char, opacity: op } = p;
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // ENGAGEMENT — teal, transient interaction
+  // ENGAGEMENT — transient interaction
+  // Dark: teal (her hair, the tonic). Light: warm honey (the sleeve lining).
   // ═══════════════════════════════════════════════════════════════════════════
-  const tonic = char.hair.base;              // #39C5BB
+  const tonic = p.polarity === 'light' ? char.tie.base : char.hair.base;
 
-  // Solid registers — hair gradient from root to tip
-  const roots = char.hair.shadow;            // #067C82 — pp
-  const tieShadow = char.tie.shadow;         // #1A8A82 — p
-  const accentBright = ui ? ui.accentSecondary.hex : char.hair.highlight;  // Lightened hair highlight — ff
+  // Solid registers — gradient from darkest to brightest
+  const roots = p.polarity === 'light' ? char.tie.shadow : char.hair.shadow;
+  const tieShadow = char.tie.shadow;         // polarity-aware via p.character
+  const accentBright = p.polarity === 'light'
+    ? (ui ? ui.accentSecondary.hex : char.headphones.cushion)  // Warm terracotta — ff
+    : (ui ? ui.accentSecondary.hex : char.hair.highlight);     // Teal highlight — ff
 
   // ═══════════════════════════════════════════════════════════════════════════
   // SELECTION — Snow Miku frost, persistent state
@@ -57,8 +60,12 @@ export function createInteractiveTokens(
   // UI fallbacks
   const foreground = ui ? ui.foreground.hex : '#C0D8E0';
   // Colored foregrounds — voices speak as text
-  const foregroundFrost = snowMiku.y2022.hair;    // #B2EBF2 — selection voice (Snow Miku ocean blue)
-  const foregroundTeal = accentBright;            // Lightened hair highlight — engagement highlight (light teal)
+  const foregroundFrost = p.polarity === 'light'
+    ? foreground                                    // Dark foreground for selected items on snow
+    : snowMiku.y2022.hair;                          // #B2EBF2 — selection voice (Snow Miku ocean blue)
+  const foregroundTeal = p.polarity === 'light'
+    ? roots                                         // #067C82 — dark teal for engagement highlight on snow
+    : accentBright;                                 // Lightened hair highlight — engagement highlight (light teal)
   const foregroundMuted = ui ? ui.foregroundMuted.hex : '#8A9CA0';
   const foregroundDisabled = ui ? ui.disabled.hex : '#5A6A70';
   const backgroundVoid = ui ? ui.void.hex : '#0A1214';
@@ -110,6 +117,7 @@ export function createInteractiveTokens(
         selected: tonic,
       },
       foreground: {
+        // Buttons have dark/colored backgrounds — always need white text
         default: '#FFFFFF',
         hover: '#FFFFFF',
         active: '#FFFFFF',
@@ -257,12 +265,14 @@ export function createInteractiveTokens(
         active: tonic,                              // on + hover
         focus: background,
         disabled: withOpacity(backgroundSurface, '80'),
-        selected: ui ? ui.buttonBackground.hex : '#157570', // on
+        selected: p.polarity === 'light'
+          ? withOpacity(tonic, op.heavy)              // on — teal tint over cream, keeps dark fg readable
+          : (ui ? ui.buttonBackground.hex : '#157570'), // on — solid dark teal (dark theme)
       },
       foreground: {
         default: foregroundMuted,                   // off — dim
         hover: foreground,                          // off + hover — brighter
-        active: '#FFFFFF',                          // on + hover
+        active: p.polarity === 'light' ? foreground : '#FFFFFF', // on + hover — dark fg on tint (light), white on solid (dark)
         focus: foreground,
         disabled: foregroundDisabled,
         selected: accentBright,                     // on — bright teal checkmark

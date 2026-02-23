@@ -329,6 +329,12 @@ export interface DecorativeTokens {
   cursorLineFrost: string;
   /** Boots base — deep near-black for terminal (character.boots.base) */
   bootsBase: string;
+  /** Arm warmers base — sidebar surface (character.armWarmers.base) */
+  armWarmersBase: string;
+  /** Top main — activity bar surface (character.top.main) */
+  topMain: string;
+  /** Top shadow — status bar surface (character.top.shadow) */
+  topShadow: string;
 }
 
 // =============================================================================
