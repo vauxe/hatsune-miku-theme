@@ -325,7 +325,7 @@ function analyzeUIVisibility(bg: Record<string, string>): UIVisibilityResult[] {
   const checks = [
     { name: 'selection',         color1: bg.selection,      color2: bg.editor,      required: UI_VISIBILITY.selectionVisibility },
     { name: 'findMatch',         color1: bg.findMatchActive,color2: bg.editor,      required: UI_VISIBILITY.findMatchVisibility },
-    { name: 'tabActive↔inactive',color1: bg.tabBar,         color2: bg.editor,      required: UI_VISIBILITY.tabDistinction },
+    { name: 'tabBar↔editor',     color1: bg.tabBar,         color2: bg.editor,      required: UI_VISIBILITY.tabDistinction },
     { name: 'diffAdded↔removed', color1: bg.diffInserted,   color2: bg.diffRemoved, required: UI_VISIBILITY.diffDistinction },
   ];
 
@@ -357,6 +357,7 @@ function analyzeCVD(
     syntax: Record<string, ColorValue>;
     terminal: Record<string, ColorValue>;
     testing: Record<string, ColorValue>;
+    brackets: Record<string, ColorValue>;
   },
   bgByCategory: Record<string, string>
 ): CVDFailure[] {
@@ -369,6 +370,7 @@ function analyzeCVD(
     terminal: colors.terminal,
     testing: colors.testing,
     diff: colors.syntax,  // markup colors are in syntax
+    bracket: colors.brackets,
   };
 
   for (const { category, pairs } of CVD_CRITICAL_PAIRS) {
@@ -431,11 +433,38 @@ function formatCVDLine(f: CVDFailure): string {
 function analyzeCompoundBackgroundContrast(
   syntax: Record<string, ColorValue>,
   bg: Record<string, string>,
-  thresholds: APCAThresholdConfig = APCA_THRESHOLDS
+  thresholds: APCAThresholdConfig = APCA_THRESHOLDS,
+  fgOverrides?: Record<string, ColorValue>,
 ): CompoundBackgroundAnalysis {
   const failures: CompoundBackgroundFailure[] = [];
   let tokensAnalyzed = 0;
   let tokensPassing = 0;
+
+  // Build set of overlay bg names that have adequate FG overrides.
+  // When a theme defines e.g. editor.selectionForeground, VS Code replaces ALL
+  // syntax colors with that single color on the overlay — so the syntax token's
+  // own contrast is irrelevant there.
+  const skippedOverlays = new Set<string>();
+  const overrideMapping: Record<string, string[]> = {
+    selectionForeground: ['selection', 'selectionHighlight'],
+    findMatchForeground: ['findMatchActive', 'findMatch'],
+  };
+  if (fgOverrides) {
+    for (const [overrideKey, bgNames] of Object.entries(overrideMapping)) {
+      const cv = fgOverrides[overrideKey];
+      if (!cv || cv.fallback || !cv.color) continue;
+      // Check that the override itself provides adequate contrast on each bg
+      for (const bgName of bgNames) {
+        const bgHex = bg[bgName];
+        if (!bgHex) continue;
+        const overrideFg = stripAlpha(cv.color);
+        const result = getAPCAContrast(overrideFg, bgHex);
+        if (Math.abs(result.lc) >= thresholds.primary) {
+          skippedOverlays.add(bgName);
+        }
+      }
+    }
+  }
 
   // Test each primary syntax color using the actual record keys
   for (const tokenName of COMPOUND_SYNTAX_TOKENS) {
@@ -464,6 +493,7 @@ function analyzeCompoundBackgroundContrast(
     for (const [bgName, bgKey] of Object.entries(COMPOUND_BACKGROUND_KEYS)) {
       const bgHex = bg[bgName as keyof typeof bg];
       if (!bgHex || bgHex === editorBg) continue; // Skip if same as editor or not defined
+      if (skippedOverlays.has(bgName)) continue; // FG override handles readability here
 
       // Composite against each overlay bg individually (text renders on top of overlay)
       const resolvedFg = alpha < 1 ? blendAlpha(baseFg, bgHex, alpha) : baseFg;
@@ -712,6 +742,14 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('DiffRem:Variable', c.syntax.variable, 'diffRemoved'),
     a('DiffRem:Comment', c.syntax.comment, 'diffRemoved'),
   ];
+  // When foreground overrides are defined, VS Code replaces ALL syntax colors
+  // with the single override color. Test these overrides for readability.
+  if (!c.ui.selectionForeground.fallback) {
+    syntaxContextResults.push(a('Selection FG', c.ui.selectionForeground, 'selection'));
+  }
+  if (!c.ui.findMatchForeground.fallback) {
+    syntaxContextResults.push(a('Find Match FG', c.ui.findMatchForeground, 'findMatchActive'));
+  }
   section(syntaxContextResults, LABELS.sectionSyntaxContext);
 
   // NAVIGATION HIGHLIGHTS - Go to Definition, Breadcrumbs, Quick Open
@@ -1122,7 +1160,8 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Branch 5', c.scmGraph.foreground5, 'sidebar'),
     a('Additions', c.scmGraph.additions, 'sidebar'),
     a('Deletions', c.scmGraph.deletions, 'sidebar'),
-    a('Label', c.scmGraph.label, 'sidebar'),
+    // scmGraph.historyItemHoverLabelForeground is dark text (eyes.pupil) designed for
+    // VS Code's internally-generated bright ref pill background — not the sidebar.
     a('Ref Color', c.scmGraph.refColor, 'sidebar'),
   ], LABELS.sectionScmGraph);
 
@@ -1250,6 +1289,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       syntax: c.syntax,
       terminal: c.terminal,
       testing: c.testingIcons,
+      brackets: c.brackets,
     },
     {
       default: c.bg.editor,
@@ -1258,6 +1298,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       terminal: c.bg.terminal,
       testing: c.bg.sidebar,
       diff: c.bg.editor,
+      bracket: c.bg.editor,
     }
   );
 
@@ -1277,7 +1318,10 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // Test syntax colors against ALL overlay backgrounds they might appear on.
   // A color might be readable on editor.background but fail on selection/find/diff.
 
-  const compoundAnalysis = analyzeCompoundBackgroundContrast(c.syntax, c.bg, apcaThresholds);
+  const compoundAnalysis = analyzeCompoundBackgroundContrast(c.syntax, c.bg, apcaThresholds, {
+    selectionForeground: c.ui.selectionForeground,
+    findMatchForeground: c.ui.findMatchForeground,
+  });
 
   // ==========================================================================
   // LIGHTNESS UNIFORMITY ANALYSIS

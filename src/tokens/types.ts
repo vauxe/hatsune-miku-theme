@@ -80,7 +80,6 @@ export interface UITokens {
 
 export interface ExtendedUITokens {
   void: SemanticRole;
-  pureWhite: SemanticRole;
   nearWhite: SemanticRole;
   tertiary: SemanticRole;
   disabled: SemanticRole;
@@ -303,6 +302,8 @@ export interface DecorativeTokens {
   pullRequestIcon: string;
   /** SCM history ref colors */
   scmRemoteRef: string;
+  /** Blouse off-white — bright text on colored buttons/badges (top.blouse) */
+  blouseWhite: string;
   /** Dark foreground for light badges (character eyes.pupil) */
   darkForeground: string;
   /** Inlay hint parameter foreground (character skin.shadow) */

@@ -161,6 +161,7 @@ export const character = {
     main: mikuCharacter.top.main,
     shadow: mikuCharacter.top.shadow,
     trim: mikuCharacter.top.trim,
+    blouse: mikuCharacter.top.blouse,     // Off-white shirt — bright text on colored surfaces
   },
   skirt: {
     base: mikuCharacter.skirt.base,
@@ -228,7 +229,6 @@ export const opacity = {
 export const special = {
   void: '#0A0D10',       // Deepest black (near-zero luminance)
   foreground: '#C8DEE5', // Primary text (soft ice-white)
-  pureWhite: '#FFFFFF',  // Maximum contrast white
   nearWhite: '#EAF6E8',  // Negi white — softest green light (matches char.negi.white)
   transparent: '#00000000',
 } as const;
@@ -305,7 +305,7 @@ export interface CharacterColors {
   eyes: { iris: string; highlight: string; pupil: string };
   headphones: { frame: string; cushion: string; display: string };
   hairTies: { base: string; outline: string };
-  top: { main: string; shadow: string; trim: string };
+  top: { main: string; shadow: string; trim: string; blouse: string };
   skirt: { base: string; trim: string; accessory: string };
   armWarmers: { base: string; pattern: string };
   boots: { base: string; accent: string };
@@ -316,7 +316,6 @@ export interface CharacterColors {
 export interface SpecialColors {
   void: string;
   foreground: string;
-  pureWhite: string;
   nearWhite: string;
   transparent: string;
 }

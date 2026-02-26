@@ -176,6 +176,7 @@ export const lightCharacter: CharacterColors = {
     main: hex({ Jz: 0.200, Cz: 0.016, hz: 66 }),         // Warm paper — wooden counter (activity bar)
     shadow: hex({ Jz: 0.195, Cz: 0.018, hz: 62 }),        // Deeper paper — chocolate shelf (status bar)
     trim: darkCharacter.top.trim,
+    blouse: darkCharacter.top.blouse,                       // Same off-white shirt in both themes
   },
   // Editor canvas — subliminal warm paper
   skirt: {
@@ -262,7 +263,6 @@ export function createLightPrimitives(): Primitives {
   const lightSpecial: SpecialColors = {
     void: hex({ Jz: 0.185, Cz: 0.010, hz: 66 }),         // Deep paper — back of the shop
     foreground: hex({ Jz: 0.063, Cz: 0.018, hz: 50 }),    // Ink — warm dark, Lc ~87
-    pureWhite: hex({ Jz: 0.015, Cz: 0.008, hz: 50 }),     // Deep ink — max contrast dark
     nearWhite: hex({ Jz: 0.035, Cz: 0.012, hz: 50 }),     // Dark ink — near-dark text
     transparent: special.transparent,
   };

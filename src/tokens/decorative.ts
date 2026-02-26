@@ -112,8 +112,9 @@ export function createSupportTokens(p: Primitives): SupportTokens {
   return {
     function: role('Support function — orange glow, built-in action', L.vibrantWarm, C.vibrant, H.orange),
     class: role('Support class — gold, built-in structure', L.vibrant, C.vibrant, H.gold),
+    // Blue hue luminance correction — matches syntax.type offset
     type: role('Support type — blue depth, built-in architecture',
-      p.polarity === 'light' ? L.primary + 0.014 : L.primary + 0.008, C.comfortable, H.blue),
+      p.polarity === 'light' ? L.primary + 0.014 : L.primary + 0.010, C.comfortable, H.blue),
     constant: role('Support constant — orange, built-in truth', L.primaryWarm, C.comfortable, H.orange),
     variable: role('Support variable — cyan, built-in data', L.primary, C.comfortable, H.cyan),
   };
@@ -209,6 +210,7 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     scmRemoteRef: leoNeed.hair.highlight,
 
     // Character palette utility colors
+    blouseWhite: character.top.blouse,  // #FCF8F0 — bright text on colored buttons/badges
     darkForeground: character.eyes.pupil,
     inlayParameter: p.polarity === 'light'
       ? hex({ Jz: 0.095, Cz: 0.020, hz: 50 })  // Warm gray — visible on snow

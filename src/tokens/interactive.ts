@@ -79,11 +79,11 @@ export function createInteractiveTokens(
     // =========================================================================
     list: {
       background: {
-        default: '#00000000',
+        default: p.special.transparent,
         hover: withOpacity(tonic, op.strong),       // 25% — engagement, transient
         active: withOpacity(tonic, op.heavy),        // 38% — engagement, marcato
-        focus: '#00000000',                        // identity uses border only
-        disabled: '#00000000',
+        focus: p.special.transparent,                        // identity uses border only
+        disabled: p.special.transparent,
         selected: withOpacity(frost, op.strong),     // 25% — selection, persistent
       },
       foreground: {
@@ -95,11 +95,11 @@ export function createInteractiveTokens(
         selected: foregroundFrost,                   // selection voice as text
       },
       border: {
-        default: '#00000000',
-        hover: '#00000000',                       // legato — fill only
+        default: p.special.transparent,
+        hover: p.special.transparent,                       // legato — fill only
         active: tonic,                              // marcato — solid teal
         focus: spotlight,                           // identity — solid magenta
-        disabled: '#00000000',
+        disabled: p.special.transparent,
         selected: tieShadow,                        // tenuto — solid dark teal
       },
     },
@@ -117,13 +117,13 @@ export function createInteractiveTokens(
         selected: tonic,
       },
       foreground: {
-        // Buttons have dark/colored backgrounds — always need white text
-        default: '#FFFFFF',
-        hover: '#FFFFFF',
-        active: '#FFFFFF',
-        focus: '#FFFFFF',
+        // Buttons have dark/colored backgrounds — blouse off-white for warmth
+        default: char.top.blouse,
+        hover: char.top.blouse,
+        active: char.top.blouse,
+        focus: char.top.blouse,
         disabled: foregroundMuted,
-        selected: '#FFFFFF',
+        selected: char.top.blouse,
       },
       border: {
         default: tieShadow,
@@ -203,7 +203,7 @@ export function createInteractiveTokens(
         default: backgroundVoid,                    // inactive — void tier (recedes)
         hover: withOpacity(tonic, op.strong),        // 25% — engagement tint (transient OK)
         active: background,                         // shown tab — base tier (merges with editor)
-        focus: '#00000000',                       // identity uses border only
+        focus: p.special.transparent,                       // identity uses border only
         disabled: backgroundVoid,                   // same as inactive
         selected: backgroundSurface,                // unfocused active — surface tier
       },
@@ -217,7 +217,7 @@ export function createInteractiveTokens(
       },
       border: {
         default: backgroundElevated,
-        hover: '#00000000',                       // legato
+        hover: p.special.transparent,                       // legato
         active: tieShadow,                          // marcato
         focus: spotlight,                           // identity — magenta
         disabled: backgroundElevated,
@@ -230,11 +230,11 @@ export function createInteractiveTokens(
     // =========================================================================
     toolbar: {
       background: {
-        default: '#00000000',
+        default: p.special.transparent,
         hover: withOpacity(tonic, op.strong),        // 25%
         active: withOpacity(tonic, op.heavy),        // 38%
-        focus: '#00000000',
-        disabled: '#00000000',
+        focus: p.special.transparent,
+        disabled: p.special.transparent,
         selected: withOpacity(frost, op.strong),     // 25% — toggled/selected
       },
       foreground: {
@@ -246,12 +246,12 @@ export function createInteractiveTokens(
         selected: foreground,
       },
       border: {
-        default: '#00000000',
-        hover: '#00000000',                       // no border on icon hover
-        active: '#00000000',
+        default: p.special.transparent,
+        hover: p.special.transparent,                       // no border on icon hover
+        active: p.special.transparent,
         focus: spotlight,                           // identity — magenta
-        disabled: '#00000000',
-        selected: '#00000000',
+        disabled: p.special.transparent,
+        selected: p.special.transparent,
       },
     },
 
@@ -272,7 +272,7 @@ export function createInteractiveTokens(
       foreground: {
         default: foregroundMuted,                   // off — dim
         hover: foreground,                          // off + hover — brighter
-        active: p.polarity === 'light' ? foreground : '#FFFFFF', // on + hover — dark fg on tint (light), white on solid (dark)
+        active: p.polarity === 'light' ? foreground : char.top.blouse, // on + hover — dark fg on tint (light), blouse white on solid (dark)
         focus: foreground,
         disabled: foregroundDisabled,
         selected: accentBright,                     // on — bright teal checkmark

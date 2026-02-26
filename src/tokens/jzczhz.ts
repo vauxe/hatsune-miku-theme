@@ -74,8 +74,8 @@ export const LIGHTNESS = {
   muted: 0.195,       // For muted chroma (CM) - comments need extra light
 
   // Standard tiers
-  secondary: 0.185,   // Secondary elements (Lc ~75+)
-  tertiary: 0.12,     // Tertiary/dim elements (Lc ~55) - ghost text
+  secondary: 0.186,   // Secondary elements (Lc ~75+) — +0.001 for overlay headroom
+  tertiary: 0.138,    // Tertiary/dim elements (Lc ≥45) - ghost text, line numbers
   accent: 0.190,      // Accent elements (Lc ~80+) - brackets, highlights
 } as const;
 

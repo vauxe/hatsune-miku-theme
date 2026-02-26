@@ -226,18 +226,18 @@ export const APCA_THRESHOLDS: APCAThresholdConfig = {
 };
 
 /**
- * Light theme APCA thresholds — relaxed for dark-on-light polarity.
+ * Light theme APCA thresholds — same readability standard as dark.
  *
- * Dark text on light backgrounds is naturally comfortable to read.
- * Books, magazines, and print media routinely use Lc 60-70 for body text.
- * Halation (text bloom) does not occur with dark-on-light text.
- * Lowering thresholds lets syntax tokens use higher Jz (more sRGB gamut
- * for vivid colors) without false positives.
+ * APCA internally compensates for polarity asymmetry: the same Lc value
+ * represents equivalent readability in both light-on-dark and dark-on-light.
+ * Using lower thresholds for light themes would mean accepting worse
+ * readability. Only `max` differs: halation (text bloom) doesn't occur
+ * with dark-on-light text, so the cap is relaxed.
  */
 export const APCA_THRESHOLDS_LIGHT: APCAThresholdConfig = {
-  primary: 60,     // Content level — comfortable for dark-on-light body text
-  secondary: 50,   // Large text level — UI/comments on overlays
-  tertiary: 30,    // Non-text level — ghost text, placeholders
+  primary: 75,     // Body text — same standard as dark theme
+  secondary: 70,   // UI/comments — same standard as dark theme
+  tertiary: 45,    // Ghost text, placeholders — same standard as dark theme
   max: 110,        // No halation possible with dark-on-light text
 };
 
@@ -353,6 +353,17 @@ export const CVD_CRITICAL_PAIRS: {
     category: 'diff',
     pairs: [
       ['markupInserted', 'markupDeleted'],
+    ],
+  },
+  {
+    category: 'bracket',
+    pairs: [
+      ['bracket1', 'bracket2'],
+      ['bracket2', 'bracket3'],
+      ['bracket3', 'bracket4'],
+      ['bracket4', 'bracket5'],
+      ['bracket5', 'bracket6'],
+      ['bracket6', 'bracket1'],  // wrap-around
     ],
   },
 ];
@@ -485,7 +496,7 @@ export const EXPECTED_DIM_ELEMENTS = new Set([
   'Description',     // Helper/description text
   'Chat Placeholder',// Inline chat placeholder
   'List Deemph',     // Explicitly deemphasized list items
-  // Git
+  // Git (intentionally dimmed filename text — tertiary threshold Lc ≥ 45)
   'Ignored',         // Git ignored files
   // Icons - communicate via SHAPE not text, need only visibility (Lc≥45)
   // Testing icons
@@ -847,8 +858,8 @@ export const ADJACENCY_PAIRS: Array<[string, string]> = [
  */
 export const SYMBOL_DISCRIMINATION_PAIRS: Array<[string, string]> = [
   // Core structure types (must be obviously different)
+  // class↔struct omitted: intentionally identical color (D# 90°), shape-distinguished by icon
   ['class', 'interface'],
-  ['class', 'struct'],
   ['interface', 'struct'],
   ['enum', 'class'],
   ['enum', 'interface'],
@@ -994,10 +1005,9 @@ export const STATE_DISTINCTION_PAIRS: Array<[string, string]> = [
   // Tab states
   ['tabActive', 'tabInactive'],
   ['tabActive', 'tabHover'],
-  // List states
-  ['listSelected', 'listHover'],
-  ['listSelected', 'listFocus'],
-  ['listHover', 'listFocus'],
+  // List states — foreground is sacred for engagement states (design Section 7);
+  // hover/selected/focus distinction is carried by background tint and border, not foreground color.
+  // Only test pairs where the design specifies different foreground tiers.
   // Activity bar
   ['activityActive', 'activityInactive'],
   // Panel

@@ -126,10 +126,6 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       p.polarity === 'light' ? skirt.Cz * 0.85 : skirt.Cz * 0.4,  // Light: keep warm (0.017), dark: desaturate
       skirt.hz
     ),
-    pureWhite: roleFromHex(
-      'Pure white - maximum contrast',
-      p.special.pureWhite
-    ),
     nearWhite: roleFromHex(
       'Negi white — the softest green light from her iconic prop',
       p.special.nearWhite
@@ -183,7 +179,7 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       p.polarity === 'light' ? 0.058 : L.vibrant, p.polarity === 'light' ? 0.048 : C.vibrant,
       p.polarity === 'light' ? 197 : H.mikuTeal - 3
     ),
-    minimapOpacity: p.polarity === 'light' ? '#FFFFFFDD' : '#000000DD',
+    minimapOpacity: p.polarity === 'light' ? `${char.top.blouse}DD` : `${p.special.void}DD`,
     error: role(
       'The tritone — UI error, vivid rose dissonance',
       L.vibrantWarm + 0.020, C.vivid, H.rose

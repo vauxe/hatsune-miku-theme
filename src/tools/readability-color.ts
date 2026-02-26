@@ -488,7 +488,7 @@ export function analyzeHueDistribution(
 
   for (const [name, hex] of Object.entries(colors)) {
     const jch = hexToJzczhz(hex);
-    if (jch && jch.Cz > 0.01) { // Skip near-gray colors (no meaningful hue)
+    if (jch && jch.Cz > 0.02) { // Skip near-achromatic colors (hue unreliable below Cz ≈ 0.02)
       values.push({ name, hex, hue: jch.hz, chroma: jch.Cz });
     }
   }

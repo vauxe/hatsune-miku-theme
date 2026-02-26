@@ -13,7 +13,7 @@
  */
 
 // Semantic token system - all colors flow through design tokens
-import { withOpacity, lighten, darken, type SemanticTokens } from '../tokens';
+import { withOpacity, lighten, darken, roleFromHex, type SemanticTokens } from '../tokens';
 
 export function createWorkbenchColors(t: SemanticTokens, polarity: 'dark' | 'light' = 'dark'): Record<string, string> {
 const isLight = polarity === 'light';
@@ -82,7 +82,7 @@ const bracketPastel = {
 // Alpha — opacity per polarity (base color stays the same, opacity shifts)
 const alpha = {
   // Editor line highlighting
-  lineHighlightBg:          isLight ? '12' : '33',
+  lineHighlightBg:          isLight ? '12' : '26',   // 15% — reduced from 20% for compound contrast
   lineHighlightBorder:      isLight ? '18' : '40',
   inactiveLineHighlight:    isLight ? '0A' : '15',
   // Selection
@@ -114,8 +114,8 @@ const alpha = {
   diffGutterRemoved:        isLight ? '1C' : '33',
   // Inline chat
   inlineChatDiff:           isLight ? '12' : '20',
-  chatLinesAdded:           isLight ? 'FF' : '80',
-  chatLinesRemoved:         isLight ? 'CC' : '80',
+  chatLinesAdded:           'FF',
+  chatLinesRemoved:         'FF',
   // Borders — shared subtle pattern for panels/dividers
   borderSubtle:             isLight ? '30' : '25',   // editorGroup, panel, diff, menu sep, settings sash
   sectionHeaderBorder:      isLight ? '25' : '20',   // sideBarSectionHeader
@@ -134,8 +134,8 @@ const pol = {
   // Hover tint — blush (light) vs teal (dark)
   hoverTint:        isLight ? accent.blush : accent.primary,
   // Badge colors — repeated across activity bar, panel, extension, profile
-  badgeBg:          isLight ? t.ui.badgeBackground.hex : t.decorative.sekaiHair,
-  badgeFg:          isLight ? '#FFFFFF' : onAccentBg,
+  badgeBg:          isLight ? t.ui.badgeBackground.hex : lighten(roleFromHex('', t.decorative.sekaiHair), 0.02),
+  badgeFg:          isLight ? t.decorative.blouseWhite : onAccentBg,
   // Panel/command center background
   panelBg:          isLight ? bg.elevated : bg.void,
   // Activity bar background
@@ -151,13 +151,13 @@ const pol = {
   // Suggest widget selected
   suggestSelectedBg: isLight
     ? withOpacity(t.decorative.cursorLineFrost, '1A')
-    : t.interactive.list.background.selected,
+    : withOpacity(t.decorative.cursorLineFrost, '25'),  // 15% frost — reduced from 25% for compound contrast
   // Notification toast border
   toastBorder:      isLight ? withOpacity(accent.blush, '35') : withOpacity(t.decorative.skinBase, '30'),
   // SCM graph label foreground
   scmLabelFg:       isLight ? text.primary : t.decorative.darkForeground,
   // Debug view label foreground
-  debugLabelFg:     isLight ? '#C8DEE5' : text.primary,
+  debugLabelFg:     isLight ? t.decorative.blouseWhite : text.primary,
   // Testing icon errored
   testingErrored:   isLight ? t.syntax.constant.hex : darken(t.status.info, 0.035),
   // Action bar toggled
@@ -166,20 +166,20 @@ const pol = {
 
 // StatusItem — status bar item colors per polarity
 const statusItem = {
-  debugBg:          isLight ? darken(t.ui.activeBorder, 0.03) : t.decorative.diffRemoved,
-  debugFg:          isLight ? '#E8EEF2' : onAccentBg,
-  remoteBg:         isLight ? t.ui.buttonBackground.hex : accent.primary,
-  remoteFg:         isLight ? '#FFFFFF' : t.decorative.darkForeground,
+  debugBg:          isLight ? darken(t.ui.activeBorder, 0.03) : darken(roleFromHex('', t.decorative.diffRemoved), 0.05),
+  debugFg:          t.decorative.blouseWhite,
+  remoteBg:         isLight ? t.ui.buttonBackground.hex : lighten(roleFromHex('', accent.primary), 0.02),
+  remoteFg:         isLight ? t.decorative.blouseWhite : onAccentBg,
   remoteHoverBg:    isLight ? t.interactive.button.background.hover : accent.bright,
-  remoteHoverFg:    isLight ? '#FFFFFF' : t.decorative.darkForeground,
-  errorFg:          isLight ? '#E8EEF2' : '#FFFFFF',
+  remoteHoverFg:    isLight ? t.decorative.blouseWhite : t.decorative.darkForeground,
+  errorFg:          t.decorative.blouseWhite,
   warningBg:        darken(t.status.warning, isLight ? 0.00 : 0.10),
-  warningFg:        isLight ? '#E0E8EC' : '#FFFFFF',
+  warningFg:        t.decorative.blouseWhite,
   warningHoverBg:   isLight ? lighten(t.status.warning, 0.02) : darken(t.status.warning, 0.08),
   offlineBg:        isLight ? t.ui.buttonBackground.hex : withOpacity(text.tertiary, 'AA'),
-  offlineFg:        isLight ? '#FFFFFF' : t.ui.pureWhite.hex,
+  offlineFg:        t.decorative.blouseWhite,
   offlineHoverBg:   isLight ? darken(t.ui.buttonBackground, 0.01) : withOpacity(text.tertiary, 'CC'),
-  offlineHoverFg:   isLight ? '#FFFFFF' : t.ui.pureWhite.hex,
+  offlineHoverFg:   t.decorative.blouseWhite,
 };
 
 return {
@@ -277,6 +277,7 @@ return {
   // ==========================================================================
   'editorBracketMatch.background': withOpacity(accent.primary, alpha.bracketMatchBg),
   'editorBracketMatch.border': accent.bright,
+  'editorBracketMatch.foreground': accent.bright,
 
   // Rainbow bracket pairs (APCA Lc 60+ validated)
   // Rainbow brackets - Pastel palette for eye comfort
@@ -317,6 +318,8 @@ return {
   'editorGutter.commentGlyphForeground': t.decorative.commentGlyph,
   'editorGutter.commentUnresolvedGlyphForeground': semantic.warning,
   'editorGutter.commentDraftGlyphForeground': accent.soft,
+  'editorGutter.itemGlyphForeground': accent.bright,
+  'editorGutter.itemBackground': withOpacity(accent.primary, '10'),
 
   // ==========================================================================
   // FOLDING
@@ -551,11 +554,11 @@ return {
   'statusBarItem.errorBackground': darken(t.ui.activeBorder, 0.03),  // Magenta — attention
   'statusBarItem.errorForeground': statusItem.errorFg,
   'statusBarItem.errorHoverBackground': darken(t.ui.activeBorder, 0.01),
-  'statusBarItem.errorHoverForeground': t.ui.pureWhite.hex,
+  'statusBarItem.errorHoverForeground': t.decorative.blouseWhite,
   'statusBarItem.warningBackground': statusItem.warningBg,  // Warm — stage lights dimming
   'statusBarItem.warningForeground': statusItem.warningFg,
   'statusBarItem.warningHoverBackground': statusItem.warningHoverBg,
-  'statusBarItem.warningHoverForeground': t.ui.pureWhite.hex,
+  'statusBarItem.warningHoverForeground': t.decorative.blouseWhite,
   'statusBarItem.compactHoverBackground': t.interactive.toolbar.background.active,
   'statusBarItem.focusBorder': withOpacity(accent.bright, 'DD'),
   'statusBarItem.offlineBackground': statusItem.offlineBg,
@@ -713,6 +716,9 @@ return {
   'panelStickyScroll.shadow': withOpacity(bg.void, '60'),
   'outputView.background': pol.panelBg,
   'outputViewStickyScroll.background': pol.panelBg,
+  'outputEditor.background': pol.panelBg,
+  'outputEditor.foreground': text.primary,
+  'outputEditor.border': withOpacity(pol.borderTint, alpha.borderSubtle),
 
   // ==========================================================================
   // TERMINAL
@@ -915,7 +921,7 @@ return {
   'gitDecoration.modifiedResourceForeground': t.git.modified.hex,
   'gitDecoration.deletedResourceForeground': t.git.deleted.hex,
   'gitDecoration.untrackedResourceForeground': t.git.untracked.hex,
-  'gitDecoration.ignoredResourceForeground': text.disabled,
+  'gitDecoration.ignoredResourceForeground': lighten(t.ui.disabled, 0.005),
   'gitDecoration.conflictingResourceForeground': lighten(t.git.conflicting, 0.015),
   'gitDecoration.stageModifiedResourceForeground': t.git.stageModified.hex,
   'gitDecoration.stageDeletedResourceForeground': t.git.stageDeleted.hex,
@@ -1088,17 +1094,19 @@ return {
   'welcomePage.progress.background': bg.elevated,
   'walkThrough.embeddedEditorBackground': bg.base,
   'walkthrough.stepTitle.foreground': accent.bright,
+  'editorWatermark.foreground': text.ghost,
 
   // ==========================================================================
   // EXTENSION BUTTONS
   // ==========================================================================
   'extensionButton.prominentBackground': t.ui.buttonBackground.hex,
-  'extensionButton.prominentForeground': '#FFFFFF',
+  'extensionButton.prominentForeground': t.interactive.button.foreground.default,
   'extensionButton.prominentHoverBackground': t.interactive.button.background.hover,
   'extensionButton.background': t.interactive.buttonSecondary.background.default,
   'extensionButton.foreground': t.interactive.buttonSecondary.foreground.default,
   'extensionButton.hoverBackground': t.interactive.buttonSecondary.background.hover,
   'extensionButton.separator': withOpacity(text.primary, '30'),
+  'extensionButton.border': t.interactive.button.border.default,
   'extensionBadge.remoteBackground': pol.badgeBg,
   'extensionBadge.remoteForeground': pol.badgeFg,
   'extensionIcon.starForeground': semantic.warning,
@@ -1147,10 +1155,11 @@ return {
   'button.background': t.interactive.button.background.default,
   'button.foreground': t.interactive.button.foreground.default,
   'button.border': t.interactive.button.border.default,
-  'button.separator': withOpacity(t.ui.pureWhite.hex, '30'),
+  'button.separator': withOpacity(t.decorative.blouseWhite, '30'),
   'button.hoverBackground': t.interactive.button.background.hover,
   'button.secondaryForeground': t.interactive.buttonSecondary.foreground.default,
   'button.secondaryBackground': t.interactive.buttonSecondary.background.default,
+  'button.secondaryBorder': t.interactive.buttonSecondary.border.default,
   'button.secondaryHoverBackground': t.interactive.buttonSecondary.background.hover,
 
   // Checkbox — toggle material
@@ -1186,7 +1195,7 @@ return {
   // TOOLBAR — fabric (minimal)
   // ==========================================================================
   'toolbar.hoverBackground': t.interactive.toolbar.background.hover,
-  'toolbar.hoverOutline': '#00000000',
+  'toolbar.hoverOutline': t.interactive.toolbar.border.hover,
   'toolbar.activeBackground': t.interactive.toolbar.background.active,
 
   // ==========================================================================
@@ -1298,6 +1307,7 @@ return {
   'chat.requestBubbleBackground': withOpacity(accent.primary, '12'),
   'chat.requestBubbleHoverBackground': t.interactive.toolbar.background.hover,
   'chat.checkpointSeparator': withOpacity(accent.primary, '25'),
+  'chat.thinkingShimmer': withOpacity(accent.bright, '40'),
   'chatManagement.sashBorder': withOpacity(accent.primary, '30'),
 
   // ==========================================================================

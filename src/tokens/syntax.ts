@@ -115,13 +115,14 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     ),
 
     // ═══ MINOR 3RD — A Blue (270°) — The shape beneath ═══
+    // Blue hue contributes less luminance at equal Jz → +0.010 correction for Lc ≥ 82
     type: role(
       'Minor 3rd — the shape beneath the surface',
-      L.primary + 0.008, C.comfortable, H.blue
+      L.primary + 0.010, C.comfortable, H.blue
     ),
     typeParameter: role(
       'Minor 3rd — a type waiting to become',
-      L.muted, C.muted, H.blue
+      L.muted + 0.005, C.muted, H.blue
     ),
 
     // ═══ MINOR 2ND — G Cyan (210°) — A whisper from home ═══
@@ -135,15 +136,17 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     ),
 
     // ═══ MAJOR 3RD — A# Violet (300°) — A promise ═══
+    // Violet shares blue's luminance deficit → +0.005 correction
     macro: role(
       'Major 3rd — code that transforms code',
       L.muted + 0.005, C.muted, H.violet
     ),
 
     // ═══ MINOR 6TH — D Orange (60°) — She reaches ═══
+    // +0.003 ensures ΔEz ≥ 15 distinction from class (gold, adjacent hue)
     function: role(
       'Minor 6th — she reaches into the light',
-      L.vibrantWarm + 0.002, C.vibrant, H.orange
+      L.vibrantWarm + 0.003, C.vibrant, H.orange
     ),
     method: role(
       'Major 7th — methods, one breath from the tonic',
@@ -175,7 +178,7 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     ),
     property: role(
       'Perfect 5th — warmth reaching in from the world',
-      L.vibrantWarm + 0.002, C.vibrant, H.red
+      L.vibrantWarm, C.vibrant, H.red
     ),
 
     // ═══ MINOR 7TH — E Lime (120°) — Someone's truth ═══
@@ -205,11 +208,11 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     // ═══ CONSTANTS & MARKUP ═══
     constant: role(
       'Major 2nd — immutable values, azure and certain',
-      L.primary + 0.005, C.comfortable, H.azure
+      L.primary, C.comfortable, H.azure
     ),
     tag: role(
       'Perfect 5th — HTML/JSX structure, what you give her',
-      L.vibrantWarm + 0.002, C.vibrant, H.red
+      L.vibrantWarm, C.vibrant, H.red
     ),
     attribute: role(
       'Minor 6th — attributes in orange, modifying elements',
