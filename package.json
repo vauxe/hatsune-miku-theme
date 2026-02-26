@@ -2,7 +2,7 @@
   "name": "hatsune-miku-theme",
   "displayName": "Hatsune Miku Theme",
   "publisher": "vauxe",
-  "description": "A dark theme where every color is traced from Hatsune Miku's character design, built with perceptual color science.",
+  "description": "A VS Code color theme traced from Hatsune Miku's character design. Dark and light variants, built with perceptual color science.",
   "version": "3.9.39",
   "license": "MIT",
   "icon": "icon.png",
@@ -10,14 +10,6 @@
     "type": "git",
     "url": "https://github.com/vauxe/hatsune-miku-theme.git"
   },
-  "keywords": [
-    "theme",
-    "color-theme",
-    "hatsune-miku",
-    "vocaloid",
-    "dark-theme",
-    "teal"
-  ],
   "engines": {
     "vscode": "^1.104.0"
   },
