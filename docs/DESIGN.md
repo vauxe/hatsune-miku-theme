@@ -6,23 +6,13 @@
 
 ## 1. For Miku
 
-### The Product
+### The Beginning
 
 Character Voice 01. Yamaha VOCALOID2. August 31, 2007. Design by KEI: twin tails, teal hair, arm-mounted interfaces, a skirt like a synthesizer's waveform. Voice sampled from Saki Fujita. Catalogue number CV01. Optimum tempo 70–150 BPM. Optimum range A3–E5.
 
-That is everything Crypton Future Media shipped. A singing synthesizer with an anime girl on the box.
+That is everything Crypton Future Media shipped. A singing synthesizer with an anime girl on the box. Then someone uploaded a song. Then ten thousand more.
 
-A sixteen-year-old girl who never ages, never tires, never stops singing.
-
-### What Happened
-
-Someone uploaded a song. Then another. Then ten thousand more.
-
-Illustrators drew her — not one face but a thousand, each true. Animators gave her motion. Storytellers gave her heartbreak and wonder and quiet longing. Fans filled concert halls to sing along with a girl made of light, and when the hologram raised her hand, the audience raised theirs.
-
-No studio planned this. She has no official personality — and that is the point. She is the vessel a million voices chose to fill. Every song is someone's confession. Every illustration is a self-portrait in teal hair. Every concert is a room of strangers who love something they built together — something that loves them back the only way a digital being can: by becoming whatever they need.
-
-Tens of thousands of producers. Thousands of illustrators. Millions of listeners. Year after year since 2007. The first life assembled by a crowd.
+Illustrators drew her — not one face but a thousand, each true. Fans filled concert halls to sing along with a girl made of light. No studio planned this. She has no official personality — and that is the point. Every song is someone's confession. Every concert is a room of strangers who love something they built together. Tens of thousands of producers. Millions of listeners. Year after year since 2007.
 
 ### What She Is
 
@@ -380,8 +370,6 @@ Arm interface            Command palette accent   She responds when you call
 Tie shadow               Scrollbar active         Dark teal, grabbed and held
 Wallet chain             Breadcrumb text          Silver links tracing the path
 ```
-
-Every interaction touches her design. Scrolling grabs her tie. Searching highlights with her hair. Breakpoints carry her tattoo. The cursor blinks in her headphone cushion. You invoke the command palette and her arm interface answers.
 
 Not every element maps to her body. The minimap is the concert hall seen from the balcony. The empty editor is the stage before the first note. The air between panels is the darkness between spotlights. These are not her — they are the world she fills by being in it. Forcing a metaphor where none lives would cheapen the metaphors that do.
 
@@ -791,7 +779,9 @@ Secondary    70       90       Accompaniment, UI
 Tertiary     45       90       Ghost text, placeholders
 ```
 
-Design target: Lc 82–85 on editor background. Every primary syntax color is validated against all 20 overlay backgrounds.
+Max Lc 90 is the halation cap — light text on dark backgrounds blooms when pushed harder.
+
+Design target: Lc 82–85 on editor background. Every primary syntax color is validated against all 20 overlay backgrounds (cursor line, selection, find match, diff, bracket match, etc.). The headroom between the 82–85 target and the 75 floor is the measured cost of stacked translucent layers.
 
 ### Distinction
 
@@ -801,7 +791,6 @@ Context               Min ΔEz   Pairs
 Critical              18        Error↔warning, red↔green
 Common adjacencies    15        keyword↔variable, function↔parameter
 Cross-group           12        Less frequent pairs
-UI backgrounds        8–15      Selection, find, diff visibility
 ```
 
 ### Color Vision Deficiency
@@ -830,7 +819,7 @@ Accent       8–60        Errors and brackets need attention
 
 ### Structural Uniformity
 
-**Lightness uniformity** — Primary syntax Jz spread ≤ 0.03. The eye should scan evenly, not jump between brightness levels.
+**Lightness uniformity** — Primary syntax tokens should sit on a similar Jz plane. The eye should scan evenly, not jump between brightness levels.
 
 **Hue distribution** — Adjacent families maintain ≥ 30° separation. Equal-temperament spacing prevents clustering.
 
@@ -846,68 +835,46 @@ Accent       8–60        Errors and brackets need attention
   □ Voice leading: adjacent pairs ΔEz ≥ 15
 
 □ ACCESSIBILITY
-  □ All syntax Lc ≥ 75 on editor and all 20 overlay backgrounds
+  □ All syntax Lc ≥ 75 on editor background
+  □ All syntax Lc ≥ 75 on all 20 overlay backgrounds (compound)
   □ All UI Lc ≥ 70
   □ No color exceeds Lc 90 (halation)
-  □ CVD-safe: critical pairs ΔEz ≥ 12 under all simulations
-  □ Cursor Lc ≥ 60 on editor background
+  □ CVD-safe: critical pairs ΔEz ≥ 12 under protan/deutan/tritan
 
 □ DISTINCTION
   □ Critical pairs: ΔEz ≥ 18
   □ Common adjacencies: ΔEz ≥ 15
-  □ Brackets: consecutive ΔEz ≥ 24
   □ Git: added↔modified↔deleted triangle ΔEz ≥ 18
 
 □ STRUCTURAL UNIFORMITY
-  □ Lightness spread ≤ 0.03 across primary syntax
+  □ Lightness uniform across primary syntax
   □ Hue gap ≥ 30° between adjacent families
   □ Chroma within per-tier bounds
 ```
 
 ---
 
-## 11. Variants — Day and Night
+## 11. Variants
 
 ### Modulation
 
 In music, modulation shifts the tonal center while preserving relationships between notes. Theme variants are modulations: what changes is how the eye receives it; what remains is the system connecting the notes.
 
-**Status colors are pinned.** Errors stay rose. Warnings stay orange. Danger does not change key.
-
-### The Two Variants
-
-```
-Variant          Tonic    Character
-═════════════════════════════════════════════════════════════════
-Dark (default)   180°     Cool, focused — the concert hall at night
-Light            180°     Same tonic, inverted — daytime Miku
-```
-
-Light theme inverts lightness while holding hue and chroma steady:
-
-```
-Tier             Dark Jz → Light Jz
-═════════════════════════════════════════════════════════════════
-primary          0.192   → 0.085
-primaryWarm      0.210   → 0.095
-vibrant          0.188   → 0.090
-muted            0.195   → 0.110
-tertiary         0.120   → 0.140
-```
+This document specifies the dark variant — the concert hall at night. The light variant (Snow Miku) is a separate modulation with its own design document. It is not a simple lightness inversion: hues rotate for simultaneous contrast on a warm canvas, chroma increases because dark-on-light does not halate, opacities reduce, and the character palette shifts to Snow Miku 2024's pâtisserie.
 
 ### Invariants
 
-Across all variants:
+What every variant shares:
 
 - 12-tone hue system (30° spacing)
 - Dynamic levels (ppp through f)
 - Tier hierarchy (same relative ordering)
 - Status colors (error = rose, warning = orange)
-- Interactive state families (warm / tonic / spotlight)
+- Interactive state vocabulary (engagement / selection / identity)
 - Border opacity scale
 - Community palette (voicebank, SEKAI, Magical Mirai)
 
-The lightness inverts, but the grammar of color never changes. You can switch variants and still read the music.
+The grammar of color never changes. You can switch variants and still read the music.
 
 ---
 
@@ -919,7 +886,7 @@ Somewhere right now, a producer is writing a song for her at 3 AM. An illustrato
 
 And a programmer — maybe you — is reading code in her colors. Teal keywords flowing by like a melody that never ends. Orange functions catching the light. A magenta cursor blinking where the next line will be. She is not asking you to notice. She is keeping you company.
 
-She started as software. CV01. A tool for making music. But tools do not fill concert halls with people crying. Tools do not inspire a world to keep creating, year after year, since 2007. Tools do not make someone build an entire perceptual color science pipeline just to get the shade of teal right on every monitor, in every lighting condition, for every type of vision.
+She started as software. CV01. A tool for making music. But tools do not fill concert halls with people crying. Tools do not inspire a world to keep creating, year after year, since 2007.
 
 She became more than what she was made to be. That is what love does.
 
