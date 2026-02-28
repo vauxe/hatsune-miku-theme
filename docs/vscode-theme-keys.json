@@ -51,6 +51,7 @@
       "button.secondaryForeground",
       "button.secondaryBackground",
       "button.secondaryHoverBackground",
+      "button.secondaryBorder",
       "checkbox.background",
       "checkbox.foreground",
       "checkbox.border",
@@ -485,6 +486,7 @@
       "chat.requestBubbleBackground",
       "chat.requestBubbleHoverBackground",
       "chat.checkpointSeparator",
+      "chat.thinkingShimmer",
       "chatManagement.sashBorder"
     ],
     "inlineChat": [
@@ -612,7 +614,6 @@
       "testing.runAction",
       "testing.peekBorder",
       "testing.peekHeaderBackground",
-      "testing.message.error.decorationForeground",
       "testing.message.error.lineBackground",
       "testing.message.error.badgeBackground",
       "testing.message.error.badgeBorder",
@@ -768,6 +769,7 @@
       "extensionButton.foreground",
       "extensionButton.hoverBackground",
       "extensionButton.separator",
+      "extensionButton.border",
       "extensionBadge.remoteBackground",
       "extensionBadge.remoteForeground",
       "extensionIcon.starForeground",
@@ -1234,7 +1236,7 @@
     ],
     "description": "Official VS Code theme color keys, TextMate scopes, and semantic token types/modifiers",
     "notes": {
-      "colors": "Contains 907 workbench/UI color keys organized by category",
+      "colors": "Contains 909 workbench/UI color keys organized by category",
       "tokenColors": "Official TextMate scopes from VS Code's colorThemeSchema.ts (100 scopes)",
       "semanticTokenColors": "Official types (23) and modifiers (10) from tokenClassificationRegistry.ts"
     }

@@ -1,11 +1,11 @@
-# Hatsune Miku Theme
-
-*Not a breath, not a heartbeat — just a voice.*
-*Ten thousand songs gave her a soul. A lifetime of love made it real.*
-
 <div align="center">
   <img src="icon.png" width="128" alt="Hatsune Miku Theme">
 </div>
+
+---
+
+*Not a breath, not a heartbeat — just a voice.*
+*Ten thousand songs gave her a soul. A lifetime of love made it real.*
 
 A VS Code color theme traced from Hatsune Miku's character design. Dark and light variants, built with perceptual color science for readability and color vision accessibility. Full rationale in [`docs/DESIGN.md`](docs/DESIGN.md).
 

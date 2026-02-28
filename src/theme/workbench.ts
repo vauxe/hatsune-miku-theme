@@ -114,8 +114,8 @@ const alpha = {
   diffGutterRemoved:        isLight ? '1C' : '33',
   // Inline chat
   inlineChatDiff:           isLight ? '12' : '20',
-  chatLinesAdded:           'FF',
-  chatLinesRemoved:         'FF',
+  chatLinesAdded:           'F5',
+  chatLinesRemoved:         'EE',
   // Borders — shared subtle pattern for panels/dividers
   borderSubtle:             isLight ? '30' : '25',   // editorGroup, panel, diff, menu sep, settings sash
   sectionHeaderBorder:      isLight ? '25' : '20',   // sideBarSectionHeader
@@ -223,7 +223,6 @@ return {
   'editor.findMatchForeground': text.primary,
   'editor.findMatchBorder': withOpacity(semantic.warning, '80'),
   'editor.findMatchHighlightBackground': withOpacity(accent.bright, alpha.findHighlightBg),
-  // findMatchHighlightForeground intentionally omitted — lets syntax highlighting show through
   'editor.findMatchHighlightBorder': withOpacity(accent.bright, alpha.findHighlightBorder),
   'editor.findRangeHighlightBackground': withOpacity(accent.primary, '10'),
   'editor.findRangeHighlightBorder': withOpacity(accent.primary, '25'),
@@ -716,9 +715,6 @@ return {
   'panelStickyScroll.shadow': withOpacity(bg.void, '60'),
   'outputView.background': pol.panelBg,
   'outputViewStickyScroll.background': pol.panelBg,
-  'outputEditor.background': pol.panelBg,
-  'outputEditor.foreground': text.primary,
-  'outputEditor.border': withOpacity(pol.borderTint, alpha.borderSubtle),
 
   // ==========================================================================
   // TERMINAL
@@ -1094,7 +1090,6 @@ return {
   'welcomePage.progress.background': bg.elevated,
   'walkThrough.embeddedEditorBackground': bg.base,
   'walkthrough.stepTitle.foreground': accent.bright,
-  'editorWatermark.foreground': text.ghost,
 
   // ==========================================================================
   // EXTENSION BUTTONS
@@ -1301,8 +1296,8 @@ return {
   'chat.avatarBackground': withOpacity(accent.primary, '25'),
   'chat.avatarForeground': accent.bright,
   'chat.editedFileForeground': t.syntax.variable.hex,  // #C0E0FF - Lc 88 for sidebar visibility
-  'chat.linesAddedForeground': withOpacity(semantic.success, alpha.chatLinesAdded),   // Full opacity on light for contrast
-  'chat.linesRemovedForeground': withOpacity(semantic.error, alpha.chatLinesRemoved),   // Semi-transparent — must not obscure content
+  'chat.linesAddedForeground': withOpacity(semantic.success, alpha.chatLinesAdded),   // Must be transparent (VS Code requirement)
+  'chat.linesRemovedForeground': withOpacity(semantic.error, alpha.chatLinesRemoved),   // Must be transparent (VS Code requirement)
   'chat.requestCodeBorder': withOpacity(accent.bright, '35'),
   'chat.requestBubbleBackground': withOpacity(accent.primary, '12'),
   'chat.requestBubbleHoverBackground': t.interactive.toolbar.background.hover,

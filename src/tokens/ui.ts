@@ -3,7 +3,7 @@
  *
  * Skirt-centered background steps: the skirt is the stage, the single
  * anchor. Every other background tier is exactly N steps above or below
- * it — uniform 0.003 Jz increments. When your eyes
+ * it — uniform Jz increments (0.004 dark, 0.005 light). When your eyes
  * move between UI areas, the transition is smooth — like light falling
  * across her outfit from the dark hem to the bright collar.
  *
