@@ -54,7 +54,9 @@ Dynamics  →  Chroma     How loud — how vivid
 
 A teal keyword is Miku singing at a comfortable dynamic. A rose error is the tritone at *forte*. A gray comment is her humming under her breath. The whole editor is a score.
 
-Colors are defined in **JzCzhz** — a perceptually uniform color space where equal numbers mean equal perception. The color science equivalent of equal temperament tuning. Every 30° hue step looks like a 30° hue step. The intervals are honest. (JzCzhz hue angles: 0° is rose, 180° is teal. All hue references in this document use the JzCzhz wheel.)
+Colors are defined in **JzCzhz** (Safdar et al. 2017) — a perceptually uniform color space where equal numbers mean equal perception. The color science equivalent of equal temperament tuning. Every 30° hue step looks like a 30° hue step. The intervals are honest. (JzCzhz hue angles: 0° is rose, 180° is teal. All hue references in this document use the JzCzhz wheel.)
+
+**Why JzCzhz over OKLCH?** OKLCH (Ottosson 2020) is intrinsically more uniform — its hue steps vary 9.5% vs JzCzhz's 21.7%. But this theme outputs sRGB, and every design color must survive gamut clipping. Empirical comparison (`src/tools/colorspace-compare.ts`) across 720 colors shows JzCzhz loses 3.3x less color identity after clipping (mean ΔE2000 1.09 vs 3.60), clips fewer colors (18% vs 29% out-of-gamut), and recovers coordinates 3.3x better on round-trip. The warm hues that carry error, warning, function, and class tokens are hit hardest — OKLCH's warm-hue render damage is 3.3x worse. JzCzhz's hue non-uniformity is acceptable because hue assignments are semantic (each hue has a fixed role), not comparative (users don't judge adjacent hue steps). If VS Code ever supports wide-gamut output, OKLCH should be reconsidered.
 
 ### Articulation
 
