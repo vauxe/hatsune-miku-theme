@@ -605,7 +605,7 @@ function formatDistinctionLine(category: string, p: DistinctionPair): string {
  * 6. **UI Visibility**: Selection, find match, tab, diff, cursor visibility
  * 7. **Compound Background**: Syntax colors on all 20 overlay backgrounds (Lc ≥ 75)
  * 8. **Lightness Uniformity**: Jz spread across primary syntax (≤ 0.03)
- * 9. **Hue Distribution**: Minimum 30° gap between syntax hues
+ * 9. **Hue Distribution**: Minimum 20° gap between syntax hue families
  *
  * @param themePath - Path to VS Code theme JSON file
  * @param options - Output options:

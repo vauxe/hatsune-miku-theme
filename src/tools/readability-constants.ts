@@ -435,15 +435,15 @@ export const ACCENT_CHROMA_ELEMENTS = new Set([
 /**
  * Secondary chroma elements - can be more muted (Cz 5-35).
  *
- * Note: Punctuation and operators are here AND excluded from PRIMARY_SYNTAX_ELEMENTS.
- * This is intentional - they are structural aids that:
- * - Need good contrast (Lc ≥ 70, secondary tier) but not maximum (Lc ≥ 75)
+ * Note: Punctuation is here AND excluded from PRIMARY_SYNTAX_ELEMENTS.
+ * This is intentional - punctuation is a structural aid that:
+ * - Needs good contrast (Lc ≥ 60, secondary tier) but not maximum (Lc ≥ 75)
  * - Can be muted in color (lower chroma) to reduce visual noise
  * This aligns with themes like Nord and Solarized where punctuation fades slightly.
  */
 export const SECONDARY_CHROMA_ELEMENTS = new Set([
   'comment', 'docComment',
-  'punctuation', 'operator',
+  'punctuation',
 ]);
 
 // =============================================================================
@@ -1130,7 +1130,7 @@ export type CompoundBgKeyName = keyof typeof COMPOUND_BACKGROUND_KEYS;
 
 /**
  * Compound backgrounds that use the secondary (review) APCA threshold instead of primary.
- * Diff and merge overlays are scanning contexts, not sustained reading — Lc ≥ 70 suffices.
+ * Diff and merge overlays are scanning contexts, not sustained reading — Lc ≥ 60 suffices.
  */
 export const COMPOUND_REVIEW_BGS: ReadonlySet<string> = new Set([
   'diffInserted',

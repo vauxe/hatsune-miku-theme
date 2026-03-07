@@ -30,7 +30,7 @@ export type Polarity = 'light-on-dark' | 'dark-on-light';
  * - Non-Text (Lc≥30): Only for non-text elements (icons, borders)
  * - FAIL (Lc<30): Insufficient contrast for any use
  *
- * Pass thresholds are tiered: Primary (Lc≥75), Secondary (Lc≥70), Tertiary (Lc≥45)
+ * Pass thresholds are tiered: Primary (Lc≥75), Secondary (Lc≥60), Tertiary (Lc≥45)
  */
 export type Level = 'Fluent' | 'Body' | 'Content' | 'Large' | 'Non-Text' | 'FAIL';
 
