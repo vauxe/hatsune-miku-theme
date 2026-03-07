@@ -839,8 +839,7 @@ export const EXTENSION_ICON_DISTINCTION_PAIRS: Array<[string, string]> = [
  * GRAMMAR:      Can you rename it? No → reserved word.
  * DATA:         User-named values flowing through code.
  * ACCESS:       Named entry/exit points (parameters in, properties out).
- * FREE_ACTION:  Standalone callable (function).
- * BOUND_ACTION: Object-bound callable (method).
+ * ACTION:       Callable code (function, method, tag).
  * SHAPE_DEF:    Defines a type shape (class, struct, interface, enum).
  * SHAPE_REF:    References a type shape (type annotation, type parameter).
  * TEXT:         Human-readable literals (strings, regex).
@@ -863,15 +862,13 @@ export const TOKEN_ROLES: Record<string, RoleName> = {
   // ACCESS — named entry/exit points
   parameter: 'ACCESS',
   property: 'ACCESS',
-  tag: 'ACCESS',        // alias: HTML element names = named structure
   attribute: 'ACCESS',  // alias: HTML attributes = named access
 
-  // FREE_ACTION — standalone callable
-  function: 'FREE_ACTION',
-  supportFunction: 'FREE_ACTION',
-
-  // BOUND_ACTION — object-bound callable
-  method: 'BOUND_ACTION',
+  // ACTION — callable code (function ≡ method by design, tag is quieter invocation)
+  function: 'ACTION',
+  method: 'ACTION',
+  tag: 'ACTION',
+  supportFunction: 'ACTION',
 
   // SHAPE_DEF — defines a type shape
   class: 'SHAPE_DEF',
@@ -895,6 +892,7 @@ export const TOKEN_ROLES: Record<string, RoleName> = {
   number: 'VALUE',
   constant: 'VALUE',
   boolean: 'VALUE',
+  null: 'VALUE',
   enumMember: 'VALUE',
   supportConstant: 'VALUE',
 
@@ -954,7 +952,7 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   // GRAMMAR ↔ ACCESS — `return x`, `const x`
   ['keyword', 'parameter', 'critical'],
 
-  // GRAMMAR ↔ FREE_ACTION — `async function`, `return foo()`
+  // GRAMMAR ↔ ACTION — `async function`, `return foo()`, `obj.method()`
   ['keyword', 'function', 'critical'],
   ['storage', 'function', 'critical'],
 
@@ -967,14 +965,11 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   // DATA ↔ ACCESS — `fn(param) { let x = param }` (the hardest pair)
   ['parameter', 'variable', 'critical'],
 
-  // FREE_ACTION ↔ ACCESS — `foo(x)` definition/call
+  // ACTION ↔ ACCESS — `foo(x)`, `method(param)` definition/call
   ['function', 'parameter', 'critical'],
 
-  // FREE_ACTION ↔ DATA — `foo(x, y)` arguments
+  // ACTION ↔ DATA — `foo(x, y)` arguments, `obj.method(x)`
   ['function', 'variable', 'critical'],
-
-  // BOUND_ACTION ↔ ACCESS — `method(param)` definition
-  ['method', 'parameter', 'critical'],
 
   // SHAPE_REF ↔ DATA — `x: Type` annotation
   ['type', 'variable', 'critical'],
@@ -1001,20 +996,17 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   // GRAMMAR ↔ VALUE — `return null`, `case 1`
   ['keyword', 'constant', 'high'],
 
-  // FREE_ACTION ↔ SHAPE_REF — `foo(): Type` return type
+  // ACTION ↔ SHAPE_REF — `foo(): Type` return type
   ['function', 'type', 'high'],
 
-  // FREE_ACTION ↔ SHAPE_DEF — `class Foo { bar() }`
+  // ACTION ↔ SHAPE_DEF — `class Foo { bar() }`
   ['function', 'class', 'high'],
-
-  // BOUND_ACTION ↔ DATA — `obj.method(x)`
-  ['method', 'variable', 'high'],
-
-  // BOUND_ACTION ↔ SHAPE_REF — `method(): Type`
-  ['method', 'type', 'high'],
 
   // ACCESS ↔ SHAPE_REF — `prop: Type`
   ['property', 'type', 'high'],
+
+  // ACTION ↔ ACCESS — `<Button onClick={...}>` (tag vs attribute)
+  ['tag', 'attribute', 'high'],
 
   // TEXT ↔ VALUE — `"123"` vs `123`
   ['string', 'number', 'high'],
@@ -1032,13 +1024,13 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   // META ↔ SHAPE_DEF — `@Component class`
   ['decorator', 'class', 'high'],
 
-  // META ↔ FREE_ACTION — `@deco def foo`
+  // META ↔ ACTION — `@deco def foo`
   ['decorator', 'function', 'high'],
 
   // WHISPER ↔ TEXT — comment vs string literal
   ['comment', 'string', 'high'],
 
-  // WHISPER ↔ FREE_ACTION — comment vs function name
+  // WHISPER ↔ ACTION — comment vs function name
   ['comment', 'function', 'high'],
 
   // ==========================================================================
@@ -1048,10 +1040,7 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   // SHAPE_DEF ↔ SHAPE_REF — `class Foo extends Type`
   ['class', 'type', 'standard'],
 
-  // FREE_ACTION ↔ BOUND_ACTION — `foo()` vs `obj.bar()`
-  ['function', 'method', 'standard'],
-
-  // ACCESS ↔ TEXT — `<tag>"text"` (markup)
+  // ACTION ↔ TEXT — `<tag>"text"` (markup)
   ['tag', 'string', 'standard'],
 
   // TEXT ↔ TEXT variant — regexp and string share lime (120°) by design (Ch6).

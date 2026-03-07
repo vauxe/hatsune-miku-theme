@@ -52,10 +52,13 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
     // ═══ D Orange (60°) — Minor 6th ═══
     function: role('Symbol function — orange spotlight', L.sopranino, C.f, H.orange),
 
+    // ═══ D Orange (60°) — Minor 6th ═══
+    method: role('Symbol method — orange, callable action', L.soprano, C.p, H.orange),
+    constructor: role('Symbol constructor — orange, vivid creation', L.soprano, C.f, H.orange),
+
     // ═══ D# Gold (90°) — Major 6th ═══
     class: role('Symbol class — gold, the score', L.soprano, C.mf, H.gold),
     struct: role('Symbol struct — gold architecture', L.soprano, C.f, H.gold),
-    interface: role('Symbol interface — gold, sopranino contract', L.sopranino, C.mp, H.gold),
     enum: role('Symbol enum — gold, mezzo set', L.mezzo, C.mf, H.gold),
     package: role('Symbol package — warm gold, alto', L.alto, C.mp, H.gold),
 
@@ -64,8 +67,7 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
     reference: role('Symbol reference — warm lime, sopranino', L.sopranino, C.mp, H.lime),
 
     // ═══ F Green (150°) — Major 7th ═══
-    method: role('Symbol method — green, quiet flow', L.soprano, C.p, H.green),
-    constructor: role('Symbol constructor — green, vivid creation', L.soprano, C.f, H.green),
+    interface: role('Symbol interface — green, abstract contract', L.sopranino, C.mp, H.green),
 
     // ═══ F# Teal (180°) — Unison ★ ═══
     folder: role('Symbol folder — teal, her home', L.soprano, C.f, H.mikuTeal),
@@ -95,16 +97,13 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
 export function createBracketTokens(p: Primitives): BracketTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
-  // B1 and B5 carry Jz offsets for CVD safety: consecutive brackets that share
-  // temperature (both cool or both warm) receive a ≥ 0.012 Jz offset so lightness
-  // survives when tritanopia collapses hue.
   return {
-    bracket1: role('Warm opening — red arpeggio begins', L.soprano - 0.002, C.mp, H.red),
+    bracket1: role('Warm opening — red arpeggio begins', L.soprano, C.mp, H.red),
     bracket2: role('Cool contrast — blue deepens', L.soprano, C.mp, H.blue),
     bracket3: role('Major 6th — gold, warm step', L.soprano, C.mp, H.gold),
-    bracket4: role('★ MIKU — teal at the heart of nesting', L.soprano - 0.008, C.mp, H.mikuTeal),
-    bracket5: role('Cool continuation — magenta, going further', L.soprano + 0.014, C.mp, H.magenta),
-    bracket6: role('Warm close — lime, the arpeggio resolves', L.soprano + 0.022, C.mp, H.lime),
+    bracket4: role('★ MIKU — teal at the heart of nesting', L.soprano, C.mp, H.mikuTeal),
+    bracket5: role('Cool continuation — magenta, going further', L.soprano, C.mp, H.magenta),
+    bracket6: role('Warm close — lime, the arpeggio resolves', L.soprano, C.mp, H.lime),
   };
 }
 
@@ -124,9 +123,9 @@ export function createMarkdownTokens(p: Primitives): MarkdownTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
   return {
+    heading: role('Heading — orange spotlight, darkened for bold compensation', L.soprano - 0.004, C.mf, H.orange),
     codeBlock: role('Code in documents — bright cyan, her voice quoted', L.soprano, C.mf, H.ice),
     quote: role('Block quotes — sky cyan, someone else\'s words', L.soprano, C.mp, H.sky),
-    docComment: role('Documentation — silver-cyan, the manual she\'d write', L.soprano, C.mp, H.ice),
     linkUrl: role('Link URL — blue, the address beneath', L.soprano, C.mp, H.blue),
     headingPunctuation: role('Heading punctuation — orange, structural marker', L.soprano, C.mp, H.orange),
     alertImportant: role('Important — violet, pay attention', L.soprano, C.mf, H.violet),
@@ -134,6 +133,7 @@ export function createMarkdownTokens(p: Primitives): MarkdownTokens {
     alertTip: role('Tip — fresh green, helpful', L.soprano, C.mf, H.green),
     alertWarning: role('Warning — orange, caution ahead', L.soprano, C.mf, H.orange),
     alertCaution: role('Caution — rose, danger', L.soprano, C.mf, H.rose),
+    inserted: role('Markup inserted — lime, someone\'s truth added', L.soprano, C.mp, H.lime),
     deleted: role('Markup deleted — rose, departure', L.soprano, C.mf, H.rose),
   };
 }

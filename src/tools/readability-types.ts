@@ -373,7 +373,7 @@ export interface AnalysisOptions {
 // =============================================================================
 
 /**
- * The 12 cognitive roles a programmer distinguishes while reading code.
+ * The 11 cognitive roles a programmer distinguishes while reading code.
  * Derived from first principles across all major languages.
  * Each role maps to one hue in a well-designed theme.
  *
@@ -382,9 +382,8 @@ export interface AnalysisOptions {
 export type RoleName =
   | 'GRAMMAR'       // Reserved words: keyword, storage, storageModifier, variableLanguage
   | 'DATA'          // User-named values: variable
-  | 'ACCESS'        // Named access in/out: parameter, property
-  | 'FREE_ACTION'   // Standalone callable: function
-  | 'BOUND_ACTION'  // Object-bound callable: method
+  | 'ACCESS'        // Named access in/out: parameter, property, attribute
+  | 'ACTION'        // Callable code: function, method, tag
   | 'SHAPE_DEF'     // Type definitions: class, struct, interface, enum
   | 'SHAPE_REF'     // Type annotations: type, typeParameter
   | 'TEXT'          // Human text: string, regex

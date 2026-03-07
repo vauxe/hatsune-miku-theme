@@ -67,38 +67,38 @@ export const hue = {
   // F# - Teal (180°) - Unison — she sings
   mikuTeal: 180,       // Keywords, comments, info
 
-  // G  - Cyan (210°) - Minor 2nd — a whisper from home
-  cyan: 210,           // Variables, enums
+  // G  - Cyan (210°) - Minor 2nd — almost her, shifting
+  cyan: 210,           // Variables
 
   // G# - Azure (240°) - Major 2nd — the open ground
-  azure: 240,          // Numbers, constants
+  azure: 240,          // Constants, numbers, booleans, enumMembers
 
   // A  - Blue (270°) - Minor 3rd — the shape beneath
-  blue: 270,           // Types, booleans
+  blue: 270,           // Types, typeParameters
 
-  // A# - Violet (300°) - Major 3rd — a promise
-  violet: 300,         // Interfaces, decorators, macros
+  // A# - Violet (300°) - Major 3rd — transformation
+  violet: 300,         // Decorators, macros
 
   // B  - Magenta (330°) - Perfect 4th — the heartbeat
-  magenta: 330,        // Operators, storage modifiers
+  magenta: 330,        // Operators
 
   // C  - Rose (0°) - Tritone — she stumbles
   rose: 0,             // Errors, deleted
 
   // C# - Red (30°) - Perfect 5th — what you give her
-  red: 30,             // Parameters, properties, tags
+  red: 30,             // Parameters, properties
 
   // D  - Orange (60°) - Minor 6th — she reaches
-  orange: 60,          // Functions, attributes, warnings
+  orange: 60,          // Functions, methods, tags
 
-  // D# - Gold (90°) - Major 6th — the score, written with love
-  gold: 90,            // Classes, structs, regex
+  // D# - Gold (90°) - Major 6th — written with love
+  gold: 90,            // Classes, structs, enums
 
   // E  - Lime (120°) - Minor 7th — someone's truth
-  lime: 120,           // Strings, success
+  lime: 120,           // Strings, stringTemplates, regex
 
   // F  - Green (150°) - Major 7th — one breath from home
-  green: 150,          // Methods, storage
+  green: 150,          // Interfaces, traits
 
   // ═══════════════════════════════════════════════════════════════════════════
   // SEMANTIC ALIASES

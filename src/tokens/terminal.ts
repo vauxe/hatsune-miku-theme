@@ -7,6 +7,7 @@
  */
 
 import { role, roleFromHex } from './role';
+import { parseHex } from './jzczhz';
 import type { TerminalTokens } from './types';
 import type { Primitives } from './primitives';
 
@@ -43,7 +44,7 @@ export function createTerminalTokens(p: Primitives): TerminalTokens {
   // DARK TERMINAL — Standard Miku (unchanged)
   // ═══════════════════════════════════════════════════════════════════════════
   return {
-    black: role('Near-background — visible dark on the stage floor', L.countertenor, C.ppp, H.sky),
+    black: role('Near-background — skirt dark blue on the stage floor', L.countertenor, C.ppp, parseHex(p.character.skirt.base).hz),
     red: role('Alert — tritone rose, danger in the output', L.soprano, C.mp, H.rose),
     green: role('Success — lime, it worked', L.soprano, C.mp, H.lime),
     yellow: role('Caution — orange glow, pay attention', L.soprano, C.mp, H.orange),

@@ -661,6 +661,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Strings', c.syntax.string, 'editor'),
     a('String Escape', c.syntax.stringEscape, 'editor'), // \n, \t, etc.
     a('Constants', c.syntax.constant, 'editor'),
+    a('Null/Undefined', c.syntax.null, 'editor'),
     a('Regexp', c.syntax.regexp, 'editor'),
     a('Color Value', c.syntax.colorValue, 'editor'), // CSS #hex, rgb()
     a('Tags', c.syntax.tag, 'editor'),
@@ -687,7 +688,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     a('Support Func', c.syntax.supportFunction, 'editor'),
     a('Support Class', c.syntax.supportClass, 'editor'), // Array, Map
     a('Support Type', c.syntax.supportType, 'editor'), // string, number
-    a('Support Const', c.syntax.supportConstant, 'editor'), // null, undefined
+    a('Support Const', c.syntax.supportConstant, 'editor'), // Math.PI, etc.
     a('Support Var', c.syntax.supportVariable, 'editor'), // __dirname, process
     // Storage modifiers
     a('Storage Mod', c.syntax.storageModifier, 'editor'),

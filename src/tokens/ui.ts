@@ -13,7 +13,7 @@
 import { role, roleFromHex } from './role';
 import { parseHex } from './jzczhz';
 import type { UITokens, ExtendedUITokens, StatusTokens, GitTokens } from './types';
-import { sakuraMiku } from '../palette';
+import { sakuraMiku, snowMiku } from '../palette';
 import type { Primitives } from './primitives';
 
 export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
@@ -170,11 +170,6 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       'Deprecated - lavender',
       L.soprano, C.mp, H.lavender
     ),
-    variableLanguage: role(
-      'Language variables — this/self, teal like keywords',
-      p.polarity === 'light' ? 0.058 : L.soprano, p.polarity === 'light' ? 0.048 : C.mp,
-      p.polarity === 'light' ? 197 : H.mikuTeal
-    ),
     minimapOpacity: p.polarity === 'light' ? `${char.top.blouse}DD` : `${p.special.void}DD`,
     error: role(
       'The tritone — UI error, vivid rose dissonance',
@@ -257,25 +252,25 @@ export function createGitTokens(p: Primitives): GitTokens {
     ),
     deleted: roleFromHex('Departure — Sakura pink, code falls like petals', sakuraMiku.hair.base),
     untracked: role(
-      'Undiscovered — her cyan, not yet part of the story',
-      L.soprano, C.mf, H.cyan
+      'Engagement — her teal, new and unknown',
+      L.soprano, C.mf, H.mikuTeal
     ),
     conflicting: role(
       'Conflict — rose, error-level, needs resolution',
       L.soprano, C.mf, H.rose
     ),
-    renamed: role(
-      'Transformation — green, same content at a new address',
-      L.soprano, C.mp, H.green
+    renamed: roleFromHex(
+      'Frost blue — relocation, path changed, content didn\'t',
+      snowMiku.y2025.accessories.crystal
     ),
     stageModified: role(
-      'Change accepted — muted teal, resting in the tonic',
-      L.soprano, C.p, H.mikuTeal
+      'Change accepted — orange muted, same voice quieter',
+      L.soprano, C.p, H.orange
     ),
     stageDeleted: roleFromHex('Loss accepted — muted Sakura, same voice quieter', sakuraMiku.hair.shadow),
     submodule: role(
-      'External world — muted azure, a reference beyond this repo',
-      L.soprano, C.p, H.azure
+      'Silver — structure, external reference',
+      L.soprano, C.ppp, H.sky
     ),
   };
 }

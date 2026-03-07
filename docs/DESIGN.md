@@ -254,31 +254,37 @@ The score is step 2. The performance notes are step 3. A reader can see both wha
 
 ### The One Voice
 
-An orchestra in unison: every instrument at *mezzo-piano*. You distinguish the oboe from the flute by timbre — not because one is louder. This theme works the same way. All primary syntax tokens share one register (**soprano**) and one dynamic (**mp**, Cz 0.060). **Hue alone carries semantic meaning.**
+An orchestra in unison: every instrument at *mezzo-piano*. You distinguish the oboe from the flute by timbre — not because one is louder. This theme works the same way. All primary syntax tokens share one register (**soprano**) and one dynamic (**mp**, Cz 0.060). **Hue carries primary semantic meaning.**
 
-Three departures from the ensemble: **whisper** (comments), **ghost** (punctuation), **signal** (errors). Everything else plays at the same dynamic on the same stage.
+Within a hue group, **dynamic variation** distinguishes tokens that share a hue but serve different cognitive roles — like first and second violins playing the same pitch at different volumes. A regex (mf) is brighter than a string (mp) within lime; a number literal (p) is quieter than a named constant (mp) within azure. The variation is ±1 dynamic step — noticeable but not disruptive to the level plane.
+
+Three departures from the ensemble: **whisper** (comments), **ghost** (punctuation), **signal** (errors). Everything else plays at the soprano register.
 
 ### Twelve Hues
 
-Each hue is one color. Every token in a group looks identical — context (syntax position, naming conventions, surrounding tokens) tells the programmer which is which. The theme provides *what kind of thing*; the code provides *which thing*.
+Each hue is one color. Tokens sharing a hue look alike at first glance — context (syntax position, naming conventions, surrounding tokens) tells the programmer which is which. Within a group, **dynamic variation** (±1 step from mp) distinguishes tokens that serve different cognitive roles — like first and second violins on the same pitch at different volumes.
 
 ```
-Note   Hue    Her                        Tokens
+Note   Hue    Her                        Tokens (dynamic)
 ═══════════════════════════════════════════════════════════════════════
-F#     180°   Her voice                  keyword · keywordControl · keywordAlt · storage
-                                         · storageModifier · variableLanguage
-G      210°   Almost her, shifting       variable
-C#      30°   What you give her          parameter · property
-D       60°   She reaches                function
-D#      90°   Written with love          class · struct · interface · enum
-E      120°   Someone's truth            string · stringTemplate · regex
-F      150°   One breath from home       method
-G#     240°   The open ground            constant · number · boolean · enumMember
-A      270°   The shape beneath          type · typeParameter
+F#     180°   Her voice                  keyword (mp) · keywordControl (mp) · keywordAlt (mp)
+                                         · storage (mp) · storageModifier (mp)
+                                         · variableLanguage (mp)
+G      210°   Almost her, shifting       variable (mp)
+C#      30°   What you give her          parameter (mp) · property (mp)
+D       60°   She reaches                function (mp) · method (mp) · tag (p)
+D#      90°   Written with love          class (mp) · struct (mp) · enum (mf)
+E      120°   Someone's truth            string (mp) · stringTemplate (mp) · regex (mf)
+F      150°   One breath from home       interface (mp)
+G#     240°   The open ground            constant (mp) · enumMember (mp) · number (p)
+                                         · boolean (p)
+A      270°   The shape beneath          type (mp) · typeParameter (p)
 A#     300°   Transformation             decorator · macro
 B      330°   The heartbeat              operator
 C        0°   She stumbles               error  ← signal layer (alto/f)
 ```
+
+Dynamic key: **mp** = ensemble default (Cz 0.060), **mf** = emphasis (Cz 0.075), **p** = quiet (Cz 0.045). Tokens at mp are the melody; mf tokens demand a moment's extra attention (regex patterns, enum sets); p tokens recede slightly (literal values, abstract type parameters, element tags).
 
 Twelve hues. Twelve colors. That is the entire primary syntax palette.
 
@@ -310,7 +316,7 @@ VS Code needs ~50 named token scopes to cover TextMate grammars and LSP semantic
 ```
 Scope              → Hue group       Why
 ═══════════════════════════════════════════════════════════════
-tag                → red (30°)       HTML/JSX element names — named structure.
+tag                → orange (60°)    HTML/JSX element invocation — callable structure (p).
 attribute (HTML)   → red (30°)       Element properties — named access.
 attribute (Rust)   → violet (300°)   #[derive] is metaprogramming, not HTML.
 annotation         → violet (300°)   Java annotations = decorators.
@@ -319,7 +325,7 @@ lifetime           → teal (180°)     Rust 'a lifetimes — keyword-like.
 namespace          → blue (270°)     Namespaces organize types.
 module             → blue (270°)     Modules ≈ namespaces.
 sqlKeyword         → teal (180°)     SQL keywords are control flow.
-magicMethod        → green (150°)    __init__ is still a method.
+magicMethod        → orange (60°)    __init__ is still a method.
 escape             → red (30°)       \n, \t — interpolated values.
 invalid            → rose (0°)       Invalid code = error.
 event              → gold (90°)      Events are type definitions.
@@ -328,6 +334,7 @@ operator.ctrlFlow  → teal (180°)     Control flow operators are keywords.
 regexp             → lime (120°)     Alternate scope name for regex.
 variable.constant  → azure (240°)    Constant variables = constants.
 variable.local     → cyan (210°)     Local variables = variables.
+null/undefined     → azure (240°)    Language constants — same as boolean (p).
 ```
 
 **Built-in variants** — language built-ins share their counterpart's hue:
@@ -369,7 +376,7 @@ Markdown tokens (`markupCode`, `markupQuote`, heading, alerts) are defined in Se
 
 ### The Tonic
 
-The tonic (180°) carries the most voices: six in the primary palette (keyword, keywordControl, keywordAlt, storage, storageModifier, variableLanguage), two in the whisper layer (comment, commentDoc), one in the ghost layer (punctuation), one status token (info), and four aliases (label, lifetime, sqlKeyword, operator.controlFlow). Her voice in every register, from silence to song.
+The tonic (180°) carries the most voices: six in the primary ensemble (keyword, keywordControl, keywordAlt, storage, storageModifier, variableLanguage), two in the whisper layer (comment, commentDoc), one in the ghost layer (punctuation), one status token (info), and four aliases (label, lifetime, sqlKeyword, operator.controlFlow). Her voice in every register, from silence to song.
 
 ### Voice Leading
 
@@ -380,7 +387,7 @@ Two rules govern the progression:
 1. **Stepwise motion preferred.** Close intervals (minor 2nd to perfect 4th) produce smooth flow. The tritone leap for errors is intentional — it interrupts the melody because errors interrupt your code.
 2. **Uniform register.** All primary tokens share the soprano register. The eye scans a level plane — hue alone distinguishes tokens. Individual tokens may be tuned ±1 step for APCA compliance (Section 5), but the intention is uniform brightness.
 
-These rules operate on input coordinates; the rendered voice leading may differ due to gamut clipping (Section 4). Cool hues (120°–270°) render faithfully. Warm hues (330°–90°) render with shifted, wider spacing — function (output ~74°), parameter (~27°), error (~318°–347°). The wider spacing aids distinction since warm hues appear less frequently. The tritone shifts from 180° opposition to ~138°–167° from the tonic — still maximally dissonant. The metaphor bends but does not break.
+These rules operate on input coordinates; the rendered voice leading may differ due to gamut clipping (Section 4). Cool hues (120°–270°) render faithfully. Warm hues (330°–90°) render with shifted, wider spacing — function/method (output ~74°), parameter (~27°), error (~318°–347°). The wider spacing aids distinction since warm hues appear less frequently. The tritone shifts from 180° opposition to ~138°–167° from the tonic — still maximally dissonant. The metaphor bends but does not break.
 
 ### Brackets
 
@@ -923,7 +930,7 @@ None of these references are labeled in the editor. They are love letters hidden
 
 #### Symbol Icons
 
-Symbol icons in completions and the outline view follow the syntax hue assignments from Sections 4–6. Class icons use gold (90°), function icons use orange (60°), variable icons use cyan (210°), and so on. When multiple icons share a hue, they are distinguished by register and dynamic (ΔEz ≥ 12 between all pairs). This keeps the icon language consistent with the code it represents — you see the same color in the gutter as in the token.
+Symbol icons in completions and the outline view follow the syntax hue assignments from Sections 4–6. Class icons use gold (90°), function and method icons use orange (60°), interface icons use green (150°), variable icons use cyan (210°), and so on. When multiple icons share a hue, they are distinguished by register and dynamic (ΔEz ≥ 12 between all pairs). This keeps the icon language consistent with the code it represents — you see the same color in the gutter as in the token.
 
 ---
 
@@ -972,17 +979,18 @@ field              Red (30°)        alto         mp
 
 function           Orange (60°)     sopranino    f
 
+method             Orange (60°)     soprano      p
+constructor        Orange (60°)     soprano      f
+
 class              Gold (90°)       soprano      mf
 struct             Gold (90°)       soprano      f
-interface          Gold (90°)       sopranino    mp
 enum               Gold (90°)       mezzo        mf
 package            Gold (90°)       alto         mp
 
 string             Lime (120°)      soprano      mf
 reference          Lime (120°)      sopranino    mp
 
-method             Green (150°)     soprano      p
-constructor        Green (150°)     soprano      f
+interface          Green (150°)     sopranino    mp
 
 folder             Teal (180°) ★    soprano      f
 array              Teal (180°)      sopranino    mp
@@ -1002,7 +1010,7 @@ operator           Magenta (330°)   sopranino    mp
 snippet            Magenta (330°)   soprano      p
 ```
 
-Gold (90°) carries five icons — the densest group. The spread uses four registers (alto through sopranino) to maintain ΔEz ≥ 12 between all pairs. Azure (240°) carries four across three registers. Blue (270°) carries three. Crowded hues are accepted because strict syntax alignment is the principle — you see the same color family in the gutter as in the code.
+Gold (90°) carries four icons — the densest group. The spread uses four registers (alto through soprano) to maintain ΔEz ≥ 12 between all pairs. Azure (240°) carries four across three registers. Orange (60°) carries three (function, method, constructor) distinguished by register and dynamic. Green (150°) now carries only interface — freed by moving method to orange. Crowded hues are accepted because strict syntax alignment is the principle — you see the same color family in the gutter as in the code.
 
 ### Debug
 

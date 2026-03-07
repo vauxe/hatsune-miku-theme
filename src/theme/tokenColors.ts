@@ -402,7 +402,7 @@ return [
     name: 'Null/Undefined',
     scope: ['constant.language.null', 'constant.language.undefined'],
     settings: {
-      foreground: syntax.keywordAlt,
+      foreground: syntax.boolean,
     },
   },
 
@@ -536,8 +536,7 @@ return [
     name: 'Markdown List',
     scope: ['markup.list', 'punctuation.definition.list.begin.markdown'],
     settings: {
-      // Must meet primary chroma threshold (Cz >= 8)
-      foreground: syntax.method,
+      foreground: syntax.interface,
     },
   },
 
@@ -619,7 +618,7 @@ return [
     name: 'SQL DDL Keywords',
     scope: ['keyword.other.DDL.sql', 'keyword.other.ddl.sql', 'keyword.other.create.sql'],
     settings: {
-      foreground: syntax.method,
+      foreground: syntax.sqlKeyword,
     },
   },
   {
@@ -1079,7 +1078,7 @@ return [
     name: 'Entity Name Label',
     scope: ['entity.name.label', 'entity.name.statement.label'],
     settings: {
-      foreground: syntax.decorator,
+      foreground: syntax.keyword,
     },
   },
   {
@@ -1186,7 +1185,6 @@ return [
       'invalid.deprecated',
     ],
     settings: {
-      foreground: syntax.deprecated,
       fontStyle: 'strikethrough',
     },
   },

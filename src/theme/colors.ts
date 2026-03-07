@@ -8,7 +8,7 @@
  * All colors flow from the semantic token system - no hardcoded hex values.
  */
 
-import { darken, type SemanticTokens } from '../tokens';
+import type { SemanticTokens } from '../tokens';
 
 // =============================================================================
 // SYNTAX COLORS - Used by both tokenColors.ts and semanticTokens.ts
@@ -48,7 +48,7 @@ export function createSyntaxColors(t: SemanticTokens) {
     parameter: t.syntax.parameter.hex,
     property: t.syntax.property.hex,
     constant: t.syntax.constant.hex,
-    variableLanguage: t.ui.variableLanguage.hex,
+    variableLanguage: t.syntax.variableLanguage.hex,
 
     // Literals
     string: t.syntax.string.hex,
@@ -57,7 +57,7 @@ export function createSyntaxColors(t: SemanticTokens) {
     boolean: t.syntax.boolean.hex,
 
     // Operators & Punctuation
-    operator: t.ui.operator.hex,
+    operator: t.syntax.operator.hex,
     punctuation: t.syntax.punctuation.hex,
 
     // Meta
@@ -70,7 +70,7 @@ export function createSyntaxColors(t: SemanticTokens) {
     attribute: t.syntax.attribute.hex,
 
     // Headings & Special
-    heading: darken(t.syntax.function, 0.004),  // Bold compensation — slightly darker than function
+    heading: t.markdown.heading.hex,
     sqlKeyword: t.syntax.keywordControl.hex,
 
     // Markdown
@@ -91,7 +91,7 @@ export function createSyntaxColors(t: SemanticTokens) {
 
 export function createMarkupColors(t: SemanticTokens) {
   return {
-    inserted: t.decorative.markupInserted,
+    inserted: t.markdown.inserted.hex,
     deleted: t.markdown.deleted.hex,
     changed: t.syntax.function.hex,
   } as const;

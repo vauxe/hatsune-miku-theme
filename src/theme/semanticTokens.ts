@@ -51,7 +51,7 @@ return {
   // ==========================================================================
   class: syntax.class,
   'class.declaration': syntax.class,
-  'class.defaultLibrary': syntax.class,
+  'class.defaultLibrary': syntax.supportClass,
 
   // ==========================================================================
   // INTERFACES
@@ -79,7 +79,7 @@ return {
   // ==========================================================================
   enum: syntax.enum,
   'enum.declaration': syntax.enum,
-  enumMember: syntax.enumMember,       // #CE93D8 - WxS purple (distinct from enum & constant)
+  enumMember: syntax.enumMember,
   'enumMember.readonly': syntax.enumMember,
 
   // ==========================================================================
@@ -97,10 +97,7 @@ return {
   'variable.declaration': syntax.variable,
   'variable.readonly': syntax.constant,
   'variable.constant': syntax.constant,
-  'variable.defaultLibrary': {
-    foreground: syntax.variableLanguage,
-    fontStyle: 'italic',
-  },
+  'variable.defaultLibrary': syntax.supportVariable,
   'variable.local': syntax.variable,
 
   // ==========================================================================
@@ -117,7 +114,7 @@ return {
   // ==========================================================================
   parameter: syntax.parameter,
   'parameter.declaration': syntax.parameter,
-  'parameter.readonly': syntax.parameter,
+  'parameter.readonly': syntax.constant,
 
   // ==========================================================================
   // STRINGS
@@ -191,9 +188,8 @@ return {
   // Static modifier - keep base color
   '*.static': {},
 
-  // Deprecated - strikethrough
+  // Deprecated - strikethrough only, no foreground change (design: "A crossed-out note")
   '*.deprecated': {
-    foreground: syntax.deprecated,
     fontStyle: 'strikethrough',
   },
 

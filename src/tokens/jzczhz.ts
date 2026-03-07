@@ -114,37 +114,37 @@ export const HUE = {
   // THE 12 CHROMATIC TONES
   // ═══════════════════════════════════════════════════════════════════════════
 
-  // F# (180°) - Teal    : Keywords, comments, info         ★ Unison
-  // G  (210°) - Cyan    : Variables, enums                   Minor 2nd
-  // G# (240°) - Azure   : Numbers, constants                 Major 2nd
-  // A  (270°) - Blue    : Types, booleans                    Minor 3rd
-  // A# (300°) - Violet  : Interfaces, decorators, macros     Major 3rd
-  // B  (330°) - Magenta : Operators, storage modifiers       Perfect 4th
-  // C  (0°)   - Rose    : Errors, deleted                    Tritone
-  // C# (30°)  - Red     : Parameters, properties, tags       Perfect 5th
-  // D  (60°)  - Orange  : Functions, attributes, warnings    Minor 6th
-  // D# (90°)  - Gold    : Classes, structs, regex            Major 6th
-  // E  (120°) - Lime    : Strings, success                   Minor 7th
-  // F  (150°) - Green   : Methods, storage                   Major 7th
+  // F# (180°) - Teal    : Keywords, storage, variableLanguage  ★ Unison
+  // G  (210°) - Cyan    : Variables                             Minor 2nd
+  // G# (240°) - Azure   : Constants, numbers, booleans, enMbr  Major 2nd
+  // A  (270°) - Blue    : Types, typeParameters                 Minor 3rd
+  // A# (300°) - Violet  : Decorators, macros                    Major 3rd
+  // B  (330°) - Magenta : Operators                             Perfect 4th
+  // C  (0°)   - Rose    : Errors                                Tritone
+  // C# (30°)  - Red     : Parameters, properties                Perfect 5th
+  // D  (60°)  - Orange  : Functions, methods, tags              Minor 6th
+  // D# (90°)  - Gold    : Classes, structs, enums               Major 6th
+  // E  (120°) - Lime    : Strings, stringTemplates, regex       Minor 7th
+  // F  (150°) - Green   : Interfaces, traits                    Major 7th
 
   // Core Miku identity (chromatic positions)
-  mikuTeal: 180,      // F# - Unison — keywords, comments, info
+  mikuTeal: 180,      // F# - Unison — keywords, storage, variableLanguage
   mikuPink: 330,      // B  - Perfect 4th — headphone accent
 
   // Syntax hues (chromatic scale, ascending from tonic)
   rose: 0,            // C  - Tritone — errors, deleted
-  red: 30,            // C# - Perfect 5th — parameters, properties, tags
-  orange: 60,         // D  - Minor 6th — functions, attributes, warnings
-  gold: 90,           // D# - Major 6th — classes, structs, regex
-  lime: 120,          // E  - Minor 7th — strings, success
-  green: 150,         // F  - Major 7th — methods, storage
+  red: 30,            // C# - Perfect 5th — parameters, properties
+  orange: 60,         // D  - Minor 6th — functions, methods, tags
+  gold: 90,           // D# - Major 6th — classes, structs, enums
+  lime: 120,          // E  - Minor 7th — strings, stringTemplates, regex
+  green: 150,         // F  - Major 7th — interfaces, traits
   // mikuTeal: 180    // F# - (defined above)
   sky: 210,           // G  - Minor 2nd — variables
-  ice: 210,           // G  - Minor 2nd — enums (same as sky)
-  azure: 240,         // G# - Major 2nd — numbers, constants
-  blue: 270,          // A  - Minor 3rd — types, booleans
-  violet: 300,        // A# - Major 3rd — interfaces, decorators, macros
-  magenta: 330,       // B  - Perfect 4th — operators, storage modifiers
+  ice: 210,           // G  - Minor 2nd — (alias for markdown/UI cyan)
+  azure: 240,         // G# - Major 2nd — constants, numbers, booleans, enumMembers
+  blue: 270,          // A  - Minor 3rd — types, typeParameters
+  violet: 300,        // A# - Major 3rd — decorators, macros
+  magenta: 330,       // B  - Perfect 4th — operators
 
   // Semantic aliases
   peach: 30,          // = C# (Red)

@@ -52,6 +52,7 @@ export interface SyntaxTokens {
   commentDoc: SemanticRole;
   punctuation: SemanticRole;
   operator: SemanticRole;
+  variableLanguage: SemanticRole;
 }
 
 // =============================================================================
@@ -91,7 +92,6 @@ export interface ExtendedUITokens {
   terminalGuide: SemanticRole;
   operator: SemanticRole;
   deprecated: SemanticRole;
-  variableLanguage: SemanticRole;
   minimapOpacity: string; // Special: not a role, just a hex value
   error: SemanticRole;
   buttonBackground: SemanticRole;
@@ -206,9 +206,9 @@ export interface SupportTokens {
 // =============================================================================
 
 export interface MarkdownTokens {
+  heading: SemanticRole;
   codeBlock: SemanticRole;
   quote: SemanticRole;
-  docComment: SemanticRole;
   linkUrl: SemanticRole;
   headingPunctuation: SemanticRole;
   alertImportant: SemanticRole;
@@ -216,6 +216,7 @@ export interface MarkdownTokens {
   alertTip: SemanticRole;
   alertWarning: SemanticRole;
   alertCaution: SemanticRole;
+  inserted: SemanticRole;
   deleted: SemanticRole;
 }
 

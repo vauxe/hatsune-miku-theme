@@ -83,6 +83,9 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
 
       // CONNECTIVE — Magenta 345° (vivid heartbeat)
       operator: role('Magenta operator — vivid heartbeat', 0.090, 0.110, 345),
+
+      // LANGUAGE VARIABLE — this/self
+      variableLanguage: role('Teal this/self — cool anchor, italic', 0.058, 0.048, 197),
     };
   }
 
@@ -134,6 +137,14 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
       'Minor 6th — she reaches into the light',
       L.soprano, C.mp, H.orange
     ),
+    method: role(
+      'Minor 6th — callable code, same voice as function',
+      L.soprano, C.mp, H.orange
+    ),
+    tag: role(
+      'Minor 6th/p — element invocation, structural (quieter callable)',
+      L.soprano, C.p, H.orange
+    ),
     attribute: role(
       'Perfect 5th — HTML attributes, element properties',
       L.soprano, C.mp, H.red
@@ -148,13 +159,15 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
       'Major 6th — same family as class',
       L.soprano, C.mp, H.gold
     ),
-    interface: role(
-      'Major 6th — a promise, pure potential',
-      L.soprano, C.mp, H.gold
-    ),
     enum: role(
-      'Major 6th — a defined set of possibilities',
-      L.soprano, C.mp, H.gold
+      'Major 6th/mf — a defined set of possibilities (brighter than class)',
+      L.soprano, C.mf, H.gold
+    ),
+
+    // ═══ MAJOR 7TH — F Green (150°) — One breath from home ═══
+    interface: role(
+      'Major 7th — a promise straining toward implementation',
+      L.soprano, C.mp, H.green
     ),
 
     // ═══ MINOR 7TH — E Lime (120°) — Someone's truth ═══
@@ -167,31 +180,25 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
       L.soprano, C.mp, H.lime
     ),
     regex: role(
-      'Minor 7th — pattern matching structure in text',
-      L.soprano, C.mp, H.lime
-    ),
-
-    // ═══ MAJOR 7TH — F Green (150°) — One breath from home ═══
-    method: role(
-      'Major 7th — methods, one breath from home',
-      L.soprano, C.mp, H.green
+      'Minor 7th/mf — a pattern demands attention (brighter than string)',
+      L.soprano, C.mf, H.lime
     ),
 
     // ═══ MAJOR 2ND — G# Azure (240°) — The open ground ═══
     constant: role(
-      'Major 2nd — immutable values, azure and certain',
+      'Major 2nd — named immutable reference, azure and certain',
       L.soprano, C.mp, H.azure
     ),
     number: role(
-      'Major 2nd — the open ground, quietly immutable',
-      L.soprano, C.mp, H.azure
+      'Major 2nd/p — a literal value, quietly present',
+      L.soprano, C.p, H.azure
     ),
     boolean: role(
-      'Major 2nd — truth at its simplest',
-      L.soprano, C.mp, H.azure
+      'Major 2nd/p — truth at its simplest, quietly present',
+      L.soprano, C.p, H.azure
     ),
     enumMember: role(
-      'Major 2nd — one possibility, chosen',
+      'Major 2nd — one possibility, chosen (named like constant)',
       L.soprano, C.mp, H.azure
     ),
 
@@ -201,20 +208,14 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
       L.soprano, C.mp, H.blue
     ),
     typeParameter: role(
-      'Minor 3rd — a type waiting to become',
-      L.soprano, C.mp, H.blue
+      'Minor 3rd/p — a type waiting to become (quieter, abstract)',
+      L.soprano, C.p, H.blue
     ),
 
     // ═══ MAJOR 3RD — A# Violet (300°) — Transformation ═══
     macro: role(
       'Major 3rd — code that transforms code',
       L.soprano, C.mp, H.violet
-    ),
-
-    // ═══ PERFECT 5TH — C# Red (30°) — Markup tags ═══
-    tag: role(
-      'Perfect 5th — HTML/JSX tags, structural markup',
-      L.soprano, C.mp, H.red
     ),
 
     // ═══ PERFECT 4TH — B Magenta (330°) — The heartbeat ═══
@@ -239,6 +240,12 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     punctuation: role(
       'Ghost — bar lines, seen through not at',
       L.countertenor, C.ppp, H.mikuTeal
+    ),
+
+    // ═══ UNISON — F# Teal (180°) — variableLanguage ═══
+    variableLanguage: role(
+      'Unison — this/self, teal like keywords, italic whispers "it\'s me"',
+      L.soprano, C.mp, H.mikuTeal
     ),
   };
 }

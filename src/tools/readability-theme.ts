@@ -397,6 +397,7 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       string: resolveColor(findTokenColor(theme, 'string', 'string'), fg),
       stringEscape: resolveColor(findTokenColor(theme, 'constant.character.escape'), fg), // \n, \t, etc.
       constant: resolveColor(findTokenColor(theme, 'constant.language'), fg),
+      null: resolveColor(findTokenColor(theme, 'constant.language.null'), fg),
       regexp: resolveColor(findTokenColor(theme, 'string.regexp', 'regexp'), fg),
       colorValue: resolveColor(findTokenColor(theme, 'constant.other.color'), fg), // CSS #hex, rgb()
       // Markup/Web
@@ -424,7 +425,7 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       supportFunction: resolveColor(findTokenColor(theme, 'support.function'), fg),
       supportClass: resolveColor(findTokenColor(theme, 'support.class'), fg), // Array, Map, Set
       supportType: resolveColor(findTokenColor(theme, 'support.type'), fg), // string, number (built-in)
-      supportConstant: resolveColor(findTokenColor(theme, 'support.constant'), fg), // null, undefined, true
+      supportConstant: resolveColor(findTokenColor(theme, 'support.constant'), fg), // Math.PI, etc.
       supportVariable: resolveColor(findTokenColor(theme, 'support.variable'), fg), // __dirname, process
       // Storage modifiers
       storageModifier: resolveColor(findTokenColor(theme, 'storage.modifier'), fg),
