@@ -135,8 +135,8 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
       L.soprano, C.mp, H.orange
     ),
     attribute: role(
-      'Minor 6th — attributes in orange, modifying elements',
-      L.soprano, C.mp, H.orange
+      'Perfect 5th — HTML attributes, element properties',
+      L.soprano, C.mp, H.red
     ),
 
     // ═══ MAJOR 6TH — D# Gold (90°) — Written with love ═══

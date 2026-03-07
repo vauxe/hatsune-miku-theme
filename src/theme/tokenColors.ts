@@ -514,7 +514,7 @@ return [
     name: 'Markdown Links',
     scope: ['markup.underline.link', 'string.other.link'],
     settings: {
-      foreground: syntax.interface,
+      foreground: syntax.linkUrl,
     },
   },
   {
@@ -873,6 +873,13 @@ return [
     },
   },
   {
+    name: 'Rust Attributes',
+    scope: ['meta.attribute.rust'],
+    settings: {
+      foreground: syntax.decorator,
+    },
+  },
+  {
     name: 'Rust Macros',
     scope: ['entity.name.function.macro.rust', 'meta.macro.rust'],
     settings: {
@@ -1115,7 +1122,7 @@ return [
     name: 'Markdown Heading Punctuation',
     scope: ['punctuation.definition.heading.markdown'],
     settings: {
-      foreground: syntax.heading,
+      foreground: syntax.headingPunctuation,
     },
   },
 
@@ -1140,7 +1147,7 @@ return [
     name: 'Markup Link URL',
     scope: ['markup.underline.link.markdown', 'meta.link.inline.markdown'],
     settings: {
-      foreground: syntax.interface,
+      foreground: syntax.linkUrl,
       fontStyle: 'underline',
     },
   },

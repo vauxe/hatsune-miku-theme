@@ -63,10 +63,10 @@ export interface UITokens {
   foregroundMuted: SemanticRole;
   foregroundSubtle: SemanticRole;
   background: SemanticRole;
-  backgroundElevated: SemanticRole;
-  backgroundSurface: SemanticRole;
-  backgroundOverlay: SemanticRole;
-  backgroundHighest: SemanticRole;
+  backgroundFloat: SemanticRole;
+  backgroundShelf: SemanticRole;
+  backgroundFrame: SemanticRole;
+  backgroundVoid: SemanticRole;
   accentPrimary: SemanticRole;
   accentSecondary: SemanticRole;
   accentTertiary: SemanticRole;
@@ -79,7 +79,6 @@ export interface UITokens {
 }
 
 export interface ExtendedUITokens {
-  void: SemanticRole;
   nearWhite: SemanticRole;
   tertiary: SemanticRole;
   disabled: SemanticRole;
@@ -153,9 +152,10 @@ export interface TerminalTokens {
 export interface SymbolTokens {
   array: SemanticRole;
   boolean: SemanticRole;
+  class: SemanticRole;
   constant: SemanticRole;
   constructor: SemanticRole;
-  enumerator: SemanticRole;
+  enum: SemanticRole;
   enumeratorMember: SemanticRole;
   field: SemanticRole;
   folder: SemanticRole;
@@ -209,9 +209,14 @@ export interface MarkdownTokens {
   codeBlock: SemanticRole;
   quote: SemanticRole;
   docComment: SemanticRole;
+  linkUrl: SemanticRole;
+  headingPunctuation: SemanticRole;
   alertImportant: SemanticRole;
   alertNote: SemanticRole;
   alertTip: SemanticRole;
+  alertWarning: SemanticRole;
+  alertCaution: SemanticRole;
+  deleted: SemanticRole;
 }
 
 // =============================================================================
@@ -222,6 +227,10 @@ export interface DebugTokens {
   name: SemanticRole;
   value: SemanticRole;
   string: SemanticRole;
+  number: SemanticRole;
+  boolean: SemanticRole;
+  error: SemanticRole;
+  type: SemanticRole;
 }
 
 // =============================================================================

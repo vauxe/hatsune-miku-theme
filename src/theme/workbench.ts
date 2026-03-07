@@ -5,7 +5,7 @@
  * Design Philosophy: "Digital Diva" - Serene, immersive, 8+ hour coding comfort.
  *
  * Color Architecture:
- * - Background layers: void < elevated < base (editor) < surface (title) < overlay (sidebar) < highest (status) — all from skirt.base (hz≈249°)
+ * - Background layers: void < frame < shelf < base (editor) < float — all from skirt.base (hz≈249°)
  * - Primary accent: hair.base (#39C5BB) - canonical Miku teal
  * - Secondary accent: hair.highlight (#5DE4DB) - attention states
  * - Cursor/focus: vivid magenta from headphone cushion (#E05096)
@@ -24,14 +24,13 @@ const onAccentBg = t.decorative.darkForeground;
 // DESIGN SYSTEM CONSTANTS
 // ============================================================================
 
-// Background hierarchy — skirt-centered steps (0.003 Jz each, preserving skirt's hz≈249°)
+// Background hierarchy — skirt-centered steps (0.005 Jz each, preserving skirt's hz≈249°)
 const bg = {
-  void: t.ui.void.hex,             // step −2: deepest shadow below the stage
-  elevated: t.ui.backgroundElevated.hex, // step −1: inner pleat, one step darker
-  base: t.ui.background.hex,       // step  0: THE SKIRT — editor canvas (anchor)
-  surface: t.ui.backgroundSurface.hex,   // step +1: light rising above the skirt
-  overlay: t.ui.backgroundOverlay.hex,   // step +2: audience light, sidebar territory
-  highest: t.ui.backgroundHighest.hex,   // step +3: FOH, brightest operational tier
+  void: t.ui.backgroundVoid.hex,    // step −3: panel bg, empty groups
+  frame: t.ui.backgroundFrame.hex,  // step −2: activity bar, status bar, title bar
+  shelf: t.ui.backgroundShelf.hex,  // step −1: sidebar, tab strip
+  base: t.ui.background.hex,        // step  0: THE SKIRT — editor canvas (anchor)
+  float: t.ui.backgroundFloat.hex,  // step +1: hover, suggest, menus, tooltips
 };
 
 // Text hierarchy - from Snow Miku and character palette
@@ -137,17 +136,17 @@ const pol = {
   badgeBg:          isLight ? t.ui.badgeBackground.hex : lighten(roleFromHex('', t.decorative.sekaiHair), 0.02),
   badgeFg:          isLight ? t.decorative.blouseWhite : onAccentBg,
   // Panel/command center background
-  panelBg:          isLight ? bg.elevated : bg.void,
+  panelBg:          isLight ? bg.shelf : bg.void,
   // Activity bar background
-  activityBarBg:    isLight ? t.decorative.topMain : bg.elevated,
+  activityBarBg:    isLight ? t.decorative.topMain : bg.frame,
   // Sidebar background
-  sidebarBg:        isLight ? t.decorative.armWarmersBase : bg.overlay,
+  sidebarBg:        isLight ? t.decorative.armWarmersBase : bg.shelf,
   // Section header background
-  sectionHeaderBg:  isLight ? t.decorative.topMain : bg.highest,
+  sectionHeaderBg:  isLight ? t.decorative.topMain : bg.shelf,
   // Status bar background
-  statusBarBg:      isLight ? t.decorative.topShadow : bg.highest,
+  statusBarBg:      isLight ? t.decorative.topShadow : bg.frame,
   // Tab header background
-  tabHeaderBg:      isLight ? t.decorative.armWarmersBase : bg.void,
+  tabHeaderBg:      isLight ? t.decorative.armWarmersBase : bg.shelf,
   // Suggest widget selected
   suggestSelectedBg: isLight
     ? withOpacity(t.decorative.cursorLineFrost, '1A')
@@ -191,9 +190,9 @@ return {
   'editorCursor.foreground': accent.cursor,
   'editorCursor.background': bg.void,
   'editorMultiCursor.primary.foreground': accent.cursor,
-  'editorMultiCursor.primary.background': bg.surface,
+  'editorMultiCursor.primary.background': bg.base,
   'editorMultiCursor.secondary.foreground': t.decorative.multiCursorSecondary,
-  'editorMultiCursor.secondary.background': bg.surface,
+  'editorMultiCursor.secondary.background': bg.base,
   'editor.placeholder.foreground': text.placeholder,
   'editor.compositionBorder': accent.bright,
 
@@ -330,7 +329,7 @@ return {
   // WIDGETS
   // ==========================================================================
   'editorWidget.foreground': text.primary,
-  'editorWidget.background': bg.elevated,
+  'editorWidget.background': bg.float,
   'editorWidget.border': withOpacity(pol.borderTint, '40'),
   'editorWidget.resizeBorder': withOpacity(accent.bright, '60'),
   'widget.border': withOpacity(accent.primary, '30'),
@@ -338,10 +337,10 @@ return {
 
   // Hover widget
   'editorHoverWidget.foreground': text.primary,
-  'editorHoverWidget.background': withOpacity(bg.elevated, 'F8'),
+  'editorHoverWidget.background': withOpacity(bg.float, 'F8'),
   'editorHoverWidget.border': withOpacity(accent.primary, '50'),
   'editorHoverWidget.highlightForeground': accent.bright,
-  'editorHoverWidget.statusBarBackground': bg.surface,
+  'editorHoverWidget.statusBarBackground': bg.float,
 
   // Ghost text (Copilot/AI suggestions)
   'editorGhostText.foreground': text.ghost,  // #7A9A98 - Lc 45+ for readable suggestions
@@ -358,7 +357,7 @@ return {
   // ==========================================================================
   // SUGGEST WIDGET (Autocomplete)
   // ==========================================================================
-  'editorSuggestWidget.background': withOpacity(bg.elevated, 'FC'),
+  'editorSuggestWidget.background': withOpacity(bg.float, 'FC'),
   'editorSuggestWidget.border': withOpacity(accent.primary, '50'),
   'editorSuggestWidget.foreground': text.primary,
   'editorSuggestWidget.highlightForeground': accent.bright,
@@ -413,12 +412,12 @@ return {
   // INLAY HINTS
   // ==========================================================================
   'editorInlayHint.foreground': t.ui.foregroundMuted.hex, // #B0C0C8 - Lc 60 for readability
-  'editorInlayHint.background': withOpacity(bg.surface, '80'),
+  'editorInlayHint.background': withOpacity(bg.shelf, '80'),
   'editorInlayHint.typeForeground': accent.soft,   // #B2EBE7 - Full opacity teal
-  'editorInlayHint.typeBackground': withOpacity(bg.surface, '80'),
+  'editorInlayHint.typeBackground': withOpacity(bg.shelf, '80'),
   // Slightly darker to avoid halation (Lc <= 90)
   'editorInlayHint.parameterForeground': t.decorative.inlayParameter,
-  'editorInlayHint.parameterBackground': withOpacity(bg.surface, '80'),
+  'editorInlayHint.parameterBackground': withOpacity(bg.shelf, '80'),
 
   // ==========================================================================
   // UNICODE HIGHLIGHT
@@ -456,7 +455,7 @@ return {
   // ==========================================================================
   // MARKER NAVIGATION (F8 errors)
   // ==========================================================================
-  'editorMarkerNavigation.background': bg.surface,
+  'editorMarkerNavigation.background': bg.float,
   'editorMarkerNavigationError.background': withOpacity(semantic.error, '15'),
   'editorMarkerNavigationWarning.background': withOpacity(semantic.warning, '15'),
   'editorMarkerNavigationInfo.background': withOpacity(accent.primary, '15'),
@@ -568,9 +567,9 @@ return {
   // ==========================================================================
   // TITLE BAR
   // ==========================================================================
-  'titleBar.activeBackground': bg.surface,
+  'titleBar.activeBackground': bg.frame,
   'titleBar.activeForeground': text.primary,
-  'titleBar.inactiveBackground': bg.surface,
+  'titleBar.inactiveBackground': bg.frame,
   'titleBar.inactiveForeground': text.tertiary,
   'titleBar.border': withOpacity(accent.primary, '15'),
 
@@ -583,12 +582,12 @@ return {
   'tab.activeBorder': withOpacity(accent.primary, '30'),
   'tab.inactiveBackground': t.interactive.tab.background.default,
   'tab.inactiveForeground': text.tertiary,
-  'tab.border': bg.elevated,
+  'tab.border': bg.shelf,
   'tab.hoverBackground': t.interactive.tab.background.hover,
   // Hover uses primary text for distinction from active (accent bright)
   'tab.hoverForeground': text.primary,
   'tab.hoverBorder': withOpacity(accent.primary, '30'),
-  'tab.unfocusedActiveBackground': bg.surface,
+  'tab.unfocusedActiveBackground': bg.shelf,
   'tab.unfocusedActiveForeground': text.secondary,
   'tab.unfocusedActiveBorderTop': withOpacity(accent.magenta, '60'),
   'tab.unfocusedActiveBorder': withOpacity(accent.primary, '20'),
@@ -617,9 +616,9 @@ return {
   'editorGroup.border': withOpacity(pol.borderTint, alpha.borderSubtle),
   'editorGroup.dropBackground': withOpacity(accent.primary, '20'),
   'editorGroup.dropIntoPromptForeground': text.primary,
-  'editorGroup.dropIntoPromptBackground': withOpacity(bg.elevated, 'F5'),
+  'editorGroup.dropIntoPromptBackground': withOpacity(bg.shelf, 'F5'),
   'editorGroup.dropIntoPromptBorder': withOpacity(accent.primary, '50'),
-  'editorGroup.emptyBackground': bg.surface,
+  'editorGroup.emptyBackground': bg.void,
   'editorGroup.focusedEmptyBorder': withOpacity(accent.primary, '40'),
   'editorPane.background': bg.base,
   'sideBySideEditor.horizontalBorder': withOpacity(accent.primary, '25'),
@@ -652,7 +651,7 @@ return {
   'list.inactiveFocusOutline': withOpacity(accent.primary, '30'),
   'list.filterMatchBackground': withOpacity(semantic.warning, '20'),
   'list.filterMatchBorder': withOpacity(semantic.warning, '50'),
-  'listFilterWidget.background': bg.elevated,
+  'listFilterWidget.background': bg.float,
   'listFilterWidget.outline': withOpacity(accent.primary, '60'),
   'listFilterWidget.noMatchesOutline': semantic.error,
   'listFilterWidget.shadow': withOpacity(bg.void, '60'),
@@ -707,7 +706,7 @@ return {
   'panelInput.border': withOpacity(accent.primary, '40'),
   'panelSection.border': withOpacity(accent.primary, '20'),
   'panelSection.dropBackground': withOpacity(accent.primary, '15'),
-  'panelSectionHeader.background': bg.elevated,
+  'panelSectionHeader.background': bg.float,
   'panelSectionHeader.foreground': accent.bright,
   'panelSectionHeader.border': withOpacity(accent.primary, '20'),
   'panelStickyScroll.background': pol.panelBg,
@@ -785,14 +784,14 @@ return {
   'terminalSymbolIcon.remoteForeground': t.symbol.interface.hex,
   'terminalSymbolIcon.stashForeground': text.tertiary,
   'terminalSymbolIcon.symbolText': text.primary,
-  'terminalSymbolIcon.symbolicLinkFileForeground': t.symbol.enumerator.hex,
-  'terminalSymbolIcon.symbolicLinkFolderForeground': t.symbol.enumerator.hex,
+  'terminalSymbolIcon.symbolicLinkFileForeground': t.symbol.enum.hex,
+  'terminalSymbolIcon.symbolicLinkFolderForeground': t.symbol.enum.hex,
   'terminalSymbolIcon.tagForeground': semantic.warning,
 
   // ==========================================================================
   // DEBUGGER
   // ==========================================================================
-  'debugToolBar.background': withOpacity(bg.elevated, 'F8'),
+  'debugToolBar.background': withOpacity(bg.float, 'F8'),
   'debugToolBar.border': withOpacity(semantic.warning, '40'),
   'debugIcon.breakpointForeground': t.decorative.tattooMark,    // Her "01" mark — a breakpoint is an identity mark you place in code
   'debugIcon.breakpointDisabledForeground': text.disabled,
@@ -820,10 +819,10 @@ return {
   'debugTokenExpression.name': t.debug.name.hex,
   'debugTokenExpression.value': t.debug.value.hex,
   'debugTokenExpression.string': t.debug.string.hex,
-  'debugTokenExpression.boolean': t.syntax.typeParameter.hex,
-  'debugTokenExpression.number': semantic.success,
-  'debugTokenExpression.error': semantic.error,
-  'debugTokenExpression.type': accent.soft,
+  'debugTokenExpression.boolean': t.debug.boolean.hex,
+  'debugTokenExpression.number': t.debug.number.hex,
+  'debugTokenExpression.error': t.debug.error.hex,
+  'debugTokenExpression.type': t.debug.type.hex,
   'debugView.exceptionLabelForeground': pol.debugLabelFg,
   'debugView.exceptionLabelBackground': darken(t.status.error, 0.19),
   'debugView.stateLabelForeground': pol.debugLabelFg,
@@ -834,21 +833,21 @@ return {
   // PEEK VIEW
   // ==========================================================================
   'peekView.border': withOpacity(pol.borderTint, '60'),
-  'peekViewTitle.background': bg.surface,
+  'peekViewTitle.background': bg.float,
   'peekViewTitleLabel.foreground': accent.bright,
   'peekViewTitleDescription.foreground': text.secondary,
   'peekViewEditor.background': bg.base,
   'peekViewEditor.matchHighlightBackground': withOpacity(semantic.warning, '30'),
   'peekViewEditor.matchHighlightBorder': withOpacity(semantic.warning, '60'),
-  'peekViewEditorGutter.background': bg.elevated,
-  'peekViewResult.background': bg.surface,
+  'peekViewEditorGutter.background': bg.shelf,
+  'peekViewResult.background': bg.float,
   'peekViewResult.fileForeground': text.primary,
   'peekViewResult.lineForeground': text.secondary,
   'peekViewResult.matchHighlightBackground': withOpacity(semantic.warning, '25'),
   'peekViewResult.selectionBackground': t.interactive.list.background.selected,
   'peekViewResult.selectionForeground': t.interactive.list.foreground.selected,
   'peekViewEditorStickyScroll.background': bg.base,
-  'peekViewEditorStickyScrollGutter.background': bg.elevated,
+  'peekViewEditorStickyScrollGutter.background': bg.shelf,
 
   // ==========================================================================
   // DIFF EDITOR
@@ -872,17 +871,17 @@ return {
   'diffEditorOverview.removedForeground': t.decorative.diffRemoved,
   'diffEditor.diagonalFill': withOpacity(text.tertiary, '15'),
   'diffEditor.border': withOpacity(pol.borderTint, alpha.borderSubtle),
-  'diffEditor.unchangedRegionBackground': withOpacity(bg.overlay, '30'),
+  'diffEditor.unchangedRegionBackground': withOpacity(bg.float, '30'),
   'diffEditor.unchangedRegionForeground': text.tertiary,
   'diffEditor.unchangedRegionShadow': withOpacity(bg.void, '40'),
-  'diffEditor.unchangedCodeBackground': withOpacity(bg.overlay, '15'),
+  'diffEditor.unchangedCodeBackground': withOpacity(bg.float, '15'),
   'diffEditor.move.border': withOpacity(t.decorative.diffMoveBorder, '50'),
   'diffEditor.moveActive.border': t.decorative.diffMoveBorder,
 
   // ==========================================================================
   // MULTI-DIFF EDITOR
   // ==========================================================================
-  'multiDiffEditor.headerBackground': bg.surface,
+  'multiDiffEditor.headerBackground': bg.float,
   'multiDiffEditor.background': bg.base,
   'multiDiffEditor.border': withOpacity(accent.primary, '25'),
 
@@ -894,8 +893,8 @@ return {
   'merge.incomingHeaderBackground': withOpacity(semantic.success, '35'),
   'merge.incomingContentBackground': withOpacity(semantic.success, alpha.faintBg),
   'merge.border': withOpacity(accent.primary, '40'),
-  'merge.commonContentBackground': withOpacity(bg.overlay, '25'),
-  'merge.commonHeaderBackground': withOpacity(bg.overlay, '40'),
+  'merge.commonContentBackground': withOpacity(bg.float, '25'),
+  'merge.commonHeaderBackground': withOpacity(bg.float, '40'),
   'mergeEditor.change.background': withOpacity(accent.bright, '10'),
   'mergeEditor.change.word.background': withOpacity(accent.bright, '25'),
   'mergeEditor.conflict.unhandledUnfocused.border': withOpacity(semantic.warning, '50'),
@@ -905,8 +904,8 @@ return {
   'mergeEditor.conflict.handled.minimapOverViewRuler': semantic.success,
   'mergeEditor.conflict.unhandled.minimapOverViewRuler': semantic.warning,
   'mergeEditor.conflictingLines.background': withOpacity(semantic.warning, '15'),
-  'mergeEditor.changeBase.background': withOpacity(bg.overlay, '15'),
-  'mergeEditor.changeBase.word.background': withOpacity(bg.overlay, '30'),
+  'mergeEditor.changeBase.background': withOpacity(bg.float, '15'),
+  'mergeEditor.changeBase.word.background': withOpacity(bg.float, '30'),
   'mergeEditor.conflict.input1.background': withOpacity(accent.bright, '12'),
   'mergeEditor.conflict.input2.background': withOpacity(semantic.success, '12'),
 
@@ -930,7 +929,7 @@ return {
   // ==========================================================================
   'scmGraph.historyItemHoverLabelForeground': pol.scmLabelFg,  // Dark on bright ref pill bg
   'scmGraph.historyItemHoverDefaultLabelForeground': text.secondary,
-  'scmGraph.historyItemHoverDefaultLabelBackground': withOpacity(bg.surface, '80'),
+  'scmGraph.historyItemHoverDefaultLabelBackground': withOpacity(bg.float, '80'),
   // SCM Graph - Project SEKAI unit colors (each branch is a unit's story)
   'scmGraph.foreground1': t.decorative.scmGraph[0],        // Virtual Singer - main branch
   'scmGraph.foreground2': t.decorative.scmGraph[1],               // LEO/NEED - royal blue
@@ -947,11 +946,11 @@ return {
   // NOTIFICATIONS
   // ==========================================================================
   'notifications.foreground': text.primary,
-  'notifications.background': bg.elevated,
+  'notifications.background': bg.float,
   'notifications.border': withOpacity(accent.primary, '30'),
   'notificationToast.border': pol.toastBorder,
   'notificationCenterHeader.foreground': accent.bright,
-  'notificationCenterHeader.background': bg.surface,
+  'notificationCenterHeader.background': bg.float,
   'notificationCenter.border': withOpacity(accent.primary, '30'),
   'notificationLink.foreground': t.ui.linkActive.hex,
   'notificationsInfoIcon.foreground': accent.primary,
@@ -974,9 +973,9 @@ return {
   // ==========================================================================
   // QUICK INPUT
   // ==========================================================================
-  'quickInput.background': bg.elevated,
+  'quickInput.background': bg.float,
   'quickInput.foreground': text.primary,
-  'quickInputTitle.background': bg.surface,
+  'quickInputTitle.background': bg.float,
   'quickInputList.focusBackground': t.interactive.list.background.selected,
   'quickInputList.focusForeground': t.interactive.list.foreground.selected,
   'quickInputList.focusIconForeground': t.interactive.list.foreground.selected,
@@ -990,7 +989,7 @@ return {
   'keybindingLabel.foreground': text.primary,
   'keybindingLabel.border': withOpacity(accent.primary, '35'),
   'keybindingLabel.bottomBorder': withOpacity(accent.primary, '50'),
-  'keybindingTable.headerBackground': bg.surface,
+  'keybindingTable.headerBackground': bg.float,
   'keybindingTable.rowsBackground': withOpacity(accent.primary, '04'),
 
   // ==========================================================================
@@ -1000,12 +999,12 @@ return {
   'breadcrumb.background': bg.base,
   'breadcrumb.focusForeground': t.syntax.function.hex,
   'breadcrumb.activeSelectionForeground': text.primary,
-  'breadcrumbPicker.background': bg.elevated,
+  'breadcrumbPicker.background': bg.float,
 
   // ==========================================================================
   // MENU
   // ==========================================================================
-  'menu.background': bg.elevated,
+  'menu.background': bg.float,
   'menu.foreground': text.primary,
   'menu.selectionBackground': t.interactive.list.background.selected,
   'menu.selectionForeground': t.interactive.list.foreground.selected,
@@ -1060,7 +1059,7 @@ return {
   'testing.iconSkipped.retired': withOpacity(text.tertiary, '50'),
   'testing.runAction': semantic.success,
   'testing.peekBorder': withOpacity(accent.primary, '60'),
-  'testing.peekHeaderBackground': bg.surface,
+  'testing.peekHeaderBackground': bg.float,
   'testing.message.error.lineBackground': withOpacity(semantic.error, '10'),
   'testing.message.error.badgeBackground': withOpacity(semantic.error, '20'),
   'testing.message.error.badgeBorder': semantic.error,
@@ -1083,11 +1082,11 @@ return {
   // WELCOME PAGE
   // ==========================================================================
   'welcomePage.background': bg.base,
-  'welcomePage.tileBackground': bg.surface,
+  'welcomePage.tileBackground': bg.float,
   'welcomePage.tileHoverBackground': t.interactive.toolbar.background.hover,
   'welcomePage.tileBorder': withOpacity(accent.primary, '25'),
   'welcomePage.progress.foreground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
-  'welcomePage.progress.background': bg.elevated,
+  'welcomePage.progress.background': bg.shelf,
   'walkThrough.embeddedEditorBackground': bg.base,
   'walkthrough.stepTitle.foreground': accent.bright,
 
@@ -1109,7 +1108,7 @@ return {
   // Lavender (Digital Stars) reads as "experimental" and separates from sponsor magenta
   'extensionIcon.preReleaseForeground': t.decorative.commitIcon,
   'extensionIcon.sponsorForeground': accent.magenta,
-  'extensionIcon.privateForeground': t.symbol.enumerator.hex,
+  'extensionIcon.privateForeground': t.symbol.enum.hex,
   'mcpIcon.starForeground': semantic.warning,
 
   // ==========================================================================
@@ -1208,7 +1207,7 @@ return {
   // ==========================================================================
   // NOTEBOOK
   // ==========================================================================
-  'notebook.editorBackground': bg.surface,
+  'notebook.editorBackground': bg.base,
   'notebook.cellBorderColor': withOpacity(accent.primary, '25'),
   'notebook.cellHoverBackground': t.interactive.list.background.hover,
   'notebook.cellInsertionIndicator': accent.bright,
@@ -1240,11 +1239,11 @@ return {
   // ==========================================================================
   'symbolIcon.arrayForeground': t.symbol.array.hex,
   'symbolIcon.booleanForeground': t.symbol.boolean.hex,
-  'symbolIcon.classForeground': t.syntax.class.hex,
+  'symbolIcon.classForeground': t.symbol.class.hex,
   'symbolIcon.colorForeground': accent.magenta,
   'symbolIcon.constantForeground': t.symbol.constant.hex,  // Azure (240°)
   'symbolIcon.constructorForeground': t.symbol.constructor.hex,
-  'symbolIcon.enumeratorForeground': t.symbol.enumerator.hex,  // Cyan (210°)
+  'symbolIcon.enumeratorForeground': t.symbol.enum.hex,  // Gold (90°)
   'symbolIcon.enumeratorMemberForeground': t.symbol.enumeratorMember.hex,
   'symbolIcon.eventForeground': t.status.info.hex,
   'symbolIcon.fieldForeground': t.symbol.field.hex,  // Red (30°) — ΔJz+ΔCz from property
@@ -1275,11 +1274,11 @@ return {
   // ==========================================================================
   // INLINE CHAT
   // ==========================================================================
-  'inlineChat.background': withOpacity(bg.elevated, 'F8'),
+  'inlineChat.background': withOpacity(bg.float, 'F8'),
   'inlineChat.foreground': text.primary,
   'inlineChat.border': withOpacity(accent.bright, '50'),
   'inlineChat.shadow': withOpacity(bg.void, '60'),
-  'inlineChatInput.background': bg.elevated,
+  'inlineChatInput.background': bg.float,
   'inlineChatInput.border': withOpacity(accent.primary, '40'),
   'inlineChatInput.focusBorder': accent.bright,
   'inlineChatInput.placeholderForeground': text.placeholder,  // #5A6A70 - Lc 25+
@@ -1317,14 +1316,14 @@ return {
   'inlineEdit.gutterIndicator.successfulBorder': semantic.success,
   'inlineEdit.gutterIndicator.successfulForeground': semantic.success,
   'inlineEdit.gutterIndicator.successfulBackground': withOpacity(semantic.success, '15'),
-  'inlineEdit.gutterIndicator.background': bg.elevated,
-  'inlineEdit.originalBackground': withOpacity(bg.overlay, '08'),
+  'inlineEdit.gutterIndicator.background': bg.shelf,
+  'inlineEdit.originalBackground': withOpacity(bg.float, '08'),
   'inlineEdit.modifiedBackground': withOpacity(accent.primary, '10'),
   'inlineEdit.originalChangedLineBackground': withOpacity(semantic.error, '08'),
   'inlineEdit.originalChangedTextBackground': withOpacity(semantic.error, '20'),
   'inlineEdit.modifiedChangedLineBackground': withOpacity(semantic.success, '08'),
   'inlineEdit.modifiedChangedTextBackground': withOpacity(semantic.success, '20'),
-  'inlineEdit.originalBorder': withOpacity(bg.overlay, '40'),
+  'inlineEdit.originalBorder': withOpacity(bg.float, '40'),
   'inlineEdit.modifiedBorder': withOpacity(accent.bright, '40'),
   'inlineEdit.tabWillAcceptModifiedBorder': withOpacity(semantic.success, '50'),
   'inlineEdit.tabWillAcceptOriginalBorder': withOpacity(semantic.error, '50'),
@@ -1332,7 +1331,7 @@ return {
   // ==========================================================================
   // EDITOR ACTION LIST
   // ==========================================================================
-  'editorActionList.background': bg.elevated,
+  'editorActionList.background': bg.float,
   'editorActionList.foreground': text.primary,
   'editorActionList.focusForeground': t.interactive.list.foreground.selected,
   'editorActionList.focusBackground': t.interactive.list.background.selected,
@@ -1351,7 +1350,7 @@ return {
   'editorCommentsWidget.unresolvedBorder': withOpacity(semantic.warning, '50'),
   'editorCommentsWidget.rangeBackground': withOpacity(accent.primary, '08'),
   'editorCommentsWidget.rangeActiveBackground': withOpacity(accent.primary, '15'),
-  'editorCommentsWidget.replyInputBackground': bg.elevated,
+  'editorCommentsWidget.replyInputBackground': bg.float,
 
   // ==========================================================================
   // SIMPLE FIND WIDGET
@@ -1377,7 +1376,7 @@ return {
   // ==========================================================================
   // GAUGE
   // ==========================================================================
-  'gauge.background': bg.elevated,
+  'gauge.background': bg.float,
   'gauge.foreground': semantic.info, // #5DE4DB - Bright teal (Lc 74)
   'gauge.border': withOpacity(accent.primary, '30'),
   'gauge.warningBackground': withOpacity(semantic.warning, '20'),
@@ -1391,8 +1390,8 @@ return {
   'markdownAlert.note.foreground': t.markdown.alertNote.hex,  // #78D8F0 - cyan (195deg)
   'markdownAlert.tip.foreground': t.markdown.alertTip.hex,    // #98F0B8 - mint green (145deg) DeltaE 20+
   'markdownAlert.important.foreground': t.markdown.alertImportant.hex,
-  'markdownAlert.warning.foreground': semantic.warning,
-  'markdownAlert.caution.foreground': semantic.error,
+  'markdownAlert.warning.foreground': t.markdown.alertWarning.hex,
+  'markdownAlert.caution.foreground': t.markdown.alertCaution.hex,
 
   // ==========================================================================
   // AGENT SESSION
@@ -1418,11 +1417,11 @@ return {
   // ==========================================================================
   'textBlockQuote.background': withOpacity(accent.primary, '10'),
   'textBlockQuote.border': withOpacity(accent.primary, '40'),
-  'textCodeBlock.background': withOpacity(bg.surface, '80'),
+  'textCodeBlock.background': withOpacity(bg.shelf, '80'),
   'textLink.activeForeground': t.ui.linkActive.hex,
   'textLink.foreground': accent.bright,
   'textPreformat.foreground': accent.soft,
-  'textPreformat.background': withOpacity(bg.surface, '60'),
+  'textPreformat.background': withOpacity(bg.shelf, '60'),
   'textPreformat.border': withOpacity(accent.primary, '30'),
   'textSeparator.foreground': withOpacity(accent.primary, '40'),
 };

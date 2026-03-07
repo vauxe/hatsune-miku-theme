@@ -153,7 +153,4 @@ export const HUE = {
   lavender: 270,      // = A (Blue)
   orchid: 270,        // = A (Blue)
 
-  // Git status
-  gitRose: 0,         // C  - Tritone — deleted
-  gitBlue: 270,       // A  - Minor 3rd — conflict
 } as const;

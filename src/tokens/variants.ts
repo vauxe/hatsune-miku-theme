@@ -106,8 +106,6 @@ export const lightHue: HueValues = {
   periwinkle: 260,       // Same as azure — TRUTH family
   lavender: 300,         // Same as blue — TYPE SYSTEM
   orchid: 300,           // Same as blue — TYPE SYSTEM
-  gitRose: 20,           // Git deleted — alert family
-  gitBlue: 300,          // Git conflicting — type system blue
 };
 
 /**

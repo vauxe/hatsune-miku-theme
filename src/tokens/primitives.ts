@@ -117,8 +117,6 @@ export const hue = {
   orchid: 270,         // = A (Blue)
 
   // Git status (using chromatic tones)
-  gitRose: 0,          // = C (Rose)
-  gitBlue: 270,        // = A (Blue)
 } as const;
 
 // =============================================================================
@@ -289,8 +287,6 @@ export interface HueValues {
   periwinkle: number;
   lavender: number;
   orchid: number;
-  gitRose: number;
-  gitBlue: number;
 }
 
 export interface ColorPair {

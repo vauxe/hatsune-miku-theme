@@ -68,10 +68,10 @@ export function createInteractiveTokens(
     : accentBright;                                 // Lightened hair highlight — engagement highlight (light teal)
   const foregroundMuted = ui ? ui.foregroundMuted.hex : '#8A9CA0';
   const foregroundDisabled = ui ? ui.disabled.hex : '#5A6A70';
-  const backgroundVoid = ui ? ui.void.hex : '#0A1214';
+  const backgroundVoid = ui ? ui.backgroundVoid.hex : '#0A1214';
   const background = ui ? ui.background.hex : char.skirt.base;
-  const backgroundElevated = ui ? ui.backgroundElevated.hex : char.armWarmers.base;
-  const backgroundSurface = ui ? ui.backgroundSurface.hex : char.headphones.frame;
+  const backgroundShelf = ui ? ui.backgroundShelf.hex : char.armWarmers.base;
+  const backgroundFrame = ui ? ui.backgroundFrame.hex : char.headphones.frame;
 
   return {
     // =========================================================================
@@ -170,12 +170,12 @@ export function createInteractiveTokens(
     // =========================================================================
     input: {
       background: {
-        default: backgroundElevated,
-        hover: backgroundElevated,
-        active: backgroundElevated,
-        focus: backgroundElevated,
-        disabled: backgroundSurface,
-        selected: backgroundElevated,
+        default: backgroundShelf,
+        hover: backgroundShelf,
+        active: backgroundShelf,
+        focus: backgroundShelf,
+        disabled: backgroundFrame,
+        selected: backgroundShelf,
       },
       foreground: {
         default: foreground,
@@ -200,12 +200,12 @@ export function createInteractiveTokens(
     // =========================================================================
     tab: {
       background: {
-        default: backgroundVoid,                    // inactive — void tier (recedes)
+        default: backgroundFrame,                    // inactive — Frame tier (recedes)
         hover: withOpacity(tonic, op.strong),        // 25% — engagement tint (transient OK)
-        active: background,                         // shown tab — base tier (merges with editor)
+        active: background,                         // shown tab — Canvas tier (merges with editor)
         focus: p.special.transparent,                       // identity uses border only
-        disabled: backgroundVoid,                   // same as inactive
-        selected: backgroundSurface,                // unfocused active — surface tier
+        disabled: backgroundFrame,                   // same as inactive
+        selected: backgroundShelf,                   // unfocused active — Shelf tier
       },
       foreground: {
         default: foregroundMuted,
@@ -216,11 +216,11 @@ export function createInteractiveTokens(
         selected: foreground,
       },
       border: {
-        default: backgroundElevated,
+        default: backgroundShelf,
         hover: p.special.transparent,                       // legato
         active: tieShadow,                          // marcato
         focus: spotlight,                           // identity — magenta
-        disabled: backgroundElevated,
+        disabled: backgroundShelf,
         selected: tieShadow,                        // tenuto
       },
     },
@@ -264,7 +264,7 @@ export function createInteractiveTokens(
         hover: withOpacity(tonic, op.strong),        // off + hover
         active: tonic,                              // on + hover
         focus: background,
-        disabled: withOpacity(backgroundSurface, '80'),
+        disabled: withOpacity(backgroundShelf, '80'),
         selected: p.polarity === 'light'
           ? withOpacity(tonic, op.heavy)              // on — teal tint over cream, keeps dark fg readable
           : (ui ? ui.buttonBackground.hex : '#157570'), // on — solid dark teal (dark theme)

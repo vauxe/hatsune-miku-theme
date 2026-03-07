@@ -3,9 +3,8 @@
  *
  * Skirt-centered background steps: the skirt is the stage, the single
  * anchor. Every other background tier is exactly N steps above or below
- * it — uniform Jz increments (0.004 dark, 0.005 light). When your eyes
- * move between UI areas, the transition is smooth — like light falling
- * across her outfit from the dark hem to the bright collar.
+ * it — uniform Jz increments (0.005). Five tiers: void < frame < shelf
+ * < base (editor) < float.
  *
  * Status colors tell the story of your code: success in negi green,
  * errors in tritone red. Git traces the narrative of creation and loss.
@@ -14,13 +13,14 @@
 import { role, roleFromHex } from './role';
 import { parseHex } from './jzczhz';
 import type { UITokens, ExtendedUITokens, StatusTokens, GitTokens } from './types';
+import { sakuraMiku } from '../palette';
 import type { Primitives } from './primitives';
 
 export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
   const { lightness: L, chroma: C, hue: H, character: char } = p;
 
   // The skirt is the stage — one anchor, uniform steps up and down
-  const STEP = p.polarity === 'light' ? 0.005 : 0.004;
+  const STEP = 0.005;
   const skirt = parseHex(char.skirt.base);
   // Above-base tiers: lighter in dark, darker in light
   const aboveDir = p.polarity === 'light' ? -1 : 1;
@@ -39,24 +39,26 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       L.countertenor, C.ppp, H.sky
     ),
     background: roleFromHex(
-      'The skirt — the editor canvas, the anchor (step 0)',
+      'Canvas — the skirt, editor anchor (step 0)',
       char.skirt.base
     ),
-    backgroundElevated: role(
-      'Inner pleat — one step darker than the stage (step −1)',
-      skirt.Jz - STEP, skirt.Cz, skirt.hz
-    ),
-    backgroundSurface: role(
-      'Light rising above the skirt — title bar territory (step +1)',
+    backgroundFloat: role(
+      'Float — above the stage (step +1)',
       skirt.Jz + aboveDir * STEP, skirt.Cz, skirt.hz
     ),
-    backgroundOverlay: role(
-      'Audience light — sidebar territory (step +2)',
-      skirt.Jz + aboveDir * 2 * STEP, skirt.Cz, skirt.hz
+    backgroundShelf: role(
+      'Shelf — sidebar, tab strip (step -1)',
+      skirt.Jz - aboveDir * STEP, skirt.Cz, skirt.hz
     ),
-    backgroundHighest: role(
-      'FOH — the brightest operational tier, status bar (step +3)',
-      skirt.Jz + aboveDir * 3 * STEP, skirt.Cz, skirt.hz
+    backgroundFrame: role(
+      'Frame — activity bar, status bar, title bar (step -2)',
+      skirt.Jz - aboveDir * 2 * STEP, skirt.Cz, skirt.hz
+    ),
+    backgroundVoid: role(
+      'Void — panel bg, empty groups (step -3)',
+      skirt.Jz - aboveDir * 3 * STEP,
+      p.polarity === 'light' ? skirt.Cz * 0.85 : skirt.Cz * 0.4,
+      skirt.hz
     ),
     accentPrimary: p.polarity === 'light'
       ? roleFromHex('Primary accent — sleeve amber, warm pâtisserie frame', char.tie.base)
@@ -120,12 +122,6 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       return roleFromHex('Active link — her brightest hair highlight, fully present', char.hair.bright);
     })(),
     // Extended UI tokens
-    void: role(
-      'Deepest shadow below the stage — the void (step −2)',
-      skirt.Jz - 2 * STEP,
-      p.polarity === 'light' ? skirt.Cz * 0.85 : skirt.Cz * 0.4,  // Light: keep warm (0.017), dark: desaturate
-      skirt.hz
-    ),
     nearWhite: roleFromHex(
       'Negi white — the softest green light from her iconic prop',
       p.special.nearWhite
@@ -175,9 +171,9 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       L.soprano, C.mp, H.lavender
     ),
     variableLanguage: role(
-      'Language variables - shifted teal',
-      p.polarity === 'light' ? 0.058 : L.soprano, p.polarity === 'light' ? 0.048 : C.mf,
-      p.polarity === 'light' ? 197 : H.mikuTeal - 3
+      'Language variables — this/self, teal like keywords',
+      p.polarity === 'light' ? 0.058 : L.soprano, p.polarity === 'light' ? 0.048 : C.mp,
+      p.polarity === 'light' ? 197 : H.mikuTeal
     ),
     minimapOpacity: p.polarity === 'light' ? `${char.top.blouse}DD` : `${p.special.void}DD`,
     error: role(
@@ -254,22 +250,19 @@ export function createGitTokens(p: Primitives): GitTokens {
     };
   }
   return {
-    added: role('New life — lime in the code tree', L.soprano, C.f, H.lime),
+    added: roleFromHex('New life — negi green, growth in the code tree', char.negi.bright),
     modified: role(
       'Change — warm orange, the story evolves',
       L.soprano, C.mp, H.orange
     ),
-    deleted: role(
-      'Loss — tritone rose, something was removed',
-      L.sopranino, C.f, H.gitRose
-    ),
+    deleted: roleFromHex('Departure — Sakura pink, code falls like petals', sakuraMiku.hair.base),
     untracked: role(
       'Undiscovered — her cyan, not yet part of the story',
       L.soprano, C.mf, H.cyan
     ),
     conflicting: role(
-      'Tension — blue, demanding manual resolution',
-      L.soprano, C.mf, H.blue
+      'Conflict — rose, error-level, needs resolution',
+      L.soprano, C.mf, H.rose
     ),
     renamed: role(
       'Transformation — green, same content at a new address',
@@ -279,10 +272,7 @@ export function createGitTokens(p: Primitives): GitTokens {
       'Change accepted — muted teal, resting in the tonic',
       L.soprano, C.p, H.mikuTeal
     ),
-    stageDeleted: role(
-      'Loss accepted — azure, cooled from parent rose',
-      L.soprano, C.mp, H.azure
-    ),
+    stageDeleted: roleFromHex('Loss accepted — muted Sakura, same voice quieter', sakuraMiku.hair.shadow),
     submodule: role(
       'External world — muted azure, a reference beyond this repo',
       L.soprano, C.p, H.azure

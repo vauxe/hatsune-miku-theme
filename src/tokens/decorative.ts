@@ -42,23 +42,26 @@ import {
 export function createSymbolTokens(p: Primitives): SymbolTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
-  // 23 icons on the 12-tone grid, aligned with syntax counterpart hues.
+  // 24 icons on the 12-tone grid, aligned with syntax counterpart hues.
   // Same-hue pairs distinguished by tier (Jz) and dynamic (Cz), ΔEz ≥ 12.
   return {
     // ═══ C# Red (30°) — Perfect 5th ═══
-    property: role('Symbol property — red, vivid warmth', L.soprano, C.f, H.red),
+    property: role('Symbol property — red, vivid warmth', L.sopranino, C.f, H.red),
     field: role('Symbol field — red, dark', L.alto, C.mp, H.red),
 
     // ═══ D Orange (60°) — Minor 6th ═══
-    function: role('Symbol function — orange spotlight', L.soprano, C.f, H.orange),
+    function: role('Symbol function — orange spotlight', L.sopranino, C.f, H.orange),
 
     // ═══ D# Gold (90°) — Major 6th ═══
-    struct: role('Symbol struct — gold architecture', L.soprano, C.mf, H.gold),
-    package: role('Symbol package — warm gold', L.soprano, C.mp, H.gold),
+    class: role('Symbol class — gold, the score', L.soprano, C.mf, H.gold),
+    struct: role('Symbol struct — gold architecture', L.soprano, C.f, H.gold),
+    interface: role('Symbol interface — gold, sopranino contract', L.sopranino, C.mp, H.gold),
+    enum: role('Symbol enum — gold, mezzo set', L.mezzo, C.mf, H.gold),
+    package: role('Symbol package — warm gold, alto', L.alto, C.mp, H.gold),
 
     // ═══ E Lime (120°) — Minor 7th ═══
     string: role('Symbol string — lime, literal truth', L.soprano, C.mf, H.lime),
-    reference: role('Symbol reference — warm lime', L.soprano, C.mp, H.lime),
+    reference: role('Symbol reference — warm lime, sopranino', L.sopranino, C.mp, H.lime),
 
     // ═══ F Green (150°) — Major 7th ═══
     method: role('Symbol method — green, quiet flow', L.soprano, C.p, H.green),
@@ -70,24 +73,20 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
 
     // ═══ G Cyan (210°) — Minor 2nd ═══
     variable: role('Symbol variable — cyan, vivid data', L.soprano, C.f, H.cyan),
-    enumeratorMember: role('Symbol enum member — cyan, one possibility', L.soprano, C.p, H.cyan),
-    enumerator: role('Symbol enumerator — cyan, warm set', L.soprano, C.mp, H.cyan),
 
     // ═══ G# Azure (240°) — Major 2nd ═══
     constant: role('Symbol constant — azure, deep truth', L.mezzo, C.mp, H.azure),
     number: role('Symbol number — azure, vivid quantity', L.soprano, C.f, H.azure),
-    module: role('Symbol module — azure, warm container', L.soprano, C.mp, H.azure),
+    boolean: role('Symbol boolean — azure, sopranino truth', L.sopranino, C.mp, H.azure),
+    enumeratorMember: role('Symbol enum member — azure, alto', L.alto, C.mf, H.azure),
 
     // ═══ A Blue (270°) — Minor 3rd ═══
     typeParameter: role('Symbol type param — blue, standard', L.soprano, C.mp, H.blue),
-    boolean: role('Symbol boolean — blue, quiet truth', L.soprano, C.p, H.blue),
-
-    // ═══ A# Violet (300°) — Major 3rd ═══
-    interface: role('Symbol interface — violet, warm contract', L.soprano, C.mp, H.violet),
-    namespace: role('Symbol namespace — violet, quiet scope', L.soprano, C.p, H.violet),
+    module: role('Symbol module — blue, sopranino container', L.sopranino, C.mp, H.blue),
+    namespace: role('Symbol namespace — blue, mezzo scope', L.mezzo, C.mp, H.blue),
 
     // ═══ B Magenta (330°) — Perfect 4th ═══
-    operator: role('Symbol operator — magenta, warm harmony', L.soprano, C.mp, H.magenta),
+    operator: role('Symbol operator — magenta, sopranino harmony', L.sopranino, C.mp, H.magenta),
     snippet: role('Symbol snippet — magenta, quiet template',
       p.polarity === 'light' ? L.soprano + 0.006 : L.soprano, C.p, H.magenta),
   };
@@ -104,8 +103,8 @@ export function createBracketTokens(p: Primitives): BracketTokens {
     bracket2: role('Cool contrast — blue deepens', L.soprano, C.mp, H.blue),
     bracket3: role('Major 6th — gold, warm step', L.soprano, C.mp, H.gold),
     bracket4: role('★ MIKU — teal at the heart of nesting', L.soprano - 0.008, C.mp, H.mikuTeal),
-    bracket5: role('Deep continuation — azure, going further', L.soprano + 0.014, C.mp, H.azure),
-    bracket6: role('Warm close — orange, the arpeggio resolves', L.soprano + 0.022, C.mf, H.orange),
+    bracket5: role('Cool continuation — magenta, going further', L.soprano + 0.014, C.mp, H.magenta),
+    bracket6: role('Warm close — lime, the arpeggio resolves', L.soprano + 0.022, C.mp, H.lime),
   };
 }
 
@@ -126,11 +125,16 @@ export function createMarkdownTokens(p: Primitives): MarkdownTokens {
 
   return {
     codeBlock: role('Code in documents — bright cyan, her voice quoted', L.soprano, C.mf, H.ice),
-    quote: role('Block quotes — sky cyan, someone else\'s words', L.soprano, C.mf, H.sky),
+    quote: role('Block quotes — sky cyan, someone else\'s words', L.soprano, C.mp, H.sky),
     docComment: role('Documentation — silver-cyan, the manual she\'d write', L.soprano, C.mp, H.ice),
+    linkUrl: role('Link URL — blue, the address beneath', L.soprano, C.mp, H.blue),
+    headingPunctuation: role('Heading punctuation — orange, structural marker', L.soprano, C.mp, H.orange),
     alertImportant: role('Important — violet, pay attention', L.soprano, C.mf, H.violet),
     alertNote: role('Note — bright cyan, worth remembering', L.soprano, C.mf, H.ice),
     alertTip: role('Tip — fresh green, helpful', L.soprano, C.mf, H.green),
+    alertWarning: role('Warning — orange, caution ahead', L.soprano, C.mf, H.orange),
+    alertCaution: role('Caution — rose, danger', L.soprano, C.mf, H.rose),
+    deleted: role('Markup deleted — rose, departure', L.soprano, C.mf, H.rose),
   };
 }
 
@@ -140,7 +144,11 @@ export function createDebugTokens(p: Primitives): DebugTokens {
   return {
     name: role('Debug name — soft magenta, the variable\'s identity', L.soprano, C.mp, H.magenta),
     value: role('Debug value — gold, what it holds', L.soprano, C.mf, H.gold),
-    string: role('Debug string — gold, the text within', L.soprano, C.mp, H.gold),
+    string: role('Debug string — lime, the text within', L.soprano, C.mp, H.lime),
+    number: role('Debug number — azure, numeric quantity', L.soprano, C.mf, H.azure),
+    boolean: role('Debug boolean — azure, binary truth', L.soprano, C.mp, H.azure),
+    error: role('Debug error — rose, something went wrong', L.soprano, C.mf, H.rose),
+    type: role('Debug type — blue, the shape beneath', L.soprano, C.mp, H.blue),
   };
 }
 

@@ -76,6 +76,8 @@ export function createSyntaxColors(t: SemanticTokens) {
     // Markdown
     markupCode: t.markdown.codeBlock.hex,
     markupQuote: t.markdown.quote.hex,
+    linkUrl: t.markdown.linkUrl.hex,
+    headingPunctuation: t.markdown.headingPunctuation.hex,
 
     // Regex & Escape
     regex: t.syntax.regex.hex,
@@ -90,7 +92,7 @@ export function createSyntaxColors(t: SemanticTokens) {
 export function createMarkupColors(t: SemanticTokens) {
   return {
     inserted: t.decorative.markupInserted,
-    deleted: t.ui.error.hex,
+    deleted: t.markdown.deleted.hex,
     changed: t.syntax.function.hex,
   } as const;
 }

@@ -954,11 +954,11 @@ white        Warm neutral (30°)
 
 Special cases:
 
-- **black / brightBlack** — below soprano. Black is near-black, brightBlack is dark gray (used as comment color by many CLI tools).
-- **white / brightWhite** — low chroma. White is warm (30°), brightWhite is cool (210°). The temperature contrast distinguishes them without a chroma increase.
-- **green** — normal green is darkened one step so the lightness gap from yellow survives CVD (green-blind simulation collapses the hue, but the brightness difference remains).
-- **magenta** — uses violet (300°), not true magenta (330°). True magenta is only 30° from rose (0°) — too close under CVD. Violet provides a 60° gap that survives red-blind simulation while still reading as "magenta-ish" in terminal output.
+- **black / brightBlack** — below soprano. Black is near-black (countertenor), brightBlack is dark gray (alto). Both sit below the soprano ensemble — black as near-background, brightBlack as comment-level text.
+- **white / brightWhite** — low chroma (pp/p, not mp/mf). White is warm (30°), brightWhite is cool (210°). The temperature contrast distinguishes them without a chroma increase. At mp/mf these would read as visibly pink (#FFADAE) and saturated cyan (#27F1FC) — not white.
+- **magenta** — uses violet (300°), not true magenta (330°). Violet doubles the ΔEz gap from rose under CVD (deutan: 19.5 vs 12.5; protan: 16.2 vs 12.5). True magenta technically passes the ≥12 threshold, but violet provides comfortable margin.
 - **blue = brightBlue** — at azure (240°), the sRGB gamut cannot deliver higher chroma at soprano lightness. Both normal and bright converge to the same rendered hex. An honest gamut limitation — blue is decorative in most CLI tools.
+- **green ≈ yellow under CVD** — green (lime 120°) and yellow (orange 60°) collapse under deuteranopia (ΔEz ~3–5, far below the 12 threshold). No amount of lightness shifting fixes this — darkening green one step improves deutan from 3.0→4.7 (still failing) while hurting protan from 12.6→9.4 (now failing). Both stay at soprano. This is an inherent limitation of the red-green CVD spectrum, not a solvable problem at the terminal palette level.
 
 ### Symbol Icons
 
