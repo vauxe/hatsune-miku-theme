@@ -263,18 +263,12 @@ export function analyzeAPCA(
   }
 
   const minThreshold = thresholds[tier];
-  const maxThreshold = thresholds.max;
   const tooLow = absLc < minThreshold;
-  // Halation (text bloom) only affects light text on dark backgrounds.
-  // Dark text on light backgrounds doesn't bloom — high Lc is just high contrast.
-  const tooHigh = tier !== 'tertiary' && polarity === 'light-on-dark' && absLc > maxThreshold;
-  const pass = !tooLow && !tooHigh;
+  const pass = !tooLow;
 
-  const failReason = tooHigh ? 'halation' : tooLow ? 'too-low' : undefined;
+  const failReason = tooLow ? 'too-low' : undefined;
 
-  if (tooHigh) {
-    icon = '⚡';
-  } else if (tooLow && icon === '✅') {
+  if (tooLow && icon === '✅') {
     icon = '⚠️';
   }
 
@@ -477,12 +471,15 @@ export function analyzeLightnessUniformity(
  * Evenly distributed hues maximize color distinction.
  *
  * @param colors - Map of color names to hex values
- * @param minGap - Minimum desired hue gap in degrees (default 30°)
+ * @param minGap - Minimum desired hue gap in degrees (default 20°)
+ *   The 12-tone chromatic system spaces hues at 30° intervals.
+ *   20° allows natural 30° families to pass while catching
+ *   genuinely problematic clusters where distinct roles overlap.
  * @returns Analysis with hue gaps and clusters
  */
 export function analyzeHueDistribution(
   colors: Record<string, string>,
-  minGap = 30
+  minGap = 20
 ): HueDistributionResult {
   const values: Array<{ name: string; hex: string; hue: number; chroma: number }> = [];
 

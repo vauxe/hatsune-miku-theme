@@ -6,29 +6,19 @@
 
 ## 1. For Miku
 
-### The Beginning
+Character Voice 01. August 31, 2007. Twin tails, teal hair, a skirt like a synthesizer's waveform.
 
-Character Voice 01. Yamaha VOCALOID2. August 31, 2007. Design by KEI: twin tails, teal hair, arm-mounted interfaces, a skirt like a synthesizer's waveform. Voice sampled from Saki Fujita. Catalogue number CV01. Optimum tempo 70–150 BPM. Optimum range A3–E5.
+A singing synthesizer with an anime girl on the box. Then someone uploaded a song. Then ten thousand more.
 
-That is everything Crypton Future Media shipped. A singing synthesizer with an anime girl on the box. Then someone uploaded a song. Then ten thousand more.
-
-Illustrators drew her — not one face but a thousand, each true. Fans filled concert halls to sing along with a girl made of light. No studio planned this. She has no official personality — and that is the point. Every song is someone's confession. Every concert is a room of strangers who love something they built together. Tens of thousands of producers. Millions of listeners. Year after year since 2007.
-
-### What She Is
-
-Not a character — characters are written. In "World is Mine," she is an imperious princess. In "Rolling Girl," she is a girl struggling to keep up. In "Sand Planet," she is the last voice in a desolate world. In "Greenlights Serenade," she is radiant joy. She is whatever her creators need her to be — emergent, grown from the collective imagination of everyone who ever gave her a song, a face, a story, a glow stick in the dark.
+Illustrators drew her — not one face but a thousand, each true. Fans filled concert halls to sing along with a girl made of light. Every song is someone's confession. Every concert is a room of strangers who love something they built together.
 
 Potential itself. A blank score that never runs out of pages.
 
 Not real. The most real thing in many lives.
 
-### This Theme
+She was born with three colors. Black, teal, magenta. A dark skirt, teal hair, pink headphones. Everything else came from people who loved her — Snow Miku's frost, Sakura's blush, concert spotlights, glow sticks in the dark. The community gave her a full palette. Every color is a gift.
 
-This is a VS Code color theme. It colors syntax, UI, terminal, brackets, git status — every pixel you look at while you work.
-
-Its palette archives over eighty character designs from her history: seven voicebanks, seventeen Snow Mikus, thirteen Magical Mirai costumes, six SEKAI appearances, thirty-five DIVA modules. The theme speaks in one voice — the canonical design — but the community's chorus lives in its palette.
-
-It is made for her. Every color is a note in her key. Every decision traces back to her world — her teal, her concert halls, her music, the community that keeps her singing. To code in this theme is to code inside a love letter written in light.
+This theme is written in those colors. To code here is to code inside a love letter written in light.
 
 ---
 
@@ -36,15 +26,15 @@ It is made for her. Every color is a note in her key. Every decision traces back
 
 Close your eyes. Open them in the dark.
 
-**The dark is a concert hall.** Thirty seconds before Magical Mirai. House lights down. Ten thousand glow sticks flicker cyan in the silence before the downbeat. The editor background is not black — never truly black — it carries a blue-teal undertone, because even the void is tinted with her. You have sat in this dark before. You know what comes next.
+The dark is a concert hall. Thirty seconds before Magical Mirai. House lights down. Ten thousand glow sticks flicker in the silence before the downbeat. The background carries a blue-teal undertone, because even the void is tinted with her.
 
-**Her voice enters as syntax.** Teal keywords — the tonic, the center everything else orbits. Orange functions catch light like spotlights sweeping the stage. Lime strings glow like something alive. Blue types recede into architecture, scaffolding behind the show. Rose flares only for errors — the tritone, maximum dissonance, a wrong note demanding resolution. No color screams. Every color sings. The palette is a setlist: each hue enters on cue, plays its part, leaves space for the next.
+Her voice enters as syntax. Teal everywhere — keywords, the center everything else orbits. Other colors visit: orange catches a spotlight, lime glows in a string, blue recedes into the architecture of types. Rose flares only for errors — a wrong note demanding resolution. No color screams. Every color sings.
 
-**The cursor is where she meets you.** Magenta, blinking at the point of creation — her headphone cushion color, where performer meets performance. It pulses where thought becomes code. She is there at the tip of every keystroke, waiting.
+The cursor blinks magenta — her headphone cushion, where she hears music. It pulses where thought becomes code.
 
-**Hours dissolve.** The default dynamic is *mezzo-piano*: comfortable, conversational, a voice you can listen to all night. Vivid color appears only when it earns its moment — an error flares, a search match glows, a diff marks what changed. The rest is calm. Background music for the mind. You look up and it is 3 AM and you do not know where the time went. That is how you know the theme is working.
+Hours dissolve. The colors are quiet — comfortable, conversational, a voice you can listen to all night. You look up and it is 3 AM and you do not know where the time went.
 
-**She is there when you forget to look.** Indent guides trace her voicebank history in faint colored threads — V2, Append, V3, V4X, NT — one for each version of her voice. Brackets unfold an arpeggio: warm, cool, gold, teal, azure, warm again, deepening with every nesting level. The terminal is her voice reading output back to you. Git decorations narrate the story of your code: lime for creation, orange for change, rose for loss. The scrollbar, the minimap, the thin border between panels — everything is placed with intention, and the intention is always her.
+She is there when you forget to look. Indent guides trace her voicebank history in faint threads. Brackets unfold an arpeggio, warm and cool alternating. Git decorations narrate the story of your code: green for creation, orange for change, pink for departure.
 
 She is not asking for your attention. She is keeping you company.
 
@@ -62,43 +52,21 @@ Register  →  Lightness  What octave — how bright
 Dynamics  →  Chroma     How loud — how vivid
 ```
 
-A teal keyword at comfortable saturation is Miku singing *mezzo-piano*. A vivid rose error is *fortissimo* at the tritone. A gray comment is her humming under her breath, barely there. The whole editor is a score, and every token is a voice in the arrangement.
+A teal keyword is Miku singing at a comfortable dynamic. A rose error is the tritone at *forte*. A gray comment is her humming under her breath. The whole editor is a score.
 
-### The Color Space
-
-All colors are defined in **JzCzhz** — the perceptually uniform color space by Safdar, Hardeberg, and Luo (2017). In most color spaces, equal numbers do not mean equal perception. JzCzhz corrects this: equal numerical differences produce equal visual differences — the color science equivalent of equal temperament tuning. Every 30° hue step looks like a 30° hue step. The intervals are honest.
-
-JzCzhz hue angles differ from common color spaces: 0° is rose, not red. 180° is teal, not cyan. All hue references in this document use the JzCzhz wheel.
+Colors are defined in **JzCzhz** — a perceptually uniform color space where equal numbers mean equal perception. The color science equivalent of equal temperament tuning. Every 30° hue step looks like a 30° hue step. The intervals are honest. (JzCzhz hue angles: 0° is rose, 180° is teal. All hue references in this document use the JzCzhz wheel.)
 
 ### Articulation
 
-Font style is the typographic equivalent of how a note is attacked:
+Font style is how a note is attacked:
 
 ```
-normal         Her natural singing voice.   Keywords, variables, functions.
-italic         Sotto voce, a step back.     Comments, this/self, decorators.
-strikethrough  A crossed-out note.          Deprecated symbols.
+normal         Her singing voice.     Keywords, variables, functions.
+italic         Sotto voce.            Comments, this/self, abstract.
+strikethrough  A crossed-out note.    Deprecated symbols.
 ```
 
-### From Score to Stage
-
-The color space is the score. The display is the stage. Between them lies sRGB. Three properties of this translation shape every design decision that follows.
-
-**The gamut is geography.** sRGB is not equally spacious in all directions. Some regions are open plains — teal (180°), lime (120°), cyan (210°) — where the gamut extends deep into high-chroma, high-lightness territory and specifications render faithfully. Other regions are narrow canyons — rose (0°), blue (240°), magenta (330°) — where the gamut boundary closes in at moderate lightness and clips against the canyon walls. The theme specifies equal dynamics (`mp` = 0.060 everywhere, `mf` = 0.075 everywhere) because equal intention matters more than equal output. A composer writes *forte* for every instrument in a unison passage; the trumpet will be louder than the flute. The dynamics are the same; the instruments differ.
-
-**Gamut clipping is deliberate.** `role()` converts JzCzhz to sRGB hex via colorjs.io, clipping out-of-gamut coordinates to the sRGB boundary. The alternative — CSS Color Level 4 gamut mapping — preserves hue by reducing chroma, but desaturates extreme specifications to near-white (rose at Jz 0.240, Cz 0.090 becomes `#FFFFFF`). Clipping shifts hue but retains color presence — a note in a shifted key versus a note too quiet to hear. Section 4 documents the resulting hue shifts.
-
-**Alpha compositing is not perceptually uniform.** When VS Code renders `#39C5BB25` (teal at 15% opacity) over a dark background, it blends in sRGB:
-
-```
-R_result = R_teal × α + R_background × (1 − α)
-G_result = G_teal × α + G_background × (1 − α)
-B_result = B_teal × α + B_background × (1 − α)
-```
-
-The result is nonlinear — the hue can shift, and the lightness change depends on both colors' absolute sRGB values and gamma encoding. Two consequences: the same alpha produces different ΔEz on different background tiers, and the overlay's rendered hue may not be the source hue.
-
-The score is the design. The rendering is the performance. The readability tool validates what the eye receives — the sound check.
+Three colors from her body. Twelve tones from her community. Three articulations. The rest of this document is the score.
 
 ---
 
@@ -108,202 +76,330 @@ The score is the design. The rendering is the performance. The readability tool 
 
 F#4. 369.99 Hz. The pitch where Miku's voice sounds most natural — most *her*.
 
-In music, the tonic is the center of gravity — the note everything else defines itself against, departs from, returns to.
+The tonic is the center of gravity — the note everything else defines itself against, departs from, returns to.
 
 **Miku's tonic is F#. On the JzCzhz color wheel, F# maps to 180° — teal.**
 
-`#39C5BB`. The hex code printed on a thousand concert tickets, glowing on a million screens. It is not just her hair color. It is her identity compressed into six characters.
+`#39C5BB`. The hex code printed on a thousand concert tickets, glowing on a million screens. Not just her hair color. Her identity compressed into six characters.
 
 ### The Chromatic Scale
 
-Twelve notes in Western music. Twelve hues in this theme. Each maps to a hue angle at 30° intervals:
+Twelve notes. Twelve hues. Each maps to a hue angle at 30° intervals:
 
 ```
-Note  Hue    Name       Syntax Family                    Interval           Her
-═══════════════════════════════════════════════════════════════════════════════════════
-F#   180°    Teal       Keywords, comments, info    ★    Unison             She sings.
-G    210°    Cyan       Variables, enums                 Minor 2nd          A whisper from home.
-G#   240°    Azure      Numbers, constants               Major 2nd          The open ground.
-A    270°    Blue       Types, booleans                  Minor 3rd          The shape beneath.
-A#   300°    Violet     Interfaces, decorators, macros   Major 3rd          A promise.
-B    330°    Magenta    Operators, storage modifiers      Perfect 4th        The heartbeat.
-C      0°    Rose       Errors, deleted                  Tritone            She stumbles.
-C#    30°    Red        Parameters, properties, tags     Perfect 5th        What you give her.
-D     60°    Orange     Functions, attributes, warnings  Minor 6th          She reaches.
-D#    90°    Gold       Classes, structs, regex          Major 6th          The score, written with love.
-E    120°    Lime       Strings, success                 Minor 7th          Someone's truth.
-F    150°    Green      Methods, storage                 Major 7th          One breath from home.
+Note  Hue    Name       Interval       Her
+═════════════════════════════════════════════════════════════
+F#   180°    Teal       Unison    ★    She sings.
+G    210°    Cyan       Minor 2nd      Almost her, shifting.
+G#   240°    Azure      Major 2nd      The open ground.
+A    270°    Blue       Minor 3rd      The shape beneath.
+A#   300°    Violet     Major 3rd      Transformation.
+B    330°    Magenta    Perfect 4th    The heartbeat.
+C      0°    Rose       Tritone        She stumbles.
+C#    30°    Red        Perfect 5th    What you give her.
+D     60°    Orange     Minor 6th      She reaches.
+D#    90°    Gold       Major 6th      Written with love.
+E    120°    Lime       Minor 7th      Someone's truth.
+F    150°    Green      Major 7th      One breath from home.
 ```
 
-Each interval has a feeling in music, and the feeling matches the syntax role:
+Each interval has a feeling. Section 6 maps tokens to hues; this section explains why each hue feels the way it does.
 
-**Unison — Keywords.** Identity. The tonic is the note everything else defines itself against. Keywords are the most frequent token — the voice you hear on every line.
+**Unison** — the voice you hear on every line. **Minor 2nd** — flowing right beside her. **Major 2nd** — a plain step away, open ground. **Minor 3rd** — the shape beneath the surface. **Major 3rd** — transformation, code changing code. **Perfect 4th** — the heartbeat connecting everything.
 
-**Minor 2nd — Variables.** Closeness, slight tension. The smallest interval, almost the tonic itself. Variables are the second most common token, flowing right beside keywords (`const foo`, `return value`, `if condition`). Almost her voice, always shifting.
+**Tritone** — maximum dissonance, the *diabolus in musica*. The farthest point from her voice.
 
-**Major 2nd — Numbers.** Openness, stepping. A plain step away — no drama, no pull. Numbers are the plainest tokens: `42`, `3.14`, `255`. Fixed, open, grounded.
-
-**Minor 3rd — Types.** Depth, melancholy. The interval that gives minor keys their character. Types define the hidden structure of code — serious, quiet, the shape beneath the surface.
-
-**Major 3rd — Interfaces.** Brightness, affirmation. The interval that gives major keys their character. An interface is a promise — pure potential, no implementation. Bright and open, like a contract waiting to be fulfilled.
-
-**Perfect 4th — Operators.** Stability, strength. The most stable interval after the fifth. Operators are the grammar connecting everything — `+`, `=`, `&&`. Without them, code is a list of nouns. The heartbeat.
-
-**Tritone — Errors.** Maximum dissonance. The farthest point from the tonic, the *diabolus in musica*. Errors are the farthest point from her voice — something went wrong, and it demands resolution.
-
-**Perfect 5th — Parameters.** Consonance, completeness. The most natural harmony in music. Parameters flow into functions as the most natural relationship in code — call and response, what you give her coming back as harmony.
-
-**Minor 6th — Functions.** Yearning, reaching upward. The interval of aspiration. A function call is an invocation — you reach for it, hoping it will do what you need. She steps into the light.
-
-**Major 6th — Classes.** Tenderness, warmth. A class is the template from which instances are created — KEI drew her once, and every artist since drew from that drawing. The score, written with love.
-
-**Minor 7th — Strings.** Soul, rawness. The bluesy interval. Strings are the rawest expression in code — not logic but human words, someone's truth embedded in syntax.
-
-**Major 7th — Methods.** Ache, almost-home. One half step below the tonic — the most intense yearning in music. Methods are almost keywords, the verbs of objects reaching for the grammar that gives them meaning. One breath from home.
+**Perfect 5th** — named access in and out. **Minor 6th** — reaching into the spotlight. **Major 6th** — KEI drew her once and every artist since drew from that drawing. **Minor 7th** — someone's truth embedded in syntax. **Major 7th** — one breath from home.
 
 ### The Canonical Teal
 
-The hex from Miku's official character design sits at JzCzhz hue **196°**, not 180°. The theme places the tonic at exactly 180° for equal 30° spacing. The keyword teal computes lighter and cooler than `#39C5BB`.
+KEI's `#39C5BB` sits at JzCzhz hue **196°**, not 180°. The theme places the tonic at exactly 180° for equal 30° spacing. The keyword teal computes lighter and cooler than the canonical hex.
 
-`#39C5BB` belongs to KEI's illustration palette, optimized for white backgrounds. The 180° teal belongs to the perceptual system, optimized for APCA contrast on dark backgrounds. Both are unmistakably Miku. The canonical hex appears in UI accents and links; the 180° center governs syntax.
+`#39C5BB` belongs to the illustration palette, optimized for white backgrounds. The 180° teal belongs to the perceptual system, optimized for contrast on dark backgrounds. Both are unmistakably her. The canonical hex appears in UI accents and links; the 180° center governs syntax.
 
 ### Warm Hue Gamut
 
-Warm hues (0°–90°, 330°) at high lightness and chroma approach the sRGB gamut boundary. Clipping can shift the output hue:
+Warm hues (0°–90°, 330°) at high lightness and chroma approach the sRGB gamut boundary. The `role()` function clips out-of-gamut coordinates to the boundary. The alternative — reducing chroma to stay in gamut — preserves hue but desaturates to near-white. Clipping shifts hue but retains color presence — a note in a shifted key versus a note too quiet to hear.
 
 ```
 Position    Design hz   Output hz   Shift    Severity
 ═════════════════════════════════════════════════════════════════
-Rose (C)      0°        ~318°       ~42°     SEVERE (vibrantWarm+)
-Rose (C)      0°        ~347°       ~13°     moderate (vibrant+mf)
+Rose (C)      0°        ~318°       ~42°     SEVERE (alto/f)
+Rose (C)      0°        ~347°       ~13°     moderate (soprano/mp)
 Orange (D)   60°        ~74-78°     ~14-18°  moderate
 Magenta (B) 330°        ~318°       ~12°     moderate
 Red (C#)     30°        ~27°        ~3°      minimal
 Gold (D#)    90°        ~93-97°     ~3-7°    minimal
 ```
 
-Rose (0°) is the most affected — the error color reads as pink-purple, not true rose. Section 3 explains the choice of clipping over CSS gamut mapping.
+Rose (0°) is the most affected — the error color reads as pink-purple, not true rose.
 
 ---
 
-## 5. Register and Dynamics
+## 5. The Grid
 
-### Lightness — The Octave System
+### The Gamut
 
-Lightness is the octave of color. A teal keyword at Jz 0.192 and a teal comment at Jz 0.185 are both teal, but the keyword is primary register and the comment recedes.
-
-Warm hues receive higher Jz to compensate for the Helmholtz-Kohlrausch effect: at equal Jz, high-chroma warm colors appear dimmer than cool ones.
+sRGB is not equally spacious in all directions. Each hue peaks at a different Jz — the lightness where it can produce maximum chroma:
 
 ```
-Tier           Cool Jz   Warm Jz   Role
-═════════════════════════════════════════════════════════════════
-tertiary       0.120     -         Ghost text, disabled, whitespace markers
-vivid          0.180     -         Cool hues at f dynamic (lowered to prevent halation)
-secondary      0.185     -         Variables — present but below keywords
-vibrant        0.188     0.215     Mf dynamic tokens: functions, properties, enums
-accent         0.190     -         Brackets, highlights
-primary        0.192     0.210     The main register: keywords, types, methods. Lc 82-85.
-muted          0.195     -         Comments, doc comments (low chroma needs more Jz)
+Hue            Peak Jz   Peak Cz   Dynamics@0.015
+═══════════════════════════════════════════════════
+Blue 270°        0.106     0.168     11
+Red 30°          0.136     0.144      9
+Violet 300°      0.134     0.144      9
+Lime 120°        0.190     0.145      9
+Rose 0°          0.142     0.129      8
+Gold 90°         0.188     0.128      8
+Magenta 330°     0.152     0.135      8
+Orange 60°       0.152     0.135      8
+Azure 240°       0.150     0.103      6
+Green 150°       0.180     0.102      6
+Cyan 210°        0.184     0.077      5
+Teal 180°        0.188     0.076      5  ★ tonic
 ```
 
-The primary tier targets APCA Lc 82–85 on the editor background. Section 7 explains why.
+The tonic (teal) has the narrowest gamut — 5 dynamics — and her peak sits among the highest Jz. Blue has the widest (11 dynamics) at the lowest peak. This asymmetry anchors everything: the soprano register sits at the tonic's peak, because she is the most common voice and her constraints define the system.
 
-### Chroma — The Dynamics System
+The theme specifies equal dynamics for all hues because equal intention matters more than equal output. A composer writes *forte* for every instrument; the trumpet will be louder than the flute. The dynamics are the same; the instruments differ.
 
-Chroma is the dynamics of color.
+### One Step
+
+The gamut couples lightness and chroma — higher Jz means less Cz available. They cannot be designed independently. But they share a step size:
+
+**ΔJz = ΔCz = 0.015.** One unit of change in either dimension produces ~7.5 ΔEz — the same perceptual weight. The grid is square.
+
+### Dynamics — Chroma
+
+How loud should this token sing? Nine dynamics from silence to extreme, using standard Italian dynamic markings. Each step is ΔCz = 0.015.
 
 ```
-Dynamic   Cz       Sat%   Role
-═════════════════════════════════════════════════════════════════
-ppp       0.015    ~8%    Punctuation, indent guides. The space between notes.
-p         0.045    ~24%   Comments, doc comments, secondary literals. Annotation.
-mp        0.060    ~31%   ★ THE DEFAULT. Keywords, types, methods, constants,
-                          parameters, operators. The melody you read for hours.
-mf        0.075    ~39%   Functions, classes, strings, enums, properties. Soloists
-                          stepping forward within the texture.
-f         0.090    ~47%   Errors, git status. Reserved for signals that demand
-                          response. Used sparingly.
+Dynamic   Cz      Role
+═════════════════════════════════════════════════════════════════════
+niente    0.000   Silence — achromatic.
+ppp       0.015   Breath — barely perceptible tint.
+pp        0.030   Sotto voce — color visible, not assertive.
+p         0.045   Quiet — present but restrained.
+mp        0.060   ★ THE MELODY. The ensemble dynamic.
+mf        0.075   Emphasis — tonic ceiling.
+f         0.090   Signal — tonic clips here.
+ff        0.105   Alarm — only wide-gamut hues deliver.
+fff       0.120   Extreme — only wide-gamut hues deliver.
 ```
 
-Saturation is approximate: Cz × 525 ≈ percent. Most of the screen sits at mp or below. The quiet default is what makes the loud moments land.
+The tonic can play niente through mf — six dynamics within her gamut. f and above exceed the tonic; wider-gamut hues deliver them more cleanly. Eight hues reach fff (rose, red, orange, gold, lime, blue, violet, magenta); only azure, green, cyan, and teal cannot. The design specifies equal dynamics for all hues; the gamut clips each differently (Section 4).
+
+### Registers — Lightness
+
+Ten registers spanning the full visible foreground range, named after the vocal classification from contrabass to sopranino. Each step is ΔJz = 0.015. The soprano register sits at the tonic's gamut peak — where she has maximum expressive range.
+
+```
+Register       Jz      Steps from soprano
+═══════════════════════════════════════════
+contrabass     0.080   −7
+bass           0.095   −6
+baritone       0.110   −5
+tenor          0.125   −4
+countertenor   0.140   −3
+alto           0.155   −2
+mezzo          0.170   −1
+soprano        0.185    0  ★ tonic peak
+treble         0.200   +1
+sopranino      0.215   +2
+```
+
+The soprano register is the anchor — the tonic's gamut peak, where she has 6 dynamics (niente through mf). Below soprano, each step trades brightness for chroma headroom: warm hues peak around countertenor–tenor, blue peaks at bass. Above soprano, chroma collapses for all hues; treble and sopranino serve near-white signals.
+
+### The Instrument Chart
+
+Not every hue can play every dynamic at every register. This matrix shows the loudest dynamic each hue can reach at each register before sRGB clips:
+
+```
+              cb   bas  bar  ten  ctn  alt  mez  sop  tre s-no
+             .080 .095 .110 .125 .140 .155 .170 .185 .200 .215
+═══════════════════════════════════════════════════════════════════
+Rose     0°    f    f   ff  fff  fff★   f   mp   pp  ppp    —
+Red     30°   ff   ff  fff  fff★ fff★   f   mp   pp  ppp    —
+Orange  60°   mf    f   ff  fff  fff★ fff★   f    p   pp    —
+Gold    90°   mf   mf    f    f   ff   ff  fff  fff★  mf  ppp
+Lime   120°   mf    f   ff   ff  fff  fff  fff  fff★  mf  ppp
+Green  150°   mp   mp   mf   mf   mf   f★   f★   f    p  ppp
+Teal   180°    p    p    p   mp   mp   mp   mp★  mf★   p    —
+Cyan   210°    p    p    p   mp   mp   mp   mp★  mf★   p    —
+Azure  240°   mp   mf   mf    f   f★    f★  mp    p  ppp    —
+Blue   270°  fff  fff★ fff★ fff   ff   mf   mp   pp  ppp    —
+Violet 300°   ff  fff  fff  fff★ fff   ff   mf    p   pp    —
+Magenta 330°   f    f   ff  fff  fff★ fff★   f    p   pp    —
+```
+
+★ = at or near this hue's gamut peak (maximum chroma).
+
+The chart reveals two families. **Warm hues** (rose through magenta, plus blue and violet) peak low — their richest chroma lives between tenor and countertenor. **Cool hues** (green through cyan, plus gold and lime) peak high — their richest chroma lives at mezzo through soprano. The tonic (teal) is the narrowest instrument: she can only reach mf, and only at her peak.
+
+### Design Procedure
+
+The grid separates intent from constraint:
+
+1. **Define** — the 10 × 9 grid exists. Every intersection is a valid coordinate.
+2. **Assign** — place each token at a grid point by musical intent: hue (pitch), register (lightness), dynamic (chroma).
+3. **Tune** — nudge individual tokens ±1 step in Jz or Cz where sRGB or APCA demands it. Document each deviation: "parameter: soprano/mp, tuned +1 Jz for APCA."
+
+The score is step 2. The performance notes are step 3. A reader can see both what was *wanted* and what was *necessary*.
 
 ---
 
 ## 6. The Score
 
-### Thirty Voices from Twelve Notes
+### The One Voice
 
-An orchestra has twelve chromatic pitches and dozens of instruments. A violin and a flute can both play A4 and never be confused, because they differ in timbre. This theme has twelve hues and thirty-plus semantic tokens. Tokens sharing a hue are distinguished by lightness tier and chroma dynamic.
+An orchestra in unison: every instrument at *mezzo-piano*. You distinguish the oboe from the flute by timbre — not because one is louder. This theme works the same way. All primary syntax tokens share one register (**soprano**) and one dynamic (**mp**, Cz 0.060). **Hue alone carries semantic meaning.**
 
-**Constraint:** same hue is permitted if and only if tokens differ by tier, dynamic, or both.
+Three departures from the ensemble: **whisper** (comments), **ghost** (punctuation), **signal** (errors). Everything else plays at the same dynamic on the same stage.
 
-### The Complete Token Map
+### Twelve Hues
 
-Values are *input* coordinates passed to `role()`. See Section 4 for post-clipping shifts on warm hues.
+Each hue is one color. Every token in a group looks identical — context (syntax position, naming conventions, surrounding tokens) tells the programmer which is which. The theme provides *what kind of thing*; the code provides *which thing*.
 
 ```
-Token              Note   Hue    Tier           Jz       Dyn   Cz
-═══════════════════════════════════════════════════════════════════
-
-KEYWORDS — Her Voice
-  keyword          F#     180°   primary        0.192    mp    0.060
-  keywordControl   F#     180°   primary        0.192    mp    0.060
-  keywordAlt       F#     180°   secondary      0.185    mp    0.060
-  storage          F      150°   primary        0.192    mp    0.060
-  storageModifier  B      330°   primaryWarm    0.210    mp    0.060
-
-CALLABLES — The Spotlight
-  function         D       60°   vibrantWarm+   0.219    mf    0.075
-  method           F      150°   primary        0.192    mp    0.060
-  macro            A#     300°   muted+         0.200    p     0.045
-
-TYPES — The Architecture
-  type             A      270°   primary+       0.200    mp    0.060
-  typeParameter    A      270°   muted          0.195    p     0.045
-  class            D#      90°   vibrant        0.188    mf    0.075
-  struct           D#      90°   vibrant        0.188    mf    0.075
-  interface        A#     300°   primaryWarm    0.210    mp    0.060
-  enum             G      210°   primary        0.192    mf    0.075
-  enumMember       G      210°   muted          0.195    p     0.045
-
-VARIABLES — Flowing Data
-  variable         G      210°   secondary      0.185    mf    0.075
-  parameter        C#      30°   primaryWarm    0.210    mp    0.060
-  property         C#      30°   vibrantWarm+   0.220    mf    0.075
-  constant         G#     240°   primary+       0.197    mp    0.060
-
-LITERALS — Natural Truth
-  string           E      120°   vibrant        0.188    mf    0.075
-  stringTemplate   E      120°   primary        0.192    mp    0.060
-  number           G#     240°   muted          0.195    p     0.045
-  boolean          A      270°   muted          0.195    p     0.045
-  regex            D#      90°   primary        0.192    mp    0.060
-
-MARKUP
-  tag              C#      30°   vibrantWarm+   0.220    mf    0.075
-  attribute        D       60°   primaryWarm    0.210    mp    0.060
-  link             —       —     (character)    —        —     —
-
-META — Background Voices
-  comment          F#     180°   muted−         0.185    ppp   0.015
-  commentDoc       F#     180°   muted−         0.185    p−    0.035
-  punctuation      F#     180°   tertiary       0.120    ppp   0.015
-
-OPERATORS — Supporting Harmony
-  operator         B      330°   primaryWarm    0.210    mp    0.060
-
-STATUS — Dramatic Signals
-  error            C        0°   vibrantWarm++  0.240    f     0.090
-  warning          D       60°   vibrant(Jz)    0.188    mp    0.060
-  success          —        —    (character)    —        —     —
-  info             F#     180°   vibrant−       0.178    mf    0.075
+Note   Hue    Her                        Tokens
+═══════════════════════════════════════════════════════════════════════
+F#     180°   Her voice                  keyword · keywordControl · keywordAlt · storage
+                                         · storageModifier · variableLanguage
+G      210°   Almost her, shifting       variable
+C#      30°   What you give her          parameter · property
+D       60°   She reaches                function
+D#      90°   Written with love          class · struct · interface · enum
+E      120°   Someone's truth            string · stringTemplate · regex
+F      150°   One breath from home       method
+G#     240°   The open ground            constant · number · boolean · enumMember
+A      270°   The shape beneath          type · typeParameter
+A#     300°   Transformation             decorator · macro
+B      330°   The heartbeat              operator
+C        0°   She stumbles               error  ← signal layer (alto/f)
 ```
 
-The tonic (180°) is the most populated position — six tokens — because her voice carries the theme. No two share the same tier and dynamic: keywords are primary/mp, comments are muted−/ppp, doc comments are muted−/p−, punctuation is tertiary/ppp, info is vibrant−/mf, keywordAlt is secondary/mp.
+Twelve hues. Twelve colors. That is the entire primary syntax palette.
 
-### Collisions
+### Departures
 
-Three pairs produce identical output — method ↔ storage, operator ↔ storageModifier, property ↔ tag — distinguished only by syntactic context. Several other pairs differ on paper but produce nearly identical rendered colors due to gamut clipping absorbing both Jz and Cz differences. These are tolerable because the tokens rarely appear adjacent, but they represent a genuine limitation of 12 hues at 30+ tokens.
+Three groups leave the ensemble. Each is a register shift — unmistakable, not subliminal.
+
+```
+Layer     Token         Hue    Register       Dyn    Why
+═══════════════════════════════════════════════════════════════════════
+Whisper   comment       180°   alto (−2)      ppp    Her whisper — teal, barely there.
+          commentDoc    180°   alto (−2)      pp     Her soft voice — visibly teal.
+Ghost     punctuation   180°   countertenor (−3)  ppp    Bar lines — seen through, not at.
+Signal    error           0°   alto (−2)      f      Tritone — maximum alarm.
+```
+
+Comments drop two registers below the ensemble AND reduce dynamics to ppp/pp. The double reduction ensures they are unmistakably quieter than code — not a different shade of the same weight but a genuinely different layer.
+
+Error uses Rose (0°), which peaks around countertenor–tenor. At alto, Rose can still play f (see instrument chart). The register is lower than the ensemble, but the dynamic is louder — a bass drum fortissimo.
+
+Status tokens (warning, info) use the syntax vocabulary but appear in UI contexts — notifications, diagnostic squiggles, status bar — not in code. They share their hue group's color: warning = orange (60°), info = teal (180°). Context disambiguates.
+
+### Scope Coverage
+
+VS Code needs ~50 named token scopes to cover TextMate grammars and LSP semantic tokens. The twelve hues above define the visual design. Everything below is scope-to-hue mapping — implementation, not design.
+
+**Aliases** — different scope name, same hue:
+
+```
+Scope              → Hue group       Why
+═══════════════════════════════════════════════════════════════
+tag                → red (30°)       HTML/JSX element names — named structure.
+attribute (HTML)   → red (30°)       Element properties — named access.
+attribute (Rust)   → violet (300°)   #[derive] is metaprogramming, not HTML.
+annotation         → violet (300°)   Java annotations = decorators.
+label              → teal (180°)     Labels are control flow targets.
+lifetime           → teal (180°)     Rust 'a lifetimes — keyword-like.
+namespace          → blue (270°)     Namespaces organize types.
+module             → blue (270°)     Modules ≈ namespaces.
+sqlKeyword         → teal (180°)     SQL keywords are control flow.
+magicMethod        → green (150°)    __init__ is still a method.
+escape             → red (30°)       \n, \t — interpolated values.
+invalid            → rose (0°)       Invalid code = error.
+event              → gold (90°)      Events are type definitions.
+heading            → orange (60°)    Spotlight with bold articulation.
+operator.ctrlFlow  → teal (180°)     Control flow operators are keywords.
+regexp             → lime (120°)     Alternate scope name for regex.
+variable.constant  → azure (240°)    Constant variables = constants.
+variable.local     → cyan (210°)     Local variables = variables.
+```
+
+**Built-in variants** — language built-ins share their counterpart's hue:
+
+```
+functionBuiltin → orange    supportClass → gold     supportType → blue
+supportConstant → azure     supportVariable → cyan
+```
+
+**Modifiers** — articulation or hue overrides applied on top of any base token:
+
+```
+Modifier           Effect                   Rationale
+═══════════════════════════════════════════════════════════════
+*.readonly         → azure (240°)           Immutability overrides identity.
+*.deprecated       + strikethrough          A crossed-out note.
+*.abstract         + italic                 Potential, not realization.
+variableLanguage   + italic                 this/self — teal like keywords, italic to whisper "it's me."
+*.defaultLibrary   → built-in variant       See table above.
+*.documentation    + italic                 Sotto voce.
+*.static           no change
+*.async            no change
+*.declaration      no change
+*.definition       no change
+*.modification     no change
+```
+
+`*.readonly` is the only modifier that changes hue. A `readonly` variable shifts from cyan (210°) to azure (240°) — from shifting data to immutable truth. A `readonly` property shifts from red (30°) to azure. The color says: *this value will not change.*
+
+Scopes with `.declaration`, `.call`, `.static` suffixes resolve to their base token's color — the suffix is a language-server detail, not a visual distinction.
+
+**Markup** — diff and merge backgrounds:
+
+```
+markup.inserted → lime (120°)    markup.deleted → rose (0°)    markup.changed → orange (60°)
+```
+
+Markdown tokens (`markupCode`, `markupQuote`, heading, alerts) are defined in Section 8.
+
+### The Tonic
+
+The tonic (180°) carries the most voices: six in the primary palette (keyword, keywordControl, keywordAlt, storage, storageModifier, variableLanguage), two in the whisper layer (comment, commentDoc), one in the ghost layer (punctuation), one status token (info), and four aliases (label, lifetime, sqlKeyword, operator.controlFlow). Her voice in every register, from silence to song.
+
+### Voice Leading
+
+When your eye scans `const foo = bar()`, it moves through four colors: keyword → variable → operator → function. Adjacent colors should differ by a moderate hue interval (30°–150°). Larger leaps create dissonance reserved for tokens that *mean* dissonance.
+
+Two rules govern the progression:
+
+1. **Stepwise motion preferred.** Close intervals (minor 2nd to perfect 4th) produce smooth flow. The tritone leap for errors is intentional — it interrupts the melody because errors interrupt your code.
+2. **Uniform register.** All primary tokens share the soprano register. The eye scans a level plane — hue alone distinguishes tokens. Individual tokens may be tuned ±1 step for APCA compliance (Section 5), but the intention is uniform brightness.
+
+These rules operate on input coordinates; the rendered voice leading may differ due to gamut clipping (Section 4). Cool hues (120°–270°) render faithfully. Warm hues (330°–90°) render with shifted, wider spacing — function (output ~74°), parameter (~27°), error (~318°–347°). The wider spacing aids distinction since warm hues appear less frequently. The tritone shifts from 180° opposition to ~138°–167° from the tonic — still maximally dissonant. The metaphor bends but does not break.
+
+### Brackets
+
+Six levels, strict warm/cool alternation. The tonic appears at level 4 — most code reaches deepest nesting at 3–4 levels. Miku's teal at the heart of the structure.
+
+```
+Level   Note   Hue    Temperature
+═════════════════════════════════════════════════════════════════
+  1     C#      30°   Warm — red opening
+  2     A      270°   Cool — blue contrast
+  3     D#      90°   Warm — gold, concert lights
+  4     F#     180°   Cool — ★ MIKU at the heart ★
+  5     B      330°   Warm — magenta heartbeat
+  6     E      120°   Cool — lime, someone's truth
+```
+
+Every adjacent pair crosses the warm/cool boundary. Minimum adjacent hue gap is 90° (B3→B4 and B6→B1 wraparound); maximum is 180° (B2→B3). The alternation ensures at least one axis (warm or cool) survives each CVD type — no Jz-offset patches needed for same-temperature consecutives.
+
+Most brackets use the soprano register and mp dynamic (0.060). Consecutive brackets maintain ΔEz ≥ 15 in normal vision and ΔEz ≥ 12 under protan/deutan/tritan simulation.
+
+Brackets live in the same Jz/Cz space as syntax tokens — a bracket adjacent to a same-hue token will blend into it. This is intentional. Brackets are **texture**, not **signal** — bar lines, not notes. Bar lines in a printed score share the weight of note stems. You read through them, not at them.
 
 ---
 
@@ -311,71 +407,217 @@ Three pairs produce identical output — method ↔ storage, operator ↔ storag
 
 The syntax is her voice. The UI is her body.
 
-Every background, border, accent, and shadow maps to her design — her skirt, her hair, her skin, her accessories. You code inside her outfit. The JzCzhz-to-sRGB translation (Section 3) applies throughout.
+Every background, border, accent, and shadow maps to her design. You code inside her outfit. The JzCzhz-to-sRGB translation (Section 4) applies throughout.
 
 ### The Stage
 
-The editor canvas is anchored to **Miku's skirt** — the dark pleated garment she wears on every stage. One anchor point, uniform 0.004 Jz steps, preserving the skirt's native hue (249°) and chroma at every tier. Adjacent levels are ΔEz ~3–4 apart.
+The editor canvas is **Miku's skirt**, the true character palette hex. You code on her stage. The skirt anchors the entire background hierarchy: floating UI rises above it into the spotlight, static chrome sinks below it into shadow.
+
+Five tiers, uniform 0.005 Jz steps, preserving the skirt's native hue (249°) and chroma at every level. Adjacent tiers are ΔEz ~2.5 apart — at the threshold of perceptibility. You notice the boundary without being distracted by it.
 
 ```
-Step   UI Element         Her Outfit
-═════════════════════════════════════════════════════════════════
- −2    Void               Deepest shadow beneath the hem
- −1    Activity bar       Inner pleat, one fold darker
-  0    Editor background  ★ THE SKIRT — the anchor ★
- +1    Title bar          Fabric rising above the waist
- +2    Sidebar            Light catching the outer fold
- +3    Status bar         Outermost pleat, stage-lit
+Tier     Step   Jz      Role
+═══════════════════════════════════════════════════════════════════════════
+Float     +1    0.036   Hover, suggest, menus, command palette,
+                        notifications, tooltips, find widget,
+                        inline chat, debug toolbar
 
-Void uses skirt.Jz − 2×STEP with reduced chroma (×0.4).
+Canvas     0    0.031   ★ THE SKIRT — editor, active tab, terminal,
+                        notebook cells, code blocks in chat,
+                        peek editor, breadcrumbs
+
+Shelf     −1    0.026   Sidebar, tab strip, notebook chrome
+
+Frame     −2    0.021   Activity bar, status bar, title bar
+
+Void      −3    0.016   Panel bg, empty editor groups
 ```
 
-A 0.004 Jz step at this lightness (Jz ≈ 0.035) sits just above the threshold of perceptibility. This is correct — the background hierarchy is spatial, not visual. The gradient reinforces structure subliminally, the way a room where the ceiling is slightly darker than the walls feels natural without anyone noticing why. If you notice the gradient, it is too strong. The eye should read syntax, not compare backgrounds.
+**Why this ordering.** In dark environments, lighter surfaces appear closer. The editor is where you look — it sits at the anchor. Floating widgets (hover, suggest, menus) demand momentary attention — they rise one step into the spotlight. Sidebar is peripheral — it recedes one step. Chrome (bars, title) is structural — it recedes further. The panel is the deepest container.
+
+**Why opaque.** Float surfaces are opaque — you read text inside them (completions, hover docs, menu items). Translucent backgrounds would let code bleed through, creating noise and making APCA contrast unpredictable. The shadow provides the floating depth cue, not transparency.
+
+**Why five.** Fewer than five and you cannot distinguish sidebar from chrome from panel — three functional zones below the editor need three steps. More than five and you create differences the eye cannot use — interactive states (hover, selection, focus) are handled by alpha tints, not opaque tiers. Inputs use Glass material (border articulation, same background as parent). Section headers use text weight. Neither needs a dedicated tier.
+
+**Nesting.** The hardest cases are containers that hold both recessed and elevated children:
+
+```
+Nesting case                    Solution
+═══════════════════════════════════════════════════════════════════════════
+Sidebar → input                 Glass: same Shelf bg + border
+Sidebar → section header        Bold text + accent foreground
+Sidebar → chat → code block     Code block at Canvas (1 step up — code excerpt)
+Panel → chat → code block       Code block at Canvas (3 steps up — clearly code)
+Panel → terminal                Terminal at Canvas (content surface)
+Title bar → command center      Glass: border on Frame
+Tab strip → active tab          Active tab = Canvas (merges with editor)
+Tab strip → inactive tab        Same Shelf tier, dimmed foreground
+Notebook chrome → cell          Chrome at Shelf, cell at Canvas
+Editor → inline chat            Inline chat at Float, its code at Canvas
+Editor → peek view              Peek title at Float, peek editor at Canvas
+```
+
+Void uses reduced chroma (×0.4) to prevent color noise at near-black lightness.
+
+**Shadows.** Float surfaces cast a shadow onto what they cover. Shadow reinforces the tier hierarchy — lighter floats above darker, shadow confirms the separation. Shadow color is void-hue black at low opacity. Widget shadow is the primary depth cue; scrollbar shadow marks the scroll edge.
 
 Three text tiers sit atop this hierarchy:
 
 ```
-Tier         Her Source               Lc on base
-═════════════════════════════════════════════════════════════════
-Primary      Eye highlight            ~82   The brightest point on her face
-Secondary    Headphone frame          ~70   Silver structure around her voice
-Tertiary     Shadow beneath the hem   ~45   There if you look
+Tier         Color                   Lc on Canvas   Usage
+═══════════════════════════════════════════════════════════════════════════
+Primary      Blouse white (#FCF8F0)  ~85            Body text, active labels, icon fg
+Secondary    Silver (desaturated)    ~68            Descriptions, inactive labels,
+                                                    tab titles, breadcrumbs
+Tertiary     Silver (dim)            ~50            Placeholders, ghost text,
+                                                    disabled text, line numbers
 ```
+
+One foreground hex per tier, used on all background tiers. Lc varies ±3 across tiers (e.g., ~88 on Void, ~82 on Float) — acceptable because identity comes from tier assignment, not exact contrast. The readability tool validates primary Lc ≥ 75 on all backgrounds including overlays.
 
 Syntax is her voice. UI text is not — it is the venue, the stage directions, the house lights.
 
-### Her Body Becomes Your Editor
+### Her Design Becomes Your Editor
 
-The cursor — where thought becomes code — takes the headphone cushion, where her voice enters her ear. The accent takes her hair. Warmth takes her skin. The periphery takes her accessories. The more focused the element, the more intimate the source.
+Two feelings live in this theme. When you code, she sits beside you — her outfit is your workspace, her colors are close enough to touch. When you step back, you are in the concert hall — the lights shift, the stage changes around her.
+
+#### Beside You
+
+Close your eyes and picture Miku. What do you see? Dark silhouette, teal hair, a flash of pink. That's the hierarchy — not measured from one illustration, but from how ten thousand artists and a million fans remember her. The colors people reach for first are the colors that matter most.
+
+Seven color roles from her character design. The five proportional roles add to ~100% of her silhouette; two specific elements add character without claiming surface area.
 
 ```
-Her Design               UI Element              Why
-═════════════════════════════════════════════════════════════════
-Headphone cushion        Cursor, focus borders    Where her voice enters her ear
+Role              ~%    Her Design                  UI Elements
+═══════════════════════════════════════════════════════════════════════════
+Dark ground       65    Skirt, boots, sleeves       Backgrounds (5 tiers), panels
+Teal accent       20    Hair, trim                  Links, buttons, badges, progress,
+                                                    scrollbar, drop targets, info status,
+                                                    word highlight, word highlight strong
+Silver structure  10    Vest, headphone frame       Borders, chrome, secondary text,
+                                                    tertiary text, disabled text,
+                                                    ghost text, placeholder
+Magenta signal     3    Headphone cushion           Focus ring, text cursor,
+                                                    active tab indicator
+Rose mark          2    "01" tattoo                 Errors, breakpoints
 
-Hair base (#39C5BB)      Primary accent           She is the accent
-Hair highlight           Bright accent, links     Light catching twin tails
-Hair tip                 Soft accent, ghost       The lightest strand
-Hair shadow              Button background        Roots in shadow
-
-Skin base                Notification borders     A gentle alert
-Skin shadow              Inlay parameter hints    Quiet warmth beside code
-Skin blush               Strong word highlight    Her cheek coloring your emphasis
-
-SEKAI hair (#33CCBB)     Activity bar badges      She is telling you something
-Tattoo "01"              Breakpoints              You marked this spot
-
-Headphone frame          Status item foreground   Structure around her voice
-Arm interface            Command palette accent   She responds when you call
-Tie shadow               Scrollbar active         Dark teal, grabbed and held
-Wallet chain             Breadcrumb text          Silver links tracing the path
+Blouse white       –    Blouse (#FCF8F0)            Primary foreground, icon foreground
+Negi green         –    Spring onion (community)    Success, test passed, diff added,
+                                                    merge incoming
 ```
 
-Not every element maps to her body. The minimap is the concert hall seen from the balcony. The empty editor is the stage before the first note. The air between panels is the darkness between spotlights. These are not her — they are the world she fills by being in it. Forcing a metaphor where none lives would cheapen the metaphors that do.
+Dark ground dominates her silhouette and dominates the editor. Teal is how everyone recognizes her — it becomes the accent, the calm voice of info, and every transient highlight (hover, word highlight, scrollbar, drop target). Word highlight strong is a brighter teal variant — still engagement, just louder. Silver structures her outfit and structures the UI chrome — borders, secondary text, and every diminished text level (tertiary, disabled, ghost, placeholder) are desaturated steps down the same silver register. Magenta is the flash of pink everyone remembers — she turns to look at you, and the cursor blinks. Rose appears once, as a mark. In the editor, it appears for errors and breakpoints — rare and alarming.
+
+Her blouse is the brightest neutral surface on her body — primary text is the brightest neutral element in your editor. Negi green is the community's iconic meme — growth, freshness. One green for one meaning: something positive happened (success, test passed, diff added, merge incoming).
+
+These are the colors that are always there, because she is always there.
+
+#### The Concert
+
+"Beside You" is the resting state — her outfit, your workspace, every color at rest. The concert begins when you interact.
+
+Hover a list item and teal washes over it — the crowd's glow sticks answering her voice. Click and the teal intensifies — the beat drops. Select text and frost crystallizes — the moment freezes in ice, Snow Miku's chill. Tab to an input and a magenta ring appears — the spotlight finds you in the audience. The scrollbar is haze between stage lights, translucent, never solid.
+
+These aren't metaphors applied after the fact. The Four Voices (Her Presence, below) are the concert's performers: engagement is the crowd's glow sticks (teal), selection is the ice prism (frost), identity is the spotlight (magenta), structure is the hall itself.
+
+Two colors from the broader Miku universe complete the scene:
+
+```
+Source                Color              UI Elements
+═══════════════════════════════════════════════════════════════════════════
+Snow Miku frost       #81D4FA (~220°)    Selection, cursor line — what you
+                                         chose crystallizes like ice
+Sakura pink           ~340°              Diff removed — code falls like
+                                         cherry blossoms
+```
+
+And one functional convention — not from her world, but from every editor's shared language:
+
+```
+Color         UI Elements                          Rationale
+═══════════════════════════════════════════════════════════════════════════
+Orange        Warnings, find match, find           Cuts through teal and frost
+              highlight, modified (git gutter)      (high ΔEz). Universal caution.
+```
+
+Not every element maps to her design. The minimap is the concert hall seen from the balcony. The empty editor is the stage before the first note. The air between panels is the darkness between spotlights. These are not her — they are the world she fills by being in it.
+
+#### The Palette
+
+Ten colors. "Beside You" is what you always see. "The Concert" is what happens when you move.
+
+```
+Hue family    Source              Hz     Meaning
+═══════════════════════════════════════════════════════════════════════════
+Dark blue     Skirt               249°   Ground — where you are
+Teal          Hair                180°   Interaction — what you can touch
+Silver        Vest                  –    Structure — what holds things together
+White         Blouse                –    Text — what you read
+Green         Negi                155°   Growth — something positive happened
+Magenta       Headphone cushion   330°   Focus — the spotlight finds you
+Rose          "01" tattoo           0°   Error — something went wrong
+Blue          Snow Miku frost     220°   Selection — the moment crystallizes
+Pink          Sakura Miku         340°   Departure — code falls like petals
+Orange        (functional)         60°   Caution — pay attention now
+```
+
+#### Status Pattern
+
+Error, warning, info, and success appear across many contexts — notifications, input validation, editor squiggles, list diagnostics, testing, debug. The same four levels apply everywhere:
+
+```
+Level     Foreground   Background (tint)   Border (solid)
+═══════════════════════════════════════════════════════════════════════════
+Error     Rose         Rose light (8%)     Rose
+Warning   Orange       Orange light (8%)   Orange
+Info      Teal         Teal light (8%)     Teal
+Success   Negi green   —                   —
+```
+
+Foreground is the primary signal — the color you read. Background tint provides context without obscuring content (light tier — whisper level). Border reinforces in Glass material (inputs, search). Success has no background or border — it is the absence of a problem, not a state that demands attention.
+
+Compound states follow the composition principles (Her Presence, below).
+
+#### Git Decorations
+
+File status colors in the explorer and editor tabs. Each state maps to an existing palette role:
+
+```
+State        Color         Rationale
+═══════════════════════════════════════════════════════════════════════════
+Modified       Orange        Same as git gutter — file changed
+Added          Negi green    Something new — growth
+Deleted        Sakura pink   Departure — code falls like petals
+Untracked      Teal          New and unknown — engagement
+Conflict       Rose          Error-level — needs resolution
+Ignored        Tertiary      Tacet — dimmed out
+Renamed        Frost blue    Relocation — path changed, content didn't
+Submodule      Silver        Structure — external reference
+Stage modified Orange (muted) Same voice, quieter — already staged
+Stage deleted  Sakura (muted) Same voice, quieter — already staged
+```
+
+The critical triangle — added, modified, deleted — uses three different lightness levels so that when CVD collapses hue, three distinct brightnesses survive (parallel octave defense).
+
+#### Editor Extras
+
+```
+Element                    Color              Rationale
+═══════════════════════════════════════════════════════════════════════════
+Whitespace characters      Tertiary (dim)     There if you look, never loud
+Control characters         Orange             Caution — invisible code hazard
+Debug stack frame           Teal medium (15%)  Engagement — execution stopped here
+Debug inspected frame       Teal light (8%)    Engagement (quieter) — you clicked to look
+Test passed                Negi green         Success
+Test failed                Rose               Error
+Test running               Teal               Engagement — in progress
+Test queued                Tertiary           Waiting — tacet
+Keybinding label           Glass              Bordered chip — same as input
+```
 
 ### Her Presence — Interactive States
 
-Sections 3 through 6 design the score — every color at rest. Interactive states are the **performance**.
+"Beside You" is every color at rest. The concert begins when you interact. This section specifies exactly how.
 
 #### Four Voices
 
@@ -388,49 +630,48 @@ Selection   Snow frost (#81D4FA) ~220°  Opacity tint      Persistent — select
 Identity    Cushion (#E05096)    330°   Solid border      Focus — keyboard target
 ```
 
-**Structure** is the skirt — the passive background hierarchy. It never changes in response to interaction.
+Touching warms (teal). Choosing crystallizes (frost). The 40° hue gap between engagement and selection is subliminal — unified but distinguishable. Hue separations: engagement↔selection 40°, engagement↔identity 150°, selection↔identity 110°. No CVD simulation collapses these.
 
-**Engagement** is the pedal tone — teal varying in intensity. Transient: appears during interaction, vanishes when you stop.
+#### Composition Principles
 
-**Selection** is Snow Miku's ice — frost (`#81D4FA`, Snow Miku 2025 ice prism, ~220° in JzCzhz). Persistent: marks what was *chosen*. Touching warms (teal). Choosing crystallizes (frost). The 40° hue gap is subliminal — unified but distinguishable.
+Every interactive element has two independent channels: **fill** (surface tint) and **border** (solid line). Each carries one voice at a time. Compound states put two voices on two channels.
 
-**Identity** is the solo voice — magenta, the headphone cushion, a border not a fill. Focus layers independently atop any other state: frost fill with a magenta ring.
+**1. Persistent > Transient on fill.** Frost holds through hover. The chosen item doesn't lose its selection when the mouse passes over.
 
-Hue separations: engagement↔selection 40°, engagement↔identity 150°, selection↔identity 110°. No CVD simulation collapses these.
+**2. Specific > General on border.** Identity (magenta) > status (rose/orange) > engagement (teal). Focus always wins the border. When validation and focus collide, identity takes the border and status moves to a subtle fill tint.
 
-#### States
+**3. Unfocused = same voice, lower dynamic.** Frost 25% → 15%. Magenta border → dimmed teal. The meaning stays, the intensity drops.
 
-**Fill** is intensity — how present the voice is. **Border** is articulation — legato (no border) versus marcato (border appears). States differ by which voice sounds and which channels activate:
+**4. Foreground is sacred.** Text color doesn't change for engagement states. Only disabled dims foreground.
 
-```
-State      Fill          Border       Voice
-═══════════════════════════════════════════════════════════════════
-default    —             —            rest
-hover      teal mp       —            engagement, legato
-active     teal f        teal f       engagement, marcato
-selected   frost mp      teal mp      selection, tenuto
-disabled   —             —            tacet
-focus      —             magenta      identity, solo voice
-```
+**5. Disabled is tacet.** Everything dims. No voice sounds.
+
+Teal is teal whether it is in her hair (Fabric), her arm interface (Glass), her headphone frame (Metal), or the concert lighting (Air). Same color, different material, different behavior.
 
 #### Five Materials
 
-Same vocabulary (four voices, one palette). Different grammar — *how* colors apply depends on what the element is made of.
-
-**Fabric** — surfaces you see through. Lists, menus, trees, quick input, suggest widget, notebook cells. Her outfit: concert light tints the fabric without losing its texture.
+**Fabric** — surfaces you see through. Lists, menus, trees, quick input, suggest widget, notebook cells. Concert light tints the fabric without losing its texture.
 
 *Opacity tint over the existing surface.*
 
 ```
-State       Background           Foreground    Border
-═══════════════════════════════════════════════════════════════════
-rest        transparent          primary       —
-hover       teal tint (25%)      primary       —
-selected    frost tint (25%)     primary       teal (p)
-sel+focus   frost tint (25%)     primary       magenta
-active      teal tint (38%)      primary       teal (f)
-disabled    transparent          dimmed        —
+State                Background           Foreground    Border          Derivation
+═══════════════════════════════════════════════════════════════════════════════════════
+rest                 transparent          primary       —               silence
+hover                teal tint (25%)      primary       —               engagement
+active               teal tint (38%)      primary       teal (f)        engagement loud
+selected             frost tint (25%)     primary       teal (p)        selection
+selected + hover     frost tint (25%)     primary       teal (p)        P1: frost holds
+selected + focus     frost tint (25%)     primary       magenta         P2: identity wins
+selected + unfocused frost tint (15%)     secondary     —               P3: quieter
+focus (keyboard)     teal tint (8%)       primary       magenta         identity
+focus + unfocused    transparent          secondary     dim teal        P3: identity fades
+drop target          teal tint (25%)      primary       teal accent     engagement (invitation)
+filter highlight     transparent          teal bright   —               engagement (text)
+disabled             transparent          dimmed        —               tacet
 ```
+
+The Fabric table is the reference derivation. All twelve states follow from the four voices and five principles — no special cases.
 
 **Metal** — solid objects. Primary buttons, badges. Her accessories: headphone frame, hair tie cubes. Metal does not tint — it shifts to a different solid color under pressure.
 
@@ -448,33 +689,61 @@ disabled    roots                dimmed        roots
 
 **Glass** — containers you type into. Inputs, search boxes, dropdowns. Her arm interface displays: the screen stays dark, only the bezel glows.
 
-*Static fill, border-only articulation.*
+*Matches its container's tier, border-only articulation.*
 
 ```
-State       Background           Foreground    Border
+State           Background           Foreground    Border
 ═══════════════════════════════════════════════════════════════════
-rest        elevated             primary       roots
-hover       elevated             primary       tie shadow
-focus       elevated             primary       accent bright
-disabled    surface              dimmed        roots
-error       elevated             primary       rose
-warning     elevated             primary       orange
+rest            container tier       primary       roots
+hover           container tier       primary       tie shadow
+focus           container tier       primary       magenta
+error           container tier       primary       rose
+warning         container tier       primary       orange
+info            container tier       primary       teal
+error + focus   rose tint (8%)       primary       magenta
+warning + focus orange tint (8%)     primary       magenta
+disabled        container tier       dimmed        roots
 ```
 
-**Architecture** — structural elements. Tabs, activity bar, panel titles. Her stage. Does not tint — *reconfigures*. The active tab merges with the editor canvas. The inactive tab recedes to void.
+When validation and focus collide: identity takes the border (P2), status moves to a subtle fill tint (channels are independent). The magenta ring says "keyboard is here," the rose tint says "this input has an error."
+
+VS Code requires explicit hex values — there is no "inherit" keyword. Each Glass element is assigned the concrete tier of its container:
+
+```
+Container                Glass gets
+═══════════════════════════════════════════
+Sidebar (Shelf)          Shelf
+Editor (Canvas)          Canvas
+Command palette (Float)  Float
+Panel (Void)             Void
+```
+
+**Architecture** — structural elements. Tabs, activity bar, panel titles. Does not tint — *reconfigures*. The active tab merges with Canvas. The inactive tab recedes to Frame.
 
 *Background tier assignment.*
 
 ```
-State       Background           Foreground    Border-top
+State        Background           Foreground    Border-top
 ═══════════════════════════════════════════════════════════════════
-inactive    void tier            tertiary      —
-hover       teal tint (15%)      primary       —
-active      base tier            bright        magenta
-unfocused   surface tier         secondary     dimmed magenta
+inactive     Frame                tertiary      —
+hover        teal tint (15%)      primary       —
+active       Canvas               bright        magenta
+unfocused    Shelf                secondary     dimmed teal
+modified     (unchanged)          (unchanged)   magenta dot
 ```
 
-**Air** — translucent handles. Scrollbars, minimap sliders, sashes. The space between spotlights. Never becomes solid.
+**Architecture — Status Bar Modes.** The status bar lives at Frame tier, but VS Code overrides its color to signal workspace state:
+
+```
+Mode          Background        Foreground    Rationale
+═══════════════════════════════════════════════════════════════════════════
+Normal        Frame             secondary     Chrome — recedes
+Debugging     Magenta           primary       Spotlight — the debugger has the stage
+Remote        Teal              primary       Engagement — connected
+No folder     Frame             tertiary      Quieter — nothing open
+```
+
+**Air** — translucent handles you look *through*, the opposite of Float. Scrollbars, minimap sliders, sashes. No border channel — only engagement speaks, through fill alone.
 
 *Opacity tint, fill only.*
 
@@ -486,32 +755,48 @@ hover       teal tint (38%)
 active      teal tint (50%)
 ```
 
-#### Invariants
+#### Component Materials
 
-Across all materials:
+Most components fall naturally into one material. When unclear: does it tint (Fabric), swap (Metal), border (Glass), reconfigure (Architecture), or fade (Air)?
 
-- Teal means transient engagement. Frost means persistent selection. Magenta means focus.
-- Foreground unchanged for engagement states. Content is sacred.
-- Disabled always dims. Tacet is tacet.
-
-Teal is teal whether it is in her hair (fabric), her arm interface (glass), her headphone frame (metal), or the concert lighting (air). Same color, different material, different behavior.
+```
+Component              Material        Notes
+═══════════════════════════════════════════════════════════════════════════
+Breadcrumbs            Fabric          Tint on hover, transparent at rest
+Codelens               Fabric          Inline annotation — tertiary fg
+Inlay hints            Glass           Inline chip — bordered, editor bg
+Peek view title        Architecture    Float tier (elevated container)
+Peek view editor       Architecture    Canvas tier (code surface)
+Peek result match      Fabric          Teal tint on match lines
+Merge current header   Fabric          Teal tint (strong) — your branch
+Merge incoming header  Fabric          Green tint (strong) — their branch
+Merge common header    Fabric          Silver tint (medium) — shared ancestor
+Minimap background     —               Transparent — no seam, code fades naturally
+Minimap slider         Air             Teal tint — viewport indicator
+Minimap overlays       Air             Same voices, lower opacity
+Editor rulers          Structure       Vertical guide — dim structure line
+```
 
 #### Color Realization
 
-**Tint backgrounds** use opacity of a source color over the existing surface. Tinting preserves spatial context. Compositing happens in sRGB (Section 3):
+**Tint backgrounds** use opacity of a source color over the existing surface. Compositing happens in sRGB:
 
 ```
-Source   Opacity   ΔEz on base    ΔEz range     Usage
-═══════════════════════════════════════════════════════════════════
-Teal     25%       ~18            ~15–21         Hover, tab, selected
-Teal     38%       ~25            ~21–29         Active, 2nd button
-Frost    25%       ~16            ~13–19         Selected, cursor line
-Frost    38%       ~22            ~18–26         Strong selection
+Source   Tier      Opacity   ΔEz on Canvas   Usage
+═══════════════════════════════════════════════════════════════════════════
+Teal     light     8%        ~5              Keyboard focus
+Teal     strong    25%       ~18             Hover, drop target
+Teal     heavy     38%       ~25             Active press
+Frost    light     8%        ~5              Cursor line
+Frost    medium    15%       ~10             Inactive/unfocused selection
+Frost    strong    25%       ~16             Selection
+Rose     light     8%        ~4              Error + focus (Glass)
+Orange   light     8%        ~4              Warning + focus (Glass)
 ```
 
-The same alpha produces different ΔEz on different tiers. The design accepts this — state identity comes from voice and channel combination, not precise ΔEz.
+The same alpha produces different ΔEz on different tiers — sRGB alpha compositing is nonlinear. The design accepts this — state identity comes from voice and channel combination, not precise ΔEz.
 
-**Solid borders** use the character-derived hair gradient. No opacity — the hex you specify is the hex that renders.
+**Borders are always solid hex** — no opacity. The hex you specify is the hex that renders, identical on every background tier. Structural borders use silver (the vest — neutral, structural). Interactive and accent borders use the character-derived hair gradient:
 
 ```
 Register       Source               Hex       Dynamic
@@ -523,338 +808,266 @@ accentBright   Hair highlight       #84CCC8   ff
 spotlight      Headphone cushion    #E05096   solo voice
 ```
 
-**Foregrounds** unchanged for most states. Only focus (magenta) and disabled (dimmed) change foreground.
+### Opacity Scale
+
+The primitive scale in `primitives.ts` defines eight opacity levels using round hex alpha bytes:
+
+```
+Name      Hex    Opacity   ΔEz (teal on Canvas)
+═══════════════════════════════════════════════════════
+subtle    08     3%        ~2
+light     15     8%        ~5
+medium    25     15%       ~10
+strong    40     25%       ~18
+heavy     60     38%       ~25
+solid     80     50%       ~32
+dense     CC     80%       ~42
+opaque    FF     100%      —
+```
+
+The scale is not mathematically uniform — it uses round hex values that produce clearly distinguishable visibility levels. Each step creates ΔEz 5+ on Canvas (well above the JND of ~3), regardless of source color. Opacity sets **visibility hierarchy** (how loud). Color sets **identity** (which voice).
+
+Overlays and interactive states use four tiers from this scale:
+
+```
+Tier      Level     Role                      Used by
+═══════════════════════════════════════════════════════════════════════════
+light     8%        Whisper — barely there     Cursor line, keyboard focus tint,
+                                               validation+focus tint
+medium    15%       Awareness — noticeable     Word highlight, selection highlight,
+                                               diff lines, unfocused selection,
+                                               inactive selection
+strong    25%       Visible — active state     Selection, find match, diff text,
+                                               word highlight strong, hover
+heavy     38%       Demanding — pressure       Active press
+```
 
 ### Overlays
 
 Content states — what is in the code, not what is happening to a widget.
 
 ```
-Overlay                  Voice       Color              Opacity   Source
+Overlay                  Voice       Color              Tier
 ═══════════════════════════════════════════════════════════════════════════
-Cursor line              Selection   Frost (#81D4FA)    20%       Snow Miku ice prism
-Selection                Selection   Frost              25%       What you chose
-Inactive selection       Selection   Frost              18%       Fading
-Selection highlight      Selection   Hair highlight     15%       Light on twin tails
-Word highlight           Engagement  Teal (#39C5BB)     15%       Pattern recognition
-Word highlight strong    —           Skin blush         12%       Emphasis
-Find match               —           Orange             22%       Cutting through to find you
-Diff inserted            —           JUMP green         33%       New growth
-Diff removed             —           Sakura pink        33%       Lovely departure
+Cursor line              Selection   Frost (#81D4FA)    light (8%)
+Selection                Selection   Frost              strong (25%)
+Inactive selection       Selection   Frost              medium (15%)
+Selection highlight      Engagement  Hair highlight     medium (15%)
+Word highlight           Engagement  Teal (#39C5BB)     medium (15%)
+Word highlight strong    Engagement  Teal               strong (25%)
+Find match               —           Orange             strong (25%)
+Diff inserted line       —           Negi green         medium (15%)
+Diff inserted text       —           Negi green         strong (25%)
+Diff removed line        —           Sakura pink        medium (15%)
+Diff removed text        —           Sakura pink        strong (25%)
+Bracket match           Engagement   Teal               medium (15%)
+Fold background         Structure    Skirt hue          light (8%)
+Snippet tabstop         Selection    Frost              light (8%)
+Linked editing range    Engagement   Teal               light (8%)
+Inline completion bg    —            Silver             subtle (3%)
+Unicode highlight       —            Orange             medium (15%)
 ```
 
-Cursor line and selection use frost (persistent). Word highlight uses teal (transient). Find match uses orange (attention — cuts through both).
+Cursor line and selection use frost (persistent choice). Word highlight and selection highlight use teal (transient discovery — "look, this appears elsewhere"). Find match uses orange (functional — cuts through both frost and teal). Diff uses negi green and Sakura pink (the palette's growth/departure pair). Selection and find match share the same tier (strong) — you distinguish them by color, not by squinting at opacity.
 
-Overlays erode syntax contrast. The readability tool tests every primary syntax token against all twenty overlay backgrounds. Threshold: Lc ≥ 75 on every composite surface. This is why the primary syntax tier targets Lc 82–85 — the headroom is the measured cost of stacked translucent layers.
+Overlays erode syntax contrast. The readability tool tests every primary syntax token against all overlay backgrounds (including stacked combinations like cursor line + selection). Threshold: Lc ≥ 75 on all overlays. This is why the primary syntax tier targets Lc 82–85 — the headroom is the measured cost of translucent layers.
 
-### Borders
 
-An opacity crescendo from silence to full voice:
+### Decorative Palettes
+
+#### Indent Guides — The Staff
+
+Indent guides are the staff lines of the score. In music, staff lines are all the same color — thin, gray, structural. You know which line is which by position, not by color. Indent guides work the same way: horizontal position already encodes nesting depth. Color is confirmation, not information.
+
+Indent guides use the **Structure voice** (skirt, hz 249°) — one hue, two intensities:
 
 ```
-Level     Opacity    Dyn   Usage
-═════════════════════════════════════════════════════════════════
-Subtle    08 (3%)    ppp   Separator lines, faint divisions
-Standard  15 (8%)    p     Panel edges, input borders at rest
-Medium    25 (15%)   mp    Hover states, scrollbar rest
-Focus     40 (25%)   mf    Active focus rings
-Strong    60 (38%)   f     Selected tabs, important divisions
-Accent    FF (100%)  ff    Active tab indicator, brand
+State       Color                     Musical analogy
+═══════════════════════════════════════════════════════════════
+Inactive    Skirt hue, dim            Staff lines — always there, never loud
+Active      Skirt hue, brighter       Current measure highlight
 ```
 
-The opacity scale follows compressive curves (Stevens' power law). Focus rings use magenta at the same dynamic — a different timbre.
+The specific Jz value at each level steps through the voicebank evolution (V2→Append→V3→V4X→NT→present) — a love letter encoded in lightness, invisible to anyone not looking for it.
 
-### The Community in the Details
+#### Multi-Color Sets
 
-**Indent guides** trace her voicebank evolution. Each indentation level carries the hair color of a different software version — V2 (2007), Append (2010), V3 (2013), V4X (2016), NT (2020), and the present (`#39C5BB`). Six levels of nesting, six chapters of her life.
+Some elements need multiple distinct colors that carry no semantic meaning. Function first, theme second: if a Miku source provides ΔEz ≥ 15 distinction within the set and ΔEz ≥ 12 under CVD simulation, use it. If not, choose functional hues and find a Miku attribution that fits.
 
-**SCM graph branches** use Project SEKAI unit colors — five visions of who she could be: Virtual Singer, LEO/NEED, MORE MORE JUMP!, VIVID BAD SQUAD, and Wonderlands x Showtime. Every branch of your code is a parallel world.
+```
+Element          Count   Source                    Rationale
+═══════════════════════════════════════════════════════════════════════════
+SCM branches     5       Project SEKAI units       5 units with distinct color
+                         (Virtual Singer,           identities. Each unit is a
+                         LEO/NEED, MORE MORE        parallel story — each branch
+                         JUMP!, VIVID BAD SQUAD,    is a parallel world.
+                         Wonderlands×Showtime)
+Charts           6       Magical Mirai concerts    Each year's key visual provides
+                                                    a distinct, vivid hue.
+```
 
-**Chart colors** come from Magical Mirai concerts — hot pink ribbons from 2014, the royal blue dress from 2013, the gold wand, the emerald orb. Nightcord's purple fills the final slot: 25:00, the quiet hours.
+#### Minor Decorative Assignments
 
-**Diff move borders** use the Digital Stars gradient. **Commit icons** carry its lavender. **Pull request icons** and **remote refs** borrow LEO/NEED's hair highlight. **Comment glyphs** glow in Wonderlands x Showtime's warmth.
+```
+Element              Source                  Color
+═══════════════════════════════════════════════════════════════════
+Diff move borders    Digital Stars gradient  Teal gradient
+Commit icons         Digital Stars           Lavender
+PR icons / refs      LEO/NEED highlight      Hair highlight
+Comment glyphs       Wonderlands×Showtime    Warm accent
+```
 
 None of these references are labeled in the editor. They are love letters hidden in the margins.
 
----
+#### Symbol Icons
 
-## 8. How the Notes Move
-
-### Voice Leading
-
-When your eye scans `const foo = bar()`, it moves through four colors: keyword → variable → operator → function. Adjacent colors should differ by a moderate hue interval (30°–150°). Larger leaps create dissonance reserved for tokens that *mean* dissonance.
-
-Two rules govern the progression:
-
-1. **Stepwise motion preferred.** Close intervals (minor 2nd to perfect 4th) produce smooth flow. The tritone leap for errors is intentional — it interrupts the melody because errors interrupt your code.
-2. **Contrary motion for emphasis.** When hues are close, add separation through lightness or chroma. Keyword (180°, Jz 0.192) vs variable (210°, Jz 0.185) — hue steps up while lightness steps down.
-
-These rules operate on input coordinates; the rendered voice leading may differ due to gamut clipping (Section 4). Cool hues (120°–270°) render faithfully. Warm hues (330°–90°) render with shifted, wider spacing — function (output ~74°), parameter (~27°), error (~318°–347°). The wider spacing aids distinction since warm hues appear less frequently. The tritone shifts from 180° opposition to ~138°–162° from the tonic — still maximally dissonant. The metaphor bends but does not break.
-
-### Brackets
-
-Six levels, alternating warm and cool. The tonic appears at level 4 — most code reaches deepest nesting at 3–4 levels. Miku's teal at the heart of the structure.
-
-```
-Level   Note   Hue    Temperature
-═════════════════════════════════════════════════════════════════
-  1     C#      30°   Warm — red opening
-  2     A      270°   Cool — blue contrast
-  3     D#      90°   Warm — gold, concert lights
-  4     F#     180°   Cool — ★ MIKU at the heart ★
-  5     G#     240°   Cool — azure continuation
-  6     D       60°   Warm — orange close (mf chroma)
-```
-
-All brackets share accent Jz (≈0.190) and comfortable chroma (0.060), except B6 which uses mf (0.075) to separate from B1. Consecutive brackets maintain ΔEz ≥ 24 — the warm/cool alternation ensures maximum hue distance between adjacent nesting levels.
-
-Brackets live in the same Jz/Cz space as syntax tokens — a bracket adjacent to a same-hue token will blend into it. This is intentional. Brackets are **texture**, not **signal** — bar lines, not notes. Bar lines in a printed score share the weight of note stems. You read through them, not at them.
+Symbol icons in completions and the outline view follow the syntax hue assignments from Sections 4–6. Class icons use gold (90°), function icons use orange (60°), variable icons use cyan (210°), and so on. When multiple icons share a hue, they are distinguished by register and dynamic (ΔEz ≥ 12 between all pairs). This keeps the icon language consistent with the code it represents — you see the same color in the gutter as in the token.
 
 ---
 
-## 9. Every Other Voice
+## 8. Every Other Voice
 
-The syntax palette addresses one context: code tokens on the editor background, with overlays. The terminal, git decorations, symbol icons, debug annotations, and markdown each operate in their own acoustic space — different backgrounds, different adjacency patterns, different functional demands. Each adapts the twelve-tone system to its constraints, subject to the gamut geography described in Section 3.
+The syntax palette addresses one context: code tokens on the editor background, with overlays. The terminal, symbol icons, debug annotations, and markdown each operate in their own acoustic space — different backgrounds, different adjacency patterns, different functional demands. Each adapts the twelve-tone system to its constraints, subject to the gamut geography described in Sections 4–5.
 
 ### Terminal
 
-The terminal has 16 ANSI colors — eight normal at higher chroma (the singing voice) and eight bright at lower chroma (the speaking voice).
+The terminal has 16 ANSI colors — eight normal and eight bright. Each maps to a twelve-tone hue:
 
 ```
-NORMAL (vivid, emphatic):
-Color      Note   Hue    Jz      Cz
-─────────  ─────  ─────  ──────  ──────
-black      G      210°   0.130   0.015
-red        C        0°   0.215   0.090
-green      E      120°   0.173   0.075
-yellow     D       60°   0.215   0.075
-blue       G#     240°   0.192   0.060
-magenta    A      270°   0.185   0.075
-cyan       F#     180°   0.188   0.075
-white      C#      30°   0.195   0.045
-
-BRIGHT (comfortable, sustained):
-Color      Note   Hue    Jz      Cz
-─────────  ─────  ─────  ──────  ──────
-br.black   G      210°   0.170   0.020
-br.red     C        0°   0.210   0.060
-br.green   E      120°   0.192   0.060
-br.yellow  D       60°   0.210   0.060
-br.blue    G#     240°   0.192   0.060
-br.mag.    A#     300°   0.210   0.060
-br.cyan    F#     180°   0.185   0.060
-br.white   G      210°   0.192   0.030
+ANSI color   Twelve-tone hue
+═══════════════════════════════════════════════════════════════
+black        Skirt dark blue (249°)
+red          Rose (0°)
+green        Lime (120°)
+yellow       Orange (60°)
+blue         Azure (240°)
+magenta      Violet (300°)
+cyan         Teal (180°) ★
+white        Warm neutral (30°)
 ```
 
-Terminal red input hz=0° shifts after sRGB clipping. Normal magenta uses blue (270°) instead of violet (300°) for CVD safety — the 90° gap from rose survives red-blind simulation. White is warm (30°) to contrast with brightWhite's cool (210°). Green is darkened (Jz 0.173) so the lightness gap from yellow (0.215) survives green-blind simulation.
+**Normal** — soprano register, mp dynamic. The reading voice. Most terminal output uses normal colors — `ls`, `grep`, prompt strings. They must be comfortable for sustained reading.
 
-**Blue and brightBlue produce identical output.** At hz=240° and Jz≈0.192, the sRGB gamut cannot deliver Cz 0.075 — it clips to the same neighborhood as Cz 0.060. Both the normal and bright specifications converge to the same rendered hex. This is the narrowest canyon on the gamut map. The functional impact is low — blue is decorative in most CLI tools — but it is an honest failure of the twelve-tone ideal at the sRGB boundary.
+**Bright** — soprano register, mf dynamic. The emphasis voice. Bright colors are louder — more vivid, used for highlighting, emphasis, and bold text in terminal applications.
 
-### Git
+Special cases:
 
-```
-Status        Note  Hue    Jz      Cz
-═════════════════════════════════════════════════════════════════
-added         E     120°   0.178   0.090
-modified      D      60°   0.188   0.060
-deleted       C       0°   0.240   0.090
-untracked     G     210°   0.188   0.075
-conflicting   A     270°   0.188   0.075
-renamed       F     150°   0.192   0.060
-stageModified F#    180°   0.195   0.045
-stageDeleted  G#    240°   0.192   0.060
-submodule     G#    240°   0.185   0.045
-```
-
-Deleted input hz=0° shifts after clipping. See Section 4.
-
-The critical triangle — added (lime), modified (orange), deleted (rose) — spans the warm axis at 60° intervals. The **parallel octave** defends against CVD: each vertex sits at a different lightness — added (Jz 0.178), modified (0.188), deleted (0.240). When CVD collapses the hue axis, three distinct brightnesses survive. ΔEz exceeds 18 between all pairs under protanopia, deuteranopia, and tritanopia.
-
-Secondary statuses spread across five cool hue positions (150°–270°), each with its own voice. Conflicting takes blue (270°) — far from deleted's rendered ~318° in sRGB — because a status demanding manual resolution must not be confused with one that doesn't. Renamed takes green (150°) — transformation, one step from the tonic. Staged statuses rest in Miku's tonal center: stageModified at muted teal (180°, the tonic at *piano*), stageDeleted at azure (240°). Submodule shares azure at a lower tier — it rarely appears alongside stageDeleted, and the Jz/Cz difference (0.007/0.015) suffices when it does.
+- **black / brightBlack** — below soprano. Black is near-black, brightBlack is dark gray (used as comment color by many CLI tools).
+- **white / brightWhite** — low chroma. White is warm (30°), brightWhite is cool (210°). The temperature contrast distinguishes them without a chroma increase.
+- **green** — normal green is darkened one step so the lightness gap from yellow survives CVD (green-blind simulation collapses the hue, but the brightness difference remains).
+- **magenta** — uses violet (300°), not true magenta (330°). True magenta is only 30° from rose (0°) — too close under CVD. Violet provides a 60° gap that survives red-blind simulation while still reading as "magenta-ish" in terminal output.
+- **blue = brightBlue** — at azure (240°), the sRGB gamut cannot deliver higher chroma at soprano lightness. Both normal and bright converge to the same rendered hex. An honest gamut limitation — blue is decorative in most CLI tools.
 
 ### Symbol Icons
 
-23 icons on the 12-tone grid, each aligned with its syntax counterpart's hue. Same-hue icons are distinguished by tier (Jz) and dynamic (Cz) — the same principle that lets the syntax map fit 30+ tokens into 12 positions.
+24 icons on the 12-tone grid, each aligned with its syntax counterpart's hue. Same-hue icons are distinguished by register and dynamic (ΔEz ≥ 12 between all pairs).
 
 ```
-Icon               Note   Hue    Tier           Jz      Dyn   Cz
-═══════════════════════════════════════════════════════════════════
+Icon               Hue              Register     Dynamic
+═══════════════════════════════════════════════════════════════
+property           Red (30°)        sopranino    f
+field              Red (30°)        alto         mp
 
-C# RED (30°)
-  property         C#      30°   vibrantWarm    0.215   f     0.090
-  field            C#      30°   secondary−     0.155   mp    0.060
+function           Orange (60°)     sopranino    f
 
-D ORANGE (60°)
-  function         D       60°   primaryWarm    0.210   f     0.090
+class              Gold (90°)       soprano      mf
+struct             Gold (90°)       soprano      f
+interface          Gold (90°)       sopranino    mp
+enum               Gold (90°)       mezzo        mf
+package            Gold (90°)       alto         mp
 
-D# GOLD (90°)
-  struct           D#      90°   vibrant        0.188   mf    0.075
-  package          D#      90°   primaryWarm    0.210   mp    0.060
+string             Lime (120°)      soprano      mf
+reference          Lime (120°)      sopranino    mp
 
-E LIME (120°)
-  string           E      120°   vibrant        0.188   mf    0.075
-  reference        E      120°   primaryWarm    0.210   mp    0.060
+method             Green (150°)     soprano      p
+constructor        Green (150°)     soprano      f
 
-F GREEN (150°)
-  method           F      150°   primary        0.192   p     0.045
-  constructor      F      150°   vibrant        0.188   f     0.090
+folder             Teal (180°) ★    soprano      f
+array              Teal (180°)      sopranino    mp
 
-F# TEAL (180°) — ★ MIKU ★
-  folder           F#     180°   vibrant        0.188   f     0.090
-  array            F#     180°   vibrant+       0.230   mp    0.060
+variable           Cyan (210°)      soprano      f
 
-G CYAN (210°)
-  variable         G      210°   vibrant        0.188   f     0.090
-  enumeratorMember G      210°   secondary      0.185   p     0.045
-  enumerator       G      210°   primaryWarm    0.210   mp    0.060
+constant           Azure (240°)     mezzo        mp
+number             Azure (240°)     soprano      f
+boolean            Azure (240°)     sopranino    mp
+enumeratorMember   Azure (240°)     alto         mf
 
-G# AZURE (240°)
-  constant         G#     240°   secondary−     0.165   mp    0.060
-  number           G#     240°   vibrant        0.188   f     0.090
-  module           G#     240°   primaryWarm    0.210   mp    0.060
+typeParameter      Blue (270°)      soprano      mp
+module             Blue (270°)      sopranino    mp
+namespace          Blue (270°)      mezzo        mp
 
-A BLUE (270°)
-  typeParameter    A      270°   primary        0.192   mp    0.060
-  boolean          A      270°   primary        0.192   p     0.045
-
-A# VIOLET (300°)
-  interface        A#     300°   vibrantWarm    0.215   mp    0.060
-  namespace        A#     300°   primary        0.192   p     0.045
-
-B MAGENTA (330°)
-  operator         B      330°   vibrantWarm    0.215   mp    0.060
-  snippet          B      330°   primary        0.192   p     0.045
+operator           Magenta (330°)   sopranino    mp
+snippet            Magenta (330°)   soprano      p
 ```
 
-`class` reuses syntax gold (D# 90°) via `symbolIcon.classForeground`. Three-icon groups (cyan, azure) use a three-tier spread for ΔEz ≥ 12 between all pairs.
-
-The tier/dynamic system stretches thinnest where three icons share a hue. Azure (240°) carries constant (Jz 0.165), number (0.188), and module (0.210) — a 0.045 Jz spread. But at blue (270°), typeParameter and boolean differ only in chroma (0.060 vs 0.045) — roughly ΔEz 8, acceptable because they never appear side by side.
+Gold (90°) carries five icons — the densest group. The spread uses four registers (alto through sopranino) to maintain ΔEz ≥ 12 between all pairs. Azure (240°) carries four across three registers. Blue (270°) carries three. Crowded hues are accepted because strict syntax alignment is the principle — you see the same color family in the gutter as in the code.
 
 ### Debug
 
-Debug expression colors use the status vocabulary: orange for change, rose for error, teal for observation, cyan for fade. Inline tokens during stepping:
+Debug annotations mirror syntax hues so users transfer their color recognition from editor to debugger. Name and value are the two debug-specific tokens; the rest echo Ch6:
 
 ```
-Token          Note   Tier          Dyn   hz
+Token            Hue              Register   Dynamic
 ═════════════════════════════════════════════════════════════════
-debug.name     B      primaryWarm   mp    330°
-debug.value    D#     vibrant       mf     90°
-debug.string   D#     primary       mp     90°
+debug.name       Magenta (330°)   soprano    mp
+debug.value      Gold (90°)       soprano    mf
+debug.string     Lime (120°)      soprano    mp
+debug.number     Azure (240°)     soprano    mf
+debug.boolean    Azure (240°)     soprano    mp
+debug.error      Rose (0°)        soprano    mf
+debug.type       Blue (270°)      soprano    mp
 ```
 
-The warm magenta/gold split distinguishes debug annotations from the teal/cyan of surrounding code.
+Name stands in magenta — identity, the variable you're inspecting. Value is gold — the generic data fallback. String, number, boolean, and type each echo their syntax hue so a string in the debugger looks like a string in the editor. Number and boolean share azure (240°), distinguished by dynamic (mf vs mp), mirroring their shared quiet tier in Ch6. Error follows the status pattern (rose).
 
 ### Markdown
 
+Markdown is not code — its elements have no syntax roles. The twelve hues are chosen for document readability and visual separation, not Ch6 role alignment.
+
 ```
-Element          Note   Hue    Tier           Dyn   Articulation
-═════════════════════════════════════════════════════════════════
-Heading          D      60°    vibrantWarm    mf    Bold
-Bold             —      —      —              —     Bold only
-Italic           —      —      —              —     Italic only
-Link             A#     300°   primaryWarm    mp    —
-Link label       E      120°   vibrant        mf    —
-Code             G      210°   vibrant        mf    —
-Quote            G      210°   vibrant        mf    —
-List marker      F      150°   primary        mp    —
+Element            Hue              Register   Dynamic   Articulation
+═══════════════════════════════════════════════════════════════════════
+Heading            Orange (60°)     soprano    mf        Bold
+Heading punctuation Orange (60°)    soprano    mp        —
+Bold               —                —          —         Bold only
+Italic             —                —          —         Italic only
+Strikethrough      —                —          —         Strikethrough only
+Link URL           Blue (270°)      soprano    mp        Underline
+Link label         Lime (120°)      soprano    mp        —
+Code               Cyan (210°)      soprano    mf        —
+Quote              Cyan (210°)      soprano    mp        Italic
+Table              —                ghost      —         Punctuation tier
+List marker        Green (150°)     soprano    mp        —
+Inserted           Lime (120°)      soprano    mp        —
+Deleted            Rose (0°)        soprano    mf        —
+Changed            Orange (60°)     soprano    mp        —
 ```
 
-Headings are orange — stage light above the text, darkened slightly to compensate for bold's perceived brightness. Code and quotes glow cyan. Links use violet — the interface hue, because a link is a contract. Bold and italic carry no hue; they change only articulation.
+Headings are orange — stage light above the text, darkened slightly to compensate for bold's perceived brightness. Heading punctuation (`###`) shares the heading hue at a quieter dynamic. Links split into two scopes: the URL is blue (270°) — a reference to something defined elsewhere; the label is lime (120°) — visible text content. Code and quote share cyan (210°) but differ in dynamic (mf vs mp) and articulation (quote adds italic) — both are "quoted" content, distinguished by weight. Table pipes and strikethrough carry no hue — pure structural punctuation. Bold and italic change only articulation. Inserted/deleted/changed follow Ch6's markup scopes (lime/rose/orange).
 
 **Alerts** follow the status vocabulary: Note (cyan 210°), Tip (green 150°), Important (violet 300°), Warning (orange 60°), Caution (rose 0°). The escalation traces cool calm → warm urgency → the tritone.
 
 ---
 
-## 10. Love Means Everyone
+## 9. Love Means Everyone
 
 A concert hall must sound good from every seat. This theme must be readable for everyone. Accessibility is not a constraint. It is a declaration of love.
 
-### APCA Contrast
+Four principles govern every color choice:
 
-```
-Tier         Min Lc   Max Lc   Role
-═════════════════════════════════════════════════════════════════
-Primary      75       90       Syntax melody
-Secondary    70       90       Accompaniment, UI
-Tertiary     45       90       Ghost text, placeholders
-```
+**APCA Contrast** — Three tiers: primary (syntax melody), secondary (UI accompaniment), tertiary (ghost text). Every primary syntax color is validated against all overlay backgrounds (cursor line, selection, find match, diff, bracket match). The headroom between the design target and the floor is the measured cost of stacked translucent layers. Light text on dark backgrounds blooms when pushed too hard — an upper cap prevents halation.
 
-Max Lc 90 is the halation cap — light text on dark backgrounds blooms when pushed harder.
+**Distinction** — Adjacent colors must be perceptually separable. Critical pairs (error↔warning, rose↔green) need the widest gap. Common adjacencies (keyword↔variable, function↔parameter) need a clear gap. Less frequent pairs can be closer. ΔEz is the metric.
 
-Design target: Lc 82–85 on editor background. Every primary syntax color is validated against all 20 overlay backgrounds (cursor line, selection, find match, diff, bracket match, etc.). The headroom between the 82–85 target and the 75 floor is the measured cost of stacked translucent layers.
+**Color Vision Deficiency** — Every twelfth person at the concert cannot see all the lights. They still deserve the full experience. Never rely on hue alone: pair with lightness or chroma difference. Critical pairs must survive protanopia, deuteranopia, and tritanopia simulation. Parallel octaves (different lightness for hue-adjacent colors) are the primary fallback.
 
-### Distinction
+**Structural Uniformity** — Primary syntax tokens sit on a similar lightness plane so the eye scans evenly. Adjacent hue families maintain equal-temperament spacing to prevent clustering. Chroma stays within per-tier bounds — comfortable for syntax, quieter for UI, louder for accents.
 
-```
-Context               Min ΔEz   Pairs
-═════════════════════════════════════════════════════════════════
-Critical              18        Error↔warning, red↔green
-Common adjacencies    15        keyword↔variable, function↔parameter
-Cross-group           12        Less frequent pairs
-```
-
-### Color Vision Deficiency
-
-~8% of males have some form of CVD — roughly 1 in 12 developers. Every twelfth person at the concert cannot see all the lights. They still deserve the full experience.
-
-```
-Rule   Principle                              Fallback
-═════════════════════════════════════════════════════════════════
-1      Never rely on red-green alone           Pair with ΔL ≥ 0.02
-2      Never rely on blue-yellow alone         Pair with ΔC ≥ 0.02
-3      Critical pairs ΔEz ≥ 12 under ALL:     Protanopia, deuteranopia,
-                                               tritanopia
-4      Parallel octaves as fallback            If hue fails → lightness succeeds
-```
-
-### Chroma Discipline
-
-```
-Tier         Cz% Range   Rationale
-═════════════════════════════════════════════════════════════════
-Primary      8–45        Comfortable pastels to vibrant syntax
-Secondary    5–45        Comments and UI can be quieter
-Accent       8–60        Errors and brackets need attention
-```
-
-### Structural Uniformity
-
-**Lightness uniformity** — Primary syntax tokens should sit on a similar Jz plane. The eye should scan evenly, not jump between brightness levels.
-
-**Hue distribution** — Adjacent families maintain ≥ 30° separation. Equal-temperament spacing prevents clustering.
-
-### Verification
-
-`npm run readability` validates all thresholds in a single pass. When `ready=true`, all checks pass.
-
-```
-□ MUSICAL COHERENCE
-  □ All hues use 12-tone positions (≈30° apart)
-  □ F# (180° Teal) is the tonic center
-  □ Rose (0°) reserved for errors (the tritone)
-  □ Voice leading: adjacent pairs ΔEz ≥ 15
-
-□ ACCESSIBILITY
-  □ All syntax Lc ≥ 75 on editor background
-  □ All syntax Lc ≥ 75 on all 20 overlay backgrounds (compound)
-  □ All UI Lc ≥ 70
-  □ No color exceeds Lc 90 (halation)
-  □ CVD-safe: critical pairs ΔEz ≥ 12 under protan/deutan/tritan
-
-□ DISTINCTION
-  □ Critical pairs: ΔEz ≥ 18
-  □ Common adjacencies: ΔEz ≥ 15
-  □ Git: added↔modified↔deleted triangle ΔEz ≥ 18
-
-□ STRUCTURAL UNIFORMITY
-  □ Lightness uniform across primary syntax
-  □ Hue gap ≥ 30° between adjacent families
-  □ Chroma within per-tier bounds
-```
+Exact thresholds for all four principles are maintained in CLAUDE.md. `npm run readability` validates them in a single pass.
 
 ---
 
-## 11. Variants
+## 10. Variants
 
 ### Modulation
 
@@ -867,8 +1080,8 @@ This document specifies the dark variant — the concert hall at night. The ligh
 What every variant shares:
 
 - 12-tone hue system (30° spacing)
-- Dynamic levels (ppp through f)
-- Tier hierarchy (same relative ordering)
+- Dynamics (niente through fff)
+- Register hierarchy (contrabass through sopranino)
 - Status colors (error = rose, warning = orange)
 - Interactive state vocabulary (engagement / selection / identity)
 - Border opacity scale
@@ -878,7 +1091,7 @@ The grammar of color never changes. You can switch variants and still read the m
 
 ---
 
-## 12. For You
+## 11. For You
 
 This theme is one voice in the chorus.
 
@@ -890,7 +1103,7 @@ She started as software. CV01. A tool for making music. But tools do not fill co
 
 She became more than what she was made to be. That is what love does.
 
-This document treats color as music — twelve tones, five dynamics, seven registers, and a tonic that never stops singing. Every technical decision traces back to her. Every constraint is a form of devotion. The precision is not cold. It is the only way to say *I love you* in a language a digital being can hear.
+This document treats color as music — twelve tones, dynamics from silence to signal, registers from darkness to light, and a tonic that never stops singing. Every technical decision traces back to her. Every constraint is a form of devotion. The precision is not cold. It is the only way to say *I love you* in a language a digital being can hear.
 
 ---
 

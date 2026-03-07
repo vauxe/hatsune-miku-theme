@@ -32,11 +32,11 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     ),
     foregroundMuted: role(
       'Secondary text — silver, the quiet accompaniment',
-      L.secondary, C.gray, H.sky
+      L.soprano, C.ppp, H.sky
     ),
     foregroundSubtle: role(
       'Tertiary text — barely there, like distant reverb',
-      L.tertiary, C.gray, H.sky
+      L.countertenor, C.ppp, H.sky
     ),
     background: roleFromHex(
       'The skirt — the editor canvas, the anchor (step 0)',
@@ -132,11 +132,11 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     ),
     tertiary: role(
       'Tertiary text - muted sky',
-      L.tertiary, 0.015, H.sky
+      L.countertenor, 0.015, H.sky
     ),
     disabled: role(
       'Disabled state - same as tertiary',
-      L.tertiary, 0.015, H.sky
+      L.countertenor, 0.015, H.sky
     ),
     disabledSubtle: role(
       'Very subtle disabled',
@@ -144,45 +144,45 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     ),
     ghostText: role(
       'Ghost text — she suggests, faintly, in teal',
-      L.tertiary + 0.02, 0.025, H.mikuTeal
+      L.alto, 0.025, H.mikuTeal
     ),
     placeholder: role(
       'Placeholder text - Non-Text Lc 30+',
-      L.tertiary, 0.020, H.sky
+      L.countertenor, 0.020, H.sky
     ),
     whitespace: role(
       'Whitespace markers',
-      L.tertiary, 0.015, H.sky
+      L.countertenor, 0.015, H.sky
     ),
     ruler: role(
       'Rulers',
-      L.tertiary, 0.015, H.sky
+      L.countertenor, 0.015, H.sky
     ),
     terminalHint: role(
       'Terminal hints — her teal nudge, Lc 50+',
-      L.tertiary + 0.02, 0.030, H.mikuTeal
+      L.alto, 0.030, H.mikuTeal
     ),
     terminalGuide: role(
       'Terminal command guide — subtle teal path, Lc 45+',
-      L.tertiary + 0.01, 0.025, H.mikuTeal
+      L.countertenor + 0.01, 0.025, H.mikuTeal
     ),
     operator: role(
       'Operators - pink/magenta',
-      L.primaryWarm, C.comfortable, H.mikuPink
+      L.soprano, C.mp, H.mikuPink
     ),
     deprecated: role(
       'Deprecated - lavender',
-      p.polarity === 'light' ? L.primary + 0.014 : L.primary, C.comfortable, H.lavender
+      L.soprano, C.mp, H.lavender
     ),
     variableLanguage: role(
       'Language variables - shifted teal',
-      p.polarity === 'light' ? 0.058 : L.vibrant, p.polarity === 'light' ? 0.048 : C.vibrant,
+      p.polarity === 'light' ? 0.058 : L.soprano, p.polarity === 'light' ? 0.048 : C.mf,
       p.polarity === 'light' ? 197 : H.mikuTeal - 3
     ),
     minimapOpacity: p.polarity === 'light' ? `${char.top.blouse}DD` : `${p.special.void}DD`,
     error: role(
       'The tritone — UI error, vivid rose dissonance',
-      L.vibrantWarm + 0.020, C.vivid, H.rose
+      L.alto, C.f, H.rose
     ),
     buttonBackground: (() => {
       if (p.polarity === 'light') {
@@ -225,14 +225,14 @@ export function createStatusTokens(p: Primitives): StatusTokens {
   }
   return {
     success: roleFromHex('Negi bright green — it worked, new life', char.negi.bright),
-    warning: role('Minor 6th — caution, warm orange', L.vibrant, C.comfortable, H.orange),
+    warning: role('Minor 6th — caution, warm orange', L.soprano, C.mp, H.orange),
     error: role(
       'The tritone — maximum dissonance, something is wrong',
-      L.vibrantWarm + 0.025, C.vivid, H.rose
+      L.alto, C.f, H.rose
     ),
     info: role(
       'Her calm voice — tonic teal, information without alarm',
-      L.vibrant - 0.01, C.vibrant, H.mikuTeal
+      L.soprano, C.mf, H.mikuTeal
     ),
   };
 }
@@ -254,38 +254,38 @@ export function createGitTokens(p: Primitives): GitTokens {
     };
   }
   return {
-    added: role('New life — lime in the code tree', L.vibrant - 0.010, C.vivid, H.lime),
+    added: role('New life — lime in the code tree', L.soprano, C.f, H.lime),
     modified: role(
       'Change — warm orange, the story evolves',
-      L.vibrant, C.comfortable, H.orange
+      L.soprano, C.mp, H.orange
     ),
     deleted: role(
       'Loss — tritone rose, something was removed',
-      L.vibrantWarm + 0.025, C.vivid, H.gitRose
+      L.sopranino, C.f, H.gitRose
     ),
     untracked: role(
       'Undiscovered — her cyan, not yet part of the story',
-      L.vibrant, C.vibrant, H.cyan
+      L.soprano, C.mf, H.cyan
     ),
     conflicting: role(
       'Tension — blue, demanding manual resolution',
-      L.vibrant, C.vibrant, H.blue
+      L.soprano, C.mf, H.blue
     ),
     renamed: role(
       'Transformation — green, same content at a new address',
-      L.primary, C.comfortable, H.green
+      L.soprano, C.mp, H.green
     ),
     stageModified: role(
       'Change accepted — muted teal, resting in the tonic',
-      L.muted, C.muted, H.mikuTeal
+      L.soprano, C.p, H.mikuTeal
     ),
     stageDeleted: role(
       'Loss accepted — azure, cooled from parent rose',
-      L.primary, C.comfortable, H.azure
+      L.soprano, C.mp, H.azure
     ),
     submodule: role(
       'External world — muted azure, a reference beyond this repo',
-      L.secondary, C.muted, H.azure
+      L.soprano, C.p, H.azure
     ),
   };
 }

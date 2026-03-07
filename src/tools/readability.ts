@@ -44,15 +44,16 @@ import {
   SCM_GRAPH_DISTINCTION_PAIRS,
   TERMINAL_SYMBOL_DISTINCTION_PAIRS,
   EXTENSION_ICON_DISTINCTION_PAIRS,
-  // Semantic color groups
+  // Cognitive role distinction
   MUST_DISTINGUISH_PAIRS,
-  SEMANTIC_DISTINCTION_THRESHOLDS,
-  getTokenGroup,
+  ROLE_DISTINCTION_THRESHOLDS,
+  getTokenRole,
   // CVD (Color Vision Deficiency)
   CVD_CRITICAL_PAIRS,
   CVD_DISTINCTION_THRESHOLD,
   // Compound background contrast
   COMPOUND_BACKGROUND_KEYS,
+  COMPOUND_REVIEW_BGS,
   COMPOUND_SYNTAX_TOKENS,
   // UI visibility
   UI_VISIBILITY,
@@ -92,7 +93,7 @@ import type {
   SectionData,
   AnalysisOptions,
   APCATier,
-  CrossGroupDistinctionResult,
+  CrossRoleDistinctionResult,
   CVDFailure,
   CompoundBackgroundFailure,
   CompoundBackgroundIssue,
@@ -256,23 +257,23 @@ function analyzeColorDistinction(
 }
 
 // =============================================================================
-// SEMANTIC COLOR GROUP ANALYSIS
+// CROSS-ROLE DISTINCTION ANALYSIS
 // =============================================================================
 
 /**
- * Analyze semantic token pairs for proper visual distinction.
+ * Analyze syntax token pairs for proper cross-role visual distinction.
  *
- * Tokens in DIFFERENT semantic groups MUST be visually distinct.
- * This catches issues like keyword↔variable or function↔parameter being too similar.
+ * Tests the minimal set of token pairs derived from the 12 cognitive roles.
+ * Each pair represents a role boundary that appears adjacent in real code.
  *
  * @param syntax - Syntax colors from theme
  * @param bg - Background color for alpha compositing
  */
-function analyzeSemanticDistinction(
+function analyzeRoleDistinction(
   syntax: Record<string, ColorValue>,
   bg: string
-): CrossGroupDistinctionResult[] {
-  const results: CrossGroupDistinctionResult[] = [];
+): CrossRoleDistinctionResult[] {
+  const results: CrossRoleDistinctionResult[] = [];
 
   for (const [token1, token2, priority] of MUST_DISTINGUISH_PAIRS) {
     const cv1 = syntax[token1];
@@ -284,14 +285,14 @@ function analyzeSemanticDistinction(
     const dE = deltaEzHex(cv1.color, cv2.color, bg);
     if (dE === null) continue;
 
-    const required = SEMANTIC_DISTINCTION_THRESHOLDS[priority];
+    const required = ROLE_DISTINCTION_THRESHOLDS[priority];
     const pass = dE >= required;
 
     results.push({
       token1,
       token2,
-      group1: getTokenGroup(token1) ?? 'VARIABLE',
-      group2: getTokenGroup(token2) ?? 'VARIABLE',
+      role1: getTokenRole(token1) ?? 'DATA',
+      role2: getTokenRole(token2) ?? 'DATA',
       color1: cv1.color,
       color2: cv2.color,
       deltaE: dE,
@@ -495,18 +496,21 @@ function analyzeCompoundBackgroundContrast(
       if (!bgHex || bgHex === editorBg) continue; // Skip if same as editor or not defined
       if (skippedOverlays.has(bgName)) continue; // FG override handles readability here
 
+      // Diff/merge overlays are scanning contexts — use secondary threshold (Lc ≥ 70)
+      const bgRequired = COMPOUND_REVIEW_BGS.has(bgName) ? thresholds.secondary : required;
+
       // Composite against each overlay bg individually (text renders on top of overlay)
       const resolvedFg = alpha < 1 ? blendAlpha(baseFg, bgHex, alpha) : baseFg;
       const result = getAPCAContrast(resolvedFg, bgHex);
       const lc = Math.abs(result.lc);
 
-      if (lc < required) {
+      if (lc < bgRequired) {
         failingBackgrounds.push({
           bgName,
           bgKey,
           bgHex,
           lc: Math.round(lc * 10) / 10,
-          required,
+          required: bgRequired,
         });
       }
     }
@@ -549,10 +553,10 @@ function formatCompoundLine(f: CompoundBackgroundFailure, thresholds: typeof APC
 }
 
 /**
- * Format a semantic distinction issue as a single line.
- * TOOSIMILAR = tokens across groups are too similar (problem)
+ * Format a role distinction issue as a single line.
+ * TOOSIMILAR = tokens across cognitive roles are too similar
  */
-function formatSemanticDistinctionLine(r: CrossGroupDistinctionResult): string {
+function formatRoleDistinctionLine(r: CrossRoleDistinctionResult): string {
   const priorityTag = r.priority === 'critical' ? 'CRITICAL' : r.priority === 'high' ? 'HIGH' : 'STD';
   return `TOOSIMILAR ${r.token1}↔${r.token2} ΔE=${r.deltaE.toFixed(1)} need≥${r.required} ${priorityTag}`;
 }
@@ -569,14 +573,10 @@ function formatContrastLine(r: ColorResult, thresholds: typeof APCA_THRESHOLDS =
   const file = getSourceFile(r.source?.type ?? 'workbench');
   const key = r.source?.key ?? 'unknown';
   const lc = Math.round(Math.abs(r.lc) * 10) / 10;
-  const isHalation = r.analysis.failReason === 'halation';
-  const targetLc = isHalation ? thresholds.max : thresholds[r.tier];
-  const need = isHalation ? `≤${targetLc}` : `≥${targetLc}`;
-  const reason = isHalation ? 'halation' : 'too-dim';
-  const suggestion = isHalation
-    ? 'darken foreground slightly'
-    : suggestContrastFix(r.lc, targetLc, r.analysis.polarity);
-  return `CONTRAST ${file}:${key} Lc=${lc} need=${need} tier=${r.tier} ${reason} → ${suggestion}`;
+  const targetLc = thresholds[r.tier];
+  const need = `≥${targetLc}`;
+  const suggestion = suggestContrastFix(r.lc, targetLc, r.analysis.polarity);
+  return `CONTRAST ${file}:${key} Lc=${lc} need=${need} tier=${r.tier} too-dim → ${suggestion}`;
 }
 
 /**
@@ -1205,7 +1205,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
 
   // ==========================================================================
   // COLOR DISTINCTION ANALYSIS (Jzazbz ΔEz) - Non-syntax categories
-  // Note: Syntax token distinction is handled by semantic group analysis below
+  // Note: Syntax token distinction is handled by cross-role analysis below
   // ==========================================================================
 
   const allDistinctions = [
@@ -1224,13 +1224,12 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   ];
 
   // ==========================================================================
-  // SEMANTIC COLOR GROUP ANALYSIS (NEW - improved distinction logic)
+  // CROSS-ROLE DISTINCTION ANALYSIS
   // ==========================================================================
 
-  // Analyzes tokens by semantic group:
-  // - Intra-group cohesion: tokens in same group should be similar (ΔE < 10)
-  // - Cross-group distinction: tokens in different groups must differ (ΔE ≥ 12-18)
-  const semanticDistinction = analyzeSemanticDistinction(c.syntax, c.bg.editor);
+  // Tests the minimal set of cross-role token pairs (~33 pairs).
+  // Each pair represents a cognitive role boundary that appears adjacent in code.
+  const roleDistinction = analyzeRoleDistinction(c.syntax, c.bg.editor);
 
   // ==========================================================================
   // CHROMA ANALYSIS (Eye Fatigue) - Using perceptually uniform LCH
@@ -1379,7 +1378,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   );
 
   // Semantic analysis issues
-  const semanticDistinctionIssues = semanticDistinction.filter(d => !d.pass);
+  const roleDistinctionIssues = roleDistinction.filter(d => !d.pass);
 
   // UI visibility issues
   const uiVisibilityIssues = uiVisibility.filter(v => !v.pass);
@@ -1396,16 +1395,16 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       output.push(`  [${section.stats.pass} pass, ${section.stats.fail} fail, ${section.stats.missing} missing]`);
     }
 
-    // Semantic distinction analysis
-    output.push(`\n=== SEMANTIC DISTINCTION ===`);
-    output.push(`Tokens in different semantic groups must be visually distinct.`);
-    for (const d of semanticDistinction) {
+    // Cross-role distinction analysis
+    output.push(`\n=== CROSS-ROLE DISTINCTION ===`);
+    output.push(`Tokens in different cognitive roles must be visually distinct.`);
+    for (const d of roleDistinction) {
       const priorityTag = d.priority === 'critical' ? '[CRIT]' : d.priority === 'high' ? '[HIGH]' : '[STD]';
       output.push(`  ${d.icon} ${d.token1}↔${d.token2} ΔE=${d.deltaE.toFixed(1).padStart(4)} need≥${d.required} ${priorityTag}`);
     }
-    const semPass = semanticDistinction.filter(d => d.pass).length;
-    const semCritFail = semanticDistinctionIssues.filter(d => d.priority === 'critical').length;
-    output.push(`  [${semPass}/${semanticDistinction.length} pairs pass, ${semCritFail} critical fails]`);
+    const semPass = roleDistinction.filter(d => d.pass).length;
+    const semCritFail = roleDistinctionIssues.filter(d => d.priority === 'critical').length;
+    output.push(`  [${semPass}/${roleDistinction.length} pairs pass, ${semCritFail} critical fails]`);
 
     output.push(`\n=== UI ELEMENT DISTINCTION ===`);
     for (const d of allDistinctions) {
@@ -1489,9 +1488,9 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       output.push(formatContrastLine(r, apcaThresholds));
     }
 
-    // Semantic distinction issues (cross-group pairs too similar)
-    for (const d of semanticDistinctionIssues) {
-      output.push(formatSemanticDistinctionLine(d));
+    // Cross-role distinction issues (tokens too similar across cognitive roles)
+    for (const d of roleDistinctionIssues) {
+      output.push(formatRoleDistinctionLine(d));
     }
 
     // Non-syntax distinction issues (symbols, status, git, etc.)
@@ -1542,17 +1541,17 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // Summary line
   const defined = total.total - total.missing;
   const distinctionFails = distinctionIssues.length;
-  const crossGroupTooSimilar = semanticDistinctionIssues.length;
+  const crossRoleTooSimilar = roleDistinctionIssues.length;
   const chromaFails = chromaIssues.length;
   const cvdFails = cvdFailures.length;
   const uiVisibilityFails = uiVisibilityIssues.length + (cursorPass ? 0 : 1);
   const compoundFails = compoundAnalysis.tokensFailing;
   const lightnessOk = lightnessResult.pass;
   const hueOk = hueResult.pass;
-  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && crossGroupTooSimilar === 0 && chromaFails === 0 && cvdFails === 0 && uiVisibilityFails === 0 && compoundFails === 0 && lightnessOk && hueOk;
+  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && crossRoleTooSimilar === 0 && chromaFails === 0 && cvdFails === 0 && uiVisibilityFails === 0 && compoundFails === 0 && lightnessOk && hueOk;
 
   output.push('');
-  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} too_similar=${crossGroupTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} cvd_fail=${cvdFails} ui_visible_fail=${uiVisibilityFails} compound_fail=${compoundFails} lightness=${lightnessOk ? 'ok' : 'uneven'} hue=${hueOk ? 'ok' : 'clustered'} ready=${ready}`);
+  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} too_similar=${crossRoleTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} cvd_fail=${cvdFails} ui_visible_fail=${uiVisibilityFails} compound_fail=${compoundFails} lightness=${lightnessOk ? 'ok' : 'uneven'} hue=${hueOk ? 'ok' : 'clustered'} ready=${ready}`);
 
   // Print all output (or summary only if --issues-only and clean)
   if (options.issuesOnly && ready) {
@@ -1652,8 +1651,6 @@ function testAPCAMatrix(fgColors: string[], bgColors: string[]): void {
   // Summary counters
   let pass = 0;
   let fail = 0;
-  let halation = 0;
-
   // Data rows
   for (const fg of fgColors) {
     let row = fg.padEnd(fgColWidth) + ' │';
@@ -1667,8 +1664,6 @@ function testAPCAMatrix(fgColors: string[], bgColors: string[]): void {
       // Count results
       if (result.analysis.pass) {
         pass++;
-      } else if (Math.abs(result.lc) > APCA_THRESHOLDS.max) {
-        halation++;
       } else {
         fail++;
       }
@@ -1678,7 +1673,7 @@ function testAPCAMatrix(fgColors: string[], bgColors: string[]): void {
 
   const total = fgColors.length * bgColors.length;
   console.log('');
-  console.log(`SUMMARY: ${total} combinations, ${pass} pass, ${fail} fail, ${halation} halation`);
+  console.log(`SUMMARY: ${total} combinations, ${pass} pass, ${fail} fail`);
 }
 
 /**
@@ -1800,20 +1795,23 @@ ANALYSIS 1: APCA CONTRAST (Lc) - TIERED THRESHOLDS
 APCA (Accessible Perceptual Contrast Algorithm) measures text readability.
 Lc = Lightness Contrast value. Both too low AND too high cause strain.
 
-Levels (descriptive):
+Levels (APCA for 14px / 400 weight — standard code editor):
   FAIL     (Lc < 30)  - Insufficient for any use
   Non-Text (Lc 30-45) - Icons, borders only
   Large    (Lc 45-60) - Large/bold text only
-  Content  (Lc 60-75) - Minimum for content
-  Body     (Lc 75-90) - Good for body text
-  Fluent   (Lc ≥ 90)  - Optimal but can feel harsh all-day
+  Content  (Lc 60-75) - Minimum for content text
+  Body     (Lc 75-90) - Minimum for body text at 14px
+  Fluent   (Lc ≥ 90)  - ★ Optimal for 14px fluent reading
 
-Pass thresholds (eye-friendly for marathon coding):
-  Primary   (Lc 75-90): Variables, keywords, functions, types, strings...
-  Secondary (Lc 70-90): UI elements, comments, hints
-  Tertiary  (Lc ≥ 45):  Ghost text, placeholders, inactive states
+Pass thresholds (minimum — passing is not optimal):
+  Primary   (Lc ≥ 75):  Syntax tokens — minimum for 14px body text
+  Secondary (Lc ≥ 60):  UI elements, operators — content text level
+  Tertiary  (Lc ≥ 45):  Ghost text, placeholders, inactive, comments
 
-Output icons: ❌ fail, ⚠️ below threshold, ✅ pass, ⚡ halation (Lc>90)
+  ★ APCA recommends Lc 90 for fluent reading at 14px/400 weight.
+    Lc 75 is the floor, not the target. Aim for Lc 85-95.
+
+Output icons: ❌ fail, ⚠️ below threshold, ✅ pass
 Output: CONTRAST file:key Lc=X need=Y bg=background.key
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

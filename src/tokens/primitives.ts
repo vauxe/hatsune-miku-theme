@@ -13,38 +13,40 @@ import { character as mikuCharacter } from '../palette/core';
 import { LIGHTNESS as JZ_LIGHTNESS, CHROMA as JZ_CHROMA, HUE as JZ_HUE } from './jzczhz';
 
 // =============================================================================
-// LIGHTNESS PRIMITIVES
+// LIGHTNESS PRIMITIVES (10 Registers — Vocal Classification)
 // =============================================================================
-// Jz lightness values tuned for APCA contrast on dark backgrounds
-// These can be inverted or adjusted for light theme variants
+// 10 registers from contrabass to sopranino, ΔJz = 0.015 steps.
+// Soprano sits at the tonic's gamut peak. (DESIGN.md Ch5)
 
 export const lightness = {
-  // Primary syntax (target Lc 82+ for overlay survival on dark bg)
-  primary: JZ_LIGHTNESS.primary,           // 0.192 - Cool hues with C1
-  primaryWarm: JZ_LIGHTNESS.primaryWarm,   // 0.210 - Warm hues with C1
-  vibrant: JZ_LIGHTNESS.vibrant,           // 0.188 - Cool hues with C2
-  vibrantWarm: JZ_LIGHTNESS.vibrantWarm,   // 0.215 - Warm hues with C2
-  vivid: JZ_LIGHTNESS.vivid,               // 0.180 - C3 (prevents halation)
-  muted: JZ_LIGHTNESS.muted,               // 0.195 - CM (comments need light)
-
-  // Secondary elements
-  secondary: JZ_LIGHTNESS.secondary,       // 0.185 - Lc ~75+
-  tertiary: JZ_LIGHTNESS.tertiary,         // 0.12 - Lc ~55 (ghost text)
-  accent: JZ_LIGHTNESS.accent,             // 0.190 - Lc ~80+ (brackets)
+  contrabass: JZ_LIGHTNESS.contrabass,         // 0.080 - −7 steps
+  bass: JZ_LIGHTNESS.bass,                     // 0.095 - −6
+  baritone: JZ_LIGHTNESS.baritone,             // 0.110 - −5
+  tenor: JZ_LIGHTNESS.tenor,                   // 0.125 - −4
+  countertenor: JZ_LIGHTNESS.countertenor,     // 0.140 - −3 ghost/structure
+  alto: JZ_LIGHTNESS.alto,                     // 0.155 - −2 whisper/signal
+  mezzo: JZ_LIGHTNESS.mezzo,                   // 0.170 - −1
+  soprano: JZ_LIGHTNESS.soprano,               // 0.185 -  0 ★ ensemble
+  treble: JZ_LIGHTNESS.treble,                 // 0.200 - +1
+  sopranino: JZ_LIGHTNESS.sopranino,           // 0.215 - +2
 } as const;
 
 // =============================================================================
-// CHROMA PRIMITIVES
+// CHROMA PRIMITIVES (9 Dynamics — Italian Dynamic Markings)
 // =============================================================================
-// Raw Cz values - percentage scale: Cz * 525 ≈ percentage
+// 9 dynamics from niente to fff, ΔCz = 0.015 steps.
+// Tonic ceiling at mf. (DESIGN.md Ch5)
 
 export const chroma = {
-  comfortable: JZ_CHROMA.comfortable,      // 0.060 - ~31% mp dynamic, extended reading
-  vibrant: JZ_CHROMA.vibrant,              // 0.075 - ~39% mf dynamic, colorful accents
-  vivid: JZ_CHROMA.vivid,                  // 0.090 - ~47% f dynamic, attention-grabbing
-  muted: JZ_CHROMA.muted,                  // 0.045 - ~24% p dynamic, subtle comments
-  gray: 0.015,                             // ~8% ppp, near-neutral
-  none: 0,                                 // 0% achromatic
+  niente: JZ_CHROMA.niente,               // 0.000 - silence
+  ppp: JZ_CHROMA.ppp,                     // 0.015 - breath
+  pp: JZ_CHROMA.pp,                       // 0.030 - sotto voce
+  p: JZ_CHROMA.p,                         // 0.045 - quiet
+  mp: JZ_CHROMA.mp,                       // 0.060 - ★ the melody
+  mf: JZ_CHROMA.mf,                       // 0.075 - emphasis (tonic ceiling)
+  f: JZ_CHROMA.f,                         // 0.090 - signal
+  ff: JZ_CHROMA.ff,                       // 0.105 - alarm
+  fff: JZ_CHROMA.fff,                     // 0.120 - extreme
 } as const;
 
 // =============================================================================
@@ -239,24 +241,28 @@ export const special = {
 
 // Use flexible types for variant support (not literal types from `as const`)
 export interface LightnessValues {
-  primary: number;
-  primaryWarm: number;
-  vibrant: number;
-  vibrantWarm: number;
-  vivid: number;
-  muted: number;
-  secondary: number;
-  tertiary: number;
-  accent: number;
+  contrabass: number;
+  bass: number;
+  baritone: number;
+  tenor: number;
+  countertenor: number;
+  alto: number;
+  mezzo: number;
+  soprano: number;
+  treble: number;
+  sopranino: number;
 }
 
 export interface ChromaValues {
-  comfortable: number;
-  vibrant: number;
-  vivid: number;
-  muted: number;
-  gray: number;
-  none: number;
+  niente: number;
+  ppp: number;
+  pp: number;
+  p: number;
+  mp: number;
+  mf: number;
+  f: number;
+  ff: number;
+  fff: number;
 }
 
 export interface HueValues {

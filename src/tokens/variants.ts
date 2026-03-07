@@ -53,32 +53,18 @@ export interface VariantConfig {
  * 3. Reduce chroma slightly (vivid colors on white can be harsh)
  */
 export const lightLightness: LightnessValues = {
-  // 4-tier lightness hierarchy for perceptible syntax distinction.
-  // At 12px text, lightness > hue > chroma for visual grouping.
-  // Note: sRGB gamut at low Jz varies by hue — cool hues (teal, cyan) clip
-  // lighter, so intended Tier A/B collapse into one band. Effective tiers:
-  //
-  // Structural (0.055-0.065): Dark — keywords, types, variables, operators  Lc ~86-90
-  // Highlight  (0.072-0.077): Medium — functions, strings, classes          Lc ~79-85
-  // Quiet      (0.090):       Dim — numbers, type-params, enum members     Lc ~76-78
-  // Comments   (0.110-0.115): Light — comments only (explicit overrides)    Lc ~70-72
-
-  // Structural tier — darkest code (gamut clips cool hues to ~0.063)
-  primary: 0.055,        // Keywords, storage — darkest structural (cool hues)
-  secondary: 0.058,      // Variables — near-dark identifiers
-  vivid: 0.050,          // Terminal, errors — maximum darkness/impact
-
-  // Structural-warm — warm hues that hold darkness at high chroma
-  primaryWarm: 0.065,    // Operators, params, modifiers — warm hues need more Jz
-  accent: 0.074,         // Brackets — between structural and highlight
-
-  // Highlight tier — vivid colors that POP from the dark structural code
-  vibrant: 0.072,        // Strings, classes, enums — lighter, vivid cool
-  vibrantWarm: 0.077,    // Functions, properties — lighter, vivid warm
-
-  // Quiet tier — syntax tokens that recede but still readable (Lc ≥ 75)
-  muted: 0.082,          // Numbers, type-params, enum members — quiet but readable
-  tertiary: 0.140,       // Ghost text, placeholders — barely there
+  // Light theme registers — inverted: darker Jz = more prominent on light bg
+  // Same 10 registers as dark theme, different Jz values for light canvas.
+  contrabass: 0.140,     // −7  barely visible on light bg
+  bass: 0.130,           // −6
+  baritone: 0.120,       // −5
+  tenor: 0.110,          // −4
+  countertenor: 0.100,   // −3  ghost/structure
+  alto: 0.080,           // −2  whisper/signal
+  mezzo: 0.065,          // −1
+  soprano: 0.055,        //  0  ★ ensemble — primary syntax
+  treble: 0.050,         // +1
+  sopranino: 0.045,      // +2  maximum darkness/impact
 };
 
 // =============================================================================
@@ -227,12 +213,15 @@ export function createDarkPrimitives(): Primitives {
  * The tonic (teal 207°) stays muted — the calm center, like in music.
  */
 export const lightChroma: ChromaValues = {
-  comfortable: 0.085,    // ~45% — pushed to gamut ceiling for most hues
-  vibrant: 0.100,        // ~53% — strong accents (functions, properties)
-  vivid: 0.115,          // ~60% — terminal, errors, maximum attention
-  muted: 0.050,          // ~26% — quiet tokens, type params, enum members
-  gray: 0.020,           // ~10% — punctuation, near-neutral
-  none: 0,               // achromatic
+  niente: 0,             // silence — achromatic
+  ppp: 0.020,            // ~10% — punctuation, near-neutral
+  pp: 0.035,             // ~18% — whisper
+  p: 0.050,              // ~26% — quiet tokens
+  mp: 0.085,             // ~45% — pushed to gamut ceiling for most hues
+  mf: 0.100,             // ~53% — emphasis
+  f: 0.115,              // ~60% — signal, maximum attention
+  ff: 0.130,             // ~68% — alarm
+  fff: 0.145,            // ~76% — extreme
 };
 
 /**

@@ -46,63 +46,66 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
   // Same-hue pairs distinguished by tier (Jz) and dynamic (Cz), ΔEz ≥ 12.
   return {
     // ═══ C# Red (30°) — Perfect 5th ═══
-    property: role('Symbol property — red, vivid warmth', L.vibrantWarm, C.vivid, H.red),
-    field: role('Symbol field — red, dark', L.secondary - 0.030, C.comfortable, H.red),
+    property: role('Symbol property — red, vivid warmth', L.soprano, C.f, H.red),
+    field: role('Symbol field — red, dark', L.alto, C.mp, H.red),
 
     // ═══ D Orange (60°) — Minor 6th ═══
-    function: role('Symbol function — orange spotlight', L.primaryWarm, C.vivid, H.orange),
+    function: role('Symbol function — orange spotlight', L.soprano, C.f, H.orange),
 
     // ═══ D# Gold (90°) — Major 6th ═══
-    struct: role('Symbol struct — gold architecture', L.vibrant, C.vibrant, H.gold),
-    package: role('Symbol package — warm gold', L.primaryWarm, C.comfortable, H.gold),
+    struct: role('Symbol struct — gold architecture', L.soprano, C.mf, H.gold),
+    package: role('Symbol package — warm gold', L.soprano, C.mp, H.gold),
 
     // ═══ E Lime (120°) — Minor 7th ═══
-    string: role('Symbol string — lime, literal truth', L.vibrant, C.vibrant, H.lime),
-    reference: role('Symbol reference — warm lime', L.primaryWarm, C.comfortable, H.lime),
+    string: role('Symbol string — lime, literal truth', L.soprano, C.mf, H.lime),
+    reference: role('Symbol reference — warm lime', L.soprano, C.mp, H.lime),
 
     // ═══ F Green (150°) — Major 7th ═══
-    method: role('Symbol method — green, quiet flow', L.primary, C.muted, H.green),
-    constructor: role('Symbol constructor — green, vivid creation', L.vibrant, C.vivid, H.green),
+    method: role('Symbol method — green, quiet flow', L.soprano, C.p, H.green),
+    constructor: role('Symbol constructor — green, vivid creation', L.soprano, C.f, H.green),
 
     // ═══ F# Teal (180°) — Unison ★ ═══
-    folder: role('Symbol folder — teal, her home', L.vibrant, C.vivid, H.mikuTeal),
-    array: role('Symbol array — bright teal', L.vibrant + 0.042, C.comfortable, H.mikuTeal),
+    folder: role('Symbol folder — teal, her home', L.soprano, C.f, H.mikuTeal),
+    array: role('Symbol array — bright teal', L.sopranino, C.mp, H.mikuTeal),
 
     // ═══ G Cyan (210°) — Minor 2nd ═══
-    variable: role('Symbol variable — cyan, vivid data', L.vibrant, C.vivid, H.cyan),
-    enumeratorMember: role('Symbol enum member — cyan, one possibility', L.secondary, C.muted, H.cyan),
-    enumerator: role('Symbol enumerator — cyan, warm set', L.primaryWarm, C.comfortable, H.cyan),
+    variable: role('Symbol variable — cyan, vivid data', L.soprano, C.f, H.cyan),
+    enumeratorMember: role('Symbol enum member — cyan, one possibility', L.soprano, C.p, H.cyan),
+    enumerator: role('Symbol enumerator — cyan, warm set', L.soprano, C.mp, H.cyan),
 
     // ═══ G# Azure (240°) — Major 2nd ═══
-    constant: role('Symbol constant — azure, deep truth', L.secondary - 0.020, C.comfortable, H.azure),
-    number: role('Symbol number — azure, vivid quantity', L.vibrant, C.vivid, H.azure),
-    module: role('Symbol module — azure, warm container', L.primaryWarm, C.comfortable, H.azure),
+    constant: role('Symbol constant — azure, deep truth', L.mezzo, C.mp, H.azure),
+    number: role('Symbol number — azure, vivid quantity', L.soprano, C.f, H.azure),
+    module: role('Symbol module — azure, warm container', L.soprano, C.mp, H.azure),
 
     // ═══ A Blue (270°) — Minor 3rd ═══
-    typeParameter: role('Symbol type param — blue, standard', L.primary, C.comfortable, H.blue),
-    boolean: role('Symbol boolean — blue, quiet truth', L.primary, C.muted, H.blue),
+    typeParameter: role('Symbol type param — blue, standard', L.soprano, C.mp, H.blue),
+    boolean: role('Symbol boolean — blue, quiet truth', L.soprano, C.p, H.blue),
 
     // ═══ A# Violet (300°) — Major 3rd ═══
-    interface: role('Symbol interface — violet, warm contract', L.vibrantWarm, C.comfortable, H.violet),
-    namespace: role('Symbol namespace — violet, quiet scope', L.primary, C.muted, H.violet),
+    interface: role('Symbol interface — violet, warm contract', L.soprano, C.mp, H.violet),
+    namespace: role('Symbol namespace — violet, quiet scope', L.soprano, C.p, H.violet),
 
     // ═══ B Magenta (330°) — Perfect 4th ═══
-    operator: role('Symbol operator — magenta, warm harmony', L.vibrantWarm, C.comfortable, H.magenta),
+    operator: role('Symbol operator — magenta, warm harmony', L.soprano, C.mp, H.magenta),
     snippet: role('Symbol snippet — magenta, quiet template',
-      p.polarity === 'light' ? L.primary + 0.006 : L.primary, C.muted, H.magenta),
+      p.polarity === 'light' ? L.soprano + 0.006 : L.soprano, C.p, H.magenta),
   };
 }
 
 export function createBracketTokens(p: Primitives): BracketTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
+  // B1 and B5 carry Jz offsets for CVD safety: consecutive brackets that share
+  // temperature (both cool or both warm) receive a ≥ 0.012 Jz offset so lightness
+  // survives when tritanopia collapses hue.
   return {
-    bracket1: role('Warm opening — red arpeggio begins', L.accent, C.comfortable, H.red),
-    bracket2: role('Cool contrast — blue deepens', L.accent, C.comfortable, H.blue),
-    bracket3: role('Major 6th — gold, warm step', L.accent, C.comfortable, H.gold),
-    bracket4: role('★ MIKU — teal at the heart of nesting', L.accent, C.comfortable, H.mikuTeal),
-    bracket5: role('Deep continuation — azure, going further', L.accent, C.comfortable, H.azure),
-    bracket6: role('Warm close — orange, the arpeggio resolves', L.accent, C.vibrant, H.orange),
+    bracket1: role('Warm opening — red arpeggio begins', L.soprano - 0.002, C.mp, H.red),
+    bracket2: role('Cool contrast — blue deepens', L.soprano, C.mp, H.blue),
+    bracket3: role('Major 6th — gold, warm step', L.soprano, C.mp, H.gold),
+    bracket4: role('★ MIKU — teal at the heart of nesting', L.soprano - 0.008, C.mp, H.mikuTeal),
+    bracket5: role('Deep continuation — azure, going further', L.soprano + 0.014, C.mp, H.azure),
+    bracket6: role('Warm close — orange, the arpeggio resolves', L.soprano + 0.022, C.mf, H.orange),
   };
 }
 
@@ -110,13 +113,11 @@ export function createSupportTokens(p: Primitives): SupportTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
   return {
-    function: role('Support function — orange glow, built-in action', L.vibrantWarm, C.vibrant, H.orange),
-    class: role('Support class — gold, built-in structure', L.vibrant, C.vibrant, H.gold),
-    // Blue hue luminance correction — matches syntax.type offset
-    type: role('Support type — blue depth, built-in architecture',
-      p.polarity === 'light' ? L.primary + 0.014 : L.primary + 0.010, C.comfortable, H.blue),
-    constant: role('Support constant — orange, built-in truth', L.primaryWarm, C.comfortable, H.orange),
-    variable: role('Support variable — cyan, built-in data', L.primary, C.comfortable, H.cyan),
+    function: role('Support function — orange glow, built-in action', L.soprano, C.mf, H.orange),
+    class: role('Support class — gold, built-in structure', L.soprano, C.mf, H.gold),
+    type: role('Support type — blue depth, built-in architecture', L.soprano, C.mp, H.blue),
+    constant: role('Support constant — azure, built-in truth', L.soprano, C.mp, H.azure),
+    variable: role('Support variable — cyan, built-in data', L.soprano, C.mp, H.cyan),
   };
 }
 
@@ -124,12 +125,12 @@ export function createMarkdownTokens(p: Primitives): MarkdownTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
   return {
-    codeBlock: role('Code in documents — bright cyan, her voice quoted', L.vibrant, C.vibrant, H.ice),
-    quote: role('Block quotes — sky cyan, someone else\'s words', L.vibrant, C.vibrant, H.sky),
-    docComment: role('Documentation — silver-cyan, the manual she\'d write', L.primary, C.comfortable, H.ice),
-    alertImportant: role('Important — violet, pay attention', L.vibrantWarm, C.vibrant, H.violet),
-    alertNote: role('Note — bright cyan, worth remembering', L.vibrant, C.vibrant, H.ice),
-    alertTip: role('Tip — fresh green, helpful', L.vibrant, C.vibrant, H.green),
+    codeBlock: role('Code in documents — bright cyan, her voice quoted', L.soprano, C.mf, H.ice),
+    quote: role('Block quotes — sky cyan, someone else\'s words', L.soprano, C.mf, H.sky),
+    docComment: role('Documentation — silver-cyan, the manual she\'d write', L.soprano, C.mp, H.ice),
+    alertImportant: role('Important — violet, pay attention', L.soprano, C.mf, H.violet),
+    alertNote: role('Note — bright cyan, worth remembering', L.soprano, C.mf, H.ice),
+    alertTip: role('Tip — fresh green, helpful', L.soprano, C.mf, H.green),
   };
 }
 
@@ -137,9 +138,9 @@ export function createDebugTokens(p: Primitives): DebugTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
   return {
-    name: role('Debug name — soft magenta, the variable\'s identity', L.primaryWarm, C.comfortable, H.magenta),
-    value: role('Debug value — gold, what it holds', L.vibrant, C.vibrant, H.gold),
-    string: role('Debug string — gold, the text within', L.primary, C.comfortable, H.gold),
+    name: role('Debug name — soft magenta, the variable\'s identity', L.soprano, C.mp, H.magenta),
+    value: role('Debug value — gold, what it holds', L.soprano, C.mf, H.gold),
+    string: role('Debug string — gold, the text within', L.soprano, C.mp, H.gold),
   };
 }
 

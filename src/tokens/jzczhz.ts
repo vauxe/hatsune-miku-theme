@@ -55,39 +55,45 @@ export function parseHex(hexColor: string): JzCzhz {
 // =============================================================================
 
 /**
- * Standard lightness tiers for theme design
- * Based on APCA contrast requirements on dark background (Jz ≈ 0.02)
+ * Registers — Lightness (vocal classification)
  *
- * Note: APCA perceived lightness varies with BOTH chroma AND hue:
- * - High chroma (C2, C3) + cool hues → higher APCA contrast (risk halation)
- * - High chroma (C2, C3) + warm hues → lower APCA contrast (need more Jz)
- * - Low chroma (CM) always needs higher Jz for sufficient contrast
+ * 10 registers from contrabass to sopranino, each ΔJz = 0.015 apart.
+ * Soprano sits at the tonic's gamut peak (teal 180°, Jz ≈ 0.188).
+ * One Jz per register, regardless of hue temperature or chroma dynamic.
+ * Warm hues produce less sRGB luminance at equal Jz — the theme accepts
+ * this trade-off for uniform lightness (DESIGN.md Ch5).
  */
 export const LIGHTNESS = {
-  // Chroma-aware primary tiers (all target Lc 82+ for overlay survival)
-  // Warm hues (red, coral, pink: 330°-70°) need +0.015 Jz vs cool hues
-  vivid: 0.180,       // For vivid chroma (C3) cool hues - prevents halation
-  vibrant: 0.188,     // For vibrant chroma (C2) cool hues - balanced
-  vibrantWarm: 0.218, // For vibrant chroma (C2) warm hues (red/pink) — +0.003 for overlay survival
-  primary: 0.192,     // For comfortable chroma (C1) cool hues
-  primaryWarm: 0.213, // For comfortable chroma (C1) warm hues — +0.003 for overlay survival
-  muted: 0.195,       // For muted chroma (CM) - comments need extra light
-
-  // Standard tiers
-  secondary: 0.186,   // Secondary elements (Lc ~75+) — +0.001 for overlay headroom
-  tertiary: 0.138,    // Tertiary/dim elements (Lc ≥45) - ghost text, line numbers
-  accent: 0.190,      // Accent elements (Lc ~80+) - brackets, highlights
+  contrabass: 0.080,   // −7 steps from soprano
+  bass: 0.095,         // −6
+  baritone: 0.110,     // −5
+  tenor: 0.125,        // −4
+  countertenor: 0.140, // −3  ghost/structure
+  alto: 0.155,         // −2  whisper/signal
+  mezzo: 0.170,        // −1
+  soprano: 0.185,      //  0  ★ tonic peak — the ensemble register
+  treble: 0.200,       // +1
+  sopranino: 0.215,    // +2
 } as const;
 
 /**
- * Standard chroma tiers for visual comfort
- * Percentage scale: raw Cz * 525 ≈ percentage
+ * Dynamics — Chroma (how loud)
+ *
+ * 9 dynamics from silence to extreme, using standard Italian dynamic markings.
+ * Each step is ΔCz = 0.015. The tonic (teal 180°) can play niente through mf.
+ * f and above exceed the tonic; only wider-gamut hues deliver them cleanly.
+ * (DESIGN.md Ch5)
  */
 export const CHROMA = {
-  comfortable: 0.060, // ~31% - mp dynamic, easy on eyes for hours
-  vibrant: 0.075,     // ~39% - mf dynamic, colorful but sustainable
-  vivid: 0.090,       // ~47% - f dynamic, attention-grabbing
-  muted: 0.045,       // ~24% - p dynamic, subtle, for comments
+  niente: 0,           // silence — achromatic
+  ppp: 0.015,          // breath — barely perceptible tint
+  pp: 0.030,           // sotto voce — color visible, not assertive
+  p: 0.045,            // quiet — present but restrained
+  mp: 0.060,           // ★ THE MELODY — the ensemble dynamic
+  mf: 0.075,           // emphasis — tonic ceiling
+  f: 0.090,            // signal — tonic clips here
+  ff: 0.105,           // alarm — only wide-gamut hues deliver
+  fff: 0.120,          // extreme — only wide-gamut hues deliver
 } as const;
 
 /**

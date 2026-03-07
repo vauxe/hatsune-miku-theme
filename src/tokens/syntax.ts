@@ -87,158 +87,158 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // DARK THEME — Standard Miku (unchanged)
+  // DARK THEME — The Score (DESIGN.md Ch6)
+  // All ensemble tokens: soprano/mp. Hue alone carries semantic meaning.
   // ═══════════════════════════════════════════════════════════════════════════
   return {
-    // ═══ UNISON — F# Teal (180°) — She sings ═══
+    // ═══ UNISON — F# Teal (180°) — Her voice ═══
     keyword: role(
       'Unison — her voice, the tonic on every line',
-      L.primary, C.comfortable, H.mikuTeal
+      L.soprano, C.mp, H.mikuTeal
     ),
     keywordControl: role(
       'Unison — directing flow: if, for, while, return',
-      L.primary, C.comfortable, H.mikuTeal
+      L.soprano, C.mp, H.mikuTeal
     ),
     keywordAlt: role(
-      'Unison, quieter — secondary keywords',
-      L.secondary, C.comfortable, H.mikuTeal
+      'Unison — secondary keywords',
+      L.soprano, C.mp, H.mikuTeal
     ),
-
-    // ═══ MAJOR 7TH — F Green (150°) — One breath from home ═══
     storage: role(
-      'Major 7th — declarations, one breath from the tonic',
-      L.primary, C.comfortable, H.green
+      'Unison — declarations share the tonic',
+      L.soprano, C.mp, H.mikuTeal
     ),
     storageModifier: role(
-      'Perfect 4th — modifiers in magenta, the heartbeat',
-      L.primaryWarm, C.comfortable, H.magenta
+      'Unison — modifiers share the tonic',
+      L.soprano, C.mp, H.mikuTeal
     ),
 
-    // ═══ MINOR 3RD — A Blue (270°) — The shape beneath ═══
-    // Blue hue contributes less luminance at equal Jz → +0.010 correction for Lc ≥ 82
-    type: role(
-      'Minor 3rd — the shape beneath the surface',
-      L.primary + 0.010, C.comfortable, H.blue
-    ),
-    typeParameter: role(
-      'Minor 3rd — a type waiting to become',
-      L.muted + 0.005, C.muted, H.blue
-    ),
-
-    // ═══ MINOR 2ND — G Cyan (210°) — A whisper from home ═══
-    enum: role(
-      'Minor 2nd — a defined set of possibilities',
-      L.primary, C.vibrant, H.cyan
-    ),
-    enumMember: role(
-      'Minor 2nd — one possibility, chosen',
-      L.muted, C.muted, H.cyan
-    ),
-
-    // ═══ MAJOR 3RD — A# Violet (300°) — A promise ═══
-    // Violet shares blue's luminance deficit → +0.005 correction
-    macro: role(
-      'Major 3rd — code that transforms code',
-      L.muted + 0.005, C.muted, H.violet
-    ),
-
-    // ═══ MINOR 6TH — D Orange (60°) — She reaches ═══
-    // +0.003 ensures ΔEz ≥ 15 distinction from class (gold, adjacent hue)
-    function: role(
-      'Minor 6th — she reaches into the light',
-      L.vibrantWarm + 0.003, C.vibrant, H.orange
-    ),
-    method: role(
-      'Major 7th — methods, one breath from the tonic',
-      L.primary, C.comfortable, H.green
-    ),
-
-    // ═══ MAJOR 6TH — D# Gold (90°) — The score, written with love ═══
-    class: role(
-      'Major 6th — the score from which instances are drawn',
-      L.vibrant, C.vibrant, H.gold
-    ),
-    interface: role(
-      'Major 3rd — a promise, pure potential',
-      L.primaryWarm, C.comfortable, H.violet
-    ),
-    struct: role(
-      'Major 6th — same family as class',
-      L.vibrant, C.vibrant, H.gold
-    ),
-
-    // ═══ MINOR 2ND — G Cyan (210°) — A whisper from home ═══
+    // ═══ MINOR 2ND — G Cyan (210°) — Almost her, shifting ═══
     variable: role(
       'Minor 2nd — almost her voice, always shifting',
-      L.secondary, C.vibrant, H.cyan
+      L.soprano, C.mp, H.cyan
     ),
+
+    // ═══ PERFECT 5TH — C# Red (30°) — What you give her ═══
     parameter: role(
       'Perfect 5th — what you give her, coming back as harmony',
-      L.primaryWarm, C.comfortable, H.red
+      L.soprano, C.mp, H.red
     ),
     property: role(
       'Perfect 5th — warmth reaching in from the world',
-      L.vibrantWarm, C.vibrant, H.red
+      L.soprano, C.mp, H.red
+    ),
+
+    // ═══ MINOR 6TH — D Orange (60°) — She reaches ═══
+    function: role(
+      'Minor 6th — she reaches into the light',
+      L.soprano, C.mp, H.orange
+    ),
+    attribute: role(
+      'Minor 6th — attributes in orange, modifying elements',
+      L.soprano, C.mp, H.orange
+    ),
+
+    // ═══ MAJOR 6TH — D# Gold (90°) — Written with love ═══
+    class: role(
+      'Major 6th — the score from which instances are drawn',
+      L.soprano, C.mp, H.gold
+    ),
+    struct: role(
+      'Major 6th — same family as class',
+      L.soprano, C.mp, H.gold
+    ),
+    interface: role(
+      'Major 6th — a promise, pure potential',
+      L.soprano, C.mp, H.gold
+    ),
+    enum: role(
+      'Major 6th — a defined set of possibilities',
+      L.soprano, C.mp, H.gold
     ),
 
     // ═══ MINOR 7TH — E Lime (120°) — Someone's truth ═══
     string: role(
       'Minor 7th — someone\'s truth embedded in syntax',
-      L.vibrant, C.vibrant, H.lime
+      L.soprano, C.mp, H.lime
     ),
     stringTemplate: role(
       'Minor 7th — structured expression',
-      L.primary, C.comfortable, H.lime
+      L.soprano, C.mp, H.lime
     ),
     regex: role(
-      'Major 6th — pattern matching structure in text',
-      L.primary, C.comfortable, H.gold
+      'Minor 7th — pattern matching structure in text',
+      L.soprano, C.mp, H.lime
+    ),
+
+    // ═══ MAJOR 7TH — F Green (150°) — One breath from home ═══
+    method: role(
+      'Major 7th — methods, one breath from home',
+      L.soprano, C.mp, H.green
     ),
 
     // ═══ MAJOR 2ND — G# Azure (240°) — The open ground ═══
-    number: role(
-      'Major 2nd — the open ground, quietly immutable',
-      L.muted, C.muted, H.azure
-    ),
-    boolean: role(
-      'Minor 3rd — depth at its simplest',
-      L.muted, C.muted, H.blue
-    ),
-
-    // ═══ CONSTANTS & MARKUP ═══
     constant: role(
       'Major 2nd — immutable values, azure and certain',
-      L.primary, C.comfortable, H.azure
+      L.soprano, C.mp, H.azure
     ),
+    number: role(
+      'Major 2nd — the open ground, quietly immutable',
+      L.soprano, C.mp, H.azure
+    ),
+    boolean: role(
+      'Major 2nd — truth at its simplest',
+      L.soprano, C.mp, H.azure
+    ),
+    enumMember: role(
+      'Major 2nd — one possibility, chosen',
+      L.soprano, C.mp, H.azure
+    ),
+
+    // ═══ MINOR 3RD — A Blue (270°) — The shape beneath ═══
+    type: role(
+      'Minor 3rd — the shape beneath the surface',
+      L.soprano, C.mp, H.blue
+    ),
+    typeParameter: role(
+      'Minor 3rd — a type waiting to become',
+      L.soprano, C.mp, H.blue
+    ),
+
+    // ═══ MAJOR 3RD — A# Violet (300°) — Transformation ═══
+    macro: role(
+      'Major 3rd — code that transforms code',
+      L.soprano, C.mp, H.violet
+    ),
+
+    // ═══ PERFECT 5TH — C# Red (30°) — Markup tags ═══
     tag: role(
-      'Perfect 5th — HTML/JSX structure, what you give her',
-      L.vibrantWarm, C.vibrant, H.red
-    ),
-    attribute: role(
-      'Minor 6th — attributes in orange, modifying elements',
-      L.primaryWarm, C.comfortable, H.orange
-    ),
-
-    // ═══ UNISON at ppp — F# Teal — Her whisper ═══
-    comment: role(
-      'Unison at ppp — her whisper, softened but Lc≥70 on editor',
-      L.muted, C.gray, H.mikuTeal
-    ),
-    commentDoc: role(
-      'Unison at p — her soft voice, never louder than keywords',
-      L.muted, C.muted - 0.010, H.mikuTeal
-    ),
-
-    // ═══ UNISON at ppp — F# Teal — The space between notes ═══
-    punctuation: role(
-      'Unison at ppp — bar lines, not notes',
-      L.tertiary, C.gray, H.mikuTeal
+      'Perfect 5th — HTML/JSX tags, structural markup',
+      L.soprano, C.mp, H.red
     ),
 
     // ═══ PERFECT 4TH — B Magenta (330°) — The heartbeat ═══
     operator: role(
       'Perfect 4th — the heartbeat connecting everything',
-      L.primaryWarm, C.comfortable, H.magenta
+      L.soprano, C.mp, H.magenta
+    ),
+
+    // ═══ DEPARTURES — register shifts from the ensemble ═══
+
+    // Whisper layer — alto (−2), reduced dynamics
+    comment: role(
+      'Whisper — her voice, barely there',
+      L.alto, C.ppp, H.mikuTeal
+    ),
+    commentDoc: role(
+      'Whisper — her soft voice, visibly teal',
+      L.alto, C.pp, H.mikuTeal
+    ),
+
+    // Ghost layer — countertenor (−3), minimal dynamics
+    punctuation: role(
+      'Ghost — bar lines, seen through not at',
+      L.countertenor, C.ppp, H.mikuTeal
     ),
   };
 }

@@ -70,7 +70,7 @@ export function createSyntaxColors(t: SemanticTokens) {
     attribute: t.syntax.attribute.hex,
 
     // Headings & Special
-    heading: darken(t.syntax.function, 0.004),  // Bold compensation — lands at vibrantWarm (Jz 0.215)
+    heading: darken(t.syntax.function, 0.004),  // Bold compensation — slightly darker than function
     sqlKeyword: t.syntax.keywordControl.hex,
 
     // Markdown

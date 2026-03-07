@@ -86,7 +86,7 @@ export interface APCAAnalysis {
   /** Text/background luminance relationship */
   polarity: Polarity;
   /** Reason for failure if pass is false */
-  failReason?: 'too-low' | 'halation';
+  failReason?: 'too-low';
 }
 
 // =============================================================================
@@ -369,42 +369,32 @@ export interface AnalysisOptions {
 }
 
 // =============================================================================
-// SEMANTIC COLOR GROUP TYPES
+// COGNITIVE ROLE TYPES
 // =============================================================================
 
 /**
- * The 10 semantic color groups for optimal VS Code theme design.
- * Tokens within the same group SHOULD have similar colors.
- * Tokens in different groups MUST be visually distinct.
+ * The 12 cognitive roles a programmer distinguishes while reading code.
+ * Derived from first principles across all major languages.
+ * Each role maps to one hue in a well-designed theme.
+ *
+ * Cross-role pairs that appear adjacent in code must be visually distinct.
  */
-export type SemanticGroupName =
-  | 'KEYWORD'    // Control flow, declarations, storage
-  | 'OPERATOR'   // Operators (visual rhythm)
-  | 'CALLABLE'   // Functions, methods, macros
-  | 'DECORATOR'  // Decorators (@syntax)
-  | 'TYPE'       // All type-related: types, interfaces, classes, structs, enums, namespaces
-  | 'VARIABLE'   // Variables, language variables, labels, events
-  | 'PARAMETER'  // Parameters, properties, attributes
-  | 'STRING'     // String literals, escapes
-  | 'REGEXP'     // Regular expressions
-  | 'NUMERIC'    // Numbers, constants, enum members
-  | 'MARKUP'     // HTML tags, markdown formatting
-  | 'COMMENT';   // Comments, doc comments
+export type RoleName =
+  | 'GRAMMAR'       // Reserved words: keyword, storage, storageModifier, variableLanguage
+  | 'DATA'          // User-named values: variable
+  | 'ACCESS'        // Named access in/out: parameter, property
+  | 'FREE_ACTION'   // Standalone callable: function
+  | 'BOUND_ACTION'  // Object-bound callable: method
+  | 'SHAPE_DEF'     // Type definitions: class, struct, interface, enum
+  | 'SHAPE_REF'     // Type annotations: type, typeParameter
+  | 'TEXT'          // Human text: string, regex
+  | 'VALUE'         // Fixed values: constant, number, boolean, enumMember
+  | 'META'          // Code-about-code: decorator, macro
+  | 'CONNECTIVE'    // Operators: operator
+  | 'WHISPER';      // Comments: comment, docComment
 
 /**
- * Definition of a semantic color group.
- */
-export interface SemanticGroup {
-  /** Human-readable group name */
-  name: string;
-  /** Description of what tokens belong in this group */
-  description: string;
-  /** Token names that belong to this group */
-  members: readonly string[];
-}
-
-/**
- * Priority level for cross-group distinction requirements.
+ * Priority level for cross-role distinction requirements.
  * - critical: Appear every few lines, confusion is very costly (ΔE ≥ 18)
  * - high: Common adjacencies, should be clearly different (ΔE ≥ 15)
  * - standard: Less frequent but still need distinction (ΔE ≥ 12)
@@ -412,17 +402,17 @@ export interface SemanticGroup {
 export type DistinctionPriority = 'critical' | 'high' | 'standard';
 
 /**
- * Result of analyzing cross-group distinction.
+ * Result of analyzing cross-role distinction.
  */
-export interface CrossGroupDistinctionResult {
+export interface CrossRoleDistinctionResult {
   /** First token */
   token1: string;
   /** Second token */
   token2: string;
-  /** First token's group */
-  group1: SemanticGroupName;
-  /** Second token's group */
-  group2: SemanticGroupName;
+  /** First token's cognitive role */
+  role1: RoleName;
+  /** Second token's cognitive role */
+  role2: RoleName;
   /** Colors being compared */
   color1: string;
   color2: string;

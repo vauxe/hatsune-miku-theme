@@ -82,7 +82,7 @@ const bracketPastel = {
 // Alpha — opacity per polarity (base color stays the same, opacity shifts)
 const alpha = {
   // Editor line highlighting
-  lineHighlightBg:          isLight ? '12' : '26',   // 15% — reduced from 20% for compound contrast
+  lineHighlightBg:          isLight ? '12' : '1C',   // 11% — tuned for compound contrast survival on warm tokens
   lineHighlightBorder:      isLight ? '18' : '40',
   inactiveLineHighlight:    isLight ? '0A' : '15',
   // Selection
@@ -105,13 +105,13 @@ const alpha = {
   // Terminal
   terminalSelectionBg:      isLight ? '20' : '35',
   terminalFindMatchBg:      isLight ? '18' : '40',
-  // Diff
-  diffInsertedLine:         isLight ? '1C' : '33',
-  diffInsertedText:         isLight ? '22' : '40',
-  diffGutterInserted:       isLight ? '14' : '33',
-  diffRemovedLine:          isLight ? '1C' : '33',
-  diffRemovedText:          isLight ? '1A' : '40',
-  diffGutterRemoved:        isLight ? '1C' : '33',
+  // Diff — reduced from 20%/25% to 15%/18% to preserve Lc ≥ 70 on bright source colors
+  diffInsertedLine:         isLight ? '1C' : '26',
+  diffInsertedText:         isLight ? '22' : '2E',
+  diffGutterInserted:       isLight ? '14' : '26',
+  diffRemovedLine:          isLight ? '1C' : '26',
+  diffRemovedText:          isLight ? '1A' : '2E',
+  diffGutterRemoved:        isLight ? '1C' : '26',
   // Inline chat
   inlineChatDiff:           isLight ? '12' : '20',
   chatLinesAdded:           'F5',
@@ -151,7 +151,7 @@ const pol = {
   // Suggest widget selected
   suggestSelectedBg: isLight
     ? withOpacity(t.decorative.cursorLineFrost, '1A')
-    : withOpacity(t.decorative.cursorLineFrost, '25'),  // 15% frost — reduced from 25% for compound contrast
+    : withOpacity(t.decorative.cursorLineFrost, '1C'),  // 11% frost — tuned for compound contrast survival on warm tokens
   // Notification toast border
   toastBorder:      isLight ? withOpacity(accent.blush, '35') : withOpacity(t.decorative.skinBase, '30'),
   // SCM graph label foreground

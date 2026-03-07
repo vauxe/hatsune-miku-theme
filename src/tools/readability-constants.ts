@@ -2,7 +2,7 @@
  * Constants and configuration for the readability analysis tool.
  */
 
-import type { SemanticGroup, SemanticGroupName, DistinctionPriority } from './readability-types';
+import type { RoleName, DistinctionPriority } from './readability-types';
 
 // =============================================================================
 // SCALE CONSTANTS
@@ -208,21 +208,19 @@ export const LABELS = {
 /**
  * APCA contrast thresholds for different element tiers.
  *
- * Primary (Lc 75-90): High-frequency syntax - body text level, avoiding harsh extremes
- * Secondary (Lc 70-90): UI elements, comments - can be slightly softer
- * Tertiary (Lc ≥ 45): Intentionally subdued elements
- * Max (Lc ≤ 90): Prevents halation (text bloom) on dark themes only.
- *   Halation occurs when bright text glows on dark backgrounds (light-on-dark polarity).
- *   Dark text on light backgrounds (dark-on-light) doesn't bloom — high Lc is fine.
+ * Primary (Lc ≥ 75): Syntax tokens — APCA body text minimum for 14px/400
+ *   Lc 75 is the floor; APCA recommends Lc 90 for fluent reading. Aim for 85-95.
+ * Secondary (Lc ≥ 60): UI elements, operators — APCA content text level
+ * Tertiary (Lc ≥ 45): Intentionally subdued — ghost text, inactive, comments
+ * No max cap — APCA compensates for polarity internally.
  */
 /** Shape of APCA threshold configuration */
-export type APCAThresholdConfig = { primary: number; secondary: number; tertiary: number; max: number };
+export type APCAThresholdConfig = { primary: number; secondary: number; tertiary: number };
 
 export const APCA_THRESHOLDS: APCAThresholdConfig = {
-  primary: 75,    // Body text level - comfortable for marathon coding
-  secondary: 70,  // Slightly softer for UI/comments
-  tertiary: 45,   // Large text level - for dim elements
-  max: 90,        // Prevents halation - cap below Fluent for comfort
+  primary: 75,    // APCA body text minimum for 18px/400 (reasonable for monospace 14px)
+  secondary: 60,  // APCA content text level — UI elements you glance at
+  tertiary: 45,   // Intentionally subdued — ghost text, inactive, comments
 };
 
 /**
@@ -231,28 +229,26 @@ export const APCA_THRESHOLDS: APCAThresholdConfig = {
  * APCA internally compensates for polarity asymmetry: the same Lc value
  * represents equivalent readability in both light-on-dark and dark-on-light.
  * Using lower thresholds for light themes would mean accepting worse
- * readability. Only `max` differs: halation (text bloom) doesn't occur
- * with dark-on-light text, so the cap is relaxed.
+ * readability. Same thresholds for both themes.
  */
 export const APCA_THRESHOLDS_LIGHT: APCAThresholdConfig = {
   primary: 75,     // Body text — same standard as dark theme
-  secondary: 70,   // UI/comments — same standard as dark theme
-  tertiary: 45,    // Ghost text, placeholders — same standard as dark theme
-  max: 110,        // No halation possible with dark-on-light text
+  secondary: 60,   // Content text — same standard as dark theme
+  tertiary: 45,    // Ghost text, placeholders, comments — same standard
 };
 
 /**
  * Primary syntax elements that require higher contrast (Lc ≥ 75).
  * These are high-frequency semantic tokens you read constantly while coding.
  *
- * Note: Punctuation and operators are intentionally EXCLUDED (secondary tier).
- * They are structural/visual aids, not semantic content - can be slightly muted
- * for comfortable reading while still meeting body text threshold (Lc ≥ 75).
+ * Note: Punctuation is EXCLUDED (secondary tier) — structural/visual aid,
+ * not semantic content. Operators are PRIMARY — the design places them in the
+ * soprano/mp ensemble (Magenta 330°), same tier as all other syntax tokens.
  */
 export const PRIMARY_SYNTAX_ELEMENTS = new Set([
   // Core tokens (appear in almost every line)
   'Variables', 'Var Language', 'Parameters', 'Properties',
-  'Keywords', 'Storage', 'Storage Mod',
+  'Keywords', 'Operators', 'Storage', 'Storage Mod',
   // Definitions
   'Functions', 'Methods', 'Classes', 'Types', 'Interfaces',
   'Namespaces', 'Enums', 'Enum Members', 'Type Params',
@@ -496,6 +492,11 @@ export const EXPECTED_DIM_ELEMENTS = new Set([
   'Description',     // Helper/description text
   'Chat Placeholder',// Inline chat placeholder
   'List Deemph',     // Explicitly deemphasized list items
+  // Comments — Ch6 alto whisper departure, intentionally quiet
+  'Comments', 'Doc Comments',
+  'Line:Comment', 'Sel:Comment', 'Hover:Comment', 'Sticky:Comment',
+  'DiffIns:Comment', 'DiffRem:Comment', 'Range:Comment', 'Peek:Comment',
+  'Unchanged:Comment', 'Cell:Comment', 'Search:Comment',
   // Git (intentionally dimmed filename text — tertiary threshold Lc ≥ 45)
   'Ignored',         // Git ignored files
   // Icons - communicate via SHAPE not text, need only visibility (Lc≥45)
@@ -529,327 +530,7 @@ export const EXPECTED_DIM_ELEMENTS = new Set([
 // COLOR DISTINCTION PAIRS
 // =============================================================================
 
-/**
- * Adjacency pairs - semantic token pairs that benefit from visual distinction.
- *
- * Criteria for inclusion:
- * - Semantic confusion possible (not shape-distinguishable like punctuation)
- * - Line structure visibility (storage → entity name blocks)
- * - User vs library distinction (function vs supportFunction)
- * - Beauty/rhythm at high-frequency boundaries
- *
- * Excluded: punctuation, operators, context-obvious pairs (the `.` or `()` tells you)
- */
-export const ADJACENCY_PAIRS: Array<[string, string]> = [
-  // =============================================================================
-  // TIER 1: CRITICAL - These appear every few lines in any codebase
-  // =============================================================================
-
-  // ===== KEYWORDS (control flow, declarations) =====
-  ['keyword', 'variable'],            // if (x), for x in, return val
-  ['keyword', 'parameter'],           // return x, throw err (params often used as values)
-  ['keyword', 'function'],            // return foo(), async function
-  ['keyword', 'class'],               // class Foo, new Foo
-  ['keyword', 'type'],                // type X, as Type
-  ['keyword', 'string'],              // import "x", return "x"
-  ['keyword', 'number'],              // return 5, case 1
-  ['keyword', 'constant'],            // if (true), return null
-  ['keyword', 'supportClass'],        // new Map, extends Array - keyword + built-in type
-  ['keyword', 'tag'],                 // JSX <tag>return
-  ['keyword', 'storage'],             // function, class declarations (93)
-  ['keyword', 'storageModifier'],     // export const, async function (82)
-  ['keyword', 'supportFunction'],     // return console.log() (76)
-  ['keyword', 'supportConstant'],     // return Math.PI (75)
-  ['keyword', 'supportType'],         // extends string, as string (27)
-  ['keyword', 'supportVariable'],     // return process (19)
-  ['keyword', 'variableLanguage'],    // return this, delete this (26)
-  ['keyword', 'namespace'],           // namespace declarations (11)
-  ['keyword', 'macro'],               // macro invocations (11)
-  ['keyword', 'section'],             // section headers (13)
-  ['keyword', 'regexp'],              // regex patterns (3)
-  ['keyword', 'struct'],              // struct declarations (1)
-  ['keyword', 'property'],            // keyword before property access (8)
-  ['keyword', 'typeParameter'],       // keyword T (1)
-  ['keyword', 'markupBold'],          // keyword **bold** (4)
-
-  // ===== STORAGE (let, const, function, class) =====
-  ['storage', 'variable'],            // let x, const y, var z
-  ['storage', 'function'],            // function foo, def bar
-  ['storage', 'class'],               // class Foo {}
-  ['storage', 'type'],                // type X = ...
-  ['storage', 'struct'],              // struct Foo
-  ['storage', 'enum'],                // enum Color
-  ['storage', 'string'],              // import "path"
-  ['storage', 'supportFunction'],     // function console.log (82)
-  ['storage', 'supportClass'],        // class extends Array (8)
-  ['storage', 'supportType'],         // type string (7)
-  ['storage', 'supportVariable'],     // let process (18)
-  ['storage', 'supportConstant'],     // const PI (1)
-  ['storage', 'tag'],                 // JSX storage + tag (1)
-  ['storageModifier', 'variable'],    // const x, static x
-  ['storageModifier', 'function'],    // async function foo
-  ['storageModifier', 'class'],       // public class, abstract class
-  ['storageModifier', 'type'],        // export type, readonly
-  ['storageModifier', 'storage'],     // public static, export const
-  ['storageModifier', 'typeParameter'],// abstract T, readonly T (29)
-  ['storageModifier', 'supportClass'], // export Array (26)
-  ['storageModifier', 'supportType'], // export string (17)
-  ['storageModifier', 'supportFunction'],// exported functions (1)
-  ['storageModifier', 'supportConstant'],// exported constants (1)
-  ['storageModifier', 'string'],      // export "module" (12)
-
-  // ===== FUNCTIONS & METHODS =====
-  ['function', 'parameter'],          // foo(x) definition
-  ['function', 'variable'],           // foo(x, y) args
-  ['function', 'type'],               // foo(): Type
-  ['function', 'string'],             // foo("arg")
-  ['function', 'number'],             // foo(123)
-  ['function', 'constant'],           // foo(true), foo(null)
-  ['function', 'supportClass'],       // foo(Array) (71)
-  ['function', 'supportType'],        // foo(): string (24)
-  ['function', 'supportConstant'],    // foo(PI) (4)
-  ['function', 'storageModifier'],    // async foo (40)
-  ['function', 'variableLanguage'],   // foo(this) (23)
-  ['function', 'property'],           // function accessing property (13)
-  ['function', 'typeParameter'],      // foo<T> (3)
-  ['function', 'stringEscape'],       // foo("\n") (3)
-  ['function', 'namespace'],          // Ns.foo() (2)
-  ['method', 'variable'],             // obj.method(x)
-  ['method', 'parameter'],            // method(param) definition
-  ['method', 'type'],                 // method(): Type
-  ['method', 'string'],               // method("arg")
-  ['method', 'number'],               // method(123)
-  ['supportFunction', 'variable'],    // console.log(x) - user vs library
-  ['supportFunction', 'string'],      // require('x'), console.log("msg")
-  ['supportFunction', 'supportClass'],// console.log(Array) (15)
-  ['supportFunction', 'supportType'], // parseInt(): number (14)
-  ['supportFunction', 'supportVariable'],// console.log(process) (10)
-  ['supportFunction', 'variableLanguage'],// console.log(this) (8)
-  ['supportFunction', 'supportConstant'],// Math.floor(PI) (13)
-
-  // ===== VARIABLES & PARAMETERS =====
-  ['parameter', 'variable'],          // fn(param) { let x = param } - CRITICAL
-  ['parameter', 'storage'],           // def foo(x): storage before param (105)
-  ['parameter', 'supportConstant'],   // foo(PI) (106)
-  ['parameter', 'supportFunction'],   // foo(console.log) (57)
-  ['parameter', 'supportType'],       // param: string (54)
-  ['parameter', 'supportClass'],      // param: Array (28)
-  ['parameter', 'string'],            // foo("x", param) (53)
-  ['parameter', 'type'],              // x: Type (31)
-  ['parameter', 'storageModifier'],   // readonly param (41)
-  ['parameter', 'typeParameter'],     // param<T> (5)
-  ['parameter', 'number'],            // foo(42, x) (17)
-  ['variable', 'type'],               // x: Type
-  ['variable', 'constant'],           // myVar vs MY_CONST
-  ['variable', 'variableLanguage'],   // this vs myVar (28)
-  ['variable', 'supportConstant'],    // PI vs myConst (20)
-  ['variable', 'supportClass'],       // Array vs myClass (19)
-  ['variable', 'supportType'],        // string vs myType (16)
-  ['variable', 'colorValue'],         // CSS color values (28)
-  ['number', 'variable'],             // 123, x (152)
-
-  // ===== STRINGS & ESCAPES =====
-  ['string', 'variable'],             // `${name}`, f"{x}"
-  ['string', 'stringEscape'],         // "hello\n"
-  ['string', 'number'],               // "123" vs 123
-  ['string', 'constant'],             // "text" vs TRUE (142)
-  ['string', 'tag'],                  // JSX string next to tag (63)
-  ['string', 'type'],                 // "text": Type (26)
-  ['string', 'supportType'],          // "text" vs string type (19)
-  ['string', 'supportConstant'],      // "text" vs PI (16)
-  ['string', 'supportClass'],         // "text" vs Array (12)
-  ['string', 'supportVariable'],      // "text" vs process (7)
-  ['string', 'variableLanguage'],     // "text" vs this (7)
-
-  // ===== CONSTANTS & NUMBERS =====
-  ['constant', 'storage'],            // TRUE in storage context (67)
-  ['constant', 'number'],             // TRUE vs 42 (28)
-  ['constant', 'storageModifier'],    // export TRUE (18)
-  ['constant', 'supportFunction'],    // console.log(TRUE) (26)
-  ['constant', 'supportClass'],       // Array vs TRUE (14)
-  ['constant', 'supportType'],        // string vs TRUE (7)
-  ['constant', 'stringEscape'],       // TRUE vs "\n" (15)
-  ['constant', 'type'],               // TRUE: Type (14)
-  ['constant', 'function'],           // foo(TRUE) (42)
-  ['constant', 'tag'],                // JSX constant (13)
-  ['constant', 'cssPropertyName'],    // CSS constant (14)
-  ['constant', 'parameter'],          // TRUE as param (3)
-  ['constant', 'variableLanguage'],   // TRUE vs this (3)
-  ['number', 'storage'],              // 42 in storage context (61)
-  ['number', 'supportFunction'],      // console.log(42) (56)
-  ['number', 'supportConstant'],      // PI vs 42 (17)
-  ['number', 'supportType'],          // 42 vs string (15)
-  ['number', 'supportClass'],         // 42 vs Array (3)
-  ['number', 'supportVariable'],      // 42 vs process (6)
-  ['number', 'storageModifier'],      // export 42 (9)
-  ['number', 'parameter'],            // foo(42, x) (17)
-  ['number', 'type'],                 // 42: Type (1)
-  ['number', 'tag'],                  // JSX number (1)
-  ['number', 'variableLanguage'],     // 42 vs this (3)
-  ['number', 'stringEscape'],         // 42 vs "\n" (1)
-  ['stringEscape', 'variable'],       // "\n" vs var (14)
-
-  // ===== COMMENTS (must be visually distinct from code) =====
-  ['comment', 'variable'],            // x = 5 // comment
-  ['comment', 'keyword'],             // comment near control-flow / declarations
-  ['comment', 'number'],              // 42 // comment (6)
-  ['comment', 'constant'],            // TRUE // comment (2)
-  ['comment', 'string'],              // "x" // comment (2)
-  ['comment', 'storage'],             // function // comment (1)
-  ['comment', 'function'],            // foo() // comment (1)
-  ['comment', 'supportFunction'],     // console.log() // comment (1)
-  ['comment', 'supportType'],         // string // comment (2)
-  ['comment', 'regexp'],              // /pattern/ // comment (1)
-  ['comment', 'decorator'],           // @decorator // comment (1)
-  ['comment', 'colorValue'],          // #fff // comment (13)
-
-  // =============================================================================
-  // TIER 2: IMPORTANT - Common in typed languages, web dev, specific contexts
-  // =============================================================================
-
-  // ===== TYPE SYSTEM (TypeScript, Java, C#, etc.) =====
-  ['type', 'variable'],               // : Type annotation
-  ['type', 'function'],               // fn(): Type - return type
-  ['type', 'class'],                  // class Foo extends Type
-  ['type', 'string'],                 // "x": Type (26)
-  ['type', 'variableLanguage'],       // this: Type (7)
-  ['typeParameter', 'type'],          // T extends Base
-  ['supportType', 'variable'],        // string vs myVar (16)
-  ['supportType', 'supportClass'],    // string vs Array (4)
-  ['supportType', 'struct'],          // string vs struct (1)
-  ['supportType', 'colorValue'],      // type vs color (12)
-  ['supportType', 'supportConstant'], // string vs PI (3)
-  ['interface', 'type'],              // interface X extends Type
-  ['interface', 'class'],             // class Foo implements IBar
-  ['interface', 'variable'],          // const x: IFoo
-  ['interface', 'storage'],           // interface storage (9)
-
-  // ===== JSX/HTML =====
-  ['tag', 'attribute'],               // <div class
-  ['tag', 'string'],                  // <tag>"text" (63)
-  ['tag', 'supportConstant'],         // <Tag PI> (59)
-  ['tag', 'variable'],                // <Tag var> (8)
-  ['tag', 'property'],                // <tag prop> (10)
-  ['tag', 'constant'],                // <Tag TRUE> (13)
-  ['tag', 'number'],                  // <Tag 42> (1)
-  ['attribute', 'string'],            // class="x"
-  ['attribute', 'variable'],          // prop={x}
-  ['attribute', 'parameter'],         // attribute with param (13)
-  ['attribute', 'number'],            // attr=42 (9)
-  ['attribute', 'keyword'],           // attr + keyword (4)
-  ['attribute', 'constant'],          // attr=TRUE (2)
-  ['attribute', 'supportConstant'],   // attr=PI (2)
-  ['attribute', 'cssPropertyName'],   // style attribute (10)
-  ['attribute', 'storage'],           // attribute storage (1)
-
-  // ===== CSS =====
-  ['cssSelector', 'cssPropertyName'], // .class { color: }
-  ['cssPropertyName', 'number'],      // width: 100
-  ['cssPropertyName', 'variable'],    // color: $var (SCSS)
-  ['cssPropertyName', 'string'],      // content: "..." (CSS)
-  ['cssPropertyName', 'supportFunction'],// transform: calc() (46)
-  ['cssPropertyName', 'supportConstant'],// width: 100px (28)
-  ['cssPropertyName', 'keyword'],     // position: absolute (2)
-  ['cssPropertyName', 'constant'],    // display: TRUE (14)
-  ['colorValue', 'variable'],         // #fff vs $var (28)
-  ['colorValue', 'cssPropertyName'],  // color: #fff (9)
-  ['colorValue', 'supportType'],      // #fff vs string (12)
-  ['colorValue', 'string'],           // #fff vs "text" (2)
-  ['colorValue', 'number'],           // #fff vs 100 (1)
-
-  // ===== ENUMS =====
-  ['enum', 'enumMember'],             // Enum.Member
-  ['enum', 'supportType'],            // enum vs string (2)
-  ['enum', 'storageModifier'],        // export enum (1)
-  ['enum', 'keyword'],                // enum keyword (1)
-  ['enumMember', 'constant'],         // enum member vs constant
-  ['enumMember', 'storage'],          // enum member storage (11)
-  ['enumMember', 'number'],           // EnumMember = 42 (9)
-  ['enumMember', 'string'],           // EnumMember = "x" (8)
-  ['enumMember', 'parameter'],        // enum member as param (6)
-
-  // ===== DIFFS (critical for code review) =====
-  ['markupInserted', 'markupDeleted'],// +added vs -removed (CRITICAL)
-
-  // ===== PROPERTIES & OBJECT LITERALS =====
-  ['property', 'variable'],           // { x: val }
-  ['property', 'type'],               // prop: Type
-  ['property', 'string'],             // { key: "value" }
-  ['property', 'number'],             // { count: 42 }
-  ['property', 'constant'],           // { flag: TRUE }
-  ['property', 'function'],           // { onClick: handler }
-  ['property', 'method'],             // obj.prop vs obj.method()
-  ['property', 'variableLanguage'],   // this.x vs obj.x (38)
-  ['property', 'tag'],                // property in JSX (10)
-  ['property', 'storage'],            // property storage (3)
-  ['property', 'supportFunction'],    // property vs console.log (2)
-  ['property', 'supportVariable'],    // property vs process (1)
-  ['property', 'supportConstant'],    // property vs PI (1)
-
-  // ===== DOC COMMENTS (JSDoc, etc.) =====
-  ['docComment', 'comment'],          // JSDoc vs regular comments
-
-  // =============================================================================
-  // TIER 3: LANGUAGE-SPECIFIC - Important for specific ecosystems
-  // =============================================================================
-
-  // ===== DECORATORS (Python, TypeScript, Java annotations) =====
-  ['decorator', 'function'],          // @deco def foo
-  ['decorator', 'class'],             // @Component class
-
-  // ===== MACROS (Rust, C/C++) =====
-  ['macro', 'function'],              // macro! vs fn()
-  ['macro', 'string'],                // macro!("text") (10)
-  ['macro', 'number'],                // macro!(42) (6)
-  ['macro', 'variable'],              // macro!(var) (4)
-  ['macro', 'parameter'],             // macro!(param) (3)
-  ['macro', 'type'],                  // macro type (1)
-  ['macro', 'constant'],              // macro constant (1)
-
-  // ===== NAMESPACES (C++, C#, TypeScript) =====
-  ['namespace', 'class'],             // Ns.Class
-  ['namespace', 'type'],              // Ns::Type
-  ['namespace', 'storage'],           // namespace storage (3)
-
-  // ===== STRUCTS (Rust, Go, C) =====
-  ['struct', 'type'],                 // struct as type
-  ['struct', 'variable'],             // struct variable (1)
-
-  // ===== REGEXP =====
-  ['regexp', 'string'],               // "text" vs /pattern/
-  ['regexp', 'stringEscape'],         // /\n/ escape in regex (19)
-  ['regexp', 'variable'],             // /pattern/ vs var (3)
-  ['regexp', 'supportFunction'],      // regex supportFunction (3)
-  ['regexp', 'storage'],              // regex storage (2)
-
-  // ===== INHERITANCE (class extends) =====
-  ['inheritedClass', 'storageModifier'],// public Base (11)
-  ['inheritedClass', 'type'],         // extends Type (3)
-  ['inheritedClass', 'supportClass'], // extends Array (2)
-  ['inheritedClass', 'keyword'],      // extends keyword (1)
-  ['class', 'inheritedClass'],        // class Foo extends Bar (1)
-
-  // ===== MARKUP/MARKDOWN =====
-  ['markupBold', 'markupCode'],       // **bold** `code` (8)
-  ['markupBold', 'supportFunction'],  // bold with function (7)
-  ['markupBold', 'markupItalic'],     // **bold** *italic* (1)
-  ['markupCode', 'markupItalic'],     // `code` *italic* (1)
-  ['markupCode', 'supportFunction'],  // code with function (2)
-  ['markupItalic', 'supportFunction'],// italic with function (4)
-  ['link', 'markupCode'],             // [link]() `code` (1)
-  ['link', 'string'],                 // [link]("text") (3)
-
-  // ===== SECTIONS (Markdown headers, INI sections) =====
-  ['section', 'supportFunction'],     // section with function (17)
-  ['section', 'keyword'],             // section with keyword (13)
-
-  // ===== CLASS/FUNCTION COMBINATIONS =====
-  ['class', 'function'],              // class Foo { bar() } (6)
-  ['class', 'keyword'],               // class keyword (15)
-  ['class', 'string'],                // class "name" (1)
-  ['class', 'supportFunction'],       // class vs console.log (2)
-  ['class', 'supportType'],           // class vs string (1)
-];
+// (ADJACENCY_PAIRS removed — replaced by role-based MUST_DISTINGUISH_PAIRS below)
 
 /**
  * Symbol discrimination pairs - symbols that appear in autocomplete, outline, breadcrumbs
@@ -1145,206 +826,236 @@ export const EXTENSION_ICON_DISTINCTION_PAIRS: Array<[string, string]> = [
 ];
 
 // =============================================================================
-// SEMANTIC COLOR GROUPS
+// COGNITIVE ROLE MAP
 // =============================================================================
 
 /**
- * The 10 semantic color groups for VS Code theme analysis.
+ * Token → cognitive role mapping.
  *
- * These groups represent semantically related tokens that typically share
- * visual styling in well-designed themes. The analysis checks:
- * - Intra-group cohesion: Tokens in the same group should be similar (ΔE ≤ 10)
- * - Cross-group distinction: Tokens in different groups should differ (ΔE ≥ 12-18)
+ * 12 roles derived from first principles across all major programming languages.
+ * Each role answers: "What is this token's job in the programmer's mental model?"
+ * The minimum set where merging any two loses information the programmer uses.
  *
- * Note: These are conservative groupings. Themes may legitimately differentiate
- * tokens within the same group (e.g., `function` vs `macro`) for stylistic reasons.
+ * GRAMMAR:      Can you rename it? No → reserved word.
+ * DATA:         User-named values flowing through code.
+ * ACCESS:       Named entry/exit points (parameters in, properties out).
+ * FREE_ACTION:  Standalone callable (function).
+ * BOUND_ACTION: Object-bound callable (method).
+ * SHAPE_DEF:    Defines a type shape (class, struct, interface, enum).
+ * SHAPE_REF:    References a type shape (type annotation, type parameter).
+ * TEXT:         Human-readable literals (strings, regex).
+ * VALUE:        Fixed/immutable values (constants, numbers, booleans).
+ * META:         Code that transforms code (decorators, macros).
+ * CONNECTIVE:   Operators linking expressions.
+ * WHISPER:      Comments — code/not-code boundary.
  */
-export const SEMANTIC_COLOR_GROUPS: Record<SemanticGroupName, SemanticGroup> = {
-  KEYWORD: {
-    name: 'Keywords',
-    description: 'Control flow, declarations, and storage keywords',
-    members: ['keyword', 'storage', 'storageModifier'],
-  },
-  OPERATOR: {
-    name: 'Operators',
-    description: 'Operators providing visual rhythm in code',
-    members: ['operator'],
-  },
-  CALLABLE: {
-    name: 'Callables',
-    description: 'Functions, methods, and macros',
-    members: ['function', 'method', 'supportFunction', 'macro'],
-  },
-  DECORATOR: {
-    name: 'Decorators',
-    description: 'Decorators and annotations (@syntax)',
-    members: ['decorator'],
-  },
-  TYPE: {
-    name: 'Types',
-    description: 'All type-related constructs: types, interfaces, classes, structs, enums, namespaces',
-    members: ['type', 'interface', 'typeParameter', 'supportType', 'class', 'struct', 'supportClass', 'enum', 'namespace'],
-  },
-  VARIABLE: {
-    name: 'Variables',
-    description: 'Variable identifiers, language variables, labels, and events',
-    members: ['variable', 'supportVariable', 'variableLanguage', 'label', 'event'],
-  },
-  PARAMETER: {
-    name: 'Parameters',
-    description: 'Function parameters, properties, and attributes',
-    members: ['parameter', 'property', 'attribute'],
-  },
-  STRING: {
-    name: 'Strings',
-    description: 'String literals and escape sequences',
-    members: ['string', 'stringEscape'],
-  },
-  REGEXP: {
-    name: 'Regular Expressions',
-    description: 'Regular expression patterns with complex internal syntax',
-    members: ['regexp'],
-  },
-  NUMERIC: {
-    name: 'Numerics',
-    description: 'Numbers, constants, and enum members',
-    members: ['number', 'constant', 'supportConstant', 'enumMember'],
-  },
-  MARKUP: {
-    name: 'Markup',
-    description: 'HTML/XML tags and markup formatting',
-    members: ['tag', 'link', 'markupHeading', 'markupBold', 'markupItalic', 'markupCode', 'markupQuote', 'markupList'],
-  },
-  COMMENT: {
-    name: 'Comments',
-    description: 'Comments and documentation',
-    members: ['comment', 'docComment'],
-  },
-} as const;
+export const TOKEN_ROLES: Record<string, RoleName> = {
+  // GRAMMAR — reserved words, cannot be renamed
+  keyword: 'GRAMMAR',
+  storage: 'GRAMMAR',
+  storageModifier: 'GRAMMAR',
+  variableLanguage: 'GRAMMAR',
+
+  // DATA — user-named values
+  variable: 'DATA',
+  supportVariable: 'DATA',
+
+  // ACCESS — named entry/exit points
+  parameter: 'ACCESS',
+  property: 'ACCESS',
+  tag: 'ACCESS',        // alias: HTML element names = named structure
+  attribute: 'ACCESS',  // alias: HTML attributes = named access
+
+  // FREE_ACTION — standalone callable
+  function: 'FREE_ACTION',
+  supportFunction: 'FREE_ACTION',
+
+  // BOUND_ACTION — object-bound callable
+  method: 'BOUND_ACTION',
+
+  // SHAPE_DEF — defines a type shape
+  class: 'SHAPE_DEF',
+  struct: 'SHAPE_DEF',
+  interface: 'SHAPE_DEF',
+  enum: 'SHAPE_DEF',
+  supportClass: 'SHAPE_DEF',
+  namespace: 'SHAPE_DEF',
+
+  // SHAPE_REF — references a type shape
+  type: 'SHAPE_REF',
+  typeParameter: 'SHAPE_REF',
+  supportType: 'SHAPE_REF',
+
+  // TEXT — human-readable literals
+  string: 'TEXT',
+  stringEscape: 'TEXT',
+  regexp: 'TEXT',
+
+  // VALUE — fixed/immutable values
+  number: 'VALUE',
+  constant: 'VALUE',
+  boolean: 'VALUE',
+  enumMember: 'VALUE',
+  supportConstant: 'VALUE',
+
+  // META — code that transforms code
+  decorator: 'META',
+  macro: 'META',
+
+  // CONNECTIVE — operators linking expressions
+  operator: 'CONNECTIVE',
+
+  // WHISPER — comments
+  comment: 'WHISPER',
+  docComment: 'WHISPER',
+};
 
 /**
- * Reverse lookup: token name -> group name.
- * Built from SEMANTIC_COLOR_GROUPS for O(1) lookups.
+ * Get the cognitive role for a token.
+ * Returns undefined for tokens not in the role system (e.g., CSS-specific, markup formatting).
  */
-const TOKEN_TO_GROUP_MAP: Map<string, SemanticGroupName> = new Map();
-for (const [groupName, group] of Object.entries(SEMANTIC_COLOR_GROUPS)) {
-  for (const member of group.members) {
-    TOKEN_TO_GROUP_MAP.set(member, groupName as SemanticGroupName);
-  }
-}
-
-/**
- * Get the semantic group for a token.
- * Returns undefined if token is not in any group (e.g., punctuation, operator).
- */
-export function getTokenGroup(token: string): SemanticGroupName | undefined {
-  return TOKEN_TO_GROUP_MAP.get(token);
+export function getTokenRole(token: string): RoleName | undefined {
+  return TOKEN_ROLES[token];
 }
 
 // =============================================================================
-// CROSS-GROUP DISTINCTION PAIRS (tokens that MUST be different)
+// CROSS-ROLE DISTINCTION PAIRS (the minimal syntax check)
 // =============================================================================
 
 /**
- * ΔEz thresholds (×500 scale) for cross-group distinction by priority.
+ * ΔEz thresholds (×500 scale) for cross-role distinction by priority.
  */
-export const SEMANTIC_DISTINCTION_THRESHOLDS = {
+export const ROLE_DISTINCTION_THRESHOLDS = {
   critical: 18,  // Appear every few lines, confusion is costly
   high: 15,      // Common adjacencies, should be clearly different
   standard: 12,  // Less frequent but still need distinction
 } as const;
 
 /**
- * Cross-group token pairs that MUST be visually distinguishable.
- * These are ordered by priority (critical first).
+ * Cross-role token pairs that MUST be visually distinguishable.
+ *
+ * Derived from the 12 cognitive roles: for each pair of roles that appears
+ * adjacent in real code, one representative pair is tested. Where a role
+ * has important variants (e.g., GRAMMAR has keyword, storage, storageModifier),
+ * each variant that commonly differs in practice is included.
  *
  * Structure: [token1, token2, priority]
  */
 export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, DistinctionPriority]> = [
   // ==========================================================================
-  // CRITICAL (ΔE ≥ 18) - Appear every few lines in any codebase
+  // CRITICAL (ΔEz ≥ 18) — every few lines in any codebase
   // ==========================================================================
 
-  // KEYWORD <-> VARIABLE (if x, return val, for item in list)
+  // GRAMMAR ↔ DATA — `if x`, `return val`, `for item in list`
   ['keyword', 'variable', 'critical'],
-  ['keyword', 'parameter', 'critical'],
   ['storage', 'variable', 'critical'],
-  ['storage', 'function', 'critical'],
   ['storageModifier', 'variable', 'critical'],
 
-  // CALLABLE <-> PARAMETER (foo(x), method(param))
-  ['function', 'parameter', 'critical'],
-  ['function', 'variable', 'critical'],
-  ['method', 'parameter', 'critical'],
+  // GRAMMAR ↔ ACCESS — `return x`, `const x`
+  ['keyword', 'parameter', 'critical'],
 
-  // VARIABLE <-> PARAMETER (critical in function signatures)
+  // GRAMMAR ↔ FREE_ACTION — `async function`, `return foo()`
+  ['keyword', 'function', 'critical'],
+  ['storage', 'function', 'critical'],
+
+  // GRAMMAR ↔ TEXT — `import "x"`, `return "y"`
+  ['keyword', 'string', 'critical'],
+
+  // GRAMMAR ↔ SHAPE_DEF — `class Foo`, `new Bar`
+  ['keyword', 'class', 'critical'],
+
+  // DATA ↔ ACCESS — `fn(param) { let x = param }` (the hardest pair)
   ['parameter', 'variable', 'critical'],
 
-  // TYPE <-> VARIABLE (x: Type annotation)
+  // FREE_ACTION ↔ ACCESS — `foo(x)` definition/call
+  ['function', 'parameter', 'critical'],
+
+  // FREE_ACTION ↔ DATA — `foo(x, y)` arguments
+  ['function', 'variable', 'critical'],
+
+  // BOUND_ACTION ↔ ACCESS — `method(param)` definition
+  ['method', 'parameter', 'critical'],
+
+  // SHAPE_REF ↔ DATA — `x: Type` annotation
   ['type', 'variable', 'critical'],
+
+  // SHAPE_REF ↔ ACCESS — `param: Type`
   ['type', 'parameter', 'critical'],
 
-  // STRING <-> VARIABLE (template literals ${x}, f-strings)
+  // TEXT ↔ DATA — `${name}`, `f"{x}"`
   ['string', 'variable', 'critical'],
 
-  // COMMENT <-> CODE (must be obviously different)
+  // WHISPER ↔ DATA — is it code or comment?
   ['comment', 'variable', 'critical'],
+
+  // WHISPER ↔ GRAMMAR — is it live or not?
   ['comment', 'keyword', 'critical'],
 
   // ==========================================================================
-  // HIGH (ΔE ≥ 15) - Common adjacencies
+  // HIGH (ΔEz ≥ 15) — common adjacencies
   // ==========================================================================
 
-  // KEYWORD <-> CALLABLE/TYPE
-  ['keyword', 'function', 'high'],
-  ['keyword', 'class', 'high'],
+  // GRAMMAR ↔ SHAPE_REF — `type X`, `as Type`
   ['keyword', 'type', 'high'],
 
-  // CALLABLE <-> TYPE (return types: func(): Type)
-  ['function', 'type', 'high'],
-  ['method', 'type', 'high'],
-  ['function', 'class', 'high'],
-  ['method', 'class', 'high'],
+  // GRAMMAR ↔ VALUE — `return null`, `case 1`
+  ['keyword', 'constant', 'high'],
 
-  // STRING <-> NUMERIC
+  // FREE_ACTION ↔ SHAPE_REF — `foo(): Type` return type
+  ['function', 'type', 'high'],
+
+  // FREE_ACTION ↔ SHAPE_DEF — `class Foo { bar() }`
+  ['function', 'class', 'high'],
+
+  // BOUND_ACTION ↔ DATA — `obj.method(x)`
+  ['method', 'variable', 'high'],
+
+  // BOUND_ACTION ↔ SHAPE_REF — `method(): Type`
+  ['method', 'type', 'high'],
+
+  // ACCESS ↔ SHAPE_REF — `prop: Type`
+  ['property', 'type', 'high'],
+
+  // TEXT ↔ VALUE — `"123"` vs `123`
   ['string', 'number', 'high'],
   ['string', 'constant', 'high'],
 
-  // PARAMETER <-> TYPE
-  ['property', 'type', 'high'],
-  // Note: type↔parameter is already in critical section above
-  ['attribute', 'string', 'high'],
-
-  // MARKUP <-> STRING (JSX: <Tag>"text")
-  ['tag', 'string', 'high'],
-  ['tag', 'variable', 'high'],
-
-  // COMMENT <-> other code (must be obviously different)
-  ['comment', 'string', 'high'],
-  ['comment', 'function', 'high'],
-  ['comment', 'type', 'high'],
-
-  // OPERATOR <-> adjacent tokens (visual rhythm)
+  // CONNECTIVE ↔ DATA — `x + y`
   ['operator', 'variable', 'high'],
+
+  // CONNECTIVE ↔ VALUE — `1 + 2`
   ['operator', 'number', 'high'],
+
+  // CONNECTIVE ↔ GRAMMAR — `if x == y`
   ['operator', 'keyword', 'high'],
 
-  // DECORATOR <-> adjacent tokens (@decorator class/function)
+  // META ↔ SHAPE_DEF — `@Component class`
   ['decorator', 'class', 'high'],
+
+  // META ↔ FREE_ACTION — `@deco def foo`
   ['decorator', 'function', 'high'],
 
-  // REGEXP <-> STRING (both quoted, need distinction)
-  ['regexp', 'string', 'high'],
+  // WHISPER ↔ TEXT — comment vs string literal
+  ['comment', 'string', 'high'],
+
+  // WHISPER ↔ FREE_ACTION — comment vs function name
+  ['comment', 'function', 'high'],
 
   // ==========================================================================
-  // STANDARD (ΔE ≥ 12) - Less frequent but need distinction
+  // STANDARD (ΔEz ≥ 12) — less frequent but real adjacencies
   // ==========================================================================
 
-  // MARKUP <-> PARAMETER (tag vs attribute)
-  ['tag', 'attribute', 'standard'],
+  // SHAPE_DEF ↔ SHAPE_REF — `class Foo extends Type`
+  ['class', 'type', 'standard'],
 
-  // Note: Intra-group pairs (number↔constant, function↔supportFunction, etc.)
-  // are handled by cohesion analysis, not cross-group distinction.
+  // FREE_ACTION ↔ BOUND_ACTION — `foo()` vs `obj.bar()`
+  ['function', 'method', 'standard'],
+
+  // ACCESS ↔ TEXT — `<tag>"text"` (markup)
+  ['tag', 'string', 'standard'],
+
+  // TEXT ↔ TEXT variant — regexp and string share lime (120°) by design (Ch6).
+  // Distinguishable by context (regex delimiters), not color.
 ] as const;
 
 // =============================================================================
@@ -1416,6 +1127,17 @@ export const COMPOUND_BACKGROUND_KEYS = {
 } as const;
 
 export type CompoundBgKeyName = keyof typeof COMPOUND_BACKGROUND_KEYS;
+
+/**
+ * Compound backgrounds that use the secondary (review) APCA threshold instead of primary.
+ * Diff and merge overlays are scanning contexts, not sustained reading — Lc ≥ 70 suffices.
+ */
+export const COMPOUND_REVIEW_BGS: ReadonlySet<string> = new Set([
+  'diffInserted',
+  'diffRemoved',
+  'mergeCurrentContent',
+  'mergeIncomingContent',
+]);
 
 /**
  * Syntax token keys to test for compound background contrast.
