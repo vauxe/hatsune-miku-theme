@@ -389,7 +389,7 @@ export type RoleName =
   | 'TEXT'          // Human text: string, regex
   | 'VALUE'         // Fixed values: constant, number, boolean, enumMember
   | 'META'          // Code-about-code: decorator, macro
-  | 'CONNECTIVE'    // Operators: operator
+  | 'CONNECTIVE'    // Operators and punctuation: operator, punctuation
   | 'WHISPER';      // Comments: comment, docComment
 
 /**

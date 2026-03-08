@@ -12,10 +12,11 @@
  * - Expected dim: Intentionally subtle elements marked with (~)
  *
  * Usage:
- *   npx tsx src/tools/readability.ts --theme <path>
+ *   npx tsx src/tools/readability.ts --theme <path>         (required)
  *   npx tsx src/tools/readability.ts --test "#FG" "#BG" [name]
  */
 
+import * as fs from 'fs';
 import * as path from 'path';
 
 import {
@@ -218,7 +219,7 @@ function computeStats(results: ColorResult[]): Stats {
 function analyzeColorDistinction(
   colors: Record<string, ColorValue>,
   pairsDef: readonly (readonly [string, string])[],
-  bg: string
+  bg: string,
 ): DistinctionPair[] {
   const pairs: DistinctionPair[] = [];
 
@@ -1769,8 +1770,7 @@ Analyzes VS Code themes for comfortable extended coding sessions.
 Tests contrast, color distinction, and eye fatigue risk.
 
 Usage:
-  npm run readability                      Analyze default theme
-  npm run readability -- --theme <path>    Analyze custom theme
+  npm run readability -- --theme <path>    Analyze theme (required)
   npm run readability -- --test FG BG      Test single color pair
   npm run readability -- --chroma COLOR    Test color chroma
 
@@ -1882,8 +1882,6 @@ Examples:
 
 const args = process.argv.slice(2);
 
-const DEFAULT_THEME = './themes/hatsune-miku-theme-color-theme.json';
-
 if (args[0] === '--help' || args[0] === '-h') {
   printHelp();
 } else {
@@ -1992,7 +1990,10 @@ if (args[0] === '--help' || args[0] === '-h') {
     testColor(test.fg, test.bg, test.name);
   } else {
     // Default to theme analysis
-    const resolvedPath = themePath ? themePath : path.resolve(DEFAULT_THEME);
-    runAnalysis(resolvedPath, { issuesOnly, verbose });
+    if (!themePath) {
+      console.error('Error: --theme <path> is required.\n\nAvailable themes:\n  themes/hatsune-miku-theme-color-theme.json  (dark)\n  themes/hatsune-miku-snow-color-theme.json   (light)');
+      process.exit(1);
+    }
+    runAnalysis(themePath, { issuesOnly, verbose });
   }
 }

@@ -24,7 +24,9 @@
     "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\"",
     "rebuild": "npm run clean && npm run build",
     "prepublishOnly": "npm run build",
-    "readability": "tsx src/tools/readability.ts"
+    "readability": "tsx src/tools/readability.ts",
+    "readability:dark": "tsx src/tools/readability.ts --theme themes/hatsune-miku-theme-color-theme.json",
+    "readability:light": "tsx src/tools/readability.ts --theme themes/hatsune-miku-snow-color-theme.json"
   },
   "devDependencies": {
     "@types/node": "^25.0.9",

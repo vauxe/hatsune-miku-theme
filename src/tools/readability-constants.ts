@@ -243,7 +243,7 @@ export const APCA_THRESHOLDS_LIGHT: APCAThresholdConfig = {
  *
  * Note: Punctuation is EXCLUDED (secondary tier) — structural/visual aid,
  * not semantic content. Operators are PRIMARY — the design places them in the
- * soprano/mp ensemble (Magenta 330°), same tier as all other syntax tokens.
+ * primary syntax tier, same level as all other syntax tokens.
  */
 export const PRIMARY_SYNTAX_ELEMENTS = new Set([
   // Core tokens (appear in almost every line)
@@ -492,7 +492,7 @@ export const EXPECTED_DIM_ELEMENTS = new Set([
   'Description',     // Helper/description text
   'Chat Placeholder',// Inline chat placeholder
   'List Deemph',     // Explicitly deemphasized list items
-  // Comments — Ch6 alto whisper departure, intentionally quiet
+  // Comments — intentionally quiet (lower contrast by design)
   'Comments', 'Doc Comments',
   'Line:Comment', 'Sel:Comment', 'Hover:Comment', 'Sticky:Comment',
   'DiffIns:Comment', 'DiffRem:Comment', 'Range:Comment', 'Peek:Comment',
@@ -539,7 +539,7 @@ export const EXPECTED_DIM_ELEMENTS = new Set([
  */
 export const SYMBOL_DISCRIMINATION_PAIRS: Array<[string, string]> = [
   // Core structure types (must be obviously different)
-  // class↔struct omitted: intentionally identical color (D# 90°), shape-distinguished by icon
+  ['class', 'struct'],
   ['class', 'interface'],
   ['interface', 'struct'],
   ['enum', 'class'],
@@ -601,7 +601,6 @@ export const SYMBOL_DISCRIMINATION_PAIRS: Array<[string, string]> = [
   ['keyword', 'function'],
   ['keyword', 'method'],
   // Events and references
-  ['event', 'method'],
   ['event', 'property'],
   ['event', 'field'],
   ['reference', 'variable'],
@@ -628,7 +627,6 @@ export const SYMBOL_DISCRIMINATION_PAIRS: Array<[string, string]> = [
   ['snippet', 'text'],
   ['snippet', 'function'],
   ['snippet', 'keyword'],
-  ['text', 'string'],
   ['text', 'keyword'],
   // Operators
   ['operator', 'keyword'],
@@ -658,6 +656,7 @@ export const STATUS_DISTINCTION_PAIRS: Array<[string, string]> = [
 export const GIT_DISTINCTION_PAIRS: Array<[string, string]> = [
   // Core file states
   ['added', 'modified'],
+  ['modified', 'untracked'],
   ['deleted', 'untracked'],
   ['modified', 'deleted'],
   ['added', 'untracked'],
@@ -679,25 +678,20 @@ export const GIT_DISTINCTION_PAIRS: Array<[string, string]> = [
 ];
 
 /**
- * State distinction pairs - active vs inactive UI elements
- * Tests whether users can perceive state changes
+ * State distinction pairs (foreground) - active vs inactive UI elements.
+ * Tests whether users can perceive state changes via foreground color.
+ * Uses standard distinction threshold (ΔEz ≥ 15).
  */
 export const STATE_DISTINCTION_PAIRS: Array<[string, string]> = [
   // Tab states
   ['tabActive', 'tabInactive'],
   ['tabActive', 'tabHover'],
-  // List states — foreground is sacred for engagement states (design Section 7);
-  // hover/selected/focus distinction is carried by background tint and border, not foreground color.
-  // Only test pairs where the design specifies different foreground tiers.
   // Activity bar
   ['activityActive', 'activityInactive'],
   // Panel
   ['panelActive', 'panelInactive'],
   // Line numbers
   ['lineNumber', 'lineNumberActive'],
-  // Highlights (find/word)
-  ['findMatch', 'findMatchActive'],
-  ['wordHighlight', 'wordHighlightStrong'],
   // Breadcrumb
   ['breadcrumb', 'breadcrumbActive'],
   // Title bar
@@ -705,6 +699,7 @@ export const STATE_DISTINCTION_PAIRS: Array<[string, string]> = [
   // Command center
   ['commandCenter', 'commandCenterActive'],
 ];
+
 
 /**
  * Bracket distinction pairs - rainbow brackets should be distinguishable
@@ -736,10 +731,8 @@ export const TERMINAL_DISTINCTION_PAIRS: Array<[string, string]> = [
   ['ansiBrightRed', 'ansiBrightGreen'],   // Bright error vs success
   ['ansiBrightBlue', 'ansiBrightCyan'],   // Bright info colors
   ['ansiBrightBlue', 'ansiBrightMagenta'], // Bright directories vs links
-  // Normal vs emphasized
-  ['ansiWhite', 'ansiBrightWhite'], // Normal vs emphasized
-  ['ansiBlack', 'ansiBrightBlack'], // Dim text levels
 ];
+
 
 /**
  * Markdown alert distinction pairs - note/tip/warning/etc need instant recognition
@@ -845,7 +838,7 @@ export const EXTENSION_ICON_DISTINCTION_PAIRS: Array<[string, string]> = [
  * TEXT:         Human-readable literals (strings, regex).
  * VALUE:        Fixed/immutable values (constants, numbers, booleans).
  * META:         Code that transforms code (decorators, macros).
- * CONNECTIVE:   Operators linking expressions.
+ * CONNECTIVE:   Operators and punctuation linking/delimiting expressions.
  * WHISPER:      Comments — code/not-code boundary.
  */
 export const TOKEN_ROLES: Record<string, RoleName> = {
@@ -900,8 +893,9 @@ export const TOKEN_ROLES: Record<string, RoleName> = {
   decorator: 'META',
   macro: 'META',
 
-  // CONNECTIVE — operators linking expressions
+  // CONNECTIVE — structural glue linking expressions
   operator: 'CONNECTIVE',
+  punctuation: 'CONNECTIVE',
 
   // WHISPER — comments
   comment: 'WHISPER',
@@ -932,10 +926,24 @@ export const ROLE_DISTINCTION_THRESHOLDS = {
 /**
  * Cross-role token pairs that MUST be visually distinguishable.
  *
- * Derived from the 12 cognitive roles: for each pair of roles that appears
- * adjacent in real code, one representative pair is tested. Where a role
- * has important variants (e.g., GRAMMAR has keyword, storage, storageModifier),
- * each variant that commonly differs in practice is included.
+ * Uses ONE representative per color group — tokens sharing the same hex
+ * are redundant in pair tests:
+ *
+ *   keyword  = storage, storageModifier, variableLanguage
+ *   parameter = property, attribute
+ *   function = method
+ *   class    = struct
+ *   string   = stringTemplate
+ *   constant = enumMember
+ *   number   = boolean
+ *   type     (namespace same color)
+ *   decorator = macro
+ *
+ * Unique colors also tested: tag, enum, interface, typeParameter,
+ * operator, punctuation, comment (different lightness from keyword group).
+ *
+ * Note: punctuation often shares operator's hue but at lower chroma/contrast.
+ * It's tested separately because themes may give it a distinct color.
  *
  * Structure: [token1, token2, priority]
  */
@@ -946,30 +954,33 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
 
   // GRAMMAR ↔ DATA — `if x`, `return val`, `for item in list`
   ['keyword', 'variable', 'critical'],
-  ['storage', 'variable', 'critical'],
-  ['storageModifier', 'variable', 'critical'],
 
-  // GRAMMAR ↔ ACCESS — `return x`, `const x`
+  // GRAMMAR ↔ ACCESS — `return param`, `if (param)`
   ['keyword', 'parameter', 'critical'],
 
-  // GRAMMAR ↔ ACTION — `async function`, `return foo()`, `obj.method()`
+  // GRAMMAR ↔ ACTION — `async function`, `return foo()`
   ['keyword', 'function', 'critical'],
-  ['storage', 'function', 'critical'],
 
   // GRAMMAR ↔ TEXT — `import "x"`, `return "y"`
   ['keyword', 'string', 'critical'],
 
-  // GRAMMAR ↔ SHAPE_DEF — `class Foo`, `new Bar`
+  // GRAMMAR ↔ SHAPE — `class Foo`, `new Bar`
   ['keyword', 'class', 'critical'],
 
-  // DATA ↔ ACCESS — `fn(param) { let x = param }` (the hardest pair)
+  // GRAMMAR ↔ VALUE — `return 42`, `case FOO`
+  ['keyword', 'number', 'critical'],
+
+  // DATA ↔ ACCESS — `fn(param) { let x = param }`
   ['parameter', 'variable', 'critical'],
 
-  // ACTION ↔ ACCESS — `foo(x)`, `method(param)` definition/call
+  // ACTION ↔ ACCESS — `foo(param)` function signature
   ['function', 'parameter', 'critical'],
 
-  // ACTION ↔ DATA — `foo(x, y)` arguments, `obj.method(x)`
+  // ACTION ↔ DATA — `foo(x, y)`, `x.foo()`
   ['function', 'variable', 'critical'],
+
+  // VALUE ↔ DATA — `x = 42` literal assignment
+  ['number', 'variable', 'critical'],
 
   // SHAPE_REF ↔ DATA — `x: Type` annotation
   ['type', 'variable', 'critical'],
@@ -980,11 +991,20 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   // TEXT ↔ DATA — `${name}`, `f"{x}"`
   ['string', 'variable', 'critical'],
 
+  // CONNECTIVE ↔ DATA — `x + y`, `x == y`
+  ['operator', 'variable', 'critical'],
+
+  // CONNECTIVE ↔ ACCESS — `param + x`
+  ['operator', 'parameter', 'critical'],
+
   // WHISPER ↔ DATA — is it code or comment?
   ['comment', 'variable', 'critical'],
 
   // WHISPER ↔ GRAMMAR — is it live or not?
   ['comment', 'keyword', 'critical'],
+
+  // CONNECTIVE (punct) ↔ DATA — `x;`, `{x, y}`
+  ['punctuation', 'variable', 'critical'],
 
   // ==========================================================================
   // HIGH (ΔEz ≥ 15) — common adjacencies
@@ -993,27 +1013,41 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   // GRAMMAR ↔ SHAPE_REF — `type X`, `as Type`
   ['keyword', 'type', 'high'],
 
-  // GRAMMAR ↔ VALUE — `return null`, `case 1`
+  // GRAMMAR ↔ VALUE — `return FOO`, `case null`
   ['keyword', 'constant', 'high'],
 
   // ACTION ↔ SHAPE_REF — `foo(): Type` return type
   ['function', 'type', 'high'],
 
-  // ACTION ↔ SHAPE_DEF — `class Foo { bar() }`
+  // ACTION ↔ SHAPE — `class { method() }`
   ['function', 'class', 'high'],
 
-  // ACCESS ↔ SHAPE_REF — `prop: Type`
-  ['property', 'type', 'high'],
-
-  // ACTION ↔ ACCESS — `<Button onClick={...}>` (tag vs attribute)
+  // ACTION ↔ TAG — `<Button onClick={...}>`
   ['tag', 'attribute', 'high'],
+
+  // ACTION (tag) ↔ DATA — `<Component>{value}</Component>` (JSX/TSX)
+  ['tag', 'variable', 'high'],
+
+  // CONNECTIVE (punct) ↔ GRAMMAR — `{` after `if`, `;` after `return`
+  ['punctuation', 'keyword', 'high'],
+
+  // CONNECTIVE (punct) ↔ ACTION — `foo();`
+  ['punctuation', 'function', 'high'],
+
+  // WHISPER ↔ CONNECTIVE (punct) — `//` starts with punct chars
+  ['comment', 'punctuation', 'high'],
+
+  // VALUE ↔ DATA — `const x = FOO`
+  ['constant', 'variable', 'high'],
+
+  // VALUE ↔ SHAPE_REF — `const X: Type`
+  ['constant', 'type', 'high'],
 
   // TEXT ↔ VALUE — `"123"` vs `123`
   ['string', 'number', 'high'],
-  ['string', 'constant', 'high'],
 
-  // CONNECTIVE ↔ DATA — `x + y`
-  ['operator', 'variable', 'high'],
+  // TEXT ↔ SHAPE_REF — `x: string = "hello"`
+  ['string', 'type', 'high'],
 
   // CONNECTIVE ↔ VALUE — `1 + 2`
   ['operator', 'number', 'high'],
@@ -1021,11 +1055,35 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   // CONNECTIVE ↔ GRAMMAR — `if x == y`
   ['operator', 'keyword', 'high'],
 
-  // META ↔ SHAPE_DEF — `@Component class`
+  // CONNECTIVE ↔ ACTION — `fn() + x`
+  ['operator', 'function', 'high'],
+
+  // CONNECTIVE ↔ SHAPE_REF — `A | B` union types
+  ['operator', 'type', 'high'],
+
+  // SHAPE ↔ DATA — `new Foo(x)`
+  ['class', 'variable', 'high'],
+
+  // SHAPE ↔ ACCESS — `constructor(param: Class)`
+  ['class', 'parameter', 'high'],
+
+  // SHAPE_DEF ↔ SHAPE_REF — `type X = Interface`
+  ['interface', 'type', 'high'],
+
+  // SHAPE_DEF ↔ DATA — `x: Interface`
+  ['interface', 'variable', 'high'],
+
+  // META ↔ SHAPE — `@Component class`
   ['decorator', 'class', 'high'],
 
   // META ↔ ACTION — `@deco def foo`
   ['decorator', 'function', 'high'],
+
+  // META ↔ DATA — `@deco let x`
+  ['decorator', 'variable', 'high'],
+
+  // ACCESS ↔ TEXT — `<div class="x">` attr='value'
+  ['attribute', 'string', 'high'],
 
   // WHISPER ↔ TEXT — comment vs string literal
   ['comment', 'string', 'high'],
@@ -1033,18 +1091,36 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   // WHISPER ↔ ACTION — comment vs function name
   ['comment', 'function', 'high'],
 
+  // WHISPER ↔ SHAPE_REF — comment near type annotation
+  ['comment', 'type', 'high'],
+
   // ==========================================================================
   // STANDARD (ΔEz ≥ 12) — less frequent but real adjacencies
   // ==========================================================================
 
-  // SHAPE_DEF ↔ SHAPE_REF — `class Foo extends Type`
+  // SHAPE ↔ SHAPE_REF — `class Foo extends Type`
   ['class', 'type', 'standard'],
 
-  // ACTION ↔ TEXT — `<tag>"text"` (markup)
+  // TAG ↔ TEXT — `<tag>"text"` (markup)
   ['tag', 'string', 'standard'],
 
-  // TEXT ↔ TEXT variant — regexp and string share lime (120°) by design (Ch6).
-  // Distinguishable by context (regex delimiters), not color.
+  // ACTION (tag) ↔ GRAMMAR — `<div>` after `return`
+  ['tag', 'keyword', 'standard'],
+
+  // SHAPE_DEF ↔ SHAPE_DEF — `class implements Interface`
+  ['interface', 'class', 'standard'],
+
+  // SHAPE_DEF ↔ ACTION — interface + function in module
+  ['interface', 'function', 'standard'],
+
+  // SHAPE_DEF (enum) ↔ DATA — enum usage in expressions
+  ['enum', 'variable', 'standard'],
+
+  // META ↔ SHAPE — `@Entity class Foo`
+  ['macro', 'class', 'standard'],
+
+  // TEMPLATE ↔ DATA — `${var}` inside template literal
+  ['stringTemplate', 'variable', 'standard'],
 ] as const;
 
 // =============================================================================
@@ -1143,6 +1219,7 @@ export const COMPOUND_SYNTAX_TOKENS = [
   'property',
   'keyword',
   'operator',
+  'punctuation',
   'storage',
   'storageModifier',
   // Callables

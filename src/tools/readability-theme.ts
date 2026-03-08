@@ -395,6 +395,7 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       // Literals
       number: resolveColor(findTokenColor(theme, 'constant.numeric', 'number'), fg),
       string: resolveColor(findTokenColor(theme, 'string', 'string'), fg),
+      stringTemplate: resolveColor(findTokenColor(theme, 'string.template'), fg),
       stringEscape: resolveColor(findTokenColor(theme, 'constant.character.escape'), fg), // \n, \t, etc.
       constant: resolveColor(findTokenColor(theme, 'constant.language'), fg),
       null: resolveColor(findTokenColor(theme, 'constant.language.null'), fg),

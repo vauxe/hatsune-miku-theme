@@ -472,8 +472,7 @@ export function analyzeLightnessUniformity(
  *
  * @param colors - Map of color names to hex values
  * @param minGap - Minimum desired hue gap in degrees (default 20°)
- *   The 12-tone chromatic system spaces hues at 30° intervals.
- *   20° allows natural 30° families to pass while catching
+ *   20° allows natural hue families to pass while catching
  *   genuinely problematic clusters where distinct roles overlap.
  * @returns Analysis with hue gaps and clusters
  */
