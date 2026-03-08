@@ -266,8 +266,8 @@ export const PRIMARY_SYNTAX_ELEMENTS = new Set([
   'Support Func', 'Support Class', 'Support Type', 'Support Const', 'Support Var',
   // Semantic tokens
   'Labels', 'Events', 'Inherited',
-  // Error indicators (must be clearly visible)
-  'Invalid', 'Deprecated',
+  // Deprecated code is still read for content
+  'Deprecated',
   // Primary text
   'Primary', 'Global',
 ]);

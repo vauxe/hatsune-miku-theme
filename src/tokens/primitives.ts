@@ -16,7 +16,7 @@ import { LIGHTNESS as JZ_LIGHTNESS, CHROMA as JZ_CHROMA, HUE as JZ_HUE } from '.
 // LIGHTNESS PRIMITIVES (10 Registers — Vocal Classification)
 // =============================================================================
 // 10 registers from contrabass to sopranino, ΔJz = 0.015 steps.
-// Soprano sits at the tonic's gamut peak. (DESIGN.md Ch5)
+// Soprano sits at the tonic's gamut peak.
 
 export const lightness = {
   contrabass: JZ_LIGHTNESS.contrabass,         // 0.080 - −7 steps
@@ -35,7 +35,7 @@ export const lightness = {
 // CHROMA PRIMITIVES (9 Dynamics — Italian Dynamic Markings)
 // =============================================================================
 // 9 dynamics from niente to fff, ΔCz = 0.015 steps.
-// Tonic ceiling at mf. (DESIGN.md Ch5)
+// Tonic ceiling at mf.
 
 export const chroma = {
   niente: JZ_CHROMA.niente,               // 0.000 - silence
@@ -228,7 +228,7 @@ export const opacity = {
 
 export const special = {
   void: '#0A0D10',       // Deepest black (near-zero luminance)
-  foreground: '#C8DEE5', // Primary text (soft ice-white)
+  foreground: '#DEE8F2', // Primary text — vest silver, Lc ~90 (anti-bloom)
   nearWhite: '#EAF6E8',  // Negi white — softest green light (matches char.negi.white)
   transparent: '#00000000',
 } as const;

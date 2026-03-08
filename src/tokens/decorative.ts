@@ -8,7 +8,7 @@
  */
 
 import { role, roleFromHex, lighten, darken } from './role';
-import { hex } from './jzczhz';
+import { hex, parseHex } from './jzczhz';
 import type {
   SymbolTokens,
   BracketTokens,
@@ -167,14 +167,20 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
       hex({ Jz: 0.110, Cz: 0.050, hz: 45 }),   // Cocoa
       hex({ Jz: 0.150, Cz: 0.030, hz: 85 }),   // Butter
       hex({ Jz: 0.125, Cz: 0.042, hz: 60 }),   // Toffee
-    ] : [
-      mikuV2.hair.base,        // V2 (2007) — KEI's original, where it all began
-      mikuAppend.hair.base,    // Append (2010) — the dark era, vivid turquoise
-      mikuV3.hair.base,        // V3 (2013) — iXima's refinement, canonical
-      mikuV4X.hair.base,       // V4X (2016) — polished, variants possible
-      mikuNT.hair.base,        // NT (2020) — organic redesign, soft turquoise
-      character.hair.base,     // Present — #39C5BB, the Miku we know
-    ],
+    ] : (() => {
+      // Structure voice: skirt hue, ppp chroma, Jz stepping through voicebank evolution
+      // 6 consecutive registers — contrabass through alto
+      const { lightness: L, chroma: C } = p;
+      const skirtHz = parseHex(p.character.skirt.base).hz;
+      return [
+        hex({ Jz: L.contrabass,    Cz: C.ppp, hz: skirtHz }),  // V2 (2007) — dimmest
+        hex({ Jz: L.bass,          Cz: C.ppp, hz: skirtHz }),  // Append (2010)
+        hex({ Jz: L.baritone,      Cz: C.ppp, hz: skirtHz }),  // V3 (2013)
+        hex({ Jz: L.tenor,         Cz: C.ppp, hz: skirtHz }),  // V4X (2016)
+        hex({ Jz: L.countertenor,  Cz: C.ppp, hz: skirtHz }),  // NT (2020)
+        hex({ Jz: L.alto,          Cz: C.ppp, hz: skirtHz }),  // Present — brightest
+      ];
+    })(),
 
     // SCM graph — Project SEKAI units, five visions of who she could be
     scmGraph: p.polarity === 'light' ? [
@@ -203,11 +209,11 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
 
     // Diff editor — cute character colors
     diffInserted: p.polarity === 'light'
-      ? hex({ Jz: 0.120, Cz: 0.110, hz: 150 })   // Warm matcha — vivid sage green, bright enough for light overlay
-      : moreMoreJump.unitColor,                    // MORE MORE JUMP! bright green — idol energy, new code
+      ? hex({ Jz: 0.120, Cz: 0.110, hz: 150 })
+      : character.negi.bright, 
     diffRemoved: p.polarity === 'light'
-      ? hex({ Jz: 0.120, Cz: 0.110, hz: 15 })    // Warm rose — vivid terracotta pink, distinct from matcha
-      : sakuraMiku.hair.base,                      // Vivid sakura — cherry blossom hue, lovely departure
+      ? hex({ Jz: 0.120, Cz: 0.110, hz: 15 })
+      : sakuraMiku.hair.base,
     diffMoveBorder: digitalStars.y2021_mg.outfit.gradient,
     diffMoveActiveBorder: digitalStars.y2021_mg.outfit.gradient,
 
@@ -219,14 +225,14 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     scmRemoteRef: leoNeed.hair.highlight,
 
     // Character palette utility colors
-    blouseWhite: character.top.blouse,  // #FCF8F0 — bright text on colored buttons/badges
+    blouseWhite: character.top.blouse,
     darkForeground: character.eyes.pupil,
     inlayParameter: p.polarity === 'light'
-      ? hex({ Jz: 0.095, Cz: 0.020, hz: 50 })  // Warm gray — visible on snow
+      ? hex({ Jz: 0.095, Cz: 0.020, hz: 50 })
       : character.skin.shadow,
     statusItemForeground: character.headphones.frame,
     markupInserted: p.polarity === 'light'
-      ? hex({ Jz: 0.075, Cz: 0.080, hz: 150 })  // Dark green — readable on snow
+      ? hex({ Jz: 0.075, Cz: 0.080, hz: 150 })
       : character.negi.bright,
     tattooMark: character.marks.tattoo,
     sekaiHair: virtualSinger.hair.base,
@@ -245,9 +251,9 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
       : snowMiku.y2025.accessories.crystal, // 2025 Sparkling Snow ice prism #81D4FA
 
     // Boots — terminal lives inside her thigh-highs
-    bootsBase: p.character.boots.base, // dark=#14181D, light=sunlit snow
-    armWarmersBase: p.character.armWarmers.base, // dark=#1A222B, light=snow shade
-    topMain: p.character.top.main, // dark=#151B22, light=ice (activity bar)
-    topShadow: p.character.top.shadow, // dark=#11171E, light=deep ice (status bar)
+    bootsBase: p.character.boots.base,
+    armWarmersBase: p.character.armWarmers.base,
+    topMain: p.character.top.main,
+    topShadow: p.character.top.shadow,
   };
 }

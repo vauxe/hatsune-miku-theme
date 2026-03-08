@@ -583,7 +583,7 @@ Info      Teal         Teal light (8%)     Teal
 Success   Negi green   —                   —
 ```
 
-Foreground is the primary signal — the color you read. Background tint provides context without obscuring content (light tier — whisper level). Border reinforces in Glass material (inputs, search). Success has no background or border — it is the absence of a problem, not a state that demands attention.
+Foreground is the primary signal — the color you read. Background tint provides context without obscuring content (light tier — whisper level). Border reinforces in Glass material (inputs, search). Editor diagnostics omit the border — the squiggle underline is the primary signal, and a solid border on top is redundant noise. Success has no background or border — it is the absence of a problem, not a state that demands attention.
 
 Compound states follow the composition principles (Her Presence, below).
 
@@ -639,7 +639,7 @@ Selection   Snow frost (#81D4FA) ~220°  Opacity tint      Persistent — select
 Identity    Cushion (#E05096)    330°   Solid border      Focus — keyboard target
 ```
 
-Touching warms (teal). Choosing crystallizes (frost). The 40° hue gap between engagement and selection is subliminal — unified but distinguishable. Hue separations: engagement↔selection 40°, engagement↔identity 150°, selection↔identity 110°. No CVD simulation collapses these.
+Touching warms (teal). Choosing crystallizes (frost). The ~38° hue gap between engagement and selection is subliminal — unified but distinguishable. Hue separations (from actual hex, not nominal angles): engagement↔selection ~38°, engagement↔identity ~162°, selection↔identity ~124°. No CVD simulation collapses these.
 
 #### Composition Principles
 
@@ -736,7 +736,7 @@ State        Background           Foreground    Border-top
 ═══════════════════════════════════════════════════════════════════
 inactive     Frame                tertiary      —
 hover        teal tint (15%)      primary       —
-active       Canvas               bright        magenta
+active       Canvas               accentBright  magenta
 unfocused    Shelf                secondary     dimmed teal
 modified     (unchanged)          (unchanged)   magenta dot
 ```
@@ -748,7 +748,7 @@ Mode          Background        Foreground    Rationale
 ═══════════════════════════════════════════════════════════════════════════
 Normal        Frame             secondary     Chrome — recedes
 Debugging     Magenta           primary       Spotlight — the debugger has the stage
-Remote        Teal              primary       Engagement — connected
+Remote        Teal              dark          Engagement
 No folder     Frame             tertiary      Quieter — nothing open
 ```
 
@@ -842,12 +842,13 @@ Overlays and interactive states use four tiers from this scale:
 Tier      Level     Role                      Used by
 ═══════════════════════════════════════════════════════════════════════════
 light     8%        Whisper — barely there     Cursor line, keyboard focus tint,
-                                               validation+focus tint
-medium    15%       Awareness — noticeable     Word highlight, selection highlight,
-                                               diff lines, unfocused selection,
-                                               inactive selection
+                                               validation+focus tint,
+                                               word highlight, selection highlight
+medium    15%       Awareness — noticeable     Diff lines, unfocused selection,
+                                               inactive selection, bracket match,
+                                               word highlight strong
 strong    25%       Visible — active state     Selection, find match, diff text,
-                                               word highlight strong, hover
+                                               hover
 heavy     38%       Demanding — pressure       Active press
 ```
 
@@ -861,9 +862,9 @@ Overlay                  Voice       Color              Tier
 Cursor line              Selection   Frost (#81D4FA)    light (8%)
 Selection                Selection   Frost              strong (25%)
 Inactive selection       Selection   Frost              medium (15%)
-Selection highlight      Engagement  Hair highlight     medium (15%)
-Word highlight           Engagement  Teal (#39C5BB)     medium (15%)
-Word highlight strong    Engagement  Teal               strong (25%)
+Selection highlight      Engagement  Hair highlight     light (8%)  
+Word highlight           Engagement  Teal (#39C5BB)     light (8%)  
+Word highlight strong    Engagement  Teal               medium (15%)
 Find match               —           Orange             strong (25%)
 Diff inserted line       —           Negi green         medium (15%)
 Diff inserted text       —           Negi green         strong (25%)

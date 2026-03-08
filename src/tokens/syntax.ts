@@ -3,7 +3,6 @@
  *
  * Twelve tones, each an interval from Miku's tonic (F# = 180° teal).
  * The role description names the interval and its feeling.
- * See docs/DESIGN.md Section 4 "The Twelve Tones" for the full mapping.
  */
 
 import { role } from './role';
@@ -90,7 +89,7 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // DARK THEME — The Score (DESIGN.md Ch6)
+  // DARK THEME — The Score
   // All ensemble tokens: soprano/mp. Hue alone carries semantic meaning.
   // ═══════════════════════════════════════════════════════════════════════════
   return {

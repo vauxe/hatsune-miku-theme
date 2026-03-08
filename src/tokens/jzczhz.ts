@@ -61,7 +61,7 @@ export function parseHex(hexColor: string): JzCzhz {
  * Soprano sits at the tonic's gamut peak (teal 180°, Jz ≈ 0.188).
  * One Jz per register, regardless of hue temperature or chroma dynamic.
  * Warm hues produce less sRGB luminance at equal Jz — the theme accepts
- * this trade-off for uniform lightness (DESIGN.md Ch5).
+ * this trade-off for uniform lightness.
  */
 export const LIGHTNESS = {
   contrabass: 0.080,   // −7 steps from soprano
@@ -82,7 +82,6 @@ export const LIGHTNESS = {
  * 9 dynamics from silence to extreme, using standard Italian dynamic markings.
  * Each step is ΔCz = 0.015. The tonic (teal 180°) can play niente through mf.
  * f and above exceed the tonic; only wider-gamut hues deliver them cleanly.
- * (DESIGN.md Ch5)
  */
 export const CHROMA = {
   niente: 0,           // silence — achromatic

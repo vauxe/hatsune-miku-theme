@@ -13,7 +13,7 @@
 import { role, roleFromHex } from './role';
 import { parseHex } from './jzczhz';
 import type { UITokens, ExtendedUITokens, StatusTokens, GitTokens } from './types';
-import { sakuraMiku, snowMiku } from '../palette';
+import { snowMiku } from '../palette';
 import type { Primitives } from './primitives';
 
 export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
@@ -173,7 +173,7 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     minimapOpacity: p.polarity === 'light' ? `${char.top.blouse}DD` : `${p.special.void}DD`,
     error: role(
       'The tritone — UI error, vivid rose dissonance',
-      L.alto, C.f, H.rose
+      L.soprano, C.mf, H.rose
     ),
     buttonBackground: (() => {
       if (p.polarity === 'light') {
@@ -219,7 +219,7 @@ export function createStatusTokens(p: Primitives): StatusTokens {
     warning: role('Minor 6th — caution, warm orange', L.soprano, C.mp, H.orange),
     error: role(
       'The tritone — maximum dissonance, something is wrong',
-      L.alto, C.f, H.rose
+      L.soprano, C.mf, H.rose
     ),
     info: role(
       'Her calm voice — tonic teal, information without alarm',
@@ -250,7 +250,7 @@ export function createGitTokens(p: Primitives): GitTokens {
       'Change — warm orange, the story evolves',
       L.soprano, C.mp, H.orange
     ),
-    deleted: roleFromHex('Departure — Sakura pink, code falls like petals', sakuraMiku.hair.base),
+    deleted: role('Departure — Sakura pink, code falls like petals', L.soprano, C.mf, H.mikuPink),
     untracked: role(
       'Engagement — her teal, new and unknown',
       L.soprano, C.mf, H.mikuTeal
@@ -267,7 +267,7 @@ export function createGitTokens(p: Primitives): GitTokens {
       'Change accepted — orange muted, same voice quieter',
       L.soprano, C.p, H.orange
     ),
-    stageDeleted: roleFromHex('Loss accepted — muted Sakura, same voice quieter', sakuraMiku.hair.shadow),
+    stageDeleted: role('Loss accepted — muted sakura, same voice quieter', L.soprano, C.p, H.mikuPink),
     submodule: role(
       'Silver — structure, external reference',
       L.soprano, C.ppp, H.sky

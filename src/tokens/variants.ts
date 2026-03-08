@@ -222,20 +222,6 @@ export const lightChroma: ChromaValues = {
   fff: 0.145,            // ~76% — extreme
 };
 
-/**
- * Light opacity scale — reduced alpha for equivalent visual weight on light surfaces.
- * Light backgrounds need less opacity to achieve the same perceptual presence.
- */
-export const lightOpacity: OpacityScale = {
-  subtle: '08',        // ~3% - faint hover backgrounds
-  light: '12',         // ~7% - selection backgrounds, inactive states
-  medium: '20',        // ~12% - active states, light borders
-  strong: '30',        // ~19% - strong selections, visible borders
-  heavy: '48',         // ~28% - modal overlays, strong borders
-  solid: '68',         // ~41% - semi-transparent panels
-  dense: 'BB',         // ~73% - tooltip backgrounds
-  opaque: 'FF',        // 100% - solid colors
-};
 
 /**
  * Create primitives for light theme — Snow Miku Pâtisserie
@@ -260,7 +246,7 @@ export function createLightPrimitives(): Primitives {
     hue: lightHue,
     character: lightCharacter,
     special: lightSpecial,
-    opacity: lightOpacity,
+    opacity,
   };
 }
 

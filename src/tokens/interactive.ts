@@ -20,6 +20,7 @@
  */
 
 import { withOpacity } from './role';
+import { opacity as op } from './primitives';
 import type { InteractiveTokens, UITokens, ExtendedUITokens } from './types';
 import type { Primitives } from './primitives';
 import { snowMiku } from '../palette';
@@ -30,48 +31,38 @@ import { snowMiku } from '../palette';
 
 export function createInteractiveTokens(
   p: Primitives,
-  ui?: UITokens & ExtendedUITokens,
+  ui: UITokens & ExtendedUITokens,
 ): InteractiveTokens {
   const { character: char, opacity: op } = p;
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // ENGAGEMENT — transient interaction
-  // Dark: teal (her hair, the tonic). Light: warm honey (the sleeve lining).
+  // ENGAGEMENT — transient interaction (teal dark / sleeve amber light)
   // ═══════════════════════════════════════════════════════════════════════════
   const tonic = p.polarity === 'light' ? char.tie.base : char.hair.base;
-
-  // Solid registers — gradient from darkest to brightest
   const roots = p.polarity === 'light' ? char.tie.shadow : char.hair.shadow;
-  const tieShadow = char.tie.shadow;         // polarity-aware via p.character
-  const accentBright = p.polarity === 'light'
-    ? (ui ? ui.accentSecondary.hex : char.headphones.cushion)  // Warm terracotta — ff
-    : (ui ? ui.accentSecondary.hex : char.hair.highlight);     // Teal highlight — ff
+  const tieShadow = char.tie.shadow;
+  const accentBright = ui.accentSecondary.hex;
 
   // ═══════════════════════════════════════════════════════════════════════════
   // SELECTION — Snow Miku frost, persistent state
   // ═══════════════════════════════════════════════════════════════════════════
-  const frost = snowMiku.y2025.accessories.crystal; // #81D4FA — ~220° in JzCzhz
+  const frost = snowMiku.y2025.accessories.crystal;
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // IDENTITY — magenta, focus / keyboard target
+  // IDENTITY — cushion color, focus / keyboard target
   // ═══════════════════════════════════════════════════════════════════════════
-  const spotlight = char.hairTies.outline;   // #E05096
+  const spotlight = char.headphones.cushion;
 
-  // UI fallbacks
-  const foreground = ui ? ui.foreground.hex : '#C0D8E0';
-  // Colored foregrounds — voices speak as text
-  const foregroundFrost = p.polarity === 'light'
-    ? foreground                                    // Dark foreground for selected items on snow
-    : snowMiku.y2022.hair;                          // #B2EBF2 — selection voice (Snow Miku ocean blue)
-  const foregroundTeal = p.polarity === 'light'
-    ? roots                                         // #067C82 — dark teal for engagement highlight on snow
-    : accentBright;                                 // Lightened hair highlight — engagement highlight (light teal)
-  const foregroundMuted = ui ? ui.foregroundMuted.hex : '#8A9CA0';
-  const foregroundDisabled = ui ? ui.disabled.hex : '#5A6A70';
-  const backgroundVoid = ui ? ui.backgroundVoid.hex : '#0A1214';
-  const background = ui ? ui.background.hex : char.skirt.base;
-  const backgroundShelf = ui ? ui.backgroundShelf.hex : char.armWarmers.base;
-  const backgroundFrame = ui ? ui.backgroundFrame.hex : char.headphones.frame;
+  // UI-derived foregrounds and backgrounds
+  const foreground = ui.foreground.hex;
+  const foregroundTeal = p.polarity === 'light' ? roots : accentBright;
+  const foregroundMuted = ui.foregroundMuted.hex;
+  const foregroundTertiary = ui.tertiary.hex;
+  const foregroundDisabled = ui.disabled.hex;
+  const backgroundVoid = ui.backgroundVoid.hex;
+  const background = ui.background.hex;
+  const backgroundShelf = ui.backgroundShelf.hex;
+  const backgroundFrame = ui.backgroundFrame.hex;
 
   return {
     // =========================================================================
@@ -80,27 +71,27 @@ export function createInteractiveTokens(
     list: {
       background: {
         default: p.special.transparent,
-        hover: withOpacity(tonic, op.strong),       // 25% — engagement, transient
-        active: withOpacity(tonic, op.heavy),        // 38% — engagement, marcato
-        focus: p.special.transparent,                        // identity uses border only
+        hover: withOpacity(tonic, op.strong),
+        active: withOpacity(tonic, op.heavy),
+        focus: withOpacity(tonic, op.light),
         disabled: p.special.transparent,
-        selected: withOpacity(frost, op.strong),     // 25% — selection, persistent
+        selected: withOpacity(frost, op.strong),
       },
       foreground: {
         default: foreground,
         hover: foreground,
-        active: foregroundTeal,                      // engagement highlight on press
-        focus: foreground,                           // identity is border-only
+        active: foreground,
+        focus: foreground,
         disabled: foregroundDisabled,
-        selected: foregroundFrost,                   // selection voice as text
+        selected: foreground,
       },
       border: {
         default: p.special.transparent,
-        hover: p.special.transparent,                       // legato — fill only
-        active: tonic,                              // marcato — solid teal
-        focus: spotlight,                           // identity — solid magenta
+        hover: p.special.transparent,
+        active: tonic,
+        focus: spotlight,
         disabled: p.special.transparent,
-        selected: tieShadow,                        // tenuto — solid dark teal
+        selected: tieShadow,
       },
     },
 
@@ -109,15 +100,14 @@ export function createInteractiveTokens(
     // =========================================================================
     button: {
       background: {
-        default: ui ? ui.buttonBackground.hex : '#157570',
-        hover: tonic,                               // f
-        active: accentBright,                       // ff
+        default: ui.buttonBackground.hex,
+        hover: tonic,
+        active: accentBright,
         focus: tonic,
-        disabled: roots,                            // tacet
+        disabled: roots,
         selected: tonic,
       },
       foreground: {
-        // Buttons have dark/colored backgrounds — blouse off-white for warmth
         default: char.top.blouse,
         hover: char.top.blouse,
         active: char.top.blouse,
@@ -129,7 +119,7 @@ export function createInteractiveTokens(
         default: tieShadow,
         hover: tonic,
         active: accentBright,
-        focus: spotlight,                           // identity — magenta
+        focus: spotlight,
         disabled: roots,
         selected: tonic,
       },
@@ -140,18 +130,18 @@ export function createInteractiveTokens(
     // =========================================================================
     buttonSecondary: {
       background: {
-        default: withOpacity(tonic, op.strong),      // 25%
-        hover: withOpacity(tonic, op.heavy),         // 38%
-        active: withOpacity(tonic, op.solid),        // 50%
+        default: withOpacity(tonic, op.strong),
+        hover: withOpacity(tonic, op.heavy),
+        active: withOpacity(tonic, op.solid),
         focus: withOpacity(tonic, op.heavy),
-        disabled: withOpacity(tonic, op.medium),     // 15%
+        disabled: withOpacity(tonic, op.medium),
         selected: withOpacity(tonic, op.heavy),
       },
       foreground: {
         default: foreground,
         hover: accentBright,
         active: foreground,
-        focus: foreground,                           // content is sacred — identity is border-only
+        focus: foreground,
         disabled: foregroundDisabled,
         selected: foreground,
       },
@@ -159,7 +149,7 @@ export function createInteractiveTokens(
         default: roots,
         hover: tieShadow,
         active: tonic,
-        focus: spotlight,                           // identity — magenta
+        focus: spotlight,
         disabled: roots,
         selected: tieShadow,
       },
@@ -174,7 +164,7 @@ export function createInteractiveTokens(
         hover: backgroundShelf,
         active: backgroundShelf,
         focus: backgroundShelf,
-        disabled: backgroundFrame,
+        disabled: backgroundShelf,
         selected: backgroundShelf,
       },
       foreground: {
@@ -189,7 +179,7 @@ export function createInteractiveTokens(
         default: roots,
         hover: tieShadow,
         active: tonic,
-        focus: accentBright,                        // full signal
+        focus: spotlight,
         disabled: roots,
         selected: tieShadow,
       },
@@ -200,28 +190,28 @@ export function createInteractiveTokens(
     // =========================================================================
     tab: {
       background: {
-        default: backgroundFrame,                    // inactive — Frame tier (recedes)
-        hover: withOpacity(tonic, op.strong),        // 25% — engagement tint (transient OK)
-        active: background,                         // shown tab — Canvas tier (merges with editor)
-        focus: p.special.transparent,                       // identity uses border only
-        disabled: backgroundFrame,                   // same as inactive
-        selected: backgroundShelf,                   // unfocused active — Shelf tier
+        default: backgroundFrame,
+        hover: withOpacity(tonic, op.medium),
+        active: background,
+        focus: p.special.transparent,
+        disabled: backgroundFrame,
+        selected: backgroundShelf,
       },
       foreground: {
-        default: foregroundMuted,
+        default: foregroundTertiary,
         hover: foreground,
-        active: foreground,
-        focus: foreground,                           // content is sacred — identity is border-only
+        active: accentBright,
+        focus: foreground,
         disabled: foregroundDisabled,
         selected: foreground,
       },
       border: {
         default: backgroundShelf,
-        hover: p.special.transparent,                       // legato
-        active: tieShadow,                          // marcato
-        focus: spotlight,                           // identity — magenta
+        hover: p.special.transparent,
+        active: spotlight,
+        focus: spotlight,
         disabled: backgroundShelf,
-        selected: tieShadow,                        // tenuto
+        selected: tieShadow,
       },
     },
 
@@ -231,11 +221,11 @@ export function createInteractiveTokens(
     toolbar: {
       background: {
         default: p.special.transparent,
-        hover: withOpacity(tonic, op.strong),        // 25%
-        active: withOpacity(tonic, op.heavy),        // 38%
+        hover: withOpacity(tonic, op.strong),
+        active: withOpacity(tonic, op.heavy),
         focus: p.special.transparent,
         disabled: p.special.transparent,
-        selected: withOpacity(frost, op.strong),     // 25% — toggled/selected
+        selected: withOpacity(frost, op.strong),
       },
       foreground: {
         default: foregroundMuted,
@@ -247,9 +237,9 @@ export function createInteractiveTokens(
       },
       border: {
         default: p.special.transparent,
-        hover: p.special.transparent,                       // no border on icon hover
+        hover: p.special.transparent,
         active: p.special.transparent,
-        focus: spotlight,                           // identity — magenta
+        focus: spotlight,
         disabled: p.special.transparent,
         selected: p.special.transparent,
       },
@@ -260,30 +250,30 @@ export function createInteractiveTokens(
     // =========================================================================
     toggle: {
       background: {
-        default: background,                        // off
-        hover: withOpacity(tonic, op.strong),        // off + hover
-        active: tonic,                              // on + hover
+        default: background,
+        hover: withOpacity(tonic, op.strong),
+        active: tonic,
         focus: background,
-        disabled: withOpacity(backgroundShelf, '80'),
+        disabled: withOpacity(backgroundShelf, op.solid),
         selected: p.polarity === 'light'
-          ? withOpacity(tonic, op.heavy)              // on — teal tint over cream, keeps dark fg readable
-          : (ui ? ui.buttonBackground.hex : '#157570'), // on — solid dark teal (dark theme)
+          ? withOpacity(tonic, op.heavy)
+          : (ui.buttonBackground.hex),
       },
       foreground: {
-        default: foregroundMuted,                   // off — dim
-        hover: foreground,                          // off + hover — brighter
-        active: p.polarity === 'light' ? foreground : char.top.blouse, // on + hover — dark fg on tint (light), blouse white on solid (dark)
+        default: foregroundMuted,
+        hover: foreground,
+        active: p.polarity === 'light' ? foreground : char.top.blouse,
         focus: foreground,
         disabled: foregroundDisabled,
-        selected: accentBright,                     // on — bright teal checkmark
+        selected: accentBright,
       },
       border: {
-        default: withOpacity(tonic, op.heavy),      // off — teal tint border
-        hover: tieShadow,                           // off + hover
-        active: accentBright,                       // on + hover
-        focus: spotlight,                           // identity — magenta
+        default: withOpacity(tonic, op.heavy),
+        hover: tieShadow,
+        active: accentBright,
+        focus: spotlight,
         disabled: roots,
-        selected: tonic,                            // on
+        selected: tonic,
       },
     },
 
@@ -292,9 +282,9 @@ export function createInteractiveTokens(
     // =========================================================================
     slider: {
       background: {
-        rest: withOpacity(tonic, op.strong),         // 25%
-        hover: withOpacity(tonic, op.heavy),         // 38%
-        active: withOpacity(tonic, op.solid),        // 50%
+        rest: withOpacity(tonic, op.strong),
+        hover: withOpacity(tonic, op.heavy),
+        active: withOpacity(tonic, op.solid),
       },
     },
   };
