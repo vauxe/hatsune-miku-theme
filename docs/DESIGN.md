@@ -244,7 +244,7 @@ The grid separates intent from constraint:
 
 1. **Define** — the 10 × 9 grid exists. Every intersection is a valid coordinate.
 2. **Assign** — place each token at a grid point by musical intent: hue (pitch), register (lightness), dynamic (chroma).
-3. **Tune** — nudge individual tokens ±1 step in Jz or Cz where sRGB or APCA demands it. Document each deviation: "parameter: soprano/mp, tuned +1 Jz for APCA."
+3. **Tune** — nudge individual tokens ±1 step in Jz, Cz, or hz where sRGB, APCA, or perceptual distinction demands it. Hue tuning is constrained by neighbor compression — widening one interval shrinks the adjacent one. Deviations are documented in code comments at the tuning site.
 
 The score is step 2. The performance notes are step 3. A reader can see both what was *wanted* and what was *necessary*.
 
@@ -265,26 +265,24 @@ Three departures from the ensemble: **whisper** (comments), **ghost** (punctuati
 Each hue is one color. Tokens sharing a hue look alike at first glance — context (syntax position, naming conventions, surrounding tokens) tells the programmer which is which. Within a group, **dynamic variation** (±1 step from mp) distinguishes tokens that serve different cognitive roles — like first and second violins on the same pitch at different volumes.
 
 ```
-Note   Hue    Her                        Tokens (dynamic)
+Note   Hue    Her                        Tokens
 ═══════════════════════════════════════════════════════════════════════
-F#     180°   Her voice                  keyword (mp) · keywordControl (mp) · keywordAlt (mp)
-                                         · storage (mp) · storageModifier (mp)
-                                         · variableLanguage (mp)
-G      210°   Almost her, shifting       variable (mp)
-C#      30°   What you give her          parameter (mp) · property (mp)
-D       60°   She reaches                function (mp) · method (mp) · tag (p)
-D#      90°   Written with love          class (mp) · struct (mp) · enum (mf)
-E      120°   Someone's truth            string (mp) · stringTemplate (mp) · regex (mf)
-F      150°   One breath from home       interface (mp)
-G#     240°   The open ground            constant (mp) · enumMember (mp) · number (p)
-                                         · boolean (p)
-A      270°   The shape beneath          type (mp) · typeParameter (p)
+F#     180°   Her voice                  keyword · keywordControl · keywordAlt
+                                         · storage · storageModifier
+                                         · variableLanguage
+G      210°   Almost her, shifting       variable
+C#      20°   What you give her          parameter · property
+D       60°   She reaches                function · method · tag
+D#      90°   Written with love          class · struct · enum
+E      120°   Someone's truth            string · stringTemplate · regex
+F      150°   One breath from home       interface
+G#     240°   The open ground            constant · enumMember · number
+                                         · boolean
+A      270°   The shape beneath          type · typeParameter
 A#     300°   Transformation             decorator · macro
 B      330°   The heartbeat              operator
 C        0°   She stumbles               error  ← signal layer (alto/f)
 ```
-
-Dynamic key: **mp** = ensemble default (Cz 0.060), **mf** = emphasis (Cz 0.075), **p** = quiet (Cz 0.045). Tokens at mp are the melody; mf tokens demand a moment's extra attention (regex patterns, enum sets); p tokens recede slightly (literal values, abstract type parameters, element tags).
 
 Twelve hues. Twelve colors. That is the entire primary syntax palette.
 

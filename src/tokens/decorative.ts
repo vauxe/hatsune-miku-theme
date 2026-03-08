@@ -53,14 +53,16 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
     function: role('Symbol function — orange spotlight', L.sopranino, C.f, H.orange),
 
     // ═══ D Orange (60°) — Minor 6th ═══
-    method: role('Symbol method — orange, callable action', L.soprano, C.p, H.orange),
-    constructor: role('Symbol constructor — orange, vivid creation', L.soprano, C.f, H.orange),
+    // method dropped to mezzo for ΔEz ≥ 15 vs function(sopranino) and property(sopranino)
+    method: role('Symbol method — orange, callable action', L.mezzo, C.p, H.orange),
+    constructor: role('Symbol constructor — orange, mezzo for ΔEz gap vs function/method', L.mezzo, C.f, H.orange),
 
     // ═══ D# Gold (90°) — Major 6th ═══
-    class: role('Symbol class — gold, the score', L.soprano, C.mf, H.gold),
-    struct: role('Symbol struct — gold architecture', L.soprano, C.f, H.gold),
-    enum: role('Symbol enum — gold, mezzo set', L.mezzo, C.mf, H.gold),
-    package: role('Symbol package — warm gold, alto', L.alto, C.mp, H.gold),
+    // 4 icons on one hue need 2+ register gaps for ΔEz ≥ 15 between all pairs
+    class: role('Symbol class — gold, the score', L.treble, C.mf, H.gold),
+    struct: role('Symbol struct — gold architecture', L.mezzo, C.f, H.gold),
+    enum: role('Symbol enum — gold, countertenor set', L.countertenor, C.mf, H.gold),
+    package: role('Symbol package — warm gold, bass', L.bass, C.mp, H.gold),
 
     // ═══ E Lime (120°) — Minor 7th ═══
     string: role('Symbol string — lime, literal truth', L.soprano, C.mf, H.lime),
@@ -71,7 +73,8 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
 
     // ═══ F# Teal (180°) — Unison ★ ═══
     folder: role('Symbol folder — teal, her home', L.soprano, C.f, H.mikuTeal),
-    array: role('Symbol array — bright teal', L.sopranino, C.mp, H.mikuTeal),
+    // countertenor for 3 Jz gap from variable(soprano) → ΔEz ≥ 15
+    array: role('Symbol array — teal, countertenor', L.countertenor, C.mp, H.mikuTeal),
 
     // ═══ G Cyan (210°) — Minor 2nd ═══
     variable: role('Symbol variable — cyan, vivid data', L.soprano, C.f, H.cyan),
@@ -80,7 +83,8 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
     constant: role('Symbol constant — azure, deep truth', L.mezzo, C.mp, H.azure),
     number: role('Symbol number — azure, vivid quantity', L.soprano, C.f, H.azure),
     boolean: role('Symbol boolean — azure, sopranino truth', L.sopranino, C.mp, H.azure),
-    enumeratorMember: role('Symbol enum member — azure, alto', L.alto, C.mf, H.azure),
+    // countertenor for 2 Jz gap from constant(mezzo) → ΔEz ≥ 15
+    enumeratorMember: role('Symbol enum member — azure, countertenor', L.countertenor, C.mf, H.azure),
 
     // ═══ A Blue (270°) — Minor 3rd ═══
     typeParameter: role('Symbol type param — blue, standard', L.soprano, C.mp, H.blue),
@@ -207,13 +211,16 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
       purple: nightcord.unitColor,                        // Nightcord — 25:00, the quiet hours
     },
 
-    // Diff editor — cute character colors
+    // Diff editor — background-optimized tints (independent of git foreground)
+    // Inserted: negi green 150° — same hue as git.added
+    // Removed: warm rose 10° — reads as intuitive red-ish "removed",
+    //   blends to ~346° on dark bg (near-complementary to inserted ~179°)
     diffInserted: p.polarity === 'light'
       ? hex({ Jz: 0.120, Cz: 0.110, hz: 150 })
-      : character.negi.bright, 
+      : hex({ Jz: 0.190, Cz: 0.065, hz: 150 }),
     diffRemoved: p.polarity === 'light'
       ? hex({ Jz: 0.120, Cz: 0.110, hz: 15 })
-      : sakuraMiku.hair.base,
+      : hex({ Jz: 0.174, Cz: 0.080, hz: 10 }),
     diffMoveBorder: digitalStars.y2021_mg.outfit.gradient,
     diffMoveActiveBorder: digitalStars.y2021_mg.outfit.gradient,
 

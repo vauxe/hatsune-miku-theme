@@ -1195,9 +1195,12 @@ export type CompoundBgKeyName = keyof typeof COMPOUND_BACKGROUND_KEYS;
 
 /**
  * Compound backgrounds that use the secondary (review) APCA threshold instead of primary.
- * Diff and merge overlays are scanning contexts, not sustained reading — Lc ≥ 60 suffices.
+ * Transient overlays (word highlight, diff, merge) are scanning contexts,
+ * not sustained reading — Lc ≥ 60 suffices.
  */
 export const COMPOUND_REVIEW_BGS: ReadonlySet<string> = new Set([
+  'wordHighlight',
+  'wordHighlightStrong',
   'diffInserted',
   'diffRemoved',
   'mergeCurrentContent',

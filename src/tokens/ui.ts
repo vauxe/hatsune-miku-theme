@@ -13,7 +13,6 @@
 import { role, roleFromHex } from './role';
 import { parseHex } from './jzczhz';
 import type { UITokens, ExtendedUITokens, StatusTokens, GitTokens } from './types';
-import { snowMiku } from '../palette';
 import type { Primitives } from './primitives';
 
 export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
@@ -206,25 +205,26 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
 export function createStatusTokens(p: Primitives): StatusTokens {
   const { lightness: L, chroma: C, hue: H, character: char } = p;
 
+  // Four-quadrant status: 0° error, 90° warning, 180° success, 270° info.
+  // Maximum hue separation (90° apart) — CVD-safe by geometry.
+  // Uniform Jz/Cz — hue alone carries the meaning.
   if (p.polarity === 'light') {
     return {
-      success: role('Sage success — organic green on cream', 0.072, 0.085, 155),
-      warning: role('Amber warning — warm caution', 0.082, 0.080, 75),
-      error: role('Terracotta error — vivid alert', 0.075, 0.110, 20),
-      info: role('Teal info — calm tonic', 0.060, 0.075, 200),
+      success: role('Teal success — her canonical color approves', 0.075, 0.050, 170),
+      warning: role('Gold warning — concert amber, proceed with care', 0.082, 0.078, 85),
+      error: role('Magenta error — her tattoo mark burns', 0.065, 0.082, 330),
+      info: role('Blue info — calm sky', 0.080, 0.075, 260),
     };
   }
+  // Four-quadrant hues ±15°, Jz shaped to each hue's sRGB gamut ceiling:
+  //   teal(170°) bright at high Jz; rose(345°) vivid at low Jz.
+  // Under deutan, 345°/170°/260° all project blue — ΔJz 0.020 + ΔCz backup.
+  // Info shares Jz tier with success (90° apart = CVD-safe by hue).
   return {
-    success: roleFromHex('Negi bright green — it worked, new life', char.negi.bright),
-    warning: role('Minor 6th — caution, warm orange', L.soprano, C.mp, H.orange),
-    error: role(
-      'The tritone — maximum dissonance, something is wrong',
-      L.soprano, C.mf, H.rose
-    ),
-    info: role(
-      'Her calm voice — tonic teal, information without alarm',
-      L.soprano, C.mf, H.mikuTeal
-    ),
+    success: role('Teal success — she nods in her own color', 0.190, 0.065, 170),
+    warning: role('Gold warning — concert wand amber, caution', L.soprano, C.mf, 85),
+    error: role('Magenta error — her tattoo mark, something broke', 0.178, 0.080, 330),
+    info: role('Blue info — calm, neutral sky', 0.190, 0.040, 260),
   };
 }
 
@@ -244,33 +244,27 @@ export function createGitTokens(p: Primitives): GitTokens {
       submodule: role('Muted azure submodule — external reference', 0.058, 0.050, 260),
     };
   }
+  // Six-hue wheel: 0° / 85° / 150° / 210° / 265° / 320° — minimum gap 40°.
+  // CVD stagger: deutan merges cool hues → Jz tiers: added(0.190) > untracked(0.180)
+  //   > renamed(0.170) > deleted(0.174). Warm pair: modified(0.185) vs conflicting(0.165).
+  // Primary trio vivid (Cz 0.065–0.080), secondary trio quieter (Cz 0.045–0.070).
   return {
-    added: roleFromHex('New life — negi green, growth in the code tree', char.negi.bright),
-    modified: role(
-      'Change — warm orange, the story evolves',
-      L.soprano, C.mp, H.orange
-    ),
-    deleted: role('Departure — Sakura pink, code falls like petals', L.soprano, C.mf, H.mikuPink),
-    untracked: role(
-      'Engagement — her teal, new and unknown',
-      L.soprano, C.mf, H.mikuTeal
-    ),
-    conflicting: role(
-      'Conflict — rose, error-level, needs resolution',
-      L.soprano, C.mf, H.rose
-    ),
-    renamed: roleFromHex(
-      'Frost blue — relocation, path changed, content didn\'t',
-      snowMiku.y2025.accessories.crystal
-    ),
-    stageModified: role(
-      'Change accepted — orange muted, same voice quieter',
-      L.soprano, C.p, H.orange
-    ),
-    stageDeleted: role('Loss accepted — muted sakura, same voice quieter', L.soprano, C.p, H.mikuPink),
-    submodule: role(
-      'Silver — structure, external reference',
-      L.soprano, C.ppp, H.sky
-    ),
+    added: role('Negi green — new life in the code tree',
+      0.190, 0.065, 150),
+    modified: role('Concert gold — Magical Mirai stage light, she painted the change',
+      0.185, 0.075, 85),
+    deleted: role('Nightcord magenta — silence where code once lived',
+      0.174, 0.080, 320),
+    untracked: role('Frost cyan — unknown files drifting in like snow',
+      0.180, 0.045, 210),
+    conflicting: role('Rose conflict — her tattoo mark, demands resolution',
+      0.165, 0.070, 0),
+    renamed: role('Starlight blue — Digital Stars, same light, new name',
+      0.170, 0.055, 265),
+    stageModified: role('Concert gold faded — accepted change, muted',
+      0.165, 0.025, 85),
+    stageDeleted: role('Nightcord faded — accepted loss, muted magenta',
+      0.165, 0.025, 320),
+    submodule: roleFromHex('Vest silver — structure, external reference', char.top.main),
   };
 }

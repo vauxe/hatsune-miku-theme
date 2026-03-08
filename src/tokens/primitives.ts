@@ -52,16 +52,20 @@ export const chroma = {
 // =============================================================================
 // HUE PRIMITIVES - 12-TONE CHROMATIC SYSTEM
 // =============================================================================
-// Based on musical equal temperament: 12 hues at exactly 30° intervals
+// Based on musical equal temperament: 12 hues at 30° nominal intervals.
 // F# (180°) = Miku's teal = The "tonic" of the theme
 //
-// Musical notes mapped to hue wheel:
-//   C=0°  C#=30°  D=60°  D#=90°  E=120°  F=150°
-//   F#=180° (MIKU)  G=210°  G#=240°  A=270°  A#=300°  B=330°
+// Intonation tuning: red is tuned −10° to widen the red↔orange interval
+// for function↔parameter and tag↔attribute distinction. Other hues stay
+// at nominal positions — the cool triplet (teal→cyan→azure→blue = 90°)
+// is geometrically overconstrained and cannot be tuned without compression.
+//
+// Nominal:  C=0°  C#=30°  D=60°  D#=90°  E=120°  F=150°
+//           F#=180° (MIKU)  G=210°  G#=240°  A=270°  A#=300°  B=330°
 
 export const hue = {
   // ═══════════════════════════════════════════════════════════════════════════
-  // THE 12 CHROMATIC TONES (exactly 30° apart)
+  // THE 12 CHROMATIC TONES
   // ═══════════════════════════════════════════════════════════════════════════
 
   // F# - Teal (180°) - Unison — she sings
@@ -85,8 +89,9 @@ export const hue = {
   // C  - Rose (0°) - Tritone — she stumbles
   rose: 0,             // Errors, deleted
 
-  // C# - Red (30°) - Perfect 5th — what you give her
-  red: 30,             // Parameters, properties
+  // C# - Red (20°) - Perfect 5th — what you give her
+  // Tuned −10° from 30°: widens red↔orange to 40° for function↔parameter distinction
+  red: 20,             // Parameters, properties
 
   // D  - Orange (60°) - Minor 6th — she reaches
   orange: 60,          // Functions, methods, tags
@@ -108,7 +113,7 @@ export const hue = {
   mikuPink: 330,       // = B (Magenta) - Perfect 4th — headphone accent
 
   // Syntax aliases (map to nearest chromatic tone)
-  peach: 30,           // = C# (Red)
+  peach: 20,           // = C# (Red, tuned)
   amber: 60,           // = D (Orange)
   sky: 210,            // = G (Cyan)
   ice: 210,            // = G (Cyan) - for enums

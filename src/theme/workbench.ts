@@ -89,15 +89,15 @@ const alpha = {
   selectionBg:              isLight ? op.light : op.strong,
   inactiveSelectionBg:      isLight ? op.subtle : op.medium,
   // Highlights — subtle/faint tiers
-  subtleBg:                 isLight ? op.subtle : op.light,
+  subtleBg:                 isLight ? op.subtle : op.medium,
   subtleBorder:             isLight ? op.light : op.medium,
   wordHighlightBorder:      isLight ? op.medium : op.strong,
-  wordHighlightStrongBg:    isLight ? op.light : op.medium,
+  wordHighlightStrongBg:    isLight ? op.light : op.strong,
   faintBg:                  isLight ? op.subtle : op.light,
   faintBorder:              isLight ? op.light : op.medium,
   // Find
-  findMatchBg:              isLight ? op.light : op.strong,
-  findHighlightBg:          isLight ? op.light : op.light,
+  findMatchBg:              isLight ? op.light : op.medium,
+  findHighlightBg:          isLight ? op.light : op.medium,
   findHighlightBorder:      isLight ? op.strong : op.solid,
   // Hover
   hoverBg:                  isLight ? op.subtle : op.light,
@@ -115,8 +115,8 @@ const alpha = {
   diffGutterRemoved:        isLight ? op.light : op.medium,
   // Inline chat
   inlineChatDiff:           isLight ? op.subtle : op.medium,
-  chatLinesAdded:           op.opaque,
-  chatLinesRemoved:         op.opaque,
+  chatLinesAdded:           op.dense,
+  chatLinesRemoved:         op.dense,
   // Borders — shared subtle pattern for panels/dividers
   borderSubtle:             isLight ? op.medium : op.medium,
   sectionHeaderBorder:      isLight ? op.light : op.medium,
@@ -147,8 +147,8 @@ const pol = {
   sectionHeaderBg:  isLight ? t.decorative.topMain : bg.shelf,
   // Status bar background
   statusBarBg:      isLight ? t.decorative.topShadow : bg.frame,
-  // Tab header background
-  tabHeaderBg:      isLight ? t.decorative.armWarmersBase : bg.shelf,
+  // Tab header background — darkened half-step from shelf for ΔEz ≥ 3 vs editor
+  tabHeaderBg:      isLight ? t.decorative.armWarmersBase : darken(t.ui.backgroundShelf, 0.003),
   // Suggest widget selected
   suggestSelectedBg: isLight
     ? withOpacity(t.decorative.cursorLineFrost, op.subtle)
@@ -160,7 +160,7 @@ const pol = {
   // Debug view label foreground
   debugLabelFg:     isLight ? t.decorative.blouseWhite : text.primary,
   // Testing icon errored
-  testingErrored:   isLight ? t.syntax.constant.hex : darken(t.status.info, 0.035),
+  testingErrored:   isLight ? t.syntax.constant.hex : darken(t.status.info, 0.055),
   // Action bar toggled
   actionBarToggled: isLight ? withOpacity(accent.primary, op.medium) : t.interactive.toggle.background.selected,
 };
@@ -307,12 +307,12 @@ return {
   // GUTTER (Line decorations)
   // ==========================================================================
   'editorGutter.background': bg.base,
-  'editorGutter.addedBackground': withOpacity(semantic.success, op.solid),
-  'editorGutter.modifiedBackground': withOpacity(semantic.warning, op.solid),
-  'editorGutter.deletedBackground': withOpacity(semantic.error, op.solid),
-  'editorGutter.addedSecondaryBackground': withOpacity(semantic.success, op.strong),
-  'editorGutter.modifiedSecondaryBackground': withOpacity(semantic.warning, op.strong),
-  'editorGutter.deletedSecondaryBackground': withOpacity(semantic.error, op.strong),
+  'editorGutter.addedBackground': withOpacity(t.git.added.hex, op.solid),
+  'editorGutter.modifiedBackground': withOpacity(t.git.modified.hex, op.solid),
+  'editorGutter.deletedBackground': withOpacity(t.git.deleted.hex, op.solid),
+  'editorGutter.addedSecondaryBackground': withOpacity(t.git.added.hex, op.strong),
+  'editorGutter.modifiedSecondaryBackground': withOpacity(t.git.modified.hex, op.strong),
+  'editorGutter.deletedSecondaryBackground': withOpacity(t.git.deleted.hex, op.strong),
   'editorGutter.foldingControlForeground': accent.bright,
   'editorGutter.commentRangeForeground': withOpacity(text.tertiary, op.heavy),
   'editorGutter.commentGlyphForeground': t.decorative.commentGlyph,
@@ -380,9 +380,9 @@ return {
   'editorOverviewRuler.wordHighlightForeground': withOpacity(accent.bright, op.heavy),
   'editorOverviewRuler.wordHighlightStrongForeground': withOpacity(t.decorative.multiCursorSecondary, op.heavy),
   'editorOverviewRuler.wordHighlightTextForeground': withOpacity(accent.bright, op.heavy),
-  'editorOverviewRuler.modifiedForeground': withOpacity(semantic.warning, op.solid),
-  'editorOverviewRuler.addedForeground': withOpacity(semantic.success, op.solid),
-  'editorOverviewRuler.deletedForeground': withOpacity(semantic.error, op.solid),
+  'editorOverviewRuler.modifiedForeground': withOpacity(t.git.modified.hex, op.solid),
+  'editorOverviewRuler.addedForeground': withOpacity(t.git.added.hex, op.solid),
+  'editorOverviewRuler.deletedForeground': withOpacity(t.git.deleted.hex, op.solid),
   'editorOverviewRuler.errorForeground': semantic.error,
   'editorOverviewRuler.warningForeground': semantic.warning,
   'editorOverviewRuler.infoForeground': accent.primary,
@@ -391,11 +391,11 @@ return {
   'editorOverviewRuler.commentUnresolvedForeground': withOpacity(semantic.warning, op.heavy),
   'editorOverviewRuler.commentDraftForeground': withOpacity(accent.soft, op.heavy),
   'editorOverviewRuler.currentContentForeground': withOpacity(accent.bright, op.heavy),
-  'editorOverviewRuler.incomingContentForeground': withOpacity(semantic.success, op.heavy),
+  'editorOverviewRuler.incomingContentForeground': withOpacity(t.git.added.hex, op.heavy),
   'editorOverviewRuler.commonContentForeground': withOpacity(text.tertiary, op.strong),
   // Inline chat (AI features)
-  'editorOverviewRuler.inlineChatInserted': withOpacity(semantic.success, op.heavy),
-  'editorOverviewRuler.inlineChatRemoved': withOpacity(semantic.error, op.heavy),
+  'editorOverviewRuler.inlineChatInserted': withOpacity(t.git.added.hex, op.heavy),
+  'editorOverviewRuler.inlineChatRemoved': withOpacity(t.git.deleted.hex, op.heavy),
 
   // ==========================================================================
   // LINKS & CODE LENS
@@ -536,7 +536,7 @@ return {
   'statusBar.debuggingForeground': statusItem.debugFg,
   'statusBar.debuggingBorder': special.transparent,
   'statusBar.noFolderBackground': pol.statusBarBg,
-  'statusBar.noFolderForeground': text.tertiary,
+  'statusBar.noFolderForeground': text.secondary,
   'statusBar.noFolderBorder': withOpacity(text.tertiary, op.medium),
   'statusBar.focusBorder': withOpacity(accent.magenta, op.dense),
   'statusBarItem.activeBackground': t.interactive.toolbar.background.active,
@@ -678,10 +678,10 @@ return {
   'minimapSlider.background': t.interactive.slider.background.rest,
   'minimapSlider.hoverBackground': t.interactive.slider.background.hover,
   'minimapSlider.activeBackground': t.interactive.slider.background.active,
-  'minimapGutter.addedBackground': semantic.success,
-  'minimapGutter.modifiedBackground': semantic.warning,
-  'minimapGutter.deletedBackground': semantic.error,
-  'editorMinimap.inlineChatInserted': withOpacity(semantic.success, op.heavy),
+  'minimapGutter.addedBackground': t.git.added.hex,
+  'minimapGutter.modifiedBackground': t.git.modified.hex,
+  'minimapGutter.deletedBackground': t.git.deleted.hex,
+  'editorMinimap.inlineChatInserted': withOpacity(t.git.added.hex, op.heavy),
 
   // ==========================================================================
   // SCROLLBAR
@@ -867,8 +867,8 @@ return {
   'diffEditor.removedTextBackground':          withOpacity(t.decorative.diffRemoved, alpha.diffRemovedText),
   'diffEditor.removedTextBorder':              special.transparent,
   'diffEditorGutter.removedLineBackground':    withOpacity(t.decorative.diffRemoved, alpha.diffGutterRemoved),
-  'diffEditorOverview.insertedForeground': t.decorative.diffInserted,
-  'diffEditorOverview.removedForeground': t.decorative.diffRemoved,
+  'diffEditorOverview.insertedForeground': withOpacity(t.decorative.diffInserted, op.solid),
+  'diffEditorOverview.removedForeground': withOpacity(t.decorative.diffRemoved, op.solid),
   'diffEditor.diagonalFill': withOpacity(text.tertiary, op.light),
   'diffEditor.border': withOpacity(pol.borderTint, alpha.borderSubtle),
   'diffEditor.unchangedRegionBackground': withOpacity(bg.float, op.medium),
@@ -890,8 +890,8 @@ return {
   // ==========================================================================
   'merge.currentHeaderBackground': withOpacity(accent.bright, op.strong),
   'merge.currentContentBackground': withOpacity(accent.bright, alpha.faintBg),
-  'merge.incomingHeaderBackground': withOpacity(semantic.success, op.strong),
-  'merge.incomingContentBackground': withOpacity(semantic.success, alpha.faintBg),
+  'merge.incomingHeaderBackground': withOpacity(t.git.added.hex, op.strong),
+  'merge.incomingContentBackground': withOpacity(t.git.added.hex, alpha.faintBg),
   'merge.border': withOpacity(accent.primary, op.strong),
   'merge.commonContentBackground': withOpacity(text.secondary, alpha.faintBg),
   'merge.commonHeaderBackground': withOpacity(text.secondary, op.medium),
@@ -899,15 +899,15 @@ return {
   'mergeEditor.change.word.background': withOpacity(accent.bright, op.medium),
   'mergeEditor.conflict.unhandledUnfocused.border': withOpacity(semantic.warning, op.heavy),
   'mergeEditor.conflict.unhandledFocused.border': semantic.warning,
-  'mergeEditor.conflict.handledUnfocused.border': withOpacity(semantic.success, op.heavy),
-  'mergeEditor.conflict.handledFocused.border': semantic.success,
-  'mergeEditor.conflict.handled.minimapOverViewRuler': semantic.success,
+  'mergeEditor.conflict.handledUnfocused.border': withOpacity(t.git.added.hex, op.heavy),
+  'mergeEditor.conflict.handledFocused.border': t.git.added.hex,
+  'mergeEditor.conflict.handled.minimapOverViewRuler': t.git.added.hex,
   'mergeEditor.conflict.unhandled.minimapOverViewRuler': semantic.warning,
   'mergeEditor.conflictingLines.background': withOpacity(semantic.warning, op.light),
   'mergeEditor.changeBase.background': withOpacity(bg.float, op.light),
   'mergeEditor.changeBase.word.background': withOpacity(bg.float, op.medium),
   'mergeEditor.conflict.input1.background': withOpacity(accent.bright, op.light),
-  'mergeEditor.conflict.input2.background': withOpacity(semantic.success, op.light),
+  'mergeEditor.conflict.input2.background': withOpacity(t.git.added.hex, op.light),
 
   // ==========================================================================
   // GIT DECORATIONS - All Lc 75+ for sidebar background
@@ -936,8 +936,8 @@ return {
   'scmGraph.foreground3': t.decorative.scmGraph[2],
   'scmGraph.foreground4': t.decorative.scmGraph[3],
   'scmGraph.foreground5': t.decorative.scmGraph[4],
-  'scmGraph.historyItemHoverAdditionsForeground': semantic.success,
-  'scmGraph.historyItemHoverDeletionsForeground': semantic.error,
+  'scmGraph.historyItemHoverAdditionsForeground': t.git.added.hex,
+  'scmGraph.historyItemHoverDeletionsForeground': t.git.deleted.hex,
   'scmGraph.historyItemRefColor': accent.bright,
   'scmGraph.historyItemRemoteRefColor': t.decorative.scmRemoteRef,
   'scmGraph.historyItemBaseRefColor': accent.primary,
@@ -1049,7 +1049,7 @@ return {
   'testing.iconFailed': semantic.error,
   'testing.iconPassed': semantic.success,
   'testing.iconQueued': text.tertiary,
-  'testing.iconUnset': text.tertiary,
+  'testing.iconUnset': withOpacity(text.tertiary, op.heavy),
   'testing.iconSkipped': text.tertiary,
   'testing.iconErrored.retired': withOpacity(semantic.error, op.heavy),
   'testing.iconFailed.retired': withOpacity(semantic.error, op.heavy),
@@ -1244,7 +1244,7 @@ return {
   'symbolIcon.constructorForeground': t.symbol.constructor.hex,
   'symbolIcon.enumeratorForeground': t.symbol.enum.hex,
   'symbolIcon.enumeratorMemberForeground': t.symbol.enumeratorMember.hex,
-  'symbolIcon.eventForeground': t.symbol.class.hex,
+  'symbolIcon.eventForeground': t.symbol.enum.hex,
   'symbolIcon.fieldForeground': t.symbol.field.hex,
   'symbolIcon.fileForeground': text.primary,
   'symbolIcon.folderForeground': t.symbol.folder.hex,
@@ -1281,8 +1281,8 @@ return {
   'inlineChatInput.border': withOpacity(accent.primary, op.strong),
   'inlineChatInput.focusBorder': accent.magenta,
   'inlineChatInput.placeholderForeground': text.placeholder,
-  'inlineChatDiff.inserted': withOpacity(semantic.success, alpha.inlineChatDiff),
-  'inlineChatDiff.removed': withOpacity(semantic.error, alpha.inlineChatDiff),
+  'inlineChatDiff.inserted': withOpacity(t.decorative.diffInserted, alpha.inlineChatDiff),
+  'inlineChatDiff.removed': withOpacity(t.decorative.diffRemoved, alpha.inlineChatDiff),
 
   // ==========================================================================
   // CHAT
@@ -1294,8 +1294,8 @@ return {
   'chat.avatarBackground': withOpacity(accent.primary, op.medium),
   'chat.avatarForeground': accent.bright,
   'chat.editedFileForeground': t.syntax.variable.hex,
-  'chat.linesAddedForeground': withOpacity(semantic.success, alpha.chatLinesAdded),
-  'chat.linesRemovedForeground': withOpacity(semantic.error, alpha.chatLinesRemoved),
+  'chat.linesAddedForeground': withOpacity(t.git.added.hex, alpha.chatLinesAdded),
+  'chat.linesRemovedForeground': withOpacity(t.git.deleted.hex, alpha.chatLinesRemoved),
   'chat.requestCodeBorder': withOpacity(accent.bright, op.strong),
   'chat.requestBubbleBackground': withOpacity(accent.primary, op.light),
   'chat.requestBubbleHoverBackground': t.interactive.toolbar.background.hover,
@@ -1312,20 +1312,20 @@ return {
   'inlineEdit.gutterIndicator.secondaryBorder': withOpacity(accent.primary, op.heavy),
   'inlineEdit.gutterIndicator.secondaryForeground': semantic.info,
   'inlineEdit.gutterIndicator.secondaryBackground': withOpacity(accent.primary, op.light),
-  'inlineEdit.gutterIndicator.successfulBorder': semantic.success,
-  'inlineEdit.gutterIndicator.successfulForeground': semantic.success,
-  'inlineEdit.gutterIndicator.successfulBackground': withOpacity(semantic.success, op.light),
+  'inlineEdit.gutterIndicator.successfulBorder': t.git.added.hex,
+  'inlineEdit.gutterIndicator.successfulForeground': t.git.added.hex,
+  'inlineEdit.gutterIndicator.successfulBackground': withOpacity(t.git.added.hex, op.light),
   'inlineEdit.gutterIndicator.background': bg.shelf,
   'inlineEdit.originalBackground': withOpacity(bg.float, op.subtle),
   'inlineEdit.modifiedBackground': withOpacity(accent.primary, op.light),
-  'inlineEdit.originalChangedLineBackground': withOpacity(semantic.error, op.subtle),
-  'inlineEdit.originalChangedTextBackground': withOpacity(semantic.error, op.medium),
-  'inlineEdit.modifiedChangedLineBackground': withOpacity(semantic.success, op.subtle),
-  'inlineEdit.modifiedChangedTextBackground': withOpacity(semantic.success, op.medium),
+  'inlineEdit.originalChangedLineBackground': withOpacity(t.decorative.diffRemoved, op.subtle),
+  'inlineEdit.originalChangedTextBackground': withOpacity(t.decorative.diffRemoved, op.medium),
+  'inlineEdit.modifiedChangedLineBackground': withOpacity(t.decorative.diffInserted, op.subtle),
+  'inlineEdit.modifiedChangedTextBackground': withOpacity(t.decorative.diffInserted, op.medium),
   'inlineEdit.originalBorder': withOpacity(bg.float, op.strong),
   'inlineEdit.modifiedBorder': withOpacity(accent.bright, op.strong),
-  'inlineEdit.tabWillAcceptModifiedBorder': withOpacity(semantic.success, op.heavy),
-  'inlineEdit.tabWillAcceptOriginalBorder': withOpacity(semantic.error, op.heavy),
+  'inlineEdit.tabWillAcceptModifiedBorder': withOpacity(t.git.added.hex, op.heavy),
+  'inlineEdit.tabWillAcceptOriginalBorder': withOpacity(t.decorative.diffRemoved, op.heavy),
 
   // ==========================================================================
   // EDITOR ACTION LIST
