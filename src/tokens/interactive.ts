@@ -59,10 +59,8 @@ export function createInteractiveTokens(
   const foregroundMuted = ui.foregroundMuted.hex;
   const foregroundTertiary = ui.tertiary.hex;
   const foregroundDisabled = ui.disabled.hex;
-  const backgroundVoid = ui.backgroundVoid.hex;
   const background = ui.background.hex;
-  const backgroundShelf = ui.backgroundShelf.hex;
-  const backgroundFrame = ui.backgroundFrame.hex;
+  const backgroundHouse = ui.backgroundHouse.hex;
 
   return {
     // =========================================================================
@@ -160,12 +158,12 @@ export function createInteractiveTokens(
     // =========================================================================
     input: {
       background: {
-        default: backgroundShelf,
-        hover: backgroundShelf,
-        active: backgroundShelf,
-        focus: backgroundShelf,
-        disabled: backgroundShelf,
-        selected: backgroundShelf,
+        default: backgroundHouse,
+        hover: backgroundHouse,
+        active: backgroundHouse,
+        focus: backgroundHouse,
+        disabled: backgroundHouse,
+        selected: backgroundHouse,
       },
       foreground: {
         default: foreground,
@@ -190,12 +188,12 @@ export function createInteractiveTokens(
     // =========================================================================
     tab: {
       background: {
-        default: backgroundFrame,
+        default: backgroundHouse,
         hover: withOpacity(tonic, op.medium),
         active: background,
         focus: p.special.transparent,
-        disabled: backgroundFrame,
-        selected: backgroundShelf,
+        disabled: backgroundHouse,
+        selected: backgroundHouse,
       },
       foreground: {
         default: foregroundTertiary,
@@ -206,11 +204,11 @@ export function createInteractiveTokens(
         selected: foreground,
       },
       border: {
-        default: backgroundShelf,
+        default: backgroundHouse,
         hover: p.special.transparent,
         active: spotlight,
         focus: spotlight,
-        disabled: backgroundShelf,
+        disabled: backgroundHouse,
         selected: tieShadow,
       },
     },
@@ -254,7 +252,7 @@ export function createInteractiveTokens(
         hover: withOpacity(tonic, op.strong),
         active: tonic,
         focus: background,
-        disabled: withOpacity(backgroundShelf, op.solid),
+        disabled: withOpacity(backgroundHouse, op.solid),
         selected: p.polarity === 'light'
           ? withOpacity(tonic, op.heavy)
           : (ui.buttonBackground.hex),

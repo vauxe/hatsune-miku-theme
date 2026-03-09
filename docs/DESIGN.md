@@ -418,50 +418,51 @@ Every background, border, accent, and shadow maps to her design. You code inside
 
 ### The Stage
 
-The editor canvas is **Miku's skirt**, the true character palette hex. You code on her stage. The skirt anchors the entire background hierarchy: floating UI rises above it into the spotlight, static chrome sinks below it into shadow.
+The editor canvas is **Miku's skirt**, the true character palette hex. You code on her stage — the darkest regular surface, where syntax contrast is maximized. Structural chrome (sidebar, tabs, bars) rises above into the House tier, creating a "picture frame" around content. Overlays float highest.
 
-Five tiers, uniform 0.005 Jz steps, preserving the skirt's native hue (249°) and chroma at every level. Adjacent tiers are ΔEz ~2.5 apart — at the threshold of perceptibility. You notice the boundary without being distracted by it.
+Four tiers, variable Jz steps (0.008 content, 0.007 float), preserving the skirt's native hue (249°) and chroma at every level. Adjacent tiers are ΔEz ~4 apart — clearly distinguishable without being distracting.
 
 ```
 Tier     Step   Jz      Role
 ═══════════════════════════════════════════════════════════════════════════
-Float     +1    0.036   Hover, suggest, menus, command palette,
+Float     +2    ~0.046  Hover, suggest, menus, command palette,
                         notifications, tooltips, find widget,
-                        inline chat, debug toolbar
+                        inline chat, debug toolbar,
+                        panel section headers
 
-Canvas     0    0.031   ★ THE SKIRT — editor, active tab, terminal,
-                        notebook cells, code blocks in chat,
-                        peek editor, breadcrumbs
+House     +1    ~0.039  Sidebar, tab strip, activity bar, status bar,
+                        title bar, panel, peek gutters
 
-Shelf     −1    0.026   Sidebar, tab strip, notebook chrome
+Stage      0     0.031  ★ THE SKIRT — editor, terminal, active tab,
+                        notebook cells, peek editor, breadcrumbs,
+                        settings inputs
 
-Frame     −2    0.021   Activity bar, status bar, title bar
-
-Void      −3    0.016   Panel bg, empty editor groups
+Void      −1    ~0.023  Empty editor groups, shadow sources
 ```
 
-**Why this ordering.** In dark environments, lighter surfaces appear closer. The editor is where you look — it sits at the anchor. Floating widgets (hover, suggest, menus) demand momentary attention — they rise one step into the spotlight. Sidebar is peripheral — it recedes one step. Chrome (bars, title) is structural — it recedes further. The panel is the deepest container.
+**Why this ordering.** The editor is a concert stage — dark, focused, all spotlights on syntax. Structural chrome creates a lighter "picture frame" around content, like dim venue walls around a dark stage. Overlays (hover, suggest) float brightest for momentary attention. The concert-hall atmosphere: dark stage, dim house lights, bright spotlights.
 
 **Why opaque.** Float surfaces are opaque — you read text inside them (completions, hover docs, menu items). Translucent backgrounds would let code bleed through, creating noise and making APCA contrast unpredictable. The shadow provides the floating depth cue, not transparency.
 
-**Why five.** Fewer than five and you cannot distinguish sidebar from chrome from panel — three functional zones below the editor need three steps. More than five and you create differences the eye cannot use — interactive states (hover, selection, focus) are handled by alpha tints, not opaque tiers. Inputs use Glass material (border articulation, same background as parent). Section headers use text weight. Neither needs a dedicated tier.
+**Why four.** Three functional zones (content, structure, overlay) plus one absence tier (void). The 0.008 Jz step gives ΔEz ~4 — clearly visible boundaries where they matter. Surfaces already differentiated by position (activity bar vs sidebar) share the House tier rather than consuming separate steps. Interactive states (hover, selection, focus) use alpha tints, not opaque tiers.
 
-**Nesting.** The hardest cases are containers that hold both recessed and elevated children:
+**Nesting.** The hardest cases are containers that hold both content and structural children:
 
 ```
 Nesting case                    Solution
 ═══════════════════════════════════════════════════════════════════════════
-Sidebar → input                 Glass: same Shelf bg + border
+Sidebar → input                 Glass: same House bg + border
 Sidebar → section header        Bold text + accent foreground
-Sidebar → chat → code block     Code block at Canvas (1 step up — code excerpt)
-Panel → chat → code block       Code block at Canvas (3 steps up — clearly code)
-Panel → terminal                Terminal at Canvas (content surface)
-Title bar → command center      Glass: border on Frame
-Tab strip → active tab          Active tab = Canvas (merges with editor)
-Tab strip → inactive tab        Same Shelf tier, dimmed foreground
-Notebook chrome → cell          Chrome at Shelf, cell at Canvas
-Editor → inline chat            Inline chat at Float, its code at Canvas
-Editor → peek view              Peek title at Float, peek editor at Canvas
+Sidebar → chat → code block     Code at House opacity — no bg change (font distinguishes)
+Panel → section header          Section header at Float (1 step up from House)
+Panel → terminal                Terminal at Stage (content surface, 1 step down)
+Title bar → command center      Glass: border on House
+Tab strip → active tab          Active tab = Stage (merges with editor)
+Tab strip → inactive tab        Same House tier, dimmed foreground
+Notebook chrome → cell          Chrome at House, cell at Stage
+Hover → code block              Code at House (opacity tint — darker well in Float)
+Editor → inline chat            Inline chat at Float, its code at Stage
+Editor → peek view              Peek title at Float, peek editor at Stage
 ```
 
 Void uses reduced chroma (×0.4) to prevent color noise at near-black lightness.
@@ -471,7 +472,7 @@ Void uses reduced chroma (×0.4) to prevent color noise at near-black lightness.
 Three text tiers sit atop this hierarchy:
 
 ```
-Tier         Color                   Lc on Canvas   Usage
+Tier         Color                   Lc on Stage    Usage
 ═══════════════════════════════════════════════════════════════════════════
 Primary      Blouse white (#FCF8F0)  ~85            Body text, active labels, icon fg
 Secondary    Silver (desaturated)    ~68            Descriptions, inactive labels,
@@ -480,7 +481,7 @@ Tertiary     Silver (dim)            ~50            Placeholders, ghost text,
                                                     disabled text, line numbers
 ```
 
-One foreground hex per tier, used on all background tiers. Lc varies ±3 across tiers (e.g., ~88 on Void, ~82 on Float) — acceptable because identity comes from tier assignment, not exact contrast. The readability tool validates primary Lc ≥ 75 on all backgrounds including overlays.
+One foreground hex per tier, used on all background tiers. Lc varies ±5 across tiers (e.g., ~88 on Void, ~80 on Float) — acceptable because identity comes from tier assignment, not exact contrast. The readability tool validates primary Lc ≥ 75 on all backgrounds including overlays.
 
 Syntax is her voice. UI text is not — it is the venue, the stage directions, the house lights.
 
@@ -497,7 +498,7 @@ Seven color roles from her character design. The five proportional roles add to 
 ```
 Role              ~%    Her Design                  UI Elements
 ═══════════════════════════════════════════════════════════════════════════
-Dark ground       65    Skirt, boots, sleeves       Backgrounds (5 tiers), panels
+Dark ground       65    Skirt, boots, sleeves       Backgrounds (4 tiers), panels
 Teal accent       20    Hair, trim                  Links, buttons, badges, progress,
                                                     scrollbar, drop targets, info status,
                                                     word highlight, word highlight strong
@@ -736,35 +737,36 @@ VS Code requires explicit hex values — there is no "inherit" keyword. Each Gla
 ```
 Container                Glass gets
 ═══════════════════════════════════════════
-Sidebar (Shelf)          Shelf
-Editor (Canvas)          Canvas
-Command palette (Float)  Float
-Panel (Void)             Void
+Sidebar (House)          House
+Editor (Stage)           Stage
+Command palette (Float)  House (recessed well in Float)
+Panel (House)            House
 ```
 
-**Architecture** — structural elements. Tabs, activity bar, panel titles. Does not tint — *reconfigures*. The active tab merges with Canvas. The inactive tab recedes to Frame.
+**Architecture** — structural elements. Tabs, activity bar, panel titles. Does not tint — *reconfigures*. The active tab drops to Stage (merges with editor). The inactive tab stays at House with dimmed foreground.
 
 *Background tier assignment.*
 
 ```
 State        Background           Foreground    Border-top
 ═══════════════════════════════════════════════════════════════════
-inactive     Frame                tertiary      —
+inactive     House                tertiary      —
 hover        teal tint (15%)      primary       —
-active       Canvas               accentBright  magenta
-unfocused    Shelf                secondary     dimmed teal
+active       Stage                accentBright  magenta
+unfoc.active Stage                secondary     dimmed teal
+unfoc.inact. House                tertiary      —
 modified     (unchanged)          (unchanged)   magenta dot
 ```
 
-**Architecture — Status Bar Modes.** The status bar lives at Frame tier, but VS Code overrides its color to signal workspace state:
+**Architecture — Status Bar Modes.** The status bar lives at House tier, but VS Code overrides its color to signal workspace state:
 
 ```
 Mode          Background        Foreground    Rationale
 ═══════════════════════════════════════════════════════════════════════════
-Normal        Frame             secondary     Chrome — recedes
+Normal        House             secondary     Chrome — recedes
 Debugging     Magenta           primary       Spotlight — the debugger has the stage
 Remote        Teal              dark          Engagement
-No folder     Frame             tertiary      Quieter — nothing open
+No folder     House             tertiary      Quieter — nothing open
 ```
 
 **Air** — translucent handles you look *through*, the opposite of Float. Scrollbars, minimap sliders, sashes. No border channel — only engagement speaks, through fill alone.
@@ -790,7 +792,7 @@ Breadcrumbs            Fabric          Tint on hover, transparent at rest
 Codelens               Fabric          Inline annotation — tertiary fg
 Inlay hints            Glass           Inline chip — bordered, editor bg
 Peek view title        Architecture    Float tier (elevated container)
-Peek view editor       Architecture    Canvas tier (code surface)
+Peek view editor       Architecture    Stage tier (code surface)
 Peek result match      Fabric          Teal tint on match lines
 Merge current header   Fabric          Teal tint (strong) — your branch
 Merge incoming header  Fabric          Green tint (strong) — their branch
@@ -806,7 +808,7 @@ Editor rulers          Structure       Vertical guide — dim structure line
 **Tint backgrounds** use opacity of a source color over the existing surface. Compositing happens in sRGB:
 
 ```
-Source   Tier      Opacity   ΔEz on Canvas   Usage
+Source   Tier      Opacity   ΔEz on Stage    Usage
 ═══════════════════════════════════════════════════════════════════════════
 Teal     light     8%        ~5              Keyboard focus
 Teal     strong    25%       ~18             Hover, drop target
@@ -837,7 +839,7 @@ spotlight      Headphone cushion    #E05096   solo voice
 The primitive scale in `primitives.ts` defines eight opacity levels using round hex alpha bytes:
 
 ```
-Name      Hex    Opacity   ΔEz (teal on Canvas)
+Name      Hex    Opacity   ΔEz (teal on Stage)
 ═══════════════════════════════════════════════════════
 subtle    08     3%        ~2
 light     15     8%        ~5
@@ -849,7 +851,7 @@ dense     CC     80%       ~42
 opaque    FF     100%      —
 ```
 
-The scale is not mathematically uniform — it uses round hex values that produce clearly distinguishable visibility levels. Each step creates ΔEz 5+ on Canvas (well above the JND of ~3), regardless of source color. Opacity sets **visibility hierarchy** (how loud). Color sets **identity** (which voice).
+The scale is not mathematically uniform — it uses round hex values that produce clearly distinguishable visibility levels. Each step creates ΔEz 5+ on Stage (well above the JND of ~3), regardless of source color. Opacity sets **visibility hierarchy** (how loud). Color sets **identity** (which voice).
 
 Overlays and interactive states use four tiers from this scale:
 

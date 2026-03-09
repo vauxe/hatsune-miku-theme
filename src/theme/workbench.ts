@@ -5,7 +5,7 @@
  * Design Philosophy: "Digital Diva" - Serene, immersive, 8+ hour coding comfort.
  *
  * Color Architecture:
- * - Background layers: void < frame < shelf < base (editor) < float — all from skirt.base (hz≈249°)
+ * - Background layers: void < stage (editor) < house (chrome) < float — all from skirt.base (hz≈249°)
  * - Primary accent: hair.base (#39C5BB) - canonical Miku teal
  * - Secondary accent: hair.highlight (#5DE4DB) - attention states
  * - Cursor/focus: vivid magenta from headphone cushion (#E05096)
@@ -24,13 +24,12 @@ const onAccentBg = t.decorative.darkForeground;
 // DESIGN SYSTEM CONSTANTS
 // ============================================================================
 
-// Background hierarchy — skirt-centered steps (0.005 Jz each, preserving skirt's hz≈249°)
+// Background hierarchy — 4 tiers, editor darkest (stage = skirt anchor, hz≈249°)
 const bg = {
-  void: t.ui.backgroundVoid.hex,    // step −3: panel bg, empty groups
-  frame: t.ui.backgroundFrame.hex,  // step −2: activity bar, status bar, title bar
-  shelf: t.ui.backgroundShelf.hex,  // step −1: sidebar, tab strip
-  base: t.ui.background.hex,        // step  0: THE SKIRT — editor canvas (anchor)
-  float: t.ui.backgroundFloat.hex,  // step +1: hover, suggest, menus, tooltips
+  void: t.ui.backgroundVoid.hex,    // step −1: empty groups, shadows
+  base: t.ui.background.hex,        // step  0: THE SKIRT — editor, terminal (darkest regular)
+  house: t.ui.backgroundHouse.hex,  // step +1: sidebar, tabs, activity bar, status bar
+  float: t.ui.backgroundFloat.hex,  // step +2: hover, suggest, menus, tooltips
 };
 
 // Text hierarchy - from Snow Miku and character palette
@@ -139,17 +138,17 @@ const pol = {
   badgeBg:          isLight ? t.ui.badgeBackground.hex : lighten(roleFromHex('', t.decorative.sekaiHair), 0.02),
   badgeFg:          isLight ? t.decorative.blouseWhite : onAccentBg,
   // Panel/command center background
-  panelBg:          isLight ? bg.shelf : bg.void,
+  panelBg:          bg.house,
   // Activity bar background
-  activityBarBg:    isLight ? t.decorative.topMain : bg.frame,
+  activityBarBg:    isLight ? t.decorative.topMain : bg.house,
   // Sidebar background
-  sidebarBg:        isLight ? t.decorative.armWarmersBase : bg.shelf,
+  sidebarBg:        isLight ? t.decorative.armWarmersBase : bg.house,
   // Section header background
-  sectionHeaderBg:  isLight ? t.decorative.topMain : bg.shelf,
+  sectionHeaderBg:  isLight ? t.decorative.topMain : bg.house,
   // Status bar background
-  statusBarBg:      isLight ? t.decorative.topShadow : bg.frame,
-  // Tab header background — darkened half-step from shelf for ΔEz ≥ 3 vs editor
-  tabHeaderBg:      isLight ? t.decorative.armWarmersBase : darken(t.ui.backgroundShelf, 0.003),
+  statusBarBg:      isLight ? t.decorative.topShadow : bg.house,
+  // Tab header background — House tier (structural chrome)
+  tabHeaderBg:      isLight ? t.decorative.armWarmersBase : bg.house,
   // Suggest widget selected
   suggestSelectedBg: isLight
     ? withOpacity(t.decorative.cursorLineFrost, op.subtle)
@@ -569,9 +568,9 @@ return {
   // ==========================================================================
   // TITLE BAR
   // ==========================================================================
-  'titleBar.activeBackground': bg.frame,
+  'titleBar.activeBackground': bg.house,
   'titleBar.activeForeground': text.primary,
-  'titleBar.inactiveBackground': bg.frame,
+  'titleBar.inactiveBackground': bg.house,
   'titleBar.inactiveForeground': text.tertiary,
   'titleBar.border': withOpacity(accent.primary, op.light),
 
@@ -584,16 +583,16 @@ return {
   'tab.activeBorder': withOpacity(accent.primary, op.medium),
   'tab.inactiveBackground': t.interactive.tab.background.default,
   'tab.inactiveForeground': t.interactive.tab.foreground.default,
-  'tab.border': bg.shelf,
+  'tab.border': bg.house,
   'tab.hoverBackground': t.interactive.tab.background.hover,
   // Hover uses primary text for distinction from active (accent bright)
   'tab.hoverForeground': text.primary,
   'tab.hoverBorder': withOpacity(accent.primary, op.medium),
-  'tab.unfocusedActiveBackground': bg.shelf,
+  'tab.unfocusedActiveBackground': bg.base,
   'tab.unfocusedActiveForeground': text.secondary,
   'tab.unfocusedActiveBorderTop': withOpacity(accent.primary, op.heavy),
   'tab.unfocusedActiveBorder': withOpacity(accent.primary, op.medium),
-  'tab.unfocusedInactiveBackground': bg.base,
+  'tab.unfocusedInactiveBackground': bg.house,
   'tab.unfocusedInactiveForeground': text.tertiary,
   'tab.unfocusedHoverBackground': withOpacity(pol.hoverTint, alpha.unfocusedTabHoverBg),
   'tab.unfocusedHoverForeground': text.secondary,
@@ -618,7 +617,7 @@ return {
   'editorGroup.border': withOpacity(pol.borderTint, alpha.borderSubtle),
   'editorGroup.dropBackground': withOpacity(accent.primary, op.medium),
   'editorGroup.dropIntoPromptForeground': text.primary,
-  'editorGroup.dropIntoPromptBackground': withOpacity(bg.shelf, op.opaque),
+  'editorGroup.dropIntoPromptBackground': withOpacity(bg.house, op.opaque),
   'editorGroup.dropIntoPromptBorder': withOpacity(accent.primary, op.heavy),
   'editorGroup.emptyBackground': bg.void,
   'editorGroup.focusedEmptyBorder': withOpacity(accent.primary, op.strong),
@@ -738,7 +737,7 @@ return {
   'terminal.tab.activeBorder': accent.magenta,
 
   // ANSI Colors - APCA Lc 75+ for terminal readability
-  // All colors optimized for void background
+  // All colors optimized for Stage background
   'terminal.ansiBlack': t.terminal.black.hex,
   'terminal.ansiRed': t.terminal.red.hex,
   'terminal.ansiGreen': t.terminal.green.hex,
@@ -764,7 +763,7 @@ return {
   'terminalOverviewRuler.cursorForeground': accent.cursor,
   'terminalOverviewRuler.findMatchForeground': withOpacity(semantic.warning, op.solid),
   'terminalOverviewRuler.border': withOpacity(accent.primary, op.medium),
-  'terminalStickyScroll.background': bg.void,
+  'terminalStickyScroll.background': bg.base,
   'terminalStickyScroll.border': withOpacity(accent.primary, op.light),
   'terminalStickyScrollHover.background': t.interactive.toolbar.background.hover,
 
@@ -840,7 +839,7 @@ return {
   'peekViewEditor.background': bg.base,
   'peekViewEditor.matchHighlightBackground': withOpacity(semantic.warning, op.medium),
   'peekViewEditor.matchHighlightBorder': withOpacity(semantic.warning, op.heavy),
-  'peekViewEditorGutter.background': bg.shelf,
+  'peekViewEditorGutter.background': bg.house,
   'peekViewResult.background': bg.float,
   'peekViewResult.fileForeground': text.primary,
   'peekViewResult.lineForeground': text.secondary,
@@ -848,7 +847,7 @@ return {
   'peekViewResult.selectionBackground': t.interactive.list.background.selected,
   'peekViewResult.selectionForeground': t.interactive.list.foreground.selected,
   'peekViewEditorStickyScroll.background': bg.base,
-  'peekViewEditorStickyScrollGutter.background': bg.shelf,
+  'peekViewEditorStickyScrollGutter.background': bg.house,
 
   // ==========================================================================
   // DIFF EDITOR
@@ -1087,7 +1086,7 @@ return {
   'welcomePage.tileHoverBackground': t.interactive.toolbar.background.hover,
   'welcomePage.tileBorder': withOpacity(accent.primary, op.medium),
   'welcomePage.progress.foreground': semantic.info,
-  'welcomePage.progress.background': bg.shelf,
+  'welcomePage.progress.background': bg.house,
   'walkThrough.embeddedEditorBackground': bg.base,
   'walkthrough.stepTitle.foreground': accent.bright,
 
@@ -1316,7 +1315,7 @@ return {
   'inlineEdit.gutterIndicator.successfulBorder': t.git.added.hex,
   'inlineEdit.gutterIndicator.successfulForeground': t.git.added.hex,
   'inlineEdit.gutterIndicator.successfulBackground': withOpacity(t.git.added.hex, op.light),
-  'inlineEdit.gutterIndicator.background': bg.shelf,
+  'inlineEdit.gutterIndicator.background': bg.house,
   'inlineEdit.originalBackground': withOpacity(bg.float, op.subtle),
   'inlineEdit.modifiedBackground': withOpacity(accent.primary, op.light),
   'inlineEdit.originalChangedLineBackground': withOpacity(t.decorative.diffRemoved, op.subtle),
@@ -1417,11 +1416,11 @@ return {
   // ==========================================================================
   'textBlockQuote.background': withOpacity(accent.primary, op.light),
   'textBlockQuote.border': withOpacity(accent.primary, op.strong),
-  'textCodeBlock.background': withOpacity(bg.shelf, op.solid),
+  'textCodeBlock.background': withOpacity(bg.house, op.solid),
   'textLink.activeForeground': t.ui.linkActive.hex,
   'textLink.foreground': accent.bright,
   'textPreformat.foreground': accent.soft,
-  'textPreformat.background': withOpacity(bg.shelf, op.heavy),
+  'textPreformat.background': withOpacity(bg.house, op.heavy),
   'textPreformat.border': withOpacity(accent.primary, op.medium),
   'textSeparator.foreground': withOpacity(accent.primary, op.strong),
 };

@@ -65,8 +65,7 @@ export interface UITokens {
   foregroundSubtle: SemanticRole;
   background: SemanticRole;
   backgroundFloat: SemanticRole;
-  backgroundShelf: SemanticRole;
-  backgroundFrame: SemanticRole;
+  backgroundHouse: SemanticRole;
   backgroundVoid: SemanticRole;
   accentPrimary: SemanticRole;
   accentSecondary: SemanticRole;

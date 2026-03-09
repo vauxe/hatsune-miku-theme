@@ -1,10 +1,10 @@
 /**
  * UI, Status, and Git Token Definitions
  *
- * Skirt-centered background steps: the skirt is the stage, the single
- * anchor. Every other background tier is exactly N steps above or below
- * it — uniform Jz increments (0.005). Five tiers: void < frame < shelf
- * < base (editor) < float.
+ * Skirt-centered background tiers: the skirt is the stage, the darkest
+ * regular surface. Structural chrome (House) rises above it, overlays
+ * (Float) rise higher. Four tiers: void < stage (editor) < house < float.
+ * Step sizes: 0.008 Jz (Void→Stage, Stage→House), 0.007 (House→Float).
  *
  * Status colors tell the story of your code: success in negi green,
  * errors in tritone red. Git traces the narrative of creation and loss.
@@ -18,8 +18,10 @@ import type { Primitives } from './primitives';
 export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
   const { lightness: L, chroma: C, hue: H, character: char } = p;
 
-  // The skirt is the stage — one anchor, uniform steps up and down
-  const STEP = 0.005;
+  // The skirt is the stage — darkest regular surface, content lives here
+  // House rises above for structural chrome, Float above that for overlays
+  const STEP_CONTENT = 0.008;  // Void→Stage, Stage→House (ΔEz ~4)
+  const STEP_FLOAT = 0.007;    // House→Float (slightly smaller to keep Float tame)
   const skirt = parseHex(char.skirt.base);
   // Above-base tiers: lighter in dark, darker in light
   const aboveDir = p.polarity === 'light' ? -1 : 1;
@@ -38,24 +40,20 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       L.countertenor, C.ppp, H.sky
     ),
     background: roleFromHex(
-      'Canvas — the skirt, editor anchor (step 0)',
+      'Stage — the skirt, editor anchor (darkest regular surface)',
       char.skirt.base
     ),
     backgroundFloat: role(
-      'Float — above the stage (step +1)',
-      skirt.Jz + aboveDir * STEP, skirt.Cz, skirt.hz
+      'Float — overlays, hover, menus (step +2)',
+      skirt.Jz + aboveDir * (STEP_CONTENT + STEP_FLOAT), skirt.Cz, skirt.hz
     ),
-    backgroundShelf: role(
-      'Shelf — sidebar, tab strip (step -1)',
-      skirt.Jz - aboveDir * STEP, skirt.Cz, skirt.hz
-    ),
-    backgroundFrame: role(
-      'Frame — activity bar, status bar, title bar (step -2)',
-      skirt.Jz - aboveDir * 2 * STEP, skirt.Cz, skirt.hz
+    backgroundHouse: role(
+      'House — sidebar, tabs, activity bar, status bar (step +1)',
+      skirt.Jz + aboveDir * STEP_CONTENT, skirt.Cz, skirt.hz
     ),
     backgroundVoid: role(
-      'Void — panel bg, empty groups (step -3)',
-      skirt.Jz - aboveDir * 3 * STEP,
+      'Void — empty groups, shadows (step -1)',
+      skirt.Jz - aboveDir * STEP_CONTENT,
       p.polarity === 'light' ? skirt.Cz * 0.85 : skirt.Cz * 0.4,
       skirt.hz
     ),
