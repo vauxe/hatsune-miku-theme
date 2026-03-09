@@ -9,6 +9,12 @@
 
 A VS Code color theme traced from Hatsune Miku's character design. Dark and light variants, built with perceptual color science for readability and color vision accessibility. Full rationale in [`docs/DESIGN.md`](docs/DESIGN.md).
 
+## Preview
+
+<div align="center">
+  <img src="images/example.jpg" alt="Hatsune Miku Theme — Dark" width="800">
+</div>
+
 ## Install
 
 1. Download the latest `.vsix` from [Releases](../../releases)
