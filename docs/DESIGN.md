@@ -427,13 +427,12 @@ Tier     Step   Jz      Role
 ═══════════════════════════════════════════════════════════════════════════
 Float     +2    ~0.046  Hover, suggest, menus, command palette,
                         notifications, tooltips, find widget,
-                        inline chat, debug toolbar,
-                        panel section headers
+                        inline chat, debug toolbar
 
 House     +1    ~0.039  Sidebar, tab strip, activity bar, status bar,
-                        title bar, panel, peek gutters
+                        title bar, peek gutters
 
-Stage      0     0.031  ★ THE SKIRT — editor, terminal, active tab,
+Stage      0     0.031  ★ THE SKIRT — editor, terminal, panel, active tab,
                         notebook cells, peek editor, breadcrumbs,
                         settings inputs
 
@@ -454,8 +453,8 @@ Nesting case                    Solution
 Sidebar → input                 Glass: same House bg + border
 Sidebar → section header        Bold text + accent foreground
 Sidebar → chat → code block     Code at House opacity — no bg change (font distinguishes)
-Panel → section header          Section header at Float (1 step up from House)
-Panel → terminal                Terminal at Stage (content surface, 1 step down)
+Panel → section header          Same Stage bg + accent foreground
+Panel → terminal                Same Stage tier (panel is content surface)
 Title bar → command center      Glass: border on House
 Tab strip → active tab          Active tab = Stage (merges with editor)
 Tab strip → inactive tab        Same House tier, dimmed foreground
@@ -740,7 +739,7 @@ Container                Glass gets
 Sidebar (House)          House
 Editor (Stage)           Stage
 Command palette (Float)  House (recessed well in Float)
-Panel (House)            House
+Panel (Stage)            Stage
 ```
 
 **Architecture** — structural elements. Tabs, activity bar, panel titles. Does not tint — *reconfigures*. The active tab drops to Stage (merges with editor). The inactive tab stays at House with dimmed foreground.

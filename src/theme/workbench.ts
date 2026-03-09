@@ -137,8 +137,8 @@ const pol = {
   // Badge colors — repeated across activity bar, panel, extension, profile
   badgeBg:          isLight ? t.ui.badgeBackground.hex : lighten(roleFromHex('', t.decorative.sekaiHair), 0.02),
   badgeFg:          isLight ? t.decorative.blouseWhite : onAccentBg,
-  // Panel/command center background
-  panelBg:          bg.house,
+  // Panel background — Stage tier (content surface, same as terminal/editor)
+  panelBg:          bg.base,
   // Activity bar background
   activityBarBg:    isLight ? t.decorative.topMain : bg.house,
   // Sidebar background
@@ -696,7 +696,7 @@ return {
   // PANEL (Bottom panel: Terminal, Output, etc.)
   // ==========================================================================
   'panel.background': pol.panelBg,
-  'panel.border': withOpacity(pol.borderTint, alpha.borderSubtle),
+  'panel.border': withOpacity(accent.primary, op.solid),
   'panel.dropBorder': accent.primary,
   'panelTitle.activeBorder': accent.magenta,
   'panelTitle.activeForeground': accent.bright,
@@ -705,11 +705,11 @@ return {
   'panelTitleBadge.background': pol.badgeBg,
   'panelTitleBadge.foreground': pol.badgeFg,
   'panelInput.border': withOpacity(accent.primary, op.strong),
-  'panelSection.border': withOpacity(accent.primary, op.medium),
+  'panelSection.border': withOpacity(accent.primary, op.solid),
   'panelSection.dropBackground': withOpacity(accent.primary, op.light),
-  'panelSectionHeader.background': bg.float,
+  'panelSectionHeader.background': bg.base,
   'panelSectionHeader.foreground': accent.bright,
-  'panelSectionHeader.border': withOpacity(accent.primary, op.medium),
+  'panelSectionHeader.border': withOpacity(accent.primary, op.solid),
   'panelStickyScroll.background': pol.panelBg,
   'panelStickyScroll.border': withOpacity(accent.primary, op.light),
   'panelStickyScroll.shadow': withOpacity(bg.void, op.heavy),
@@ -721,7 +721,7 @@ return {
   // ==========================================================================
   'terminal.background': bg.base,
   'terminal.foreground': text.primary,
-  'terminal.border': withOpacity(accent.primary, op.medium),
+  'terminal.border': withOpacity(accent.primary, op.solid),
   'terminal.selectionBackground': withOpacity(t.decorative.cursorLineFrost, alpha.terminalSelectionBg),
   'terminal.selectionForeground': text.primary,
   'terminal.inactiveSelectionBackground': withOpacity(t.decorative.cursorLineFrost, op.medium),
@@ -961,7 +961,7 @@ return {
   // COMMAND CENTER
   // ==========================================================================
   'commandCenter.foreground': text.primary,
-  'commandCenter.background': pol.panelBg,
+  'commandCenter.background': bg.house,
   'commandCenter.border': withOpacity(accent.primary, op.medium),
   'commandCenter.activeForeground': accent.bright,
   'commandCenter.activeBackground': t.interactive.toolbar.background.hover,
