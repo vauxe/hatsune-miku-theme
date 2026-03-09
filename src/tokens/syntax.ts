@@ -116,9 +116,11 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     ),
 
     // ═══ MINOR 2ND — G Cyan (210°) — Almost her, shifting ═══
+    // Tuned +1 dynamic (mp→mf) for distinction: cyan sits between teal (180°)
+    // and azure (240°) — 30° gaps need chroma contrast to clear ΔEz thresholds.
     variable: role(
-      'Minor 2nd — almost her voice, always shifting',
-      L.soprano, C.mp, H.cyan
+      'Minor 2nd/mf — almost her voice, always shifting (louder for distinction)',
+      L.soprano, C.mf, H.cyan
     ),
 
     // ═══ PERFECT 5TH — C# Red (30°) — What you give her ═══

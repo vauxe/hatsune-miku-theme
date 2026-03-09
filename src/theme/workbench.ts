@@ -89,15 +89,16 @@ const alpha = {
   selectionBg:              isLight ? op.light : op.strong,
   inactiveSelectionBg:      isLight ? op.subtle : op.medium,
   // Highlights — subtle/faint tiers
-  subtleBg:                 isLight ? op.subtle : op.medium,
-  subtleBorder:             isLight ? op.light : op.medium,
-  wordHighlightBorder:      isLight ? op.medium : op.strong,
-  wordHighlightStrongBg:    isLight ? op.light : op.strong,
+  selectionHighlightBg:     isLight ? op.subtle : op.medium,
+  selectionHighlightBorder: isLight ? op.light : op.medium,
+  wordHighlightBg:          isLight ? op.subtle : op.strong,
+  wordHighlightBorder:      isLight ? op.medium : op.heavy,
+  wordHighlightStrongBg:    isLight ? op.light : op.heavy,
   faintBg:                  isLight ? op.subtle : op.light,
   faintBorder:              isLight ? op.light : op.medium,
   // Find
-  findMatchBg:              isLight ? op.light : op.medium,
-  findHighlightBg:          isLight ? op.light : op.medium,
+  findMatchBg:              isLight ? op.light : op.strong,
+  findHighlightBg:          isLight ? op.light : op.strong,
   findHighlightBorder:      isLight ? op.strong : op.solid,
   // Hover
   hoverBg:                  isLight ? op.subtle : op.light,
@@ -207,11 +208,11 @@ return {
   'editor.selectionBackground': withOpacity(t.decorative.cursorLineFrost, alpha.selectionBg),
   'editor.selectionForeground': text.primary,
   'editor.inactiveSelectionBackground': withOpacity(t.decorative.cursorLineFrost, alpha.inactiveSelectionBg),
-  'editor.selectionHighlightBackground': withOpacity(accent.bright, alpha.subtleBg),
-  'editor.selectionHighlightBorder': withOpacity(accent.bright, alpha.subtleBorder),
+  'editor.selectionHighlightBackground': withOpacity(accent.bright, alpha.selectionHighlightBg),
+  'editor.selectionHighlightBorder': withOpacity(accent.bright, alpha.selectionHighlightBorder),
 
   // Word highlighting
-  'editor.wordHighlightBackground': withOpacity(accent.primary, alpha.subtleBg),
+  'editor.wordHighlightBackground': withOpacity(accent.primary, alpha.wordHighlightBg),
   'editor.wordHighlightBorder': withOpacity(accent.primary, alpha.wordHighlightBorder),
   'editor.wordHighlightStrongBackground': withOpacity(accent.primary, alpha.wordHighlightStrongBg),
   'editor.wordHighlightStrongBorder': withOpacity(accent.primary, alpha.wordHighlightBorder),

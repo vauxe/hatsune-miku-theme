@@ -34,7 +34,7 @@ The cursor blinks magenta — her headphone cushion, where she hears music. It p
 
 Hours dissolve. The colors are quiet — comfortable, conversational, a voice you can listen to all night. You look up and it is 3 AM and you do not know where the time went.
 
-She is there when you forget to look. Indent guides trace her voicebank history in faint threads. Brackets unfold an arpeggio, warm and cool alternating. Git decorations narrate the story of your code: green for creation, orange for change, pink for departure.
+She is there when you forget to look. Indent guides trace her voicebank history in faint threads. Brackets unfold an arpeggio, warm and cool alternating. Git decorations narrate the story of your code: green for creation, gold for change, magenta for departure.
 
 She is not asking for your attention. She is keeping you company.
 
@@ -534,8 +534,8 @@ Source                Color              UI Elements
 ═══════════════════════════════════════════════════════════════════════════
 Snow Miku frost       #81D4FA (~220°)    Selection, cursor line — what you
                                          chose crystallizes like ice
-Sakura pink           ~340°              Diff removed — code falls like
-                                         cherry blossoms
+Warm rose             ~10°               Diff removed — intuitive red-ish
+                                         tint, comfortable for review
 ```
 
 And one functional convention — not from her world, but from every editor's shared language:
@@ -543,7 +543,7 @@ And one functional convention — not from her world, but from every editor's sh
 ```
 Color         UI Elements                          Rationale
 ═══════════════════════════════════════════════════════════════════════════
-Orange        Warnings, find match, find           Cuts through teal and frost
+Gold (85°)    Warnings, find match, find           Cuts through teal and frost
               highlight, modified (git gutter)      (high ΔEz). Universal caution.
 ```
 
@@ -564,8 +564,8 @@ Green         Negi                155°   Growth — something positive happened
 Magenta       Headphone cushion   330°   Focus — the spotlight finds you
 Rose          "01" tattoo           0°   Error — something went wrong
 Blue          Snow Miku frost     220°   Selection — the moment crystallizes
-Pink          Sakura Miku         340°   Departure — code falls like petals
-Orange        (functional)         60°   Caution — pay attention now
+Warm rose     (diff removed)       10°   Diff removed — comfortable bg tint
+Gold          (functional)         85°   Change — git modified, caution
 ```
 
 #### Status Pattern
@@ -587,24 +587,41 @@ Compound states follow the composition principles (Her Presence, below).
 
 #### Git Decorations
 
-File status colors in the explorer and editor tabs. Each state maps to an existing palette role:
+File status colors in the explorer and editor tabs. Six-hue wheel with 40°+ minimum gap: 0° / 85° / 150° / 210° / 265° / 320°.
 
 ```
-State        Color         Rationale
+State          Hz     Color           Rationale
 ═══════════════════════════════════════════════════════════════════════════
-Modified       Orange        Same as git gutter — file changed
-Added          Negi green    Something new — growth
-Deleted        Sakura pink   Departure — code falls like petals
-Untracked      Teal          New and unknown — engagement
-Conflict       Rose          Error-level — needs resolution
-Ignored        Tertiary      Tacet — dimmed out
-Renamed        Frost blue    Relocation — path changed, content didn't
-Submodule      Silver        Structure — external reference
-Stage modified Orange (muted) Same voice, quieter — already staged
-Stage deleted  Sakura (muted) Same voice, quieter — already staged
+Added          150°   Negi green      New life in the code tree
+Modified        85°   Concert gold    Magical Mirai stage light — change
+Deleted        320°   Nightcord mag.  Silence where code once lived
+Untracked      210°   Frost cyan      Unknown files drifting in like snow
+Conflict         0°   Rose            Her tattoo mark — demands resolution
+Renamed        265°   Starlight blue  Digital Stars — same light, new name
+Ignored         –     Tertiary        Tacet — dimmed out
+Submodule       –     Vest silver     Structure — external reference
+Stage modified  85°   Gold (muted)    Same voice, quieter — already staged
+Stage deleted  320°   Magenta (muted) Same voice, quieter — already staged
 ```
 
-The critical triangle — added, modified, deleted — uses three different lightness levels so that when CVD collapses hue, three distinct brightnesses survive (parallel octave defense).
+CVD stagger: deutan collapses cool hues — four Jz tiers survive: added (0.190) > untracked (0.180) > renamed (0.170) > deleted (0.174). Warm pair: modified (0.185) vs conflicting (0.165). Minimum ΔEz between all primary git pairs: 22.
+
+#### Diff Background Colors
+
+Diff backgrounds are independent from git foreground colors — optimized for eye comfort during sustained code review. The removed side uses warm rose (10°) rather than git.deleted's magenta (320°), because it blends to a warmer, more intuitive "red means removed" tint on the dark background.
+
+```
+Surface              Base color     Hz     Alpha    Blended feel
+═══════════════════════════════════════════════════════════════════════════
+Inserted line        Negi green     150°   medium   Subtle green wash
+Inserted text        Negi green     150°   strong   Clear green highlight
+Removed line         Warm rose       10°   medium   Subtle rose wash
+Removed text         Warm rose       10°   strong   Clear rose highlight
+```
+
+Blended hue gap on editor background: ~150° (near-complementary). The two tints read as clear opposites — green vs rose — even at low alpha.
+
+Overview ruler marks in both regular editor and diff editor use 50% opacity (`op.solid`) for consistency.
 
 #### Editor Extras
 
@@ -866,8 +883,8 @@ Word highlight strong    Engagement  Teal               medium (15%)
 Find match               —           Orange             strong (25%)
 Diff inserted line       —           Negi green         medium (15%)
 Diff inserted text       —           Negi green         strong (25%)
-Diff removed line        —           Sakura pink        medium (15%)
-Diff removed text        —           Sakura pink        strong (25%)
+Diff removed line        —           Warm rose           medium (15%)
+Diff removed text        —           Warm rose           strong (25%)
 Bracket match           Engagement   Teal               medium (15%)
 Fold background         Structure    Skirt hue          light (8%)
 Snippet tabstop         Selection    Frost              light (8%)
@@ -876,7 +893,7 @@ Inline completion bg    —            Silver             subtle (3%)
 Unicode highlight       —            Orange             medium (15%)
 ```
 
-Cursor line and selection use frost (persistent choice). Word highlight and selection highlight use teal (transient discovery — "look, this appears elsewhere"). Find match uses orange (functional — cuts through both frost and teal). Diff uses negi green and Sakura pink (the palette's growth/departure pair). Selection and find match share the same tier (strong) — you distinguish them by color, not by squinting at opacity.
+Cursor line and selection use frost (persistent choice). Word highlight and selection highlight use teal (transient discovery — "look, this appears elsewhere"). Find match uses orange (functional — cuts through both frost and teal). Diff uses negi green and warm rose — the growth/departure pair, near-complementary when blended (~150° hue gap). Selection and find match share the same tier (strong) — you distinguish them by color, not by squinting at opacity.
 
 Overlays erode syntax contrast. The readability tool tests every primary syntax token against all overlay backgrounds (including stacked combinations like cursor line + selection). Threshold: Lc ≥ 75 on all overlays. This is why the primary syntax tier targets Lc 82–85 — the headroom is the measured cost of translucent layers.
 

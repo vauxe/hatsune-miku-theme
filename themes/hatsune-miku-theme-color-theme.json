@@ -22,16 +22,16 @@
 		"editor.inactiveSelectionBackground": "#81D4FA25",
 		"editor.selectionHighlightBackground": "#95DFDB25",
 		"editor.selectionHighlightBorder": "#95DFDB25",
-		"editor.wordHighlightBackground": "#39C5BB25",
-		"editor.wordHighlightBorder": "#39C5BB40",
-		"editor.wordHighlightStrongBackground": "#39C5BB40",
-		"editor.wordHighlightStrongBorder": "#39C5BB40",
+		"editor.wordHighlightBackground": "#39C5BB40",
+		"editor.wordHighlightBorder": "#39C5BB60",
+		"editor.wordHighlightStrongBackground": "#39C5BB60",
+		"editor.wordHighlightStrongBorder": "#39C5BB60",
 		"editor.wordHighlightTextBackground": "#95DFDB15",
 		"editor.wordHighlightTextBorder": "#95DFDB25",
-		"editor.findMatchBackground": "#F0CD7B25",
+		"editor.findMatchBackground": "#F0CD7B40",
 		"editor.findMatchForeground": "#DEE8F2",
 		"editor.findMatchBorder": "#F0CD7B80",
-		"editor.findMatchHighlightBackground": "#95DFDB25",
+		"editor.findMatchHighlightBackground": "#95DFDB40",
 		"editor.findMatchHighlightBorder": "#95DFDB80",
 		"editor.findRangeHighlightBackground": "#39C5BB15",
 		"editor.findRangeHighlightBorder": "#39C5BB25",
@@ -820,7 +820,7 @@
 		"chat.slashCommandForeground": "#95DFDB",
 		"chat.avatarBackground": "#39C5BB25",
 		"chat.avatarForeground": "#95DFDB",
-		"chat.editedFileForeground": "#69EBF3",
+		"chat.editedFileForeground": "#27F1FC",
 		"chat.linesAddedForeground": "#8AF9B4CC",
 		"chat.linesRemovedForeground": "#F58DF3CC",
 		"chat.requestCodeBorder": "#95DFDB40",
@@ -1067,7 +1067,7 @@
 				"meta.function.arguments"
 			],
 			"settings": {
-				"foreground": "#69EBF3"
+				"foreground": "#27F1FC"
 			}
 		},
 		{
@@ -1185,7 +1185,7 @@
 				"meta.definition.variable.name"
 			],
 			"settings": {
-				"foreground": "#69EBF3"
+				"foreground": "#27F1FC"
 			}
 		},
 		{
@@ -1682,7 +1682,7 @@
 				"variable.sass"
 			],
 			"settings": {
-				"foreground": "#69EBF3"
+				"foreground": "#27F1FC"
 			}
 		},
 		{
@@ -1711,7 +1711,7 @@
 				"punctuation.definition.variable.php"
 			],
 			"settings": {
-				"foreground": "#69EBF3"
+				"foreground": "#27F1FC"
 			}
 		},
 		{
@@ -2003,7 +2003,7 @@
 				"variable.language.makefile"
 			],
 			"settings": {
-				"foreground": "#69EBF3"
+				"foreground": "#27F1FC"
 			}
 		},
 		{
@@ -2041,7 +2041,7 @@
 				"variable.other.special.shell"
 			],
 			"settings": {
-				"foreground": "#69EBF3"
+				"foreground": "#27F1FC"
 			}
 		},
 		{
@@ -2082,7 +2082,7 @@
 				"meta.function-call.arguments"
 			],
 			"settings": {
-				"foreground": "#69EBF3"
+				"foreground": "#27F1FC"
 			}
 		},
 		{
@@ -2092,7 +2092,7 @@
 				"meta.class.inheritance"
 			],
 			"settings": {
-				"foreground": "#69EBF3"
+				"foreground": "#27F1FC"
 			}
 		},
 		{
@@ -2102,7 +2102,7 @@
 				"meta.namespace.body"
 			],
 			"settings": {
-				"foreground": "#69EBF3"
+				"foreground": "#27F1FC"
 			}
 		},
 		{
@@ -2113,7 +2113,7 @@
 				"meta.objectliteral"
 			],
 			"settings": {
-				"foreground": "#69EBF3"
+				"foreground": "#27F1FC"
 			}
 		},
 		{
@@ -2124,7 +2124,7 @@
 				"meta.imports"
 			],
 			"settings": {
-				"foreground": "#69EBF3"
+				"foreground": "#27F1FC"
 			}
 		},
 		{
@@ -2307,12 +2307,12 @@
 		"namespace.declaration": "#BFC6FF",
 		"module": "#BFC6FF",
 		"module.declaration": "#BFC6FF",
-		"variable": "#69EBF3",
-		"variable.declaration": "#69EBF3",
+		"variable": "#27F1FC",
+		"variable.declaration": "#27F1FC",
 		"variable.readonly": "#92DBFF",
 		"variable.constant": "#92DBFF",
 		"variable.defaultLibrary": "#69EBF3",
-		"variable.local": "#69EBF3",
+		"variable.local": "#27F1FC",
 		"property": "#FFA9B8",
 		"property.declaration": "#FFA9B8",
 		"property.readonly": "#92DBFF",
