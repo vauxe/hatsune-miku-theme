@@ -1,54 +1,24 @@
 /**
  * Semantic Design Tokens
  *
- * Layer 2: Composes all token sub-modules into a unified SemanticTokens object.
+ * Layer 2: Dispatches to variant-specific token composition.
  *
- * This is a thin composition layer - all token definitions live in their
- * respective modules (syntax.ts, ui.ts, terminal.ts, decorative.ts, interactive.ts).
+ * Each variant directory (dark/, light/) contains its own token creators
+ * and composes them into a unified SemanticTokens object.
  */
 
-import { primitives, type Primitives } from './primitives';
-import { createSyntaxTokens } from './syntax';
-import { createUITokens, createStatusTokens, createGitTokens } from './ui';
-import { createTerminalTokens } from './terminal';
-import {
-  createSymbolTokens,
-  createBracketTokens,
-  createSupportTokens,
-  createMarkdownTokens,
-  createDebugTokens,
-  createDecorativeTokens,
-} from './decorative';
-import { createInteractiveTokens } from './interactive';
+import { createDarkSemanticTokens } from './dark';
+import { createLightSemanticTokens } from './light';
 import type { SemanticTokens } from './types';
 
 /**
- * Create semantic tokens from primitives.
- *
- * Different variants can provide different primitives to get different themes.
+ * Create semantic tokens for a specific variant.
  */
-export function createSemanticTokens(
-  p: Primitives = primitives
-): SemanticTokens {
-  const ui = createUITokens(p);
-  const decorative = createDecorativeTokens(p);
-  return {
-    syntax: createSyntaxTokens(p),
-    ui,
-    status: createStatusTokens(p),
-    git: createGitTokens(p),
-    interactive: createInteractiveTokens(p, ui),
-    terminal: createTerminalTokens(p),
-    symbol: createSymbolTokens(p),
-    bracket: createBracketTokens(p),
-    support: createSupportTokens(p),
-    markdown: createMarkdownTokens(p),
-    debug: createDebugTokens(p),
-    decorative,
-  };
+export function createSemanticTokens(variant: 'dark' | 'light'): SemanticTokens {
+  return variant === 'dark' ? createDarkSemanticTokens() : createLightSemanticTokens();
 }
 
 /**
- * Default semantic tokens using standard Miku primitives
+ * Default semantic tokens using standard dark Miku primitives
  */
-export const semanticTokens = createSemanticTokens(primitives);
+export const semanticTokens = createDarkSemanticTokens();

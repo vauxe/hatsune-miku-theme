@@ -6,9 +6,9 @@
  * Layer 1: Primitives (primitives.ts)
  *   Raw values: lightness levels, chroma levels, hue angles, character hex colors
  *
- * Layer 2: Semantic Tokens (semantic.ts + sub-modules)
+ * Layer 2: Semantic Tokens (dark/, light/ + semantic.ts)
  *   Meaningful roles: syntax.keyword, ui.background, status.error
- *   Split across: syntax.ts, ui.ts, terminal.ts, decorative.ts, interactive.ts
+ *   Each variant directory contains its own token creators.
  *
  * Layer 3: Variants (variants.ts)
  *   Theme variations: dark, light
