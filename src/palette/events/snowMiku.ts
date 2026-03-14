@@ -307,4 +307,49 @@ export const snowMiku = {
       cookie: '#D7CCC8',   // Biscuit Accents
     }
   },
+
+  // =========================================================================
+  // FIGURE VARIANTS — GSC / Good Smile Company scale figures
+  // =========================================================================
+
+  yukiiroPop: {
+    // GSC "Yukiiro Pop Ver." 1/7 Scale Figure — iXima
+    // 10th Anniversary Snow Miku Sky Town collaboration
+    //
+    // She sits cross-legged on a butter-cream star, twin tails of
+    // brilliant cerulean cascading to lavender, white winter coat
+    // fastened with cobalt buckles, two plush bunnies nestled in her
+    // arms, one clutching a candy-pink lollipop. A mosaic of pastel
+    // tiles encircles the snow-fringed base beneath her feet.
+    hair: {
+      base: '#2EA6E6',        // Brilliant cerulean — her Yukiiro identity
+      shadow: '#186CA0',      // Deep ocean blue
+      highlight: '#78C6F0',   // Pale sky shimmer
+      tip: '#8070B8',         // Lavender gradient — blue-to-violet at tips
+      bright: '#9CD4F4',      // Icy cerulean — brightest shimmer
+    },
+    eyes: {
+      iris: '#4E56B4',        // Deep blue-indigo — snow-dome sparkle
+      highlight: '#7CAAE4',   // Prismatic star-shaped highlights
+      pupil: '#181840',       // Near-black with blue undertone
+    },
+    outfit: {
+      coat: '#FAFAFF',        // Snow-white winter coat
+      headband: '#CAD4EA',    // Silver-white ruffled band
+      pompom: '#5C4CA8',      // Deep lavender-violet pompom + clips
+      tie: '#2468B0',         // Cobalt blue necktie
+      buckles: '#2468B0',     // Cobalt belt buckles + snowflake patches
+      buckleShadow: '#1A54A0', // Deep cobalt — darker folds
+      snowflakeOrn: '#2EA6E6', // Cerulean snowflake ornament on headband
+    },
+    accessories: {
+      star: '#E8CC58',        // Butter-cream star cushion she sits upon
+      lollipop: '#E0608A',    // Candy-pink lollipop held by bunny
+      bunnies: '#FFFFFF',     // White plush bunnies
+      mosaicLime: '#98D468',  // Lime-green pastel mosaic tile
+      mosaicMint: '#68C8A0',  // Mint-green pastel mosaic tile
+      mosaicPink: '#E8A0B8',  // Soft pink pastel mosaic tile
+      snowBase: '#F0F4F8',    // Snow-fringed base beneath her feet
+    },
+  },
 } as const;
