@@ -964,7 +964,7 @@ return [
   {
     name: 'Meta Scopes',
     scope: [
-      'meta.function.parameters', 'meta.parameters', 'meta.function-call.arguments',
+      'meta.function.parameters', 'meta.parameters',
       'meta.class.body', 'meta.class.inheritance',
       'meta.interface.body', 'meta.namespace.body',
       'meta.object-literal', 'meta.array.literal', 'meta.objectliteral',

@@ -1104,7 +1104,6 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   section([
     a('Coverage Badge', c.testing.coverageBadge, 'editor'),
     a('Test Msg Info', c.testing.messageInfo, 'editor'),
-    a('Test Msg Error', c.testing.messageError, 'editor'),
   ], LABELS.sectionTesting);
 
   // Debug Console - frequently read output

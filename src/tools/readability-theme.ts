@@ -706,7 +706,6 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
     testing: {
       coverageBadge: getColor(theme, 'testing.coverCountBadgeForeground', fg),
       messageInfo: getColor(theme, 'testing.message.info.decorationForeground', fg),
-      messageError: getColor(theme, 'testing.message.error.decorationForeground', fg),
     },
     debugConsole: {
       error: getColor(theme, 'debugConsole.errorForeground', fg),
