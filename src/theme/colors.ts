@@ -85,7 +85,7 @@ export function createSyntaxColors(t: SemanticTokens) {
 
     // Status
     deprecated: t.ui.deprecated.hex,
-    invalid: t.ui.error.hex,
+    invalid: t.ui.errorForeground.hex,
   } as const;
 }
 

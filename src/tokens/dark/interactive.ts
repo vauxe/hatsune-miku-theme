@@ -22,7 +22,6 @@
 import { withOpacity } from '../role';
 import type { InteractiveTokens, UITokens, ExtendedUITokens } from '../types';
 import type { Primitives } from '../primitives';
-import { snowMiku } from '../../palette';
 
 // =============================================================================
 // INTERACTIVE TOKEN CREATION
@@ -45,7 +44,7 @@ export function createInteractiveTokens(
   // =========================================================================
   // SELECTION -- Snow Miku frost, persistent state
   // =========================================================================
-  const frost = snowMiku.y2025.accessories.crystal;
+  const frost = p.special.frost;
 
   // =========================================================================
   // IDENTITY -- cushion color, focus / keyboard target

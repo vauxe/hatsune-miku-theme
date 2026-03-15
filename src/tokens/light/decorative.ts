@@ -49,23 +49,23 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
   // Same-hue pairs distinguished by tier (Jz) and dynamic (Cz), DEz >= 12.
   return {
     // === D Orange (60°) -- Minor 6th -- baked peach ===
-    property: role('Symbol property -- orange 60°, vivid warmth', L.sopranino, C.ff, H.orange),
-    field: role('Symbol field -- orange 60°, deeper register', L.alto, C.mp, H.orange),
+    property: role('Symbol property -- orange 60°, vivid warmth', L.sopranino, C.ff, H.minor6th),
+    field: role('Symbol field -- orange 60°, deeper register', L.alto, C.mp, H.minor6th),
 
     // === D# Gold (90°) -- Major 6th -- butter croissant ===
-    function: role('Symbol function -- gold 90°, croissant glow', L.sopranino, C.ff, H.gold),
-    method: role('Symbol method -- gold 90°, soprano/mp for distinction', L.soprano, C.mp, H.gold),
-    constructor: role('Symbol constructor -- gold 90°, mezzo for light theme visibility', L.mezzo, C.f, H.gold),
+    function: role('Symbol function -- gold 90°, croissant glow', L.sopranino, C.ff, H.major6th),
+    method: role('Symbol method -- gold 90°, soprano/mp for distinction', L.soprano, C.mp, H.major6th),
+    constructor: role('Symbol constructor -- gold 90°, mezzo for light theme visibility', L.mezzo, C.f, H.major6th),
 
     // === E Lime (120°) -- Minor 7th -- pistachio cream ===
-    class: role('Symbol class -- lime 120°, pistachio (sopranino for DEz)', L.sopranino, C.f, H.lime),
-    struct: role('Symbol struct -- lime 120°, soprano for light visibility', L.soprano, C.ff, H.lime),
-    enum: role('Symbol enum -- lime 120°, mezzo for DEz gap from struct', L.mezzo, C.f, H.lime),
-    package: role('Symbol package -- lime 120°, mezzo for Lc>=45', L.mezzo, C.f, H.lime),
+    class: role('Symbol class -- lime 120°, pistachio (sopranino for DEz)', L.sopranino, C.f, H.minor7th),
+    struct: role('Symbol struct -- lime 120°, soprano for light visibility', L.soprano, C.ff, H.minor7th),
+    enum: role('Symbol enum -- lime 120°, mezzo for DEz gap from struct', L.mezzo, C.f, H.minor7th),
+    package: role('Symbol package -- lime 120°, mezzo for Lc>=45', L.mezzo, C.f, H.minor7th),
 
     // === F Green (150°) -- Major 7th -- mint leaf ===
-    string: role('Symbol string -- green 150°, literal truth', L.soprano, C.f, H.green),
-    reference: role('Symbol reference -- green 150°, sopranino link', L.sopranino, C.mp, H.green),
+    string: role('Symbol string -- green 150°, literal truth', L.soprano, C.f, H.major7th),
+    reference: role('Symbol reference -- green 150°, sopranino link', L.sopranino, C.mp, H.major7th),
 
     // === Canonical Teal (180°) -- interface ===
     interface: role('Symbol interface -- teal 180°, canonical promise', L.sopranino, C.mp, 180),
@@ -75,22 +75,22 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
     array: role('Symbol array -- tonic 210°, soprano for Lc>=45', L.soprano, C.mp, H.mikuTeal),
 
     // === G# Azure (240°) -- Minor 2nd ===
-    variable: role('Symbol variable -- azure 240°, vivid data', L.soprano, C.ff, H.cyan),
+    variable: role('Symbol variable -- azure 240°, vivid data', L.soprano, C.ff, H.minor2nd),
 
     // === A Blue (270°) -- Major 2nd ===
-    constant: role('Symbol constant -- blue 270° (mezzo, f for gap)', L.mezzo, C.f, H.azure),
-    number: role('Symbol number -- blue 270°, treble+ff for DEz', L.treble, C.ff, H.azure),
-    boolean: role('Symbol boolean -- blue 270°, countertenor for DEz', L.countertenor, C.mp, H.azure),
-    enumeratorMember: role('Symbol enum member -- blue 270°, countertenor', L.countertenor, C.f, H.azure),
+    constant: role('Symbol constant -- blue 270° (mezzo, f for gap)', L.mezzo, C.f, H.major2nd),
+    number: role('Symbol number -- blue 270°, treble+ff for DEz', L.treble, C.ff, H.major2nd),
+    boolean: role('Symbol boolean -- blue 270°, countertenor for DEz', L.countertenor, C.mp, H.major2nd),
+    enumMember: role('Symbol enum member -- blue 270°, countertenor', L.countertenor, C.f, H.major2nd),
 
     // === A# Violet (300°) -- Minor 3rd ===
-    typeParameter: role('Symbol type param -- violet 300°', L.soprano, C.mp, H.blue),
-    module: role('Symbol module -- violet 300°, sopranino+f for gap', L.sopranino, C.f, H.blue),
-    namespace: role('Symbol namespace -- violet 300°, alto for DEz', L.alto, C.mp, H.blue),
+    typeParameter: role('Symbol type param -- violet 300°', L.soprano, C.mp, H.minor3rd),
+    module: role('Symbol module -- violet 300°, sopranino+f for gap', L.sopranino, C.f, H.minor3rd),
+    namespace: role('Symbol namespace -- violet 300°, alto for DEz', L.alto, C.mp, H.minor3rd),
 
     // === C Rose (0°) -- Tritone ===
-    operator: role('Symbol operator -- rose 0°, sopranino', L.sopranino, C.mp, H.rose),
-    snippet: role('Symbol snippet -- rose 0°, quiet template', L.soprano + 0.006, C.mp, H.rose),
+    operator: role('Symbol operator -- rose 0°, sopranino', L.sopranino, C.mp, H.tritone),
+    snippet: role('Symbol snippet -- rose 0°, quiet template', L.soprano + 0.006, C.mp, H.tritone),
   };
 }
 
@@ -100,12 +100,12 @@ export function createBracketTokens(p: Primitives): BracketTokens {
   // Bracket arpeggio — per design section 4
   // D(60°), A#(300°), D#(90°), G(210°), C(0°), F(150°). Dynamic: mp
   return {
-    bracket1: role('Orange 60° -- warm arpeggio begins (baked peach)', L.soprano, C.mp, H.orange),
-    bracket2: role('Violet 300° -- cool deepens (twilight)', L.soprano, C.mp, H.blue),
-    bracket3: role('Gold 90° -- spring step (butter croissant)', L.soprano, C.mp, H.gold),
+    bracket1: role('Orange 60° -- warm arpeggio begins (baked peach)', L.soprano, C.mp, H.minor6th),
+    bracket2: role('Violet 300° -- cool deepens (twilight)', L.soprano, C.mp, H.minor3rd),
+    bracket3: role('Gold 90° -- spring step (butter croissant)', L.soprano, C.mp, H.major6th),
     bracket4: role('Tonic 210° -- her hair at the heart', L.soprano, C.mp, H.mikuTeal),
-    bracket5: role('Rose 0° -- strawberry heartbeat', L.soprano, C.mp, H.rose),
-    bracket6: role('Green 150° -- arpeggio resolves (mint leaf)', L.soprano, C.mp, H.green),
+    bracket5: role('Rose 0° -- strawberry heartbeat', L.soprano, C.mp, H.tritone),
+    bracket6: role('Green 150° -- arpeggio resolves (mint leaf)', L.soprano, C.mp, H.major7th),
   };
 }
 
@@ -113,11 +113,11 @@ export function createSupportTokens(p: Primitives): SupportTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
   return {
-    function: role('Support function -- gold 90°, built-in action', L.soprano, C.f, H.gold),
-    class: role('Support class -- lime 120°, treble for Lc>=60', L.treble, C.f, H.lime),
-    type: role('Support type -- violet 300°, built-in architecture', L.soprano, C.mp, H.blue),
-    constant: role('Support constant -- cyan 240°, treble for Lc>=60', L.treble, C.mp, H.cyan),
-    variable: role('Support variable -- azure 270°, built-in data', L.soprano, C.mp, H.azure),
+    function: role('Support function -- gold 90°, built-in action', L.soprano, C.f, H.major6th),
+    class: role('Support class -- lime 120°, treble for Lc>=60', L.treble, C.f, H.minor7th),
+    type: role('Support type -- violet 300°, built-in architecture', L.soprano, C.mp, H.minor3rd),
+    constant: role('Support constant -- cyan 240°, treble for Lc>=60', L.treble, C.mp, H.minor2nd),
+    variable: role('Support variable -- azure 270°, built-in data', L.soprano, C.mp, H.major2nd),
   };
 }
 
@@ -125,18 +125,18 @@ export function createMarkdownTokens(p: Primitives): MarkdownTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
   return {
-    heading: role('Heading -- gold 90°, darkened for bold compensation', L.soprano - 0.004, C.f, H.gold),
+    heading: role('Heading -- gold 90°, darkened for bold compensation', L.soprano - 0.004, C.f, H.major6th),
     codeBlock: role('Code in documents -- azure 235°, treble for Lc>=60', L.treble, C.f, H.ice),
     quote: role('Block quotes -- azure 235°, treble for Lc>=60', L.treble, C.mp, H.sky),
-    linkUrl: role('Link URL -- violet 300°, the address beneath', L.soprano, C.mp, H.blue),
-    headingPunctuation: role('Heading punctuation -- gold 90°, structural', L.soprano, C.mp, H.gold),
-    alertImportant: role('Important -- magenta 330°, pay attention', L.soprano, C.f, H.violet),
+    linkUrl: role('Link URL -- violet 300°, the address beneath', L.soprano, C.mp, H.minor3rd),
+    headingPunctuation: role('Heading punctuation -- gold 90°, structural', L.soprano, C.mp, H.major6th),
+    alertImportant: role('Important -- magenta 330°, pay attention', L.soprano, C.f, H.major3rd),
     alertNote: role('Note -- azure 235°, worth remembering', L.soprano, C.f, H.ice),
-    alertTip: role('Tip -- green 150°, helpful and fresh', L.soprano, C.f, H.green),
-    alertWarning: role('Warning -- gold 90°, golden caution', L.soprano, C.f, H.gold),
-    alertCaution: role('Caution -- rose 0°, danger', L.soprano, C.f, H.rose),
-    inserted: role('Markup inserted -- green 150°, sopranino for Lc>=60', L.sopranino, C.mp, H.green),
-    deleted: role('Markup deleted -- rose 0°, departure', L.soprano, C.f, H.rose),
+    alertTip: role('Tip -- green 150°, helpful and fresh', L.soprano, C.f, H.major7th),
+    alertWarning: role('Warning -- gold 90°, golden caution', L.soprano, C.f, H.major6th),
+    alertCaution: role('Caution -- rose 0°, danger', L.soprano, C.f, H.tritone),
+    inserted: role('Markup inserted -- green 150°, sopranino for Lc>=60', L.sopranino, C.mp, H.major7th),
+    deleted: role('Markup deleted -- rose 0°, departure', L.soprano, C.f, H.tritone),
   };
 }
 
@@ -144,13 +144,13 @@ export function createDebugTokens(p: Primitives): DebugTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
   return {
-    name: role('Debug name -- rose 0°, identity', L.treble, C.mp, H.rose),
-    value: role('Debug value -- lime 120°, the treasure', L.treble, C.f, H.lime),
-    string: role('Debug string -- green 150°, the text within', L.treble, C.mp, H.green),
-    number: role('Debug number -- cyan 240°, quantity', L.treble, C.f, H.cyan),
-    boolean: role('Debug boolean -- cyan 240°, truth', L.treble, C.mp, H.cyan),
-    error: role('Debug error -- rose 0°, something broke', L.treble, C.f, H.rose),
-    type: role('Debug type -- violet 300°, the shape beneath', L.treble, C.mp, H.blue),
+    name: role('Debug name -- rose 0°, identity', L.treble, C.mp, H.tritone),
+    value: role('Debug value -- lime 120°, the treasure', L.treble, C.f, H.minor7th),
+    string: role('Debug string -- green 150°, the text within', L.treble, C.mp, H.major7th),
+    number: role('Debug number -- cyan 240°, quantity', L.treble, C.f, H.minor2nd),
+    boolean: role('Debug boolean -- cyan 240°, truth', L.treble, C.mp, H.minor2nd),
+    error: role('Debug error -- rose 0°, something broke', L.treble, C.f, H.tritone),
+    type: role('Debug type -- violet 300°, the shape beneath', L.treble, C.mp, H.minor3rd),
   };
 }
 
@@ -206,17 +206,17 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     blouseWhite: p.character.top.blouse,
     darkForeground: p.character.eyes.pupil,
     inlayParameter: hex({ Jz: 0.092, Cz: 0.018, hz: 270 }),   // Azure — display case
-    statusItemForeground: character.headphones.frame,
+    statusItemForeground: p.character.headphones.frame,
     markupInserted: hex({ Jz: 0.068, Cz: 0.088, hz: 180 }),   // Mint — canonical Miku
-    tattooMark: character.marks.tattoo,
+    tattooMark: character.marks.tattoo,              // marks not in CharacterColors — palette only
     sekaiHair: virtualSinger.hair.base,
 
     // Character reference colors
     walletChain: p.character.skirt.accessory,
     tieShadow: p.character.tie.shadow,
-    negiStalk: character.negi.stalk,
-    skinBlush: character.skin.blush,
-    skinBase: character.skin.base,
+    negiStalk: p.character.negi.stalk,
+    skinBlush: character.skin.blush,                 // skin not in CharacterColors — palette only
+    skinBase: character.skin.base,                   // skin not in CharacterColors — palette only
 
     // Cursor line frost — ice at ~235° Hz
     cursorLineFrost: hex({ Jz: 0.128, Cz: 0.070, hz: 235 }),   // Ice — cool shopfront

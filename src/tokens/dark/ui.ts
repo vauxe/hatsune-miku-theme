@@ -119,18 +119,14 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       'Terminal command guide -- subtle teal path, Lc 45+',
       L.countertenor + 0.01, 0.025, H.mikuTeal
     ),
-    operator: role(
-      'Operators - pink/magenta',
-      L.soprano, C.mp, H.mikuPink
-    ),
     deprecated: role(
       'Deprecated - lavender',
       L.soprano, C.mp, H.lavender
     ),
     minimapOpacity: `${p.special.void}DD`,
-    error: role(
+    errorForeground: role(
       'The tritone -- UI error, vivid rose dissonance',
-      L.soprano, C.mf, H.rose
+      L.soprano, C.mf, H.tritone
     ),
     buttonBackground: (() => {
       const hairShadow = parseHex(char.hair.shadow);

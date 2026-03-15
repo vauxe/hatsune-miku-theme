@@ -71,49 +71,49 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     // === BLUE (270°) — Display Case Glass — peak ~0.091 → sopranino ===
     variable: role(
       'Blue 270° — display case glass, data in motion',
-      L.sopranino, C.mp, H.azure
+      L.sopranino, C.mp, H.major2nd
     ),
 
     // === ORANGE (60°) — Baked Peach — soprano Lc=65 ===
     parameter: role(
       'Orange 60° — baked peach, warmth entering from outside',
-      L.soprano, C.mp, H.orange
+      L.soprano, C.mp, H.minor6th
     ),
     property: role(
       'Orange 60° — the world reaching in with warm hands',
-      L.soprano, C.mp, H.orange
+      L.soprano, C.mp, H.minor6th
     ),
 
     // === GOLD (90°) — Butter Croissant — soprano Lc=61 ===
     function: role(
       'Gold 90° — butter croissant, warm action from the oven',
-      L.soprano, C.mp, H.gold
+      L.soprano, C.mp, H.major6th
     ),
     method: role(
       'Gold 90° — callable warmth, same voice as function',
-      L.soprano, C.mp, H.gold
+      L.soprano, C.mp, H.major6th
     ),
     tag: role(
       'Gold 90° — element invocation, structural',
-      L.soprano, C.mp, H.gold
+      L.soprano, C.mp, H.major6th
     ),
     attribute: role(
       'Orange 60° — HTML attributes, element properties',
-      L.soprano, C.mp, H.orange
+      L.soprano, C.mp, H.minor6th
     ),
 
     // === LIME (120°) — Pistachio Cream — treble Lc=65 ===
     class: role(
       'Lime 120° — pistachio cream, organized garnish',
-      L.treble, C.mp, H.lime
+      L.treble, C.mp, H.minor7th
     ),
     struct: role(
       'Lime 120° — same family as class, same organized energy',
-      L.treble, C.mp, H.lime
+      L.treble, C.mp, H.minor7th
     ),
     enum: role(
       'Lime 120° — a defined set, one step darker',
-      L.treble, C.mp, H.lime
+      L.treble, C.mp, H.minor7th
     ),
 
     // === CANONICAL TEAL (180°) — One Breath From Home — Lc 45 needs Jz ≤0.087 → sopranino ===
@@ -125,55 +125,55 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     // === GREEN (150°) — Mint Leaf — sopranino Lc=67 ===
     string: role(
       'Green 150° — mint leaf, someone\'s truth fresh from the garden',
-      L.sopranino, C.mp, H.green
+      L.sopranino, C.mp, H.major7th
     ),
     stringTemplate: role(
       'Green 150° — structured expression, same cool voice',
-      L.sopranino, C.mp, H.green
+      L.sopranino, C.mp, H.major7th
     ),
     regex: role(
       'Green 150° — a pattern demands attention, darker',
-      L.sopranino, C.mp, H.green
+      L.sopranino, C.mp, H.major7th
     ),
 
     // === AZURE (240°) — Shopfront Blue — peak ~0.097 → treble ===
     constant: role(
       'Azure 240° — shopfront blue, named and immutable',
-      L.treble, C.mp, H.cyan
+      L.treble, C.mp, H.minor2nd
     ),
     number: role(
       'Azure 240° — a literal value, darker for weight',
-      L.sopranino, C.mp, H.cyan
+      L.sopranino, C.mp, H.minor2nd
     ),
     boolean: role(
       'Azure 240° — truth at its simplest, darker for weight',
-      L.sopranino, C.mp, H.cyan
+      L.sopranino, C.mp, H.minor2nd
     ),
     enumMember: role(
       'Azure 240° — one possibility, chosen from the set',
-      L.treble, C.mp, H.cyan
+      L.treble, C.mp, H.minor2nd
     ),
 
     // === VIOLET (300°) — Twilight Through the Window — peak ~0.109 → soprano ===
     type: role(
       'Violet 300° — twilight through the shop window, the shape beneath',
-      L.soprano, C.mp, H.blue
+      L.soprano, C.mp, H.minor3rd
     ),
     typeParameter: role(
       'Violet 300° — a type waiting to become, one step lighter',
-      L.mezzo, C.mp, H.blue
+      L.mezzo, C.mp, H.minor3rd
     ),
 
     // === MAGENTA (330°) — Raspberry Macaron — Lc 45 needs Jz ≤0.131 → mezzo ===
     macro: role(
       'Magenta 330° — raspberry macaron, code changing code',
-      L.mezzo, C.mp, H.violet
+      L.mezzo, C.mp, H.major3rd
     ),
 
     // === ROSE (0°) — Strawberry Glaze — peak ~0.121 → mezzo ===
     operator: role(
       'Rose 0° — strawberry glaze, connecting rhythm',
-      L.mezzo, C.mp, H.rose
+      L.mezzo, C.mp, H.tritone
     ),
 
     // === DEPARTURES — comments and punctuation ===

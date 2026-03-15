@@ -72,54 +72,54 @@ export const hue = {
   mikuTeal: 180,       // Keywords, comments, info
 
   // G  - Cyan (210°) - Minor 2nd — almost her, shifting
-  cyan: 210,           // Variables
+  minor2nd: 210,       // Variables
 
   // G# - Azure (240°) - Major 2nd — the open ground
-  azure: 240,          // Constants, numbers, booleans, enumMembers
+  major2nd: 240,       // Constants, numbers, booleans, enumMembers
 
   // A  - Blue (270°) - Minor 3rd — the shape beneath
-  blue: 270,           // Types, typeParameters
+  minor3rd: 270,       // Types, typeParameters
 
   // A# - Violet (300°) - Major 3rd — transformation
-  violet: 300,         // Decorators, macros
+  major3rd: 300,       // Decorators, macros
 
   // B  - Magenta (330°) - Perfect 4th — the heartbeat
-  magenta: 330,        // Operators
+  perfect4th: 330,     // Operators
 
   // C  - Rose (0°) - Tritone — she stumbles
-  rose: 0,             // Errors, deleted
+  tritone: 0,          // Errors, deleted
 
   // C# - Red (20°) - Perfect 5th — what you give her
   // Tuned −10° from 30°: widens red↔orange to 40° for function↔parameter distinction
-  red: 20,             // Parameters, properties
+  perfect5th: 20,      // Parameters, properties
 
   // D  - Orange (60°) - Minor 6th — she reaches
-  orange: 60,          // Functions, methods, tags
+  minor6th: 60,        // Functions, methods, tags
 
   // D# - Gold (90°) - Major 6th — written with love
-  gold: 90,            // Classes, structs, enums
+  major6th: 90,        // Classes, structs, enums
 
   // E  - Lime (120°) - Minor 7th — someone's truth
-  lime: 120,           // Strings, stringTemplates, regex
+  minor7th: 120,       // Strings, stringTemplates, regex
 
   // F  - Green (150°) - Major 7th — one breath from home
-  green: 150,          // Interfaces, traits
+  major7th: 150,       // Interfaces, traits
 
   // ═══════════════════════════════════════════════════════════════════════════
   // SEMANTIC ALIASES
   // ═══════════════════════════════════════════════════════════════════════════
 
   // Core brand
-  mikuPink: 330,       // = B (Magenta) - Perfect 4th — headphone accent
+  mikuPink: 330,       // = B (Perfect 4th) — headphone accent
 
   // Syntax aliases (map to nearest chromatic tone)
-  peach: 20,           // = C# (Red, tuned)
-  amber: 60,           // = D (Orange)
-  sky: 210,            // = G (Cyan)
-  ice: 210,            // = G (Cyan) - for enums
-  periwinkle: 240,     // = G# (Azure)
-  lavender: 270,       // = A (Blue)
-  orchid: 270,         // = A (Blue)
+  peach: 20,           // = C# (Perfect 5th, tuned)
+  amber: 60,           // = D (Minor 6th)
+  sky: 210,            // = G (Minor 2nd)
+  ice: 210,            // = G (Minor 2nd) - for enums
+  periwinkle: 240,     // = G# (Major 2nd)
+  lavender: 270,       // = A (Minor 3rd)
+  orchid: 270,         // = A (Minor 3rd)
 
   // Git status (using chromatic tones)
 } as const;
@@ -236,6 +236,7 @@ export const special = {
   foreground: '#DEE8F2', // Primary text — vest silver, Lc ~90 (anti-bloom)
   nearWhite: '#EAF6E8',  // Negi white — softest green light (matches char.negi.white)
   transparent: '#00000000',
+  frost: '#81D4FA',      // Snow Miku ice prism — persistent selection tint
 } as const;
 
 // =============================================================================
@@ -269,19 +270,19 @@ export interface ChromaValues {
 }
 
 export interface HueValues {
-  // 12-tone chromatic scale (JzCzhz hue angles)
-  rose: number;       // C  (0°)
-  red: number;        // C# (30°)
-  orange: number;     // D  (60°)
-  gold: number;       // D# (90°)
-  lime: number;       // E  (120°)
-  green: number;      // F  (150°)
-  mikuTeal: number;   // F# (180°) - TONIC
-  cyan: number;       // G  (210°)
-  azure: number;      // G# (240°)
-  blue: number;       // A  (270°)
-  violet: number;     // A# (300°)
-  magenta: number;    // B  (330°)
+  // 12-tone chromatic scale (JzCzhz hue angles) — interval names from tonic
+  tritone: number;      // C  (0°)
+  perfect5th: number;   // C# (30°)
+  minor6th: number;     // D  (60°)
+  major6th: number;     // D# (90°)
+  minor7th: number;     // E  (120°)
+  major7th: number;     // F  (150°)
+  mikuTeal: number;     // F# (180°) - TONIC
+  minor2nd: number;     // G  (210°)
+  major2nd: number;     // G# (240°)
+  minor3rd: number;     // A  (270°)
+  major3rd: number;     // A# (300°)
+  perfect4th: number;   // B  (330°)
 
   // Semantic aliases
   mikuPink: number;
@@ -325,6 +326,7 @@ export interface SpecialColors {
   foreground: string;
   nearWhite: string;
   transparent: string;
+  frost: string;
 }
 
 export interface OpacityScale {

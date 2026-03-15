@@ -89,10 +89,9 @@ export interface ExtendedUITokens {
   ruler: SemanticRole;
   terminalHint: SemanticRole;
   terminalGuide: SemanticRole;
-  operator: SemanticRole;
   deprecated: SemanticRole;
   minimapOpacity: string; // Special: not a role, just a hex value
-  error: SemanticRole;
+  errorForeground: SemanticRole;
   buttonBackground: SemanticRole;
   badgeBackground: SemanticRole;
   activeBorder: SemanticRole;
@@ -155,7 +154,7 @@ export interface SymbolTokens {
   constant: SemanticRole;
   constructor: SemanticRole;
   enum: SemanticRole;
-  enumeratorMember: SemanticRole;
+  enumMember: SemanticRole;
   field: SemanticRole;
   folder: SemanticRole;
   function: SemanticRole;

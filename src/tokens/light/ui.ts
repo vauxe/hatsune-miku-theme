@@ -169,18 +169,14 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
       'Terminal guide — tonic path, Lc 45+',
       L.alto, 0.028, H.mikuTeal
     ),
-    operator: role(
-      'Rose 0° — strawberry glaze, connecting everything',
-      L.soprano, C.mp, H.rose
-    ),
     deprecated: role(
       'Violet 300° — twilight, the shape dissolving',
       L.soprano, C.mp, H.lavender
     ),
     minimapOpacity: `${char.top.blouse}DD`,
-    error: role(
+    errorForeground: role(
       'Error — warm red 30°, vivid alarm on cream',
-      L.soprano, C.f, H.red
+      L.soprano, C.f, H.perfect5th
     ),
 
     // =========================================================================

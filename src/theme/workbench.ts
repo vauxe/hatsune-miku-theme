@@ -1243,7 +1243,7 @@ return {
   'symbolIcon.constantForeground': t.symbol.constant.hex,
   'symbolIcon.constructorForeground': t.symbol.constructor.hex,
   'symbolIcon.enumeratorForeground': t.symbol.enum.hex,
-  'symbolIcon.enumeratorMemberForeground': t.symbol.enumeratorMember.hex,
+  'symbolIcon.enumeratorMemberForeground': t.symbol.enumMember.hex,
   'symbolIcon.eventForeground': t.symbol.enum.hex,
   'symbolIcon.fieldForeground': t.symbol.field.hex,
   'symbolIcon.fileForeground': text.primary,

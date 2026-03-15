@@ -97,28 +97,28 @@ export const lightLightness: LightnessValues = {
  * colors. Descriptions in syntax.ts name the actual perceived hue.
  */
 export const lightHue: HueValues = {
-  rose: 0,               // C  Tritone         (perceived: strawberry rose)
-  red: 30,               // C# Perfect 5th     (perceived: warm jam)
-  orange: 60,            // D  Minor 6th       (perceived: baked peach)
-  gold: 90,              // D# Major 6th       (perceived: butter croissant)
-  lime: 120,             // E  Minor 7th       (perceived: pistachio cream)
-  green: 150,            // F  Major 7th       (perceived: mint leaf)
+  tritone: 0,            // C  Tritone         (perceived: strawberry rose)
+  perfect5th: 30,        // C# Perfect 5th     (perceived: warm jam)
+  minor6th: 60,          // D  Minor 6th       (perceived: baked peach)
+  major6th: 90,          // D# Major 6th       (perceived: butter croissant)
+  minor7th: 120,         // E  Minor 7th       (perceived: pistachio cream)
+  major7th: 150,         // F  Major 7th       (perceived: mint leaf)
   mikuTeal: 210,         // G  Unison          (perceived: tonic cyan — her hair)
-  cyan: 240,             // G# Minor 2nd       (perceived: azure shopfront)
-  azure: 270,            // A  Major 2nd       (perceived: deep blue glass)
-  blue: 300,             // A# Minor 3rd       (perceived: violet twilight)
-  violet: 330,           // B  Major 3rd       (perceived: raspberry macaron)
-  magenta: 0,            // C  Perfect 4th     (perceived: strawberry rose — wraps to 0)
+  minor2nd: 240,         // G# Minor 2nd       (perceived: azure shopfront)
+  major2nd: 270,         // A  Major 2nd       (perceived: deep blue glass)
+  minor3rd: 300,         // A# Minor 3rd       (perceived: violet twilight)
+  major3rd: 330,         // B  Major 3rd       (perceived: raspberry macaron)
+  perfect4th: 0,         // C  Perfect 4th     (perceived: strawberry rose — wraps to 0)
 
   // Semantic aliases
   mikuPink: 27,          // Pastel pink — necktie accent (sampled from visual)
-  peach: 60,             // = D (Orange position) — baked warmth
-  amber: 60,             // = D (Orange position) — golden crust
+  peach: 60,             // = D (Minor 6th position) — baked warmth
+  amber: 60,             // = D (Minor 6th position) — golden crust
   sky: 235,              // Cool shopfront blue (between G# and A)
   ice: 235,              // Cool shopfront blue
   periwinkle: 235,       // Cool shopfront blue
-  lavender: 300,         // = A# (Violet position) — twilight
-  orchid: 300,           // = A# (Violet position) — twilight
+  lavender: 300,         // = A# (Minor 3rd position) — twilight
+  orchid: 300,           // = A# (Minor 3rd position) — twilight
 };
 
 // =============================================================================
@@ -234,6 +234,7 @@ const lightSpecial: SpecialColors = {
   foreground: hex({ Jz: 0.038, Cz: 0.018, hz: 40 }),  // Chocolate ink — Lc ~82 on cream
   nearWhite: hex({ Jz: 0.025, Cz: 0.015, hz: 40 }),   // Deep chocolate — text on accents
   transparent: '#00000000',
+  frost: hex({ Jz: 0.128, Cz: 0.045, hz: 235 }),     // Ice — cool shopfront selection
 };
 
 // =============================================================================
