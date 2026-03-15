@@ -223,6 +223,14 @@ export const lightCharacter: CharacterColors = {
     bright: mikuCharacter.negi.bright,
     white: mikuCharacter.negi.white,
   },
+  skin: {
+    base: mikuCharacter.skin.base,
+    shadow: mikuCharacter.skin.shadow,
+    blush: mikuCharacter.skin.blush,
+  },
+  marks: {
+    tattoo: mikuCharacter.marks.tattoo,
+  },
 };
 
 // =============================================================================

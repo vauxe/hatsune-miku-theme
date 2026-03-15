@@ -192,6 +192,14 @@ export const character = {
     bright: mikuCharacter.negi.bright,
     white: mikuCharacter.negi.white,
   },
+  skin: {
+    base: mikuCharacter.skin.base,
+    shadow: mikuCharacter.skin.shadow,
+    blush: mikuCharacter.skin.blush,
+  },
+  marks: {
+    tattoo: mikuCharacter.marks.tattoo,
+  },
 } as const;
 
 // =============================================================================
@@ -319,6 +327,8 @@ export interface CharacterColors {
   boots: { base: string; accent: string };
   tie: { base: string; shadow: string };
   negi: { stalk: string; bright: string; white: string };
+  skin: { base: string; shadow: string; blush: string };
+  marks: { tattoo: string };
 }
 
 export interface SpecialColors {

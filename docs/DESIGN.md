@@ -303,7 +303,7 @@ Comments drop two registers below the ensemble AND reduce dynamics to ppp/pp. Th
 
 Error uses Rose (0°), which peaks around countertenor–tenor. At alto, Rose can still play f (see instrument chart). The register is lower than the ensemble, but the dynamic is louder — a bass drum fortissimo.
 
-Status tokens (warning, info) use the syntax vocabulary but appear in UI contexts — notifications, diagnostic squiggles, status bar — not in code. They share their hue group's color: warning = orange (60°), info = teal (180°). Context disambiguates.
+Status tokens (warning, info) use the syntax vocabulary but appear in UI contexts — notifications, diagnostic squiggles, status bar — not in code. They use a four-quadrant layout for maximum CVD separation: success = teal (170°), warning = gold (85°), error = magenta (330°), info = blue (260°). Context disambiguates.
 
 ### Scope Coverage
 
@@ -570,16 +570,18 @@ Gold          (functional)         85°   Change — git modified, caution
 
 #### Status Pattern
 
-Error, warning, info, and success appear across many contexts — notifications, input validation, editor squiggles, list diagnostics, testing, debug. The same four levels apply everywhere:
+Error, warning, info, and success appear across many contexts — notifications, input validation, editor squiggles, list diagnostics, testing, debug. The same four levels apply everywhere, using a four-quadrant layout (90° apart) for maximum CVD separation:
 
 ```
-Level     Foreground   Background (tint)   Border (solid)
+Level     Foreground        Background (tint)      Border (solid)
 ═══════════════════════════════════════════════════════════════════════════
-Error     Rose         Rose light (8%)     Rose
-Warning   Orange       Orange light (8%)   Orange
-Info      Teal         Teal light (8%)     Teal
-Success   Negi green   —                   —
+Error     Magenta (330°)    Magenta light (8%)     Magenta
+Warning   Gold (85°)        Gold light (8%)        Gold
+Info      Blue (260°)       Blue light (8%)        Blue
+Success   Teal (170°)       —                      —
 ```
+
+Status hues are CVD-tuned off-grid: each is shifted from the nearest 90° quadrant to maximize distinction under protan/deutan/tritan simulation. Under deutan, 330°/170°/260° all project blue — ΔJz 0.020 + ΔCz backup preserves separation. The `errorForeground` token (used for UI error text) remains at Rose (0°) to match the syntax error hue.
 
 Foreground is the primary signal — the color you read. Background tint provides context without obscuring content (light tier — whisper level). Border reinforces in Glass material (inputs, search). Editor diagnostics omit the border — the squiggle underline is the primary signal, and a solid border on top is redundant noise. Success has no background or border — it is the absence of a problem, not a state that demands attention.
 
@@ -996,13 +998,13 @@ field              Red (30°)        alto         mp
 
 function           Orange (60°)     sopranino    f
 
-method             Orange (60°)     soprano      p
-constructor        Orange (60°)     soprano      f
+method             Orange (60°)     mezzo        p
+constructor        Orange (60°)     mezzo        f
 
-class              Gold (90°)       soprano      mf
-struct             Gold (90°)       soprano      f
-enum               Gold (90°)       mezzo        mf
-package            Gold (90°)       alto         mp
+class              Gold (90°)       treble       mf
+struct             Gold (90°)       mezzo        f
+enum               Gold (90°)       countertenor mf
+package            Gold (90°)       bass         mp
 
 string             Lime (120°)      soprano      mf
 reference          Lime (120°)      sopranino    mp
@@ -1010,14 +1012,14 @@ reference          Lime (120°)      sopranino    mp
 interface          Green (150°)     sopranino    mp
 
 folder             Teal (180°) ★    soprano      f
-array              Teal (180°)      sopranino    mp
+array              Teal (180°)      countertenor mp
 
 variable           Cyan (210°)      soprano      f
 
 constant           Azure (240°)     mezzo        mp
 number             Azure (240°)     soprano      f
 boolean            Azure (240°)     sopranino    mp
-enumeratorMember   Azure (240°)     alto         mf
+enumMember         Azure (240°)     countertenor mf
 
 typeParameter      Blue (270°)      soprano      mp
 module             Blue (270°)      sopranino    mp
@@ -1027,7 +1029,7 @@ operator           Magenta (330°)   sopranino    mp
 snippet            Magenta (330°)   soprano      p
 ```
 
-Gold (90°) carries four icons — the densest group. The spread uses four registers (alto through soprano) to maintain ΔEz ≥ 12 between all pairs. Azure (240°) carries four across three registers. Orange (60°) carries three (function, method, constructor) distinguished by register and dynamic. Green (150°) now carries only interface — freed by moving method to orange. Crowded hues are accepted because strict syntax alignment is the principle — you see the same color family in the gutter as in the code.
+Gold (90°) carries four icons — the densest group. The spread uses four registers (bass through treble) to maintain ΔEz ≥ 12 between all pairs. Azure (240°) carries four across four registers (countertenor through sopranino). Orange (60°) carries three (function, method, constructor) distinguished by register and dynamic. Green (150°) carries only interface — freed by moving method to orange. Crowded hues are accepted because strict syntax alignment is the principle — you see the same color family in the gutter as in the code.
 
 ### Debug
 
@@ -1098,7 +1100,7 @@ Four principles govern every color choice:
 
 In music, modulation shifts the tonal center while preserving relationships between notes. Theme variants are modulations: what changes is how the eye receives it; what remains is the system connecting the notes.
 
-This document specifies the dark variant — the concert hall at night. The light variant (Snow Miku) is a separate modulation with its own design document. It is not a simple lightness inversion: hues rotate for simultaneous contrast on a warm canvas, chroma increases because dark-on-light does not halate, opacities reduce, and the character palette shifts to Snow Miku 2024's pâtisserie.
+This document specifies the dark variant — the concert hall at night. The light variant (Snow Miku) is a separate modulation with its own design document. It is not a simple lightness inversion: hues rotate for simultaneous contrast on a warm canvas, chroma increases because dark-on-light does not halate, opacities reduce, and the character palette shifts to Snow Miku 2026's pâtisserie.
 
 ### Invariants
 

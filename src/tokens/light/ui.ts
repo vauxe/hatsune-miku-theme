@@ -21,6 +21,7 @@
  */
 
 import { role, roleFromHex } from '../role';
+import { parseHex } from '../jzczhz';
 import type { UITokens, ExtendedUITokens, StatusTokens, GitTokens } from '../types';
 import type { Primitives } from '../primitives';
 
@@ -43,76 +44,79 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     ),
     foregroundMuted: role(
       'Muted chocolate — cool chrome voice, quiet accompaniment',
-      0.118, 0.006, 235
+      0.118, 0.006, H.sky
     ),
     foregroundSubtle: role(
       'Subtle — distant, barely there, Lc ~48',
-      0.135, 0.003, 235
+      0.135, 0.003, H.sky
     ),
 
     // =========================================================================
     // BACKGROUND TIERS — warm cream + cool blue
     // =========================================================================
-    background: role(
+    background: roleFromHex(
       'Stage — warm cream, the editor canvas (her dress)',
-      0.204, 0.012, 85
+      char.skirt.base
     ),
-    backgroundFloat: role(
+    backgroundFloat: roleFromHex(
       'Float — deeper cool blue (menus, overlays, the awning)',
-      0.186, 0.020, 235
+      char.top.shadow
     ),
-    backgroundHouse: role(
+    backgroundHouse: roleFromHex(
       'House — cool blue, sidebar and chrome (the shopfront)',
-      0.192, 0.016, 235
+      char.top.main
     ),
-    backgroundVoid: role(
+    backgroundVoid: roleFromHex(
       'Void — warm ivory, the morning light (brightest)',
-      0.210, 0.008, 85
+      p.special.void
     ),
 
     // =========================================================================
     // ACCENTS — tonic cyan, the theme voice
     // =========================================================================
-    accentPrimary: role(
+    accentPrimary: roleFromHex(
       'Tonic accent — her hair, the theme voice',
-      0.128, 0.045, 210
+      char.hair.base
     ),
-    accentSecondary: role(
+    accentSecondary: roleFromHex(
       'Accent dark — active/links, deep tonic',
-      0.088, 0.070, 215
+      char.hair.shadow
     ),
-    accentTertiary: role(
+    accentTertiary: roleFromHex(
       'Accent deep — pressed/shadow, dark chocolate',
-      0.025, 0.015, 40
+      p.special.nearWhite
     ),
 
     // =========================================================================
     // BORDERS — cool structure (Hz 235°)
     // =========================================================================
-    border: role(
+    border: roleFromHex(
       'Cool border — shopfront structure, holds form',
-      0.128, 0.020, 235
+      char.tie.base
     ),
-    borderSubtle: role(
+    borderSubtle: roleFromHex(
       'Subtle cool border — faint structural line',
-      0.158, 0.012, 235
+      char.tie.shadow
     ),
 
     // =========================================================================
     // SELECTION — ice at 235° Hz
     // =========================================================================
-    selection: role(
+    selection: roleFromHex(
       'Ice selection — cool blue, chosen text crystallizes',
-      0.088, 0.070, 215
+      char.hair.shadow
     ),
 
     // =========================================================================
     // CURSOR — coral-pink (her necktie)
     // =========================================================================
-    cursor: role(
-      'Pastel pink cursor — sampled necktie Hz≈27°, where she points you type',
-      0.130, 0.070, 27
-    ),
+    cursor: (() => {
+      const cushion = parseHex(char.headphones.cushion);
+      return role(
+        'Pastel pink cursor — sampled necktie Hz≈27°, where she points you type',
+        cushion.Jz + 0.050, cushion.Cz, cushion.hz
+      );
+    })(),
 
     // =========================================================================
     // LINKS — accent dark (tonic ~215° Hz)
@@ -143,11 +147,11 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     ),
     disabledSubtle: role(
       'Very subtle disabled — ghost level, Lc ~48',
-      0.135, 0.003, 235
+      0.135, 0.003, H.sky
     ),
     ghostText: role(
       'Ghost text — cool chrome voice, faint suggestion, Lc ~48',
-      0.135, 0.003, 235
+      0.135, 0.003, H.sky
     ),
     placeholder: role(
       'Placeholder — light chocolate, Lc ~50',
@@ -155,11 +159,11 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     ),
     whitespace: role(
       'Whitespace markers — cool structure seen through, Lc ~48',
-      0.135, 0.003, 235
+      0.135, 0.003, H.sky
     ),
     ruler: role(
       'Rulers — cool vertical thread, Lc ~48',
-      0.135, 0.003, 235
+      0.135, 0.003, H.sky
     ),
     terminalHint: role(
       'Terminal hints — tonic nudge, Lc 50+',
@@ -182,14 +186,20 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     // =========================================================================
     // INTERACTIVE ANCHORS — accent dark buttons, cool badges
     // =========================================================================
-    buttonBackground: role(
-      'Necktie ribbon — sampled Hz≈27° pastel pink, darkened for contrast',
-      0.115, 0.075, 27
-    ),
-    badgeBackground: role(
-      'Necktie ribbon badge — sampled pastel pink, darker for notification',
-      0.108, 0.078, 27
-    ),
+    buttonBackground: (() => {
+      const cushion = parseHex(char.headphones.cushion);
+      return role(
+        'Necktie ribbon — sampled Hz≈27° pastel pink, darkened for contrast',
+        cushion.Jz + 0.035, cushion.Cz + 0.005, cushion.hz
+      );
+    })(),
+    badgeBackground: (() => {
+      const cushion = parseHex(char.headphones.cushion);
+      return role(
+        'Necktie ribbon badge — sampled pastel pink, darker for notification',
+        cushion.Jz + 0.028, cushion.Cz + 0.008, cushion.hz
+      );
+    })(),
     activeBorder: roleFromHex(
       'Coral-pink active — necktie marks focus',
       char.headphones.cushion
@@ -197,50 +207,56 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
   };
 }
 
-export function createStatusTokens(_p: Primitives): StatusTokens {
+export function createStatusTokens(p: Primitives): StatusTokens {
+  const { hue: H } = p;
+
   // =========================================================================
   // STATUS — patisserie-derived, four-quadrant for CVD safety
   // =========================================================================
   // Success: mint 180° — canonical Miku approves
-  // Warning: gingerbread 70° — golden-brown caution
-  // Error: rose 0° — strawberry alarm
+  // Warning: gingerbread 70° — golden-brown caution (off-grid for CVD)
+  // Error: rose 30° — strawberry alarm
   // Info: tonic 210° — her voice, calm and informational
+  // Jz/Cz are per-hue gamut-optimized — hardcoded, not from L/C registers.
   return {
     success: role('Mint success — canonical Miku approves, fresh growth', 0.090, 0.110, 180),
     warning: role('Gingerbread warning — golden-brown caution (Cz 0.124 for findMatch)', 0.095, 0.124, 70),
-    error: role('Red error — vivid strawberry alarm', 0.088, 0.120, 30),
-    info: role('Tonic info — her voice, calm and steady', 0.090, 0.100, 210),
+    error: role('Red error — vivid strawberry alarm', 0.088, 0.120, H.perfect5th),
+    info: role('Tonic info — her voice, calm and steady', 0.090, 0.100, H.mikuTeal),
   };
 }
 
-export function createGitTokens(_p: Primitives): GitTokens {
+export function createGitTokens(p: Primitives): GitTokens {
+  const { hue: H } = p;
+
   // =========================================================================
   // GIT — six-hue wheel, patisserie-derived
   // =========================================================================
   //   Added 180°     Mint — she welcomes new growth
-  //   Modified 70°   Gingerbread — golden-brown change
-  //   Deleted 300°   Violet — twilight departure (big shift from old rose)
+  //   Modified 70°   Gingerbread — golden-brown change (off-grid for CVD)
+  //   Deleted 300°   Violet — twilight departure
   //   Untracked 210° Tonic — her hair, snowflakes drifting in
   //   Conflicting 0° Rose — demands resolution
   //   Renamed 270°   Blue — reorganized, same content
+  // Jz/Cz are per-hue gamut-optimized — hardcoded, not from L/C registers.
   return {
     added: role('Mint added — vivid growth on cream',
       0.090, 0.120, 180),
     modified: role('Gingerbread modified — warm golden change',
       0.095, 0.120, 70),
     deleted: role('Violet deleted — twilight departure',
-      0.085, 0.120, 300),
+      0.085, 0.120, H.minor3rd),
     untracked: role('Tonic untracked — her hair, drifting in',
-      0.088, 0.110, 210),
+      0.088, 0.110, H.mikuTeal),
     conflicting: role('Rose conflicting — demands resolution',
-      0.088, 0.120, 0),
+      0.088, 0.120, H.tritone),
     renamed: role('Blue renamed — reorganized, same content',
-      0.080, 0.100, 270),
+      0.080, 0.100, H.major2nd),
     stageModified: role('Muted tonic staged — accepted change, quieted',
-      0.100, 0.065, 210),
+      0.100, 0.065, H.mikuTeal),
     stageDeleted: role('Azure staged delete — cooled, accepted',
-      0.088, 0.080, 235),
+      0.088, 0.080, H.sky),
     submodule: role('Muted azure submodule — external reference, distant',
-      0.095, 0.060, 235),
+      0.095, 0.060, H.sky),
   };
 }

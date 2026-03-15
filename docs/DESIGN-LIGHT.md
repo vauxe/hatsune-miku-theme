@@ -101,7 +101,7 @@ E      120°   treble       class · struct · enum
 F      150°   sopranino    string · stringTemplate · regex
 F#     180°   sopranino    interface
 G#     240°   treble/sop   constant · enumMember · number · boolean
-A#     300°   soprano      type · typeParameter
+A#     300°   soprano/mez  type · typeParameter
 B      330°   mezzo        decorator · macro
 C        0°   mezzo        operator
 C#      30°   soprano      error (ui.error, C.f)
@@ -367,7 +367,7 @@ ANSI       Hue         Normal Jz    Bright Jz
 black      ~40° Hz     0.150        0.108     Chocolate brown
 red         0° Hz      0.095        0.082     Vivid rose
 green     120° Hz      0.098        0.092     Vivid pistachio
-yellow     60° Hz      0.098        0.088     Vivid baked peach
+yellow     60° Hz      0.082        0.078     Vivid baked peach
 blue      240° Hz      0.082        0.072     Vivid azure
 magenta   300° Hz      0.088        0.078     Vivid raspberry
 cyan      210° Hz      0.090        0.078     Vivid tonic ★
@@ -384,4 +384,4 @@ Token colors at treble register (Jz 0.095) for visibility on House background: n
 
 ### Markdown
 
-Headings: bold gold at soprano−0.004. Code blocks: azure at treble. Quotes: azure at treble. Links: accent tonic. Inserted: green at sopranino. Alerts use per-hue f dynamic.
+Headings: bold gold at soprano−0.004. Code blocks: ice (235°) at treble. Quotes: sky (235°) at treble. Links: violet 300° at soprano. Inserted: green at sopranino. Alerts use per-hue f dynamic.

@@ -85,15 +85,15 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     ),
     tertiary: role(
       'Tertiary text - muted sky',
-      L.countertenor, 0.015, H.sky
+      L.countertenor, C.ppp, H.sky
     ),
     disabled: role(
       'Disabled state - same as tertiary',
-      L.countertenor, 0.015, H.sky
+      L.countertenor, C.ppp, H.sky
     ),
     disabledSubtle: role(
       'Very subtle disabled',
-      0.08, 0.015, H.sky
+      L.contrabass, C.ppp, H.sky
     ),
     ghostText: role(
       'Ghost text -- she suggests, faintly, in teal',
@@ -105,15 +105,15 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
     ),
     whitespace: role(
       'Whitespace markers',
-      L.countertenor, 0.015, H.sky
+      L.countertenor, C.ppp, H.sky
     ),
     ruler: role(
       'Rulers',
-      L.countertenor, 0.015, H.sky
+      L.countertenor, C.ppp, H.sky
     ),
     terminalHint: role(
       'Terminal hints -- her teal nudge, Lc 50+',
-      L.alto, 0.030, H.mikuTeal
+      L.alto, C.pp, H.mikuTeal
     ),
     terminalGuide: role(
       'Terminal command guide -- subtle teal path, Lc 45+',
@@ -147,7 +147,7 @@ export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
 }
 
 export function createStatusTokens(p: Primitives): StatusTokens {
-  const { lightness: L, chroma: C, hue: H } = p;
+  const { lightness: L, chroma: C } = p;
 
   // Four-quadrant status: 0 error, 90 warning, 180 success, 270 info.
   // Maximum hue separation (90 apart) -- CVD-safe by geometry.
@@ -155,6 +155,7 @@ export function createStatusTokens(p: Primitives): StatusTokens {
   //   teal(170) bright at high Jz; rose(345) vivid at low Jz.
   // Under deutan, 345/170/260 all project blue -- DJz 0.020 + DCz backup.
   // Info shares Jz tier with success (90 apart = CVD-safe by hue).
+  // Hues are CVD-tuned off-grid (170/85/330/260) -- hardcoded, not from H.*.
   return {
     success: role('Teal success -- she nods in her own color', 0.190, 0.065, 170),
     warning: role('Gold warning -- concert wand amber, caution', L.soprano, C.mf, 85),
@@ -164,12 +165,13 @@ export function createStatusTokens(p: Primitives): StatusTokens {
 }
 
 export function createGitTokens(p: Primitives): GitTokens {
-  const { lightness: L, chroma: C, hue: H, character: char } = p;
+  const { character: char } = p;
 
   // Six-hue wheel: 0 / 85 / 150 / 210 / 265 / 320 -- minimum gap 40.
   // CVD stagger: deutan merges cool hues -> Jz tiers: added(0.190) > untracked(0.180)
   //   > renamed(0.170) > deleted(0.174). Warm pair: modified(0.185) vs conflicting(0.165).
   // Primary trio vivid (Cz 0.065-0.080), secondary trio quieter (Cz 0.045-0.070).
+  // All Jz/Cz/Hz are CVD-tuned off-grid -- hardcoded, not from L/C/H registers.
   return {
     added: role('Negi green -- new life in the code tree',
       0.190, 0.065, 150),

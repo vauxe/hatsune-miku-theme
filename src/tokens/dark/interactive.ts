@@ -53,7 +53,6 @@ export function createInteractiveTokens(
 
   // UI-derived foregrounds and backgrounds
   const foreground = ui.foreground.hex;
-  const foregroundTeal = accentBright;
   const foregroundMuted = ui.foregroundMuted.hex;
   const foregroundTertiary = ui.tertiary.hex;
   const foregroundDisabled = ui.disabled.hex;

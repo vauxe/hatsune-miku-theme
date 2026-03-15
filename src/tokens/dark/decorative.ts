@@ -21,16 +21,9 @@ import type { Primitives } from '../primitives';
 
 // Palette imports - centralized here instead of in theme files
 import {
-  mikuV2,
-  mikuAppend,
-  mikuV3,
-  mikuV4X,
-  mikuNT,
-  character,
   magicalMirai,
   digitalStars,
   snowMiku,
-  sakuraMiku,
   virtualSinger,
   leoNeed,
   moreMoreJump,
@@ -216,10 +209,10 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     // Character palette utility colors — variant-aware where CharacterColors has the field
     blouseWhite: p.character.top.blouse,
     darkForeground: p.character.eyes.pupil,
-    inlayParameter: character.skin.shadow,          // skin not in CharacterColors — palette only
+    inlayParameter: p.character.skin.shadow,
     statusItemForeground: p.character.headphones.frame,
     markupInserted: p.character.negi.bright,
-    tattooMark: character.marks.tattoo,              // marks not in CharacterColors — palette only
+    tattooMark: p.character.marks.tattoo,
     sekaiHair: virtualSinger.hair.base,
 
     // Character reference colors -- her accessories and skin entering the UI
@@ -227,8 +220,8 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     walletChain: p.character.skirt.accessory,
     tieShadow: p.character.tie.shadow,
     negiStalk: p.character.negi.stalk,
-    skinBlush: character.skin.blush,                 // skin not in CharacterColors — palette only
-    skinBase: character.skin.base,                   // skin not in CharacterColors — palette only
+    skinBlush: p.character.skin.blush,
+    skinBase: p.character.skin.base,
 
     // Snow Miku -- icy cursor line frost
     cursorLineFrost: snowMiku.y2025.accessories.crystal, // 2025 Sparkling Snow ice prism #81D4FA

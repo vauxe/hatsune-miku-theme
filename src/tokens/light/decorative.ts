@@ -18,7 +18,7 @@
  */
 
 import { role, roleFromHex, darken } from '../role';
-import { hex, parseHex } from '../jzczhz';
+import { hex } from '../jzczhz';
 import type {
   SymbolTokens,
   BracketTokens,
@@ -31,7 +31,6 @@ import type { Primitives } from '../primitives';
 
 // Palette imports - centralized here instead of in theme files
 import {
-  character,
   magicalMirai,
   digitalStars,
   virtualSinger,
@@ -208,15 +207,15 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     inlayParameter: hex({ Jz: 0.092, Cz: 0.018, hz: 270 }),   // Azure — display case
     statusItemForeground: p.character.headphones.frame,
     markupInserted: hex({ Jz: 0.068, Cz: 0.088, hz: 180 }),   // Mint — canonical Miku
-    tattooMark: character.marks.tattoo,              // marks not in CharacterColors — palette only
+    tattooMark: p.character.marks.tattoo,
     sekaiHair: virtualSinger.hair.base,
 
     // Character reference colors
     walletChain: p.character.skirt.accessory,
     tieShadow: p.character.tie.shadow,
     negiStalk: p.character.negi.stalk,
-    skinBlush: character.skin.blush,                 // skin not in CharacterColors — palette only
-    skinBase: character.skin.base,                   // skin not in CharacterColors — palette only
+    skinBlush: p.character.skin.blush,
+    skinBase: p.character.skin.base,
 
     // Cursor line frost — ice at ~235° Hz
     cursorLineFrost: hex({ Jz: 0.128, Cz: 0.070, hz: 235 }),   // Ice — cool shopfront
