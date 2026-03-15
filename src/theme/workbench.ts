@@ -94,7 +94,7 @@ const alphaEditor = {
   wordHighlightStrongBg:    isLight ? op.medium : op.strong,
   faintBg:                  isLight ? op.subtle : op.light,
   faintBorder:              isLight ? op.light : op.medium,
-  // Find — light needs visible tints but must preserve Lc≥75 on compound
+  // Find — light uses strong for visibility (ΔE≥12); compound Lc small-gap on warm hues
   findMatchBg:              op.strong,
   findHighlightBg:          isLight ? op.light : op.strong,
   findHighlightBorder:      isLight ? op.strong : op.solid,
@@ -143,14 +143,14 @@ const badge = {
 // Tint — polarity-dependent overlay hues (the base color itself changes)
 const tint = {
   border: isLight ? t.decorative.tieShadow : accent.primary,  // chocolate (light) vs teal (dark)
-  hover:  isLight ? t.decorative.skinBlush : accent.primary,   // blush (light) vs teal (dark)
+  hover:  accent.primary,   // engagement voice: cyan (~210°) for all hover tints
   toast:  isLight ? withOpacity(t.decorative.skinBlush, op.medium) : withOpacity(t.decorative.skinBase, op.medium),
 };
 
 // Foreground demotions — polarity shifts which text tier is used
 const polarFg = {
   surface:     isLight ? text.primary : text.secondary,     // chrome panels + list inactive selections
-  description: isLight ? text.tertiary : text.secondary,    // widget status, peek descriptions
+  description: text.secondary,    // widget status, peek descriptions
   debugLabel:  isLight ? t.decorative.blouseWhite : text.primary,
   scmLabel:    isLight ? text.primary : t.decorative.darkForeground,
 };
@@ -182,8 +182,8 @@ const polarMisc = {
 const statusItem = {
   debugBg:          isLight ? t.decorative.eyeIris : darken(roleFromHex('', accent.focus), 0.03),
   debugFg:          t.decorative.blouseWhite,
-  errorBg:          darken(t.ui.activeBorder, 0.03),
-  errorHoverBg:     darken(t.ui.activeBorder, 0.01),
+  errorBg:          isLight ? darken(t.status.error, 0.03) : darken(t.ui.activeBorder, 0.03),
+  errorHoverBg:     isLight ? darken(t.status.error, 0.01) : darken(t.ui.activeBorder, 0.01),
   remoteBg:         isLight ? t.decorative.cape : lighten(roleFromHex('', accent.primary), 0.02),
   remoteFg:         isLight ? t.decorative.blouseWhite : t.decorative.darkForeground,
   remoteHoverBg:    isLight ? darken(roleFromHex('', t.decorative.cape), 0.01) : accent.bright,

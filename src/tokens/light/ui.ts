@@ -44,11 +44,11 @@ export function createUITokens(p: Primitives): UITokens {
     ),
     foregroundMuted: role(
       'Muted chocolate — cool chrome voice, quiet accompaniment',
-      0.118, 0.006, H.sky
+      0.082, 0.006, H.sky
     ),
     foregroundSubtle: role(
       'Subtle — distant, barely there, Lc ~48',
-      0.135, 0.003, H.sky
+      0.130, 0.003, H.sky
     ),
 
     // =========================================================================
@@ -103,8 +103,8 @@ export function createUITokens(p: Primitives): UITokens {
     // SELECTION — ice at 235° Hz
     // =========================================================================
     selection: roleFromHex(
-      'Ice selection — cool blue, chosen text crystallizes',
-      char.hair.shadow
+      'Ice selection — cool blue at ~235° Hz, chosen text crystallizes',
+      p.special.frost
     ),
 
     // =========================================================================
@@ -114,7 +114,7 @@ export function createUITokens(p: Primitives): UITokens {
       const cushion = parseHex(char.headphones.cushion);
       return role(
         'Pastel pink cursor — sampled necktie Hz≈27°, where she points you type',
-        cushion.Jz + 0.050, cushion.Cz, cushion.hz
+        cushion.Jz + 0.030, cushion.Cz, cushion.hz
       );
     })(),
 
@@ -123,11 +123,11 @@ export function createUITokens(p: Primitives): UITokens {
     // =========================================================================
     link: role(
       'Tonic link — vivid clickable cyan',
-      0.098, 0.090, 215
+      0.076, 0.090, 215
     ),
     linkActive: role(
       'Tonic link pressed — slightly deeper',
-      0.088, 0.090, 215
+      0.068, 0.090, 215
     ),
 
     // =========================================================================
@@ -175,7 +175,7 @@ export function createUITokens(p: Primitives): UITokens {
     ),
     deprecated: role(
       'Violet 300° — twilight, the shape dissolving',
-      L.soprano, C.mp, H.lavender
+      L.sopranino, C.mp, H.lavender
     ),
     minimapOpacity: `${char.top.blouse}DD`,
     errorForeground: role(
@@ -241,22 +241,22 @@ export function createGitTokens(p: Primitives): GitTokens {
   // Jz/Cz are per-hue gamut-optimized — hardcoded, not from L/C registers.
   return {
     added: role('Mint added — vivid growth on cream',
-      0.090, 0.120, 180),
+      0.060, 0.120, 180),
     modified: role('Gingerbread modified — warm golden change',
-      0.095, 0.120, 70),
+      0.072, 0.120, 70),
     deleted: role('Violet deleted — twilight departure',
-      0.085, 0.120, H.minor3rd),
+      0.070, 0.120, H.minor3rd),
     untracked: role('Tonic untracked — her hair, drifting in',
-      0.088, 0.110, H.mikuTeal),
+      0.068, 0.110, H.mikuTeal),
     conflicting: role('Rose conflicting — demands resolution',
-      0.088, 0.120, H.tritone),
+      0.072, 0.120, H.tritone),
     renamed: role('Blue renamed — reorganized, same content',
-      0.080, 0.100, H.major2nd),
+      0.068, 0.100, H.major2nd),
     stageModified: role('Muted tonic staged — accepted change, quieted',
-      0.100, 0.065, H.mikuTeal),
+      0.078, 0.065, H.mikuTeal),
     stageDeleted: role('Azure staged delete — cooled, accepted',
-      0.088, 0.080, H.sky),
+      0.072, 0.080, H.sky),
     submodule: role('Muted azure submodule — external reference, distant',
-      0.095, 0.060, H.sky),
+      0.080, 0.060, H.sky),
   };
 }
