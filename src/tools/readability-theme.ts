@@ -164,8 +164,10 @@ export function findTokenColor(theme: ThemeJson, textmateScope: string, semantic
     }
   }
 
-  // 2. tokenColors with exact match (last definition wins)
-  let match: string | null = null;
+  // 2. tokenColors — specificity-aware scope matching
+  // Exact match (scope === query) beats parent match (query starts with scope).
+  let exactFg: string | null = null;
+  let parentFg: string | null = null;
 
   for (const token of theme.tokenColors ?? []) {
     if (!token.settings?.foreground) continue;
@@ -174,14 +176,18 @@ export function findTokenColor(theme: ThemeJson, textmateScope: string, semantic
       ? token.scope
       : token.scope?.split(',').map(s => s.trim()) ?? [];
 
-    if (scopes.includes(textmateScope)) {
-      match = token.settings.foreground;
-    }
+    const exact = scopes.some(s => textmateScope === s);
+    const parent = !exact && scopes.some(s => textmateScope.startsWith(s + '.'));
+
+    if (exact) { exactFg = token.settings.foreground; }
+    else if (parent) { parentFg = token.settings.foreground; }
   }
 
-  if (match) {
+  const fg = exactFg ?? parentFg;
+
+  if (fg) {
     return {
-      color: match,
+      color: fg,
       fallback: false,
       source: { type: 'textmate', key: textmateScope, semanticKey },
     };
@@ -405,12 +411,12 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       tag: resolveColor(findTokenColor(theme, 'entity.name.tag'), fg),
       attribute: resolveColor(findTokenColor(theme, 'entity.other.attribute-name'), fg),
       // CSS-specific
-      cssSelector: resolveColor(findTokenColor(theme, 'entity.name.selector'), fg), // .class, #id, element
-      cssPropertyName: resolveColor(findTokenColor(theme, 'support.type.property-name'), fg), // color, margin, etc.
+      cssSelector: resolveColor(findTokenColor(theme, 'entity.name.tag.css'), fg), // .class, #id, element
+      cssPropertyName: resolveColor(findTokenColor(theme, 'support.type.property-name.css'), fg), // color, margin, etc.
       // Other
       decorator: resolveColor(findTokenColor(theme, 'entity.name.function.decorator', 'decorator'), fg),
       link: resolveColor(findTokenColor(theme, 'markup.underline.link'), fg),
-      punctuation: resolveColor(findTokenColor(theme, 'punctuation'), fg),
+      punctuation: resolveColor(findTokenColor(theme, 'punctuation.separator'), fg),
       macro: resolveColor(findTokenColor(theme, 'entity.name.function.preprocessor', 'macro'), fg),
       struct: resolveColor(findTokenColor(theme, 'entity.name.type.struct', 'struct'), fg),
       // Entity patterns

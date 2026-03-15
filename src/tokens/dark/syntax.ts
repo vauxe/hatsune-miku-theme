@@ -15,6 +15,10 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
   // ===================================================================
   // DARK THEME -- The Score
   // All ensemble tokens: soprano/mp. Hue alone carries semantic meaning.
+  //
+  // Warm-hue Jz compensation: sRGB gamut clips warm hues at soprano,
+  // reducing effective APCA Lc below 75. Per-hue Jz offsets restore Lc.
+  // Cool hues (teal 180, cyan 210, lime 120, green 150) need none.
   // ===================================================================
   return {
     // === UNISON -- F# Teal (180) -- Her voice ===
@@ -47,32 +51,32 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
       L.soprano, C.mf, H.minor2nd
     ),
 
-    // === PERFECT 5TH -- C# Red (30) -- What you give her ===
+    // === PERFECT 5TH -- C# Red (20) -- What you give her ===
     parameter: role(
       'Perfect 5th -- what you give her, coming back as harmony',
-      L.soprano, C.mp, H.perfect5th
+      L.soprano + 0.018, C.mp, H.perfect5th  // +Jz: red gamut comp
     ),
     property: role(
       'Perfect 5th -- warmth reaching in from the world',
-      L.soprano, C.mp, H.perfect5th
+      L.soprano + 0.018, C.mp, H.perfect5th  // +Jz: red gamut comp
     ),
 
     // === MINOR 6TH -- D Orange (60) -- She reaches ===
     function: role(
       'Minor 6th -- she reaches into the light',
-      L.soprano, C.mp, H.minor6th
+      L.soprano + 0.004, C.mp, H.minor6th  // +Jz: orange gamut comp
     ),
     method: role(
       'Minor 6th -- callable code, same voice as function',
-      L.soprano, C.mp, H.minor6th
+      L.soprano + 0.004, C.mp, H.minor6th  // +Jz: orange gamut comp
     ),
     tag: role(
       'Minor 6th/p -- element invocation, structural (quieter callable)',
-      L.soprano, C.p, H.minor6th
+      L.soprano + 0.004, C.p, H.minor6th  // +Jz: orange gamut comp
     ),
     attribute: role(
       'Perfect 5th -- HTML attributes, element properties',
-      L.soprano, C.mp, H.perfect5th
+      L.soprano + 0.018, C.mp, H.perfect5th  // +Jz: red gamut comp
     ),
 
     // === MAJOR 6TH -- D# Gold (90) -- Written with love ===
@@ -112,41 +116,41 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     // === MAJOR 2ND -- G# Azure (240) -- The open ground ===
     constant: role(
       'Major 2nd -- named immutable reference, azure and certain',
-      L.soprano, C.mp, H.major2nd
+      L.soprano + 0.004, C.mp, H.major2nd  // +Jz: azure compound margin
     ),
     number: role(
       'Major 2nd/p -- a literal value, quietly present',
-      L.soprano, C.p, H.major2nd
+      L.soprano + 0.004, C.p, H.major2nd  // +Jz: azure compound margin
     ),
     boolean: role(
       'Major 2nd/p -- truth at its simplest, quietly present',
-      L.soprano, C.p, H.major2nd
+      L.soprano + 0.004, C.p, H.major2nd  // +Jz: azure compound margin
     ),
     enumMember: role(
       'Major 2nd -- one possibility, chosen (named like constant)',
-      L.soprano, C.mp, H.major2nd
+      L.soprano + 0.004, C.mp, H.major2nd  // +Jz: azure compound margin
     ),
 
     // === MINOR 3RD -- A Blue (270) -- The shape beneath ===
     type: role(
       'Minor 3rd -- the shape beneath the surface',
-      L.soprano, C.mp, H.minor3rd
+      L.soprano + 0.008, C.mp, H.minor3rd  // +Jz: blue gamut comp
     ),
     typeParameter: role(
       'Minor 3rd/p -- a type waiting to become (quieter, abstract)',
-      L.soprano, C.p, H.minor3rd
+      L.soprano + 0.008, C.p, H.minor3rd  // +Jz: blue gamut comp
     ),
 
     // === MAJOR 3RD -- A# Violet (300) -- Transformation ===
     macro: role(
       'Major 3rd -- code that transforms code',
-      L.soprano, C.mp, H.major3rd
+      L.soprano + 0.012, C.mp, H.major3rd  // +Jz: violet gamut comp
     ),
 
     // === PERFECT 4TH -- B Magenta (330) -- The heartbeat ===
     operator: role(
       'Perfect 4th -- the heartbeat connecting everything',
-      L.soprano, C.mp, H.perfect4th
+      L.soprano + 0.014, C.mp, H.perfect4th  // +Jz: magenta gamut comp
     ),
 
     // === DEPARTURES -- register shifts from the ensemble ===

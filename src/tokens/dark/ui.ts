@@ -121,7 +121,7 @@ export function createUITokens(p: Primitives): UITokens {
     ),
     deprecated: role(
       'Deprecated - lavender',
-      L.soprano, C.mp, H.lavender
+      L.soprano + 0.008, C.mp, H.lavender  // +Jz: blue gamut comp
     ),
     minimapOpacity: `${p.special.void}DD`,
     errorForeground: role(
@@ -178,7 +178,7 @@ export function createGitTokens(p: Primitives): GitTokens {
     modified: role('Concert gold -- Magical Mirai stage light, she painted the change',
       0.185, 0.075, 85),
     deleted: role('Nightcord magenta -- silence where code once lived',
-      0.174, 0.080, 320),
+      0.178, 0.080, 320),
     untracked: role('Frost cyan -- unknown files drifting in like snow',
       0.180, 0.045, 210),
     conflicting: role('Rose conflict -- her tattoo mark, demands resolution',
@@ -188,7 +188,7 @@ export function createGitTokens(p: Primitives): GitTokens {
     stageModified: role('Concert gold faded -- accepted change, muted',
       0.165, 0.025, 85),
     stageDeleted: role('Nightcord faded -- accepted loss, muted magenta',
-      0.165, 0.025, 320),
+      0.170, 0.025, 320),
     submodule: roleFromHex('Vest silver -- structure, external reference', char.top.main),
   };
 }

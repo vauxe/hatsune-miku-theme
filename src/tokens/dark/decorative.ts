@@ -107,10 +107,10 @@ export function createSupportTokens(p: Primitives): SupportTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
   return {
-    function: role('Support function -- orange glow, built-in action', L.soprano, C.mf, H.minor6th),
+    function: role('Support function -- orange glow, built-in action', L.soprano + 0.010, C.mf, H.minor6th),  // +Jz: orange/mf gamut comp
     class: role('Support class -- gold, built-in structure', L.soprano, C.mf, H.major6th),
-    type: role('Support type -- blue depth, built-in architecture', L.soprano, C.mp, H.minor3rd),
-    constant: role('Support constant -- azure, built-in truth', L.soprano, C.mp, H.major2nd),
+    type: role('Support type -- blue depth, built-in architecture', L.soprano + 0.008, C.mp, H.minor3rd),  // +Jz: blue gamut comp
+    constant: role('Support constant -- azure, built-in truth', L.soprano + 0.004, C.mp, H.major2nd),  // +Jz: azure compound margin
     variable: role('Support variable -- cyan, built-in data', L.soprano, C.mp, H.minor2nd),
   };
 }
@@ -119,15 +119,15 @@ export function createMarkdownTokens(p: Primitives): MarkdownTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
   return {
-    heading: role('Heading -- orange spotlight, darkened for bold compensation', L.soprano - 0.004, C.mf, H.minor6th),
+    heading: role('Heading -- orange spotlight', L.soprano + 0.010, C.mf, H.minor6th),  // +Jz: orange/mf gamut comp
     codeBlock: role('Code in documents -- bright cyan, her voice quoted', L.soprano, C.mf, H.ice),
     quote: role('Block quotes -- sky cyan, someone else\'s words', L.soprano, C.mp, H.sky),
-    linkUrl: role('Link URL -- blue, the address beneath', L.soprano, C.mp, H.minor3rd),
-    headingPunctuation: role('Heading punctuation -- orange, structural marker', L.soprano, C.mp, H.minor6th),
-    alertImportant: role('Important -- violet, pay attention', L.soprano, C.mf, H.major3rd),
+    linkUrl: role('Link URL -- blue, the address beneath', L.soprano + 0.008, C.mp, H.minor3rd),  // +Jz: blue gamut comp
+    headingPunctuation: role('Heading punctuation -- orange, structural marker', L.soprano + 0.010, C.mp, H.minor6th),  // +Jz: orange/mf gamut comp
+    alertImportant: role('Important -- violet, pay attention', L.soprano + 0.012, C.mf, H.major3rd),  // +Jz: violet gamut comp
     alertNote: role('Note -- bright cyan, worth remembering', L.soprano, C.mf, H.ice),
     alertTip: role('Tip -- fresh green, helpful', L.soprano, C.mf, H.major7th),
-    alertWarning: role('Warning -- orange, caution ahead', L.soprano, C.mf, H.minor6th),
+    alertWarning: role('Warning -- orange, caution ahead', L.soprano + 0.010, C.mf, H.minor6th),  // +Jz: orange/mf gamut comp
     alertCaution: role('Caution -- rose, danger', L.soprano, C.mf, H.tritone),
     inserted: role('Markup inserted -- lime, someone\'s truth added', L.soprano, C.mp, H.minor7th),
     deleted: role('Markup deleted -- rose, departure', L.soprano, C.mf, H.tritone),

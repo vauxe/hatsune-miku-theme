@@ -457,7 +457,7 @@ return [
   // ==========================================================================
   {
     name: 'Markdown Headings',
-    scope: ['markup.heading', 'entity.name.section.markdown'],
+    scope: ['markup.heading', 'entity.name.section'],
     settings: {
       foreground: syntax.heading,
       fontStyle: 'bold',
@@ -467,6 +467,7 @@ return [
     name: 'Markdown Bold',
     scope: ['markup.bold'],
     settings: {
+      foreground: syntax.heading,
       fontStyle: 'bold',
     },
   },
@@ -474,6 +475,7 @@ return [
     name: 'Markdown Italic',
     scope: ['markup.italic'],
     settings: {
+      foreground: syntax.markupQuote,
       fontStyle: 'italic',
     },
   },
@@ -705,8 +707,8 @@ return [
     },
   },
   {
-    name: 'PHP Classes',
-    scope: ['support.class.php', 'entity.other.inherited-class.php'],
+    name: 'Inherited Classes',
+    scope: ['entity.other.inherited-class', 'support.class.php'],
     settings: {
       foreground: syntax.class,
     },
@@ -1094,6 +1096,7 @@ return [
       'invalid.deprecated',
     ],
     settings: {
+      foreground: syntax.deprecated,
       fontStyle: 'strikethrough',
     },
   },

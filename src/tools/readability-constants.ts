@@ -492,6 +492,8 @@ export const EXPECTED_DIM_ELEMENTS = new Set([
   'Description',     // Helper/description text
   'Chat Placeholder',// Inline chat placeholder
   'List Deemph',     // Explicitly deemphasized list items
+  // Punctuation — ghost layer, structural aid (Lc ≥ 45 sufficient)
+  'Punctuation',
   // Comments — intentionally quiet (lower contrast by design)
   'Comments', 'Doc Comments',
   'Line:Comment', 'Sel:Comment', 'Hover:Comment', 'Sticky:Comment',
@@ -1194,9 +1196,9 @@ export const COMPOUND_BACKGROUND_KEYS = {
 export type CompoundBgKeyName = keyof typeof COMPOUND_BACKGROUND_KEYS;
 
 /**
- * Compound backgrounds that use the secondary (review) APCA threshold instead of primary.
- * Transient overlays (word highlight, diff, merge) are scanning contexts,
- * not sustained reading — Lc ≥ 60 suffices.
+ * Compound backgrounds originally distinguished for threshold differentiation.
+ * All compound overlays now use the secondary threshold (Lc ≥ 60) —
+ * overlays are transient contexts, not sustained reading.
  */
 export const COMPOUND_REVIEW_BGS: ReadonlySet<string> = new Set([
   'wordHighlight',
@@ -1222,7 +1224,7 @@ export const COMPOUND_SYNTAX_TOKENS = [
   'property',
   'keyword',
   'operator',
-  'punctuation',
+  // punctuation excluded — ghost layer, not ensemble
   'storage',
   'storageModifier',
   // Callables

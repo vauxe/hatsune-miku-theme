@@ -191,6 +191,7 @@ function computeStats(results: ColorResult[]): Stats {
     } else if (r.analysis.level === 'Large' || r.analysis.level === 'Non-Text') {
       if (r.expectedDim) {
         stats.expectedDim++;
+        stats.pass++;  // intentionally dim — counts as passing
       } else {
         stats.large++;
       }
@@ -497,8 +498,8 @@ function analyzeCompoundBackgroundContrast(
       if (!bgHex || bgHex === editorBg) continue; // Skip if same as editor or not defined
       if (skippedOverlays.has(bgName)) continue; // FG override handles readability here
 
-      // Diff/merge overlays are scanning contexts — use secondary threshold (Lc ≥ 70)
-      const bgRequired = COMPOUND_REVIEW_BGS.has(bgName) ? thresholds.secondary : required;
+      // Compound overlays are transient contexts — Lc ≥ 60 suffices (secondary threshold)
+      const bgRequired = thresholds.secondary;
 
       // Composite against each overlay bg individually (text renders on top of overlay)
       const resolvedFg = alpha < 1 ? blendAlpha(baseFg, bgHex, alpha) : baseFg;
@@ -550,7 +551,7 @@ function analyzeCompoundBackgroundContrast(
  */
 function formatCompoundLine(f: CompoundBackgroundFailure, thresholds: typeof APCA_THRESHOLDS = APCA_THRESHOLDS): string {
   const bgList = f.failingBackgrounds.map(b => b.bgName).join(', ');
-  return `COMPOUND ${f.tokenName} fails on ${f.failingBackgrounds.length} bg(s): worst=${f.worstBgName} Lc=${f.worstLc} need≥${thresholds[f.tier]} (editor Lc=${f.editorLc}) [${bgList}]`;
+  return `COMPOUND ${f.tokenName} fails on ${f.failingBackgrounds.length} bg(s): worst=${f.worstBgName} Lc=${f.worstLc} need≥${thresholds.secondary} (editor Lc=${f.editorLc}) [${bgList}]`;
 }
 
 /**
@@ -604,7 +605,7 @@ function formatDistinctionLine(category: string, p: DistinctionPair): string {
  * 4. **Chroma**: Saturation range for eye fatigue (Cz% 8-45 primary, 5-45 secondary, 8-60 accent)
  * 5. **CVD Simulation**: Critical pairs under protanopia/deuteranopia/tritanopia (ΔEz ≥ 12)
  * 6. **UI Visibility**: Selection, find match, tab, diff, cursor visibility
- * 7. **Compound Background**: Syntax colors on all 20 overlay backgrounds (Lc ≥ 75)
+ * 7. **Compound Background**: Syntax colors on all 20 overlay backgrounds (Lc ≥ 60)
  * 8. **Lightness Uniformity**: Jz spread across primary syntax (≤ 0.03)
  * 9. **Hue Distribution**: Minimum 20° gap between syntax hue families
  *

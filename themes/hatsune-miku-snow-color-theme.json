@@ -455,7 +455,7 @@
 		"debugIcon.startForeground": "#008963",
 		"debugIcon.pauseForeground": "#9C4800",
 		"debugIcon.stopForeground": "#A70028",
-		"debugIcon.disconnectForeground": "#A7002880",
+		"debugIcon.disconnectForeground": "#7B8184",
 		"debugIcon.restartForeground": "#008963",
 		"debugIcon.stepOverForeground": "#00717F",
 		"debugIcon.stepIntoForeground": "#007588",
@@ -636,7 +636,7 @@
 		"testing.iconFailed": "#A70028",
 		"testing.iconPassed": "#008963",
 		"testing.iconQueued": "#7B7170",
-		"testing.iconUnset": "#7B717060",
+		"testing.iconUnset": "#7B8184",
 		"testing.iconSkipped": "#7B7170",
 		"testing.iconErrored.retired": "#A7002860",
 		"testing.iconFailed.retired": "#A7002860",
@@ -651,6 +651,7 @@
 		"testing.message.error.badgeBackground": "#A7002825",
 		"testing.message.error.badgeBorder": "#A70028",
 		"testing.message.error.badgeForeground": "#A70028",
+		"testing.message.error.decorationForeground": "#A70028",
 		"testing.message.info.decorationForeground": "#007C8A",
 		"testing.message.info.lineBackground": "#4E9CA115",
 		"testing.messagePeekBorder": "#4E9CA1",
@@ -822,7 +823,7 @@
 		"chat.avatarForeground": "#00717F",
 		"chat.editedFileForeground": "#442FAD",
 		"chat.linesAddedForeground": "#008C64CC",
-		"chat.linesRemovedForeground": "#7900A4CC",
+		"chat.linesRemovedForeground": "#7900A4",
 		"chat.requestCodeBorder": "#00717F40",
 		"chat.requestBubbleBackground": "#4E9CA115",
 		"chat.requestBubbleHoverBackground": "#4E9CA140",
@@ -1383,7 +1384,7 @@
 			"name": "Markdown Headings",
 			"scope": [
 				"markup.heading",
-				"entity.name.section.markdown"
+				"entity.name.section"
 			],
 			"settings": {
 				"foreground": "#986A00",
@@ -1396,6 +1397,7 @@
 				"markup.bold"
 			],
 			"settings": {
+				"foreground": "#986A00",
 				"fontStyle": "bold"
 			}
 		},
@@ -1405,6 +1407,7 @@
 				"markup.italic"
 			],
 			"settings": {
+				"foreground": "#0071B6",
 				"fontStyle": "italic"
 			}
 		},
@@ -1698,10 +1701,10 @@
 			}
 		},
 		{
-			"name": "PHP Classes",
+			"name": "Inherited Classes",
 			"scope": [
-				"support.class.php",
-				"entity.other.inherited-class.php"
+				"entity.other.inherited-class",
+				"support.class.php"
 			],
 			"settings": {
 				"foreground": "#457D00"
@@ -2138,6 +2141,7 @@
 				"invalid.deprecated"
 			],
 			"settings": {
+				"foreground": "#9826C8",
 				"fontStyle": "strikethrough"
 			}
 		},
