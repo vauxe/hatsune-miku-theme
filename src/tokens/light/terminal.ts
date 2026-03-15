@@ -1,9 +1,14 @@
 /**
- * Light Terminal ANSI Color Token Definitions
+ * Light Terminal ANSI Color Token Definitions — Snow Miku 2026
  *
- * Cream canvas ANSI palette.
- * Terminal green uses teal (~180, blue axis) for CVD safety.
- * "black" = near-bg, "white" = readable text (inverted for light terminal)
+ * Warm cream canvas ANSI palette — soprano for normal, treble for bright.
+ * Tonic at 210° cyan, hues derived from the patisserie palette.
+ * mp target dynamic for the ensemble.
+ *
+ * "black" = near-bg warm (light), "white" = readable dark text.
+ *
+ * Bright variants are DARKER (lower Jz) and richer — on a light
+ * background, "bright" means more contrast = darker + more chroma.
  */
 
 import { role } from '../role';
@@ -12,21 +17,24 @@ import type { Primitives } from '../primitives';
 
 export function createTerminalTokens(_p: Primitives): TerminalTokens {
   return {
-    black: role('Near-bg warm -- barely visible on cream', 0.150, 0.020, 50),
-    red: role('Terracotta alert -- vivid on cream', 0.075, 0.110, 20),
-    green: role('Teal green -- CVD-safe blue-axis', 0.080, 0.090, 180),
-    yellow: role('Amber caution -- warm glow', 0.075, 0.090, 75),
-    blue: role('Blue truth -- deep and steady', 0.065, 0.075, 260),
-    magenta: role('Magenta rhythm -- cool pop', 0.068, 0.085, 345),
-    cyan: role('Teal voice -- her terminal presence', 0.072, 0.085, 200),
-    white: role('Warm readable text -- off-white becomes dark', 0.090, 0.050, 50),
-    brightBlack: role('Comment gray -- quiet but readable', 0.110, 0.018, 55),
-    brightRed: role('Softer terracotta -- less urgent', 0.068, 0.085, 20),
-    brightGreen: role('Softer teal -- quieter success', 0.072, 0.070, 180),
-    brightYellow: role('Softer amber -- gentle warning', 0.068, 0.075, 75),
-    brightBlue: role('Standard blue -- calm info', 0.060, 0.070, 260),
-    brightMagenta: role('Rose-violet -- meta, special', 0.065, 0.075, 325),
-    brightCyan: role('Standard teal -- conversational Miku', 0.065, 0.070, 200),
-    brightWhite: role('Primary text -- chocolate ink', 0.063, 0.025, 50),
+    // Normal — vivid ANSI colors on cream canvas
+    black: role('Near-bg warm — chocolate brown, barely visible', 0.150, 0.014, 40),
+    red: role('Rose 0° — vivid strawberry on cream', 0.095, 0.130, 0),
+    green: role('Lime 120° — vivid pistachio green', 0.098, 0.120, 120),
+    yellow: role('Orange 60° — vivid baked peach', 0.082, 0.120, 60),
+    blue: role('Azure 240° — vivid shopfront blue', 0.082, 0.110, 240),
+    magenta: role('Violet 300° — vivid raspberry', 0.088, 0.120, 300),
+    cyan: role('Tonic 210° — vivid terminal voice', 0.090, 0.110, 210),
+    white: role('Warm cream — readable dark text', 0.100, 0.030, 95),
+
+    // Bright — slightly darker + richer (more contrast on light bg)
+    brightBlack: role('Comment warm — quiet but readable', 0.108, 0.014, 40),
+    brightRed: role('Deep rose 0° — richer alarm', 0.082, 0.130, 0),
+    brightGreen: role('Deep lime 120° — richer pistachio', 0.092, 0.120, 120),
+    brightYellow: role('Deep orange 60° — richer baked warmth', 0.078, 0.120, 60),
+    brightBlue: role('Deep azure 240° — deeper blue', 0.072, 0.110, 240),
+    brightMagenta: role('Deep violet 300° — twilight deepens', 0.078, 0.120, 300),
+    brightCyan: role('Deep tonic 210° — conversational', 0.078, 0.110, 210),
+    brightWhite: role('Primary text — chocolate ink', 0.056, 0.020, 40),
   };
 }

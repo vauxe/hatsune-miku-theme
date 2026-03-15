@@ -1,181 +1,250 @@
 /**
- * Light UI, Status, and Git Token Definitions
+ * Light UI, Status, and Git Token Definitions — Snow Miku 2026
  *
- * Skirt-centered background tiers: the skirt is the stage (editor canvas).
- * In light theme, above-base tiers go DARKER (aboveDir = -1).
- * Four tiers: void < stage (editor) < house < float.
- * Step sizes: 0.008 Jz (Void->Stage, Stage->House), 0.007 (House->Float).
+ * The Patisserie — you are inside it with her.
  *
- * Status colors tell the story of your code: success in teal,
- * errors in magenta. Git traces the narrative of creation and loss.
+ * Backgrounds split warm and cool, crossing hue boundaries:
+ *   Void  — warm ivory (Hz 85°, brightest, the morning light)
+ *   Stage — warm cream (Hz 85°, the editor canvas, her dress)
+ *   House — cool blue (Hz 235°, sidebar/tabs, the shopfront glass)
+ *   Float — deeper cool (Hz 235°, menus/overlays, the awning shadow)
+ *
+ * This warm/cool spatial split IS the theme identity. Content lives
+ * in the warm bakery; structure frames it in cool shopfront blue.
+ *
+ * Two color temperatures, two roles:
+ *   WARM (cream/chocolate) → canvas, text, content
+ *   COOL (tonic/azure)     → accents, links, buttons, chrome
+ *
+ * Cursor and focus ring are coral-pink — her necktie.
+ * Where she wears the necktie, you type.
  */
 
 import { role, roleFromHex } from '../role';
-import { parseHex } from '../jzczhz';
 import type { UITokens, ExtendedUITokens, StatusTokens, GitTokens } from '../types';
 import type { Primitives } from '../primitives';
 
 export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
   const { lightness: L, chroma: C, hue: H, character: char } = p;
 
-  // The skirt is the stage -- editor canvas, lightest regular surface in light theme
-  // House goes darker for structural chrome, Float darker still for overlays
-  const STEP_CONTENT = 0.008;  // Void->Stage, Stage->House (DEz ~4)
-  const STEP_FLOAT = 0.007;    // House->Float (slightly smaller to keep Float tame)
-  const skirt = parseHex(char.skirt.base);
-  // Above-base tiers: darker in light
-  const aboveDir = -1;
+  // =========================================================================
+  // BACKGROUND TIERS — warm/cool spatial split
+  // =========================================================================
+  // No derivation from a single anchor — tiers cross hue boundaries.
+  // Warm cream for content, cool blue for structure.
 
   return {
+    // =========================================================================
+    // TEXT HIERARCHY — chocolate ink on cream (Hz ~40°)
+    // =========================================================================
     foreground: roleFromHex(
-      'Primary text -- chocolate ink, readable for hours',
+      'Chocolate ink — warm dark brown, handwritten menu, Lc ~82',
       p.special.foreground
     ),
     foregroundMuted: role(
-      'Secondary text -- silver, the quiet accompaniment',
-      L.soprano, C.ppp, H.sky
+      'Muted chocolate — cool chrome voice, quiet accompaniment',
+      0.118, 0.006, 235
     ),
     foregroundSubtle: role(
-      'Tertiary text -- barely there, like distant reverb',
-      L.countertenor, C.ppp, H.sky
+      'Subtle — distant, barely there, Lc ~48',
+      0.135, 0.003, 235
     ),
-    background: roleFromHex(
-      'Stage -- the skirt, editor anchor (lightest regular surface)',
-      char.skirt.base
+
+    // =========================================================================
+    // BACKGROUND TIERS — warm cream + cool blue
+    // =========================================================================
+    background: role(
+      'Stage — warm cream, the editor canvas (her dress)',
+      0.204, 0.012, 85
     ),
     backgroundFloat: role(
-      'Float -- overlays, hover, menus (step +2)',
-      skirt.Jz + aboveDir * (STEP_CONTENT + STEP_FLOAT), skirt.Cz, skirt.hz
+      'Float — deeper cool blue (menus, overlays, the awning)',
+      0.186, 0.020, 235
     ),
     backgroundHouse: role(
-      'House -- sidebar, tabs, activity bar, status bar (step +1)',
-      skirt.Jz + aboveDir * STEP_CONTENT, skirt.Cz, skirt.hz
+      'House — cool blue, sidebar and chrome (the shopfront)',
+      0.192, 0.016, 235
     ),
     backgroundVoid: role(
-      'Void -- empty groups, shadows (step -1)',
-      skirt.Jz - aboveDir * STEP_CONTENT,
-      skirt.Cz * 0.85,
-      skirt.hz
+      'Void — warm ivory, the morning light (brightest)',
+      0.210, 0.008, 85
     ),
-    accentPrimary: roleFromHex('Primary accent -- sleeve amber, warm patisserie frame', char.tie.base),
-    accentSecondary: (() => {
-      // Use the bow terracotta directly -- Lc~73 on cream, passes secondary threshold,
-      // and matches the illustration's vivid terracotta bows against warm cream
-      return roleFromHex(
-        'Secondary accent -- bow terracotta, her warm presence on snow',
-        char.headphones.cushion
-      );
-    })(),
-    accentTertiary: (() => {
-      const hs = parseHex(char.hair.shadow);
-      return role('Tertiary accent -- hair shadow darkened for Lc>=70 on snow', hs.Jz - 0.015, hs.Cz, hs.hz);
-    })(),
-    border: roleFromHex('Warm border -- sleeve amber frame', char.tie.base),
-    borderSubtle: roleFromHex('Subtle warm border -- faint sleeve amber', char.tie.base),
-    selection: roleFromHex('Warm selection -- honey highlight', char.tie.base),
-    cursor: (() => {
-      const cushion = parseHex(char.headphones.cushion);
-      return role(
-        'Her presence -- headphone cushion magenta, darkened for visibility on snow',
-        cushion.Jz - 0.015, cushion.Cz, cushion.hz
-      );
-    })(),
-    link: (() => {
-      const hs = parseHex(char.hair.shadow);
-      return role('Links -- hair shadow darkened for Lc>=70 on snow', hs.Jz - 0.015, hs.Cz, hs.hz);
-    })(),
-    linkActive: (() => {
-      const ts = parseHex(char.tie.shadow);
-      return role('Active link -- tie shadow darkened for Lc>=70 on snow', ts.Jz - 0.020, ts.Cz, ts.hz);
-    })(),
-    // Extended UI tokens
+
+    // =========================================================================
+    // ACCENTS — tonic cyan, the theme voice
+    // =========================================================================
+    accentPrimary: role(
+      'Tonic accent — her hair, the theme voice',
+      0.128, 0.045, 210
+    ),
+    accentSecondary: role(
+      'Accent dark — active/links, deep tonic',
+      0.088, 0.070, 215
+    ),
+    accentTertiary: role(
+      'Accent deep — pressed/shadow, dark chocolate',
+      0.025, 0.015, 40
+    ),
+
+    // =========================================================================
+    // BORDERS — cool structure (Hz 235°)
+    // =========================================================================
+    border: role(
+      'Cool border — shopfront structure, holds form',
+      0.128, 0.020, 235
+    ),
+    borderSubtle: role(
+      'Subtle cool border — faint structural line',
+      0.158, 0.012, 235
+    ),
+
+    // =========================================================================
+    // SELECTION — ice at 235° Hz
+    // =========================================================================
+    selection: role(
+      'Ice selection — cool blue, chosen text crystallizes',
+      0.088, 0.070, 215
+    ),
+
+    // =========================================================================
+    // CURSOR — coral-pink (her necktie)
+    // =========================================================================
+    cursor: role(
+      'Pastel pink cursor — sampled necktie Hz≈27°, where she points you type',
+      0.130, 0.070, 27
+    ),
+
+    // =========================================================================
+    // LINKS — accent dark (tonic ~215° Hz)
+    // =========================================================================
+    link: role(
+      'Tonic link — vivid clickable cyan',
+      0.098, 0.090, 215
+    ),
+    linkActive: role(
+      'Tonic link pressed — slightly deeper',
+      0.088, 0.090, 215
+    ),
+
+    // =========================================================================
+    // EXTENDED UI — text tiers, hints, special states
+    // =========================================================================
     nearWhite: roleFromHex(
-      'Negi white -- the softest green light from her iconic prop',
+      'Deep chocolate — text on accent surfaces (Lc >= 90)',
       p.special.nearWhite
     ),
     tertiary: role(
-      'Tertiary text - muted sky',
-      L.countertenor, 0.015, H.sky
+      'Tertiary text — chocolate fading, Lc ~45',
+      0.108, 0.008, 40
     ),
     disabled: role(
-      'Disabled state - same as tertiary',
-      L.countertenor, 0.015, H.sky
+      'Disabled — light chocolate, Lc ~32',
+      0.133, 0.005, 40
     ),
     disabledSubtle: role(
-      'Very subtle disabled',
-      0.08, 0.015, H.sky
+      'Very subtle disabled — ghost level, Lc ~48',
+      0.135, 0.003, 235
     ),
     ghostText: role(
-      'Ghost text -- she suggests, faintly, in teal',
-      L.alto, 0.025, H.mikuTeal
+      'Ghost text — cool chrome voice, faint suggestion, Lc ~48',
+      0.135, 0.003, 235
     ),
     placeholder: role(
-      'Placeholder text - Non-Text Lc 30+',
-      L.countertenor, 0.020, H.sky
+      'Placeholder — light chocolate, Lc ~50',
+      0.133, 0.006, 40
     ),
     whitespace: role(
-      'Whitespace markers',
-      L.countertenor, 0.015, H.sky
+      'Whitespace markers — cool structure seen through, Lc ~48',
+      0.135, 0.003, 235
     ),
     ruler: role(
-      'Rulers',
-      L.countertenor, 0.015, H.sky
+      'Rulers — cool vertical thread, Lc ~48',
+      0.135, 0.003, 235
     ),
     terminalHint: role(
-      'Terminal hints -- her teal nudge, Lc 50+',
-      L.alto, 0.030, H.mikuTeal
+      'Terminal hints — tonic nudge, Lc 50+',
+      L.mezzo, 0.032, H.mikuTeal
     ),
     terminalGuide: role(
-      'Terminal command guide -- subtle teal path, Lc 45+',
-      L.countertenor + 0.01, 0.025, H.mikuTeal
+      'Terminal guide — tonic path, Lc 45+',
+      L.alto, 0.028, H.mikuTeal
     ),
     operator: role(
-      'Operators - pink/magenta',
-      L.soprano, C.mp, H.mikuPink
+      'Rose 0° — strawberry glaze, connecting everything',
+      L.soprano, C.mp, H.rose
     ),
     deprecated: role(
-      'Deprecated - lavender',
+      'Violet 300° — twilight, the shape dissolving',
       L.soprano, C.mp, H.lavender
     ),
     minimapOpacity: `${char.top.blouse}DD`,
     error: role(
-      'The tritone -- UI error, vivid rose dissonance',
-      L.soprano, C.mf, H.rose
+      'Error — warm red 30°, vivid alarm on cream',
+      L.soprano, C.f, H.red
     ),
-    buttonBackground: (() => {
-      // Light: bow terracotta — warm, eye-catching on cream
-      return roleFromHex('Terracotta button -- the bow, eye-catching on cream', char.headphones.cushion);
-    })(),
-    badgeBackground: (() => {
-      // Light: bow terracotta — warm, attention-grabbing on cream
-      return roleFromHex('SM2024 bow terracotta -- warm badge on cream', char.headphones.cushion);
-    })(),
-    activeBorder: roleFromHex('Active border -- sleeve amber, warm indicator trim', char.tie.base),
+
+    // =========================================================================
+    // INTERACTIVE ANCHORS — accent dark buttons, cool badges
+    // =========================================================================
+    buttonBackground: role(
+      'Necktie ribbon — sampled Hz≈27° pastel pink, darkened for contrast',
+      0.115, 0.075, 27
+    ),
+    badgeBackground: role(
+      'Necktie ribbon badge — sampled pastel pink, darker for notification',
+      0.108, 0.078, 27
+    ),
+    activeBorder: roleFromHex(
+      'Coral-pink active — necktie marks focus',
+      char.headphones.cushion
+    ),
   };
 }
 
-export function createStatusTokens(p: Primitives): StatusTokens {
-  // Four-quadrant status: 0 error, 90 warning, 180 success, 270 info.
-  // Maximum hue separation (90 apart) -- CVD-safe by geometry.
-  // Uniform Jz/Cz -- hue alone carries the meaning.
+export function createStatusTokens(_p: Primitives): StatusTokens {
+  // =========================================================================
+  // STATUS — patisserie-derived, four-quadrant for CVD safety
+  // =========================================================================
+  // Success: mint 180° — canonical Miku approves
+  // Warning: gingerbread 70° — golden-brown caution
+  // Error: rose 0° — strawberry alarm
+  // Info: tonic 210° — her voice, calm and informational
   return {
-    success: role('Teal success -- her canonical color approves', 0.075, 0.050, 170),
-    warning: role('Gold warning -- concert amber, proceed with care', 0.082, 0.078, 85),
-    error: role('Magenta error -- her tattoo mark burns', 0.065, 0.082, 330),
-    info: role('Blue info -- calm sky', 0.080, 0.075, 260),
+    success: role('Mint success — canonical Miku approves, fresh growth', 0.090, 0.110, 180),
+    warning: role('Gingerbread warning — golden-brown caution (Cz 0.124 for findMatch)', 0.095, 0.124, 70),
+    error: role('Red error — vivid strawberry alarm', 0.088, 0.120, 30),
+    info: role('Tonic info — her voice, calm and steady', 0.090, 0.100, 210),
   };
 }
 
-export function createGitTokens(p: Primitives): GitTokens {
+export function createGitTokens(_p: Primitives): GitTokens {
+  // =========================================================================
+  // GIT — six-hue wheel, patisserie-derived
+  // =========================================================================
+  //   Added 180°     Mint — she welcomes new growth
+  //   Modified 70°   Gingerbread — golden-brown change
+  //   Deleted 300°   Violet — twilight departure (big shift from old rose)
+  //   Untracked 210° Tonic — her hair, snowflakes drifting in
+  //   Conflicting 0° Rose — demands resolution
+  //   Renamed 270°   Blue — reorganized, same content
   return {
-    added: role('Blue-teal added -- deep blue axis for CVD safety', 0.058, 0.090, 220),
-    modified: role('Amber modified -- warm change', 0.072, 0.080, 75),
-    deleted: role('Terracotta deleted -- vivid loss, Jz 0.100 for CVD tier separation', 0.100, 0.110, 20),
-    untracked: role('Teal untracked -- not yet tracked', 0.072, 0.085, 200),
-    conflicting: role('Blue conflicting -- demands resolution', 0.072, 0.085, 260),
-    renamed: role('Sage renamed -- same content, new address', 0.058, 0.075, 155),
-    stageModified: role('Muted teal staged -- accepted change', 0.072, 0.050, 200),
-    stageDeleted: role('Azure staged delete -- cooled from parent', 0.055, 0.080, 260),
-    submodule: role('Muted azure submodule -- external reference', 0.058, 0.050, 260),
+    added: role('Mint added — vivid growth on cream',
+      0.090, 0.120, 180),
+    modified: role('Gingerbread modified — warm golden change',
+      0.095, 0.120, 70),
+    deleted: role('Violet deleted — twilight departure',
+      0.085, 0.120, 300),
+    untracked: role('Tonic untracked — her hair, drifting in',
+      0.088, 0.110, 210),
+    conflicting: role('Rose conflicting — demands resolution',
+      0.088, 0.120, 0),
+    renamed: role('Blue renamed — reorganized, same content',
+      0.080, 0.100, 270),
+    stageModified: role('Muted tonic staged — accepted change, quieted',
+      0.100, 0.065, 210),
+    stageDeleted: role('Azure staged delete — cooled, accepted',
+      0.088, 0.080, 235),
+    submodule: role('Muted azure submodule — external reference, distant',
+      0.095, 0.060, 235),
   };
 }

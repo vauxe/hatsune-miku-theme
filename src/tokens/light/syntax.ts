@@ -1,79 +1,201 @@
 /**
- * Light Syntax Token Definitions — Snow Miku 2024 Patisserie
+ * Light Syntax Token Definitions — Snow Miku 2026: Shiawase Patisserie
  *
- * Per-token scientifically-optimized JzCzhz values. Each hue placed to
- * maximize minimum DEz across critical adjacency pairs on warm cream canvas.
- * Cool hues (180-325) POP via simultaneous contrast — structural landmarks.
- * Warm hues (20-155) FLOW with the canvas — data you read.
- * Variables near-achromatic (Cz 0.030) — maximum chroma contrast with all.
+ * The Score on Cream.
+ *
+ * Tonic at 210° cyan — her hair, the first color on every line.
+ * On a warm cream canvas, tonic cyan sings with temperature contrast:
+ * cool voice on warm ground, like her cyan cape against the cream dress.
+ *
+ * The 12-tone chromatic scale places hues at standard 30° intervals
+ * from the tonic at G=210°. No tunings — the warm/cool spatial split
+ * provides all the distinction the theme needs.
+ *
+ * Ensemble rule: vivid color, per-hue gamut optimization.
+ * Each hue gets its optimal Jz for maximum chroma in sRGB.
+ * Three tiers: lead (darker, keywords/variable), ensemble (sweet
+ * spot for vivid color), and soft (lighter, less common tokens).
+ *
+ * Each hue maps to a patisserie element:
+ *   - Keywords: 210° tonic cyan (her hair — the first stroke on every line)
+ *   - Variables: 270° azure (display case glass — data in motion)
+ *   - Parameters: 60° orange (baked peach — warmth entering)
+ *   - Functions: 90° gold (butter croissant — warm action)
+ *   - Classes: 120° lime (pistachio cream — organized garnish)
+ *   - Strings: 150° green (mint leaf — someone's truth)
+ *   - Interfaces: 180° canonical teal (#39C5BB — one breath from home)
+ *   - Constants: 240° cyan (azure shopfront — deep truth)
+ *   - Types: 300° violet (twilight through the shop window)
+ *   - Macros: 330° magenta (raspberry macaron — transformation)
+ *   - Operators: 0° rose (strawberry glaze — connecting rhythm)
  */
 
 import { role } from '../role';
 import type { SyntaxTokens } from '../types';
 import type { Primitives } from '../primitives';
 
-export function createSyntaxTokens(_p: Primitives): SyntaxTokens {
+export function createSyntaxTokens(p: Primitives): SyntaxTokens {
+  const { lightness: L, chroma: C, hue: H } = p;
+
+  // Interface hue: 180° canonical teal — no named field in HueValues
+  const INTERFACE_HUE = 180;
+
   // ===================================================================
-  // COLOR-FIRST STRATEGY — vivid, clearly distinguishable colors
-  //
-  // Jz 0.090 opens sRGB gamut wide for maximum chromaticity.
-  // Teal (200) and sage (160) are gamut-limited but pop via
-  // simultaneous contrast on the warm cream canvas.
-  // Rich-gamut hues (violet, red, amber) pushed to their natural max.
-  //
-  // Primary tier:  Jz 0.090  (Lc ~71-82) — most tokens
-  // Ink tier:      Jz 0.080  (Lc ~83)    — variables (darker, achromatic)
-  // Quiet tier:    Jz 0.100  (Lc ~74)    — numbers, booleans, type params
-  // Comment tier:  Jz 0.115  (Lc ~67)    — comments
+  // PER-HUE REGISTER ASSIGNMENT — each hue at its sRGB peak-chroma Jz.
+  // mp at Cz 0.120 clips to per-hue gamut max automatically.
+  // Cool hues peak dark (sopranino/treble), warm hues peak light (alto).
   // ===================================================================
   return {
-    // STRUCTURE — Teal 200 (gamut-limited but pops as cool on warm canvas)
-    keyword: role('Teal keyword — cool anchor on warm canvas', 0.090, 0.080, 200),
-    keywordControl: role('Teal control — if, for, while, return', 0.090, 0.080, 200),
-    keywordAlt: role('Teal secondary — slightly quieter', 0.093, 0.070, 200),
-    storage: role('Teal storage — same structural family', 0.090, 0.080, 200),
-    storageModifier: role('Magenta modifier — vivid connective', 0.090, 0.110, 345),
+    // === TONIC (210°) — Her Hair — sopranino Lc=67 ===
+    keyword: role(
+      'Tonic cyan 210° — her hair on every line, the first color you see',
+      L.sopranino, C.mp, H.mikuTeal
+    ),
+    keywordControl: role(
+      'Tonic cyan 210° — directing flow: if, for, while, return',
+      L.sopranino, C.mp, H.mikuTeal
+    ),
+    keywordAlt: role(
+      'Tonic cyan 210° — secondary keywords, same voice',
+      L.sopranino, C.mp, H.mikuTeal
+    ),
+    storage: role(
+      'Tonic cyan 210° — declarations share the tonic',
+      L.sopranino, C.mp, H.mikuTeal
+    ),
+    storageModifier: role(
+      'Tonic cyan 210° — modifiers share the tonic',
+      L.sopranino, C.mp, H.mikuTeal
+    ),
 
-    // TYPE SYSTEM — Violet 305 / Rose-Violet 320 (full gamut, very vivid)
-    type: role('Violet type — vivid landmark', 0.090, 0.120, 305),
-    typeParameter: role('Quiet violet type param', 0.100, 0.080, 305),
-    enum: role('Blue-cyan enum — identity', 0.090, 0.100, 235),
-    enumMember: role('Quiet blue-cyan enum member', 0.100, 0.065, 235),
-    macro: role('Quiet rose-violet macro', 0.100, 0.070, 320),
+    // === BLUE (270°) — Display Case Glass — peak ~0.091 → sopranino ===
+    variable: role(
+      'Blue 270° — display case glass, data in motion',
+      L.sopranino, C.mp, H.azure
+    ),
 
-    // ACTION — Amber 80 (rich gamut at Jz 0.090)
-    function: role('Amber function — warm action', 0.090, 0.100, 80),
-    method: role('Amber method — same family as function', 0.093, 0.090, 80),
+    // === ORANGE (60°) — Baked Peach — soprano Lc=65 ===
+    parameter: role(
+      'Orange 60° — baked peach, warmth entering from outside',
+      L.soprano, C.mp, H.orange
+    ),
+    property: role(
+      'Orange 60° — the world reaching in with warm hands',
+      L.soprano, C.mp, H.orange
+    ),
 
-    // NAMED — Yellow-Green 125 (rich gamut)
-    class: role('Yellow-green class — max separation from type', 0.090, 0.100, 125),
-    interface: role('Rose-violet interface — type family shifted', 0.090, 0.110, 320),
-    struct: role('Yellow-green struct — same as class', 0.090, 0.100, 125),
+    // === GOLD (90°) — Butter Croissant — soprano Lc=61 ===
+    function: role(
+      'Gold 90° — butter croissant, warm action from the oven',
+      L.soprano, C.mp, H.gold
+    ),
+    method: role(
+      'Gold 90° — callable warmth, same voice as function',
+      L.soprano, C.mp, H.gold
+    ),
+    tag: role(
+      'Gold 90° — element invocation, structural',
+      L.soprano, C.mp, H.gold
+    ),
+    attribute: role(
+      'Orange 60° — HTML attributes, element properties',
+      L.soprano, C.mp, H.orange
+    ),
 
-    // DATA — darker for ink-like reading
-    variable: role('Warm ink variable — near-achromatic, flows as text', 0.080, 0.035, 50),
-    parameter: role('Red parameter — vivid input', 0.090, 0.120, 25),
-    property: role('Red-brown property — reaching in', 0.093, 0.110, 25),
+    // === LIME (120°) — Pistachio Cream — treble Lc=65 ===
+    class: role(
+      'Lime 120° — pistachio cream, organized garnish',
+      L.treble, C.mp, H.lime
+    ),
+    struct: role(
+      'Lime 120° — same family as class, same organized energy',
+      L.treble, C.mp, H.lime
+    ),
+    enum: role(
+      'Lime 120° — a defined set, one step darker',
+      L.treble, C.mp, H.lime
+    ),
 
-    // LITERAL — Sage 160 / Blue 260
-    string: role('Sage string — organic green', 0.090, 0.090, 160),
-    stringTemplate: role('Sage template — muted structural', 0.093, 0.070, 160),
-    regex: role('Yellow-green regex — pattern', 0.093, 0.090, 125),
-    number: role('Quiet blue number — immutable', 0.100, 0.075, 260),
-    boolean: role('Quiet blue boolean — binary truth', 0.100, 0.065, 260),
-    constant: role('Blue constant — vivid immutable', 0.090, 0.100, 260),
-    tag: role('Red tag — HTML/JSX structure', 0.090, 0.120, 25),
-    attribute: role('Amber attribute — modifying elements', 0.093, 0.090, 80),
+    // === CANONICAL TEAL (180°) — One Breath From Home — Lc 45 needs Jz ≤0.087 → sopranino ===
+    interface: role(
+      'Canonical teal 180° — one breath from tonic',
+      L.sopranino, C.mp, INTERFACE_HUE
+    ),
 
-    // META — Lavender 280 / Teal 200
-    comment: role('Lavender-gray comment — whisper', 0.115, 0.035, 280),
-    commentDoc: role('Teal doc comment — subtle voice', 0.113, 0.030, 200),
-    punctuation: role('Ghost warm punctuation — bar lines', 0.145, 0.012, 55),
+    // === GREEN (150°) — Mint Leaf — sopranino Lc=67 ===
+    string: role(
+      'Green 150° — mint leaf, someone\'s truth fresh from the garden',
+      L.sopranino, C.mp, H.green
+    ),
+    stringTemplate: role(
+      'Green 150° — structured expression, same cool voice',
+      L.sopranino, C.mp, H.green
+    ),
+    regex: role(
+      'Green 150° — a pattern demands attention, darker',
+      L.sopranino, C.mp, H.green
+    ),
 
-    // CONNECTIVE — Magenta 345 (vivid heartbeat)
-    operator: role('Magenta operator — vivid heartbeat', 0.090, 0.110, 345),
+    // === AZURE (240°) — Shopfront Blue — peak ~0.097 → treble ===
+    constant: role(
+      'Azure 240° — shopfront blue, named and immutable',
+      L.treble, C.mp, H.cyan
+    ),
+    number: role(
+      'Azure 240° — a literal value, darker for weight',
+      L.sopranino, C.mp, H.cyan
+    ),
+    boolean: role(
+      'Azure 240° — truth at its simplest, darker for weight',
+      L.sopranino, C.mp, H.cyan
+    ),
+    enumMember: role(
+      'Azure 240° — one possibility, chosen from the set',
+      L.treble, C.mp, H.cyan
+    ),
 
-    // LANGUAGE VARIABLE — this/self
-    variableLanguage: role('Teal this/self — cool anchor, italic', 0.058, 0.048, 197),
+    // === VIOLET (300°) — Twilight Through the Window — peak ~0.109 → soprano ===
+    type: role(
+      'Violet 300° — twilight through the shop window, the shape beneath',
+      L.soprano, C.mp, H.blue
+    ),
+    typeParameter: role(
+      'Violet 300° — a type waiting to become, one step lighter',
+      L.mezzo, C.mp, H.blue
+    ),
+
+    // === MAGENTA (330°) — Raspberry Macaron — Lc 45 needs Jz ≤0.131 → mezzo ===
+    macro: role(
+      'Magenta 330° — raspberry macaron, code changing code',
+      L.mezzo, C.mp, H.violet
+    ),
+
+    // === ROSE (0°) — Strawberry Glaze — peak ~0.121 → mezzo ===
+    operator: role(
+      'Rose 0° — strawberry glaze, connecting rhythm',
+      L.mezzo, C.mp, H.rose
+    ),
+
+    // === DEPARTURES — comments and punctuation ===
+
+    comment: role(
+      'Tonic whisper 210° — her voice fading into cream, Lc ~46',
+      L.alto - 0.005, C.pp, H.mikuTeal
+    ),
+    commentDoc: role(
+      'Tonic soft 210° — her voice, visibly cyan, Lc ~49',
+      L.mezzo + 0.005, C.pp, H.mikuTeal
+    ),
+
+    punctuation: role(
+      'Tonic ghost 210° — bar lines, seen through not at, Lc ~47',
+      L.alto - 0.005, C.ppp, H.mikuTeal
+    ),
+
+    // === TONIC — variableLanguage ===
+    variableLanguage: role(
+      'Tonic cyan 210° — tonic like keywords, italic "it\'s me"',
+      L.sopranino, C.mp, H.mikuTeal
+    ),
   };
 }

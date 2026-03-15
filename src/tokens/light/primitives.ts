@@ -1,16 +1,23 @@
 /**
- * Light Theme Primitives — Snow Miku 2024 (Winter Delicacy)
+ * Light Theme Primitives — Snow Miku 2026: Shiawase Patisserie
  *
- * Three registers from the character design:
- *   1. Cream inner dress — the canvas (lightest, largest surface)
- *   2. Teal hair + warm orange-brown kimono — syntax accent colors
- *   3. Dark chocolate skirt/boots — the ink (foreground)
+ * "The pastry shop on the corner of winter, warm inside."
  *
- * The editor canvas is warm peach-bisque (hz 58) — not yellow-cream,
- * not white. Matched to the illustration's background panels: visibly
- * warm, like the inside of a patisserie lit by amber lamps. Moving
- * outward from the editor, surfaces deepen through the warm spectrum
- * toward the chocolate shelf at the back.
+ * Color-extracted from the Snow Miku 2026 design — costume by cold_air,
+ * visual by booota. The Shiawase Patisserie concept: a warm cream
+ * bakery interior (the dress) framed by cool blue shopfront walls.
+ * She steps out in cream dress and cyan cape, twin tails of tonic
+ * cyan, chocolate beret and boots, coral-pink necktie at her collar.
+ *
+ * Three color registers define the theme:
+ *   1. Warm cream — the canvas (the dress, the pastry case, golden light)
+ *   2. Tonic cyan — the voice (syntax, accents, her hair)
+ *   3. Chocolate ink — the foreground (dark warmth, handwritten menus)
+ *
+ * The fundamental spatial split: WARM canvas for content (editor),
+ * COOL chrome for structure (sidebar, tabs). You read in the bakery;
+ * the shopfront frames your view. Coral-pink identity (her necktie)
+ * marks cursor and focus — where she points, you type.
  */
 
 import { character as mikuCharacter } from '../../palette/core';
@@ -30,168 +37,186 @@ import {
 // =============================================================================
 
 /**
- * Derive light theme lightness values
+ * Light theme lightness values — Snow Miku 2026
  *
- * For light themes, we need to:
- * 1. Invert the lightness scale (dark text on light background)
- * 2. Adjust for APCA asymmetry (dark-on-light needs different values)
- * 3. Reduce chroma slightly (vivid colors on white can be harsh)
+ * Inverted scale: lower Jz = darker text = more prominent on cream.
+ * Per-hue register assignment: each hue uses the register nearest its
+ * sRGB peak-chroma Jz. Blue/azure peak dark (sopranino/treble), warm
+ * hues peak light (alto). Uniform 0.015 step.
+ *
+ * Peak-chroma Jz per hue (sRGB):
+ *   270° blue:    ~0.091  → sopranino (0.080)
+ *   240° azure:   ~0.097  → treble (0.095)
+ *   300° violet:  ~0.109  → soprano (0.110)
+ *   0° rose:      ~0.121  → mezzo (0.125)
+ *   210° tonic:   ~0.138  → mezzo (0.125)
+ *   60° orange:   ~0.133  → mezzo (0.125)
+ *   150° green:   ~0.157  → alto (0.140)
+ *   180° teal:    ~0.152  → alto (0.140)
+ *   330° magenta: ~0.155  → alto (0.140)
+ *   90° gold:     ~0.179  → alto (0.140)
+ *   120° lime:    ~0.179  → alto (0.140)
  */
 export const lightLightness: LightnessValues = {
-  // Light theme registers — inverted: darker Jz = more prominent on light bg
-  // Same 10 registers as dark theme, different Jz values for light canvas.
-  contrabass: 0.140,     // -7  barely visible on light bg
-  bass: 0.130,           // -6
-  baritone: 0.120,       // -5
-  tenor: 0.110,          // -4
-  countertenor: 0.100,   // -3  ghost/structure
-  alto: 0.080,           // -2  whisper/signal
-  mezzo: 0.065,          // -1
-  soprano: 0.055,        //  0  ensemble — primary syntax
-  treble: 0.050,         // +1
-  sopranino: 0.045,      // +2  maximum darkness/impact
+  sopranino: 0.080,    // +2  deep cool hues (blue, azure)
+  treble: 0.095,       // +1  azure peak
+  soprano: 0.110,      //  0  violet peak
+  mezzo: 0.125,        // -1  tonic, orange, rose peak
+  alto: 0.140,         // -2  warm/green hues peak
+  countertenor: 0.155, // -3  soft syntax, tag
+  tenor: 0.170,        // -4  comments
+  baritone: 0.185,     // -5  punctuation
+  bass: 0.195,         // -6
+  contrabass: 0.200,   // -7  barely visible on cream
 };
 
 // =============================================================================
-// HUE ROTATION — Snow Miku's Tonic
+// HUE GRID — Derived from Snow Miku 2026
 // =============================================================================
 
 /**
- * Light hue layout — scientifically optimized for warm cream canvas.
+ * Light hue layout — tonic at G=210° (tonic cyan).
  *
- * NOT a uniform rotation. Each hue is placed to maximize perceptual
- * distinction between commonly-adjacent token pairs, accounting for:
- *   1. Simultaneous contrast (cool pops on warm canvas)
- *   2. sRGB gamut asymmetry at low Jz (teal gamut-limited, violet rich)
- *   3. Crispening effect (2x degraded hue discrimination far from adaptation)
+ * Standard 30° intervals from the tonic. No tunings — the warm/cool
+ * spatial split provides all the distinction the theme needs.
  *
- * Cool hues (180-325) -> structural landmarks you SCAN for (keywords, types)
- * Warm hues (20-155)  -> data flow you READ (variables, functions, strings)
+ *   210° Tonic cyan  — her hair, the first color on every line
+ *   240° Azure       — cool shopfront trim, flowing beside the tonic
+ *   270° Blue        — the deep display case glass
+ *   300° Violet      — twilight through the shop window
+ *   330° Magenta     — raspberry macaron accent
+ *     0° Rose        — strawberry glaze, connecting rhythm
+ *    30° Red         — warm jam, the alarm on cream
+ *    60° Orange      — baked peach, her skin warmth
+ *    90° Gold        — butter croissant, the golden star
+ *   120° Lime        — pistachio cream, organized garnish
+ *   150° Green       — mint leaf, one breath from home
+ *   180° (unnamed)   — canonical Miku teal, used for interface
+ *
+ * Field names are chromatic positions (C through B), not perceived
+ * colors. Descriptions in syntax.ts name the actual perceived hue.
  */
 export const lightHue: HueValues = {
-  rose: 20,              // Alert, error — vivid terracotta
-  red: 30,               // INPUT — parameters, properties, tags
-  orange: 75,            // ACTION — functions, attributes (amber)
-  gold: 120,             // NAMED — classes, structs (yellow-green)
-  lime: 155,             // LITERAL — strings (sage)
-  green: 155,            // Same as lime on light — sage territory
-  mikuTeal: 200,         // STRUCTURE — keywords, SM2024 tonic
-  cyan: 230,             // IDENTITY — enums
-  azure: 260,            // TRUTH — constants, numbers (deep blue)
-  blue: 300,             // TYPE SYSTEM — types (violet, max gamut)
-  violet: 325,           // TYPE SYSTEM — interfaces, macros (rose-violet)
-  magenta: 345,          // CONNECTIVE — operators, modifiers
+  rose: 0,               // C  Tritone         (perceived: strawberry rose)
+  red: 30,               // C# Perfect 5th     (perceived: warm jam)
+  orange: 60,            // D  Minor 6th       (perceived: baked peach)
+  gold: 90,              // D# Major 6th       (perceived: butter croissant)
+  lime: 120,             // E  Minor 7th       (perceived: pistachio cream)
+  green: 150,            // F  Major 7th       (perceived: mint leaf)
+  mikuTeal: 210,         // G  Unison          (perceived: tonic cyan — her hair)
+  cyan: 240,             // G# Minor 2nd       (perceived: azure shopfront)
+  azure: 270,            // A  Major 2nd       (perceived: deep blue glass)
+  blue: 300,             // A# Minor 3rd       (perceived: violet twilight)
+  violet: 330,           // B  Major 3rd       (perceived: raspberry macaron)
+  magenta: 0,            // C  Perfect 4th     (perceived: strawberry rose — wraps to 0)
 
   // Semantic aliases
-  mikuPink: 345,         // Magenta connective
-  peach: 30,             // Same as red — INPUT family
-  amber: 75,             // Same as orange — ACTION family
-  sky: 230,              // Same as cyan — cool identity
-  ice: 230,              // Same as cyan — cool identity
-  periwinkle: 260,       // Same as azure — TRUTH family
-  lavender: 300,         // Same as blue — TYPE SYSTEM
-  orchid: 300,           // Same as blue — TYPE SYSTEM
+  mikuPink: 27,          // Pastel pink — necktie accent (sampled from visual)
+  peach: 60,             // = D (Orange position) — baked warmth
+  amber: 60,             // = D (Orange position) — golden crust
+  sky: 235,              // Cool shopfront blue (between G# and A)
+  ice: 235,              // Cool shopfront blue
+  periwinkle: 235,       // Cool shopfront blue
+  lavender: 300,         // = A# (Violet position) — twilight
+  orchid: 300,           // = A# (Violet position) — twilight
 };
 
 // =============================================================================
-// CHROMA SCALE
+// CHROMA SCALE — Patisserie Dynamics
 // =============================================================================
 
 /**
- * Light chroma scale — pushed higher to compensate for low-Jz gamut compression.
+ * Light chroma scale — gamut-max ensemble.
  *
- * At Jz=0.060 (dark text), sRGB gamut varies dramatically by hue:
- *   - blue/violet/red (267-27): can reach Cz=0.080-0.100 — vivid
- *   - gold/lime/cyan (117-237): can reach Cz=0.065-0.078 — moderate
- *   - green/teal (177-207): maxes at Cz=0.045-0.051 — muted (gamut wall)
- *
- * Setting chroma HIGH lets each hue reach its natural maximum. The hex()
- * function clips to gamut — vivid hues stay vivid, weak hues get their max.
- * The tonic (teal 207) stays muted — the calm center, like in music.
+ * mp at 0.120 exceeds sRGB gamut max for most hues at soprano Jz.
+ * The hex() function clips to the gamut boundary, automatically
+ * delivering the most vivid color each hue can produce. Lower
+ * dynamics (ppp, pp) remain gentle for comments and punctuation.
  */
 export const lightChroma: ChromaValues = {
   niente: 0,             // silence — achromatic
-  ppp: 0.020,            // ~10% — punctuation, near-neutral
-  pp: 0.035,             // ~18% — whisper
-  p: 0.050,              // ~26% — quiet tokens
-  mp: 0.085,             // ~45% — pushed to gamut ceiling for most hues
-  mf: 0.100,             // ~53% — emphasis
-  f: 0.115,              // ~60% — signal, maximum attention
-  ff: 0.130,             // ~68% — alarm
-  fff: 0.145,            // ~76% — extreme
+  ppp: 0.015,            // breath — barely tinted
+  pp: 0.030,             // sotto voce — visible tint
+  p: 0.060,              // quiet — present but restrained
+  mp: 0.120,             // melody — gamut-max ensemble
+  mf: 0.135,             // emphasis — above gamut for most hues
+  f: 0.150,              // signal — clips to absolute max
+  ff: 0.165,             // alarm — wide-gamut hues only
+  fff: 0.180,            // extreme — only blue (270°) delivers
 };
 
 // =============================================================================
-// CHARACTER PALETTE — Snow Miku 2024
+// CHARACTER PALETTE — Snow Miku 2026: Shiawase Patisserie
 // =============================================================================
 
 /**
- * Light theme background colors — Snow Miku 2024 (Winter Delicacy)
+ * Snow Miku 2026 character colors — extracted from the design.
  *
- * Background hierarchy:
- *   - Editor canvas: Peach bisque (Cz 0.020, hz 58) — the tablecloth
- *   - Sidebar: Deeper bisque (Cz 0.022, hz 55) — the pastry case
- *   - Activity bar: Warm tan (Cz 0.025, hz 50) — the wooden counter
- *   - Status bar: Caramel (Cz 0.028, hz 48) — the chocolate shelf
- *   - Terminal: Same bisque as editor — the reading surface
- *   - Foreground: Chocolate ink (Cz 0.020, hz 48) — sepia on bisque
+ * Hair: Tonic cyan twin tails, the same beloved 210° family.
  *
- * Cool elements (teal hover, frost selection, magenta focus) are HER —
- * they pop against the warm canvas like her teal hair against the cream kimono.
- * The warmer canvas AMPLIFIES simultaneous contrast with cool syntax tokens.
+ * Outfit: Cream dress with cyan-blue cape, chocolate suspender straps.
+ *   The dress is the editor canvas — warm, inviting, readable.
+ *   The shopfront walls are the structural chrome — cool, framing.
+ *
+ * Identity: Coral-pink necktie — the cursor and focus ring.
+ *   Where she wears the necktie, you type.
+ *
+ * Background hierarchy (warm/cool split):
+ *   - Editor canvas: Warm cream (Jz 0.204, Cz 0.012, Hz 85°) — the dress
+ *   - Sidebar: Cool blue (Jz 0.192, Cz 0.016, Hz 235°) — the shopfront
+ *   - Activity bar: Cool blue (same as sidebar)
+ *   - Status bar: Deeper cool (Jz 0.186, Cz 0.020, Hz 235°) — the awning
+ *   - Terminal: Warm cream — matches editor for reading comfort
+ *   - Foreground: Chocolate ink (Jz 0.038, Cz 0.018, Hz 40°) — handwritten menus
  */
 export const lightCharacter: CharacterColors = {
-  // SM2024 hair — muted pastel teal at hz=207 (ice cyan, not standard 196)
-  // Softer, grayer than standard Miku — sea glass, not neon
+  // Tonic cyan hair — her identity across every Snow Miku design
   hair: {
-    base: '#619E9F',      // SM2024 main hair — muted ice cyan
-    shadow: '#17696B',    // Dark roots
-    highlight: '#77C1C2', // Catch-light
-    tip: '#97CECF',       // Soft ends
-    bright: '#9EE9EB',    // Brightest highlight
+    base: hex({ Jz: 0.128, Cz: 0.045, hz: 210 }),  // Tonic engagement wash
+    shadow: hex({ Jz: 0.088, Cz: 0.070, hz: 215 }), // Accent dark — links, buttons
+    highlight: '#78C6F0',  // Pale sky shimmer — decorative catch-light
+    tip: '#8070B8',        // Lavender gradient
+    bright: '#9CD4F4',     // Icy highlight
   },
-  eyes: { iris: '#376F70', highlight: '#4DB6AC', pupil: mikuCharacter.eyes.pupil },
-  // Bow replaces headphone cushion — the solo voice
-  // SM2024 terracotta bows scattered on the dress: warm, earthy, eye-catching
+  // Eyes — warm-toned for the patisserie design
+  eyes: { iris: '#4E56B4', highlight: '#7CAAE4', pupil: '#1A1410' },
+  // Necktie mapped to cushion slot — coral-pink identity voice
   headphones: {
-    frame: mikuCharacter.headphones.frame,
-    cushion: '#A35241',   // Bow terracotta — cursor, focus, active borders
-    display: mikuCharacter.headphones.display,
+    frame: '#CAD4EA',       // Silver-white headband
+    cushion: hex({ Jz: 0.080, Cz: 0.070, hz: 27 }),  // Pastel pink — sampled from visual
+    display: hex({ Jz: 0.128, Cz: 0.045, hz: 210 }), // Tonic cyan ornament
   },
   hairTies: {
     base: mikuCharacter.hairTies.base,
-    outline: mikuCharacter.hairTies.outline,
+    outline: hex({ Jz: 0.080, Cz: 0.070, hz: 27 }),  // Pastel pink
   },
-  // Structural chrome — subliminal warmth, paper-like
-  // Cz 0.010-0.018: warm enough to feel like a place, neutral enough to not suppress warm fg tokens
-  // Hz 62-72: yellow-cream (paper range), not peach-bisque
+  // Structural chrome — shopfront walls (not the cape)
   top: {
-    main: hex({ Jz: 0.200, Cz: 0.016, hz: 66 }),         // Warm paper — wooden counter (activity bar)
-    shadow: hex({ Jz: 0.195, Cz: 0.018, hz: 62 }),        // Deeper paper — chocolate shelf (status bar)
-    trim: mikuCharacter.top.trim,
-    blouse: mikuCharacter.top.blouse,                       // Same off-white shirt in both themes
+    main: hex({ Jz: 0.192, Cz: 0.016, hz: 235 }),     // Cool blue — activity bar
+    shadow: hex({ Jz: 0.186, Cz: 0.020, hz: 235 }),    // Deeper cool — status bar
+    trim: hex({ Jz: 0.128, Cz: 0.045, hz: 210 }),      // Tonic cyan trim
+    blouse: '#FFF5E0',                                    // Cream — text on accent buttons
   },
-  // Editor canvas — subliminal warm paper
+  // Editor canvas — warm cream dress
   skirt: {
-    base: hex({ Jz: 0.212, Cz: 0.012, hz: 72 }),          // Warm paper — editor canvas
-    trim: mikuCharacter.skirt.trim,
-    accessory: hex({ Jz: 0.108, Cz: 0.012, hz: 62 }),     // Warm chain — muted tint
+    base: hex({ Jz: 0.204, Cz: 0.012, hz: 85 }),      // Warm cream — editor canvas
+    trim: hex({ Jz: 0.128, Cz: 0.045, hz: 210 }),      // Tonic cyan
+    accessory: hex({ Jz: 0.108, Cz: 0.016, hz: 235 }), // Cool blue chain
   },
-  // Sidebar — slightly deeper paper
+  // Sidebar — shopfront wall glass
   armWarmers: {
-    base: hex({ Jz: 0.204, Cz: 0.013, hz: 70 }),          // Deeper paper — sidebar/tab strip
-    pattern: mikuCharacter.armWarmers.pattern,
+    base: hex({ Jz: 0.192, Cz: 0.016, hz: 235 }),     // Cool blue — sidebar
+    pattern: '#78C6F0',
   },
-  // Terminal — reading surface, same paper as editor
+  // Terminal — warm cream, same as editor for reading comfort
   boots: {
-    base: hex({ Jz: 0.212, Cz: 0.012, hz: 72 }),          // Warm paper — terminal bg
-    accent: mikuCharacter.boots.accent,
+    base: hex({ Jz: 0.204, Cz: 0.012, hz: 85 }),      // Warm cream — terminal bg
+    accent: hex({ Jz: 0.128, Cz: 0.045, hz: 210 }),    // Tonic cyan
   },
-  // Sleeve lining replaces tie — warm amber revealed on interaction
-  // The kimono's inner sleeve transitions from amber to brown
+  // Tie — cool structure, shopfront borders
   tie: {
-    base: '#A17259',      // Sleeve amber — warm lining visible when she moves
-    shadow: '#815039',    // Deeper sleeve — used for linkActive
+    base: hex({ Jz: 0.128, Cz: 0.020, hz: 235 }),     // Cool border
+    shadow: hex({ Jz: 0.158, Cz: 0.012, hz: 235 }),    // Subtle cool border
   },
   negi: {
     stalk: mikuCharacter.negi.stalk,
@@ -205,9 +230,9 @@ export const lightCharacter: CharacterColors = {
 // =============================================================================
 
 const lightSpecial: SpecialColors = {
-  void: hex({ Jz: 0.185, Cz: 0.010, hz: 66 }),         // Deep paper — back of the shop
-  foreground: hex({ Jz: 0.063, Cz: 0.018, hz: 50 }),    // Ink — warm dark, Lc ~87
-  nearWhite: hex({ Jz: 0.035, Cz: 0.012, hz: 50 }),     // Dark ink — near-dark text
+  void: hex({ Jz: 0.210, Cz: 0.008, hz: 85 }),       // Warm ivory — empty space
+  foreground: hex({ Jz: 0.038, Cz: 0.018, hz: 40 }),  // Chocolate ink — Lc ~82 on cream
+  nearWhite: hex({ Jz: 0.025, Cz: 0.015, hz: 40 }),   // Deep chocolate — text on accents
   transparent: '#00000000',
 };
 
@@ -216,13 +241,12 @@ const lightSpecial: SpecialColors = {
 // =============================================================================
 
 /**
- * Create primitives for light theme — Snow Miku Patisserie
+ * Create primitives for light theme — Snow Miku 2026
  *
- * Foreground uses chocolate brown (hz 48) — referencing SM2024 boots/skirt.
- * At Cz 0.022, it reads as visible brown — sepia ink on bisque paper. Dark enough
- * for Lc ~87 contrast, chromatic enough to feel like chocolate, not just near-black.
- * Both bg (hz 58) and fg (hz 48) live in the warm quadrant — a narrow harmony
- * at different registers, paper and ink singing the same warm note.
+ * Foreground uses chocolate ink (Hz 40°) — warm, readable, handwritten.
+ * At Cz 0.018, it reads as a warm dark brown — visible personality
+ * without competing with syntax colors. Background splits warm (Hz 85°,
+ * editor) and cool (Hz 235°, chrome) — the bakery and shopfront.
  */
 export function createLightPrimitives(): Primitives {
   return {

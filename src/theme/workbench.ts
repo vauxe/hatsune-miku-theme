@@ -50,7 +50,7 @@ const accent = {
   bright: t.ui.accentSecondary.hex,
   soft: t.ui.accentTertiary.hex,
   cursor: t.ui.cursor.hex,            // lightened cushion — Lc≥60 for caret visibility
-  magenta: t.ui.activeBorder.hex,     // canonical cushion #E05096 — active border accent
+  magenta: isLight ? t.ui.cursor.hex : t.ui.activeBorder.hex, // vivid necktie pink (light) / cushion (dark)
   chocolate: t.decorative.tieShadow,  // polarity-aware: light=#815039 chocolate, dark=#1A8A82 teal
   blush: t.decorative.skinBlush,      // #E8B4B6 — scalloped hem pink
 };
@@ -80,39 +80,39 @@ const bracketPastel = {
 // Alpha — opacity per polarity (base color stays the same, opacity shifts)
 // Light theme picks lower tiers — bright surfaces amplify overlay presence
 const alpha = {
-  // Editor line highlighting
-  lineHighlightBg:          isLight ? op.subtle : op.light,
-  lineHighlightBorder:      isLight ? op.light : op.strong,
+  // Editor line highlighting — light theme needs visible tint on snow
+  lineHighlightBg:          isLight ? op.light : op.light,
+  lineHighlightBorder:      isLight ? op.medium : op.strong,
   inactiveLineHighlight:    isLight ? op.subtle : op.light,
-  // Selection
-  selectionBg:              isLight ? op.light : op.strong,
-  inactiveSelectionBg:      isLight ? op.subtle : op.medium,
+  // Selection — light theme needs stronger tints on near-white backgrounds
+  selectionBg:              isLight ? op.strong : op.strong,
+  inactiveSelectionBg:      isLight ? op.medium : op.medium,
   // Highlights — subtle/faint tiers
   selectionHighlightBg:     isLight ? op.subtle : op.medium,
   selectionHighlightBorder: isLight ? op.light : op.medium,
-  wordHighlightBg:          isLight ? op.subtle : op.strong,
+  wordHighlightBg:          isLight ? op.light : op.strong,
   wordHighlightBorder:      isLight ? op.medium : op.heavy,
-  wordHighlightStrongBg:    isLight ? op.light : op.heavy,
+  wordHighlightStrongBg:    isLight ? op.medium : op.heavy,
   faintBg:                  isLight ? op.subtle : op.light,
   faintBorder:              isLight ? op.light : op.medium,
-  // Find
-  findMatchBg:              isLight ? op.light : op.strong,
+  // Find — light needs visible tints but must preserve Lc≥75 on compound
+  findMatchBg:              isLight ? op.strong : op.strong,
   findHighlightBg:          isLight ? op.light : op.strong,
   findHighlightBorder:      isLight ? op.strong : op.solid,
   // Hover
   hoverBg:                  isLight ? op.subtle : op.light,
   // Bracket
-  bracketMatchBg:           isLight ? op.subtle : op.medium,
+  bracketMatchBg:           isLight ? op.light : op.medium,
   // Terminal
   terminalSelectionBg:      isLight ? op.light : op.strong,
   terminalFindMatchBg:      isLight ? op.light : op.strong,
-  // Diff — tuned to preserve Lc ≥ 70 on bright source colors
+  // Diff — light theme bumped one tier for visibility on near-white
   diffInsertedLine:         isLight ? op.light : op.medium,
   diffInsertedText:         isLight ? op.medium : op.strong,
-  diffGutterInserted:       isLight ? op.subtle : op.medium,
+  diffGutterInserted:       isLight ? op.light : op.medium,
   diffRemovedLine:          isLight ? op.light : op.medium,
   diffRemovedText:          isLight ? op.medium : op.strong,
-  diffGutterRemoved:        isLight ? op.light : op.medium,
+  diffGutterRemoved:        isLight ? op.medium : op.medium,
   // Inline chat
   inlineChatDiff:           isLight ? op.subtle : op.medium,
   chatLinesAdded:           op.dense,
@@ -160,18 +160,18 @@ const pol = {
   // Debug view label foreground
   debugLabelFg:     isLight ? t.decorative.blouseWhite : text.primary,
   // Testing icon errored
-  testingErrored:   isLight ? t.syntax.constant.hex : darken(t.status.info, 0.055),
+  testingErrored:   isLight ? t.syntax.type.hex : darken(t.status.info, 0.055),
   // Action bar toggled
   actionBarToggled: isLight ? withOpacity(accent.primary, op.medium) : t.interactive.toggle.background.selected,
 };
 
 // StatusItem — status bar item colors per polarity
 const statusItem = {
-  debugBg:          isLight ? darken(t.ui.activeBorder, 0.03) : darken(roleFromHex('', accent.magenta), 0.03),
+  debugBg:          isLight ? t.decorative.eyeIris : darken(roleFromHex('', accent.magenta), 0.03),
   debugFg:          t.decorative.blouseWhite,
-  remoteBg:         isLight ? t.ui.buttonBackground.hex : lighten(roleFromHex('', accent.primary), 0.02),
+  remoteBg:         isLight ? t.decorative.cape : lighten(roleFromHex('', accent.primary), 0.02),
   remoteFg:         isLight ? t.decorative.blouseWhite : onAccentBg,
-  remoteHoverBg:    isLight ? t.interactive.button.background.hover : accent.bright,
+  remoteHoverBg:    isLight ? darken(roleFromHex('', t.decorative.cape), 0.01) : accent.bright,
   remoteHoverFg:    isLight ? t.decorative.blouseWhite : t.decorative.darkForeground,
   errorFg:          t.decorative.blouseWhite,
   warningBg:        darken(t.status.warning, isLight ? 0.00 : 0.10),
@@ -193,7 +193,7 @@ return {
   'editorCursor.background': bg.void,
   'editorMultiCursor.primary.foreground': accent.cursor,
   'editorMultiCursor.primary.background': bg.base,
-  'editorMultiCursor.secondary.foreground': t.decorative.multiCursorSecondary,
+  'editorMultiCursor.secondary.foreground': isLight ? accent.magenta : t.decorative.multiCursorSecondary,
   'editorMultiCursor.secondary.background': bg.base,
   'editor.placeholder.foreground': text.placeholder,
   'editor.compositionBorder': accent.bright,
@@ -315,7 +315,7 @@ return {
   'editorGutter.deletedSecondaryBackground': withOpacity(t.git.deleted.hex, op.strong),
   'editorGutter.foldingControlForeground': accent.bright,
   'editorGutter.commentRangeForeground': withOpacity(text.tertiary, op.heavy),
-  'editorGutter.commentGlyphForeground': t.decorative.commentGlyph,
+  'editorGutter.commentGlyphForeground': isLight ? semantic.info : t.decorative.commentGlyph,
   'editorGutter.commentUnresolvedGlyphForeground': semantic.warning,
   'editorGutter.commentDraftGlyphForeground': accent.soft,
   'editorGutter.itemGlyphForeground': accent.bright,
@@ -354,7 +354,7 @@ return {
 
   // Unnecessary code
   'editorUnnecessaryCode.border': withOpacity(text.tertiary, op.heavy),
-  'editorUnnecessaryCode.opacity': withOpacity(bg.void, op.heavy),
+  'editorUnnecessaryCode.opacity': withOpacity(bg.void, op.solid),
 
   // ==========================================================================
   // SUGGEST WIDGET (Autocomplete)
@@ -367,7 +367,7 @@ return {
   'editorSuggestWidget.selectedBackground': pol.suggestSelectedBg,
   'editorSuggestWidget.selectedForeground': t.interactive.list.foreground.selected,
   'editorSuggestWidget.selectedIconForeground': t.interactive.list.foreground.selected,
-  'editorSuggestWidgetStatus.foreground': text.secondary,
+  'editorSuggestWidgetStatus.foreground': isLight ? text.tertiary : text.secondary,
 
   // ==========================================================================
   // OVERVIEW RULER
@@ -503,9 +503,9 @@ return {
   'activityBarTop.dropBorder': accent.primary,
   'activityBarTop.background': pol.activityBarBg,
   'activityBarTop.activeBackground': t.interactive.toolbar.background.hover,
-  'activityWarningBadge.foreground': pol.badgeFg,
+  'activityWarningBadge.foreground': isLight ? t.decorative.blouseWhite : pol.badgeFg,
   'activityWarningBadge.background': semantic.warning,
-  'activityErrorBadge.foreground': pol.badgeFg,
+  'activityErrorBadge.foreground': isLight ? t.decorative.blouseWhite : pol.badgeFg,
   'activityErrorBadge.background': semantic.error,
 
   // ==========================================================================
@@ -530,13 +530,13 @@ return {
   // STATUS BAR
   // ==========================================================================
   'statusBar.background': pol.statusBarBg,
-  'statusBar.foreground': text.secondary,
+  'statusBar.foreground': isLight ? text.primary : text.secondary,
   'statusBar.border': withOpacity(accent.primary, op.medium),
   'statusBar.debuggingBackground': statusItem.debugBg,
   'statusBar.debuggingForeground': statusItem.debugFg,
   'statusBar.debuggingBorder': special.transparent,
   'statusBar.noFolderBackground': pol.statusBarBg,
-  'statusBar.noFolderForeground': text.secondary,
+  'statusBar.noFolderForeground': isLight ? text.primary : text.secondary,
   'statusBar.noFolderBorder': withOpacity(text.tertiary, op.medium),
   'statusBar.focusBorder': withOpacity(accent.magenta, op.dense),
   'statusBarItem.activeBackground': t.interactive.toolbar.background.active,
@@ -632,8 +632,8 @@ return {
   'list.activeSelectionForeground': t.interactive.list.foreground.selected,
   'list.activeSelectionIconForeground': t.interactive.list.foreground.selected,
   'list.inactiveSelectionBackground': withOpacity(t.decorative.cursorLineFrost, op.medium),
-  'list.inactiveSelectionForeground': text.secondary,
-  'list.inactiveSelectionIconForeground': text.secondary,
+  'list.inactiveSelectionForeground': isLight ? text.primary : text.secondary,
+  'list.inactiveSelectionIconForeground': isLight ? text.primary : text.secondary,
   'list.hoverBackground': t.interactive.list.background.hover,
   'list.hoverForeground': t.interactive.list.foreground.hover,
   'list.focusBackground': t.interactive.list.background.focus,
@@ -771,7 +771,7 @@ return {
   'terminalSymbolIcon.aliasForeground': accent.soft,
   'terminalSymbolIcon.branchForeground': accent.bright,
   // Lavender commit icons (Digital Stars) for DeltaE separation from branch teal
-  'terminalSymbolIcon.commitForeground': t.decorative.commitIcon,
+  'terminalSymbolIcon.commitForeground': isLight ? t.syntax.type.hex : t.decorative.commitIcon,
   'terminalSymbolIcon.flagForeground': semantic.warning,
   'terminalSymbolIcon.optionForeground': text.primary,
   'terminalSymbolIcon.optionValueForeground': t.symbol.snippet.hex,
@@ -781,12 +781,12 @@ return {
   'terminalSymbolIcon.fileForeground': text.primary,
   'terminalSymbolIcon.folderForeground': accent.primary,
   'terminalSymbolIcon.pullRequestDoneForeground': semantic.success,
-  'terminalSymbolIcon.pullRequestForeground': t.decorative.multiCursorSecondary,
+  'terminalSymbolIcon.pullRequestForeground': isLight ? accent.magenta : t.decorative.multiCursorSecondary,
   'terminalSymbolIcon.remoteForeground': t.symbol.interface.hex,
   'terminalSymbolIcon.stashForeground': text.tertiary,
   'terminalSymbolIcon.symbolText': text.primary,
-  'terminalSymbolIcon.symbolicLinkFileForeground': t.symbol.enum.hex,
-  'terminalSymbolIcon.symbolicLinkFolderForeground': t.symbol.enum.hex,
+  'terminalSymbolIcon.symbolicLinkFileForeground': isLight ? t.syntax.class.hex : t.symbol.enum.hex,
+  'terminalSymbolIcon.symbolicLinkFolderForeground': isLight ? t.syntax.class.hex : t.symbol.enum.hex,
   'terminalSymbolIcon.tagForeground': semantic.warning,
 
   // ==========================================================================
@@ -796,7 +796,7 @@ return {
   'debugToolBar.border': withOpacity(semantic.warning, op.strong),
   'debugIcon.breakpointForeground': t.decorative.tattooMark,
   'debugIcon.breakpointDisabledForeground': text.disabled,
-  'debugIcon.breakpointUnverifiedForeground': darken(t.status.error, 0.08),
+  'debugIcon.breakpointUnverifiedForeground': isLight ? withOpacity(semantic.error, op.heavy) : darken(t.status.error, 0.08),
   'debugIcon.breakpointCurrentStackframeForeground': semantic.warning,
   'debugIcon.breakpointStackframeForeground': semantic.success,
   'debugIcon.startForeground': semantic.success,
@@ -823,10 +823,10 @@ return {
   'debugTokenExpression.number': t.debug.number.hex,
   'debugTokenExpression.error': t.debug.error.hex,
   'debugTokenExpression.type': t.debug.type.hex,
-  'debugView.exceptionLabelForeground': pol.debugLabelFg,
-  'debugView.exceptionLabelBackground': darken(t.status.error, 0.19),
-  'debugView.stateLabelForeground': pol.debugLabelFg,
-  'debugView.stateLabelBackground': darken(t.status.success, 0.14),
+  'debugView.exceptionLabelForeground': isLight ? t.decorative.blouseWhite : pol.debugLabelFg,
+  'debugView.exceptionLabelBackground': isLight ? t.status.error.hex : darken(t.status.error, 0.19),
+  'debugView.stateLabelForeground': isLight ? t.decorative.blouseWhite : pol.debugLabelFg,
+  'debugView.stateLabelBackground': isLight ? t.status.success.hex : darken(t.status.success, 0.14),
   'debugView.valueChangedHighlight': withOpacity(accent.bright, op.strong),
 
   // ==========================================================================
@@ -835,14 +835,14 @@ return {
   'peekView.border': withOpacity(pol.borderTint, op.heavy),
   'peekViewTitle.background': bg.float,
   'peekViewTitleLabel.foreground': accent.bright,
-  'peekViewTitleDescription.foreground': text.secondary,
+  'peekViewTitleDescription.foreground': isLight ? text.tertiary : text.secondary,
   'peekViewEditor.background': bg.base,
   'peekViewEditor.matchHighlightBackground': withOpacity(semantic.warning, op.medium),
   'peekViewEditor.matchHighlightBorder': withOpacity(semantic.warning, op.heavy),
   'peekViewEditorGutter.background': bg.house,
   'peekViewResult.background': bg.float,
   'peekViewResult.fileForeground': text.primary,
-  'peekViewResult.lineForeground': text.secondary,
+  'peekViewResult.lineForeground': isLight ? text.tertiary : text.secondary,
   'peekViewResult.matchHighlightBackground': withOpacity(semantic.warning, op.medium),
   'peekViewResult.selectionBackground': t.interactive.list.background.selected,
   'peekViewResult.selectionForeground': t.interactive.list.foreground.selected,
@@ -953,7 +953,7 @@ return {
   'notificationCenterHeader.background': bg.float,
   'notificationCenter.border': withOpacity(accent.primary, op.medium),
   'notificationLink.foreground': t.ui.linkActive.hex,
-  'notificationsInfoIcon.foreground': accent.primary,
+  'notificationsInfoIcon.foreground': isLight ? semantic.info : accent.primary,
   'notificationsWarningIcon.foreground': semantic.warning,
   'notificationsErrorIcon.foreground': semantic.error,
 
@@ -973,7 +973,7 @@ return {
   // ==========================================================================
   // QUICK INPUT
   // ==========================================================================
-  'quickInput.background': bg.float,
+  'quickInput.background': isLight ? bg.base : bg.float,
   'quickInput.foreground': text.primary,
   'quickInputTitle.background': bg.float,
   'quickInputList.focusBackground': t.interactive.list.background.selected,
@@ -1105,9 +1105,9 @@ return {
   'extensionBadge.remoteForeground': pol.badgeFg,
   'extensionIcon.starForeground': semantic.warning,
   'extensionIcon.verifiedForeground': semantic.success,
-  'extensionIcon.preReleaseForeground': t.decorative.commitIcon,
+  'extensionIcon.preReleaseForeground': isLight ? t.syntax.type.hex : t.decorative.commitIcon,
   'extensionIcon.sponsorForeground': accent.magenta,
-  'extensionIcon.privateForeground': t.symbol.enum.hex,
+  'extensionIcon.privateForeground': isLight ? t.syntax.class.hex : t.symbol.enum.hex,
   'mcpIcon.starForeground': semantic.warning,
 
   // ==========================================================================
@@ -1238,7 +1238,7 @@ return {
   // ==========================================================================
   'symbolIcon.arrayForeground': t.symbol.array.hex,
   'symbolIcon.booleanForeground': t.symbol.boolean.hex,
-  'symbolIcon.classForeground': t.symbol.class.hex,
+  'symbolIcon.classForeground': isLight ? t.syntax.class.hex : t.symbol.class.hex,
   'symbolIcon.colorForeground': accent.magenta,
   'symbolIcon.constantForeground': t.symbol.constant.hex,
   'symbolIcon.constructorForeground': t.symbol.constructor.hex,
@@ -1277,7 +1277,7 @@ return {
   'inlineChat.foreground': text.primary,
   'inlineChat.border': withOpacity(accent.bright, op.heavy),
   'inlineChat.shadow': withOpacity(bg.void, op.heavy),
-  'inlineChatInput.background': bg.float,
+  'inlineChatInput.background': isLight ? bg.base : bg.float,
   'inlineChatInput.border': withOpacity(accent.primary, op.strong),
   'inlineChatInput.focusBorder': accent.magenta,
   'inlineChatInput.placeholderForeground': text.placeholder,

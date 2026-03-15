@@ -1,12 +1,17 @@
 /**
- * Light Interactive State Token Definitions — Her Presence
+ * Light Interactive State Token Definitions — Snow Miku 2026
  *
  * Four voices:
  *
- * STRUCTURE  -- skirt (hz~72), solid Jz steps. Where am I?
- * ENGAGEMENT -- sleeve amber (#A17259), opacity tint. Transient -- hover, active.
- * SELECTION  -- frost (#81D4FA), opacity tint. Persistent -- selected, cursor line.
- * IDENTITY   -- terracotta (#A35241), solid border. Focus -- keyboard target.
+ * STRUCTURE    -- cool chrome (Hz~235), solid Jz steps. Where am I?
+ * ENGAGEMENT   -- tonic cyan (~210°), two registers:
+ *                  WASH  = char.hair.base (tonic engagement wash)
+ *                          — breath on warm glass, translucent and alive
+ *                  SOLID = accent dark (~215°), deep tonic for fills
+ *                          — the ocean beneath the shimmer, readable buttons
+ * SELECTION    -- ice at ~235° Hz, opacity tint. Persistent — selected, cursor line.
+ * IDENTITY     -- coral-pink (~27° Hz, her necktie), solid border.
+ *                  Focus — keyboard target.
  *
  * Five materials:
  *
@@ -16,13 +21,15 @@
  * Architecture -- tier assignment (tabs, activity bar)
  * Air          -- opacity tint, fill only (scrollbars, sliders)
  *
- * Same vocabulary, different grammar.
+ * Borders use cool structure (tie.base/shadow at ~235° Hz).
+ * Wash (tonic through opacity) gives translucent warmth on cream.
+ * Solid fills use accent dark for Lc >= 60 white text.
  */
 
 import { withOpacity } from '../role';
+import { hex } from '../jzczhz';
 import type { InteractiveTokens, UITokens, ExtendedUITokens } from '../types';
 import type { Primitives } from '../primitives';
-import { snowMiku } from '../../palette';
 
 // =============================================================================
 // INTERACTIVE TOKEN CREATION
@@ -35,26 +42,40 @@ export function createInteractiveTokens(
   const { character: char, opacity: op } = p;
 
   // =========================================================================
-  // ENGAGEMENT -- transient interaction (sleeve amber)
+  // ENGAGEMENT -- tonic cyan, two registers
   // =========================================================================
-  const tonic = char.tie.base;
-  const roots = char.tie.shadow;
-  const tieShadow = char.tie.shadow;
-  const accentBright = ui.accentSecondary.hex;
+  // Wash: tonic engagement wash for opacity tints
+  const wash = char.hair.base;
+  // Solid: accent dark for fills and buttons
+  const solid = ui.accentSecondary.hex;
+  // Deeper: accent tertiary for active/pressed states
+  const deeper = ui.accentTertiary.hex;
 
   // =========================================================================
-  // SELECTION -- Snow Miku frost, persistent state
+  // STRUCTURE -- cool borders (Hz ~235°)
   // =========================================================================
-  const frost = snowMiku.y2025.accessories.crystal;
+  const borderLine = char.tie.base;
+  const borderQuiet = char.tie.shadow;
 
   // =========================================================================
-  // IDENTITY -- cushion color, focus / keyboard target
+  // SELECTION -- ice at ~235° Hz
+  // =========================================================================
+  const frost = hex({ Jz: 0.128, Cz: 0.045, hz: 235 });
+
+  // =========================================================================
+  // IDENTITY -- coral-pink, focus / keyboard target (her necktie)
   // =========================================================================
   const spotlight = char.headphones.cushion;
 
+  // =========================================================================
+  // PRIMARY BUTTON -- coral-pink necktie, three states
+  // =========================================================================
+  const btnDefault = ui.buttonBackground.hex;
+  const btnHover = hex({ Jz: 0.105, Cz: 0.080, hz: 27 });   // Darker pastel pink
+  const btnActive = hex({ Jz: 0.095, Cz: 0.085, hz: 27 });  // Deepest pastel pink
+
   // UI-derived foregrounds and backgrounds
   const foreground = ui.foreground.hex;
-  const foregroundTeal = roots;
   const foregroundMuted = ui.foregroundMuted.hex;
   const foregroundTertiary = ui.tertiary.hex;
   const foregroundDisabled = ui.disabled.hex;
@@ -68,9 +89,9 @@ export function createInteractiveTokens(
     list: {
       background: {
         default: p.special.transparent,
-        hover: withOpacity(tonic, op.strong),
-        active: withOpacity(tonic, op.heavy),
-        focus: withOpacity(tonic, op.light),
+        hover: withOpacity(wash, op.strong),
+        active: withOpacity(wash, op.heavy),
+        focus: withOpacity(wash, op.light),
         disabled: p.special.transparent,
         selected: withOpacity(frost, op.strong),
       },
@@ -85,24 +106,24 @@ export function createInteractiveTokens(
       border: {
         default: p.special.transparent,
         hover: p.special.transparent,
-        active: tonic,
+        active: solid,
         focus: spotlight,
         disabled: p.special.transparent,
-        selected: tieShadow,
+        selected: borderLine,
       },
     },
 
     // =========================================================================
-    // METAL (primary) -- solid register swap
+    // METAL (primary) -- solid register swap, prominent buttons
     // =========================================================================
     button: {
       background: {
-        default: ui.buttonBackground.hex,
-        hover: tonic,
-        active: accentBright,
-        focus: tonic,
-        disabled: roots,
-        selected: tonic,
+        default: btnDefault,
+        hover: btnHover,
+        active: btnActive,
+        focus: btnDefault,
+        disabled: borderQuiet,
+        selected: btnHover,
       },
       foreground: {
         default: char.top.blouse,
@@ -113,56 +134,56 @@ export function createInteractiveTokens(
         selected: char.top.blouse,
       },
       border: {
-        default: tieShadow,
-        hover: tonic,
-        active: accentBright,
+        default: btnDefault,
+        hover: btnHover,
+        active: btnActive,
         focus: spotlight,
-        disabled: roots,
-        selected: tonic,
+        disabled: borderQuiet,
+        selected: btnHover,
       },
     },
 
     // =========================================================================
-    // METAL (secondary) -- tint bg + solid borders
+    // METAL (secondary) -- wash bg + cool borders
     // =========================================================================
     buttonSecondary: {
       background: {
-        default: withOpacity(tonic, op.strong),
-        hover: withOpacity(tonic, op.heavy),
-        active: withOpacity(tonic, op.solid),
-        focus: withOpacity(tonic, op.heavy),
-        disabled: withOpacity(tonic, op.medium),
-        selected: withOpacity(tonic, op.heavy),
+        default: withOpacity(wash, op.strong),
+        hover: withOpacity(wash, op.heavy),
+        active: withOpacity(wash, op.solid),
+        focus: withOpacity(wash, op.heavy),
+        disabled: withOpacity(wash, op.medium),
+        selected: withOpacity(wash, op.heavy),
       },
       foreground: {
         default: foreground,
-        hover: accentBright,
+        hover: deeper,
         active: foreground,
         focus: foreground,
         disabled: foregroundDisabled,
         selected: foreground,
       },
       border: {
-        default: roots,
-        hover: tieShadow,
-        active: tonic,
+        default: borderLine,
+        hover: borderLine,
+        active: solid,
         focus: spotlight,
-        disabled: roots,
-        selected: tieShadow,
+        disabled: borderQuiet,
+        selected: borderLine,
       },
     },
 
     // =========================================================================
-    // GLASS -- static fill, border articulation
+    // GLASS -- static fill, border articulation (inputs, search boxes)
     // =========================================================================
     input: {
       background: {
-        default: backgroundHouse,
-        hover: backgroundHouse,
-        active: backgroundHouse,
-        focus: backgroundHouse,
-        disabled: backgroundHouse,
-        selected: backgroundHouse,
+        default: background,
+        hover: background,
+        active: background,
+        focus: background,
+        disabled: background,
+        selected: background,
       },
       foreground: {
         default: foreground,
@@ -173,22 +194,22 @@ export function createInteractiveTokens(
         selected: foreground,
       },
       border: {
-        default: roots,
-        hover: tieShadow,
-        active: tonic,
+        default: borderQuiet,
+        hover: borderLine,
+        active: solid,
         focus: spotlight,
-        disabled: roots,
-        selected: tieShadow,
+        disabled: borderQuiet,
+        selected: borderLine,
       },
     },
 
     // =========================================================================
-    // ARCHITECTURE -- tier assignment (solid tiers, not tints)
+    // ARCHITECTURE -- tier assignment (tabs, solid tiers, not tints)
     // =========================================================================
     tab: {
       background: {
         default: backgroundHouse,
-        hover: withOpacity(tonic, op.medium),
+        hover: withOpacity(wash, op.strong),
         active: background,
         focus: p.special.transparent,
         disabled: backgroundHouse,
@@ -197,7 +218,7 @@ export function createInteractiveTokens(
       foreground: {
         default: foregroundTertiary,
         hover: foreground,
-        active: accentBright,
+        active: solid,
         focus: foreground,
         disabled: foregroundDisabled,
         selected: foreground,
@@ -208,7 +229,7 @@ export function createInteractiveTokens(
         active: spotlight,
         focus: spotlight,
         disabled: backgroundHouse,
-        selected: tieShadow,
+        selected: borderLine,
       },
     },
 
@@ -218,8 +239,8 @@ export function createInteractiveTokens(
     toolbar: {
       background: {
         default: p.special.transparent,
-        hover: withOpacity(tonic, op.strong),
-        active: withOpacity(tonic, op.heavy),
+        hover: withOpacity(wash, op.strong),
+        active: withOpacity(wash, op.heavy),
         focus: p.special.transparent,
         disabled: p.special.transparent,
         selected: withOpacity(frost, op.strong),
@@ -248,11 +269,11 @@ export function createInteractiveTokens(
     toggle: {
       background: {
         default: background,
-        hover: withOpacity(tonic, op.strong),
-        active: tonic,
+        hover: withOpacity(wash, op.strong),
+        active: solid,
         focus: background,
         disabled: withOpacity(backgroundHouse, op.solid),
-        selected: withOpacity(tonic, op.heavy),
+        selected: withOpacity(wash, op.heavy),
       },
       foreground: {
         default: foregroundMuted,
@@ -260,15 +281,15 @@ export function createInteractiveTokens(
         active: foreground,
         focus: foreground,
         disabled: foregroundDisabled,
-        selected: accentBright,
+        selected: deeper,
       },
       border: {
-        default: withOpacity(tonic, op.heavy),
-        hover: tieShadow,
-        active: accentBright,
+        default: withOpacity(wash, op.heavy),
+        hover: borderLine,
+        active: deeper,
         focus: spotlight,
-        disabled: roots,
-        selected: tonic,
+        disabled: borderQuiet,
+        selected: solid,
       },
     },
 
@@ -277,9 +298,9 @@ export function createInteractiveTokens(
     // =========================================================================
     slider: {
       background: {
-        rest: withOpacity(tonic, op.strong),
-        hover: withOpacity(tonic, op.heavy),
-        active: withOpacity(tonic, op.solid),
+        rest: withOpacity(wash, op.strong),
+        hover: withOpacity(wash, op.heavy),
+        active: withOpacity(wash, op.solid),
       },
     },
   };

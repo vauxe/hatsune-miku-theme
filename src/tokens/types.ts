@@ -345,6 +345,10 @@ export interface DecorativeTokens {
   topMain: string;
   /** Top shadow — status bar surface (character.top.shadow) */
   topShadow: string;
+  /** Eye iris — her gaze, debug status (character.eyes.iris) */
+  eyeIris: string;
+  /** Cape — her outerwear, remote status (cyan-blue) */
+  cape: string;
 }
 
 // =============================================================================

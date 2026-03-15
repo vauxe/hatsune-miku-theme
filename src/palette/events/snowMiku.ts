@@ -292,20 +292,31 @@ export const snowMiku = {
   },
 
   y2026: {
-    // Pâtisserie of Happiness (Shiawase Patisserie) - Winter Sweets
-    hair: '#70D6D1',       // Fresh Mint/Turquoise
-    eyes: '#4DB6AC',       // Teacup Green/Blue
+    // Happy Pâtisserie (しあわせパティスリー)
+    // Costume designer: cold_air (piapro web voting)
+    // Main visual artist: ぶーた (booota)
+    // Concept: musical notes + snowflakes + sweets, bright pop coloring
+    hair: '#70D6D1',       // Fresh Mint/Turquoise — vivid, bright cyan
+    eyes: '#50BCD0',       // Bright cerulean-blue (not teal-green)
     outfit: {
-      dress: '#4FC3F7',    // Light Blue Wrapper
-      apron: '#FFF9C4',    // Custard Cream
-      ribbon: '#F48FB1',   // Berry Pink Tie
-      boots: '#5D4037',    // Chocolate Brown
+      dress: '#FFF5E0',    // Cream — the main garment is cream/off-white
+      trim: '#60C8E8',     // Blue snowflake accents on cream dress
+      straps: '#4A3530',   // Dark chocolate-brown suspender straps
+      ribbon: '#F48FB1',   // Berry pink ribbon at collar
+      boots: '#5D4037',    // Chocolate brown lace-up boots
+      stockings: '#F0E8E0', // Striped pastel (cream, pink, mint, blue)
     },
     accessories: {
-      beret: '#5D4037',    // Chocolate Sponge Hat
-      whippedCream: '#FFFFFF', // Toppings
-      cookie: '#D7CCC8',   // Biscuit Accents
-    }
+      beret: '#5D4037',    // Chocolate beret with cinnamon-roll pastry + pink ears
+      candyCane: '#70D6D1', // Multicolor candy cane (mint, pink, cream stripes)
+      cookie: '#C8A882',   // Golden-brown gingerbread music-note cookies
+      snowflake: '#60C8E8', // Blue snowflake motifs woven throughout
+    },
+    mascot: {
+      // ラビット・ユキネ (Rabbit Yukine) — 2026 costume variant
+      body: '#FFFFFF',     // White plush rabbit
+      ribbon: '#F48FB1',   // Pink ribbon matching Miku's
+    },
   },
 
   // =========================================================================

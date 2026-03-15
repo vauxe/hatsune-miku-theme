@@ -1090,8 +1090,6 @@ Four principles govern every color choice:
 
 **Structural Uniformity** — Primary syntax tokens sit on a similar lightness plane so the eye scans evenly. Adjacent hue families maintain equal-temperament spacing to prevent clustering. Chroma stays within per-tier bounds — comfortable for syntax, quieter for UI, louder for accents.
 
-Exact thresholds for all four principles are maintained in CLAUDE.md. `npm run readability:dark` and `npm run readability:light` validate them in a single pass.
-
 ---
 
 ## 10. Variants

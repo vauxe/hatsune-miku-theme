@@ -238,5 +238,9 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     armWarmersBase: p.character.armWarmers.base,
     topMain: p.character.top.main,
     topShadow: p.character.top.shadow,
+
+    // Status bar state colors — not used in dark theme, passthrough
+    eyeIris: p.character.eyes.iris,
+    cape: p.character.hair.shadow,  // Dark theme uses hair shadow for remote
   };
 }
