@@ -21,7 +21,7 @@
  */
 
 import { character as mikuCharacter } from '../../palette/core';
-import { hex } from '../jzczhz';
+import { hex } from '../role';
 import {
   opacity,
   type Primitives,

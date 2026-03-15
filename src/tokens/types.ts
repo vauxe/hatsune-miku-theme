@@ -5,11 +5,15 @@
  * Extracted for clean separation of concerns.
  */
 
-import type { JzCzhz } from './jzczhz';
-
 // =============================================================================
 // CORE TYPES
 // =============================================================================
+
+export interface JzCzhz {
+  Jz: number;  // Lightness: 0-0.22 for sRGB
+  Cz: number;  // Chroma: 0-0.19 for sRGB
+  hz: number;  // Hue: 0-360 degrees
+}
 
 export interface SemanticRole {
   description: string;
@@ -76,9 +80,6 @@ export interface UITokens {
   cursor: SemanticRole;
   link: SemanticRole;
   linkActive: SemanticRole;
-}
-
-export interface ExtendedUITokens {
   nearWhite: SemanticRole;
   tertiary: SemanticRole;
   disabled: SemanticRole;
@@ -281,6 +282,7 @@ export interface InteractiveTokens {
 // =============================================================================
 
 export interface DecorativeTokens {
+  // --- Collections ---
   /** Indent guide colors - Miku's voicebank evolution (2007-present) */
   indentGuides: string[];
   /** SCM graph branch colors - Project SEKAI unit colors */
@@ -294,6 +296,8 @@ export interface DecorativeTokens {
     green: string;
     purple: string;
   };
+
+  // --- Diff & SCM ---
   /** Diff editor colors — cute character palette */
   diffInserted: string;
   diffRemoved: string;
@@ -302,40 +306,26 @@ export interface DecorativeTokens {
   diffMoveActiveBorder: string;
   /** Terminal symbol commit icon */
   commitIcon: string;
-  /** Comment glyph foreground */
-  commentGlyph: string;
-  /** Secondary multi-cursor and word highlight */
-  multiCursorSecondary: string;
   /** Pull request icon foreground */
   pullRequestIcon: string;
   /** SCM history ref colors */
   scmRemoteRef: string;
+
+  // --- Editor decoration ---
+  /** Comment glyph foreground */
+  commentGlyph: string;
+  /** Secondary multi-cursor and word highlight */
+  multiCursorSecondary: string;
+  /** Snow Miku ice prism — frosty cursor line shimmer (snowMiku.y2025) */
+  cursorLineFrost: string;
+  /** Inlay hint parameter foreground (character skin.shadow) */
+  inlayParameter: string;
+
+  // --- Character surfaces ---
   /** Blouse off-white — bright text on colored buttons/badges (top.blouse) */
   blouseWhite: string;
   /** Dark foreground for light badges (character eyes.pupil) */
   darkForeground: string;
-  /** Inlay hint parameter foreground (character skin.shadow) */
-  inlayParameter: string;
-  /** Dark foreground for status bar error/warning items (character headphones.frame) */
-  statusItemForeground: string;
-  /** Markup inserted color (character negi.bright) */
-  markupInserted: string;
-  /** Her "01" tattoo mark — identity red (character marks.tattoo) */
-  tattooMark: string;
-  /** SEKAI Virtual Singer hair — her game incarnation's teal (virtualSinger.hair.base) */
-  sekaiHair: string;
-  /** Wallet chain silver — navigation accessory (skirt.accessory) */
-  walletChain: string;
-  /** Tie shadow — darker teal for pressed/active states (tie.shadow) */
-  tieShadow: string;
-  /** Negi stalk green — tree structure lines (negi.stalk) */
-  negiStalk: string;
-  /** Skin blush — warmth for emphasis highlights (skin.blush) */
-  skinBlush: string;
-  /** Skin base peach — warmth for notifications (skin.base) */
-  skinBase: string;
-  /** Snow Miku ice prism — frosty cursor line shimmer (snowMiku.y2025) */
-  cursorLineFrost: string;
   /** Boots base — deep near-black for terminal (character.boots.base) */
   bootsBase: string;
   /** Arm warmers base — sidebar surface (character.armWarmers.base) */
@@ -348,6 +338,26 @@ export interface DecorativeTokens {
   eyeIris: string;
   /** Cape — her outerwear, remote status (cyan-blue) */
   cape: string;
+
+  // --- Accent & warmth ---
+  /** Her "01" tattoo mark — identity red (character marks.tattoo) */
+  tattooMark: string;
+  /** Tie shadow — darker teal for pressed/active states (tie.shadow) */
+  tieShadow: string;
+  /** Skin blush — warmth for emphasis highlights (skin.blush) */
+  skinBlush: string;
+  /** Skin base peach — warmth for notifications (skin.base) */
+  skinBase: string;
+  /** SEKAI Virtual Singer hair — her game incarnation's teal (virtualSinger.hair.base) */
+  sekaiHair: string;
+  /** Wallet chain silver — navigation accessory (skirt.accessory) */
+  walletChain: string;
+  /** Negi stalk green — tree structure lines (negi.stalk) */
+  negiStalk: string;
+  /** Dark foreground for status bar error/warning items (character headphones.frame) */
+  statusItemForeground: string;
+  /** Markup inserted color (character negi.bright) */
+  markupInserted: string;
 }
 
 // =============================================================================
@@ -356,7 +366,7 @@ export interface DecorativeTokens {
 
 export interface SemanticTokens {
   syntax: SyntaxTokens;
-  ui: UITokens & ExtendedUITokens;
+  ui: UITokens;
   status: StatusTokens;
   git: GitTokens;
   interactive: InteractiveTokens;

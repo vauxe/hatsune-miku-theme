@@ -20,7 +20,7 @@
  */
 
 import { withOpacity } from '../role';
-import type { InteractiveTokens, UITokens, ExtendedUITokens } from '../types';
+import type { InteractiveTokens, UITokens } from '../types';
 import type { Primitives } from '../primitives';
 
 // =============================================================================
@@ -29,7 +29,7 @@ import type { Primitives } from '../primitives';
 
 export function createInteractiveTokens(
   p: Primitives,
-  ui: UITokens & ExtendedUITokens,
+  ui: UITokens,
 ): InteractiveTokens {
   const { character: char, opacity: op } = p;
 

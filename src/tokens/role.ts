@@ -5,8 +5,26 @@
  * Provides color manipulation functions (lighten, darken, desaturate, opacity).
  */
 
-import { hex, parseHex, type JzCzhz } from './jzczhz';
-import type { SemanticRole } from './types';
+import Color from 'colorjs.io';
+import type { JzCzhz, SemanticRole } from './types';
+
+const JZ_MAX = 0.22;
+
+// =============================================================================
+// COLOR CONVERSION
+// =============================================================================
+
+export function hex(jch: JzCzhz): string {
+  const color = new Color('jzczhz', [jch.Jz, jch.Cz, jch.hz]);
+  const srgb = color.to('srgb') as Color & { toGamut(opts: { method: string }): Color };
+  return srgb.toGamut({ method: 'clip' }).toString({ format: 'hex' }).toUpperCase();
+}
+
+export function parseHex(hexColor: string): JzCzhz {
+  const color = new Color(hexColor);
+  const [Jz, Cz, hz] = color.to('jzczhz').coords;
+  return { Jz: Jz ?? 0, Cz: Cz ?? 0, hz: hz ?? 0 };
+}
 
 // =============================================================================
 // ROLE FACTORIES
@@ -58,7 +76,7 @@ export function withOpacity(hexColor: string, alpha: string): string {
  * @returns New hex color
  */
 export function lighten(semanticRole: SemanticRole, delta: number): string {
-  const newJz = Math.min(0.22, semanticRole.jzczhz.Jz + delta);
+  const newJz = Math.min(JZ_MAX, semanticRole.jzczhz.Jz + delta);
   return hex({ ...semanticRole.jzczhz, Jz: newJz });
 }
 

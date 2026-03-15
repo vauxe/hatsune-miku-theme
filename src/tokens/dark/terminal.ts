@@ -7,7 +7,7 @@
  */
 
 import { role } from '../role';
-import { parseHex } from '../jzczhz';
+import { parseHex } from '../role';
 import type { TerminalTokens } from '../types';
 import type { Primitives } from '../primitives';
 

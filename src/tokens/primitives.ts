@@ -10,8 +10,6 @@
  */
 
 import { character as mikuCharacter } from '../palette/core';
-import { LIGHTNESS as JZ_LIGHTNESS, CHROMA as JZ_CHROMA, HUE as JZ_HUE } from './jzczhz';
-
 // =============================================================================
 // LIGHTNESS PRIMITIVES (10 Registers — Vocal Classification)
 // =============================================================================
@@ -19,16 +17,16 @@ import { LIGHTNESS as JZ_LIGHTNESS, CHROMA as JZ_CHROMA, HUE as JZ_HUE } from '.
 // Soprano sits at the tonic's gamut peak.
 
 export const lightness = {
-  contrabass: JZ_LIGHTNESS.contrabass,         // 0.080 - −7 steps
-  bass: JZ_LIGHTNESS.bass,                     // 0.095 - −6
-  baritone: JZ_LIGHTNESS.baritone,             // 0.110 - −5
-  tenor: JZ_LIGHTNESS.tenor,                   // 0.125 - −4
-  countertenor: JZ_LIGHTNESS.countertenor,     // 0.140 - −3 ghost/structure
-  alto: JZ_LIGHTNESS.alto,                     // 0.155 - −2 whisper/signal
-  mezzo: JZ_LIGHTNESS.mezzo,                   // 0.170 - −1
-  soprano: JZ_LIGHTNESS.soprano,               // 0.185 -  0 ★ ensemble
-  treble: JZ_LIGHTNESS.treble,                 // 0.200 - +1
-  sopranino: JZ_LIGHTNESS.sopranino,           // 0.215 - +2
+  contrabass: 0.080,         // −7 steps
+  bass: 0.095,               // −6
+  baritone: 0.110,           // −5
+  tenor: 0.125,              // −4
+  countertenor: 0.140,       // −3 ghost/structure
+  alto: 0.155,               // −2 whisper/signal
+  mezzo: 0.170,              // −1
+  soprano: 0.185,            //  0 ★ ensemble
+  treble: 0.200,             // +1
+  sopranino: 0.215,          // +2
 } as const;
 
 // =============================================================================
@@ -38,15 +36,15 @@ export const lightness = {
 // Tonic ceiling at mf.
 
 export const chroma = {
-  niente: JZ_CHROMA.niente,               // 0.000 - silence
-  ppp: JZ_CHROMA.ppp,                     // 0.015 - breath
-  pp: JZ_CHROMA.pp,                       // 0.030 - sotto voce
-  p: JZ_CHROMA.p,                         // 0.045 - quiet
-  mp: JZ_CHROMA.mp,                       // 0.060 - ★ the melody
-  mf: JZ_CHROMA.mf,                       // 0.075 - emphasis (tonic ceiling)
-  f: JZ_CHROMA.f,                         // 0.090 - signal
-  ff: JZ_CHROMA.ff,                       // 0.105 - alarm
-  fff: JZ_CHROMA.fff,                     // 0.120 - extreme
+  niente: 0,                 // silence
+  ppp: 0.015,               // breath
+  pp: 0.030,                // sotto voce
+  p: 0.045,                 // quiet
+  mp: 0.060,                // ★ the melody
+  mf: 0.075,                // emphasis (tonic ceiling)
+  f: 0.090,                 // signal
+  ff: 0.105,                // alarm
+  fff: 0.120,               // extreme
 } as const;
 
 // =============================================================================

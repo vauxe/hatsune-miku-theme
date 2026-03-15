@@ -934,13 +934,7 @@
 		{
 			"name": "Control Keywords",
 			"scope": [
-				"keyword.control",
-				"keyword.control.flow",
-				"keyword.control.import",
-				"keyword.control.export",
-				"keyword.control.from",
-				"keyword.control.conditional",
-				"keyword.control.loop"
+				"keyword.control"
 			],
 			"settings": {
 				"foreground": "#66F3D3"
@@ -949,9 +943,7 @@
 		{
 			"name": "Storage Types",
 			"scope": [
-				"storage.type",
-				"storage.type.function",
-				"storage.type.class"
+				"storage.type"
 			],
 			"settings": {
 				"foreground": "#66F3D3"
@@ -960,9 +952,7 @@
 		{
 			"name": "Storage Modifiers",
 			"scope": [
-				"storage.modifier",
-				"storage.modifier.async",
-				"storage.modifier.static"
+				"storage.modifier"
 			],
 			"settings": {
 				"foreground": "#66F3D3"
@@ -994,10 +984,6 @@
 			"name": "Operators",
 			"scope": [
 				"keyword.operator",
-				"keyword.operator.arithmetic",
-				"keyword.operator.comparison",
-				"keyword.operator.logical",
-				"keyword.operator.assignment",
 				"keyword.operator.ternary"
 			],
 			"settings": {
@@ -1298,12 +1284,7 @@
 		{
 			"name": "Numbers",
 			"scope": [
-				"constant.numeric",
-				"constant.numeric.integer",
-				"constant.numeric.float",
-				"constant.numeric.hex",
-				"constant.numeric.octal",
-				"constant.numeric.binary"
+				"constant.numeric"
 			],
 			"settings": {
 				"foreground": "#A4D9FB"
@@ -1525,18 +1506,10 @@
 			}
 		},
 		{
-			"name": "YAML Anchor",
+			"name": "YAML Anchor/Alias",
 			"scope": [
 				"entity.name.type.anchor.yaml",
-				"punctuation.definition.anchor.yaml"
-			],
-			"settings": {
-				"foreground": "#E5B3FF"
-			}
-		},
-		{
-			"name": "YAML Alias",
-			"scope": [
+				"punctuation.definition.anchor.yaml",
 				"variable.other.alias.yaml",
 				"punctuation.definition.alias.yaml"
 			],
@@ -1715,16 +1688,6 @@
 			}
 		},
 		{
-			"name": "PHP Superglobals",
-			"scope": [
-				"variable.language.php"
-			],
-			"settings": {
-				"foreground": "#66F3D3",
-				"fontStyle": "italic"
-			}
-		},
-		{
 			"name": "PHP Functions",
 			"scope": [
 				"support.function.php",
@@ -1779,16 +1742,6 @@
 			],
 			"settings": {
 				"foreground": "#92DBFF"
-			}
-		},
-		{
-			"name": "Ruby Blocks",
-			"scope": [
-				"keyword.control.ruby",
-				"keyword.control.def.ruby"
-			],
-			"settings": {
-				"foreground": "#66F3D3"
 			}
 		},
 		{
@@ -1848,24 +1801,6 @@
 			}
 		},
 		{
-			"name": "Go Channels",
-			"scope": [
-				"keyword.operator.channel.go"
-			],
-			"settings": {
-				"foreground": "#FFA7ED"
-			}
-		},
-		{
-			"name": "Go Control",
-			"scope": [
-				"keyword.control.go"
-			],
-			"settings": {
-				"foreground": "#66F3D3"
-			}
-		},
-		{
 			"name": "Rust Lifetime",
 			"scope": [
 				"storage.modifier.lifetime.rust",
@@ -1891,15 +1826,6 @@
 			],
 			"settings": {
 				"foreground": "#8DF0B1"
-			}
-		},
-		{
-			"name": "Rust Attributes",
-			"scope": [
-				"meta.attribute.rust"
-			],
-			"settings": {
-				"foreground": "#E5B3FF"
 			}
 		},
 		{
@@ -1932,16 +1858,6 @@
 			}
 		},
 		{
-			"name": "C# Attribute",
-			"scope": [
-				"meta.attribute.cs",
-				"entity.name.type.attribute.cs"
-			],
-			"settings": {
-				"foreground": "#E5B3FF"
-			}
-		},
-		{
 			"name": "C# Namespace",
 			"scope": [
 				"entity.name.type.namespace.cs"
@@ -1951,8 +1867,11 @@
 			}
 		},
 		{
-			"name": "Java Annotations",
+			"name": "Language Attributes",
 			"scope": [
+				"meta.attribute.rust",
+				"meta.attribute.cs",
+				"entity.name.type.attribute.cs",
 				"storage.type.annotation.java",
 				"punctuation.definition.annotation.java"
 			],
@@ -2026,15 +1945,6 @@
 			}
 		},
 		{
-			"name": "Dockerfile Instructions",
-			"scope": [
-				"keyword.control.dockerfile"
-			],
-			"settings": {
-				"foreground": "#66F3D3"
-			}
-		},
-		{
 			"name": "Shell Variables",
 			"scope": [
 				"variable.other.normal.shell",
@@ -2075,50 +1985,18 @@
 			}
 		},
 		{
-			"name": "Meta Function Parameters",
+			"name": "Meta Scopes",
 			"scope": [
 				"meta.function.parameters",
 				"meta.parameters",
-				"meta.function-call.arguments"
-			],
-			"settings": {
-				"foreground": "#27F1FC"
-			}
-		},
-		{
-			"name": "Meta Class Body",
-			"scope": [
+				"meta.function-call.arguments",
 				"meta.class.body",
-				"meta.class.inheritance"
-			],
-			"settings": {
-				"foreground": "#27F1FC"
-			}
-		},
-		{
-			"name": "Meta Interface/Namespace Body",
-			"scope": [
+				"meta.class.inheritance",
 				"meta.interface.body",
-				"meta.namespace.body"
-			],
-			"settings": {
-				"foreground": "#27F1FC"
-			}
-		},
-		{
-			"name": "Meta Object/Array Literals",
-			"scope": [
+				"meta.namespace.body",
 				"meta.object-literal",
 				"meta.array.literal",
-				"meta.objectliteral"
-			],
-			"settings": {
-				"foreground": "#27F1FC"
-			}
-		},
-		{
-			"name": "Meta Imports/Exports",
-			"scope": [
+				"meta.objectliteral",
 				"meta.import",
 				"meta.export",
 				"meta.imports"

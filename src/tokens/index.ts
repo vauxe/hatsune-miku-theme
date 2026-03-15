@@ -47,6 +47,8 @@ export { semanticTokens, createSemanticTokens } from './semantic';
 
 // Role factories and derive functions
 export {
+  hex,
+  parseHex,
   role,
   roleFromHex,
   withOpacity,
@@ -58,11 +60,11 @@ export {
 
 // Types
 export type {
+  JzCzhz,
   SemanticTokens,
   SemanticRole,
   SyntaxTokens,
   UITokens,
-  ExtendedUITokens,
   StatusTokens,
   GitTokens,
   TerminalTokens,

@@ -17,12 +17,12 @@ import { withOpacity, lighten, darken, roleFromHex, opacity as op, special, type
 
 export function createWorkbenchColors(t: SemanticTokens, polarity: 'dark' | 'light' = 'dark'): Record<string, string> {
 const isLight = polarity === 'light';
-// For badges/items on teal/bright accent backgrounds — always dark text for contrast
-const onAccentBg = t.decorative.darkForeground;
-
 // ============================================================================
 // DESIGN SYSTEM CONSTANTS
 // ============================================================================
+// Aliasing convention: colors that participate in opacity/polarity logic or
+// appear 3+ times get a local alias. Structured token domains where the name
+// is already role-descriptive (t.interactive.*, t.terminal.*, etc.) pass through.
 
 // Background hierarchy — 4 tiers, editor darkest (stage = skirt anchor, hz≈249°)
 const bg = {
@@ -49,10 +49,9 @@ const accent = {
   primary: t.ui.accentPrimary.hex,
   bright: t.ui.accentSecondary.hex,
   soft: t.ui.accentTertiary.hex,
+  link: t.ui.linkActive.hex,           // vibrant teal link color (Lc 78)
   cursor: t.ui.cursor.hex,            // lightened cushion — Lc≥60 for caret visibility
-  magenta: isLight ? t.ui.cursor.hex : t.ui.activeBorder.hex, // vivid necktie pink (light) / cushion (dark)
-  chocolate: t.decorative.tieShadow,  // polarity-aware: light=#815039 chocolate, dark=#1A8A82 teal
-  blush: t.decorative.skinBlush,      // #E8B4B6 — scalloped hem pink
+  focus: isLight ? t.ui.cursor.hex : t.ui.activeBorder.hex, // attention/focus signal — necktie pink (light) / cushion (dark)
 };
 
 // Semantic colors (APCA Lc 80+ for readability) - marathon coding optimized
@@ -74,19 +73,19 @@ const bracketPastel = {
 };
 
 // ============================================================================
-// POLARITY CONSTANTS — all isLight decisions in one place
+// POLARITY CONSTANTS — isLight decisions centralized (one-offs remain in body)
 // ============================================================================
 
 // Alpha — opacity per polarity (base color stays the same, opacity shifts)
 // Light theme picks lower tiers — bright surfaces amplify overlay presence
-const alpha = {
+const alphaEditor = {
   // Editor line highlighting — light theme needs visible tint on snow
-  lineHighlightBg:          isLight ? op.light : op.light,
+  lineHighlightBg:          op.light,
   lineHighlightBorder:      isLight ? op.medium : op.strong,
   inactiveLineHighlight:    isLight ? op.subtle : op.light,
   // Selection — light theme needs stronger tints on near-white backgrounds
-  selectionBg:              isLight ? op.strong : op.strong,
-  inactiveSelectionBg:      isLight ? op.medium : op.medium,
+  selectionBg:              op.strong,
+  inactiveSelectionBg:      op.medium,
   // Highlights — subtle/faint tiers
   selectionHighlightBg:     isLight ? op.subtle : op.medium,
   selectionHighlightBorder: isLight ? op.light : op.medium,
@@ -96,81 +95,97 @@ const alpha = {
   faintBg:                  isLight ? op.subtle : op.light,
   faintBorder:              isLight ? op.light : op.medium,
   // Find — light needs visible tints but must preserve Lc≥75 on compound
-  findMatchBg:              isLight ? op.strong : op.strong,
+  findMatchBg:              op.strong,
   findHighlightBg:          isLight ? op.light : op.strong,
   findHighlightBorder:      isLight ? op.strong : op.solid,
   // Hover
   hoverBg:                  isLight ? op.subtle : op.light,
   // Bracket
   bracketMatchBg:           isLight ? op.light : op.medium,
-  // Terminal
-  terminalSelectionBg:      isLight ? op.light : op.strong,
-  terminalFindMatchBg:      isLight ? op.light : op.strong,
-  // Diff — light theme bumped one tier for visibility on near-white
+};
+const alphaDiff = {
   diffInsertedLine:         isLight ? op.light : op.medium,
   diffInsertedText:         isLight ? op.medium : op.strong,
   diffGutterInserted:       isLight ? op.light : op.medium,
   diffRemovedLine:          isLight ? op.light : op.medium,
   diffRemovedText:          isLight ? op.medium : op.strong,
-  diffGutterRemoved:        isLight ? op.medium : op.medium,
-  // Inline chat
+  diffGutterRemoved:        op.medium,
   inlineChatDiff:           isLight ? op.subtle : op.medium,
-  chatLinesAdded:           op.dense,
-  chatLinesRemoved:         op.dense,
-  // Borders — shared subtle pattern for panels/dividers
-  borderSubtle:             isLight ? op.medium : op.medium,
+};
+const alphaChrome = {
+  borderSubtle:             op.medium,
   sectionHeaderBorder:      isLight ? op.light : op.medium,
-  // Tab unfocused
-  unfocusedTabHoverBg:      isLight ? op.subtle : op.subtle,
-  unfocusedTabHoverBorder:  isLight ? op.medium : op.medium,
-  // List/tree
+  unfocusedTabHoverBg:      op.subtle,
+  unfocusedTabHoverBorder:  op.medium,
   listInactiveFocusBg:      isLight ? op.subtle : op.light,
-  treeOddRowBg:             op.subtle,
+};
+const alphaTerminal = {
+  terminalSelectionBg:      isLight ? op.light : op.strong,
+  terminalFindMatchBg:      isLight ? op.light : op.strong,
 };
 
-// Pol — color swaps per polarity (the base color itself changes)
-const pol = {
-  // Border tint — chocolate (light) vs teal (dark)
-  borderTint:       isLight ? accent.chocolate : accent.primary,
-  // Hover tint — blush (light) vs teal (dark)
-  hoverTint:        isLight ? accent.blush : accent.primary,
-  // Badge colors — repeated across activity bar, panel, extension, profile
-  badgeBg:          isLight ? t.ui.badgeBackground.hex : lighten(roleFromHex('', t.decorative.sekaiHair), 0.02),
-  badgeFg:          isLight ? t.decorative.blouseWhite : onAccentBg,
-  // Panel background — Stage tier (content surface, same as terminal/editor)
-  panelBg:          bg.base,
-  // Activity bar background
-  activityBarBg:    isLight ? t.decorative.topMain : bg.house,
-  // Sidebar background
-  sidebarBg:        isLight ? t.decorative.armWarmersBase : bg.house,
-  // Section header background
-  sectionHeaderBg:  isLight ? t.decorative.topMain : bg.house,
-  // Status bar background
-  statusBarBg:      isLight ? t.decorative.topShadow : bg.house,
-  // Tab header background — House tier (structural chrome)
-  tabHeaderBg:      isLight ? t.decorative.armWarmersBase : bg.house,
-  // Suggest widget selected
+// Chrome — structural surface backgrounds per polarity
+const chrome = {
+  activityBar:    isLight ? t.decorative.topMain : bg.house,
+  sidebar:        isLight ? t.decorative.armWarmersBase : bg.house,
+  sectionHeader:  isLight ? t.decorative.topMain : bg.house,
+  statusBar:      isLight ? t.decorative.topShadow : bg.house,
+  tabHeader:      isLight ? t.decorative.armWarmersBase : bg.house,
+  panel:          bg.base,  // Stage tier (content surface, same as terminal/editor)
+};
+
+// Badge — repeated across activity bar, panel, extension, profile
+const badge = {
+  bg: isLight ? t.ui.badgeBackground.hex : lighten(roleFromHex('', t.decorative.sekaiHair), 0.02),
+  fg: isLight ? t.decorative.blouseWhite : t.decorative.darkForeground,
+};
+
+// Tint — polarity-dependent overlay hues (the base color itself changes)
+const tint = {
+  border: isLight ? t.decorative.tieShadow : accent.primary,  // chocolate (light) vs teal (dark)
+  hover:  isLight ? t.decorative.skinBlush : accent.primary,   // blush (light) vs teal (dark)
+  toast:  isLight ? withOpacity(t.decorative.skinBlush, op.medium) : withOpacity(t.decorative.skinBase, op.medium),
+};
+
+// Foreground demotions — polarity shifts which text tier is used
+const polarFg = {
+  surface:     isLight ? text.primary : text.secondary,     // chrome panels + list inactive selections
+  description: isLight ? text.tertiary : text.secondary,    // widget status, peek descriptions
+  debugLabel:  isLight ? t.decorative.blouseWhite : text.primary,
+  scmLabel:    isLight ? text.primary : t.decorative.darkForeground,
+};
+
+// Icon swaps — polarity-dependent symbol/icon colors
+const polarIcon = {
+  symbolicLink:  isLight ? t.syntax.class.hex : t.symbol.enum.hex,
+  multiCursor:   isLight ? accent.focus : t.decorative.multiCursorSecondary,
+  preRelease:    isLight ? t.syntax.type.hex : t.decorative.commitIcon,
+  commentGlyph:  isLight ? semantic.info : t.decorative.commentGlyph,
+  notifyInfo:    isLight ? semantic.info : accent.primary,
+  symbolClass:   isLight ? t.syntax.class.hex : t.symbol.class.hex,
+};
+
+// Polarity one-offs — single-use surface/state swaps (no shared role)
+const polarMisc = {
   suggestSelectedBg: isLight
     ? withOpacity(t.decorative.cursorLineFrost, op.subtle)
     : withOpacity(t.decorative.cursorLineFrost, op.light),
-  // Notification toast border
-  toastBorder:      isLight ? withOpacity(accent.blush, op.medium) : withOpacity(t.decorative.skinBase, op.medium),
-  // SCM graph label foreground
-  scmLabelFg:       isLight ? text.primary : t.decorative.darkForeground,
-  // Debug view label foreground
-  debugLabelFg:     isLight ? t.decorative.blouseWhite : text.primary,
-  // Testing icon errored
-  testingErrored:   isLight ? t.syntax.type.hex : darken(t.status.info, 0.055),
-  // Action bar toggled
-  actionBarToggled: isLight ? withOpacity(accent.primary, op.medium) : t.interactive.toggle.background.selected,
+  inputBg:              isLight ? bg.base : bg.float,
+  actionBarToggled:     isLight ? withOpacity(accent.primary, op.medium) : t.interactive.toggle.background.selected,
+  testingErrored:       isLight ? t.syntax.type.hex : darken(t.status.info, 0.055),
+  breakpointUnverified: isLight ? withOpacity(semantic.error, op.heavy) : darken(t.status.error, 0.08),
+  exceptionLabelBg:     isLight ? t.status.error.hex : darken(t.status.error, 0.19),
+  stateLabelBg:         isLight ? t.status.success.hex : darken(t.status.success, 0.14),
 };
 
 // StatusItem — status bar item colors per polarity
 const statusItem = {
-  debugBg:          isLight ? t.decorative.eyeIris : darken(roleFromHex('', accent.magenta), 0.03),
+  debugBg:          isLight ? t.decorative.eyeIris : darken(roleFromHex('', accent.focus), 0.03),
   debugFg:          t.decorative.blouseWhite,
+  errorBg:          darken(t.ui.activeBorder, 0.03),
+  errorHoverBg:     darken(t.ui.activeBorder, 0.01),
   remoteBg:         isLight ? t.decorative.cape : lighten(roleFromHex('', accent.primary), 0.02),
-  remoteFg:         isLight ? t.decorative.blouseWhite : onAccentBg,
+  remoteFg:         isLight ? t.decorative.blouseWhite : t.decorative.darkForeground,
   remoteHoverBg:    isLight ? darken(roleFromHex('', t.decorative.cape), 0.01) : accent.bright,
   remoteHoverFg:    isLight ? t.decorative.blouseWhite : t.decorative.darkForeground,
   errorFg:          t.decorative.blouseWhite,
@@ -193,38 +208,38 @@ return {
   'editorCursor.background': bg.void,
   'editorMultiCursor.primary.foreground': accent.cursor,
   'editorMultiCursor.primary.background': bg.base,
-  'editorMultiCursor.secondary.foreground': isLight ? accent.magenta : t.decorative.multiCursorSecondary,
+  'editorMultiCursor.secondary.foreground': polarIcon.multiCursor,
   'editorMultiCursor.secondary.background': bg.base,
   'editor.placeholder.foreground': text.placeholder,
   'editor.compositionBorder': accent.bright,
 
   // Line highlighting — Snow Miku ice prism frost
-  'editor.lineHighlightBackground': withOpacity(t.decorative.cursorLineFrost, alpha.lineHighlightBg),
-  'editor.lineHighlightBorder': withOpacity(t.decorative.cursorLineFrost, alpha.lineHighlightBorder),
-  'editor.inactiveLineHighlightBackground': withOpacity(t.decorative.cursorLineFrost, alpha.inactiveLineHighlight),
+  'editor.lineHighlightBackground': withOpacity(t.decorative.cursorLineFrost, alphaEditor.lineHighlightBg),
+  'editor.lineHighlightBorder': withOpacity(t.decorative.cursorLineFrost, alphaEditor.lineHighlightBorder),
+  'editor.inactiveLineHighlightBackground': withOpacity(t.decorative.cursorLineFrost, alphaEditor.inactiveLineHighlight),
 
   // Selection — frost voice (persistent)
-  'editor.selectionBackground': withOpacity(t.decorative.cursorLineFrost, alpha.selectionBg),
+  'editor.selectionBackground': withOpacity(t.decorative.cursorLineFrost, alphaEditor.selectionBg),
   'editor.selectionForeground': text.primary,
-  'editor.inactiveSelectionBackground': withOpacity(t.decorative.cursorLineFrost, alpha.inactiveSelectionBg),
-  'editor.selectionHighlightBackground': withOpacity(accent.bright, alpha.selectionHighlightBg),
-  'editor.selectionHighlightBorder': withOpacity(accent.bright, alpha.selectionHighlightBorder),
+  'editor.inactiveSelectionBackground': withOpacity(t.decorative.cursorLineFrost, alphaEditor.inactiveSelectionBg),
+  'editor.selectionHighlightBackground': withOpacity(accent.bright, alphaEditor.selectionHighlightBg),
+  'editor.selectionHighlightBorder': withOpacity(accent.bright, alphaEditor.selectionHighlightBorder),
 
   // Word highlighting
-  'editor.wordHighlightBackground': withOpacity(accent.primary, alpha.wordHighlightBg),
-  'editor.wordHighlightBorder': withOpacity(accent.primary, alpha.wordHighlightBorder),
-  'editor.wordHighlightStrongBackground': withOpacity(accent.primary, alpha.wordHighlightStrongBg),
-  'editor.wordHighlightStrongBorder': withOpacity(accent.primary, alpha.wordHighlightBorder),
-  'editor.wordHighlightTextBackground': withOpacity(accent.bright, alpha.faintBg),
-  'editor.wordHighlightTextBorder': withOpacity(accent.bright, alpha.faintBorder),
+  'editor.wordHighlightBackground': withOpacity(accent.primary, alphaEditor.wordHighlightBg),
+  'editor.wordHighlightBorder': withOpacity(accent.primary, alphaEditor.wordHighlightBorder),
+  'editor.wordHighlightStrongBackground': withOpacity(accent.primary, alphaEditor.wordHighlightStrongBg),
+  'editor.wordHighlightStrongBorder': withOpacity(accent.primary, alphaEditor.wordHighlightBorder),
+  'editor.wordHighlightTextBackground': withOpacity(accent.bright, alphaEditor.faintBg),
+  'editor.wordHighlightTextBorder': withOpacity(accent.bright, alphaEditor.faintBorder),
 
   // Find & Replace
   // Balance: visible enough for ΔE≥12, low enough for syntax contrast
-  'editor.findMatchBackground': withOpacity(semantic.warning, alpha.findMatchBg),
+  'editor.findMatchBackground': withOpacity(semantic.warning, alphaEditor.findMatchBg),
   'editor.findMatchForeground': text.primary,
   'editor.findMatchBorder': withOpacity(semantic.warning, op.solid),
-  'editor.findMatchHighlightBackground': withOpacity(accent.bright, alpha.findHighlightBg),
-  'editor.findMatchHighlightBorder': withOpacity(accent.bright, alpha.findHighlightBorder),
+  'editor.findMatchHighlightBackground': withOpacity(accent.bright, alphaEditor.findHighlightBg),
+  'editor.findMatchHighlightBorder': withOpacity(accent.bright, alphaEditor.findHighlightBorder),
   'editor.findRangeHighlightBackground': withOpacity(accent.primary, op.light),
   'editor.findRangeHighlightBorder': withOpacity(accent.primary, op.medium),
   'search.resultsInfoForeground': text.secondary,
@@ -234,11 +249,11 @@ return {
   'searchEditor.textInputBorder': withOpacity(accent.primary, op.strong),
 
   // Hover
-  'editor.hoverHighlightBackground': withOpacity(accent.bright, alpha.hoverBg),
+  'editor.hoverHighlightBackground': withOpacity(accent.bright, alphaEditor.hoverBg),
 
   // Range highlighting
-  'editor.rangeHighlightBackground': withOpacity(pol.hoverTint, op.subtle),
-  'editor.rangeHighlightBorder': withOpacity(pol.hoverTint, op.medium),
+  'editor.rangeHighlightBackground': withOpacity(tint.hover, op.subtle),
+  'editor.rangeHighlightBorder': withOpacity(tint.hover, op.medium),
   'editor.symbolHighlightBackground': withOpacity(accent.bright, op.light),
   'editor.symbolHighlightBorder': withOpacity(accent.bright, op.medium),
 
@@ -275,7 +290,7 @@ return {
   // ==========================================================================
   // BRACKETS - Rainbow colorful (Miku-inspired palette)
   // ==========================================================================
-  'editorBracketMatch.background': withOpacity(accent.primary, alpha.bracketMatchBg),
+  'editorBracketMatch.background': withOpacity(accent.primary, alphaEditor.bracketMatchBg),
   'editorBracketMatch.border': accent.bright,
   'editorBracketMatch.foreground': accent.bright,
 
@@ -315,7 +330,7 @@ return {
   'editorGutter.deletedSecondaryBackground': withOpacity(t.git.deleted.hex, op.strong),
   'editorGutter.foldingControlForeground': accent.bright,
   'editorGutter.commentRangeForeground': withOpacity(text.tertiary, op.heavy),
-  'editorGutter.commentGlyphForeground': isLight ? semantic.info : t.decorative.commentGlyph,
+  'editorGutter.commentGlyphForeground': polarIcon.commentGlyph,
   'editorGutter.commentUnresolvedGlyphForeground': semantic.warning,
   'editorGutter.commentDraftGlyphForeground': accent.soft,
   'editorGutter.itemGlyphForeground': accent.bright,
@@ -332,7 +347,7 @@ return {
   // ==========================================================================
   'editorWidget.foreground': text.primary,
   'editorWidget.background': bg.float,
-  'editorWidget.border': withOpacity(pol.borderTint, op.strong),
+  'editorWidget.border': withOpacity(tint.border, op.strong),
   'editorWidget.resizeBorder': withOpacity(accent.bright, op.heavy),
   'widget.border': withOpacity(accent.primary, op.medium),
   'widget.shadow': withOpacity(bg.void, op.solid),
@@ -364,10 +379,10 @@ return {
   'editorSuggestWidget.foreground': text.primary,
   'editorSuggestWidget.highlightForeground': accent.bright,
   'editorSuggestWidget.focusHighlightForeground': text.primary,
-  'editorSuggestWidget.selectedBackground': pol.suggestSelectedBg,
+  'editorSuggestWidget.selectedBackground': polarMisc.suggestSelectedBg,
   'editorSuggestWidget.selectedForeground': t.interactive.list.foreground.selected,
   'editorSuggestWidget.selectedIconForeground': t.interactive.list.foreground.selected,
-  'editorSuggestWidgetStatus.foreground': isLight ? text.tertiary : text.secondary,
+  'editorSuggestWidgetStatus.foreground': polarFg.description,
 
   // ==========================================================================
   // OVERVIEW RULER
@@ -400,7 +415,7 @@ return {
   // ==========================================================================
   // LINKS & CODE LENS
   // ==========================================================================
-  'editorLink.activeForeground': t.ui.linkActive.hex,  // Vibrant teal (Lc 78)
+  'editorLink.activeForeground': accent.link,
   'editorCodeLens.foreground': text.tertiary,
 
   // ==========================================================================
@@ -408,7 +423,7 @@ return {
   // ==========================================================================
   'editorLightBulb.foreground': semantic.warning,
   'editorLightBulbAutoFix.foreground': semantic.success,
-  'editorLightBulbAi.foreground': accent.magenta,
+  'editorLightBulbAi.foreground': accent.focus,
 
   // ==========================================================================
   // INLAY HINTS
@@ -457,6 +472,7 @@ return {
   // MARKER NAVIGATION (F8 errors)
   // ==========================================================================
   'editorMarkerNavigation.background': bg.float,
+  // .background and .headerBackground intentionally identical per severity
   'editorMarkerNavigationError.background': withOpacity(semantic.error, op.light),
   'editorMarkerNavigationWarning.background': withOpacity(semantic.warning, op.light),
   'editorMarkerNavigationInfo.background': withOpacity(accent.primary, op.light),
@@ -469,14 +485,14 @@ return {
   // ==========================================================================
   'editor.snippetTabstopHighlightBackground': withOpacity(t.decorative.cursorLineFrost, op.light),
   'editor.snippetTabstopHighlightBorder': withOpacity(accent.bright, op.strong),
-  'editor.snippetFinalTabstopHighlightBackground': withOpacity(accent.magenta, op.light),
-  'editor.snippetFinalTabstopHighlightBorder': withOpacity(accent.magenta, op.heavy),
+  'editor.snippetFinalTabstopHighlightBackground': withOpacity(accent.focus, op.light),
+  'editor.snippetFinalTabstopHighlightBorder': withOpacity(accent.focus, op.heavy),
 
   // ==========================================================================
   // INLINE VALUES (Debugging)
   // ==========================================================================
-  'editor.inlineValuesForeground': t.ui.linkActive.hex,
-  'editor.inlineValuesBackground': withOpacity(t.ui.linkActive.hex, op.light),
+  'editor.inlineValuesForeground': accent.link,
+  'editor.inlineValuesBackground': withOpacity(accent.link, op.light),
 
   // ==========================================================================
   // DEBUG HIGHLIGHTS
@@ -487,58 +503,58 @@ return {
   // ==========================================================================
   // ACTIVITY BAR
   // ==========================================================================
-  'activityBar.background': pol.activityBarBg,
+  'activityBar.background': chrome.activityBar,
   'activityBar.foreground': accent.bright,
   'activityBar.inactiveForeground': text.tertiary,
   'activityBar.border': withOpacity(accent.primary, op.light),
-  'activityBar.activeBorder': accent.magenta,
+  'activityBar.activeBorder': accent.focus,
   'activityBar.activeBackground': t.interactive.toolbar.background.hover,
   'activityBar.activeFocusBorder': accent.bright,
   'activityBar.dropBorder': accent.primary,
-  'activityBarBadge.background': pol.badgeBg,
-  'activityBarBadge.foreground': pol.badgeFg,
+  'activityBarBadge.background': badge.bg,
+  'activityBarBadge.foreground': badge.fg,
   'activityBarTop.foreground': accent.bright,
-  'activityBarTop.activeBorder': accent.magenta,
+  'activityBarTop.activeBorder': accent.focus,
   'activityBarTop.inactiveForeground': text.tertiary,
   'activityBarTop.dropBorder': accent.primary,
-  'activityBarTop.background': pol.activityBarBg,
+  'activityBarTop.background': chrome.activityBar,
   'activityBarTop.activeBackground': t.interactive.toolbar.background.hover,
-  'activityWarningBadge.foreground': isLight ? t.decorative.blouseWhite : pol.badgeFg,
+  'activityWarningBadge.foreground': badge.fg,
   'activityWarningBadge.background': semantic.warning,
-  'activityErrorBadge.foreground': isLight ? t.decorative.blouseWhite : pol.badgeFg,
+  'activityErrorBadge.foreground': badge.fg,
   'activityErrorBadge.background': semantic.error,
 
   // ==========================================================================
   // SIDEBAR
   // ==========================================================================
-  'sideBar.background': pol.sidebarBg,
+  'sideBar.background': chrome.sidebar,
   'sideBar.foreground': text.primary,
   'sideBar.border': withOpacity(accent.primary, op.light),
   'sideBar.dropBackground': withOpacity(accent.primary, op.light),
   'sideBarTitle.foreground': accent.bright,
-  'sideBarTitle.background': pol.sidebarBg,
+  'sideBarTitle.background': chrome.sidebar,
   'sideBarTitle.border': withOpacity(accent.primary, op.light),
-  'sideBarSectionHeader.background': pol.sectionHeaderBg,
+  'sideBarSectionHeader.background': chrome.sectionHeader,
   'sideBarSectionHeader.foreground': accent.bright,
-  'sideBarSectionHeader.border': withOpacity(pol.borderTint, alpha.sectionHeaderBorder),
+  'sideBarSectionHeader.border': withOpacity(tint.border, alphaChrome.sectionHeaderBorder),
   'sideBarActivityBarTop.border': withOpacity(accent.primary, op.light),
-  'sideBarStickyScroll.background': pol.sidebarBg,
+  'sideBarStickyScroll.background': chrome.sidebar,
   'sideBarStickyScroll.border': withOpacity(accent.primary, op.light),
   'sideBarStickyScroll.shadow': withOpacity(bg.void, op.strong),
 
   // ==========================================================================
   // STATUS BAR
   // ==========================================================================
-  'statusBar.background': pol.statusBarBg,
-  'statusBar.foreground': isLight ? text.primary : text.secondary,
+  'statusBar.background': chrome.statusBar,
+  'statusBar.foreground': polarFg.surface,
   'statusBar.border': withOpacity(accent.primary, op.medium),
   'statusBar.debuggingBackground': statusItem.debugBg,
   'statusBar.debuggingForeground': statusItem.debugFg,
   'statusBar.debuggingBorder': special.transparent,
-  'statusBar.noFolderBackground': pol.statusBarBg,
-  'statusBar.noFolderForeground': isLight ? text.primary : text.secondary,
+  'statusBar.noFolderBackground': chrome.statusBar,
+  'statusBar.noFolderForeground': polarFg.surface,
   'statusBar.noFolderBorder': withOpacity(text.tertiary, op.medium),
-  'statusBar.focusBorder': withOpacity(accent.magenta, op.dense),
+  'statusBar.focusBorder': withOpacity(accent.focus, op.dense),
   'statusBarItem.activeBackground': t.interactive.toolbar.background.active,
   'statusBarItem.hoverBackground': t.interactive.toolbar.background.hover,
   'statusBarItem.hoverForeground': text.primary,
@@ -550,16 +566,16 @@ return {
   'statusBarItem.remoteForeground': statusItem.remoteFg,
   'statusBarItem.remoteHoverBackground': statusItem.remoteHoverBg,
   'statusBarItem.remoteHoverForeground': statusItem.remoteHoverFg,
-  'statusBarItem.errorBackground': darken(t.ui.activeBorder, 0.03),
+  'statusBarItem.errorBackground': statusItem.errorBg,
   'statusBarItem.errorForeground': statusItem.errorFg,
-  'statusBarItem.errorHoverBackground': darken(t.ui.activeBorder, 0.01),
+  'statusBarItem.errorHoverBackground': statusItem.errorHoverBg,
   'statusBarItem.errorHoverForeground': t.decorative.blouseWhite,
   'statusBarItem.warningBackground': statusItem.warningBg,
   'statusBarItem.warningForeground': statusItem.warningFg,
   'statusBarItem.warningHoverBackground': statusItem.warningHoverBg,
   'statusBarItem.warningHoverForeground': t.decorative.blouseWhite,
   'statusBarItem.compactHoverBackground': t.interactive.toolbar.background.active,
-  'statusBarItem.focusBorder': withOpacity(accent.magenta, op.dense),
+  'statusBarItem.focusBorder': withOpacity(accent.focus, op.dense),
   'statusBarItem.offlineBackground': statusItem.offlineBg,
   'statusBarItem.offlineForeground': statusItem.offlineFg,
   'statusBarItem.offlineHoverBackground': statusItem.offlineHoverBg,
@@ -594,19 +610,19 @@ return {
   'tab.unfocusedActiveBorder': withOpacity(accent.primary, op.medium),
   'tab.unfocusedInactiveBackground': bg.house,
   'tab.unfocusedInactiveForeground': text.tertiary,
-  'tab.unfocusedHoverBackground': withOpacity(pol.hoverTint, alpha.unfocusedTabHoverBg),
+  'tab.unfocusedHoverBackground': withOpacity(tint.hover, alphaChrome.unfocusedTabHoverBg),
   'tab.unfocusedHoverForeground': text.secondary,
-  'tab.unfocusedHoverBorder': withOpacity(pol.hoverTint, alpha.unfocusedTabHoverBorder),
-  'tab.lastPinnedBorder': withOpacity(accent.magenta, op.heavy),
-  'tab.activeModifiedBorder': accent.magenta,
-  'tab.inactiveModifiedBorder': withOpacity(accent.magenta, op.heavy),
-  'tab.unfocusedActiveModifiedBorder': withOpacity(accent.magenta, op.heavy),
-  'tab.unfocusedInactiveModifiedBorder': withOpacity(accent.magenta, op.medium),
+  'tab.unfocusedHoverBorder': withOpacity(tint.hover, alphaChrome.unfocusedTabHoverBorder),
+  'tab.lastPinnedBorder': withOpacity(accent.focus, op.heavy),
+  'tab.activeModifiedBorder': accent.focus,
+  'tab.inactiveModifiedBorder': withOpacity(accent.focus, op.heavy),
+  'tab.unfocusedActiveModifiedBorder': withOpacity(accent.focus, op.heavy),
+  'tab.unfocusedInactiveModifiedBorder': withOpacity(accent.focus, op.medium),
   'tab.dragAndDropBorder': accent.primary,
   'tab.selectedBackground': t.interactive.tab.background.selected,
   'tab.selectedForeground': accent.bright,
   'tab.selectedBorderTop': accent.primary,
-  'editorGroupHeader.tabsBackground': pol.tabHeaderBg,
+  'editorGroupHeader.tabsBackground': chrome.tabHeader,
   'editorGroupHeader.tabsBorder': withOpacity(accent.primary, op.light),
   'editorGroupHeader.noTabsBackground': bg.base,
   'editorGroupHeader.border': withOpacity(accent.primary, op.light),
@@ -614,7 +630,7 @@ return {
   // ==========================================================================
   // EDITOR GROUPS
   // ==========================================================================
-  'editorGroup.border': withOpacity(pol.borderTint, alpha.borderSubtle),
+  'editorGroup.border': withOpacity(tint.border, alphaChrome.borderSubtle),
   'editorGroup.dropBackground': withOpacity(accent.primary, op.medium),
   'editorGroup.dropIntoPromptForeground': text.primary,
   'editorGroup.dropIntoPromptBackground': withOpacity(bg.house, op.opaque),
@@ -632,14 +648,14 @@ return {
   'list.activeSelectionForeground': t.interactive.list.foreground.selected,
   'list.activeSelectionIconForeground': t.interactive.list.foreground.selected,
   'list.inactiveSelectionBackground': withOpacity(t.decorative.cursorLineFrost, op.medium),
-  'list.inactiveSelectionForeground': isLight ? text.primary : text.secondary,
-  'list.inactiveSelectionIconForeground': isLight ? text.primary : text.secondary,
+  'list.inactiveSelectionForeground': polarFg.surface,
+  'list.inactiveSelectionIconForeground': polarFg.surface,
   'list.hoverBackground': t.interactive.list.background.hover,
   'list.hoverForeground': t.interactive.list.foreground.hover,
   'list.focusBackground': t.interactive.list.background.focus,
   'list.focusForeground': t.interactive.list.foreground.focus,
-  'list.focusOutline': withOpacity(accent.magenta, op.dense),
-  'list.focusAndSelectionOutline': withOpacity(accent.magenta, op.solid),
+  'list.focusOutline': withOpacity(accent.focus, op.dense),
+  'list.focusAndSelectionOutline': withOpacity(accent.focus, op.solid),
   'list.focusHighlightForeground': text.primary,
   'list.highlightForeground': accent.bright,
   'list.dropBackground': withOpacity(accent.primary, op.strong),
@@ -648,7 +664,7 @@ return {
   'list.warningForeground': semantic.warning,
   'list.invalidItemForeground': semantic.error,
   'list.deemphasizedForeground': t.decorative.walletChain,
-  'list.inactiveFocusBackground': withOpacity(pol.hoverTint, alpha.listInactiveFocusBg),
+  'list.inactiveFocusBackground': withOpacity(tint.hover, alphaChrome.listInactiveFocusBg),
   'list.inactiveFocusOutline': withOpacity(accent.primary, op.medium),
   'list.filterMatchBackground': withOpacity(semantic.warning, op.medium),
   'list.filterMatchBorder': withOpacity(semantic.warning, op.heavy),
@@ -661,7 +677,7 @@ return {
   'tree.indentGuidesStroke': withOpacity(t.decorative.negiStalk, op.medium),
   'tree.inactiveIndentGuidesStroke': withOpacity(t.decorative.negiStalk, op.light),
   'tree.tableColumnsBorder': withOpacity(accent.primary, op.medium),
-  'tree.tableOddRowsBackground': withOpacity(pol.hoverTint, alpha.treeOddRowBg),
+  'tree.tableOddRowsBackground': withOpacity(tint.hover, op.subtle),
 
   // ==========================================================================
   // MINIMAP
@@ -695,26 +711,26 @@ return {
   // ==========================================================================
   // PANEL (Bottom panel: Terminal, Output, etc.)
   // ==========================================================================
-  'panel.background': pol.panelBg,
+  'panel.background': chrome.panel,
   'panel.border': withOpacity(accent.primary, op.solid),
   'panel.dropBorder': accent.primary,
-  'panelTitle.activeBorder': accent.magenta,
+  'panelTitle.activeBorder': accent.focus,
   'panelTitle.activeForeground': accent.bright,
   'panelTitle.inactiveForeground': text.tertiary,
   'panelTitle.border': withOpacity(accent.primary, op.light),
-  'panelTitleBadge.background': pol.badgeBg,
-  'panelTitleBadge.foreground': pol.badgeFg,
+  'panelTitleBadge.background': badge.bg,
+  'panelTitleBadge.foreground': badge.fg,
   'panelInput.border': withOpacity(accent.primary, op.strong),
   'panelSection.border': withOpacity(accent.primary, op.solid),
   'panelSection.dropBackground': withOpacity(accent.primary, op.light),
   'panelSectionHeader.background': bg.base,
   'panelSectionHeader.foreground': accent.bright,
   'panelSectionHeader.border': withOpacity(accent.primary, op.solid),
-  'panelStickyScroll.background': pol.panelBg,
+  'panelStickyScroll.background': chrome.panel,
   'panelStickyScroll.border': withOpacity(accent.primary, op.light),
   'panelStickyScroll.shadow': withOpacity(bg.void, op.heavy),
-  'outputView.background': pol.panelBg,
-  'outputViewStickyScroll.background': pol.panelBg,
+  'outputView.background': chrome.panel,
+  'outputViewStickyScroll.background': chrome.panel,
 
   // ==========================================================================
   // TERMINAL
@@ -722,10 +738,10 @@ return {
   'terminal.background': bg.base,
   'terminal.foreground': text.primary,
   'terminal.border': withOpacity(accent.primary, op.solid),
-  'terminal.selectionBackground': withOpacity(t.decorative.cursorLineFrost, alpha.terminalSelectionBg),
+  'terminal.selectionBackground': withOpacity(t.decorative.cursorLineFrost, alphaTerminal.terminalSelectionBg),
   'terminal.selectionForeground': text.primary,
   'terminal.inactiveSelectionBackground': withOpacity(t.decorative.cursorLineFrost, op.medium),
-  'terminal.findMatchBackground': withOpacity(semantic.warning, alpha.terminalFindMatchBg),
+  'terminal.findMatchBackground': withOpacity(semantic.warning, alphaTerminal.terminalFindMatchBg),
   'terminal.findMatchBorder': withOpacity(semantic.warning, op.solid),
   'terminal.findMatchHighlightBackground': withOpacity(accent.bright, op.medium),
   'terminal.findMatchHighlightBorder': withOpacity(accent.bright, op.heavy),
@@ -734,7 +750,7 @@ return {
   'terminalCursor.foreground': accent.cursor,
   'terminalCursor.background': bg.void,
   'terminal.dropBackground': withOpacity(accent.primary, op.light),
-  'terminal.tab.activeBorder': accent.magenta,
+  'terminal.tab.activeBorder': accent.focus,
 
   // ANSI Colors - APCA Lc 75+ for terminal readability
   // All colors optimized for Stage background
@@ -771,22 +787,22 @@ return {
   'terminalSymbolIcon.aliasForeground': accent.soft,
   'terminalSymbolIcon.branchForeground': accent.bright,
   // Lavender commit icons (Digital Stars) for DeltaE separation from branch teal
-  'terminalSymbolIcon.commitForeground': isLight ? t.syntax.type.hex : t.decorative.commitIcon,
+  'terminalSymbolIcon.commitForeground': polarIcon.preRelease,
   'terminalSymbolIcon.flagForeground': semantic.warning,
   'terminalSymbolIcon.optionForeground': text.primary,
   'terminalSymbolIcon.optionValueForeground': t.symbol.snippet.hex,
   'terminalSymbolIcon.methodForeground': t.symbol.method.hex,
   'terminalSymbolIcon.argumentForeground': accent.soft,
-  'terminalSymbolIcon.inlineSuggestionForeground': t.ui.linkActive.hex,
+  'terminalSymbolIcon.inlineSuggestionForeground': accent.link,
   'terminalSymbolIcon.fileForeground': text.primary,
   'terminalSymbolIcon.folderForeground': accent.primary,
   'terminalSymbolIcon.pullRequestDoneForeground': semantic.success,
-  'terminalSymbolIcon.pullRequestForeground': isLight ? accent.magenta : t.decorative.multiCursorSecondary,
+  'terminalSymbolIcon.pullRequestForeground': polarIcon.multiCursor,
   'terminalSymbolIcon.remoteForeground': t.symbol.interface.hex,
   'terminalSymbolIcon.stashForeground': text.tertiary,
   'terminalSymbolIcon.symbolText': text.primary,
-  'terminalSymbolIcon.symbolicLinkFileForeground': isLight ? t.syntax.class.hex : t.symbol.enum.hex,
-  'terminalSymbolIcon.symbolicLinkFolderForeground': isLight ? t.syntax.class.hex : t.symbol.enum.hex,
+  'terminalSymbolIcon.symbolicLinkFileForeground': polarIcon.symbolicLink,
+  'terminalSymbolIcon.symbolicLinkFolderForeground': polarIcon.symbolicLink,
   'terminalSymbolIcon.tagForeground': semantic.warning,
 
   // ==========================================================================
@@ -796,7 +812,7 @@ return {
   'debugToolBar.border': withOpacity(semantic.warning, op.strong),
   'debugIcon.breakpointForeground': t.decorative.tattooMark,
   'debugIcon.breakpointDisabledForeground': text.disabled,
-  'debugIcon.breakpointUnverifiedForeground': isLight ? withOpacity(semantic.error, op.heavy) : darken(t.status.error, 0.08),
+  'debugIcon.breakpointUnverifiedForeground': polarMisc.breakpointUnverified,
   'debugIcon.breakpointCurrentStackframeForeground': semantic.warning,
   'debugIcon.breakpointStackframeForeground': semantic.success,
   'debugIcon.startForeground': semantic.success,
@@ -805,10 +821,10 @@ return {
   'debugIcon.disconnectForeground': withOpacity(semantic.error, op.solid),
   'debugIcon.restartForeground': semantic.success,
   'debugIcon.stepOverForeground': accent.bright,
-  'debugIcon.stepIntoForeground': t.ui.linkActive.hex,
+  'debugIcon.stepIntoForeground': accent.link,
   'debugIcon.stepOutForeground': t.syntax.typeParameter.hex,
   'debugIcon.continueForeground': semantic.success,
-  'debugIcon.stepBackForeground': accent.magenta,
+  'debugIcon.stepBackForeground': accent.focus,
   'debugConsole.infoForeground': semantic.info,
   'debugConsole.warningForeground': semantic.warning,
   'debugConsole.errorForeground': semantic.error,
@@ -823,26 +839,26 @@ return {
   'debugTokenExpression.number': t.debug.number.hex,
   'debugTokenExpression.error': t.debug.error.hex,
   'debugTokenExpression.type': t.debug.type.hex,
-  'debugView.exceptionLabelForeground': isLight ? t.decorative.blouseWhite : pol.debugLabelFg,
-  'debugView.exceptionLabelBackground': isLight ? t.status.error.hex : darken(t.status.error, 0.19),
-  'debugView.stateLabelForeground': isLight ? t.decorative.blouseWhite : pol.debugLabelFg,
-  'debugView.stateLabelBackground': isLight ? t.status.success.hex : darken(t.status.success, 0.14),
+  'debugView.exceptionLabelForeground': polarFg.debugLabel,
+  'debugView.exceptionLabelBackground': polarMisc.exceptionLabelBg,
+  'debugView.stateLabelForeground': polarFg.debugLabel,
+  'debugView.stateLabelBackground': polarMisc.stateLabelBg,
   'debugView.valueChangedHighlight': withOpacity(accent.bright, op.strong),
 
   // ==========================================================================
   // PEEK VIEW
   // ==========================================================================
-  'peekView.border': withOpacity(pol.borderTint, op.heavy),
+  'peekView.border': withOpacity(tint.border, op.heavy),
   'peekViewTitle.background': bg.float,
   'peekViewTitleLabel.foreground': accent.bright,
-  'peekViewTitleDescription.foreground': isLight ? text.tertiary : text.secondary,
+  'peekViewTitleDescription.foreground': polarFg.description,
   'peekViewEditor.background': bg.base,
   'peekViewEditor.matchHighlightBackground': withOpacity(semantic.warning, op.medium),
   'peekViewEditor.matchHighlightBorder': withOpacity(semantic.warning, op.heavy),
   'peekViewEditorGutter.background': bg.house,
   'peekViewResult.background': bg.float,
   'peekViewResult.fileForeground': text.primary,
-  'peekViewResult.lineForeground': isLight ? text.tertiary : text.secondary,
+  'peekViewResult.lineForeground': polarFg.description,
   'peekViewResult.matchHighlightBackground': withOpacity(semantic.warning, op.medium),
   'peekViewResult.selectionBackground': t.interactive.list.background.selected,
   'peekViewResult.selectionForeground': t.interactive.list.foreground.selected,
@@ -859,18 +875,18 @@ return {
   //   Removed  — Sakura Miku vivid candy sakura (#FF6BCA), lovely departure
   //
   // Line = 20%, text = 25% (~5% step), minimap = solid.
-  'diffEditor.insertedLineBackground':        withOpacity(t.decorative.diffInserted, alpha.diffInsertedLine),
-  'diffEditor.insertedTextBackground':         withOpacity(t.decorative.diffInserted, alpha.diffInsertedText),
+  'diffEditor.insertedLineBackground':        withOpacity(t.decorative.diffInserted, alphaDiff.diffInsertedLine),
+  'diffEditor.insertedTextBackground':         withOpacity(t.decorative.diffInserted, alphaDiff.diffInsertedText),
   'diffEditor.insertedTextBorder':             special.transparent,
-  'diffEditorGutter.insertedLineBackground':   withOpacity(t.decorative.diffInserted, alpha.diffGutterInserted),
-  'diffEditor.removedLineBackground':          withOpacity(t.decorative.diffRemoved, alpha.diffRemovedLine),
-  'diffEditor.removedTextBackground':          withOpacity(t.decorative.diffRemoved, alpha.diffRemovedText),
+  'diffEditorGutter.insertedLineBackground':   withOpacity(t.decorative.diffInserted, alphaDiff.diffGutterInserted),
+  'diffEditor.removedLineBackground':          withOpacity(t.decorative.diffRemoved, alphaDiff.diffRemovedLine),
+  'diffEditor.removedTextBackground':          withOpacity(t.decorative.diffRemoved, alphaDiff.diffRemovedText),
   'diffEditor.removedTextBorder':              special.transparent,
-  'diffEditorGutter.removedLineBackground':    withOpacity(t.decorative.diffRemoved, alpha.diffGutterRemoved),
+  'diffEditorGutter.removedLineBackground':    withOpacity(t.decorative.diffRemoved, alphaDiff.diffGutterRemoved),
   'diffEditorOverview.insertedForeground': withOpacity(t.decorative.diffInserted, op.solid),
   'diffEditorOverview.removedForeground': withOpacity(t.decorative.diffRemoved, op.solid),
   'diffEditor.diagonalFill': withOpacity(text.tertiary, op.light),
-  'diffEditor.border': withOpacity(pol.borderTint, alpha.borderSubtle),
+  'diffEditor.border': withOpacity(tint.border, alphaChrome.borderSubtle),
   'diffEditor.unchangedRegionBackground': withOpacity(bg.float, op.medium),
   'diffEditor.unchangedRegionForeground': text.tertiary,
   'diffEditor.unchangedRegionShadow': withOpacity(bg.void, op.strong),
@@ -889,11 +905,11 @@ return {
   // MERGE EDITOR
   // ==========================================================================
   'merge.currentHeaderBackground': withOpacity(accent.bright, op.strong),
-  'merge.currentContentBackground': withOpacity(accent.bright, alpha.faintBg),
+  'merge.currentContentBackground': withOpacity(accent.bright, alphaEditor.faintBg),
   'merge.incomingHeaderBackground': withOpacity(t.git.added.hex, op.strong),
-  'merge.incomingContentBackground': withOpacity(t.git.added.hex, alpha.faintBg),
+  'merge.incomingContentBackground': withOpacity(t.git.added.hex, alphaEditor.faintBg),
   'merge.border': withOpacity(accent.primary, op.strong),
-  'merge.commonContentBackground': withOpacity(text.secondary, alpha.faintBg),
+  'merge.commonContentBackground': withOpacity(text.secondary, alphaEditor.faintBg),
   'merge.commonHeaderBackground': withOpacity(text.secondary, op.medium),
   'mergeEditor.change.background': withOpacity(accent.bright, op.light),
   'mergeEditor.change.word.background': withOpacity(accent.bright, op.medium),
@@ -927,7 +943,7 @@ return {
   // ==========================================================================
   // SCM GRAPH
   // ==========================================================================
-  'scmGraph.historyItemHoverLabelForeground': pol.scmLabelFg,
+  'scmGraph.historyItemHoverLabelForeground': polarFg.scmLabel,
   'scmGraph.historyItemHoverDefaultLabelForeground': text.secondary,
   'scmGraph.historyItemHoverDefaultLabelBackground': withOpacity(bg.float, op.solid),
   // SCM Graph - Project SEKAI unit colors (each branch is a unit's story)
@@ -948,12 +964,12 @@ return {
   'notifications.foreground': text.primary,
   'notifications.background': bg.float,
   'notifications.border': withOpacity(accent.primary, op.medium),
-  'notificationToast.border': pol.toastBorder,
+  'notificationToast.border': tint.toast,
   'notificationCenterHeader.foreground': accent.bright,
   'notificationCenterHeader.background': bg.float,
   'notificationCenter.border': withOpacity(accent.primary, op.medium),
-  'notificationLink.foreground': t.ui.linkActive.hex,
-  'notificationsInfoIcon.foreground': isLight ? semantic.info : accent.primary,
+  'notificationLink.foreground': accent.link,
+  'notificationsInfoIcon.foreground': polarIcon.notifyInfo,
   'notificationsWarningIcon.foreground': semantic.warning,
   'notificationsErrorIcon.foreground': semantic.error,
 
@@ -973,7 +989,7 @@ return {
   // ==========================================================================
   // QUICK INPUT
   // ==========================================================================
-  'quickInput.background': isLight ? bg.base : bg.float,
+  'quickInput.background': polarMisc.inputBg,
   'quickInput.foreground': text.primary,
   'quickInputTitle.background': bg.float,
   'quickInputList.focusBackground': t.interactive.list.background.selected,
@@ -1009,7 +1025,7 @@ return {
   'menu.selectionBackground': t.interactive.list.background.selected,
   'menu.selectionForeground': t.interactive.list.foreground.selected,
   'menu.selectionBorder': t.interactive.list.border.selected,
-  'menu.separatorBackground': withOpacity(pol.borderTint, alpha.borderSubtle),
+  'menu.separatorBackground': withOpacity(tint.border, alphaChrome.borderSubtle),
   'menu.border': withOpacity(accent.primary, op.medium),
   'menubar.selectionBackground': t.interactive.list.background.hover,
   'menubar.selectionForeground': t.interactive.list.foreground.hover,
@@ -1019,7 +1035,7 @@ return {
   // SETTINGS EDITOR
   // ==========================================================================
   'settings.headerForeground': accent.bright,
-  'settings.modifiedItemIndicator': accent.magenta,
+  'settings.modifiedItemIndicator': accent.focus,
   'settings.dropdownBackground': bg.base,
   'settings.dropdownForeground': text.primary,
   'settings.dropdownBorder': withOpacity(accent.primary, op.strong),
@@ -1036,7 +1052,7 @@ return {
   'settings.focusedRowBackground': t.interactive.list.background.focus,
   'settings.focusedRowBorder': t.interactive.list.border.focus,
   'settings.rowHoverBackground': t.interactive.list.background.hover,
-  'settings.sashBorder': withOpacity(pol.borderTint, alpha.borderSubtle),
+  'settings.sashBorder': withOpacity(tint.border, alphaChrome.borderSubtle),
   'settings.headerBorder': withOpacity(accent.primary, op.medium),
   'settings.settingsHeaderHoverForeground': text.primary,
 
@@ -1045,7 +1061,7 @@ return {
   // ==========================================================================
   // Separate "failed" vs "errored" for instant recognition (DeltaE distinction)
   // Errored uses darkened info (teal→dark teal on dark, blue constant on light for CVD safety vs red failed)
-  'testing.iconErrored': pol.testingErrored,
+  'testing.iconErrored': polarMisc.testingErrored,
   'testing.iconFailed': semantic.error,
   'testing.iconPassed': semantic.success,
   'testing.iconQueued': text.tertiary,
@@ -1101,13 +1117,13 @@ return {
   'extensionButton.hoverBackground': t.interactive.buttonSecondary.background.hover,
   'extensionButton.separator': withOpacity(text.primary, op.medium),
   'extensionButton.border': t.interactive.button.border.default,
-  'extensionBadge.remoteBackground': pol.badgeBg,
-  'extensionBadge.remoteForeground': pol.badgeFg,
+  'extensionBadge.remoteBackground': badge.bg,
+  'extensionBadge.remoteForeground': badge.fg,
   'extensionIcon.starForeground': semantic.warning,
   'extensionIcon.verifiedForeground': semantic.success,
-  'extensionIcon.preReleaseForeground': isLight ? t.syntax.type.hex : t.decorative.commitIcon,
-  'extensionIcon.sponsorForeground': accent.magenta,
-  'extensionIcon.privateForeground': isLight ? t.syntax.class.hex : t.symbol.enum.hex,
+  'extensionIcon.preReleaseForeground': polarIcon.preRelease,
+  'extensionIcon.sponsorForeground': accent.focus,
+  'extensionIcon.privateForeground': polarIcon.symbolicLink,
   'mcpIcon.starForeground': semantic.warning,
 
   // ==========================================================================
@@ -1176,8 +1192,8 @@ return {
   // ==========================================================================
   // BADGE
   // ==========================================================================
-  'badge.foreground': pol.badgeFg,
-  'badge.background': pol.badgeBg,
+  'badge.foreground': badge.fg,
+  'badge.background': badge.bg,
 
   // ==========================================================================
   // PROGRESS BAR
@@ -1194,13 +1210,13 @@ return {
   // ==========================================================================
   // ACTION BAR
   // ==========================================================================
-  'actionBar.toggledBackground': pol.actionBarToggled,
+  'actionBar.toggledBackground': polarMisc.actionBarToggled,
 
   // ==========================================================================
   // PROFILE BADGE
   // ==========================================================================
-  'profileBadge.background': pol.badgeBg,
-  'profileBadge.foreground': pol.badgeFg,
+  'profileBadge.background': badge.bg,
+  'profileBadge.foreground': badge.fg,
   'profiles.sashBorder': withOpacity(accent.primary, op.medium),
 
   // ==========================================================================
@@ -1214,8 +1230,8 @@ return {
   'notebook.cellToolbarSeparator': withOpacity(accent.primary, op.medium),
   'notebook.cellEditorBackground': bg.base,
   'notebook.focusedCellBackground': t.interactive.list.background.focus,
-  'notebook.focusedCellBorder': accent.magenta,
-  'notebook.focusedEditorBorder': withOpacity(accent.magenta, op.dense),
+  'notebook.focusedCellBorder': accent.focus,
+  'notebook.focusedEditorBorder': withOpacity(accent.focus, op.dense),
   'notebook.inactiveFocusedCellBorder': withOpacity(accent.primary, op.heavy),
   'notebook.inactiveSelectedCellBorder': withOpacity(accent.primary, op.strong),
   'notebook.outputContainerBackgroundColor': bg.base,
@@ -1238,8 +1254,8 @@ return {
   // ==========================================================================
   'symbolIcon.arrayForeground': t.symbol.array.hex,
   'symbolIcon.booleanForeground': t.symbol.boolean.hex,
-  'symbolIcon.classForeground': isLight ? t.syntax.class.hex : t.symbol.class.hex,
-  'symbolIcon.colorForeground': accent.magenta,
+  'symbolIcon.classForeground': polarIcon.symbolClass,
+  'symbolIcon.colorForeground': accent.focus,
   'symbolIcon.constantForeground': t.symbol.constant.hex,
   'symbolIcon.constructorForeground': t.symbol.constructor.hex,
   'symbolIcon.enumeratorForeground': t.symbol.enum.hex,
@@ -1267,7 +1283,7 @@ return {
   'symbolIcon.structForeground': t.symbol.struct.hex,
   'symbolIcon.textForeground': text.primary,
   'symbolIcon.typeParameterForeground': t.symbol.typeParameter.hex,
-  'symbolIcon.unitForeground': accent.magenta,
+  'symbolIcon.unitForeground': accent.focus,
   'symbolIcon.variableForeground': t.symbol.variable.hex,
 
   // ==========================================================================
@@ -1277,12 +1293,12 @@ return {
   'inlineChat.foreground': text.primary,
   'inlineChat.border': withOpacity(accent.bright, op.heavy),
   'inlineChat.shadow': withOpacity(bg.void, op.heavy),
-  'inlineChatInput.background': isLight ? bg.base : bg.float,
+  'inlineChatInput.background': polarMisc.inputBg,
   'inlineChatInput.border': withOpacity(accent.primary, op.strong),
-  'inlineChatInput.focusBorder': accent.magenta,
+  'inlineChatInput.focusBorder': accent.focus,
   'inlineChatInput.placeholderForeground': text.placeholder,
-  'inlineChatDiff.inserted': withOpacity(t.decorative.diffInserted, alpha.inlineChatDiff),
-  'inlineChatDiff.removed': withOpacity(t.decorative.diffRemoved, alpha.inlineChatDiff),
+  'inlineChatDiff.inserted': withOpacity(t.decorative.diffInserted, alphaDiff.inlineChatDiff),
+  'inlineChatDiff.removed': withOpacity(t.decorative.diffRemoved, alphaDiff.inlineChatDiff),
 
   // ==========================================================================
   // CHAT
@@ -1294,8 +1310,8 @@ return {
   'chat.avatarBackground': withOpacity(accent.primary, op.medium),
   'chat.avatarForeground': accent.bright,
   'chat.editedFileForeground': t.syntax.variable.hex,
-  'chat.linesAddedForeground': withOpacity(t.git.added.hex, alpha.chatLinesAdded),
-  'chat.linesRemovedForeground': withOpacity(t.git.deleted.hex, alpha.chatLinesRemoved),
+  'chat.linesAddedForeground': withOpacity(t.git.added.hex, op.dense),
+  'chat.linesRemovedForeground': withOpacity(t.git.deleted.hex, op.dense),
   'chat.requestCodeBorder': withOpacity(accent.bright, op.strong),
   'chat.requestBubbleBackground': withOpacity(accent.primary, op.light),
   'chat.requestBubbleHoverBackground': t.interactive.toolbar.background.hover,
@@ -1362,12 +1378,12 @@ return {
   // Charts - Magical Mirai concert evolution
   'charts.foreground': text.primary,
   'charts.lines': withOpacity(accent.primary, op.heavy),
-  'charts.red': t.decorative.charts.red,     // 2014 hot pink
-  'charts.blue': t.decorative.charts.blue,              // 2013 royal blue
-  'charts.yellow': t.decorative.charts.yellow,    // Concert gold
-  'charts.orange': t.decorative.charts.orange,               // Stage orange
-  'charts.green': t.decorative.charts.green,      // 2013 emerald
-  'charts.purple': t.decorative.charts.purple,                         // Nightcord purple
+  'charts.red': t.decorative.charts.red,        // 2014 hot pink
+  'charts.blue': t.decorative.charts.blue,       // 2013 royal blue
+  'charts.yellow': t.decorative.charts.yellow,   // Concert gold
+  'charts.orange': t.decorative.charts.orange,   // Stage orange
+  'charts.green': t.decorative.charts.green,     // 2013 emerald
+  'charts.purple': t.decorative.charts.purple,   // Nightcord purple
   'chart.line': accent.primary,
   'chart.axis': text.tertiary,
   'chart.guide': withOpacity(accent.primary, op.medium),
@@ -1402,14 +1418,14 @@ return {
   // ==========================================================================
   // GENERAL UI - Base values
   // ==========================================================================
-  'focusBorder': withOpacity(accent.magenta, op.dense),
+  'focusBorder': withOpacity(accent.focus, op.dense),
   'foreground': text.primary,
   'disabledForeground': text.disabled,
   'selection.background': withOpacity(t.decorative.cursorLineFrost, op.strong),
   'descriptionForeground': text.secondary,
   'errorForeground': semantic.error,
   'icon.foreground': text.secondary,
-  'sash.hoverBorder': withOpacity(accent.magenta, op.solid),
+  'sash.hoverBorder': withOpacity(accent.focus, op.solid),
 
   // ==========================================================================
   // TEXT BLOCKS
@@ -1417,7 +1433,7 @@ return {
   'textBlockQuote.background': withOpacity(accent.primary, op.light),
   'textBlockQuote.border': withOpacity(accent.primary, op.strong),
   'textCodeBlock.background': withOpacity(bg.house, op.solid),
-  'textLink.activeForeground': t.ui.linkActive.hex,
+  'textLink.activeForeground': accent.link,
   'textLink.foreground': accent.bright,
   'textPreformat.foreground': accent.soft,
   'textPreformat.background': withOpacity(bg.house, op.heavy),

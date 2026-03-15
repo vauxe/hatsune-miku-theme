@@ -21,11 +21,11 @@
  */
 
 import { role, roleFromHex } from '../role';
-import { parseHex } from '../jzczhz';
-import type { UITokens, ExtendedUITokens, StatusTokens, GitTokens } from '../types';
+import { parseHex } from '../role';
+import type { UITokens, StatusTokens, GitTokens } from '../types';
 import type { Primitives } from '../primitives';
 
-export function createUITokens(p: Primitives): UITokens & ExtendedUITokens {
+export function createUITokens(p: Primitives): UITokens {
   const { lightness: L, chroma: C, hue: H, character: char } = p;
 
   // =========================================================================

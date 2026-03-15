@@ -57,29 +57,21 @@ return [
   // ==========================================================================
   {
     name: 'Control Keywords',
-    scope: [
-      'keyword.control',
-      'keyword.control.flow',
-      'keyword.control.import',
-      'keyword.control.export',
-      'keyword.control.from',
-      'keyword.control.conditional',
-      'keyword.control.loop',
-    ],
+    scope: ['keyword.control'],
     settings: {
       foreground: syntax.keywordControl,
     },
   },
   {
     name: 'Storage Types',
-    scope: ['storage.type', 'storage.type.function', 'storage.type.class'],
+    scope: ['storage.type'],
     settings: {
       foreground: syntax.storage,
     },
   },
   {
     name: 'Storage Modifiers',
-    scope: ['storage.modifier', 'storage.modifier.async', 'storage.modifier.static'],
+    scope: ['storage.modifier'],
     settings: {
       foreground: syntax.storageModifier,
     },
@@ -111,10 +103,6 @@ return [
     name: 'Operators',
     scope: [
       'keyword.operator',
-      'keyword.operator.arithmetic',
-      'keyword.operator.comparison',
-      'keyword.operator.logical',
-      'keyword.operator.assignment',
       'keyword.operator.ternary',
     ],
     settings: {
@@ -379,14 +367,7 @@ return [
   // ==========================================================================
   {
     name: 'Numbers',
-    scope: [
-      'constant.numeric',
-      'constant.numeric.integer',
-      'constant.numeric.float',
-      'constant.numeric.hex',
-      'constant.numeric.octal',
-      'constant.numeric.binary',
-    ],
+    scope: ['constant.numeric'],
     settings: {
       foreground: syntax.number,
     },
@@ -576,15 +557,11 @@ return [
     },
   },
   {
-    name: 'YAML Anchor',
-    scope: ['entity.name.type.anchor.yaml', 'punctuation.definition.anchor.yaml'],
-    settings: {
-      foreground: syntax.decorator,
-    },
-  },
-  {
-    name: 'YAML Alias',
-    scope: ['variable.other.alias.yaml', 'punctuation.definition.alias.yaml'],
+    name: 'YAML Anchor/Alias',
+    scope: [
+      'entity.name.type.anchor.yaml', 'punctuation.definition.anchor.yaml',
+      'variable.other.alias.yaml', 'punctuation.definition.alias.yaml',
+    ],
     settings: {
       foreground: syntax.decorator,
     },
@@ -721,14 +698,6 @@ return [
     },
   },
   {
-    name: 'PHP Superglobals',
-    scope: ['variable.language.php'],
-    settings: {
-      foreground: syntax.variableLanguage,
-      fontStyle: 'italic',
-    },
-  },
-  {
     name: 'PHP Functions',
     scope: ['support.function.php', 'support.function.construct.php'],
     settings: {
@@ -772,13 +741,6 @@ return [
     scope: ['variable.other.readwrite.global.ruby'],
     settings: {
       foreground: syntax.constant,
-    },
-  },
-  {
-    name: 'Ruby Blocks',
-    scope: ['keyword.control.ruby', 'keyword.control.def.ruby'],
-    settings: {
-      foreground: syntax.keywordControl,
     },
   },
 
@@ -832,20 +794,6 @@ return [
       foreground: syntax.string,
     },
   },
-  {
-    name: 'Go Channels',
-    scope: ['keyword.operator.channel.go'],
-    settings: {
-      foreground: syntax.operator,
-    },
-  },
-  {
-    name: 'Go Control',
-    scope: ['keyword.control.go'],
-    settings: {
-      foreground: syntax.keywordControl,
-    },
-  },
 
   // ==========================================================================
   // RUST
@@ -869,13 +817,6 @@ return [
     scope: ['entity.name.type.trait.rust'],
     settings: {
       foreground: syntax.interface,
-    },
-  },
-  {
-    name: 'Rust Attributes',
-    scope: ['meta.attribute.rust'],
-    settings: {
-      foreground: syntax.decorator,
     },
   },
   {
@@ -904,13 +845,6 @@ return [
     },
   },
   {
-    name: 'C# Attribute',
-    scope: ['meta.attribute.cs', 'entity.name.type.attribute.cs'],
-    settings: {
-      foreground: syntax.decorator,
-    },
-  },
-  {
     name: 'C# Namespace',
     scope: ['entity.name.type.namespace.cs'],
     settings: {
@@ -922,8 +856,12 @@ return [
   // JAVA
   // ==========================================================================
   {
-    name: 'Java Annotations',
-    scope: ['storage.type.annotation.java', 'punctuation.definition.annotation.java'],
+    name: 'Language Attributes',
+    scope: [
+      'meta.attribute.rust',
+      'meta.attribute.cs', 'entity.name.type.attribute.cs',
+      'storage.type.annotation.java', 'punctuation.definition.annotation.java',
+    ],
     settings: {
       foreground: syntax.decorator,
     },
@@ -985,13 +923,6 @@ return [
       foreground: syntax.keyword,
     },
   },
-  {
-    name: 'Dockerfile Instructions',
-    scope: ['keyword.control.dockerfile'],
-    settings: {
-      foreground: syntax.keywordControl,
-    },
-  },
 
   // ==========================================================================
   // SHELL
@@ -1029,36 +960,14 @@ return [
     },
   },
   {
-    name: 'Meta Function Parameters',
-    scope: ['meta.function.parameters', 'meta.parameters', 'meta.function-call.arguments'],
-    settings: {
-      foreground: syntax.variable,
-    },
-  },
-  {
-    name: 'Meta Class Body',
-    scope: ['meta.class.body', 'meta.class.inheritance'],
-    settings: {
-      foreground: syntax.variable,
-    },
-  },
-  {
-    name: 'Meta Interface/Namespace Body',
-    scope: ['meta.interface.body', 'meta.namespace.body'],
-    settings: {
-      foreground: syntax.variable,
-    },
-  },
-  {
-    name: 'Meta Object/Array Literals',
-    scope: ['meta.object-literal', 'meta.array.literal', 'meta.objectliteral'],
-    settings: {
-      foreground: syntax.variable,
-    },
-  },
-  {
-    name: 'Meta Imports/Exports',
-    scope: ['meta.import', 'meta.export', 'meta.imports'],
+    name: 'Meta Scopes',
+    scope: [
+      'meta.function.parameters', 'meta.parameters', 'meta.function-call.arguments',
+      'meta.class.body', 'meta.class.inheritance',
+      'meta.interface.body', 'meta.namespace.body',
+      'meta.object-literal', 'meta.array.literal', 'meta.objectliteral',
+      'meta.import', 'meta.export', 'meta.imports',
+    ],
     settings: {
       foreground: syntax.variable,
     },

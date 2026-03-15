@@ -37,7 +37,7 @@ export function createSyntaxColors(t: SemanticTokens) {
     enum: t.syntax.enum.hex,
     enumMember: t.syntax.enumMember.hex,
     struct: t.syntax.struct.hex,
-    namespace: t.syntax.type.hex,
+    namespace: t.syntax.type.hex, // namespaces share blue (270°) with types
     supportClass: t.support.class.hex,
     supportType: t.support.type.hex,
     supportConstant: t.support.constant.hex,
@@ -63,9 +63,9 @@ export function createSyntaxColors(t: SemanticTokens) {
     // Meta
     comment: t.syntax.comment.hex,
     commentDoc: t.syntax.commentDoc.hex,
-    decorator: t.syntax.macro.hex,
+    decorator: t.syntax.macro.hex, // decorators share violet (300°) with macros (both are meta-annotations)
     macro: t.syntax.macro.hex,
-    lifetime: t.syntax.keywordAlt.hex,
+    lifetime: t.syntax.keywordAlt.hex, // Rust lifetimes use keyword alternate register
     tag: t.syntax.tag.hex,
     attribute: t.syntax.attribute.hex,
 
@@ -81,7 +81,7 @@ export function createSyntaxColors(t: SemanticTokens) {
 
     // Regex & Escape
     regex: t.syntax.regex.hex,
-    escape: t.syntax.parameter.hex,
+    escape: t.syntax.parameter.hex, // escape sequences share red (20°) with parameters (both are inline substitutions)
 
     // Status
     deprecated: t.ui.deprecated.hex,

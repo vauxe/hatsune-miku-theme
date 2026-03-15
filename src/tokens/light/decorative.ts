@@ -18,7 +18,7 @@
  */
 
 import { role, roleFromHex, darken } from '../role';
-import { hex } from '../jzczhz';
+import { hex } from '../role';
 import type {
   SymbolTokens,
   BracketTokens,

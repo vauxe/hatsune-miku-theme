@@ -7,8 +7,12 @@
  * This module provides the registry, generation API, and utility functions.
  */
 
-import { hex } from './jzczhz';
+import { hex } from './role';
 import { createDarkSemanticTokens, createDarkPrimitives } from './dark';
+
+const JZ_MAX = 0.22;
+const CZ_MAX = 0.19;
+const HZ_WRAP = 360;
 import { createLightSemanticTokens, createLightPrimitives } from './light';
 import { lightLightness, lightCharacter } from './light/primitives';
 import type { Primitives } from './primitives';
@@ -88,7 +92,7 @@ export function adjustLightness(role: SemanticRole, delta: number): SemanticRole
     return role;
   }
 
-  const newJz = Math.max(0, Math.min(0.22, role.jzczhz.Jz + delta));
+  const newJz = Math.max(0, Math.min(JZ_MAX, role.jzczhz.Jz + delta));
   const newJzczhz = { ...role.jzczhz, Jz: newJz };
 
   return {
@@ -106,7 +110,7 @@ export function shiftHue(role: SemanticRole, delta: number): SemanticRole {
     return role;
   }
 
-  const newHz = (role.jzczhz.hz + delta + 360) % 360;
+  const newHz = (role.jzczhz.hz + delta + HZ_WRAP) % HZ_WRAP;
   const newJzczhz = { ...role.jzczhz, hz: newHz };
 
   return {
@@ -124,7 +128,7 @@ export function scaleChroma(role: SemanticRole, factor: number): SemanticRole {
     return role;
   }
 
-  const newCz = Math.max(0, Math.min(0.19, role.jzczhz.Cz * factor));
+  const newCz = Math.max(0, Math.min(CZ_MAX, role.jzczhz.Cz * factor));
   const newJzczhz = { ...role.jzczhz, Cz: newCz };
 
   return {
