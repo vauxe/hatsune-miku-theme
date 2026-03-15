@@ -16,6 +16,19 @@
   "categories": [
     "Themes"
   ],
+  "keywords": [
+    "theme",
+    "dark",
+    "light",
+    "miku",
+    "hatsune-miku",
+    "vocaloid",
+    "color-theme"
+  ],
+  "galleryBanner": {
+    "color": "#1A1F24",
+    "theme": "dark"
+  },
   "scripts": {
     "build": "tsc && node dist/generator.js",
     "build:theme": "tsc && node dist/generator.js",
@@ -29,6 +42,8 @@
   },
   "devDependencies": {
     "@types/node": "^25.0.9",
+    "colorjs.io": "^0.6.1",
+    "culori": "^4.0.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vscode-oniguruma": "^2.0.1",
@@ -48,8 +63,5 @@
       }
     ]
   },
-  "dependencies": {
-    "colorjs.io": "^0.6.1",
-    "culori": "^4.0.2"
-  }
+  "dependencies": {}
 }

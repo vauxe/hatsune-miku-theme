@@ -9,9 +9,8 @@
 .gitignore
 .gitattributes
 
-# Documentation (keep README, LICENSE)
+# Documentation (keep README, LICENSE, CHANGELOG)
 vsc-extension-quickstart.md
-CHANGELOG.md
 CLAUDE.md
 docs/**
 
@@ -30,8 +29,8 @@ package-lock.json
 **/*.vsix
 **/*.map
 
-# Assets (keep icon, exclude preview)
-images/preview.png
+# Assets (keep icon only — images are for GitHub README, not runtime)
+images/**
 examples/**
 
 # Temp

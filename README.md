@@ -27,7 +27,8 @@ A VS Code color theme traced from Hatsune Miku's character design. Dark and ligh
 ```bash
 npm install            # Setup
 npm run build          # Full build
-npm run readability    # Validate color accessibility
+npm run readability:dark   # Validate dark theme accessibility
+npm run readability:light  # Validate light theme accessibility
 ```
 
 ## License
