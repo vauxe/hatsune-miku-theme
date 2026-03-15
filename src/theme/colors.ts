@@ -37,7 +37,7 @@ export function createSyntaxColors(t: SemanticTokens) {
     enum: t.syntax.enum.hex,
     enumMember: t.syntax.enumMember.hex,
     struct: t.syntax.struct.hex,
-    namespace: t.syntax.type.hex, // namespaces share blue (270°) with types
+    namespace: t.syntax.type.hex, // namespaces share violet (300°) with types
     supportClass: t.support.class.hex,
     supportType: t.support.type.hex,
     supportConstant: t.support.constant.hex,

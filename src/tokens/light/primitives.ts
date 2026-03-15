@@ -58,15 +58,15 @@ import {
  *   120° lime:    ~0.179  → alto (0.140)
  */
 export const lightLightness: LightnessValues = {
-  sopranino: 0.080,    // +2  deep cool hues (blue, azure)
-  treble: 0.095,       // +1  azure peak
-  soprano: 0.110,      //  0  violet peak
-  mezzo: 0.125,        // -1  tonic, orange, rose peak
-  alto: 0.140,         // -2  warm/green hues peak
-  countertenor: 0.155, // -3  soft syntax, tag
-  tenor: 0.170,        // -4  comments
-  baritone: 0.185,     // -5  punctuation
-  bass: 0.195,         // -6
+  sopranino: 0.074,    // +2  deep cool hues (blue, azure, tonic, green, teal)
+  treble: 0.088,       // +1  class/constant peak — darkened for Lc≥75
+  soprano: 0.097,      //  0  parameter/function/type — darkened for Lc≥75
+  mezzo: 0.110,        // -1  operator/macro/rose — darkened for Lc≥75
+  alto: 0.130,         // -2  warm/green hues peak — comments
+  countertenor: 0.148, // -3  soft syntax, ghost
+  tenor: 0.165,        // -4  punctuation
+  baritone: 0.180,     // -5
+  bass: 0.192,         // -6
   contrabass: 0.200,   // -7  barely visible on cream
 };
 
@@ -162,18 +162,18 @@ export const lightChroma: ChromaValues = {
  *   Where she wears the necktie, you type.
  *
  * Background hierarchy (warm/cool split, step 0.008 Jz):
- *   - Void:    Warm ivory  (Jz 0.208, Cz 0.008, Hz 85°) — the morning light
- *   - Editor:  Warm cream  (Jz 0.200, Cz 0.012, Hz 85°) — the dress
- *   - Sidebar: Cool blue   (Jz 0.192, Cz 0.016, Hz 235°) — the shopfront
- *   - Float:   Deeper cool (Jz 0.184, Cz 0.020, Hz 235°) — the awning
+ *   - Void:    Warm ivory  (Jz 0.218, Cz 0.008, Hz 85°) — the morning light
+ *   - Editor:  Warm cream  (Jz 0.210, Cz 0.012, Hz 85°) — the dress
+ *   - Sidebar: Cool blue   (Jz 0.202, Cz 0.016, Hz 235°) — the shopfront
+ *   - Float:   Deeper cool (Jz 0.194, Cz 0.020, Hz 235°) — the awning
  *   - Terminal: Warm cream — matches editor for reading comfort
  *   - Foreground: Chocolate ink (Jz 0.038, Cz 0.018, Hz 40°) — handwritten menus
  */
 export const lightCharacter: CharacterColors = {
   // Tonic cyan hair — her identity across every Snow Miku design
   hair: {
-    base: hex({ Jz: 0.118, Cz: 0.045, hz: 210 }),  // Tonic engagement wash
-    shadow: hex({ Jz: 0.070, Cz: 0.070, hz: 215 }), // Accent dark — links, buttons
+    base: hex({ Jz: 0.128, Cz: 0.045, hz: 210 }),  // Tonic engagement wash
+    shadow: hex({ Jz: 0.088, Cz: 0.070, hz: 215 }), // Accent dark — links, buttons
     highlight: '#78C6F0',  // Pale sky shimmer — decorative catch-light
     tip: '#8070B8',        // Lavender gradient
     bright: '#9CD4F4',     // Icy highlight
@@ -192,25 +192,25 @@ export const lightCharacter: CharacterColors = {
   },
   // Structural chrome — shopfront walls (not the cape)
   top: {
-    main: hex({ Jz: 0.192, Cz: 0.016, hz: 235 }),     // Cool blue — activity bar
-    shadow: hex({ Jz: 0.184, Cz: 0.020, hz: 235 }),    // Deeper cool — status bar
+    main: hex({ Jz: 0.202, Cz: 0.016, hz: 235 }),     // Cool blue — activity bar
+    shadow: hex({ Jz: 0.194, Cz: 0.020, hz: 235 }),    // Deeper cool — status bar
     trim: hex({ Jz: 0.118, Cz: 0.045, hz: 210 }),      // Tonic cyan trim
     blouse: '#FFF5E0',                                    // Cream — text on accent buttons
   },
   // Editor canvas — warm cream dress
   skirt: {
-    base: hex({ Jz: 0.200, Cz: 0.012, hz: 85 }),      // Warm cream — editor canvas
+    base: hex({ Jz: 0.210, Cz: 0.012, hz: 85 }),      // Warm cream — editor canvas
     trim: hex({ Jz: 0.118, Cz: 0.045, hz: 210 }),      // Tonic cyan
     accessory: hex({ Jz: 0.108, Cz: 0.016, hz: 235 }), // Cool blue chain
   },
   // Sidebar — shopfront wall glass
   armWarmers: {
-    base: hex({ Jz: 0.192, Cz: 0.016, hz: 235 }),     // Cool blue — sidebar
+    base: hex({ Jz: 0.202, Cz: 0.016, hz: 235 }),     // Cool blue — sidebar
     pattern: '#78C6F0',
   },
   // Terminal — warm cream, same as editor for reading comfort
   boots: {
-    base: hex({ Jz: 0.200, Cz: 0.012, hz: 85 }),      // Warm cream — terminal bg
+    base: hex({ Jz: 0.210, Cz: 0.012, hz: 85 }),      // Warm cream — terminal bg
     accent: hex({ Jz: 0.118, Cz: 0.045, hz: 210 }),    // Tonic cyan
   },
   // Tie — cool structure, shopfront borders
@@ -238,7 +238,7 @@ export const lightCharacter: CharacterColors = {
 // =============================================================================
 
 const lightSpecial: SpecialColors = {
-  void: hex({ Jz: 0.208, Cz: 0.008, hz: 85 }),       // Warm ivory — empty space
+  void: hex({ Jz: 0.218, Cz: 0.008, hz: 85 }),       // Warm ivory — empty space
   foreground: hex({ Jz: 0.038, Cz: 0.018, hz: 40 }),  // Chocolate ink — Lc ~82 on cream
   nearWhite: hex({ Jz: 0.025, Cz: 0.015, hz: 40 }),   // Deep chocolate — text on accents
   transparent: '#00000000',

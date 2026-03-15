@@ -318,6 +318,8 @@ export interface DecorativeTokens {
   multiCursorSecondary: string;
   /** Snow Miku ice prism — frosty cursor line shimmer (snowMiku.y2025) */
   cursorLineFrost: string;
+  /** Find match overlay — gingerbread 70° optimized for bg tint, not text */
+  findMatchOverlay: string;
   /** Inlay hint parameter foreground (character skin.shadow) */
   inlayParameter: string;
 

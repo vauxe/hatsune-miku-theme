@@ -53,14 +53,14 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
 
     // === D# Gold (90°) -- Major 6th -- butter croissant ===
     function: role('Symbol function -- gold 90°, croissant glow', L.sopranino, C.ff, H.major6th),
-    method: role('Symbol method -- gold 90°, treble/mp for distinction', L.treble, C.mp, H.major6th),
-    constructor: role('Symbol constructor -- gold 90°, mezzo for light theme visibility', L.mezzo, C.f, H.major6th),
+    method: role('Symbol method -- gold 90°, mezzo/mp for DEz≥15 from function', L.mezzo, C.mp, H.major6th),
+    constructor: role('Symbol constructor -- gold 90°, countertenor for DEz≥15 from method', L.countertenor, C.f, H.major6th),
 
     // === E Lime (120°) -- Minor 7th -- pistachio cream ===
     class: role('Symbol class -- lime 120°, pistachio (sopranino for DEz)', L.sopranino, C.f, H.minor7th),
-    struct: role('Symbol struct -- lime 120°, soprano for light visibility', L.soprano, C.ff, H.minor7th),
-    enum: role('Symbol enum -- lime 120°, mezzo for DEz gap from struct', L.mezzo, C.f, H.minor7th),
-    package: role('Symbol package -- lime 120°, mezzo for Lc>=45', L.mezzo, C.f, H.minor7th),
+    struct: role('Symbol struct -- lime 120°, mezzo/ff for DEz≥15 from class', L.mezzo, C.ff, H.minor7th),
+    enum: role('Symbol enum -- lime 120°, alto for DEz≥15 from struct', L.alto, C.f, H.minor7th),
+    package: role('Symbol package -- lime 120°, alto', L.alto, C.f, H.minor7th),
 
     // === F Green (150°) -- Major 7th -- mint leaf ===
     string: role('Symbol string -- green 150°, literal truth', L.soprano, C.f, H.major7th),
@@ -96,16 +96,16 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
 export function createBracketTokens(p: Primitives): BracketTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
-  // Bracket arpeggio — per design section 4
-  // D(60°), A#(300°), D#(90°), G(210°), C(0°), F(150°). Dynamic: mp
-  // Sopranino ensemble — matches syntax tokens for consistency
+  // Bracket arpeggio — warm/cool alternation, CVD-safe
+  // D(60°), A#(300°), D#(90°), G(210°), C(0°), A(270°). Dynamic: mp
+  // Level 6 uses blue 270° instead of green 150° for deuteranopia safety (vs bracket1 60°)
   return {
     bracket1: role('Orange 60° -- warm arpeggio begins (baked peach)', L.sopranino, C.mp, H.minor6th),
     bracket2: role('Violet 300° -- cool deepens (twilight)', L.sopranino, C.mp, H.minor3rd),
     bracket3: role('Gold 90° -- spring step (butter croissant)', L.sopranino, C.mp, H.major6th),
     bracket4: role('Tonic 210° -- her hair at the heart', L.sopranino, C.mp, H.mikuTeal),
     bracket5: role('Rose 0° -- strawberry heartbeat', L.sopranino, C.mp, H.tritone),
-    bracket6: role('Green 150° -- arpeggio resolves (mint leaf)', L.sopranino, C.mp, H.major7th),
+    bracket6: role('Blue 270° -- arpeggio resolves (display case)', L.sopranino, C.mp, H.major2nd),
   };
 }
 
@@ -116,8 +116,8 @@ export function createSupportTokens(p: Primitives): SupportTokens {
     function: role('Support function -- gold 90°, built-in action', L.sopranino, C.f, H.major6th),
     class: role('Support class -- lime 120°, built-in architecture', L.sopranino, C.f, H.minor7th),
     type: role('Support type -- violet 300°, built-in architecture', L.sopranino, C.mp, H.minor3rd),
-    constant: role('Support constant -- cyan 240°, deep truth', L.sopranino, C.mp, H.minor2nd),
-    variable: role('Support variable -- azure 270°, built-in data', L.sopranino, C.mp, H.major2nd),
+    constant: role('Support constant -- azure 240°, deep truth', L.sopranino, C.mp, H.minor2nd),
+    variable: role('Support variable -- blue 270°, built-in data', L.sopranino, C.mp, H.major2nd),
   };
 }
 
@@ -191,7 +191,7 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
 
     // Diff editor — patisserie-derived tints for cream canvas
     diffInserted: hex({ Jz: 0.120, Cz: 0.130, hz: 180 }),   // Mint — canonical Miku green (vivid for ΔE≥15)
-    diffRemoved: hex({ Jz: 0.120, Cz: 0.130, hz: 27 }),     // Pastel pink — sampled necktie departure (vivid for ΔE≥15)
+    diffRemoved: hex({ Jz: 0.125, Cz: 0.130, hz: 27 }),     // Pastel pink — tuned for ΔE≥15 at medium opacity
     diffMoveBorder: digitalStars.y2021_mg.outfit.gradient,
     diffMoveActiveBorder: digitalStars.y2021_mg.outfit.gradient,
 
@@ -220,6 +220,7 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
 
     // Cursor line frost — ice at ~235° Hz
     cursorLineFrost: hex({ Jz: 0.128, Cz: 0.070, hz: 235 }),   // Ice — cool shopfront
+    findMatchOverlay: hex({ Jz: 0.125, Cz: 0.090, hz: 70 }),  // Gingerbread cookie — overlay tint (Cz tuned for ΔE≥12)
 
     // Boots — terminal lives inside the warm cream space
     bootsBase: p.character.boots.base,

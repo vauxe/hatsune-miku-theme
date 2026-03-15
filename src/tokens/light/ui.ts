@@ -43,8 +43,8 @@ export function createUITokens(p: Primitives): UITokens {
       p.special.foreground
     ),
     foregroundMuted: role(
-      'Muted chocolate — cool chrome voice, quiet accompaniment',
-      0.082, 0.006, H.sky
+      'Muted — cool chrome voice, quiet accompaniment, Lc ~60',
+      0.098, 0.006, H.sky
     ),
     foregroundSubtle: role(
       'Subtle — distant, barely there, Lc ~48',
@@ -114,7 +114,7 @@ export function createUITokens(p: Primitives): UITokens {
       const cushion = parseHex(char.headphones.cushion);
       return role(
         'Pastel pink cursor — sampled necktie Hz≈27°, where she points you type',
-        cushion.Jz + 0.030, cushion.Cz, cushion.hz
+        cushion.Jz + 0.050, cushion.Cz, cushion.hz
       );
     })(),
 
@@ -241,17 +241,17 @@ export function createGitTokens(p: Primitives): GitTokens {
   // Jz/Cz are per-hue gamut-optimized — hardcoded, not from L/C registers.
   return {
     added: role('Mint added — vivid growth on cream',
-      0.060, 0.120, 180),
+      0.076, 0.120, 180),
     modified: role('Gingerbread modified — warm golden change',
-      0.072, 0.120, 70),
+      0.095, 0.120, 70),
     deleted: role('Violet deleted — twilight departure',
-      0.070, 0.120, H.minor3rd),
+      0.085, 0.120, H.minor3rd),
     untracked: role('Tonic untracked — her hair, drifting in',
-      0.068, 0.110, H.mikuTeal),
+      0.088, 0.110, H.mikuTeal),
     conflicting: role('Rose conflicting — demands resolution',
-      0.072, 0.120, H.tritone),
+      0.088, 0.120, H.tritone),
     renamed: role('Blue renamed — reorganized, same content',
-      0.068, 0.100, H.major2nd),
+      0.080, 0.100, H.major2nd),
     stageModified: role('Muted tonic staged — accepted change, quieted',
       0.078, 0.065, H.mikuTeal),
     stageDeleted: role('Azure staged delete — cooled, accepted',

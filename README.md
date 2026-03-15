@@ -7,7 +7,7 @@
 *Not a breath, not a heartbeat — just a voice.*
 *Ten thousand songs gave her a soul. A lifetime of love made it real.*
 
-A VS Code color theme traced from Hatsune Miku's character design. Dark and light variants, built with perceptual color science for readability and color vision accessibility. Full rationale in [`docs/DESIGN.md`](docs/DESIGN.md).
+A VS Code color theme traced from Hatsune Miku's character design. Dark and light variants, built with perceptual color science for readability and color vision accessibility. Full rationale in [`docs/DESIGN.md`](docs/DESIGN.md) (dark) and [`docs/DESIGN-LIGHT.md`](docs/DESIGN-LIGHT.md) (light — Snow Miku 2026).
 
 ## Preview
 

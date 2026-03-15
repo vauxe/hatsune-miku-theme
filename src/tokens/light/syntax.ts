@@ -11,10 +11,10 @@
  * from the tonic at G=210°. No tunings — the warm/cool spatial split
  * provides all the distinction the theme needs.
  *
- * Ensemble rule: sopranino/mp for all primary syntax tokens.
- * One lightness register, one dynamic — hue alone carries meaning.
- * mp at Cz 0.120 clips to per-hue sRGB gamut max automatically,
- * delivering the most vivid color each hue can produce at sopranino Jz.
+ * Per-hue register assignment: each hue uses the register nearest its
+ * sRGB peak-chroma Jz — displayed at maximum vividness automatically.
+ * mp at Cz 0.120 clips to the gamut boundary per hue.
+ * Cool hues peak dark (sopranino), warm hues peak light (soprano/mezzo).
  *
  * Each hue maps to a patisserie element:
  *   - Keywords: 210° tonic cyan (her hair — the first stroke on every line)
@@ -41,12 +41,12 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
   const INTERFACE_HUE = 180;
 
   // ===================================================================
-  // ENSEMBLE: sopranino/mp for all primary tokens.
-  // One Jz (0.080), one Cz (0.120 → gamut-clipped per hue).
-  // Hue alone carries semantic meaning.
+  // PER-HUE REGISTER: each hue at its sRGB peak-chroma Jz.
+  // Cool hues peak dark (sopranino). Warm hues peak light (soprano/mezzo).
+  // mp dynamic (Cz 0.120) clips to gamut boundary per hue automatically.
   // ===================================================================
   return {
-    // === TONIC (210°) — Her Hair ===
+    // === TONIC (210°) — Her Hair — sopranino (peak Cz ~0.138) ===
     keyword: role(
       'Tonic cyan 210° — her hair on every line, the first color you see',
       L.sopranino, C.mp, H.mikuTeal
@@ -68,61 +68,61 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
       L.sopranino, C.mp, H.mikuTeal
     ),
 
-    // === BLUE (270°) — Display Case Glass ===
+    // === BLUE (270°) — Display Case Glass — sopranino (peak Cz ~0.091) ===
     variable: role(
       'Blue 270° — display case glass, data in motion',
       L.sopranino, C.mp, H.major2nd
     ),
 
-    // === ORANGE (60°) — Baked Peach ===
+    // === ORANGE (60°) — Baked Peach — soprano (peak Cz ~0.133) ===
     parameter: role(
       'Orange 60° — baked peach, warmth entering from outside',
-      L.sopranino, C.mp, H.minor6th
+      L.soprano, C.mp, H.minor6th
     ),
     property: role(
       'Orange 60° — the world reaching in with warm hands',
-      L.sopranino, C.mp, H.minor6th
+      L.soprano, C.mp, H.minor6th
     ),
 
-    // === GOLD (90°) — Butter Croissant ===
+    // === GOLD (90°) — Butter Croissant — soprano (peak Cz ~0.179) ===
     function: role(
       'Gold 90° — butter croissant, warm action from the oven',
-      L.sopranino, C.mp, H.major6th
+      L.soprano, C.mp, H.major6th
     ),
     method: role(
       'Gold 90° — callable warmth, same voice as function',
-      L.sopranino, C.mp, H.major6th
+      L.soprano, C.mp, H.major6th
     ),
     tag: role(
       'Gold 90° — element invocation, structural',
-      L.sopranino, C.mp, H.major6th
+      L.soprano, C.mp, H.major6th
     ),
     attribute: role(
       'Orange 60° — HTML attributes, element properties',
-      L.sopranino, C.mp, H.minor6th
+      L.soprano, C.mp, H.minor6th
     ),
 
-    // === LIME (120°) — Pistachio Cream ===
+    // === LIME (120°) — Pistachio Cream — treble (peak Cz ~0.179) ===
     class: role(
       'Lime 120° — pistachio cream, organized garnish',
-      L.sopranino, C.mp, H.minor7th
+      L.treble, C.mp, H.minor7th
     ),
     struct: role(
       'Lime 120° — same family as class, same organized energy',
-      L.sopranino, C.mp, H.minor7th
+      L.treble, C.mp, H.minor7th
     ),
     enum: role(
       'Lime 120° — a defined set, same voice',
-      L.sopranino, C.mp, H.minor7th
+      L.treble, C.mp, H.minor7th
     ),
 
-    // === CANONICAL TEAL (180°) — One Breath From Home ===
+    // === CANONICAL TEAL (180°) — One Breath From Home — sopranino (peak Cz ~0.152) ===
     interface: role(
       'Canonical teal 180° — one breath from tonic',
       L.sopranino, C.mp, INTERFACE_HUE
     ),
 
-    // === GREEN (150°) — Mint Leaf ===
+    // === GREEN (150°) — Mint Leaf — sopranino (peak Cz ~0.157) ===
     string: role(
       'Green 150° — mint leaf, someone\'s truth fresh from the garden',
       L.sopranino, C.mp, H.major7th
@@ -136,44 +136,44 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
       L.sopranino, C.mp, H.major7th
     ),
 
-    // === AZURE (240°) — Shopfront Blue ===
+    // === AZURE (240°) — Shopfront Blue — treble (peak Cz ~0.097) ===
     constant: role(
       'Azure 240° — shopfront blue, named and immutable',
-      L.sopranino, C.mp, H.minor2nd
+      L.treble, C.mp, H.minor2nd
     ),
     number: role(
       'Azure 240° — a literal value',
-      L.sopranino, C.mp, H.minor2nd
+      L.treble, C.mp, H.minor2nd
     ),
     boolean: role(
       'Azure 240° — truth at its simplest',
-      L.sopranino, C.mp, H.minor2nd
+      L.treble, C.mp, H.minor2nd
     ),
     enumMember: role(
       'Azure 240° — one possibility, chosen from the set',
-      L.sopranino, C.mp, H.minor2nd
+      L.treble, C.mp, H.minor2nd
     ),
 
-    // === VIOLET (300°) — Twilight Through the Window ===
+    // === VIOLET (300°) — Twilight Through the Window — soprano (peak Cz ~0.109) ===
     type: role(
       'Violet 300° — twilight through the shop window, the shape beneath',
-      L.sopranino, C.mp, H.minor3rd
+      L.soprano, C.mp, H.minor3rd
     ),
     typeParameter: role(
       'Violet 300° — a type waiting to become, one step lighter',
-      L.treble, C.mp, H.minor3rd
+      L.mezzo, C.mp, H.minor3rd
     ),
 
-    // === MAGENTA (330°) — Raspberry Macaron ===
+    // === MAGENTA (330°) — Raspberry Macaron — mezzo (peak Cz ~0.155) ===
     macro: role(
       'Magenta 330° — raspberry macaron, code changing code',
-      L.sopranino, C.mp, H.major3rd
+      L.mezzo, C.mp, H.major3rd
     ),
 
-    // === ROSE (0°) — Strawberry Glaze ===
+    // === ROSE (0°) — Strawberry Glaze — mezzo (peak Cz ~0.121) ===
     operator: role(
       'Rose 0° — strawberry glaze, connecting rhythm',
-      L.sopranino, C.mp, H.tritone
+      L.mezzo, C.mp, H.tritone
     ),
 
     // === DEPARTURES — comments and punctuation ===
@@ -188,8 +188,8 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     ),
 
     punctuation: role(
-      'Tonic ghost 210° — bar lines, seen through not at, Lc ~47',
-      L.alto - 0.005, C.ppp, H.mikuTeal
+      'Tonic ghost 210° — bar lines, seen through not at',
+      L.tenor, C.ppp, H.mikuTeal
     ),
 
     // === TONIC — variableLanguage ===

@@ -66,21 +66,21 @@ Chalkboard               #3E4651      ~254°    ~250°      Dark anchor, shadows
 
 ### Registers
 
-In a light theme, lower Jz = darker foreground = higher contrast. ΔJz = 0.015/step. Each hue is assigned to the register nearest its sRGB peak-chroma Jz.
+In a light theme, lower Jz = darker foreground = higher contrast. Each hue is assigned to the register nearest its sRGB peak-chroma Jz, darkened to target Lc ≥ 75.
 
 ```
-Register       Jz      Steps    Role
+Register       Jz      Role
 ═══════════════════════════════════════════════════════
-sopranino      0.080   +2       Blue/azure peak — keywords, tonic
-treble         0.095   +1       Cyan/lime peak — constants, classes
-soprano        0.110    0  ★    Violet/orange/gold — syntax ensemble
-mezzo          0.125   −1       Tonic/rose/magenta peak — soft syntax
-alto           0.140   −2       Green/teal/gold peak — comments
-countertenor   0.155   −3       Ghost, indent guides
-tenor          0.170   −4
-baritone       0.185   −5       Punctuation
-bass           0.195   −6
-contrabass     0.200   −7       Barely visible on cream
+sopranino      0.074   Blue/azure peak — keywords, tonic, string, interface
+treble         0.088   Lime/azure peak — constants, classes
+soprano        0.097   Violet/orange/gold — parameter, function, type
+mezzo          0.110   Rose/magenta peak — operator, macro, decorator
+alto           0.130   Comments
+countertenor   0.148   Ghost, soft syntax
+tenor          0.165   Punctuation
+baritone       0.180
+bass           0.192
+contrabass     0.200   Barely visible on cream
 ```
 
 Each hue uses the register nearest its sRGB peak-chroma Jz — displayed at maximum vividness automatically.
@@ -157,17 +157,17 @@ fff       0.180    Extreme (only blue delivers)
 ```
 Layer     Token         Hz     Register           Dyn
 ═══════════════════════════════════════════════════════════════
-Whisper   comment       210°   alto−0.005 (Lc~46) pp
-          commentDoc    210°   mezzo+0.005(Lc~49) pp
-Ghost     punctuation   210°   alto−0.005 (Lc~47) ppp
+Whisper   comment       210°   alto               pp
+          commentDoc    210°   mezzo+0.005        pp
+Ghost     punctuation   210°   tenor              ppp
 Signal    error          30°   soprano            f (ui.error)
 ```
 
-Comments and punctuation are tonic cyan — her whisper between the lines. Error is warm red at soprano/f — vivid alarm on cream.
+Comments are tonic cyan at alto — her whisper between the lines. Punctuation drops to tenor for clear ΔE ≥ 15 distinction from comments. Error is warm red at soprano/f — vivid alarm on cream.
 
 ### Brackets
 
-Six levels, strict warm/cool alternation. Tonic at level 4.
+Six levels, warm/cool alternation. Tonic at level 4. Level 6 uses blue (270°) instead of green (150°) for deuteranopia safety against level 1 orange (60°).
 
 ```
 Level   Note   Hz     Temperature
@@ -177,7 +177,7 @@ Level   Note   Hz     Temperature
   3     D#      90°   Warm — gold
   4     G      210°   Cool — ★ tonic ★
   5     C        0°   Warm — rose
-  6     F      150°   Cool — mint-green
+  6     A      270°   Cool — display case blue
 ```
 
 Adjacent pairs cross the warm/cool boundary (min gap 90°). Survives all CVD types.
@@ -193,10 +193,10 @@ The spatial metaphor: warm inside (content), cool outside (structure).
 ```
 Tier       Jz       Cz      Hz      Hex       Source
 ═══════════════════════════════════════════════════════════════════════════
-Void       ~0.210   0.008   ~85°    #f3f0e6   Cream — warm absence
-Stage      ~0.204   0.012   ~85°    #eee8da   Dress — editor, terminal
-House      ~0.192   0.016   ~235°   #c9dde7   Shopfront — sidebar, tabs
-Float      ~0.186   0.020   ~235°   #bdd7e3   Frost — hover, menus
+Void       ~0.218   0.008   ~85°    #FEFAF0   Cream — warm absence
+Stage      ~0.210   0.012   ~85°    #F5F0E2   Dress — editor, terminal
+House      ~0.202   0.016   ~235°   #D5EAF4   Shopfront — sidebar, tabs
+Float      ~0.194   0.020   ~235°   #C7E1EE   Frost — hover, menus
 ```
 
 **Stage** — warm cream, where code lives. **House** — cool blue shopfront framing the workspace. **Float** — deeper cool, menus hovering over the frame. **Void** — warm ivory, empty bakery glow.
@@ -226,18 +226,18 @@ Warm ivory (~85° Hz, bg.void). Widget shadow at 50% opacity, scrollbar shadow a
 
 ## 6. Foreground
 
-Chocolate ink (~40° Hz) on warm cream canvas (~85° Hz) — both warm, cohesive. Readability comes from high lightness contrast (ΔJz ~0.166).
+Chocolate ink (~40° Hz) on warm cream canvas (~85° Hz) — both warm, cohesive. Readability comes from high lightness contrast (ΔJz ~0.172).
 
 ```
-Role           Jz      Cz      Hz       Hex       Lc on Stage
-═══════════════════════════════════════════════════════════════════════
-Primary        0.038   0.018   ~40°     #32211E   ~82
-Muted          0.118   0.006   ~235°    #7B8184   ~38
-Subtle         0.135   0.003   ~235°    #839A9B   ~25
-Tertiary       0.108   0.008   ~40°     #7B7170   ~45
-Disabled       0.133   0.005   ~40°     #968E8E   ~32
-Ghost          0.135   0.003   ~235°    #839A9B   ~25
-Placeholder    0.133   0.006   ~40°     ~          ~32
+Role           Jz      Cz      Hz       Lc on Stage
+═══════════════════════════════════════════════════════════════
+Primary        0.038   0.018   ~40°     ~90
+Muted          0.098   0.006   ~235°    ~60
+Subtle         0.130   0.003   ~235°    ~30
+Tertiary       0.108   0.008   ~40°     ~45
+Disabled       0.133   0.005   ~40°     ~32
+Ghost          0.135   0.003   ~235°    ~25
+Placeholder    0.133   0.006   ~40°     ~32
 ```
 
 Primary through disabled: warm chocolate family (~40° Hz). Ghost, Muted, and Subtle shift to cool (~235° Hz) — structural foreground that belongs to the chrome voice.
@@ -264,14 +264,14 @@ Engagement and Identity: ~183° apart (warm/cool boundary). CVD-safe under all c
 ### Accent Hierarchy
 
 ```
-Register   JzCzhz                             Hex       Role
-═══════════════════════════════════════════════════════════════════════════
-deep       ~Jz 0.025  Cz 0.015  Hz ~40°      #211311   Pressed, shadow
-dark       ~Jz 0.088  Cz 0.070  Hz ~215°     #00717F   Active, links
-accent     ~Jz 0.128  Cz 0.045  Hz ~210°     #4E9CA1   Primary accent (tonic)
-cursor     ~Jz 0.130  Cz 0.070  Hz ~27°      #C8676F   Cursor, focus, icons
-button     ~Jz 0.115  Cz 0.075  Hz ~27°      #B6535D   Primary button bg
-badge      ~Jz 0.108  Cz 0.078  Hz ~27°      #AE4954   Badge bg, notifications
+Register   JzCzhz                             Role
+═══════════════════════════════════════════════════════════════
+deep       Jz 0.025  Cz 0.015  Hz ~40°       Pressed, shadow
+dark       Jz 0.088  Cz 0.070  Hz ~215°      Active, links
+accent     Jz 0.128  Cz 0.045  Hz ~210°      Primary accent (tonic)
+cursor     Jz 0.130  Cz 0.070  Hz ~27°       Cursor, focus, icons
+button     Jz 0.115  Cz 0.075  Hz ~27°       Primary button bg
+badge      Jz 0.108  Cz 0.078  Hz ~27°       Badge bg, notifications
 ```
 
 The necktie pink family (Hz=27°) serves all identity/action roles: cursor, buttons, badges, focus borders, active borders. Derived by darkening the sampled pastel (#FDC2C4) proportionally.
@@ -308,23 +308,25 @@ opaque    FF     100%
 ### Overlays
 
 ```
-Overlay                  Color                Tier
-═══════════════════════════════════════════════════════════════
-Cursor line              Ice (~235° Hz)       light (8%)
-Selection                Ice (~235° Hz)       strong (25%)
-Inactive selection       Ice (~235° Hz)       medium (15%)
-Word highlight           Tonic (~210° Hz)     light (8%)
-Word highlight strong    Tonic (~210° Hz)     medium (15%)
-Find match               Gingerbread (~70°)   strong (25%)
-Diff inserted line       Mint-green (~180°)   light (8%)
-Diff inserted text       Mint-green (~180°)   medium (15%)
-Diff removed line        Pastel pink (~27°)   light (8%)
-Diff removed text        Pastel pink (~27°)   medium (15%)
-Bracket match            Tonic (~210° Hz)     light (8%)
-Inline completion bg     Cool muted (~235° Hz)  subtle (3%)
+Overlay                  Color                         Tier
+═══════════════════════════════════════════════════════════════════════════
+Cursor line              Ice (~235° Hz)                light (8%)
+Selection                Ice (~235° Hz)                strong (25%)
+Inactive selection       Ice (~235° Hz)                medium (15%)
+Word highlight           Tonic (~210° Hz)              light (8%)
+Word highlight strong    Tonic (~210° Hz)              medium (15%)
+Find match               Gingerbread overlay (~70°)    strong (25%)
+Diff inserted line       Mint-green (~180°)            light (8%)
+Diff inserted text       Mint-green (~180°)            medium (15%)
+Diff removed line        Pastel pink (~27°)            light (8%)
+Diff removed text        Pastel pink (~27°)            light (8%)
+Bracket match            Tonic (~210° Hz)              light (8%)
+Inline completion bg     Cool muted (~235° Hz)         subtle (3%)
 ```
 
-**Find match at strong (25%).** Gingerbread (~70° Hz) is close to canvas (~85° Hz) — needs higher alpha for comparable visibility.
+**Find match uses a dedicated overlay color** (Jz 0.125, Cz 0.090, Hz 70°) — lighter and less saturated than status warning, to preserve cool-token contrast on the tinted background. Status warning (Jz 0.095, Cz 0.124) is too dark/vivid for overlay use.
+
+**Diff removed text at light (8%)** instead of medium — the pastel pink overlay at medium (15%) crushes contrast for cool syntax tokens. The removed line border and gutter provide sufficient visibility at the reduced opacity.
 
 ### Status & Git
 
@@ -340,15 +342,15 @@ Success        180°    0.090  0.110   #008963   ~53
 ```
 
 ```
-Git state      Hz      Jz     Cz      Hex       Source
+Git state      Hz      Jz     Cz      Source
 ═══════════════════════════════════════════════════════════════════
-Added          180°    0.090  0.120   #008C64   Mint — vivid growth
-Modified        70°    0.095  0.120   #9B4900   Gingerbread — warm change
-Deleted        300°    0.085  0.120   #7900A4   Violet — twilight departure
-Untracked      210°    0.088  0.110   #007C8C   Tonic — drifting in
-Conflict         0°    0.088  0.120   #BC006A   Rose — demands resolution
-Renamed        270°    0.080  0.100   #443D9E   Blue — reorganized
-Ignored         —      —      —       tertiary  Disabled text
+Added          180°    0.076  0.120   Mint — vivid growth
+Modified        70°    0.095  0.120   Gingerbread — warm change
+Deleted        300°    0.085  0.120   Violet — twilight departure
+Untracked      210°    0.088  0.110   Tonic — drifting in
+Conflict         0°    0.088  0.120   Rose — demands resolution
+Renamed        270°    0.080  0.100   Blue — reorganized
+Ignored         —      —      —       Disabled text
 ```
 
 Six distinct hues at vivid chroma, easily distinguishable in the explorer panel.
@@ -364,24 +366,146 @@ Background matches Stage (warm cream). ANSI colors are vivid — Jz 0.082–0.09
 ```
 ANSI       Hue         Normal Jz    Bright Jz
 ═══════════════════════════════════════════════════════════════
-black      ~40° Hz     0.150        0.108     Chocolate brown
-red         0° Hz      0.095        0.082     Vivid rose
-green     120° Hz      0.098        0.092     Vivid pistachio
-yellow     60° Hz      0.082        0.078     Vivid baked peach
-blue      240° Hz      0.082        0.072     Vivid azure
-magenta   300° Hz      0.088        0.078     Vivid raspberry
-cyan      210° Hz      0.090        0.078     Vivid tonic ★
-white      ~95° Hz     0.100        0.056     Warm cream → ink
+black      ~40° Hz     0.148        0.108     Chocolate brown
+red         0° Hz      0.097        0.082     Vivid rose (soprano for CVD)
+green     120° Hz      0.091        0.085     Vivid pistachio
+yellow     60° Hz      0.076        0.072     Vivid baked peach
+blue      240° Hz      0.076        0.066     Vivid azure
+magenta   300° Hz      0.082        0.072     Vivid raspberry
+cyan      210° Hz      0.084        0.072     Vivid tonic ★
+white      ~95° Hz     0.093        0.056     Warm cream → ink
 ```
 
 ### Symbol Icons
 
-Follow syntax hue assignments. Registers adjusted per-hue for visibility on cream — warm hues need darker registers than cool hues.
+24 icons on the 12-tone grid. Same-hue icons distinguished by register and dynamic (DEz >= 12 between pairs). Warm hues need darker registers than cool hues for visibility on cream.
+
+```
+Icon            Hz     Register        Dyn    Hue family
+═══════════════════════════════════════════════════════════════════════════
+property         60°   sopranino       ff     Orange — baked peach
+field            60°   alto            mp     Orange — deeper warmth
+function         90°   sopranino       ff     Gold — croissant glow
+method           90°   mezzo           mp     Gold — DEz≥15 from function
+constructor      90°   countertenor    f      Gold — DEz≥15 from method
+class           120°   sopranino       f      Lime — pistachio
+struct          120°   mezzo           ff     Lime — DEz≥15 from class
+enum            120°   alto            f      Lime — DEz≥15 from struct
+package         120°   alto            f      Lime — same as enum
+string          150°   soprano         f      Green — mint leaf
+reference       150°   sopranino       mp     Green — link
+interface       180°   sopranino       mp     Teal — canonical
+folder          210°   soprano         ff     Tonic — her home
+array           210°   soprano         mp     Tonic — ordered
+variable        270°   soprano         ff     Blue — vivid data
+constant        240°   mezzo           f      Azure — deep truth
+number          240°   treble          ff     Azure — quantity
+boolean         240°   countertenor    mp     Azure — truth
+enumMember      240°   countertenor    f      Azure — one choice
+typeParameter   300°   soprano         mp     Violet — shape
+module          300°   sopranino       f      Violet — boundary
+namespace       300°   alto            mp     Violet — distant scope
+operator          0°   sopranino       mp     Rose — rhythm
+snippet           0°   soprano+0.006   mp     Rose — template
+```
+
+### Support Tokens
+
+Library and built-in tokens share their syntax hue, one dynamic step louder (f instead of mp). Same register — distinction comes from chroma alone.
+
+```
+Token            Hz     Register     Dyn    Syntax counterpart
+═══════════════════════════════════════════════════════════════
+support.function  90°   sopranino    f      function (mp)
+support.class    120°   sopranino    f      class (mp)
+support.type     300°   sopranino    mp     type (mp) — same
+support.constant 240°   sopranino    mp     constant (mp) — same
+support.variable 270°   sopranino    mp     variable (mp) — same
+```
+
+### Indent Guides
+
+Six hues from the patisserie palette. Tonic leads (the first stripe is her hair), then five contrasting hues for maximum distinction between levels. Alto register, p dynamic — gentle pastry-case stripes at the margin.
+
+```
+Guide   Hz     Source
+═══════════════════════════════════════════
+  1     210°   Tonic cyan — her hair
+  2     300°   Violet — twilight
+  3     330°   Magenta — raspberry macaron
+  4     150°   Green — mint leaf
+  5      90°   Gold — butter croissant
+  6     270°   Azure — display case
+```
+
+Inactive guides at 25% opacity. Active guides at 100%.
+
+### Inlay Hints
+
+Inlay hints sit inside the editor canvas at reduced prominence. Three voices:
+
+```
+Hint type     Hz      Source             Role
+═══════════════════════════════════════════════════════════════
+Default       235°    foregroundMuted     Cool chrome — structural annotation
+Type          210°    accentMuted         Tonic — type information whispered
+Parameter     270°    inlayParameter      Blue — data name echoed faintly
+```
+
+Background: Stage at 50% opacity — translucent cream, not opaque.
+
+### Semantic Token Modifiers
+
+Modifiers change font style or shift to a related hue. No modifier changes register or dynamic — the base token's voice stays intact.
+
+```
+Modifier         Effect                    Rationale
+═══════════════════════════════════════════════════════════════════════════
+readonly         foreground → constant     Immutable — azure 240°, same as constants
+static           (none)                    Static is structural, not visual
+deprecated       fontStyle: strikethrough  A crossed-out note — the shape remains
+abstract         fontStyle: italic         Not yet concrete — leaning forward
+async            (none)                    Async is invisible in the editor
+declaration      (none)                    Declaration site = usage site
+definition       (none)                    Same as declaration
+documentation    fontStyle: italic         Prose voice — leaning, literary
+modification     (none)                    Mutation is contextual, not styled
+defaultLibrary   (none)                    Handled per-type (support tokens)
+```
+
+Font styles used in TextMate scopes: comments (italic), variableLanguage (italic), headings (bold), emphasis (italic), strong (bold), quotes (italic), links (underline), deprecated (strikethrough), strikethrough (strikethrough).
 
 ### Debug
 
-Token colors at treble register (Jz 0.095) for visibility on House background: name=rose, value=lime, string=green, number=cyan, boolean=cyan, error=rose, type=violet.
+Token colors at sopranino register for visibility on House background.
+
+```
+Token      Hz     Dyn    Source
+═══════════════════════════════════════════
+name         0°   mp     Rose — identity
+value      120°   f      Lime — the treasure
+string     150°   mp     Green — text within (sopranino−0.006)
+number     240°   f      Azure — quantity
+boolean    240°   mp     Azure — truth
+error        0°   f      Rose — something broke
+type       300°   mp     Violet — shape beneath
+```
 
 ### Markdown
 
-Headings: bold gold at soprano−0.004. Code blocks: ice (235°) at treble. Quotes: sky (235°) at treble. Links: violet 300° at soprano. Inserted: green at sopranino. Alerts use per-hue f dynamic.
+```
+Element              Hz     Register        Dyn    Style
+═══════════════════════════════════════════════════════════════
+Heading               90°   sopranino       f      bold
+Heading punctuation   90°   sopranino       mp
+Code block           235°   sopranino       f
+Quote                235°   sopranino       mp     italic
+Link URL             300°   sopranino       mp     underline
+Inserted             150°   sopranino       mp
+Deleted                0°   sopranino       f
+Alert: important     330°   sopranino       f
+Alert: note          235°   sopranino       f
+Alert: tip           150°   sopranino       f
+Alert: warning        90°   sopranino       f
+Alert: caution         0°   sopranino       f
+```

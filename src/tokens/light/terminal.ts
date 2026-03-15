@@ -21,7 +21,7 @@ export function createTerminalTokens(p: Primitives): TerminalTokens {
   return {
     // Normal — vivid ANSI colors on cream canvas
     black: role('Near-bg warm — chocolate brown, barely visible', L.countertenor - 0.005, 0.014, 40),
-    red: role('Rose 0° — vivid strawberry on cream', L.treble, C.mp + 0.010, H.tritone),
+    red: role('Rose 0° — vivid strawberry on cream', L.soprano, C.mp + 0.010, H.tritone),
     green: role('Lime 120° — vivid pistachio green', L.treble + 0.003, C.mp, H.minor7th),
     yellow: role('Orange 60° — vivid baked peach', L.sopranino + 0.002, C.mp, H.minor6th),
     blue: role('Azure 240° — vivid shopfront blue', L.sopranino + 0.002, 0.110, H.minor2nd),

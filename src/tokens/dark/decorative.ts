@@ -225,6 +225,7 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
 
     // Snow Miku -- icy cursor line frost
     cursorLineFrost: snowMiku.y2025.accessories.crystal, // 2025 Sparkling Snow ice prism #81D4FA
+    findMatchOverlay: hex({ Jz: 0.110, Cz: 0.135, hz: 85 }), // Dark theme: warning-adjacent gold for find overlay
 
     // Boots -- terminal lives inside her thigh-highs
     bootsBase: p.character.boots.base,

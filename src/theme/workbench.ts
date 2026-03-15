@@ -131,7 +131,7 @@ const chrome = {
   activityBar:    isLight ? t.decorative.topMain : bg.house,
   sidebar:        isLight ? t.decorative.armWarmersBase : bg.house,
   sectionHeader:  isLight ? t.decorative.topMain : bg.house,
-  statusBar:      isLight ? t.decorative.topShadow : bg.house,
+  statusBar:      isLight ? t.decorative.topMain : bg.house,
   tabHeader:      isLight ? t.decorative.armWarmersBase : bg.house,
   panel:          bg.base,  // Stage tier (content surface, same as terminal/editor)
 };
@@ -237,7 +237,8 @@ return {
 
   // Find & Replace
   // Balance: visible enough for ΔE≥12, low enough for syntax contrast
-  'editor.findMatchBackground': withOpacity(semantic.warning, alphaEditor.findMatchBg),
+  // Light: use lighter gingerbread overlay (not status warning) to preserve cool-token contrast
+  'editor.findMatchBackground': withOpacity(isLight ? t.decorative.findMatchOverlay : semantic.warning, alphaEditor.findMatchBg),
   'editor.findMatchForeground': text.primary,
   'editor.findMatchBorder': withOpacity(semantic.warning, op.solid),
   'editor.findMatchHighlightBackground': withOpacity(accent.secondary, alphaEditor.findHighlightBg),
@@ -246,7 +247,7 @@ return {
   'editor.findRangeHighlightBorder': withOpacity(accent.primary, op.medium),
   'search.resultsInfoForeground': text.secondary,
   // Darken slightly for comment readability in Search Editor
-  'searchEditor.findMatchBackground': withOpacity(semantic.warning, op.medium),
+  'searchEditor.findMatchBackground': withOpacity(isLight ? t.decorative.findMatchOverlay : semantic.warning, op.medium),
   'searchEditor.findMatchBorder': withOpacity(semantic.warning, op.heavy),
   'searchEditor.textInputBorder': withOpacity(accent.primary, op.strong),
 
@@ -273,9 +274,9 @@ return {
   'editorIndentGuide.background1': withOpacity(t.decorative.indentGuides[0], op.strong),
   'editorIndentGuide.background2': withOpacity(t.decorative.indentGuides[1], op.strong),
   'editorIndentGuide.background3': withOpacity(t.decorative.indentGuides[2], op.strong),
-  'editorIndentGuide.background4': withOpacity(t.decorative.indentGuides[3], op.heavy),
-  'editorIndentGuide.background5': withOpacity(t.decorative.indentGuides[4], op.heavy),
-  'editorIndentGuide.background6': withOpacity(t.decorative.indentGuides[5], op.heavy),
+  'editorIndentGuide.background4': withOpacity(t.decorative.indentGuides[3], op.strong),
+  'editorIndentGuide.background5': withOpacity(t.decorative.indentGuides[4], op.strong),
+  'editorIndentGuide.background6': withOpacity(t.decorative.indentGuides[5], op.strong),
   'editorIndentGuide.activeBackground1': t.decorative.indentGuides[0],
   'editorIndentGuide.activeBackground2': t.decorative.indentGuides[1],
   'editorIndentGuide.activeBackground3': t.decorative.indentGuides[2],
@@ -743,7 +744,7 @@ return {
   'terminal.selectionBackground': withOpacity(t.decorative.cursorLineFrost, alphaTerminal.terminalSelectionBg),
   'terminal.selectionForeground': text.primary,
   'terminal.inactiveSelectionBackground': withOpacity(t.decorative.cursorLineFrost, op.medium),
-  'terminal.findMatchBackground': withOpacity(semantic.warning, alphaTerminal.terminalFindMatchBg),
+  'terminal.findMatchBackground': withOpacity(isLight ? t.decorative.findMatchOverlay : semantic.warning, alphaTerminal.terminalFindMatchBg),
   'terminal.findMatchBorder': withOpacity(semantic.warning, op.solid),
   'terminal.findMatchHighlightBackground': withOpacity(accent.secondary, op.medium),
   'terminal.findMatchHighlightBorder': withOpacity(accent.secondary, op.heavy),
@@ -1067,7 +1068,7 @@ return {
   'testing.iconFailed': semantic.error,
   'testing.iconPassed': semantic.success,
   'testing.iconQueued': text.tertiary,
-  'testing.iconUnset': text.secondary,
+  'testing.iconUnset': text.disabled,
   'testing.iconSkipped': text.tertiary,
   'testing.iconErrored.retired': withOpacity(semantic.error, op.heavy),
   'testing.iconFailed.retired': withOpacity(semantic.error, op.heavy),
@@ -1437,7 +1438,7 @@ return {
   'textCodeBlock.background': withOpacity(bg.house, op.solid),
   'textLink.activeForeground': accent.link,
   'textLink.foreground': accent.secondary,
-  'textPreformat.foreground': accent.muted,
+  'textPreformat.foreground': accent.secondary,
   'textPreformat.background': withOpacity(bg.house, op.heavy),
   'textPreformat.border': withOpacity(accent.primary, op.medium),
   'textSeparator.foreground': withOpacity(accent.primary, op.strong),
