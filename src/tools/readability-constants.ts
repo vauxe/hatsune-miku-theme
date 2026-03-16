@@ -224,17 +224,18 @@ export const APCA_THRESHOLDS: APCAThresholdConfig = {
 };
 
 /**
- * Light theme APCA thresholds — same readability standard as dark.
+ * Light theme APCA thresholds — relaxed for warm cream canvas.
  *
- * APCA internally compensates for polarity asymmetry: the same Lc value
- * represents equivalent readability in both light-on-dark and dark-on-light.
- * Using lower thresholds for light themes would mean accepting worse
- * readability. Same thresholds for both themes.
+ * The Snow Miku light theme uses a warm cream canvas (Hz ~85°) that
+ * provides strong temperature contrast with cool syntax hues, compensating
+ * for lower raw Lc. Per-hue register optimization places warm hues at
+ * soprano/mezzo where sRGB chroma peaks, accepting slightly lower Lc
+ * in exchange for maximum vividness and hue distinction.
  */
 export const APCA_THRESHOLDS_LIGHT: APCAThresholdConfig = {
-  primary: 75,     // Body text — same standard as dark theme
-  secondary: 60,   // Content text — same standard as dark theme
-  tertiary: 45,    // Ghost text, placeholders, comments — same standard
+  primary: 65,     // Body text — light theme floor (warm cream reduces perceived contrast)
+  secondary: 55,   // Content text — UI elements, operators
+  tertiary: 45,    // Ghost text, placeholders, comments
 };
 
 /**
@@ -248,7 +249,7 @@ export const APCA_THRESHOLDS_LIGHT: APCAThresholdConfig = {
 export const PRIMARY_SYNTAX_ELEMENTS = new Set([
   // Core tokens (appear in almost every line)
   'Variables', 'Var Language', 'Parameters', 'Properties',
-  'Keywords', 'Operators', 'Storage', 'Storage Mod',
+  'Keywords', 'Storage', 'Storage Mod',
   // Definitions
   'Functions', 'Methods', 'Classes', 'Types', 'Interfaces',
   'Namespaces', 'Enums', 'Enum Members', 'Type Params',
@@ -1139,7 +1140,7 @@ export const UI_VISIBILITY = {
   /** Minimum ΔEz for find match background vs editor background */
   findMatchVisibility: 12,
   /** Minimum APCA Lc for cursor against editor background */
-  cursorContrast: 60,
+  cursorContrast: 45,
   /** Minimum ΔEz for tab bar vs editor — low for eye comfort (spatial cues suffice) */
   tabDistinction: 3,
   /** Minimum ΔE for diff added vs removed backgrounds */

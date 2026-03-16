@@ -113,8 +113,8 @@ export function createUITokens(p: Primitives): UITokens {
     cursor: (() => {
       const cushion = parseHex(char.headphones.cushion);
       return role(
-        'Pastel pink cursor — sampled necktie Hz≈27°, where she points you type',
-        cushion.Jz + 0.050, cushion.Cz, cushion.hz
+        'Pastel pink cursor — sampled necktie Hz≈20°, where she points you type',
+        cushion.Jz, cushion.Cz + 0.010, cushion.hz
       );
     })(),
 
@@ -189,15 +189,15 @@ export function createUITokens(p: Primitives): UITokens {
     buttonBackground: (() => {
       const cushion = parseHex(char.headphones.cushion);
       return role(
-        'Necktie ribbon — sampled Hz≈27° pastel pink, darkened for contrast',
-        cushion.Jz + 0.035, cushion.Cz + 0.005, cushion.hz
+        'Necktie ribbon — darkened from pastel pink for readable button text',
+        cushion.Jz - 0.035, cushion.Cz + 0.010, cushion.hz
       );
     })(),
     badgeBackground: (() => {
       const cushion = parseHex(char.headphones.cushion);
       return role(
-        'Necktie ribbon badge — sampled pastel pink, darker for notification',
-        cushion.Jz + 0.028, cushion.Cz + 0.008, cushion.hz
+        'Necktie ribbon badge — darkened from pastel pink for notification',
+        cushion.Jz - 0.040, cushion.Cz + 0.015, cushion.hz
       );
     })(),
     activeBorder: roleFromHex(

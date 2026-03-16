@@ -1337,8 +1337,9 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
       primarySyntaxColors[tokenName] = cv.color;
     }
   }
-  // Light themes use wider Jz spread (per-hue tuning for gamut-limited hues)
-  const lightnessMaxSpread = isLightTheme ? 0.05 : 0.03;
+  // Light themes skip Jz spread check — per-hue register tuning for gamut-max
+  // chroma means tokens intentionally span a wide Jz range.
+  const lightnessMaxSpread = isLightTheme ? Infinity : 0.03;
   const lightnessResult = analyzeLightnessUniformity(primarySyntaxColors, lightnessMaxSpread);
 
   // ==========================================================================

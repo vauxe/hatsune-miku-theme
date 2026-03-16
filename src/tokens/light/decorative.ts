@@ -54,7 +54,7 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
     // === D# Gold (90°) -- Major 6th -- butter croissant ===
     function: role('Symbol function -- gold 90°, croissant glow', L.sopranino, C.ff, H.major6th),
     method: role('Symbol method -- gold 90°, mezzo/mp for DEz≥15 from function', L.mezzo, C.mp, H.major6th),
-    constructor: role('Symbol constructor -- gold 90°, countertenor for DEz≥15 from method', L.countertenor, C.f, H.major6th),
+    constructor: role('Symbol constructor -- gold 90°, alto+0.010 for DEz≥15 from method', L.alto + 0.010, C.f, H.major6th),
 
     // === E Lime (120°) -- Minor 7th -- pistachio cream ===
     class: role('Symbol class -- lime 120°, pistachio (sopranino for DEz)', L.sopranino, C.f, H.minor7th),
@@ -79,8 +79,8 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
     // === G# Azure (240°) -- Minor 2nd ===
     constant: role('Symbol constant -- azure 240° (mezzo, f for gap)', L.mezzo, C.f, H.minor2nd),
     number: role('Symbol number -- azure 240°, treble+ff for DEz', L.treble, C.ff, H.minor2nd),
-    boolean: role('Symbol boolean -- azure 240°, countertenor for DEz', L.countertenor, C.mp, H.minor2nd),
-    enumMember: role('Symbol enum member -- azure 240°, countertenor', L.countertenor, C.f, H.minor2nd),
+    boolean: role('Symbol boolean -- azure 240°, alto+0.010 for DEz≥15', L.alto + 0.010, C.mp, H.minor2nd),
+    enumMember: role('Symbol enum member -- azure 240°, alto+0.010', L.alto + 0.010, C.f, H.minor2nd),
 
     // === A# Violet (300°) -- Minor 3rd ===
     typeParameter: role('Symbol type param -- violet 300°', L.soprano, C.mp, H.minor3rd),
@@ -179,14 +179,14 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
       darken(roleFromHex('Wonderlands darkened', wonderlandsShowtime.unitColor), 0.04),
     ],
 
-    // Charts -- Magical Mirai concert memories
+    // Charts -- Magical Mirai concert memories, darkened for cream canvas
     charts: {
-      red: magicalMirai.y2014.accessories.ribbonWire,    // 2014 -- hot pink ribbons
-      blue: magicalMirai.y2013.outfit.dress,             // 2013 -- royal blue dress, the first
-      yellow: magicalMirai.y2013.accessories.wandGold,   // Concert gold -- the wand she held
-      orange: wonderlandsShowtime.unitColor,              // Stage orange -- showtime energy
-      green: magicalMirai.y2013.accessories.wandOrb,     // 2013 -- emerald orb, magical
-      purple: nightcord.unitColor,                        // Nightcord -- 25:00, the quiet hours
+      red: magicalMirai.y2014.accessories.ribbonWire,    // 2014 -- hot pink ribbons (Lc ~62, ok)
+      blue: magicalMirai.y2013.outfit.dress,             // 2013 -- royal blue dress (Lc ~74, ok)
+      yellow: darken(roleFromHex('Concert gold darkened', magicalMirai.y2013.accessories.wandGold), 0.07),   // Lc ~60
+      orange: darken(roleFromHex('Stage orange darkened', wonderlandsShowtime.unitColor), 0.04),              // Lc ~61
+      green: darken(roleFromHex('Emerald orb darkened', magicalMirai.y2013.accessories.wandOrb), 0.06),      // Lc ~62
+      purple: nightcord.unitColor,                        // Nightcord -- 25:00 (Lc ~76, ok)
     },
 
     // Diff editor — patisserie-derived tints for cream canvas

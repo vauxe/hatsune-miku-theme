@@ -58,16 +58,16 @@ import {
  *   120° lime:    ~0.179  → alto (0.140)
  */
 export const lightLightness: LightnessValues = {
-  sopranino: 0.074,    // +2  deep cool hues (blue, azure, tonic, green, teal)
-  treble: 0.088,       // +1  class/constant peak — darkened for Lc≥75
-  soprano: 0.097,      //  0  parameter/function/type — darkened for Lc≥75
-  mezzo: 0.110,        // -1  operator/macro/rose — darkened for Lc≥75
-  alto: 0.130,         // -2  warm/green hues peak — comments
-  countertenor: 0.148, // -3  soft syntax, ghost
-  tenor: 0.165,        // -4  punctuation
-  baritone: 0.180,     // -5
-  bass: 0.192,         // -6
-  contrabass: 0.200,   // -7  barely visible on cream
+  sopranino: 0.079,    // +4  cool hues — compound-safe, max sRGB chroma
+  treble: 0.093,       // +3  class/string/interface — cool-mid hues (120°, 150°, 180°)
+  soprano: 0.100,      // +2  variable/function/constant — warm-mid hues (90°, 240°, 270°)
+  mezzo: 0.107,        // +1  parameter — warm hues (60°)
+  alto: 0.130,         //  0  comments — departure register
+  countertenor: 0.148, // -1  soft syntax, ghost
+  tenor: 0.165,        // -2  punctuation
+  baritone: 0.180,     // -3
+  bass: 0.192,         // -4
+  contrabass: 0.200,   // -5  barely visible on cream
 };
 
 // =============================================================================
@@ -183,12 +183,12 @@ export const lightCharacter: CharacterColors = {
   // Necktie mapped to cushion slot — coral-pink identity voice
   headphones: {
     frame: '#CAD4EA',       // Silver-white headband
-    cushion: hex({ Jz: 0.080, Cz: 0.070, hz: 27 }),  // Pastel pink — sampled from visual
+    cushion: hex({ Jz: 0.155, Cz: 0.055, hz: 20 }),  // Pastel pink — sampled from visual necktie
     display: hex({ Jz: 0.118, Cz: 0.045, hz: 210 }), // Tonic cyan ornament
   },
   hairTies: {
     base: mikuCharacter.hairTies.base,
-    outline: hex({ Jz: 0.080, Cz: 0.070, hz: 27 }),  // Pastel pink
+    outline: hex({ Jz: 0.155, Cz: 0.055, hz: 20 }),  // Pastel pink — matches necktie
   },
   // Structural chrome — shopfront walls (not the cape)
   top: {
@@ -239,7 +239,7 @@ export const lightCharacter: CharacterColors = {
 
 const lightSpecial: SpecialColors = {
   void: hex({ Jz: 0.218, Cz: 0.008, hz: 85 }),       // Warm ivory — empty space
-  foreground: hex({ Jz: 0.038, Cz: 0.018, hz: 40 }),  // Chocolate ink — Lc ~82 on cream
+  foreground: hex({ Jz: 0.075, Cz: 0.065, hz: 48 }),  // Vivid chocolate ink — boots brown, Lc ~85 on cream
   nearWhite: hex({ Jz: 0.025, Cz: 0.015, hz: 40 }),   // Deep chocolate — text on accents
   transparent: '#00000000',
   frost: hex({ Jz: 0.118, Cz: 0.045, hz: 235 }),     // Ice — cool shopfront selection

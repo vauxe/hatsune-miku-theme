@@ -111,8 +111,8 @@ const alphaDiff = {
   diffGutterInserted:       isLight ? op.light : op.medium,
   diffRemovedLine:          isLight ? op.light : op.medium,
   diffRemovedText:          isLight ? op.medium : op.strong,
-  diffGutterRemoved:        op.medium,
-  inlineChatDiff:           isLight ? op.subtle : op.medium,
+  diffGutterRemoved:        isLight ? op.light : op.medium,
+  inlineChatDiff:           isLight ? op.light : op.medium,
 };
 const alphaChrome = {
   borderSubtle:             op.medium,

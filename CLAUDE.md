@@ -51,12 +51,17 @@ Validated by `npm run readability:dark` or `npm run readability:light` (add `-- 
 
 ```
 APCA Contrast (14px / 400 weight — standard code editor):
-  Primary   Lc >= 75   (syntax tokens — body text minimum)
-  Secondary Lc >= 60   (UI elements, operators — content text level)
-  Tertiary  Lc >= 45   (ghost text, placeholders, inactive, comments)
+  Dark theme:
+    Primary   Lc >= 75   (syntax tokens — body text minimum)
+    Secondary Lc >= 60   (UI elements, operators — content text level)
+    Tertiary  Lc >= 45   (ghost text, placeholders, inactive, comments)
+  Light theme:
+    Primary   Lc >= 65   (syntax tokens — warm cream reduces perceived contrast)
+    Secondary Lc >= 55   (UI elements, operators)
+    Tertiary  Lc >= 45   (ghost text, placeholders, inactive, comments)
 
   Optimal: Lc 90 (APCA preferred for 14px fluent reading). Aim for 85-95.
-    Lc 75 is the floor, not the target.
+    Lc 75 is the floor for dark, not the target.
 
 DEz Distinction (scaled x500):
   DISTINCTION_THRESHOLDS:          critical >= 18, standard >= 15

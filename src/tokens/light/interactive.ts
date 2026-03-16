@@ -72,8 +72,8 @@ export function createInteractiveTokens(
   // =========================================================================
   const cushion = parseHex(char.headphones.cushion);
   const btnDefault = ui.buttonBackground.hex;
-  const btnHover = hex({ Jz: cushion.Jz + 0.025, Cz: cushion.Cz + 0.010, hz: cushion.hz });   // Darker pastel pink
-  const btnActive = hex({ Jz: cushion.Jz + 0.015, Cz: cushion.Cz + 0.015, hz: cushion.hz });  // Deepest pastel pink
+  const btnHover = hex({ Jz: cushion.Jz - 0.045, Cz: cushion.Cz + 0.015, hz: cushion.hz });   // Darker pink on hover
+  const btnActive = hex({ Jz: cushion.Jz - 0.055, Cz: cushion.Cz + 0.020, hz: cushion.hz });  // Deepest pink on press
 
   // UI-derived foregrounds and backgrounds
   const foreground = ui.foreground.hex;
