@@ -822,7 +822,7 @@
 		"chat.avatarForeground": "#00717F",
 		"chat.editedFileForeground": "#5849CB",
 		"chat.linesAddedForeground": "#007954CC",
-		"chat.linesRemovedForeground": "#7900A4",
+		"chat.linesRemovedForeground": "#7900A4CC",
 		"chat.requestCodeBorder": "#00717F40",
 		"chat.requestBubbleBackground": "#4E9CA115",
 		"chat.requestBubbleHoverBackground": "#4E9CA140",

@@ -494,6 +494,7 @@ export const EXPECTED_DIM_ELEMENTS = new Set([
   'Breadcrumb',      // Breadcrumb navigation (often subdued)
   'Description',     // Helper/description text
   'Chat Placeholder',// Inline chat placeholder
+  'Lines Removed',   // Chat inline removed lines (decoration, not sustained reading)
   'List Deemph',     // Explicitly deemphasized list items
   // Punctuation — ghost layer, structural aid (Lc ≥ 45 sufficient)
   'Punctuation',

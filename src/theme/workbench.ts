@@ -1312,7 +1312,7 @@ return {
   'chat.avatarForeground': accent.secondary,
   'chat.editedFileForeground': t.syntax.variable.hex,
   'chat.linesAddedForeground': withOpacity(t.git.added.hex, op.dense),
-  'chat.linesRemovedForeground': t.git.deleted.hex,
+  'chat.linesRemovedForeground': withOpacity(t.git.deleted.hex, op.dense),
   'chat.requestCodeBorder': withOpacity(accent.secondary, op.strong),
   'chat.requestBubbleBackground': withOpacity(accent.primary, op.light),
   'chat.requestBubbleHoverBackground': t.interactive.toolbar.background.hover,
