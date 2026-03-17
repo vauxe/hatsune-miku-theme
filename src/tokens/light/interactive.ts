@@ -145,20 +145,20 @@ export function createInteractiveTokens(
     },
 
     // =========================================================================
-    // METAL (secondary) -- wash bg + cool borders
+    // METAL (secondary) -- solid teal fills (hair gradient registers)
     // =========================================================================
     buttonSecondary: {
       background: {
-        default: withOpacity(tonic, op.strong),
-        hover: withOpacity(tonic, op.heavy),
-        active: withOpacity(tonic, op.solid),
-        focus: withOpacity(tonic, op.heavy),
-        disabled: withOpacity(tonic, op.medium),
-        selected: withOpacity(tonic, op.heavy),
+        default: char.hair.bright,
+        hover: char.hair.highlight,
+        active: char.hair.base,
+        focus: char.hair.bright,
+        disabled: char.hair.tip,
+        selected: char.hair.highlight,
       },
       foreground: {
         default: foreground,
-        hover: accentDeep,
+        hover: foreground,
         active: foreground,
         focus: foreground,
         disabled: foregroundDisabled,

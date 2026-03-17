@@ -180,8 +180,8 @@ const polarMisc = {
 
 // StatusItem — status bar item colors per polarity
 const statusItem = {
-  debugBg:          isLight ? t.decorative.eyeIris : darken(roleFromHex('', accent.focus), 0.03),
-  debugFg:          t.decorative.blouseWhite,
+  debugBg:          isLight ? lighten(roleFromHex('', t.decorative.eyeIris), 0.08) : darken(roleFromHex('', accent.focus), 0.03),
+  debugFg:          isLight ? text.primary : t.decorative.blouseWhite,
   errorBg:          darken(t.status.error, isLight ? 0.03 : 0.10),
   errorHoverBg:     darken(t.status.error, isLight ? 0.01 : 0.08),
   remoteBg:         isLight ? t.ui.buttonBackground.hex : lighten(roleFromHex('', accent.primary), 0.02),
