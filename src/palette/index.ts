@@ -2,11 +2,16 @@
  * Hatsune Miku Theme - Character Design Palette
  *
  * Official Miku character designs with colors extracted from her actual appearance
- * (hair, eyes, outfit, accessories) - organized by character/variant
+ * (hair, eyes, outfit, accessories) - organized by character/variant.
  *
- * Only re-exports what the theme actually uses. The full palette data remains
- * in the sub-modules (voicebanks.ts, derivatives/, events/, games/) for
- * future theme variants.
+ * ACTIVE vs CATALOG: Only a few exports are consumed by the token/theme layer:
+ *   - character (core.ts) — dark/light character primitives
+ *   - magicalMirai, digitalStars, snowMiku — decorative tokens (charts, SCM, diff)
+ *   - virtualSinger, leoNeed, moreMoreJump, vividBadSquad, wonderlandsShowtime, nightcord — SCM graph
+ *
+ * Everything else (voicebanks, sakuraMiku, racingMiku, mikuExpo, Project DIVA costumes,
+ * derivatives, etc.) is a documentary color catalog for reference and future variants.
+ * The full palette data lives in sub-modules (voicebanks.ts, derivatives/, events/, games/).
  */
 
 export { character } from './core';

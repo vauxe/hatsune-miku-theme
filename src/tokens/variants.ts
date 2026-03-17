@@ -7,16 +7,11 @@
  * This module provides the registry, generation API, and utility functions.
  */
 
-import { hex } from './role';
 import { createDarkSemanticTokens, createDarkPrimitives } from './dark';
-
-const JZ_MAX = 0.22;
-const CZ_MAX = 0.19;
-const HZ_WRAP = 360;
 import { createLightSemanticTokens, createLightPrimitives } from './light';
 import { lightLightness, lightCharacter } from './light/primitives';
 import type { Primitives } from './primitives';
-import type { SemanticTokens, SemanticRole } from './types';
+import type { SemanticTokens } from './types';
 
 // =============================================================================
 // VARIANT TYPES
@@ -82,58 +77,3 @@ export { lightLightness, lightCharacter } from './light/primitives';
 // =============================================================================
 // UTILITY FUNCTIONS
 // =============================================================================
-
-/**
- * Adjust a single semantic role's lightness
- */
-export function adjustLightness(role: SemanticRole, delta: number): SemanticRole {
-  if (role.jzczhz.Jz === 0) {
-    // This is a hex-based role, can't adjust
-    return role;
-  }
-
-  const newJz = Math.max(0, Math.min(JZ_MAX, role.jzczhz.Jz + delta));
-  const newJzczhz = { ...role.jzczhz, Jz: newJz };
-
-  return {
-    ...role,
-    jzczhz: newJzczhz,
-    hex: hex(newJzczhz),
-  };
-}
-
-/**
- * Shift a single semantic role's hue
- */
-export function shiftHue(role: SemanticRole, delta: number): SemanticRole {
-  if (role.jzczhz.Jz === 0) {
-    return role;
-  }
-
-  const newHz = (role.jzczhz.hz + delta + HZ_WRAP) % HZ_WRAP;
-  const newJzczhz = { ...role.jzczhz, hz: newHz };
-
-  return {
-    ...role,
-    jzczhz: newJzczhz,
-    hex: hex(newJzczhz),
-  };
-}
-
-/**
- * Scale a single semantic role's chroma
- */
-export function scaleChroma(role: SemanticRole, factor: number): SemanticRole {
-  if (role.jzczhz.Jz === 0) {
-    return role;
-  }
-
-  const newCz = Math.max(0, Math.min(CZ_MAX, role.jzczhz.Cz * factor));
-  const newJzczhz = { ...role.jzczhz, Cz: newCz };
-
-  return {
-    ...role,
-    jzczhz: newJzczhz,
-    hex: hex(newJzczhz),
-  };
-}

@@ -301,19 +301,6 @@ export interface HueValues {
   orchid: number;
 }
 
-export interface ColorPair {
-  base: string;
-  shadow?: string;
-  highlight?: string;
-  bright?: string;
-  tip?: string;
-  trim?: string;
-  pattern?: string;
-  accent?: string;
-  accessory?: string;
-  main?: string;
-}
-
 export interface CharacterColors {
   hair: { base: string; shadow: string; highlight: string; bright: string; tip: string };
   eyes: { iris: string; highlight: string; pupil: string };
