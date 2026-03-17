@@ -12,7 +12,10 @@ A VS Code color theme traced from Hatsune Miku's character design. Dark and ligh
 ## Preview
 
 <div align="center">
-  <img src="images/example.jpg" alt="Hatsune Miku Theme — Dark" width="800">
+  <img src="images/example-dark.jpg" alt="Hatsune Miku Theme — Dark" width="800">
+  <p><strong>Dark</strong></p>
+  <img src="images/example-light.jpg" alt="Hatsune Miku Theme — Light (Snow Miku)" width="800">
+  <p><strong>Light</strong></p>
 </div>
 
 ## Install
