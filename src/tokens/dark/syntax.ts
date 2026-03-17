@@ -81,8 +81,8 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
 
     // === MAJOR 6TH -- D# Gold (90) -- Written with love ===
     class: role(
-      'Major 6th -- the score from which instances are drawn',
-      L.soprano, C.mp, H.major6th
+      'Major 6th/mf -- the score from which instances are drawn',
+      L.soprano, C.mf, H.major6th
     ),
     struct: role(
       'Major 6th -- same family as class',
@@ -155,20 +155,20 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
 
     // === DEPARTURES -- register shifts from the ensemble ===
 
-    // Whisper layer -- alto (-2), reduced dynamics
+    // Whisper layer -- alto+offset (-2), pp dynamics for visible teal tint
     comment: role(
-      'Whisper -- her voice, barely there',
-      L.alto, C.ppp, H.mikuTeal
+      'Whisper -- her voice between the lines',
+      L.alto + 0.008, C.pp, H.mikuTeal
     ),
     commentDoc: role(
       'Whisper -- her soft voice, visibly teal',
       L.alto, C.pp, H.mikuTeal
     ),
 
-    // Ghost layer -- countertenor (-3), minimal dynamics
+    // Ghost layer -- countertenor-offset (-3), minimal dynamics
     punctuation: role(
-      'Ghost -- bar lines, seen through not at',
-      L.countertenor, C.ppp, H.mikuTeal
+      'Ghost -- bar lines, quietly present',
+      L.countertenor - 0.005, C.ppp, H.mikuTeal
     ),
 
     // === UNISON -- F# Teal (180) -- variableLanguage ===

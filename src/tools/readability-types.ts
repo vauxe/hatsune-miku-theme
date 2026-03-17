@@ -264,7 +264,7 @@ export interface ExtractedColors {
 // =============================================================================
 
 /** APCA tier for threshold determination */
-export type APCATier = 'primary' | 'secondary' | 'tertiary';
+export type APCATier = 'primary' | 'secondary' | 'tertiary' | 'compound';
 
 /**
  * Result of analyzing a single foreground/background color pair.

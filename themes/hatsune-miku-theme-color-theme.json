@@ -635,7 +635,7 @@
 		"testing.iconErrored": "#8292B7",
 		"testing.iconFailed": "#FF8DED",
 		"testing.iconPassed": "#68FCCD",
-		"testing.iconQueued": "#89A0A1",
+		"testing.iconQueued": "#C1D5FF",
 		"testing.iconUnset": "#89A0A1",
 		"testing.iconSkipped": "#89A0A1",
 		"testing.iconErrored.retired": "#FF8DED60",
@@ -822,7 +822,7 @@
 		"chat.avatarForeground": "#95DFDB",
 		"chat.editedFileForeground": "#27F1FC",
 		"chat.linesAddedForeground": "#8AF9B4CC",
-		"chat.linesRemovedForeground": "#FA91F9CC",
+		"chat.linesRemovedForeground": "#FA91F9",
 		"chat.requestCodeBorder": "#95DFDB40",
 		"chat.requestBubbleBackground": "#39C5BB15",
 		"chat.requestBubbleHoverBackground": "#39C5BB40",
@@ -915,7 +915,7 @@
 			],
 			"settings": {
 				"fontStyle": "italic",
-				"foreground": "#9AB4AC"
+				"foreground": "#8DC6B6"
 			}
 		},
 		{
@@ -1010,7 +1010,7 @@
 				"punctuation.accessor"
 			],
 			"settings": {
-				"foreground": "#88A29A"
+				"foreground": "#839B94"
 			}
 		},
 		{
@@ -1063,7 +1063,7 @@
 				"entity.name.class"
 			],
 			"settings": {
-				"foreground": "#E4D28E"
+				"foreground": "#E9D27B"
 			}
 		},
 		{
@@ -1494,7 +1494,7 @@
 				"punctuation.definition.string.json"
 			],
 			"settings": {
-				"foreground": "#88A29A"
+				"foreground": "#839B94"
 			}
 		},
 		{
@@ -1587,7 +1587,7 @@
 				"constant.other.table-name.sql"
 			],
 			"settings": {
-				"foreground": "#E4D28E"
+				"foreground": "#E9D27B"
 			}
 		},
 		{
@@ -1706,7 +1706,7 @@
 				"support.class.php"
 			],
 			"settings": {
-				"foreground": "#E4D28E"
+				"foreground": "#E9D27B"
 			}
 		},
 		{
@@ -1734,7 +1734,7 @@
 				"variable.other.readwrite.class.ruby"
 			],
 			"settings": {
-				"foreground": "#E4D28E"
+				"foreground": "#E9D27B"
 			}
 		},
 		{
@@ -2042,7 +2042,7 @@
 				"entity.name.section.group-title.ini"
 			],
 			"settings": {
-				"foreground": "#E4D28E"
+				"foreground": "#E9D27B"
 			}
 		},
 		{
@@ -2060,7 +2060,7 @@
 				"markup.table"
 			],
 			"settings": {
-				"foreground": "#88A29A"
+				"foreground": "#839B94"
 			}
 		},
 		{
@@ -2167,8 +2167,8 @@
 		"method.declaration": "#FFC39B",
 		"method.static": "#FFC39B",
 		"method.defaultLibrary": "#FFC492",
-		"class": "#E4D28E",
-		"class.declaration": "#E4D28E",
+		"class": "#E9D27B",
+		"class.declaration": "#E9D27B",
 		"class.defaultLibrary": "#E9D27B",
 		"interface": "#8DF0B1",
 		"interface.declaration": "#8DF0B1",
@@ -2209,7 +2209,7 @@
 		"operator": "#FFB7FF",
 		"operator.controlFlow": "#66F3D3",
 		"comment": {
-			"foreground": "#9AB4AC",
+			"foreground": "#8DC6B6",
 			"fontStyle": "italic"
 		},
 		"comment.documentation": {
@@ -2221,7 +2221,7 @@
 		"annotation": "#F5C1FF",
 		"macro": "#F5C1FF",
 		"label": "#66F3D3",
-		"event": "#E4D28E",
+		"event": "#E9D27B",
 		"*.readonly": {
 			"foreground": "#96E0FF"
 		},

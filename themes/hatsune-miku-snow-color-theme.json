@@ -428,7 +428,7 @@
 		"terminalStickyScrollHover.background": "#4E9CA140",
 		"terminalSymbolIcon.aliasForeground": "#7B7170",
 		"terminalSymbolIcon.branchForeground": "#00717F",
-		"terminalSymbolIcon.commitForeground": "#9000C4",
+		"terminalSymbolIcon.commitForeground": "#8B12BA",
 		"terminalSymbolIcon.flagForeground": "#9C4800",
 		"terminalSymbolIcon.optionForeground": "#753826",
 		"terminalSymbolIcon.optionValueForeground": "#C1006E",
@@ -632,10 +632,10 @@
 		"settings.sashBorder": "#A4B2B925",
 		"settings.headerBorder": "#4E9CA125",
 		"settings.settingsHeaderHoverForeground": "#753826",
-		"testing.iconErrored": "#9000C4",
+		"testing.iconErrored": "#8B12BA",
 		"testing.iconFailed": "#A70028",
 		"testing.iconPassed": "#008963",
-		"testing.iconQueued": "#7B7170",
+		"testing.iconQueued": "#007C8A",
 		"testing.iconUnset": "#968F8E",
 		"testing.iconSkipped": "#7B7170",
 		"testing.iconErrored.retired": "#A7002860",
@@ -684,7 +684,7 @@
 		"extensionBadge.remoteForeground": "#FFF5E0",
 		"extensionIcon.starForeground": "#9C4800",
 		"extensionIcon.verifiedForeground": "#008963",
-		"extensionIcon.preReleaseForeground": "#9000C4",
+		"extensionIcon.preReleaseForeground": "#8B12BA",
 		"extensionIcon.sponsorForeground": "#E88493",
 		"extensionIcon.privateForeground": "#346900",
 		"mcpIcon.starForeground": "#9C4800",
@@ -777,9 +777,9 @@
 		"symbolIcon.colorForeground": "#E88493",
 		"symbolIcon.constantForeground": "#0076E3",
 		"symbolIcon.constructorForeground": "#C59300",
-		"symbolIcon.enumeratorForeground": "#61AE00",
+		"symbolIcon.enumeratorForeground": "#6BBC00",
 		"symbolIcon.enumeratorMemberForeground": "#00A0FF",
-		"symbolIcon.eventForeground": "#61AE00",
+		"symbolIcon.eventForeground": "#6BBC00",
 		"symbolIcon.fieldForeground": "#D5640D",
 		"symbolIcon.fileForeground": "#753826",
 		"symbolIcon.folderForeground": "#0096B5",
@@ -794,7 +794,7 @@
 		"symbolIcon.numberForeground": "#0061D9",
 		"symbolIcon.objectForeground": "#AA4200",
 		"symbolIcon.operatorForeground": "#980050",
-		"symbolIcon.packageForeground": "#61AE00",
+		"symbolIcon.packageForeground": "#6BBC00",
 		"symbolIcon.propertyForeground": "#9D0000",
 		"symbolIcon.referenceForeground": "#00791B",
 		"symbolIcon.snippetForeground": "#C1006E",
@@ -820,9 +820,9 @@
 		"chat.slashCommandForeground": "#00717F",
 		"chat.avatarBackground": "#4E9CA125",
 		"chat.avatarForeground": "#00717F",
-		"chat.editedFileForeground": "#5B00FE",
+		"chat.editedFileForeground": "#5849CB",
 		"chat.linesAddedForeground": "#007954CC",
-		"chat.linesRemovedForeground": "#7900A4CC",
+		"chat.linesRemovedForeground": "#7900A4",
 		"chat.requestCodeBorder": "#00717F40",
 		"chat.requestBubbleBackground": "#4E9CA115",
 		"chat.requestBubbleHoverBackground": "#4E9CA140",
@@ -915,7 +915,7 @@
 			],
 			"settings": {
 				"fontStyle": "italic",
-				"foreground": "#649396"
+				"foreground": "#578F92"
 			}
 		},
 		{
@@ -927,7 +927,7 @@
 				"storage.type.class.jsdoc"
 			],
 			"settings": {
-				"foreground": "#568486",
+				"foreground": "#498083",
 				"fontStyle": "italic"
 			}
 		},
@@ -1010,7 +1010,7 @@
 				"punctuation.accessor"
 			],
 			"settings": {
-				"foreground": "#A6BEC0"
+				"foreground": "#8DA5A6"
 			}
 		},
 		{
@@ -1053,7 +1053,7 @@
 				"meta.function.arguments"
 			],
 			"settings": {
-				"foreground": "#5B00FE"
+				"foreground": "#5849CB"
 			}
 		},
 		{
@@ -1121,7 +1121,7 @@
 				"support.type.builtin"
 			],
 			"settings": {
-				"foreground": "#9000C4"
+				"foreground": "#8B12BA"
 			}
 		},
 		{
@@ -1140,7 +1140,7 @@
 				"entity.name.type.type-alias"
 			],
 			"settings": {
-				"foreground": "#9000C4"
+				"foreground": "#8B12BA"
 			}
 		},
 		{
@@ -1151,7 +1151,7 @@
 				"entity.name.type.module"
 			],
 			"settings": {
-				"foreground": "#9000C4"
+				"foreground": "#8B12BA"
 			}
 		},
 		{
@@ -1161,7 +1161,7 @@
 				"support.module.node"
 			],
 			"settings": {
-				"foreground": "#9000C4"
+				"foreground": "#8B12BA"
 			}
 		},
 		{
@@ -1171,7 +1171,7 @@
 				"meta.definition.variable.name"
 			],
 			"settings": {
-				"foreground": "#5B00FE"
+				"foreground": "#5849CB"
 			}
 		},
 		{
@@ -1494,7 +1494,7 @@
 				"punctuation.definition.string.json"
 			],
 			"settings": {
-				"foreground": "#A6BEC0"
+				"foreground": "#8DA5A6"
 			}
 		},
 		{
@@ -1597,7 +1597,7 @@
 				"support.type.sql"
 			],
 			"settings": {
-				"foreground": "#9000C4"
+				"foreground": "#8B12BA"
 			}
 		},
 		{
@@ -1657,7 +1657,7 @@
 				"variable.sass"
 			],
 			"settings": {
-				"foreground": "#5B00FE"
+				"foreground": "#5849CB"
 			}
 		},
 		{
@@ -1686,7 +1686,7 @@
 				"punctuation.definition.variable.php"
 			],
 			"settings": {
-				"foreground": "#5B00FE"
+				"foreground": "#5849CB"
 			}
 		},
 		{
@@ -1790,7 +1790,7 @@
 				"entity.name.package.go"
 			],
 			"settings": {
-				"foreground": "#9000C4"
+				"foreground": "#8B12BA"
 			}
 		},
 		{
@@ -1865,7 +1865,7 @@
 				"entity.name.type.namespace.cs"
 			],
 			"settings": {
-				"foreground": "#9000C4"
+				"foreground": "#8B12BA"
 			}
 		},
 		{
@@ -1924,7 +1924,7 @@
 				"variable.language.makefile"
 			],
 			"settings": {
-				"foreground": "#5B00FE"
+				"foreground": "#5849CB"
 			}
 		},
 		{
@@ -1953,7 +1953,7 @@
 				"variable.other.special.shell"
 			],
 			"settings": {
-				"foreground": "#5B00FE"
+				"foreground": "#5849CB"
 			}
 		},
 		{
@@ -2003,7 +2003,7 @@
 				"meta.imports"
 			],
 			"settings": {
-				"foreground": "#5B00FE"
+				"foreground": "#5849CB"
 			}
 		},
 		{
@@ -2013,7 +2013,7 @@
 				"meta.function.return-type"
 			],
 			"settings": {
-				"foreground": "#9000C4"
+				"foreground": "#8B12BA"
 			}
 		},
 		{
@@ -2060,7 +2060,7 @@
 				"markup.table"
 			],
 			"settings": {
-				"foreground": "#A6BEC0"
+				"foreground": "#8DA5A6"
 			}
 		},
 		{
@@ -2172,9 +2172,9 @@
 		"class.defaultLibrary": "#2B6C00",
 		"interface": "#007D57",
 		"interface.declaration": "#007D57",
-		"type": "#9000C4",
-		"type.declaration": "#9000C4",
-		"type.defaultLibrary": "#9000C4",
+		"type": "#8B12BA",
+		"type.declaration": "#8B12BA",
+		"type.defaultLibrary": "#8B12BA",
 		"typeParameter": "#7B5393",
 		"typeParameter.declaration": "#7B5393",
 		"struct": "#346900",
@@ -2183,16 +2183,16 @@
 		"enum.declaration": "#346900",
 		"enumMember": "#0058A3",
 		"enumMember.readonly": "#0058A3",
-		"namespace": "#9000C4",
-		"namespace.declaration": "#9000C4",
-		"module": "#9000C4",
-		"module.declaration": "#9000C4",
-		"variable": "#5B00FE",
-		"variable.declaration": "#5B00FE",
+		"namespace": "#8B12BA",
+		"namespace.declaration": "#8B12BA",
+		"module": "#8B12BA",
+		"module.declaration": "#8B12BA",
+		"variable": "#5849CB",
+		"variable.declaration": "#5849CB",
 		"variable.readonly": "#0058A3",
 		"variable.constant": "#0058A3",
 		"variable.defaultLibrary": "#432EAB",
-		"variable.local": "#5B00FE",
+		"variable.local": "#5849CB",
 		"property": "#AA4200",
 		"property.declaration": "#AA4200",
 		"property.readonly": "#0058A3",
@@ -2209,11 +2209,11 @@
 		"operator": "#B80067",
 		"operator.controlFlow": "#007284",
 		"comment": {
-			"foreground": "#649396",
+			"foreground": "#578F92",
 			"fontStyle": "italic"
 		},
 		"comment.documentation": {
-			"foreground": "#568486",
+			"foreground": "#498083",
 			"fontStyle": "italic"
 		},
 		"decorator": "#A90095",

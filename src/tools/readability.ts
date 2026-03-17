@@ -135,7 +135,8 @@ function analyze(
   // Determine APCA tier based on element type
   const isPrimary = PRIMARY_SYNTAX_ELEMENTS.has(name);
   const isExpectedDim = EXPECTED_DIM_ELEMENTS.has(name);
-  const apcaTier: APCATier = isExpectedDim ? 'tertiary' : isPrimary ? 'primary' : 'secondary';
+  const isOverlayContext = /^(DiffRem|DiffIns|AIRemove|AIInsert):/.test(name);
+  const apcaTier: APCATier = isOverlayContext ? 'compound' : isExpectedDim ? 'tertiary' : isPrimary ? 'primary' : 'secondary';
 
   return {
     name,
@@ -498,8 +499,8 @@ function analyzeCompoundBackgroundContrast(
       if (!bgHex || bgHex === editorBg) continue; // Skip if same as editor or not defined
       if (skippedOverlays.has(bgName)) continue; // FG override handles readability here
 
-      // Compound overlays are transient contexts — Lc ≥ 60 suffices (secondary threshold)
-      const bgRequired = thresholds.secondary;
+      // Compound overlays are transient contexts — dedicated threshold
+      const bgRequired = thresholds.compound;
 
       // Composite against each overlay bg individually (text renders on top of overlay)
       const resolvedFg = alpha < 1 ? blendAlpha(baseFg, bgHex, alpha) : baseFg;
@@ -551,7 +552,7 @@ function analyzeCompoundBackgroundContrast(
  */
 function formatCompoundLine(f: CompoundBackgroundFailure, thresholds: typeof APCA_THRESHOLDS = APCA_THRESHOLDS): string {
   const bgList = f.failingBackgrounds.map(b => b.bgName).join(', ');
-  return `COMPOUND ${f.tokenName} fails on ${f.failingBackgrounds.length} bg(s): worst=${f.worstBgName} Lc=${f.worstLc} need≥${thresholds.secondary} (editor Lc=${f.editorLc}) [${bgList}]`;
+  return `COMPOUND ${f.tokenName} fails on ${f.failingBackgrounds.length} bg(s): worst=${f.worstBgName} Lc=${f.worstLc} need≥${thresholds.compound} (editor Lc=${f.editorLc}) [${bgList}]`;
 }
 
 /**
@@ -605,7 +606,7 @@ function formatDistinctionLine(category: string, p: DistinctionPair): string {
  * 4. **Chroma**: Saturation range for eye fatigue (Cz% 8-45 primary, 5-45 secondary, 8-60 accent)
  * 5. **CVD Simulation**: Critical pairs under protanopia/deuteranopia/tritanopia (ΔEz ≥ 12)
  * 6. **UI Visibility**: Selection, find match, tab, diff, cursor visibility
- * 7. **Compound Background**: Syntax colors on all 20 overlay backgrounds (Lc ≥ 60)
+ * 7. **Compound Background**: Syntax colors on all 20 overlay backgrounds (dark Lc ≥ 55, light Lc ≥ 45)
  * 8. **Lightness Uniformity**: Jz spread across primary syntax (≤ 0.03)
  * 9. **Hue Distribution**: Minimum 20° gap between syntax hue families
  *

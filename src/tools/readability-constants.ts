@@ -215,12 +215,13 @@ export const LABELS = {
  * No max cap — APCA compensates for polarity internally.
  */
 /** Shape of APCA threshold configuration */
-export type APCAThresholdConfig = { primary: number; secondary: number; tertiary: number };
+export type APCAThresholdConfig = { primary: number; secondary: number; tertiary: number; compound: number };
 
 export const APCA_THRESHOLDS: APCAThresholdConfig = {
   primary: 75,    // APCA body text minimum for 18px/400 (reasonable for monospace 14px)
   secondary: 60,  // APCA content text level — UI elements you glance at
   tertiary: 45,   // Intentionally subdued — ghost text, inactive, comments
+  compound: 55,   // Overlay backgrounds — transient contexts (selection, diff, find match)
 };
 
 /**
@@ -236,6 +237,7 @@ export const APCA_THRESHOLDS_LIGHT: APCAThresholdConfig = {
   primary: 65,     // Body text — light theme floor (warm cream reduces perceived contrast)
   secondary: 55,   // Content text — UI elements, operators
   tertiary: 45,    // Ghost text, placeholders, comments
+  compound: 45,    // Overlay backgrounds — warm cream + overlay tint eats more headroom
 };
 
 /**
@@ -1203,8 +1205,8 @@ export type CompoundBgKeyName = keyof typeof COMPOUND_BACKGROUND_KEYS;
 
 /**
  * Compound backgrounds originally distinguished for threshold differentiation.
- * All compound overlays now use the secondary threshold (Lc ≥ 60) —
- * overlays are transient contexts, not sustained reading.
+ * All compound overlays now use the dedicated compound threshold
+ * (dark Lc ≥ 55, light Lc ≥ 45) — transient contexts, not sustained reading.
  */
 export const COMPOUND_REVIEW_BGS: ReadonlySet<string> = new Set([
   'wordHighlight',

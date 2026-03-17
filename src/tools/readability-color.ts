@@ -234,7 +234,7 @@ export function getAPCAContrast(text: string, background: string): APCAResult {
  */
 export function analyzeAPCA(
   result: APCAResult,
-  tier: 'primary' | 'secondary' | 'tertiary' = 'secondary',
+  tier: 'primary' | 'secondary' | 'tertiary' | 'compound' = 'secondary',
   thresholds: APCAThresholdConfig = APCA_THRESHOLDS
 ): APCAAnalysis {
   const { lc, polarity } = result;

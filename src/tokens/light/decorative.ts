@@ -59,8 +59,8 @@ export function createSymbolTokens(p: Primitives): SymbolTokens {
     // === E Lime (120°) -- Minor 7th -- pistachio cream ===
     class: role('Symbol class -- lime 120°, pistachio (sopranino for DEz)', L.sopranino, C.f, H.minor7th),
     struct: role('Symbol struct -- lime 120°, mezzo/ff for DEz≥15 from class', L.mezzo, C.ff, H.minor7th),
-    enum: role('Symbol enum -- lime 120°, alto for DEz≥15 from struct', L.alto, C.f, H.minor7th),
-    package: role('Symbol package -- lime 120°, alto', L.alto, C.f, H.minor7th),
+    enum: role('Symbol enum -- lime 120°, alto+0.010 for DEz≥15 from struct', L.alto + 0.010, C.f, H.minor7th),
+    package: role('Symbol package -- lime 120°, alto+0.010', L.alto + 0.010, C.f, H.minor7th),
 
     // === F Green (150°) -- Major 7th -- mint leaf ===
     string: role('Symbol string -- green 150°, literal truth', L.soprano, C.f, H.major7th),

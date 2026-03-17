@@ -296,26 +296,36 @@ export const snowMiku = {
     // Costume designer: cold_air (piapro web voting)
     // Main visual artist: ぶーた (booota)
     // Concept: musical notes + snowflakes + sweets, bright pop coloring
-    hair: '#70D6D1',       // Fresh Mint/Turquoise — vivid, bright cyan
-    eyes: '#50BCD0',       // Bright cerulean-blue (not teal-green)
+    // Colors sampled from booota's main visual (strong lavender atmosphere)
+    hair: '#5EBDE5',       // Cyan-blue twintails (~210–230° Hz, not mint/teal)
+    eyes: '#50BCD0',       // Bright cerulean-blue
     outfit: {
-      dress: '#FFF5E0',    // Cream — the main garment is cream/off-white
-      trim: '#60C8E8',     // Blue snowflake accents on cream dress
-      straps: '#4A3530',   // Dark chocolate-brown suspender straps
-      ribbon: '#F48FB1',   // Berry pink ribbon at collar
-      boots: '#5D4037',    // Chocolate brown lace-up boots
-      stockings: '#F0E8E0', // Striped pastel (cream, pink, mint, blue)
+      dress: '#FFFBF3',    // Cream — the main garment (highlight), shadow #E7D9BB
+      cape: '#5FA5DD',     // Cyan-blue cape — dominant garment alongside dress
+      capeHighlight: '#9CE2F4', // Cape bright highlight / snowflake background
+      straps: '#633B46',   // Reddish-mauve suspender straps
+      ribbon: '#EAA4AE',   // Salmon-pink ribbon at collar
+      boots: '#604852',    // Purple-brown lace-up boots
+      bootDark: '#3B1B28', // Boot deepest shadow
+      stockingBase: '#B7C3E8', // Stocking base (lavender-cream)
+      stockingBlue: '#48AEE9', // Stocking blue stripe
+      stockingCyan: '#77EFFF', // Stocking cyan stripe
+      stockingDark: '#3271B9', // Stocking dark blue stripe
     },
     accessories: {
-      beret: '#5D4037',    // Chocolate beret with cinnamon-roll pastry + pink ears
-      candyCane: '#70D6D1', // Multicolor candy cane (mint, pink, cream stripes)
-      cookie: '#C8A882',   // Golden-brown gingerbread music-note cookies
-      snowflake: '#60C8E8', // Blue snowflake motifs woven throughout
+      beret: '#654A56',    // Purple-brown beret
+      beretRoll: '#C89196', // Cinnamon-roll pastry spiral (dusty rose)
+      beretEars: '#BD8790', // Pink bunny-ear decorations on beret
+      candyCane: '#5EBDE5', // Candy cane (multicolor: cyan, pink, cream stripes)
+      cookie: '#D49C6D',   // Golden-brown gingerbread music-note cookies
+      cookieLight: '#F0E0C4', // Cookie highlight / dough
+      snowflake: '#5FA5DD', // Blue snowflake motifs (same family as cape)
+      pinkSnowflake: '#EAA4AE', // Pink snowflake accents on cape
     },
     mascot: {
       // ラビット・ユキネ (Rabbit Yukine) — 2026 costume variant
       body: '#FFFFFF',     // White plush rabbit
-      ribbon: '#F48FB1',   // Pink ribbon matching Miku's
+      ribbon: '#EAA4AE',   // Pink ribbon matching Miku's
     },
   },
 
