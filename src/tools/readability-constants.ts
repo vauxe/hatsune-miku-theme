@@ -518,6 +518,11 @@ export const EXPECTED_DIM_ELEMENTS = new Set([
   'Pull Request', 'PR Done', 'Inline Suggest',
   // Note: 'Option', 'Option Value', 'Argument', 'Method', 'Alias', 'Flag' are
   // TEXT labels in autocomplete, not icons - use secondary tier (Lc≥75)
+  // Badges & buttons — short labels (1-2 words), glance reading only
+  'Button', 'Ext Button', 'Ext Badge Rem',
+  'Badge', 'Activity Badge', 'Panel Badge', 'Profile Badge',
+  'Act Warn Badge', 'Act Err Badge',
+  'Status Offline', 'Status Remote',
   // Extension icons
   'Star', 'Verified', 'Pre-Release', 'Sponsor', 'Private',
   // Notebook status icons (prefixed to avoid collision with Debug Console names)

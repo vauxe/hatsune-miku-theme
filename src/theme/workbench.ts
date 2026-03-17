@@ -83,47 +83,47 @@ const bracket = {
 const alphaEditor = {
   // Editor line highlighting — light theme needs visible tint on snow
   lineHighlightBg:          op.light,
-  lineHighlightBorder:      isLight ? op.medium : op.strong,
-  inactiveLineHighlight:    isLight ? op.subtle : op.light,
+  lineHighlightBorder:      op.strong,
+  inactiveLineHighlight:    op.light,
   // Selection — light theme needs stronger tints on near-white backgrounds
   selectionBg:              op.strong,
   inactiveSelectionBg:      op.medium,
   // Highlights — subtle/faint tiers
-  selectionHighlightBg:     isLight ? op.subtle : op.medium,
-  selectionHighlightBorder: isLight ? op.light : op.medium,
-  wordHighlightBg:          isLight ? op.light : op.strong,
-  wordHighlightBorder:      isLight ? op.medium : op.heavy,
-  wordHighlightStrongBg:    isLight ? op.medium : op.strong,
-  faintBg:                  isLight ? op.subtle : op.light,
-  faintBorder:              isLight ? op.light : op.medium,
+  selectionHighlightBg:     op.medium,
+  selectionHighlightBorder: op.medium,
+  wordHighlightBg:          op.strong,
+  wordHighlightBorder:      op.heavy,
+  wordHighlightStrongBg:    op.strong,
+  faintBg:                  op.light,
+  faintBorder:              op.medium,
   // Find — light uses strong for visibility (ΔE≥12); compound Lc small-gap on warm hues
   findMatchBg:              op.strong,
-  findHighlightBg:          isLight ? op.light : op.strong,
-  findHighlightBorder:      isLight ? op.strong : op.solid,
+  findHighlightBg:          op.strong,
+  findHighlightBorder:      op.solid,
   // Hover
-  hoverBg:                  isLight ? op.subtle : op.light,
+  hoverBg:                  op.light,
   // Bracket
-  bracketMatchBg:           isLight ? op.light : op.medium,
+  bracketMatchBg:           op.medium,
 };
 const alphaDiff = {
-  diffInsertedLine:         isLight ? op.light : op.medium,
-  diffInsertedText:         isLight ? op.medium : op.strong,
-  diffGutterInserted:       isLight ? op.light : op.medium,
-  diffRemovedLine:          isLight ? op.light : op.medium,
-  diffRemovedText:          isLight ? op.medium : op.strong,
-  diffGutterRemoved:        isLight ? op.light : op.medium,
-  inlineChatDiff:           isLight ? op.light : op.medium,
+  diffInsertedLine:         op.medium,
+  diffInsertedText:         op.strong,
+  diffGutterInserted:       op.medium,
+  diffRemovedLine:          op.medium,
+  diffRemovedText:          op.strong,
+  diffGutterRemoved:        op.medium,
+  inlineChatDiff:           op.medium,
 };
 const alphaChrome = {
   borderSubtle:             op.medium,
-  sectionHeaderBorder:      isLight ? op.light : op.medium,
+  sectionHeaderBorder:      op.medium,
   unfocusedTabHoverBg:      op.subtle,
   unfocusedTabHoverBorder:  op.medium,
-  listInactiveFocusBg:      isLight ? op.subtle : op.light,
+  listInactiveFocusBg:      op.light,
 };
 const alphaTerminal = {
-  terminalSelectionBg:      isLight ? op.light : op.strong,
-  terminalFindMatchBg:      isLight ? op.light : op.strong,
+  terminalSelectionBg:      op.strong,
+  terminalFindMatchBg:      op.strong,
 };
 
 // Chrome — structural surface backgrounds per polarity
@@ -138,7 +138,7 @@ const chrome = {
 
 // Badge — repeated across activity bar, panel, extension, profile
 const badge = {
-  bg: isLight ? t.ui.badgeBackground.hex : lighten(roleFromHex('', t.decorative.sekaiHair), 0.02),
+  bg: isLight ? t.ui.cursor.hex : t.decorative.sekaiHair,
   fg: isLight ? t.decorative.blouseWhite : t.decorative.darkForeground,
 };
 
@@ -169,9 +169,7 @@ const polarIcon = {
 
 // Polarity one-offs — single-use surface/state swaps (no shared role)
 const polarMisc = {
-  suggestSelectedBg: isLight
-    ? withOpacity(t.decorative.cursorLineFrost, op.subtle)
-    : withOpacity(t.decorative.cursorLineFrost, op.light),
+  suggestSelectedBg: withOpacity(t.decorative.cursorLineFrost, op.light),
   inputBg:              isLight ? bg.base : bg.float,
   actionBarToggled:     isLight ? withOpacity(accent.primary, op.medium) : t.interactive.toggle.background.selected,
   testingErrored:       isLight ? t.syntax.type.hex : darken(t.status.info, 0.055),
@@ -186,9 +184,9 @@ const statusItem = {
   debugFg:          t.decorative.blouseWhite,
   errorBg:          darken(t.status.error, isLight ? 0.03 : 0.10),
   errorHoverBg:     darken(t.status.error, isLight ? 0.01 : 0.08),
-  remoteBg:         isLight ? t.decorative.cape : lighten(roleFromHex('', accent.primary), 0.02),
+  remoteBg:         isLight ? t.ui.buttonBackground.hex : lighten(roleFromHex('', accent.primary), 0.02),
   remoteFg:         isLight ? t.decorative.blouseWhite : t.decorative.darkForeground,
-  remoteHoverBg:    isLight ? darken(roleFromHex('', t.decorative.cape), 0.01) : accent.secondary,
+  remoteHoverBg:    isLight ? darken(roleFromHex('', t.ui.buttonBackground.hex), 0.02) : accent.secondary,
   remoteHoverFg:    isLight ? t.decorative.blouseWhite : t.decorative.darkForeground,
   errorFg:          t.decorative.blouseWhite,
   warningBg:        darken(t.status.warning, isLight ? 0.00 : 0.10),

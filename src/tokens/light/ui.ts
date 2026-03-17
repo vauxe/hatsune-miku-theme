@@ -189,8 +189,8 @@ export function createUITokens(p: Primitives): UITokens {
     buttonBackground: (() => {
       const cushion = parseHex(char.headphones.cushion);
       return role(
-        'Necktie ribbon — darkened from pastel pink for readable button text',
-        cushion.Jz - 0.035, cushion.Cz + 0.010, cushion.hz
+        'Pastel pink button — matches badge/cursor for visual unity',
+        cushion.Jz, cushion.Cz + 0.010, cushion.hz
       );
     })(),
     badgeBackground: (() => {
