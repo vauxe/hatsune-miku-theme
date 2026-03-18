@@ -164,6 +164,7 @@ const polarIcon = {
   preRelease:    isLight ? t.syntax.type.hex : t.decorative.commitIcon,
   commentGlyph:  isLight ? semantic.info : t.decorative.commentGlyph,
   notifyInfo:    isLight ? semantic.info : accent.primary,
+  starIcon:      t.decorative.starIcon,
   symbolClass:   isLight ? t.syntax.class.hex : t.symbol.class.hex,
 };
 
@@ -955,9 +956,9 @@ return {
   'scmGraph.foreground5': t.decorative.scmGraph[4],
   'scmGraph.historyItemHoverAdditionsForeground': t.git.added.hex,
   'scmGraph.historyItemHoverDeletionsForeground': t.git.deleted.hex,
-  'scmGraph.historyItemRefColor': accent.secondary,
+  'scmGraph.historyItemRefColor': accent.primary,
   'scmGraph.historyItemRemoteRefColor': t.decorative.scmRemoteRef,
-  'scmGraph.historyItemBaseRefColor': accent.primary,
+  'scmGraph.historyItemBaseRefColor': accent.secondary,
 
   // ==========================================================================
   // NOTIFICATIONS
@@ -1120,12 +1121,12 @@ return {
   'extensionButton.border': t.interactive.button.border.default,
   'extensionBadge.remoteBackground': badge.bg,
   'extensionBadge.remoteForeground': badge.fg,
-  'extensionIcon.starForeground': semantic.warning,
+  'extensionIcon.starForeground': polarIcon.starIcon,
   'extensionIcon.verifiedForeground': semantic.success,
   'extensionIcon.preReleaseForeground': polarIcon.preRelease,
   'extensionIcon.sponsorForeground': accent.focus,
   'extensionIcon.privateForeground': polarIcon.symbolicLink,
-  'mcpIcon.starForeground': semantic.warning,
+  'mcpIcon.starForeground': polarIcon.starIcon,
 
   // ==========================================================================
   // BANNER

@@ -360,6 +360,8 @@ export interface DecorativeTokens {
   statusItemForeground: string;
   /** Markup inserted color (character negi.bright) */
   markupInserted: string;
+  /** Star icon — golden rating star (no text contrast needed) */
+  starIcon: string;
 }
 
 // =============================================================================

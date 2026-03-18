@@ -231,5 +231,8 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     // Status bar state colors — Snow Miku 2026 costume elements
     eyeIris: p.character.eyes.iris,               // Her gaze — debug status
     cape: hex({ Jz: 0.100, Cz: 0.060, hz: 220 }), // Cyan-blue cape — remote status
+
+    // Star icon — butter croissant gold, bright for icon visibility (no text contrast)
+    starIcon: hex({ Jz: 0.150, Cz: 0.115, hz: 80 }),
   };
 }

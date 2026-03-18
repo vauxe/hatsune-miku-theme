@@ -236,5 +236,8 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     // Status bar state colors — not used in dark theme, passthrough
     eyeIris: p.character.eyes.iris,
     cape: p.character.hair.shadow,  // Dark theme uses hair shadow for remote
+
+    // Star icon — concert wand gold, same as warning (already bright on dark)
+    starIcon: hex({ Jz: p.lightness.soprano, Cz: p.chroma.mf, hz: 85 }),
   };
 }

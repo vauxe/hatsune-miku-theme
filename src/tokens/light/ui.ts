@@ -219,10 +219,10 @@ export function createStatusTokens(p: Primitives): StatusTokens {
   // Info: tonic 210° — her voice, calm and informational
   // Jz/Cz are per-hue gamut-optimized — hardcoded, not from L/C registers.
   return {
-    success: role('Mint success — canonical Miku approves, fresh growth', 0.090, 0.110, 180),
-    warning: role('Gingerbread warning — golden-brown caution (Cz 0.124 for findMatch)', 0.095, 0.124, 70),
-    error: role('Red error — vivid strawberry alarm', 0.088, 0.120, H.perfect5th),
-    info: role('Tonic info — her voice, calm and steady', 0.090, 0.100, H.mikuTeal),
+    success: role('Mint success — canonical Miku approves, fresh growth', 0.090, 0.115, 180),
+    warning: role('Gingerbread warning — golden-brown caution', 0.105, 0.140, 70),
+    error: role('Red error — vivid strawberry alarm', 0.098, 0.140, H.perfect5th),
+    info: role('Tonic info — her voice, calm and steady', 0.095, 0.110, H.mikuTeal),
   };
 }
 
