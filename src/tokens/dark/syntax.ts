@@ -165,10 +165,10 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
       L.alto, C.pp, H.mikuTeal
     ),
 
-    // Ghost layer -- countertenor-offset (-3), minimal dynamics
+    // Structural layer -- mezzo register, one step below the ensemble
     punctuation: role(
-      'Ghost -- bar lines, quietly present',
-      L.countertenor - 0.005, C.ppp, H.mikuTeal
+      'Structure -- connective tissue, the rhythm between notes',
+      L.mezzo, C.p, H.mikuTeal
     ),
 
     // === UNISON -- F# Teal (180) -- variableLanguage ===

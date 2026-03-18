@@ -157,13 +157,13 @@ fff       0.180    Extreme (only blue delivers)
 ```
 Layer     Token         Hz     Register           Dyn
 ═══════════════════════════════════════════════════════════════
+Structure punctuation   210°   mezzo              p
 Whisper   comment       210°   alto               pp
           commentDoc    210°   mezzo+0.005        pp
-Ghost     punctuation   210°   tenor              ppp
 Signal    error          30°   soprano            f (ui.error)
 ```
 
-Comments are tonic cyan at alto — her whisper between the lines. Punctuation drops to tenor for clear ΔE ≥ 15 distinction from comments. Error is warm red at soprano/f — vivid alarm on cream.
+Punctuation is one register and one dynamic step above comments — active connective tissue in the code flow. Comments are tonic cyan at alto — her whisper between the lines. Error is warm red at soprano/f — vivid alarm on cream.
 
 ### Brackets
 

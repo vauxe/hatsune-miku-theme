@@ -258,7 +258,7 @@ An orchestra in unison: every instrument at *mezzo-piano*. You distinguish the o
 
 Within a hue group, **dynamic variation** distinguishes tokens that share a hue but serve different cognitive roles — like first and second violins playing the same pitch at different volumes. A regex (mf) is brighter than a string (mp) within lime; a number literal (p) is quieter than a named constant (mp) within azure. The variation is ±1 dynamic step — noticeable but not disruptive to the level plane.
 
-Three departures from the ensemble: **whisper** (comments), **ghost** (punctuation), **signal** (errors). Everything else plays at the soprano register.
+Three departures from the ensemble: **structure** (punctuation), **whisper** (comments), **signal** (errors). Everything else plays at the soprano register.
 
 ### Twelve Hues
 
@@ -293,13 +293,15 @@ Three groups leave the ensemble. Each is a register shift — unmistakable, not 
 ```
 Layer     Token         Hue    Register       Dyn    Why
 ═══════════════════════════════════════════════════════════════════════
-Whisper   comment       180°   alto (−2)      ppp    Her whisper — teal, barely there.
+Structure punctuation   180°   mezzo (−1)     p      Connective tissue — the rhythm between notes.
+Whisper   comment       180°   alto (−2)      pp     Her whisper — teal, barely there.
           commentDoc    180°   alto (−2)      pp     Her soft voice — visibly teal.
-Ghost     punctuation   180°   countertenor (−3)  ppp    Bar lines — seen through, not at.
 Signal    error           0°   alto (−2)      f      Tritone — maximum alarm.
 ```
 
-Comments drop two registers below the ensemble AND reduce dynamics to ppp/pp. The double reduction ensures they are unmistakably quieter than code — not a different shade of the same weight but a genuinely different layer.
+Punctuation drops one register and one dynamic step from the ensemble. It is active code — the dots, commas, and semicolons that create visual rhythm — so it stays brighter than comments but clearly subordinate to identifiers.
+
+Comments drop two registers below the ensemble AND reduce dynamics to pp. The double reduction ensures they are unmistakably quieter than code — not a different shade of the same weight but a genuinely different layer.
 
 Error uses Rose (0°), which peaks around countertenor–tenor. At alto, Rose can still play f (see instrument chart). The register is lower than the ensemble, but the dynamic is louder — a bass drum fortissimo.
 
@@ -374,7 +376,7 @@ Markdown tokens (`markupCode`, `markupQuote`, heading, alerts) are defined in Se
 
 ### The Tonic
 
-The tonic (180°) carries the most voices: six in the primary ensemble (keyword, keywordControl, keywordAlt, storage, storageModifier, variableLanguage), two in the whisper layer (comment, commentDoc), one in the ghost layer (punctuation), one status token (info), and four aliases (label, lifetime, sqlKeyword, operator.controlFlow). Her voice in every register, from silence to song.
+The tonic (180°) carries the most voices: six in the primary ensemble (keyword, keywordControl, keywordAlt, storage, storageModifier, variableLanguage), two in the whisper layer (comment, commentDoc), one in the structural layer (punctuation), one status token (info), and four aliases (label, lifetime, sqlKeyword, operator.controlFlow). Her voice in every register, from silence to song.
 
 ### Voice Leading
 
@@ -1065,7 +1067,7 @@ Link URL           Blue (270°)      soprano    mp        Underline
 Link label         Lime (120°)      soprano    mp        —
 Code               Cyan (210°)      soprano    mf        —
 Quote              Cyan (210°)      soprano    mp        Italic
-Table              —                ghost      —         Punctuation tier
+Table              —                structure  —         Punctuation tier
 List marker        Green (150°)     soprano    mp        —
 Inserted           Lime (120°)      soprano    mp        —
 Deleted            Rose (0°)        soprano    mf        —

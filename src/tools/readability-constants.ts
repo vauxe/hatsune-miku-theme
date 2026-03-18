@@ -1014,8 +1014,7 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   // WHISPER ↔ GRAMMAR — is it live or not?
   ['comment', 'keyword', 'critical'],
 
-  // CONNECTIVE (punct) ↔ DATA — `x;`, `{x, y}`
-  ['punctuation', 'variable', 'critical'],
+  // punctuation excluded — structural connective, not semantic identity
 
   // ==========================================================================
   // HIGH (ΔEz ≥ 15) — common adjacencies
@@ -1039,14 +1038,7 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   // ACTION (tag) ↔ DATA — `<Component>{value}</Component>` (JSX/TSX)
   ['tag', 'variable', 'high'],
 
-  // CONNECTIVE (punct) ↔ GRAMMAR — `{` after `if`, `;` after `return`
-  ['punctuation', 'keyword', 'high'],
-
-  // CONNECTIVE (punct) ↔ ACTION — `foo();`
-  ['punctuation', 'function', 'high'],
-
-  // WHISPER ↔ CONNECTIVE (punct) — `//` starts with punct chars
-  ['comment', 'punctuation', 'high'],
+  // punctuation pairs removed — structural connective, distinction not required
 
   // VALUE ↔ DATA — `const x = FOO`
   ['constant', 'variable', 'high'],

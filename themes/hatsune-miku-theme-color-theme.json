@@ -1010,7 +1010,7 @@
 				"punctuation.accessor"
 			],
 			"settings": {
-				"foreground": "#839B94"
+				"foreground": "#7AD7C0"
 			}
 		},
 		{
@@ -1494,7 +1494,7 @@
 				"punctuation.definition.string.json"
 			],
 			"settings": {
-				"foreground": "#839B94"
+				"foreground": "#7AD7C0"
 			}
 		},
 		{
@@ -2060,7 +2060,7 @@
 				"markup.table"
 			],
 			"settings": {
-				"foreground": "#839B94"
+				"foreground": "#7AD7C0"
 			}
 		},
 		{

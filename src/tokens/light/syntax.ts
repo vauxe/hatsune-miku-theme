@@ -194,8 +194,8 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
     ),
 
     punctuation: role(
-      'Tonic ghost 210° — bar lines, quietly present',
-      L.countertenor - 0.004, C.ppp, H.mikuTeal
+      'Tonic structure 210° — connective tissue, the rhythm between notes',
+      L.mezzo, C.p, H.mikuTeal
     ),
 
     // === TONIC — variableLanguage ===
