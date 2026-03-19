@@ -25,5 +25,8 @@ Thumbs.db
 *.log
 npm-debug.log*
 
+# Generated targets (terminals, editors, palette)
+themes/targets/
+
 # Grammars
 .grammars/

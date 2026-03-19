@@ -1,6 +1,6 @@
 {
 	"$schema": "vscode://schemas/color-theme",
-	"name": "Hatsune Miku Theme",
+	"name": "Hatsune Miku",
 	"type": "dark",
 	"semanticHighlighting": true,
 	"colors": {
