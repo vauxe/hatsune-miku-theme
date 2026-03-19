@@ -154,7 +154,7 @@ const polarFg = {
   surface:     isLight ? text.primary : text.secondary,     // chrome panels + list inactive selections
   description: text.secondary,    // widget status, peek descriptions
   debugLabel:  isLight ? t.decorative.blouseWhite : text.primary,
-  scmLabel:    isLight ? text.primary : t.decorative.darkForeground,
+  scmLabel:    isLight ? t.decorative.blouseWhite : t.decorative.darkForeground,
 };
 
 // Icon swaps — polarity-dependent symbol/icon colors

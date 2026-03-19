@@ -549,7 +549,7 @@
 		"gitDecoration.renamedResourceForeground": "#443D9E",
 		"gitDecoration.submoduleResourceForeground": "#0F5D7A",
 		"git.blame.editorDecorationForeground": "#968F8E",
-		"scmGraph.historyItemHoverLabelForeground": "#753826",
+		"scmGraph.historyItemHoverLabelForeground": "#FFF5E0",
 		"scmGraph.historyItemHoverDefaultLabelForeground": "#646A6D",
 		"scmGraph.historyItemHoverDefaultLabelBackground": "#C7E1EE80",
 		"scmGraph.foreground1": "#008072",
