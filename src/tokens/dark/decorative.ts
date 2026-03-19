@@ -7,8 +7,7 @@
  * look for them -- which is exactly right. She's keeping you company.
  */
 
-import { role, roleFromHex, lighten } from '../role';
-import { hex, parseHex } from '../role';
+import { role, roleFromHex, lighten, hex, parseHex } from '../role';
 import type {
   SymbolTokens,
   BracketTokens,

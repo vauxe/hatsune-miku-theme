@@ -20,7 +20,7 @@ src/palette/ → src/tokens/ → src/theme/ → src/generator.ts → themes/*.js
   (colors)     (semantic)    (mapping)      (compiler)         (output)
 ```
 
-Three-layer token system: **Primitives** (`primitives.ts`) → **Semantic Tokens** (`semantic.ts` + sub-modules) → **Variants** (`variants.ts`). All theme files (`src/theme/`) import from `tokens` — no direct palette imports.
+Three-layer token system: **Primitives** (`primitives.ts`) → **Semantic Tokens** (`dark/`, `light/` sub-modules) → **Variants** (`variants.ts`). All theme files (`src/theme/`) import from `tokens` — no direct palette imports.
 
 Read `docs/DESIGN.md` (dark) for all design rules: the twelve-tone hue system, the score (hue → token mapping), ensemble rule (soprano/mp), departures, composition principles, four voices, five materials, background tiers, brackets, terminal, symbol icons, overlays, and accessibility principles. Read `docs/DESIGN-LIGHT.md` (light — Snow Miku 2026) for the warm cream/cool blue spatial split, per-hue register system, and patisserie-derived palette.
 

@@ -26,8 +26,7 @@
  * Accent bright fills use accent dark for Lc >= 60 white text.
  */
 
-import { withOpacity } from '../role';
-import { hex, parseHex } from '../role';
+import { withOpacity, hex, parseHex } from '../role';
 import type { InteractiveTokens, UITokens } from '../types';
 import type { Primitives } from '../primitives';
 

@@ -17,8 +17,7 @@
  * these details reward those who look closely.
  */
 
-import { role, roleFromHex, darken } from '../role';
-import { hex } from '../role';
+import { role, roleFromHex, darken, hex } from '../role';
 import type {
   SymbolTokens,
   BracketTokens,

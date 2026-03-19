@@ -20,8 +20,7 @@
  * Where she wears the necktie, you type.
  */
 
-import { role, roleFromHex } from '../role';
-import { parseHex } from '../role';
+import { role, roleFromHex, parseHex } from '../role';
 import type { UITokens, StatusTokens, GitTokens } from '../types';
 import type { Primitives } from '../primitives';
 

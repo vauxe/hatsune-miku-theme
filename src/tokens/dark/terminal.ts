@@ -6,8 +6,7 @@
  * The producer writes; Miku sings. The programmer runs; the terminal speaks.
  */
 
-import { role } from '../role';
-import { parseHex } from '../role';
+import { role, parseHex } from '../role';
 import type { TerminalTokens } from '../types';
 import type { Primitives } from '../primitives';
 

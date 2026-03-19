@@ -9,7 +9,6 @@
  * when the semantic layer gives them purpose.
  */
 
-import { character as mikuCharacter } from '../palette/core';
 // =============================================================================
 // LIGHTNESS PRIMITIVES (10 Registers — Vocal Classification)
 // =============================================================================
@@ -118,86 +117,6 @@ export const hue = {
   periwinkle: 240,     // = G# (Major 2nd)
   lavender: 270,       // = A (Minor 3rd)
   orchid: 270,         // = A (Minor 3rd)
-
-  // Git status (using chromatic tones)
-} as const;
-
-// =============================================================================
-// CHARACTER PRIMITIVES
-// =============================================================================
-// Canonical hex colors from Miku's character design by KEI (V3/V4X standard).
-// Every UI background, every accent, every border traces back to her.
-// You code inside her world.
-
-export const character = {
-  // Hair — the twin tails that defined a generation
-  hair: {
-    base: mikuCharacter.hair.base,
-    shadow: mikuCharacter.hair.shadow,
-    highlight: mikuCharacter.hair.highlight,
-    bright: mikuCharacter.hair.bright,
-    tip: mikuCharacter.hair.tip,
-  },
-
-  // Eyes - matching teal
-  eyes: {
-    iris: mikuCharacter.eyes.iris,
-    highlight: mikuCharacter.eyes.highlight,
-    pupil: mikuCharacter.eyes.pupil,
-  },
-
-  // Headphones — the interface between her and the music
-  headphones: {
-    frame: mikuCharacter.headphones.frame,
-    cushion: mikuCharacter.headphones.cushion,
-    display: mikuCharacter.headphones.display,
-  },
-
-  // Hair ties — cube-shaped, magenta accent
-  hairTies: {
-    base: mikuCharacter.hairTies.base,
-    outline: mikuCharacter.hairTies.outline,
-  },
-
-  // Outfit — medium grey vest over white blouse, dark pleated skirt, thigh-high boots
-  top: {
-    main: mikuCharacter.top.main,
-    shadow: mikuCharacter.top.shadow,
-    trim: mikuCharacter.top.trim,
-    blouse: mikuCharacter.top.blouse,     // Off-white shirt — bright text on colored surfaces
-  },
-  skirt: {
-    base: mikuCharacter.skirt.base,
-    trim: mikuCharacter.skirt.trim,
-    accessory: mikuCharacter.skirt.accessory,
-  },
-  armWarmers: {
-    base: mikuCharacter.armWarmers.base,
-    pattern: mikuCharacter.armWarmers.pattern,
-  },
-  boots: {
-    base: mikuCharacter.boots.base,
-    accent: mikuCharacter.boots.accent,
-  },
-
-  // Accent — her teal necktie and the negi
-  tie: {
-    base: mikuCharacter.tie.base,
-    shadow: mikuCharacter.tie.shadow,
-  },
-  negi: {
-    stalk: mikuCharacter.negi.stalk,
-    bright: mikuCharacter.negi.bright,
-    white: mikuCharacter.negi.white,
-  },
-  skin: {
-    base: mikuCharacter.skin.base,
-    shadow: mikuCharacter.skin.shadow,
-    blush: mikuCharacter.skin.blush,
-  },
-  marks: {
-    tattoo: mikuCharacter.marks.tattoo,
-  },
 } as const;
 
 // =============================================================================
@@ -335,15 +254,6 @@ export interface OpacityScale {
   opaque: string;
 }
 
-// Readonly literal types for the default exports
-export type Lightness = typeof lightness;
-export type Chroma = typeof chroma;
-export type Hue = typeof hue;
-export type Character = typeof character;
-export type Special = typeof special;
-export type Opacity = typeof opacity;
-
-// Flexible interface for variants
 export interface Primitives {
   polarity: 'dark' | 'light';
   lightness: LightnessValues;
@@ -354,12 +264,3 @@ export interface Primitives {
   opacity: OpacityScale;
 }
 
-export const primitives: Primitives = {
-  polarity: 'dark',
-  lightness,
-  chroma,
-  hue,
-  character,
-  special,
-  opacity,
-};
