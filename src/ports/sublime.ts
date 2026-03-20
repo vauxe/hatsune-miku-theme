@@ -2,7 +2,6 @@
  * Sublime Text Target
  *
  * Generates a .sublime-color-scheme (JSON format).
- * Reuses TextMate scopes from the VS Code tokenColors mapping.
  */
 
 import { withOpacity, type SemanticTokens } from '../tokens';
@@ -100,31 +99,65 @@ export function createSublimeTheme(t: SemanticTokens, name: string): object {
     author: 'vauxe',
     variables: {},
     globals: {
+      // Editor surface
       background: ui.background.hex,
       foreground: ui.foreground.hex,
+      invisibles: ui.whitespace.hex,
       caret: ui.cursor.hex,
+      block_caret: withOpacity(ui.cursor.hex, '40'),
       line_highlight: ui.backgroundHouse.hex,
+
+      // Selection
       selection: selBg,
+      selection_foreground: ui.foreground.hex,
       selection_border: withOpacity(ui.accentPrimary.hex, '40'),
+      selection_border_width: '1',
       inactive_selection: withOpacity(ui.selection.hex, '25'),
-      misspelling: st.error.hex,
-      fold_marker: ui.foregroundSubtle.hex,
-      accent: ui.accentPrimary.hex,
+      inactive_selection_foreground: ui.foregroundMuted.hex,
+      selection_corner_style: 'round',
+
+      // Find
+      find_highlight: withOpacity(syn.function, '60'),
+      find_highlight_foreground: ui.background.hex,
+      scroll_highlight: withOpacity(ui.accentPrimary.hex, '60'),
+      scroll_selected_highlight: withOpacity(ui.cursor.hex, '80'),
+      highlight: withOpacity(ui.accentPrimary.hex, '40'),
+
+      // Gutter
       gutter: ui.background.hex,
       gutter_foreground: ui.foregroundSubtle.hex,
       gutter_foreground_highlight: ui.accentPrimary.hex,
       line_diff_added: git.added.hex,
       line_diff_modified: git.modified.hex,
       line_diff_deleted: git.deleted.hex,
-      find_highlight: withOpacity(syn.function, '60'),
-      find_highlight_foreground: ui.background.hex,
-      highlight: withOpacity(ui.accentPrimary.hex, '40'),
+
+      // Minimap
+      minimap_border: ui.border.hex,
+
+      // Brackets
+      brackets_foreground: ui.cursor.hex,
+      brackets_options: 'underline',
+      bracket_contents_foreground: ui.cursor.hex,
+      bracket_contents_options: 'underline',
+      tags_foreground: ui.cursor.hex,
+      tags_options: 'stippled_underline',
+
+      // Indent guides
       guide: ui.foregroundSubtle.hex,
       active_guide: ui.accentPrimary.hex,
       stack_guide: ui.foregroundMuted.hex,
-      brackets_foreground: ui.cursor.hex,
-      bracket_contents_foreground: ui.cursor.hex,
-      tags_foreground: ui.cursor.hex,
+
+      // Misc
+      misspelling: st.error.hex,
+      fold_marker: ui.foregroundSubtle.hex,
+      accent: ui.accentPrimary.hex,
+      shadow: withOpacity('#000000', '40'),
+      shadow_width: '4',
+
+      // Popups
+      popup_css: '',
+      phantom_css: '',
+      sheet_css: '',
     },
     rules,
   };

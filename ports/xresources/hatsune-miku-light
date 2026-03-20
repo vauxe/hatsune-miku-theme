@@ -4,6 +4,20 @@
 *background: #F5F0E2
 *foreground: #753826
 *cursorColor: #E88493
+*highlightColor: #5688A0
+*highlightTextColor: #753826
+
+! Bold / Underline / Italic
+*colorBD: #211311
+*colorUL: #006679
+*colorIT: #211311
+
+! Border
+*borderColor: #6F848E
+
+! Pointer
+*pointerColor: #E88493
+*pointerColor2: #F5F0E2
 
 *color0: #AB9894
 *color1: #BD0067

@@ -26,6 +26,17 @@ cursor-text = ${t.ui.background.hex}
 selection-background = ${t.ui.selection.hex}
 selection-foreground = ${t.ui.foreground.hex}
 
+search-foreground = ${t.ui.background.hex}
+search-background = ${t.ui.accentSecondary.hex}
+search-selected-foreground = ${t.ui.background.hex}
+search-selected-background = ${t.status.warning.hex}
+
+split-divider-color = ${t.ui.border.hex}
+unfocused-split-fill = ${t.ui.backgroundVoid.hex}
+
+window-titlebar-background = ${t.ui.backgroundHouse.hex}
+window-titlebar-foreground = ${t.ui.foreground.hex}
+
 ${palette}
 `;
 }

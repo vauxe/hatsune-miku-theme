@@ -8,6 +8,17 @@ cursor-text = #F5F0E2
 selection-background = #5688A0
 selection-foreground = #753826
 
+search-foreground = #F5F0E2
+search-background = #00717F
+search-selected-foreground = #F5F0E2
+search-selected-background = #B04C00
+
+split-divider-color = #6F848E
+unfocused-split-fill = #FEFAF0
+
+window-titlebar-background = #D5EAF4
+window-titlebar-foreground = #753826
+
 palette = 0=#AB9894
 palette = 1=#BD0067
 palette = 2=#467E00

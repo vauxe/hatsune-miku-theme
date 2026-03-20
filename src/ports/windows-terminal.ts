@@ -14,6 +14,7 @@ export function createWindowsTerminalTheme(t: SemanticTokens, name: string): obj
     background: t.ui.background.hex,
     cursorColor: t.ui.cursor.hex,
     selectionBackground: t.ui.selection.hex,
+    tabColor: t.ui.backgroundHouse.hex,
     black: term.black.hex,
     red: term.red.hex,
     green: term.green.hex,

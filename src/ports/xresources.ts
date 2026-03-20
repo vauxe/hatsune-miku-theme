@@ -22,6 +22,20 @@ export function createXresourcesTheme(t: SemanticTokens): string {
 *background: ${t.ui.background.hex}
 *foreground: ${t.ui.foreground.hex}
 *cursorColor: ${t.ui.cursor.hex}
+*highlightColor: ${t.ui.selection.hex}
+*highlightTextColor: ${t.ui.foreground.hex}
+
+! Bold / Underline / Italic
+*colorBD: ${t.ui.nearWhite.hex}
+*colorUL: ${t.ui.link.hex}
+*colorIT: ${t.ui.accentTertiary.hex}
+
+! Border
+*borderColor: ${t.ui.border.hex}
+
+! Pointer
+*pointerColor: ${t.ui.cursor.hex}
+*pointerColor2: ${t.ui.background.hex}
 
 ${colors}
 `;

@@ -26,8 +26,10 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
   const fg = solid(ui.foreground.hex);
   const houseBg = solid(ui.backgroundHouse.hex);
   const floatBg = solid(ui.backgroundFloat.hex);
+  const voidBg = solid(ui.backgroundVoid.hex);
   const accent = solid(ui.accentPrimary.hex);
   const border = solid(ui.border.hex);
+  const borderSubtle = solid(ui.borderSubtle.hex);
   const muted = solid(ui.foregroundMuted.hex);
   const subtle = solid(ui.foregroundSubtle.hex);
 
@@ -40,12 +42,16 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
         name,
         appearance: polarity,
         style: {
-          // Backgrounds
+          // =================================================================
+          // BACKGROUNDS
+          // =================================================================
           background: houseBg,
           'elevated_surface.background': floatBg,
           'surface.background': houseBg,
           'panel.background': houseBg,
+          'panel.focused_border': accent,
           'editor.background': bg,
+          'editor.foreground': fg,
           'editor.gutter.background': bg,
           'editor.subheader.background': houseBg,
           'editor.active_line.background': houseBg,
@@ -59,41 +65,62 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
           'editor.indent_guide_active': muted,
           'editor.document_highlight.read_background': alpha(accent, '25'),
           'editor.document_highlight.write_background': alpha(accent, '40'),
+          'drop_target.background': alpha(accent, '25'),
+
+          // Status / Title / Tab / Toolbar bars
           'status_bar.background': houseBg,
-          'tab_bar.background': houseBg,
-          'tab.active_background': bg,
-          'tab.inactive_background': houseBg,
           'title_bar.background': houseBg,
           'title_bar.inactive_background': houseBg,
+          'tab_bar.background': voidBg,
+          'tab.active_background': bg,
+          'tab.inactive_background': houseBg,
           'toolbar.background': bg,
           'search.match_background': alpha(solid(syn.function.hex), '40'),
 
-          // Text
+          // =================================================================
+          // TEXT
+          // =================================================================
           text: fg,
           'text.accent': accent,
           'text.muted': muted,
           'text.placeholder': subtle,
           'text.disabled': subtle,
 
-          // Icons
+          // =================================================================
+          // ICONS
+          // =================================================================
           icon: fg,
           'icon.accent': accent,
           'icon.muted': muted,
           'icon.disabled': subtle,
 
-          // Links
+          // =================================================================
+          // LINKS
+          // =================================================================
           'link_text.hover': solid(ui.link.hex),
 
-          // Borders
+          // =================================================================
+          // PREDICTIVE / GHOST TEXT
+          // =================================================================
+          predictive: solid(ui.ghostText.hex),
+          unreachable: muted,
+          hidden: subtle,
+          ignored: subtle,
+
+          // =================================================================
+          // BORDERS
+          // =================================================================
           border,
-          'border.variant': alpha(border, '80'),
+          'border.variant': borderSubtle,
           'border.focused': accent,
           'border.selected': accent,
           'border.transparent': alpha(border, '00'),
           'border.disabled': subtle,
           'pane.focused_border': accent,
 
-          // Elements
+          // =================================================================
+          // ELEMENTS
+          // =================================================================
           'element.background': alpha(accent, '08'),
           'element.hover': alpha(accent, '15'),
           'element.active': alpha(accent, '25'),
@@ -105,14 +132,18 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
           'ghost_element.selected': alpha(accent, '25'),
           'ghost_element.disabled': alpha(fg, '08'),
 
-          // Scrollbar
+          // =================================================================
+          // SCROLLBAR
+          // =================================================================
           'scrollbar.thumb.background': alpha(accent, '25'),
           'scrollbar.thumb.hover_background': alpha(accent, '40'),
           'scrollbar.track.background': alpha(fg, '00'),
           'scrollbar.thumb.border': alpha(fg, '00'),
           'scrollbar.track.border': alpha(fg, '00'),
 
-          // Status colors
+          // =================================================================
+          // STATUS COLORS
+          // =================================================================
           error: solid(st.error.hex),
           'error.background': alpha(solid(st.error.hex), '15'),
           'error.border': solid(st.error.hex),
@@ -129,7 +160,9 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
           'hint.background': alpha(accent, '15'),
           'hint.border': accent,
 
-          // Version control
+          // =================================================================
+          // VERSION CONTROL
+          // =================================================================
           created: solid(git.added.hex),
           'created.background': alpha(solid(git.added.hex), '15'),
           'created.border': solid(git.added.hex),
@@ -146,10 +179,13 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
           'renamed.background': alpha(solid(git.renamed.hex), '15'),
           'renamed.border': solid(git.renamed.hex),
 
-          // Terminal
+          // =================================================================
+          // TERMINAL
+          // =================================================================
           'terminal.background': bg,
           'terminal.foreground': fg,
           'terminal.bright_foreground': solid(term.brightWhite.hex),
+          'terminal.dim_foreground': muted,
           'terminal.ansi.black': solid(term.black.hex),
           'terminal.ansi.red': solid(term.red.hex),
           'terminal.ansi.green': solid(term.green.hex),
@@ -166,16 +202,32 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
           'terminal.ansi.bright_magenta': solid(term.brightMagenta.hex),
           'terminal.ansi.bright_cyan': solid(term.brightCyan.hex),
           'terminal.ansi.bright_white': solid(term.brightWhite.hex),
+          'terminal.ansi.dim_black': alpha(solid(term.black.hex), '80'),
+          'terminal.ansi.dim_red': alpha(solid(term.red.hex), '80'),
+          'terminal.ansi.dim_green': alpha(solid(term.green.hex), '80'),
+          'terminal.ansi.dim_yellow': alpha(solid(term.yellow.hex), '80'),
+          'terminal.ansi.dim_blue': alpha(solid(term.blue.hex), '80'),
+          'terminal.ansi.dim_magenta': alpha(solid(term.magenta.hex), '80'),
+          'terminal.ansi.dim_cyan': alpha(solid(term.cyan.hex), '80'),
+          'terminal.ansi.dim_white': alpha(solid(term.white.hex), '80'),
 
-          // Players
+          // =================================================================
+          // PLAYERS (collaboration cursors)
+          // =================================================================
           players: [
             { cursor: solid(ui.cursor.hex), background: accent, selection: alpha(accent, '40') },
             { cursor: solid(st.success.hex), background: solid(st.success.hex), selection: alpha(solid(st.success.hex), '40') },
             { cursor: solid(st.warning.hex), background: solid(st.warning.hex), selection: alpha(solid(st.warning.hex), '40') },
             { cursor: solid(st.error.hex), background: solid(st.error.hex), selection: alpha(solid(st.error.hex), '40') },
+            { cursor: solid(st.info.hex), background: solid(st.info.hex), selection: alpha(solid(st.info.hex), '40') },
+            { cursor: solid(ui.accentSecondary.hex), background: solid(ui.accentSecondary.hex), selection: alpha(solid(ui.accentSecondary.hex), '40') },
+            { cursor: solid(ui.accentTertiary.hex), background: solid(ui.accentTertiary.hex), selection: alpha(solid(ui.accentTertiary.hex), '40') },
+            { cursor: solid(syn.macro.hex), background: solid(syn.macro.hex), selection: alpha(solid(syn.macro.hex), '40') },
           ],
 
-          // Syntax
+          // =================================================================
+          // SYNTAX
+          // =================================================================
           syntax: {
             attribute: { color: solid(syn.macro.hex) },
             boolean: { color: solid(syn.boolean.hex) },
@@ -183,8 +235,11 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
             'comment.doc': { color: solid(syn.commentDoc.hex), font_style: 'italic' },
             constant: { color: solid(syn.constant.hex) },
             constructor: { color: solid(syn.class.hex) },
+            embedded: { color: solid(syn.stringTemplate.hex) },
             enum: { color: solid(syn.enum.hex) },
             function: { color: solid(syn.function.hex) },
+            'function.method': { color: solid(syn.method.hex) },
+            'function.special.definition': { color: solid(syn.macro.hex) },
             keyword: { color: solid(syn.keyword.hex) },
             label: { color: solid(syn.keywordControl.hex) },
             number: { color: solid(syn.number.hex) },
@@ -193,6 +248,7 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
             punctuation: { color: solid(syn.punctuation.hex) },
             'punctuation.bracket': { color: solid(syn.punctuation.hex) },
             'punctuation.delimiter': { color: solid(syn.punctuation.hex) },
+            'punctuation.list_marker': { color: solid(syn.punctuation.hex) },
             'punctuation.special': { color: solid(syn.punctuation.hex) },
             string: { color: solid(syn.string.hex) },
             'string.escape': { color: solid(syn.parameter.hex) },
@@ -203,7 +259,9 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
             'text.literal': { color: solid(t.markdown.codeBlock.hex) },
             title: { color: solid(t.markdown.heading.hex), font_weight: 700 },
             type: { color: solid(syn.type.hex) },
+            'type.interface': { color: solid(syn.interface.hex) },
             variable: { color: solid(syn.variable.hex) },
+            'variable.parameter': { color: solid(syn.parameter.hex) },
             'variable.special': { color: solid(syn.variableLanguage.hex), font_style: 'italic' },
             preproc: { color: solid(syn.macro.hex) },
             link_text: { color: solid(ui.link.hex) },
