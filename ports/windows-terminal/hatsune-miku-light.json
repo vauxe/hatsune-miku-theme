@@ -1,0 +1,23 @@
+{
+  "name": "Hatsune Miku (Snow Miku)",
+  "foreground": "#753826",
+  "background": "#F5F0E2",
+  "cursorColor": "#E88493",
+  "selectionBackground": "#5688A0",
+  "black": "#AB9894",
+  "red": "#BD0067",
+  "green": "#467E00",
+  "yellow": "#8F2B00",
+  "blue": "#005B9F",
+  "purple": "#7B00A7",
+  "cyan": "#007D8D",
+  "white": "#6E6B50",
+  "brightBlack": "#746461",
+  "brightRed": "#9F0051",
+  "brightGreen": "#407700",
+  "brightYellow": "#8A2500",
+  "brightBlue": "#004F91",
+  "brightPurple": "#6F0099",
+  "brightCyan": "#006E7E",
+  "brightWhite": "#483430"
+}

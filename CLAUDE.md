@@ -5,9 +5,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Build Commands
 
 ```bash
-npm run build          # Full build: VS Code themes + all targets
+npm run build          # Full build: VS Code themes + all ports
 npm run build:vscode   # VS Code themes only
-npm run build:targets  # Terminal/editor targets only
+npm run build:ports    # Terminal/editor ports only
 npm run compile        # TypeScript only
 npm run watch          # TypeScript watch mode
 npm run rebuild        # Clean dist/ and rebuild
@@ -15,14 +15,14 @@ npm run rebuild        # Clean dist/ and rebuild
 
 Output:
 - `themes/*.json` — VS Code themes (dark + light)
-- `themes/targets/` — portable targets (terminals, editors, palette) — gitignored
+- `ports/{app}/` — portable ports (terminals, editors, palette)
 
 ## Architecture
 
 ```
 src/palette/ → src/tokens/ → src/theme/   → src/generator.ts → themes/*.json
   (colors)     (semantic)    (VS Code)       (compiler)         (VS Code output)
-                            src/targets/ →                    → themes/targets/*
+                            src/ports/   →                    → ports/{app}/*
                             (portable)                          (terminals, editors, palette)
 ```
 
@@ -46,7 +46,7 @@ export function createWorkbenchColors(t: SemanticTokens, polarity: 'dark' | 'lig
 { name: 'Keyword', scope: ['keyword.control'], settings: { foreground: syntax.keyword } }
 ```
 
-**Target files** (`src/targets/`) take `SemanticTokens` and produce a format-specific string or object:
+**Port files** (`src/ports/`) take `SemanticTokens` and produce a format-specific string or object:
 ```typescript
 export function createAlacrittyTheme(t: SemanticTokens): string { ... }
 export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', name: string): object { ... }
@@ -60,7 +60,7 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
 ## Readability Thresholds
 
 Validated by `npm run readability:dark` or `npm run readability:light` (add `-- --verbose` for full results).
-Portable palette: `npm run readability:targets` (APCA + CVD for core fg/bg pairs shared by all targets).
+Portable palette: `npm run readability:ports` (APCA + CVD for core fg/bg pairs shared by all ports).
 
 ```
 APCA Contrast (14px / 400 weight — standard code editor):

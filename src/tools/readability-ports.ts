@@ -1,12 +1,12 @@
 /**
- * Target Readability Validation
+ * Port Readability Validation
  *
- * Validates APCA contrast for the core fg/bg pairs shared by all targets.
+ * Validates APCA contrast for the core fg/bg pairs shared by all ports.
  * The full readability tool validates VS Code-specific keys; this validates
- * the portable palette that terminal and editor targets consume.
+ * the portable palette that terminal and editor ports consume.
  *
  * Usage:
- *   npx tsx src/tools/readability-targets.ts [--verbose]
+ *   npx tsx src/tools/readability-ports.ts [--verbose]
  */
 
 import { generateVariantTokens, type ThemeVariant } from '../tokens';
@@ -158,4 +158,4 @@ if (total > 0) {
   process.exit(1);
 }
 
-console.log('\nAll target palette pairs pass.');
+console.log('\nAll port palette pairs pass.');

@@ -1,0 +1,121 @@
+# Hatsune Miku Theme — Helix
+# Generated — do not edit
+
+"attribute" = "#F5C1FF"
+"type" = "#C9D0FF"
+"type.builtin" = "#C9D0FF"
+"type.parameter" = "#CDD3FF"
+"type.enum" = "#E9D27B"
+"type.enum.variant" = "#96E0FF"
+"constructor" = "#E9D27B"
+"constant" = "#96E0FF"
+"constant.builtin" = "#96E0FF"
+"constant.builtin.boolean" = "#A8DEFF"
+"constant.character" = "#BCE498"
+"constant.character.escape" = "#FFBECD"
+"constant.numeric" = "#A8DEFF"
+"constant.numeric.integer" = "#A8DEFF"
+"constant.numeric.float" = "#A8DEFF"
+"string" = "#BCE498"
+"string.regexp" = "#B7E888"
+"string.special" = "#BCE498"
+"string.special.url" = { fg = "#84CCC8", modifiers = ["underlined"] }
+"string.special.symbol" = "#96E0FF"
+"comment" = { fg = "#8DC6B6", modifiers = ["italic"] }
+"comment.line.documentation" = { fg = "#85BCAD", modifiers = ["italic"] }
+"comment.block.documentation" = { fg = "#85BCAD", modifiers = ["italic"] }
+"variable" = "#27F1FC"
+"variable.builtin" = { fg = "#66F3D3", modifiers = ["italic"] }
+"variable.parameter" = "#FFBECD"
+"variable.other.member" = "#FFBECD"
+"label" = "#66F3D3"
+"punctuation" = "#7AD7C0"
+"punctuation.delimiter" = "#7AD7C0"
+"punctuation.bracket" = "#7AD7C0"
+"punctuation.special" = "#7AD7C0"
+"keyword" = "#66F3D3"
+"keyword.control" = "#66F3D3"
+"keyword.control.conditional" = "#66F3D3"
+"keyword.control.repeat" = "#66F3D3"
+"keyword.control.import" = "#66F3D3"
+"keyword.control.return" = "#66F3D3"
+"keyword.control.exception" = "#66F3D3"
+"keyword.operator" = "#FFB7FF"
+"keyword.directive" = "#F5C1FF"
+"keyword.function" = "#66F3D3"
+"keyword.storage" = "#66F3D3"
+"keyword.storage.type" = "#66F3D3"
+"keyword.storage.modifier" = "#66F3D3"
+"operator" = "#FFB7FF"
+"function" = "#FFC39B"
+"function.builtin" = "#FFC492"
+"function.method" = "#FFC39B"
+"function.macro" = "#F5C1FF"
+"tag" = "#FAC8AA"
+"tag.builtin" = "#FAC8AA"
+"namespace" = "#C9D0FF"
+"special" = "#FFBECD"
+"markup.heading" = { fg = "#FFC492", modifiers = ["bold"] }
+"markup.bold" = { modifiers = ["bold"] }
+"markup.italic" = { modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.link.url" = { fg = "#C9D0FF", modifiers = ["underlined"] }
+"markup.link.text" = { fg = "#84CCC8" }
+"markup.quote" = { fg = "#69EBF3", modifiers = ["italic"] }
+"markup.raw" = { fg = "#27F1FC" }
+"markup.list.checked" = { fg = "#68FCCD" }
+"markup.list.unchecked" = { fg = "#BDD7D9" }
+"diff.plus" = { fg = "#8AF9B4" }
+"diff.minus" = { fg = "#FA91F9" }
+"diff.delta" = { fg = "#F0CD7B" }
+"warning" = { fg = "#F0CD7B" }
+"error" = { fg = "#FF8DED" }
+"info" = { fg = "#C1D5FF" }
+"hint" = { fg = "#39C5BB" }
+"diagnostic.warning" = { underline = { color = "#F0CD7B", style = "curl" } }
+"diagnostic.error" = { underline = { color = "#FF8DED", style = "curl" } }
+"diagnostic.info" = { underline = { color = "#C1D5FF", style = "curl" } }
+"diagnostic.hint" = { underline = { color = "#39C5BB", style = "curl" } }
+"diagnostic.deprecated" = { modifiers = ["crossed_out"] }
+"ui.background" = { bg = "#1A1F24" }
+"ui.background.separator" = { fg = "#39C5BB" }
+"ui.cursor" = { fg = "#1A1F24", bg = "#FF8CD9" }
+"ui.cursor.match" = { fg = "#FF8CD9", modifiers = ["bold"] }
+"ui.cursor.primary" = { fg = "#1A1F24", bg = "#FF8CD9" }
+"ui.cursor.primary.insert" = { fg = "#1A1F24", bg = "#39C5BB" }
+"ui.cursor.primary.select" = { fg = "#1A1F24", bg = "#95DFDB" }
+"ui.linenr" = { fg = "#89A0A1" }
+"ui.linenr.selected" = { fg = "#39C5BB", modifiers = ["bold"] }
+"ui.statusline" = { fg = "#DEE8F2", bg = "#23282D" }
+"ui.statusline.inactive" = { fg = "#BDD7D9", bg = "#23282D" }
+"ui.statusline.normal" = { fg = "#1A1F24", bg = "#39C5BB", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "#1A1F24", bg = "#68FCCD", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "#1A1F24", bg = "#FF8CD9", modifiers = ["bold"] }
+"ui.statusline.separator" = { fg = "#39C5BB" }
+"ui.bufferline" = { fg = "#BDD7D9", bg = "#23282D" }
+"ui.bufferline.active" = { fg = "#DEE8F2", bg = "#1A1F24", modifiers = ["bold"] }
+"ui.bufferline.background" = { bg = "#23282D" }
+"ui.popup" = { fg = "#DEE8F2", bg = "#2A3035" }
+"ui.popup.info" = { fg = "#DEE8F2", bg = "#2A3035" }
+"ui.window" = { fg = "#39C5BB" }
+"ui.help" = { fg = "#DEE8F2", bg = "#2A3035" }
+"ui.text" = { fg = "#DEE8F2" }
+"ui.text.focus" = { fg = "#39C5BB" }
+"ui.text.inactive" = { fg = "#BDD7D9" }
+"ui.text.info" = { fg = "#C1D5FF" }
+"ui.text.directory" = { fg = "#39C5BB" }
+"ui.virtual.ruler" = { bg = "#23282D" }
+"ui.virtual.whitespace" = { fg = "#89A0A1" }
+"ui.virtual.indent-guide" = { fg = "#89A0A1" }
+"ui.virtual.inlay-hint" = { fg = "#89A0A1", modifiers = ["italic"] }
+"ui.virtual.wrap" = { fg = "#89A0A1" }
+"ui.virtual.jump-label" = { fg = "#1A1F24", bg = "#FF8CD9", modifiers = ["bold"] }
+"ui.menu" = { fg = "#DEE8F2", bg = "#2A3035" }
+"ui.menu.selected" = { fg = "#DEE8F2", bg = "#39C5BB40" }
+"ui.menu.scroll" = { fg = "#39C5BB" }
+"ui.selection" = { bg = "#39C5BB40" }
+"ui.selection.primary" = { bg = "#39C5BB40" }
+"ui.cursorline.primary" = { bg = "#23282D" }
+"ui.highlight" = { bg = "#39C5BB25" }
+"ui.gutter" = { bg = "#1A1F24" }
+"ui.gutter.selected" = { bg = "#23282D" }

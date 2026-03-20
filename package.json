@@ -32,7 +32,7 @@
   "scripts": {
     "build": "tsc && node dist/generator.js",
     "build:vscode": "tsc && node dist/generator.js vscode",
-    "build:targets": "tsc && node dist/generator.js targets",
+    "build:ports": "tsc && node dist/generator.js ports",
     "watch": "tsc -w",
     "compile": "tsc",
     "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\"",
@@ -40,7 +40,7 @@
     "prepublishOnly": "npm run build",
     "readability:dark": "tsx src/tools/readability.ts --theme themes/hatsune-miku-theme-color-theme.json",
     "readability:light": "tsx src/tools/readability.ts --theme themes/hatsune-miku-snow-color-theme.json",
-    "readability:targets": "tsx src/tools/readability-targets.ts"
+    "readability:ports": "tsx src/tools/readability-ports.ts"
   },
   "devDependencies": {
     "@types/node": "^25.0.9",

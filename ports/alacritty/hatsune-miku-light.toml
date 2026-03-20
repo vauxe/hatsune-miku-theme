@@ -1,0 +1,34 @@
+# Hatsune Miku Theme — Alacritty
+# Generated — do not edit
+
+[colors.primary]
+background = "#F5F0E2"
+foreground = "#753826"
+
+[colors.cursor]
+cursor = "#E88493"
+text = "#F5F0E2"
+
+[colors.selection]
+background = "#5688A0"
+text = "#753826"
+
+[colors.normal]
+black   = "#AB9894"
+red     = "#BD0067"
+green   = "#467E00"
+yellow  = "#8F2B00"
+blue    = "#005B9F"
+magenta = "#7B00A7"
+cyan    = "#007D8D"
+white   = "#6E6B50"
+
+[colors.bright]
+black   = "#746461"
+red     = "#9F0051"
+green   = "#407700"
+yellow  = "#8A2500"
+blue    = "#004F91"
+magenta = "#6F0099"
+cyan    = "#006E7E"
+white   = "#483430"

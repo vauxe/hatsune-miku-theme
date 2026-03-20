@@ -31,49 +31,49 @@ Available for VS Code, Neovim, Helix, Zed, Sublime Text, and 10 terminal emulato
 
 ### Neovim
 
-Copy `themes/targets/hatsune-miku-dark.lua` (or `-light`) to `~/.config/nvim/colors/`, then `:colorscheme hatsune-miku-dark`.
+Copy `ports/neovim/hatsune-miku-dark.lua` (or `-light`) to `~/.config/nvim/colors/`, then `:colorscheme hatsune-miku-dark`.
 
 ### Helix
 
-Copy `themes/targets/hatsune-miku-dark.toml` (or `-light`) to `~/.config/helix/themes/`, then set `theme = "hatsune-miku-dark"` in `config.toml`.
+Copy `ports/helix/hatsune-miku-dark.toml` (or `-light`) to `~/.config/helix/themes/`, then set `theme = "hatsune-miku-dark"` in `config.toml`.
 
 ### Zed
 
-Copy `themes/targets/hatsune-miku-dark.zed.json` (or `-light`) to `~/.config/zed/themes/`.
+Copy `ports/zed/hatsune-miku-dark.json` (or `-light`) to `~/.config/zed/themes/`.
 
 ### Sublime Text
 
-Copy `themes/targets/hatsune-miku-dark.sublime-color-scheme` (or `-light`) to `Packages/User/`.
+Copy `ports/sublime/hatsune-miku-dark.sublime-color-scheme` (or `-light`) to `Packages/User/`.
 
 ### Terminal Emulators
 
 Pre-built configs for both dark and light variants:
 
-| Terminal | File | Install location |
+| Terminal | Port | Install location |
 |---|---|---|
-| Alacritty | `alacritty-dark.toml` | `~/.config/alacritty/` (import in `alacritty.toml`) |
-| kitty | `kitty-dark.conf` | `~/.config/kitty/` (include in `kitty.conf`) |
-| WezTerm | `wezterm-dark.lua` | Reference in `wezterm.lua` config |
-| Ghostty | `ghostty-dark` | `~/.config/ghostty/` |
-| foot | `foot-dark.ini` | `~/.config/foot/` |
-| iTerm2 | `iterm2-dark.itermcolors` | Import via Preferences → Profiles → Colors |
-| Windows Terminal | `windows-terminal-dark.json` | Add to `settings.json` schemes array |
-| Konsole | `konsole-dark.colorscheme` | `~/.local/share/konsole/` |
-| Warp | `warp-dark.yaml` | `~/.warp/themes/` (macOS) or `~/.local/share/warp-terminal/themes/` (Linux) |
-| Xresources | `xresources-dark` | Merge into `~/.Xresources` |
+| Alacritty | `ports/alacritty/` | `~/.config/alacritty/` (import in `alacritty.toml`) |
+| kitty | `ports/kitty/` | `~/.config/kitty/` (include in `kitty.conf`) |
+| WezTerm | `ports/wezterm/` | Reference in `wezterm.lua` config |
+| Ghostty | `ports/ghostty/` | `~/.config/ghostty/` |
+| foot | `ports/foot/` | `~/.config/foot/` |
+| iTerm2 | `ports/iterm2/` | Import via Preferences → Profiles → Colors |
+| Windows Terminal | `ports/windows-terminal/` | Add to `settings.json` schemes array |
+| Konsole | `ports/konsole/` | `~/.local/share/konsole/` |
+| Warp | `ports/warp/` | `~/.warp/themes/` (macOS) or `~/.local/share/warp-terminal/themes/` (Linux) |
+| Xresources | `ports/xresources/` | Merge into `~/.Xresources` |
 
-All files are in `themes/targets/`. Replace `-dark` with `-light` for the Snow Miku variant.
+Each port directory contains `hatsune-miku-dark` and `hatsune-miku-light` variants.
 
 ## Development
 
 ```bash
 npm install                # Setup
-npm run build              # Full build: VS Code + all targets
+npm run build              # Full build: VS Code + all ports
 npm run build:vscode       # VS Code themes only
-npm run build:targets      # Terminal/editor targets only
+npm run build:ports        # Terminal/editor ports only
 npm run readability:dark   # Validate dark theme accessibility
 npm run readability:light  # Validate light theme accessibility
-npm run readability:targets # Validate portable palette contrast
+npm run readability:ports  # Validate portable palette contrast
 ```
 
 ## License

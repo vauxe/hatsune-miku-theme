@@ -1,0 +1,23 @@
+{
+  "name": "Hatsune Miku",
+  "foreground": "#DEE8F2",
+  "background": "#1A1F24",
+  "cursorColor": "#FF8CD9",
+  "selectionBackground": "#39C5BB",
+  "black": "#909BA7",
+  "red": "#FF8FC4",
+  "green": "#51FEA1",
+  "yellow": "#FFE8C7",
+  "blue": "#AEB4FA",
+  "purple": "#FFC4FA",
+  "cyan": "#76FFE6",
+  "white": "#F3BEC4",
+  "brightBlack": "#9AB2B3",
+  "brightRed": "#FF8DD2",
+  "brightGreen": "#62FFB1",
+  "brightYellow": "#FFE2B7",
+  "brightBlue": "#AAB0FF",
+  "brightPurple": "#FFD6FF",
+  "brightCyan": "#4BFFF9",
+  "brightWhite": "#8CE5EA"
+}

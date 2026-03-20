@@ -1,0 +1,27 @@
+# Hatsune Miku Theme — Warp
+# Generated — do not edit
+
+accent: "#39C5BB"
+background: "#1A1F24"
+foreground: "#DEE8F2"
+cursor: "#FF8CD9"
+details: darker
+terminal_colors:
+  normal:
+    black: "#909BA7"
+    red: "#FF8FC4"
+    green: "#51FEA1"
+    yellow: "#FFE8C7"
+    blue: "#AEB4FA"
+    magenta: "#FFC4FA"
+    cyan: "#76FFE6"
+    white: "#F3BEC4"
+  bright:
+    black: "#9AB2B3"
+    red: "#FF8DD2"
+    green: "#62FFB1"
+    yellow: "#FFE2B7"
+    blue: "#AAB0FF"
+    magenta: "#FFD6FF"
+    cyan: "#4BFFF9"
+    white: "#8CE5EA"
