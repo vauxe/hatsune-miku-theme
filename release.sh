@@ -2,14 +2,15 @@
 set -euo pipefail
 
 VERSION=$(node -p "require('./package.json').version")
+PACKAGE_NAME=$(node -p "require('./package.json').name")
 TAG="v$VERSION"
-VSIX="hatsune-miku-theme-$VERSION.vsix"
+VSIX="$PACKAGE_NAME-$VERSION.vsix"
 
 echo "==> Building theme..."
 npm run build
 
 echo "==> Packaging VSIX..."
-vsce package
+vsce package --out "$VSIX"
 
 # GitHub Release
 if gh release view "$TAG" &>/dev/null; then
