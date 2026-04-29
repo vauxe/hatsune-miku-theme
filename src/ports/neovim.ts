@@ -22,6 +22,25 @@ type HlDef = {
   link?: string;
 };
 
+/**
+ * Flatten an 8-digit hex (#RRGGBBAA) against an opaque base (#RRGGBB),
+ * producing an opaque #RRGGBB. Neovim's nvim_set_hl rejects alpha hex.
+ * If the input is already 6-digit, returns it unchanged.
+ */
+function flatten(color: string, base: string): string {
+  if (color.length !== 9) return color;
+  const r = parseInt(color.slice(1, 3), 16);
+  const g = parseInt(color.slice(3, 5), 16);
+  const b = parseInt(color.slice(5, 7), 16);
+  const a = parseInt(color.slice(7, 9), 16) / 255;
+  const br = parseInt(base.slice(1, 3), 16);
+  const bg_ = parseInt(base.slice(3, 5), 16);
+  const bb = parseInt(base.slice(5, 7), 16);
+  const mix = (c: number, bc: number) => Math.round(c * a + bc * (1 - a));
+  const toHex = (n: number) => n.toString(16).padStart(2, '0').toUpperCase();
+  return `#${toHex(mix(r, br))}${toHex(mix(g, bg_))}${toHex(mix(b, bb))}`;
+}
+
 function luaVal(def: HlDef): string {
   const parts: string[] = [];
   if (def.link) return `{ link = "${def.link}" }`;
@@ -825,6 +844,17 @@ export function createNeovimTheme(t: SemanticTokens, polarity: 'dark' | 'light')
     FidgetTitle: { fg: ui.accentPrimary.hex, bold: true },
     FidgetTask: { fg: ui.foregroundMuted.hex },
   };
+
+  // Neovim's nvim_set_hl rejects #RRGGBBAA — flatten any alpha values against
+  // the surface the highlight actually sits on (float/popup surfaces vs. editor).
+  const floatPrefixes = /^(Pmenu|Telescope|BlinkCmp|MiniPick|Float|Lazy|Mason|Noice|Notify|WhichKey|Trouble|Cmp|NeoTree|NvimTree)/;
+  for (const name of Object.keys(groups)) {
+    const def = groups[name];
+    const base = floatPrefixes.test(name) ? floatBg : bg;
+    if (def.fg) def.fg = flatten(def.fg, def.bg ? flatten(def.bg, base) : base);
+    if (def.bg) def.bg = flatten(def.bg, base);
+    if (def.sp) def.sp = flatten(def.sp, base);
+  }
 
   // Build Lua output
   const hlLines = Object.entries(groups)
