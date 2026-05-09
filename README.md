@@ -24,10 +24,12 @@ Available for VS Code, Neovim, Helix, Zed, Sublime Text, and 10 terminal emulato
 
 ### VS Code
 
-1. Download the latest `.vsix` from [Releases](../../releases)
+1. Download the latest `.vsix` from [Releases](https://github.com/vauxe/hatsune-miku-theme/releases/latest)
 2. `Ctrl+Shift+P` → **Extensions: Install from VSIX...**
 3. Select the downloaded file
 4. Choose **Hatsune Miku Theme** (dark) or **Hatsune Miku Theme (Snow Miku)** (light)
+
+Portable ports are available in the repository source tree.
 
 ### Neovim
 
