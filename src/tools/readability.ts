@@ -16,7 +16,6 @@
  *   npx tsx src/tools/readability.ts --test "#FG" "#BG" [name]
  */
 
-import * as fs from 'fs';
 import * as path from 'path';
 
 import {
@@ -54,7 +53,6 @@ import {
   CVD_DISTINCTION_THRESHOLD,
   // Compound background contrast
   COMPOUND_BACKGROUND_KEYS,
-  COMPOUND_REVIEW_BGS,
   COMPOUND_SYNTAX_TOKENS,
   // UI visibility
   UI_VISIBILITY,

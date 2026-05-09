@@ -2,12 +2,15 @@
 .vscode/**
 .vscode-test/**
 .claude/**
+.codex/**
+.codex
 .grammars/**
 
 # Git
 .git/**
 .gitignore
 .gitattributes
+.npmignore
 
 # Documentation (keep README, LICENSE, CHANGELOG)
 vsc-extension-quickstart.md
@@ -31,6 +34,7 @@ package-lock.json
 # Build artifacts
 **/*.vsix
 **/*.map
+release.sh
 
 # Assets (keep icon only — images are for GitHub README, not runtime)
 images/**

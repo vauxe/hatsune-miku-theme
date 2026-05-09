@@ -71,9 +71,9 @@ npm install                # Setup
 npm run build              # Full build: VS Code + all ports
 npm run build:vscode       # VS Code themes only
 npm run build:ports        # Terminal/editor ports only
-npm run readability:dark   # Validate dark theme accessibility
-npm run readability:light  # Validate light theme accessibility
-npm run readability:ports  # Validate portable palette contrast
+npm run readability:dark   # Inspect dark theme readability
+npm run readability:light  # Inspect light theme readability
+npm run readability:ports  # Inspect portable palette contrast
 ```
 
 ## License
