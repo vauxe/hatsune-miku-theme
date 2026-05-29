@@ -17,7 +17,22 @@ const JZ_MAX = 0.22;
 export function hex(jch: JzCzhz): string {
   const color = new Color('jzczhz', [jch.Jz, jch.Cz, jch.hz]);
   const srgb = color.to('srgb') as Color & { toGamut(opts: { method: string }): Color };
-  return srgb.toGamut({ method: 'clip' }).toString({ format: 'hex' }).toUpperCase();
+  const out = srgb.toGamut({ method: 'clip' }).toString({ format: 'hex' }).toUpperCase();
+  // colorjs.io shortens to #RGB / #RGBA when channels are duplicable (e.g. pure
+  // black/white). Downstream alpha helpers (withOpacity/solid/alpha/flatten) assume
+  // 6-digit #RRGGBB, so always expand to long form here.
+  return expandHex(out);
+}
+
+/**
+ * Expand a short hex (#RGB or #RGBA) to long form (#RRGGBB or #RRGGBBAA).
+ * Long-form input is returned unchanged.
+ */
+function expandHex(hexColor: string): string {
+  if (hexColor.length === 4 || hexColor.length === 5) {
+    return '#' + [...hexColor.slice(1)].map((c) => c + c).join('');
+  }
+  return hexColor;
 }
 
 export function parseHex(hexColor: string): JzCzhz {

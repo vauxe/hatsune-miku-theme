@@ -2225,20 +2225,14 @@
 		"*.readonly": {
 			"foreground": "#96E0FF"
 		},
-		"*.static": {},
 		"*.deprecated": {
 			"fontStyle": "strikethrough"
 		},
 		"*.abstract": {
 			"fontStyle": "italic"
 		},
-		"*.async": {},
-		"*.declaration": {},
-		"*.definition": {},
 		"*.documentation": {
 			"fontStyle": "italic"
-		},
-		"*.modification": {},
-		"*.defaultLibrary": {}
+		}
 	}
 }

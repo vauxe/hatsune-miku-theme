@@ -185,9 +185,6 @@ return {
     foreground: syntax.constant,
   },
 
-  // Static modifier - keep base color
-  '*.static': {},
-
   // Deprecated - strikethrough only, no foreground change (design: "A crossed-out note")
   '*.deprecated': {
     fontStyle: 'strikethrough',
@@ -198,25 +195,13 @@ return {
     fontStyle: 'italic',
   },
 
-  // Async - no change, handled by keywords
-  '*.async': {},
-
-  // Declaration - no change
-  '*.declaration': {},
-
-  // Definition - no change
-  '*.definition': {},
-
   // Documentation - handled by comment
   '*.documentation': {
     fontStyle: 'italic',
   },
 
-  // Modification - highlight changes
-  '*.modification': {},
-
-  // Default library - use built-in styling
-  '*.defaultLibrary': {},
+  // Modifiers intentionally left to inherit their base token color (no override):
+  //   *.static, *.async, *.declaration, *.definition, *.modification, *.defaultLibrary
 };
 }
 

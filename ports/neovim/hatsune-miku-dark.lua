@@ -236,8 +236,6 @@ local groups = {
   ["@lsp.type.operator"] = { fg = "#FFB7FF" },
   ["@lsp.type.decorator"] = { fg = "#F5C1FF" },
   ["@lsp.mod.deprecated"] = { strikethrough = true },
-  ["@lsp.mod.readonly"] = {  },
-  ["@lsp.mod.defaultLibrary"] = {  },
   ["@lsp.typemod.function.defaultLibrary"] = { fg = "#FFC492" },
   ["@lsp.typemod.variable.defaultLibrary"] = { fg = "#66F3D3", italic = true },
   ["LspReferenceText"] = { bg = "#1E373A" },

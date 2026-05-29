@@ -369,8 +369,7 @@ export function createNeovimTheme(t: SemanticTokens, polarity: 'dark' | 'light')
     '@lsp.type.operator': { fg: syn.operator.hex },
     '@lsp.type.decorator': { fg: syn.macro.hex },
     '@lsp.mod.deprecated': { strikethrough: true },
-    '@lsp.mod.readonly': { },
-    '@lsp.mod.defaultLibrary': { },
+    // readonly / defaultLibrary modifiers inherit their base token color (no override)
     '@lsp.typemod.function.defaultLibrary': { fg: t.support.function.hex },
     '@lsp.typemod.variable.defaultLibrary': { fg: syn.variableLanguage.hex, italic: true },
 
