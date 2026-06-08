@@ -10,7 +10,7 @@ echo "==> Building theme..."
 npm run build
 
 echo "==> Packaging VSIX..."
-vsce package --out "$VSIX"
+vsce package --no-dependencies --out "$VSIX"
 
 # GitHub Release
 if gh release view "$TAG" &>/dev/null; then
