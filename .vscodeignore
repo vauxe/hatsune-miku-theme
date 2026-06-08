@@ -14,6 +14,7 @@
 
 # Documentation (keep README, LICENSE, CHANGELOG)
 vsc-extension-quickstart.md
+AGENTS.md
 CLAUDE.md
 docs/**
 
