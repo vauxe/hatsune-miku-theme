@@ -270,11 +270,9 @@ export const DISTINCTION_THRESHOLDS = {
 } as const;
 
 /**
- * Critical distinction pairs - safety-critical colors where confusion could
- * cause errors. Lifts the pair from the standard threshold (15) to the
- * critical threshold (18). Markup diff pairs are gated through
- * MUST_DISTINGUISH_PAIRS (the markup tokens live in the syntax record,
- * which no category pair list covers).
+ * Safety-critical pairs — lifted from the standard threshold (15) to the
+ * critical threshold (18). Markup diff pairs live in
+ * MUST_DISTINGUISH_PAIRS instead (syntax record, no category list).
  */
 export const CRITICAL_DISTINCTION_PAIRS = new Set([
   'error↔warning',
@@ -1106,8 +1104,7 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   // TEMPLATE ↔ DATA — `${var}` inside template literal
   ['stringTemplate', 'variable', 'standard'],
 
-  // DIFF MARKUP — ins/del in rendered Markdown; confusing added with
-  // removed is the red/green class of risk, so the critical floor.
+  // DIFF MARKUP — ins/del confusion is the red/green class of risk
   ['markupInserted', 'markupDeleted', 'critical'],
   ['markupInserted', 'markupChanged', 'standard'],
   ['markupDeleted', 'markupChanged', 'standard'],
@@ -1119,26 +1116,22 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
 
 /**
  * Thresholds for UI element visibility that users directly notice.
- * ΔEz values are on the DELTA_EZ_SCALE (×500) scale, where the JND is
- * ~2-3 — provenance per value below.
+ * ΔEz values are on the DELTA_EZ_SCALE (×500) scale; JND ≈ 2-3.
  */
 export const UI_VISIBILITY = {
-  /** Selection bg vs editor bg (can you SEE the selection?) — ~3× JND:
-   * unmistakable at a glance, yet far below text-distinction levels
-   * so the wash never competes with syntax. */
+  /** Selection bg vs editor bg — ~3× JND: unmistakable, yet below
+   * text-distinction levels so the wash never competes with syntax */
   selectionVisibility: 8,
-  /** Find match bg vs editor bg — 'Clear' on the ΔEz bucket scale
-   * (10-20): find marks are sought actively and must pop, one bucket
-   * above the selection wash. */
+  /** Find match bg vs editor bg — 'Clear' bucket: sought actively,
+   * one bucket above the selection wash */
   findMatchVisibility: 12,
-  /** Cursor Lc vs editor bg — APCA Lc 45 is the large/bold-element
-   * floor; a caret is a thick glyph-sized mark, not body text. */
+  /** Cursor Lc vs editor bg — the APCA large/bold floor; a caret is a
+   * thick mark, not body text */
   cursorContrast: 45,
-  /** Tab bar vs editor — ~1 JND: low on purpose for eye comfort
-   * (spatial cues suffice to find the tab strip). */
+  /** Tab bar vs editor — ~1 JND, low on purpose: spatial cues suffice */
   tabDistinction: 3,
-  /** Diff added vs removed bg — DISTINCTION_THRESHOLDS.standard (15):
-   * the two tints carry opposite meanings side by side. */
+  /** Diff added vs removed bg — DISTINCTION_THRESHOLDS.standard:
+   * opposite meanings side by side */
   diffDistinction: 15,
 } as const;
 

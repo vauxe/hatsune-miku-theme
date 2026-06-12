@@ -62,9 +62,7 @@ export function deltaEzHex(hex1: string, hex2: string, bg?: string): number | nu
     if (!hasAlphaChannel(hex)) return hex;
     const alpha = extractAlpha(hex);
     const base = stripAlpha(hex);
-    // ≥ 0.99 ≈ alpha byte FE/FF: blending against any bg moves channels
-    // by <1 unit, so treat as opaque and skip the (bg-requiring) blend
-    if (alpha >= 0.99) return base;
+    if (alpha >= 0.99) return base; // FE/FF alpha: <1 channel-unit from opaque
     if (!bg) {
       console.warn(`deltaEzHex: transparent color ${hex} without background`);
       return base;
@@ -112,10 +110,8 @@ export function analyzeChroma(
 } {
   const chromaPercent = chroma * CHROMA_SCALE;
 
-  // Display buckets on the 0-100% Cz scale (sRGB blue ≈ 100%): below 5%
-  // reads achromatic, 8% is a visible tint, ~20% the comfortable syntax
-  // ceiling, 35/45/60% increasingly saturated accents. Labels only —
-  // pass/fail comes from the per-tier thresholds below.
+  // Display labels only (pass/fail comes from the per-tier thresholds):
+  // <5% reads achromatic, ~20% is the comfortable syntax ceiling.
   let level: string;
   if (chromaPercent < 5) {
     level = 'Gray';
@@ -215,11 +211,9 @@ export function getAPCAContrast(text: string, background: string): APCAResult {
   const txtColor = new Color(text);
   const bgColor = new Color(background);
 
-  // colorjs.io's contrast() convention is contrast(background, foreground):
-  // the instance is the BACKGROUND, the argument is the text. Calling it as
-  // txtColor.contrast(bgColor) silently computes the reversed-polarity Lc —
-  // APCA is polarity-asymmetric, so the swap mis-reads every pair by 2-6 Lc.
-  // Verified against official APCA-W3 vectors (#888 text on #fff → 63.056).
+  // colorjs.io convention: the instance is the BACKGROUND, the argument is
+  // the text. APCA is polarity-asymmetric — swapping them mis-reads every
+  // pair by 2-6 Lc. Verified against APCA-W3 vectors (#888 on #fff → 63.056).
   const lc = bgColor.contrast(txtColor, 'APCA');
 
   // Determine polarity from luminance
@@ -378,10 +372,9 @@ function assertBrettelIntegrity(): void {
 }
 
 function runBrettelGoldens(): void {
-  // Coverage: each type exercises BOTH half-planes — red and blue sit on
-  // opposite sides of every separation plane (protan: red m1 / blue m2;
-  // deutan: red m2 / blue m1; tritan: yellow m1 / blue m2). White lies ON
-  // each plane (dot = 0) and checks the achromatic-invariance property.
+  // Red and blue sit on opposite sides of every separation plane, so each
+  // type exercises both matrices; white lies ON the plane (achromatic
+  // invariance).
   const golden: Array<[string, CVDType, string]> = [
     ['#FFFFFF', 'protan', '#ffffff'],
     ['#FFFFFF', 'deutan', '#ffffff'],
@@ -638,10 +631,7 @@ export function analyzeHueDistribution(
     gaps.push({ from: current.name, to: next.name, gap });
   }
 
-  // --- Group into hue families (tokens within 10° of anchor) ---
-  // Half the documented 20° minimum inter-family gap: two tokens within
-  // one radius read as the same hue family; two anchors a full gap apart
-  // read as different families.
+  // Group into hue families: radius is half the 20° minimum family gap.
   const FAMILY_RADIUS = 10;
   type Family = { names: string[]; hues: number[] };
   const families: Family[] = [];
@@ -803,8 +793,7 @@ export function suggestDistinctionFix(
     if (hueDiff > 180) hueDiff = 360 - hueDiff;
 
     if (hueDiff < 30) {
-      // Reach the 30° grid step plus a 10° margin so the fixed pair
-      // doesn't land right back on the boundary it just failed.
+      // One 30° grid step plus 10° margin off the failed boundary
       const suggestedShift = 30 - hueDiff + 10;
       return `shift hues apart by ~${Math.round(suggestedShift)}°`;
     }

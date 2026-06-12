@@ -49,19 +49,13 @@ const uiPairs: ContrastPair[] = [
   { name: 'foreground on house', fg: t => t.ui.foreground.hex, bg: t => t.ui.backgroundHouse.hex, tier: 'primary' },
   { name: 'foreground on float', fg: t => t.ui.foreground.hex, bg: t => t.ui.backgroundFloat.hex, tier: 'primary' },
   { name: 'cursor', fg: t => t.ui.cursor.hex, bg: t => t.ui.background.hex, tier: 'secondary' },
-  // Accent's port uses are marks and fills — alacritty's cursor block,
-  // wezterm/sublime label and selection fills, helix hint-level signals —
-  // never sustained content text. Icon/ghost floor (45), NOT secondary:
-  // holding it to 60 would force the canonical brand teal #39C5BB
-  // (Lc 59 on the dark stage) off its hex for a tier it doesn't occupy.
+  // Accent only appears in ports as marks and fills, never sustained
+  // text — icon floor, not secondary (60 would force #39C5BB off its hex)
   { name: 'accent', fg: t => t.ui.accentPrimary.hex, bg: t => t.ui.background.hex, tier: 'tertiary' },
-  // Alpha-less hosts show selectionSurface() — the wash composited to
-  // what VS Code renders. Terminals set selection_foreground to the
-  // theme foreground; ANSI text may persist in some hosts — hold the
-  // red/green signal pair to the icon floor on the selection surface.
-  // fg stays at SECONDARY (stricter than the VS Code gate's compound
-  // floor) on purpose: a flattened solid selection is a sustained
-  // reading surface in terminals, not a transient wash.
+  // Alpha-less hosts show selectionSurface(); fg holds SECONDARY (above
+  // the VS Code compound floor) because a flattened solid selection is a
+  // sustained reading surface, not a transient wash. ANSI red/green may
+  // persist over selections in some hosts — icon floor.
   { name: 'foreground on selection', fg: t => t.ui.foreground.hex, bg: t => selectionSurface(t), tier: 'secondary' },
   { name: 'term.red on selection', fg: t => t.terminal.red.hex, bg: t => selectionSurface(t), tier: 'tertiary' },
   { name: 'term.green on selection', fg: t => t.terminal.green.hex, bg: t => selectionSurface(t), tier: 'tertiary' },
@@ -129,11 +123,8 @@ function validateVariant(polarity: ThemeVariant, verbose: boolean): Failure[] {
     }
   }
 
-  // Terminal CVD distinction: the worst post-simulation distance across
-  // the three dichromacies — same model (Brettel, linear RGB), threshold,
-  // and helper as the VS Code gate. (A previous version compared plain
-  // normal-vision DEz against the CVD threshold: unsimulated AND weaker
-  // than the normal-vision standard.)
+  // Terminal CVD distinction: worst post-simulation distance across the
+  // three dichromacies — same model, threshold and helper as the VS Code gate
   const termMap = tokens.terminal as unknown as Record<string, SemanticRole>;
   for (const [a, b] of terminalDistinctionPairs) {
     const cvd = checkCVDDistinction(termMap[a].hex, termMap[b].hex);

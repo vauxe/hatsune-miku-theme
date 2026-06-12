@@ -36,11 +36,9 @@ export function flattenEmbeddedAlpha(color: string, base: string): string {
 
 /**
  * The selection surface as VS Code actually renders it: the frost wash
- * (decorative.cursorLineFrost — the pigment behind editor.selectionBackground)
- * composited over the canvas at the editor's selection alpha. Alpha-less
- * hosts use this solid; alpha-capable hosts (sublime, zed) apply the wash
- * recipe themselves. (ui.selection's solid teal only ever appeared in
- * ports, never on screen — exporting the rendered surface fixes that.)
+ * composited over the canvas at the selection alpha. Alpha-less hosts
+ * use this solid; alpha-capable hosts (sublime, zed) apply the wash
+ * recipe themselves.
  */
 export function selectionSurface(t: SemanticTokens): string {
   return composite(t.decorative.cursorLineFrost, t.ui.background.hex, parseInt(selectionAlpha.active, 16) / 255);

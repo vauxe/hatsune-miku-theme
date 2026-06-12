@@ -182,10 +182,8 @@ function generate(variant: ThemeVariant): string {
   ].join('\n'));
 
   // Overlay tints: source x alpha -> blended hex on Stage -> DEz vs Stage.
-  // This generates what used to be hand-maintained DEz tables in DESIGN 7.
-  // Alphas derive from the authoritative hex opacity scale — a rounded
-  // decimal here (0.08 for 0x15 = 8.235%) would publish blends one channel
-  // off what VS Code renders.
+  // Alphas must derive from the hex opacity scale — rounded decimals
+  // (0.08 vs 0x15 = 8.235%) publish blends VS Code does not render.
   const op = Object.fromEntries(
     Object.entries(opacity).map(([k, v]) => [k, parseInt(v, 16) / 255])
   ) as Record<keyof typeof opacity, number>;

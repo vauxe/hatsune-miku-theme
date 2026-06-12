@@ -134,12 +134,8 @@ function analyze(
   const result = getAPCAContrast(effectiveColor, bg);
   const alphaStr = alpha < 1 ? `${Math.round(alpha * 100)}%` : undefined;
 
-  // Determine APCA tier based on element type. A row whose background is
-  // one of the compound overlay keys is a token-on-overlay context and gets
-  // the compound floor — the same floor analyzeCompoundBackgroundContrast
-  // applies to the identical physical pair (previously a name-prefix regex
-  // gave four contexts compound and left the rest at secondary, so the same
-  // pair was held to two different floors depending on which pass saw it).
+  // Rows measured against a compound overlay background take the compound
+  // floor — the same floor the compound pass applies to the identical pair.
   const isPrimary = PRIMARY_SYNTAX_ELEMENTS.has(name);
   const isExpectedDim = EXPECTED_DIM_ELEMENTS.has(name);
   const isOverlayContext = COMPOUND_BG_KEY_VALUES.has(bgKey);
@@ -464,9 +460,8 @@ function analyzeCompoundBackgroundContrast(
     for (const [overrideKey, bgNames] of Object.entries(overrideMapping)) {
       const cv = fgOverrides[overrideKey];
       if (!cv || cv.fallback || !cv.color) continue;
-      // Check that the override itself provides adequate contrast on each bg.
-      // Blend, don't strip: a semi-transparent override measured as opaque
-      // would inflate Lc on a path that decides to SKIP compound checks.
+      // The override must itself provide adequate contrast on each bg
+      // (blended, not stripped — this path decides to SKIP compound checks).
       for (const bgName of bgNames) {
         const bgHex = bg[bgName];
         if (!bgHex) continue;
@@ -496,10 +491,9 @@ function analyzeCompoundBackgroundContrast(
     const editorFg = alpha < 1 ? blendAlpha(baseFg, editorBg, alpha) : baseFg;
     const editorResult = getAPCAContrast(editorFg, editorBg);
     const editorLc = Math.abs(editorResult.lc);
-    // Invariant: every COMPOUND_SYNTAX_TOKENS member maps to a display name
-    // in PRIMARY_SYNTAX_ELEMENTS, so the main sections hold all of them to
-    // the primary floor — which makes this skip's "already reported
-    // elsewhere" claim true for the whole set.
+    // Invariant: every COMPOUND_SYNTAX_TOKENS member maps to a display
+    // name in PRIMARY_SYNTAX_ELEMENTS, so the skip below never silences
+    // a token the main sections didn't already hold to this floor.
     const tier: APCATier = 'primary';
     const required = thresholds[tier];
 
@@ -1389,10 +1383,9 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // Filter contrast issues
   // - Skip passed items (unless verbose)
   // - Skip fallback items (VS Code defaults work fine)
-  // - Skip expectedDim items ONLY when computeStats counted them as passing
-  //   (Large/Non-Text level). An expectedDim item below Lc 30 counts into
-  //   stats.fail and must therefore produce a diagnostic line — otherwise
-  //   the summary reports a failure no default-mode line explains.
+  // - Skip expectedDim items only when computeStats counted them as
+  //   passing (Large/Non-Text) — anything counted into stats.fail must
+  //   produce a diagnostic line
   const contrastIssues = allSections.flatMap(s =>
     s.results.filter(r =>
       !r.analysis.pass && !r.fallback &&

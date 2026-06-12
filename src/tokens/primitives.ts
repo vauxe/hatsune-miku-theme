@@ -152,13 +152,9 @@ export const opacity = {
 } as const;
 
 /**
- * The selection wash recipe — which opacity tier the frost pigment
- * (decorative.cursorLineFrost) takes for text selection. Single source:
- * workbench (editor + terminal selection), the sublime port (real alpha),
- * and ports/shared.ts selectionSurface() (pre-composited for alpha-less
- * hosts) must all agree, or ports silently diverge from what VS Code
- * renders — and the ports gate measures selectionSurface against itself,
- * so it cannot catch the drift.
+ * The selection wash recipe — the opacity tier of the frost pigment.
+ * Workbench, the sublime port, and selectionSurface() must all read this:
+ * no gate can catch ports drifting from what VS Code renders.
  */
 export const selectionAlpha = {
   active: opacity.strong,    // focused selection (editor + terminal)

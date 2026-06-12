@@ -249,9 +249,7 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
   // Most surfaces use editorBg as underlying; sidebar-related use sidebarBg
   const sidebarBg = resolveBg('sideBar.background', editorBg);
   const panelBg = resolveBg('panel.background', editorBg);
-  // Terminal overlays render over the terminal surface, not the panel —
-  // identical today (terminal.background == panel.background in both
-  // themes) but the base must be right the day they diverge.
+  // Terminal overlays render over the terminal surface, not the panel
   const terminalBg = resolveBg('terminal.background', panelBg);
 
   return {

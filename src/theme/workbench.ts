@@ -85,8 +85,7 @@ const alphaEditor = {
   lineHighlightBg:          op.light,
   lineHighlightBorder:      op.strong,
   inactiveLineHighlight:    op.light,
-  // Selection — the shared recipe (tokens/primitives selectionAlpha):
-  // ports pre-composite or re-apply this exact wash, so it lives there
+  // Selection — shared recipe: ports pre-composite this exact wash
   selectionBg:              selectionAlpha.active,
   inactiveSelectionBg:      selectionAlpha.inactive,
   // Highlights — subtle/faint tiers
