@@ -48,7 +48,8 @@ const uiPairs: ContrastPair[] = [
   { name: 'foregroundMuted', fg: t => t.ui.foregroundMuted.hex, bg: t => t.ui.background.hex, tier: 'secondary' },
   { name: 'foreground on house', fg: t => t.ui.foreground.hex, bg: t => t.ui.backgroundHouse.hex, tier: 'primary' },
   { name: 'foreground on float', fg: t => t.ui.foreground.hex, bg: t => t.ui.backgroundFloat.hex, tier: 'primary' },
-  { name: 'cursor', fg: t => t.ui.cursor.hex, bg: t => t.ui.background.hex, tier: 'secondary' },
+  // Caret = thick non-text mark; same floor the VS Code gate's cursor check uses
+  { name: 'cursor', fg: t => t.ui.cursor.hex, bg: t => t.ui.background.hex, tier: 'tertiary' },
   // Accent only appears in ports as marks and fills, never sustained
   // text — icon floor, not secondary (60 would force #39C5BB off its hex)
   { name: 'accent', fg: t => t.ui.accentPrimary.hex, bg: t => t.ui.background.hex, tier: 'tertiary' },

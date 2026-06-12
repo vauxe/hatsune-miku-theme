@@ -152,14 +152,14 @@ export function createStatusTokens(p: Primitives): StatusTokens {
   // Maximum hue separation (90 apart) -- CVD-safe by geometry.
   // Four-quadrant hues +-15, Jz shaped to each hue's sRGB gamut ceiling:
   //   teal(170) bright at high Jz; rose(345) vivid at low Jz.
-  // Under deutan, 345/170/260 all project blue -- DJz 0.020 + DCz backup.
+  // Under deutan, 345/170/260 all project blue -- DJz 0.015 + DCz backup.
   // Info shares Jz tier with success (90 apart = CVD-safe by hue).
   // Hues are CVD-tuned off-grid (170/85/330/260) -- hardcoded, not from H.*.
   return {
     success: role('Teal success -- she nods in her own color', 0.190, 0.065, 170),
     warning: role('Gold warning -- concert wand amber, caution', L.soprano, C.mf, 85),
-    error: role('Magenta error -- her tattoo mark, something broke', 0.178, 0.080, 330),
-    info: role('Blue info -- calm, neutral sky', 0.190, 0.040, 260),
+    error: role('Magenta error -- her tattoo mark, something broke', 0.180, 0.080, 330),
+    info: role('Blue info -- calm, neutral sky', 0.195, 0.040, 260),
   };
 }
 
@@ -168,14 +168,14 @@ export function createGitTokens(p: Primitives): GitTokens {
 
   // Six-hue wheel: 0 / 85 / 150 / 210 / 265 / 320 -- minimum gap 40.
   // CVD stagger: deutan merges cool hues -> Jz tiers: added(0.190) > untracked(0.180)
-  //   > renamed(0.170) > deleted(0.174). Warm pair: modified(0.185) vs conflicting(0.165).
+  //   > renamed(0.170) > deleted(0.174). Warm pair: modified(0.186) vs conflicting(0.165).
   // Primary trio vivid (Cz 0.065-0.080), secondary trio quieter (Cz 0.045-0.070).
   // All Jz/Cz/Hz are CVD-tuned off-grid -- hardcoded, not from L/C/H registers.
   return {
     added: role('Negi green -- new life in the code tree',
       0.190, 0.065, 150),
     modified: role('Concert gold -- Magical Mirai stage light, she painted the change',
-      0.185, 0.075, 85),
+      0.186, 0.075, 85),
     deleted: role('Nightcord magenta -- silence where code once lived',
       0.178, 0.080, 320),
     untracked: role('Frost cyan -- unknown files drifting in like snow',

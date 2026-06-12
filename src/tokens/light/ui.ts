@@ -111,9 +111,10 @@ export function createUITokens(p: Primitives): UITokens {
     // =========================================================================
     cursor: (() => {
       const cushion = parseHex(char.headphones.cushion);
+      // Chroma carries the caret floor (Lc >= 45) — vivid, barely darker
       return role(
-        'Pastel pink cursor — sampled necktie Hz≈20°, where she points you type',
-        cushion.Jz, cushion.Cz + 0.010, cushion.hz
+        'Candy pink cursor — sampled necktie Hz≈20°, where she points you type',
+        cushion.Jz - 0.004, cushion.Cz + 0.035, cushion.hz
       );
     })(),
 
@@ -220,7 +221,7 @@ export function createStatusTokens(p: Primitives): StatusTokens {
   return {
     success: role('Mint success — canonical Miku approves, fresh growth', 0.090, 0.115, 180),
     warning: role('Gingerbread warning — golden-brown caution', 0.105, 0.140, 70),
-    error: role('Red error — vivid strawberry alarm', 0.098, 0.140, H.perfect5th),
+    error: role('Red error — deep strawberry alarm (depth carries the deutan gap from warning)', 0.080, 0.140, H.perfect5th),
     info: role('Tonic info — her voice, calm and steady', 0.095, 0.110, H.mikuTeal),
   };
 }

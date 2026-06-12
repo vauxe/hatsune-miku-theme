@@ -101,7 +101,7 @@ export function createBracketTokens(p: Primitives): BracketTokens {
   return {
     bracket1: role('Orange 60° -- warm arpeggio begins (baked peach)', L.sopranino, C.mp, H.minor6th),
     bracket2: role('Violet 300° -- cool deepens (twilight)', L.sopranino, C.mp, H.minor3rd),
-    bracket3: role('Gold 90° -- spring step (butter croissant)', L.sopranino, C.mp, H.major6th),
+    bracket3: role('Gold 90° -- spring step (butter croissant), lifted for tritan DJz vs bracket2', L.sopranino + 0.011, C.mp, H.major6th),
     bracket4: role('Tonic 210° -- her hair at the heart', L.sopranino, C.mp, H.mikuTeal),
     bracket5: role('Rose 0° -- strawberry heartbeat', L.sopranino, C.mp, H.tritone),
     bracket6: role('Blue 270° -- arpeggio resolves (display case)', L.sopranino, C.mp, H.major2nd),
@@ -190,7 +190,7 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
 
     // Diff editor — patisserie-derived tints for cream canvas
     diffInserted: hex({ Jz: 0.120, Cz: 0.130, hz: 180 }),   // Mint — canonical Miku green (vivid for ΔE≥15)
-    diffRemoved: hex({ Jz: 0.125, Cz: 0.130, hz: 27 }),     // Pastel pink — tuned for ΔE≥15 at medium opacity
+    diffRemoved: hex({ Jz: 0.135, Cz: 0.130, hz: 27 }),     // Pastel pink — light enough that every ensemble ink clears the compound floor on the strong tint
     diffMoveBorder: digitalStars.y2021_mg.outfit.gradient,
     diffMoveActiveBorder: digitalStars.y2021_mg.outfit.gradient,
 

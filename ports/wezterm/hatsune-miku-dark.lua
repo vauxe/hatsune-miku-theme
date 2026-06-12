@@ -32,17 +32,17 @@ return {
 
   ansi = {
     "#909BA7",
-    "#FF8FC4",
-    "#51FEA1",
+    "#FF91C7",
+    "#4AF79B",
     "#FFE8C7",
     "#AEB4FA",
     "#FFC4FA",
     "#76FFE6",
-    "#F3BEC4",
+    "#EFBAC0",
   },
   brights = {
     "#9AB2B3",
-    "#FF8DD2",
+    "#FF8FD5",
     "#62FFB1",
     "#FFE2B7",
     "#AAB0FF",

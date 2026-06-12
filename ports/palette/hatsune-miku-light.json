@@ -15,7 +15,7 @@
     "class": "#346900",
     "struct": "#346900",
     "enum": "#346900",
-    "interface": "#007D57",
+    "interface": "#007C56",
     "string": "#00791B",
     "stringTemplate": "#00791B",
     "regex": "#00791B",
@@ -36,9 +36,9 @@
     "black": "#AB9894",
     "red": "#BD0067",
     "green": "#467E00",
-    "yellow": "#8F2B00",
+    "yellow": "#8D2800",
     "blue": "#005B9F",
-    "magenta": "#7B00A7",
+    "magenta": "#9522C5",
     "cyan": "#007D8D",
     "white": "#6E6B50",
     "brightBlack": "#746461",
@@ -53,14 +53,14 @@
   "ui": {
     "foreground": "#753826",
     "background": "#F5F0E2",
-    "cursor": "#E88493",
+    "cursor": "#F56B86",
     "selection": "#C6DAD9",
     "accentPrimary": "#4E9CA1"
   },
   "status": {
     "success": "#008A63",
     "warning": "#B04C00",
-    "error": "#BF0028",
+    "error": "#A30014",
     "info": "#008595"
   }
 }

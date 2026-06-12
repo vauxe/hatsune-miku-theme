@@ -124,8 +124,8 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
 
     // === CANONICAL TEAL (180°) — One Breath From Home — sopranino/mp, Lc ~75 ===
     interface: role(
-      'Canonical teal 180° — one breath from tonic',
-      L.sopranino, C.mp, 180
+      'Canonical teal 180° — one breath from tonic (hair below sopranino: compound floor on findMatch)',
+      L.sopranino - 0.001, C.mp, 180
     ),
 
     // === GREEN (150°) — Mint Leaf — sopranino/mp, Lc ~74 ===

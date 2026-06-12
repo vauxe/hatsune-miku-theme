@@ -89,16 +89,16 @@
 "diff.plus.gutter" = { fg = "#8AF9B4" }
 "diff.minus" = { fg = "#FA91F9" }
 "diff.minus.gutter" = { fg = "#FA91F9" }
-"diff.delta" = { fg = "#F0CD7B" }
+"diff.delta" = { fg = "#F1CF7C" }
 "diff.delta.moved" = { fg = "#A9B8F5" }
 "warning" = { fg = "#F0CD7B" }
-"error" = { fg = "#FF8DED" }
-"info" = { fg = "#C1D5FF" }
+"error" = { fg = "#FF8FEF" }
+"info" = { fg = "#C7DCFF" }
 "hint" = { fg = "#39C5BB" }
 "diagnostic" = { modifiers = ["underlined"] }
 "diagnostic.warning" = { underline = { color = "#F0CD7B", style = "curl" } }
-"diagnostic.error" = { underline = { color = "#FF8DED", style = "curl" } }
-"diagnostic.info" = { underline = { color = "#C1D5FF", style = "curl" } }
+"diagnostic.error" = { underline = { color = "#FF8FEF", style = "curl" } }
+"diagnostic.info" = { underline = { color = "#C7DCFF", style = "curl" } }
 "diagnostic.hint" = { underline = { color = "#39C5BB", style = "curl" } }
 "diagnostic.unnecessary" = { fg = "#89A0A1" }
 "diagnostic.deprecated" = { modifiers = ["crossed_out"] }
@@ -107,7 +107,7 @@
 "ui.text" = { fg = "#DEE8F2" }
 "ui.text.focus" = { fg = "#39C5BB" }
 "ui.text.inactive" = { fg = "#BDD7D9" }
-"ui.text.info" = { fg = "#C1D5FF" }
+"ui.text.info" = { fg = "#C7DCFF" }
 "ui.text.directory" = { fg = "#39C5BB" }
 "ui.cursor" = { fg = "#1A1F24", bg = "#FF8CD9" }
 "ui.cursor.match" = { fg = "#FF8CD9", modifiers = ["bold"] }
@@ -158,6 +158,6 @@
 "ui.virtual.inlay-hint.type" = { fg = "#89A0A1", modifiers = ["italic"] }
 "ui.virtual.wrap" = { fg = "#89A0A1" }
 "ui.virtual.jump-label" = { fg = "#1A1F24", bg = "#FF8CD9", modifiers = ["bold"] }
-"ui.debug.breakpoint" = { fg = "#FF8DED" }
+"ui.debug.breakpoint" = { fg = "#FF8FEF" }
 "ui.debug.active" = { fg = "#F0CD7B" }
 "ui.debug.active.gutter" = { fg = "#F0CD7B" }

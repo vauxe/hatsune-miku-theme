@@ -211,7 +211,12 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     inlayParameter: p.character.skin.shadow,
     statusItemForeground: p.character.headphones.frame,
     markupInserted: p.character.negi.bright,
-    tattooMark: p.character.marks.tattoo,
+    // Tattoo sample lifted a hair to clear the non-text floor on Stage;
+    // the palette sample itself stays untouched.
+    tattooMark: (() => {
+      const t = parseHex(p.character.marks.tattoo);
+      return hex({ Jz: t.Jz + 0.001, Cz: t.Cz, hz: t.hz });
+    })(),
     sekaiHair: virtualSinger.hair.base,
 
     // Character reference colors -- her accessories and skin entering the UI

@@ -20,15 +20,15 @@ window-titlebar-background = #23282D
 window-titlebar-foreground = #DEE8F2
 
 palette = 0=#909BA7
-palette = 1=#FF8FC4
-palette = 2=#51FEA1
+palette = 1=#FF91C7
+palette = 2=#4AF79B
 palette = 3=#FFE8C7
 palette = 4=#AEB4FA
 palette = 5=#FFC4FA
 palette = 6=#76FFE6
-palette = 7=#F3BEC4
+palette = 7=#EFBAC0
 palette = 8=#9AB2B3
-palette = 9=#FF8DD2
+palette = 9=#FF8FD5
 palette = 10=#62FFB1
 palette = 11=#FFE2B7
 palette = 12=#AAB0FF

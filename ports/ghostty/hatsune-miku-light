@@ -3,7 +3,7 @@
 
 background = #F5F0E2
 foreground = #753826
-cursor-color = #E88493
+cursor-color = #F56B86
 cursor-text = #F5F0E2
 selection-background = #C6DAD9
 selection-foreground = #753826
@@ -22,9 +22,9 @@ window-titlebar-foreground = #753826
 palette = 0=#AB9894
 palette = 1=#BD0067
 palette = 2=#467E00
-palette = 3=#8F2B00
+palette = 3=#8D2800
 palette = 4=#005B9F
-palette = 5=#7B00A7
+palette = 5=#9522C5
 palette = 6=#007D8D
 palette = 7=#6E6B50
 palette = 8=#746461

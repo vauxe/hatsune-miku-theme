@@ -446,6 +446,7 @@ export const SECONDARY_CHROMA_ELEMENTS = new Set([
 export const EXPECTED_DIM_ELEMENTS = new Set([
   // Editor gutter elements (intentionally subtle)
   'Ghost Text',      // AI suggestions, expected to be subtle
+  'Ref Color',       // SCM graph ref pill fill + lines — VS Code computes the label text color itself
   'Code Lens',       // Reference counts, clickable but not primary reading
   'Fold Control',    // Fold/unfold arrows in gutter
   'Fold Placeholder',// "..." text when code is folded

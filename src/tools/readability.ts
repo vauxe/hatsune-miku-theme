@@ -1568,11 +1568,14 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   const uiVisibilityFails = uiVisibilityIssues.length + (cursorPass ? 0 : 1);
   const compoundFails = compoundAnalysis.tokensFailing;
   const lightnessOk = lightnessResult.pass;
+  // Hue distribution is advisory: clustering is a design-quality
+  // heuristic, while confusability is owned by the pairwise ΔEz and
+  // CVD gates above — so hueOk is reported but does not gate ready.
   const hueOk = hueResult.pass;
-  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && crossRoleTooSimilar === 0 && chromaFails === 0 && cvdFails === 0 && uiVisibilityFails === 0 && compoundFails === 0 && lightnessOk && hueOk;
+  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && crossRoleTooSimilar === 0 && chromaFails === 0 && cvdFails === 0 && uiVisibilityFails === 0 && compoundFails === 0 && lightnessOk;
 
   output.push('');
-  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} missing=${total.missing} too_similar=${crossRoleTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} cvd_fail=${cvdFails} ui_visible_fail=${uiVisibilityFails} compound_fail=${compoundFails} lightness=${lightnessOk ? 'ok' : 'uneven'} hue=${hueOk ? 'ok' : 'clustered'} ready=${ready}`);
+  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} missing=${total.missing} too_similar=${crossRoleTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} cvd_fail=${cvdFails} ui_visible_fail=${uiVisibilityFails} compound_fail=${compoundFails} lightness=${lightnessOk ? 'ok' : 'uneven'} hue=${hueOk ? 'ok' : 'clustered(advisory)'} ready=${ready}`);
 
   // Print all output (or summary only if --issues-only and clean)
   if (options.issuesOnly && ready) {

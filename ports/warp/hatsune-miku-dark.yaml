@@ -9,16 +9,16 @@ details: darker
 terminal_colors:
   normal:
     black: "#909BA7"
-    red: "#FF8FC4"
-    green: "#51FEA1"
+    red: "#FF91C7"
+    green: "#4AF79B"
     yellow: "#FFE8C7"
     blue: "#AEB4FA"
     magenta: "#FFC4FA"
     cyan: "#76FFE6"
-    white: "#F3BEC4"
+    white: "#EFBAC0"
   bright:
     black: "#9AB2B3"
-    red: "#FF8DD2"
+    red: "#FF8FD5"
     green: "#62FFB1"
     yellow: "#FFE2B7"
     blue: "#AAB0FF"

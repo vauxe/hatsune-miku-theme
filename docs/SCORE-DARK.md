@@ -52,9 +52,9 @@ Status hues are CVD-tuned.
 ```
 token              Jz    Cz     hz    rendered  hz~   Lc      L**
 ═════════════════════════════════════════════════════════════════
-status.error       0.178 0.080  330   #FF8DED   328   61.1  81.4
+status.error       0.180 0.080  330   #FF8FEF   327   61.7  81.7
 status.warning     0.185 0.075   85   #F0CD7B    85   76.7  85.4
-status.info        0.190 0.040  260   #C1D5FF   260   78.9  86.8
+status.info        0.195 0.040  260   #C7DCFF   257   82.7  88.5
 status.success     0.190 0.065  170   #68FCCD   170   88.3  92.3
 errorForeground    0.185 0.075    0   #FF97CD   350   62.3  79.9
 ```
@@ -67,7 +67,7 @@ Lc measured on House (the explorer background).
 token              Jz    Cz     hz    rendered  hz~   Lc      L**
 ═════════════════════════════════════════════════════════════════
 added              0.190 0.065  150   #8AF9B4   150   86.3  92.0
-modified           0.185 0.075   85   #F0CD7B    85   75.3  85.4
+modified           0.186 0.075   85   #F1CF7C    85   76.3  85.9
 deleted            0.178 0.080  320   #FA91F9   320   60.5  82.2
 untracked          0.180 0.045  210   #87DEE3   210   74.8  85.5
 conflicting        0.165 0.070    0   #F985B5   360   53.4  76.1
@@ -85,15 +85,15 @@ Each normal/bright pair is asserted ΔEz ≥ 6 (the emphasis axis CLI tools rely
 token              Jz    Cz     hz    rendered  hz~   Lc      L**
 ═════════════════════════════════════════════════════════════════
 black              0.140 0.015  249   #909BA7   250   45.6  64.9
-red                0.178 0.075    0   #FF8FC4   354   59.5  78.6
-green              0.185 0.090  150   #51FEA1   150   87.0  92.2
+red                0.180 0.075    0   #FF91C7   352   60.2  79.0
+green              0.180 0.090  150   #4AF79B   150   83.0  90.5
 yellow             0.215 0.045   60   #FFE8C7    77   93.0  93.4
 blue               0.170 0.060  270   #AEB4FA   270   62.8  79.8
 magenta            0.200 0.045  330   #FFC4FA   322   80.2  88.1
 cyan               0.200 0.060  180   #76FFE6   185   91.6  93.6
-white              0.185 0.030   20   #F3BEC4    20   73.4  83.2
+white              0.182 0.030   20   #EFBAC0    20   71.0  81.9
 brightBlack        0.155 0.015  210   #9AB2B3   210   56.2  72.0
-brightRed          0.190 0.090    0   #FF8DD2   344   59.6  79.4
+brightRed          0.192 0.090    0   #FF8FD5   342   60.3  79.8
 brightGreen        0.200 0.090  150   #62FFB1   154   88.7  92.7
 brightYellow       0.215 0.060   60   #FFE2B7    77   89.7  91.8
 brightBlue         0.170 0.075  270   #AAB0FF   270   61.1  79.6

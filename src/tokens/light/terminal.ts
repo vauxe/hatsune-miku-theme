@@ -23,9 +23,9 @@ export function createTerminalTokens(p: Primitives): TerminalTokens {
     black: role('Near-bg warm — chocolate brown, barely visible', L.countertenor - 0.005, 0.014, 40),
     red: role('Rose 0° — vivid strawberry on cream', L.soprano, C.mp + 0.010, H.tritone),
     green: role('Lime 120° — vivid pistachio green', L.treble + 0.003, C.mp, H.minor7th),
-    yellow: role('Orange 60° — vivid baked peach', L.sopranino + 0.002, C.mp, H.minor6th),
+    yellow: role('Orange 60° — vivid baked peach', L.sopranino, C.mp, H.minor6th),
     blue: role('Azure 240° — vivid shopfront blue', L.sopranino + 0.002, 0.110, H.minor2nd),
-    magenta: role('Violet 300° — vivid raspberry', L.sopranino + 0.008, C.mp, H.minor3rd),
+    magenta: role('Violet 300° — vivid raspberry, lifted for deutan DJz vs blue', L.sopranino + 0.029, C.mp, H.minor3rd),
     cyan: role('Tonic 210° — vivid terminal voice', L.sopranino + 0.010, 0.110, H.mikuTeal),
     white: role('Warm cream — readable dark text', L.treble + 0.005, C.pp, 95),
 
