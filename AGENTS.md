@@ -9,6 +9,7 @@ npm run build:ports    # Terminal/editor ports only
 Output:
 - `themes/*.json` — VS Code themes (dark + light)
 - `ports/{app}/` — portable ports (terminals, editors, palette)
+- `docs/SCORE-*.md` — generated measurement tables
 
 ## Architecture
 
@@ -34,6 +35,5 @@ Measured values (coordinates, hexes, Lc, ΔEz) live ONLY in the generated
 `docs/SCORE-DARK.md` / `docs/SCORE-LIGHT.md` (`npm run docs:gen`, part of
 every build). Never add measured numbers to the DESIGN documents — extend
 `src/tools/docgen.ts` instead. DESIGN docs explain intent; SCORE files are
-the measurement. The gates currently REPORT failures without failing the
-process — the recorded shortfalls of the frozen palette live in the gate
-output, not in prose.
+the measurement. The readability gates exit non-zero when not ready
+(hue distribution is advisory — pairwise ΔEz/CVD gates own confusability).

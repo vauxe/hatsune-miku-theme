@@ -1584,6 +1584,9 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     console.log(output.join('\n'));
   }
 
+  // A gate that cannot fail a pipeline is advice, not a gate.
+  process.exitCode = ready ? 0 : 1;
+
   return total;
 }
 
