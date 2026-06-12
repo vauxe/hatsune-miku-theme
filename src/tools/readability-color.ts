@@ -62,6 +62,8 @@ export function deltaEzHex(hex1: string, hex2: string, bg?: string): number | nu
     if (!hasAlphaChannel(hex)) return hex;
     const alpha = extractAlpha(hex);
     const base = stripAlpha(hex);
+    // ≥ 0.99 ≈ alpha byte FE/FF: blending against any bg moves channels
+    // by <1 unit, so treat as opaque and skip the (bg-requiring) blend
     if (alpha >= 0.99) return base;
     if (!bg) {
       console.warn(`deltaEzHex: transparent color ${hex} without background`);
@@ -110,6 +112,10 @@ export function analyzeChroma(
 } {
   const chromaPercent = chroma * CHROMA_SCALE;
 
+  // Display buckets on the 0-100% Cz scale (sRGB blue ≈ 100%): below 5%
+  // reads achromatic, 8% is a visible tint, ~20% the comfortable syntax
+  // ceiling, 35/45/60% increasingly saturated accents. Labels only —
+  // pass/fail comes from the per-tier thresholds below.
   let level: string;
   if (chromaPercent < 5) {
     level = 'Gray';
@@ -448,7 +454,7 @@ export function checkCVDDistinction(
     if (!hasAlphaChannel(hex)) return hex;
     const alpha = extractAlpha(hex);
     const base = stripAlpha(hex);
-    if (alpha >= 0.99) return base;
+    if (alpha >= 0.99) return base; // FE/FF alpha: <1 channel-unit from opaque
     return bg ? blendAlpha(base, bg, alpha) : base;
   };
 
@@ -633,6 +639,9 @@ export function analyzeHueDistribution(
   }
 
   // --- Group into hue families (tokens within 10° of anchor) ---
+  // Half the documented 20° minimum inter-family gap: two tokens within
+  // one radius read as the same hue family; two anchors a full gap apart
+  // read as different families.
   const FAMILY_RADIUS = 10;
   type Family = { names: string[]; hues: number[] };
   const families: Family[] = [];
@@ -794,6 +803,8 @@ export function suggestDistinctionFix(
     if (hueDiff > 180) hueDiff = 360 - hueDiff;
 
     if (hueDiff < 30) {
+      // Reach the 30° grid step plus a 10° margin so the fixed pair
+      // doesn't land right back on the boundary it just failed.
       const suggestedShift = 30 - hueDiff + 10;
       return `shift hues apart by ~${Math.round(suggestedShift)}°`;
     }

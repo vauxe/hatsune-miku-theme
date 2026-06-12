@@ -59,6 +59,9 @@ const uiPairs: ContrastPair[] = [
   // what VS Code renders. Terminals set selection_foreground to the
   // theme foreground; ANSI text may persist in some hosts — hold the
   // red/green signal pair to the icon floor on the selection surface.
+  // fg stays at SECONDARY (stricter than the VS Code gate's compound
+  // floor) on purpose: a flattened solid selection is a sustained
+  // reading surface in terminals, not a transient wash.
   { name: 'foreground on selection', fg: t => t.ui.foreground.hex, bg: t => selectionSurface(t), tier: 'secondary' },
   { name: 'term.red on selection', fg: t => t.terminal.red.hex, bg: t => selectionSurface(t), tier: 'tertiary' },
   { name: 'term.green on selection', fg: t => t.terminal.green.hex, bg: t => selectionSurface(t), tier: 'tertiary' },

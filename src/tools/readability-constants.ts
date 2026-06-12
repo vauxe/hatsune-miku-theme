@@ -42,8 +42,6 @@ export const BG_KEYS = {
   statusBar: 'statusBar.background',
   tabBar: 'editorGroupHeader.tabsBackground',
   terminal: 'terminal.background',
-  cursorBlock: 'editorCursor.foreground',
-  terminalCursorBlock: 'terminalCursor.foreground',
   panel: 'panel.background',
   activityBar: 'activityBar.background',
   input: 'input.background',
@@ -94,24 +92,18 @@ export const BG_KEYS = {
   activityWarningBadge: 'activityWarningBadge.background',
   activityErrorBadge: 'activityErrorBadge.background',
   selection: 'editor.selectionBackground',
-  selectionInactive: 'editor.inactiveSelectionBackground',
   selectionHighlight: 'editor.selectionHighlightBackground',
   rangeHighlight: 'editor.rangeHighlightBackground',
   symbolHighlight: 'editor.symbolHighlightBackground',
   terminalSelection: 'terminal.selectionBackground',
   wordHighlight: 'editor.wordHighlightBackground',
   wordHighlightStrong: 'editor.wordHighlightStrongBackground',
-  wordHighlightText: 'editor.wordHighlightTextBackground',
   findMatch: 'editor.findMatchHighlightBackground',
   findMatchActive: 'editor.findMatchBackground',
-  findRange: 'editor.findRangeHighlightBackground',
   bracketMatch: 'editorBracketMatch.background',
   terminalFindMatch: 'terminal.findMatchBackground',
-  terminalFindMatchHighlight: 'terminal.findMatchHighlightBackground',
   diffInserted: 'diffEditor.insertedTextBackground',
   diffRemoved: 'diffEditor.removedTextBackground',
-  diffInsertedLine: 'diffEditor.insertedLineBackground',
-  diffRemovedLine: 'diffEditor.removedLineBackground',
   mergeCurrentContent: 'merge.currentContentBackground',
   mergeIncomingContent: 'merge.incomingContentBackground',
   mergeCommonContent: 'merge.commonContentBackground',
@@ -124,16 +116,9 @@ export const BG_KEYS = {
   inputValidationWarning: 'inputValidation.warningBackground',
   // TIER 1: Current line - where you're typing (constant focus)
   lineHighlight: 'editor.lineHighlightBackground',
-  // TIER 2: Autocomplete - syntax colors on suggest widget
-  suggestFocus: 'editorSuggestWidget.selectedBackground',
-  // Git gutter - change indicators
-  gutterAdded: 'editorGutter.addedBackground',
-  gutterModified: 'editorGutter.modifiedBackground',
-  gutterDeleted: 'editorGutter.deletedBackground',
   // CODE REVIEW: Diff editor contexts
   diffUnchangedRegion: 'diffEditor.unchangedRegionBackground',
   diffUnchangedCode: 'diffEditor.unchangedCodeBackground',
-  multiDiffHeader: 'multiDiffEditor.headerBackground',
   multiDiffBackground: 'multiDiffEditor.background',
   // CODE REVIEW: AI-suggested changes (Copilot inline diff)
   inlineChatDiffInserted: 'inlineChatDiff.inserted',
@@ -151,8 +136,6 @@ export type BgKeyName = keyof typeof BG_KEYS;
 // =============================================================================
 
 export const LABELS = {
-  title: 'READABILITY ANALYSIS',
-
   // Section labels
   sectionText: 'TEXT',
   sectionSyntax: 'SYNTAX',
@@ -192,7 +175,6 @@ export const LABELS = {
   sectionNotebookStatus: 'NOTEBOOK STATUS',
 
   // Error messages
-  errThemeRequired: 'Error: --theme <path> is required.',
   errThemeNotFound: (p: string) => `Error: Theme file not found: ${p}`,
   errInvalidTheme: (p: string, e: string) => `Error: Invalid theme JSON in ${p}: ${e}`,
   errMissingColors: 'Error: Theme missing required "colors" object.',
@@ -288,8 +270,11 @@ export const DISTINCTION_THRESHOLDS = {
 } as const;
 
 /**
- * Critical distinction pairs - safety-critical colors where confusion could cause errors.
- * Uses same threshold (20) but flagged for reporting.
+ * Critical distinction pairs - safety-critical colors where confusion could
+ * cause errors. Lifts the pair from the standard threshold (15) to the
+ * critical threshold (18). Markup diff pairs are gated through
+ * MUST_DISTINGUISH_PAIRS (the markup tokens live in the syntax record,
+ * which no category pair list covers).
  */
 export const CRITICAL_DISTINCTION_PAIRS = new Set([
   'error↔warning',
@@ -300,10 +285,6 @@ export const CRITICAL_DISTINCTION_PAIRS = new Set([
   'modified↔deleted',
   'ansiRed↔ansiGreen',
   'passed↔failed',
-  // Diff markup (in Markdown/docs)
-  'markupInserted↔markupDeleted',
-  'markupInserted↔markupChanged',
-  'markupDeleted↔markupChanged',
 ]);
 
 /**
@@ -1124,6 +1105,12 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
 
   // TEMPLATE ↔ DATA — `${var}` inside template literal
   ['stringTemplate', 'variable', 'standard'],
+
+  // DIFF MARKUP — ins/del in rendered Markdown; confusing added with
+  // removed is the red/green class of risk, so the critical floor.
+  ['markupInserted', 'markupDeleted', 'critical'],
+  ['markupInserted', 'markupChanged', 'standard'],
+  ['markupDeleted', 'markupChanged', 'standard'],
 ] as const;
 
 // =============================================================================
@@ -1132,18 +1119,26 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
 
 /**
  * Thresholds for UI element visibility that users directly notice.
- * ΔEz values are on the DELTA_EZ_SCALE (×500) scale.
+ * ΔEz values are on the DELTA_EZ_SCALE (×500) scale, where the JND is
+ * ~2-3 — provenance per value below.
  */
 export const UI_VISIBILITY = {
-  /** Minimum ΔEz for selection background vs editor background (can you SEE the selection?) */
+  /** Selection bg vs editor bg (can you SEE the selection?) — ~3× JND:
+   * unmistakable at a glance, yet far below text-distinction levels
+   * so the wash never competes with syntax. */
   selectionVisibility: 8,
-  /** Minimum ΔEz for find match background vs editor background */
+  /** Find match bg vs editor bg — 'Clear' on the ΔEz bucket scale
+   * (10-20): find marks are sought actively and must pop, one bucket
+   * above the selection wash. */
   findMatchVisibility: 12,
-  /** Minimum APCA Lc for cursor against editor background */
+  /** Cursor Lc vs editor bg — APCA Lc 45 is the large/bold-element
+   * floor; a caret is a thick glyph-sized mark, not body text. */
   cursorContrast: 45,
-  /** Minimum ΔEz for tab bar vs editor — low for eye comfort (spatial cues suffice) */
+  /** Tab bar vs editor — ~1 JND: low on purpose for eye comfort
+   * (spatial cues suffice to find the tab strip). */
   tabDistinction: 3,
-  /** Minimum ΔE for diff added vs removed backgrounds */
+  /** Diff added vs removed bg — DISTINCTION_THRESHOLDS.standard (15):
+   * the two tints carry opposite meanings side by side. */
   diffDistinction: 15,
 } as const;
 
@@ -1197,20 +1192,6 @@ export const COMPOUND_BACKGROUND_KEYS = {
 } as const;
 
 export type CompoundBgKeyName = keyof typeof COMPOUND_BACKGROUND_KEYS;
-
-/**
- * Compound backgrounds originally distinguished for threshold differentiation.
- * All compound overlays now use the dedicated compound threshold
- * (dark Lc ≥ 55, light Lc ≥ 45) — transient contexts, not sustained reading.
- */
-export const COMPOUND_REVIEW_BGS: ReadonlySet<string> = new Set([
-  'wordHighlight',
-  'wordHighlightStrong',
-  'diffInserted',
-  'diffRemoved',
-  'mergeCurrentContent',
-  'mergeIncomingContent',
-]);
 
 /**
  * Syntax token keys to test for compound background contrast.

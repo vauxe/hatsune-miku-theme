@@ -261,8 +261,6 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       statusBar: resolveBg('statusBar.background', editorBg),
       tabBar: resolveBg('editorGroupHeader.tabsBackground', editorBg),
       terminal: terminalBg,
-      cursorBlock: resolveBg('editorCursor.foreground', fg), // block cursor uses fg as background
-      terminalCursorBlock: resolveBg('terminalCursor.foreground', fg), // terminal block cursor uses fg as background
       panel: panelBg,
       activityBar: resolveBg('activityBar.background', editorBg),
       input: resolveBg('input.background', editorBg),
@@ -316,26 +314,20 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       activityErrorBadge: resolveBg('activityErrorBadge.background', editorBg),
       // Selection & highlights (typically semi-transparent, blended with editor)
       selection: resolveBg('editor.selectionBackground', editorBg),
-      selectionInactive: resolveBg('editor.inactiveSelectionBackground', editorBg),
       selectionHighlight: resolveBg('editor.selectionHighlightBackground', editorBg),
       rangeHighlight: resolveBg('editor.rangeHighlightBackground', editorBg),
       symbolHighlight: resolveBg('editor.symbolHighlightBackground', editorBg),
       terminalSelection: resolveBg('terminal.selectionBackground', terminalBg),
       wordHighlight: resolveBg('editor.wordHighlightBackground', editorBg),
       wordHighlightStrong: resolveBg('editor.wordHighlightStrongBackground', editorBg),
-      wordHighlightText: resolveBg('editor.wordHighlightTextBackground', editorBg),
       findMatch: resolveBg('editor.findMatchHighlightBackground', editorBg),
       findMatchActive: resolveBg('editor.findMatchBackground', editorBg),
-      findRange: resolveBg('editor.findRangeHighlightBackground', editorBg),
       bracketMatch: resolveBg('editorBracketMatch.background', editorBg),
       // Terminal find
       terminalFindMatch: resolveBg('terminal.findMatchBackground', terminalBg),
-      terminalFindMatchHighlight: resolveBg('terminal.findMatchHighlightBackground', terminalBg),
       // Diff editor
       diffInserted: resolveBg('diffEditor.insertedTextBackground', editorBg),
       diffRemoved: resolveBg('diffEditor.removedTextBackground', editorBg),
-      diffInsertedLine: resolveBg('diffEditor.insertedLineBackground', editorBg),
-      diffRemovedLine: resolveBg('diffEditor.removedLineBackground', editorBg),
       // Merge conflicts
       mergeCurrentContent: resolveBg('merge.currentContentBackground', editorBg),
       mergeIncomingContent: resolveBg('merge.incomingContentBackground', editorBg),
@@ -356,15 +348,10 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       // TIER 1: Current line highlight - where cursor is (constant focus)
       lineHighlight: resolveBg('editor.lineHighlightBackground', editorBg),
       // Suggest widget focus (for selected autocomplete item)
-      suggestFocus: resolveBg('editorSuggestWidget.selectedBackground', editorBg),
       // Git gutter backgrounds (for change indicators)
-      gutterAdded: resolveBg('editorGutter.addedBackground', editorBg),
-      gutterModified: resolveBg('editorGutter.modifiedBackground', editorBg),
-      gutterDeleted: resolveBg('editorGutter.deletedBackground', editorBg),
       // CODE REVIEW: Diff editor contexts
       diffUnchangedRegion: resolveBg('diffEditor.unchangedRegionBackground', editorBg),
       diffUnchangedCode: resolveBg('diffEditor.unchangedCodeBackground', editorBg),
-      multiDiffHeader: resolveBg('multiDiffEditor.headerBackground', editorBg),
       multiDiffBackground: resolveBg('multiDiffEditor.background', editorBg),
       // CODE REVIEW: AI-suggested changes (Copilot inline diff)
       inlineChatDiffInserted: resolveBg('inlineChatDiff.inserted', editorBg),
@@ -778,12 +765,6 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       // Line numbers
       lineNumber: getColor(theme, 'editorLineNumber.foreground', fg),
       lineNumberActive: getColor(theme, 'editorLineNumber.activeForeground', fg),
-      // Find match highlights
-      findMatch: getColor(theme, 'editor.findMatchHighlightForeground', ''),
-      findMatchActive: getColor(theme, 'editor.findMatchForeground', ''),
-      // Word highlights
-      wordHighlight: getColor(theme, 'editor.wordHighlightForeground', ''),
-      wordHighlightStrong: getColor(theme, 'editor.wordHighlightStrongForeground', ''),
       // Breadcrumb
       breadcrumb: getColor(theme, 'breadcrumb.foreground', fg),
       breadcrumbActive: getColor(theme, 'breadcrumb.focusForeground', fg),

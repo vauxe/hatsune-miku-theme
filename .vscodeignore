@@ -23,10 +23,8 @@ ports/**
 
 # Source (only themes/ JSON needed)
 src/**
-dist/**
 tsconfig.json
 *.ts
-*.tsbuildinfo
 
 # Dependencies
 node_modules/**

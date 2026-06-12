@@ -116,8 +116,6 @@ export interface ExtractedColors {
     statusBar: string;
     tabBar: string;
     terminal: string;
-    cursorBlock: string;
-    terminalCursorBlock: string;
     panel: string;
     activityBar: string;
     input: string;
@@ -172,26 +170,20 @@ export interface ExtractedColors {
     activityErrorBadge: string;
     // Selection & highlights
     selection: string;
-    selectionInactive: string;
     selectionHighlight: string;
     rangeHighlight: string;
     symbolHighlight: string;
     terminalSelection: string;
     wordHighlight: string;
     wordHighlightStrong: string;
-    wordHighlightText: string;
     findMatch: string;
     findMatchActive: string;
-    findRange: string;
     bracketMatch: string;
     // Terminal find
     terminalFindMatch: string;
-    terminalFindMatchHighlight: string;
     // Diff editor
     diffInserted: string;
     diffRemoved: string;
-    diffInsertedLine: string;
-    diffRemovedLine: string;
     // Merge conflicts
     mergeCurrentContent: string;
     mergeIncomingContent: string;
@@ -212,15 +204,10 @@ export interface ExtractedColors {
     // TIER 1: Current line highlight - where cursor is (constant focus)
     lineHighlight: string;
     // Suggest widget focus (for selected autocomplete item)
-    suggestFocus: string;
     // Git gutter backgrounds (for change indicators)
-    gutterAdded: string;
-    gutterModified: string;
-    gutterDeleted: string;
     // CODE REVIEW: Diff editor contexts
     diffUnchangedRegion: string;
     diffUnchangedCode: string;
-    multiDiffHeader: string;
     multiDiffBackground: string;
     // CODE REVIEW: AI-suggested changes (Copilot inline diff)
     inlineChatDiffInserted: string;
