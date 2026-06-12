@@ -8,16 +8,9 @@ declare module 'colorjs.io' {
     constructor(colorSpace: string, coords: number[]);
     to(colorSpace: string): Color;
     coords: number[];
-    contrast(background: Color, algorithm: string): number;
+    // Convention: the INSTANCE is the background, the argument is the text.
+    contrast(text: Color, algorithm: string): number;
     deltaE(other: Color, algorithm: string): number;
     toString(options?: { format?: string }): string;
   }
-}
-
-declare module 'culori' {
-  export function filterDeficiencyProt(severity: number): (color: string) => object;
-  export function filterDeficiencyDeuter(severity: number): (color: string) => object;
-  export function filterDeficiencyTrit(severity: number): (color: string) => object;
-  export function formatHex(color: object): string | undefined;
-  export function okhsl(color: string): { h: number; s: number; l: number };
 }

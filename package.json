@@ -41,7 +41,6 @@
   "devDependencies": {
     "@types/node": "^25.0.9",
     "colorjs.io": "^0.6.1",
-    "culori": "^4.0.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vscode-oniguruma": "^2.0.1",

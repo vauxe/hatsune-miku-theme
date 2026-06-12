@@ -1,16 +1,11 @@
 /**
  * Color manipulation utilities for the readability analysis tool.
  * Uses Color.js for perceptually uniform color space calculations.
- * Uses culori for color vision deficiency (CVD) simulation.
+ * CVD simulation is implemented in-repo (Brettel 1997, linear RGB) —
+ * see the survey note above simulateCVD for why no library is used.
  */
 
 import Color from 'colorjs.io';
-import {
-  filterDeficiencyProt,
-  filterDeficiencyDeuter,
-  filterDeficiencyTrit,
-  formatHex,
-} from 'culori';
 
 import {
   APCA_THRESHOLDS,
@@ -214,8 +209,12 @@ export function getAPCAContrast(text: string, background: string): APCAResult {
   const txtColor = new Color(text);
   const bgColor = new Color(background);
 
-  // Color.js contrast with APCA method
-  const lc = txtColor.contrast(bgColor, 'APCA');
+  // colorjs.io's contrast() convention is contrast(background, foreground):
+  // the instance is the BACKGROUND, the argument is the text. Calling it as
+  // txtColor.contrast(bgColor) silently computes the reversed-polarity Lc —
+  // APCA is polarity-asymmetric, so the swap mis-reads every pair by 2-6 Lc.
+  // Verified against official APCA-W3 vectors (#888 text on #fff → 63.056).
+  const lc = bgColor.contrast(txtColor, 'APCA');
 
   // Determine polarity from luminance
   const txtY = txtColor.to('xyz-d65').coords[1];
@@ -315,24 +314,106 @@ export function getDistinctionLevel(
 // COLOR VISION DEFICIENCY (CVD) SIMULATION
 // =============================================================================
 
+// --- Dichromacy simulation: Brettel et al. (1997) in LINEAR RGB ---
+//
+// In-repo on purpose. A survey of the JS ecosystem (2026-06) found no
+// correct implementation: culori ships Machado 2009 applied to gamma
+// values; @bjornlu/colorblind skips linearization entirely; @cantoo/
+// color-blindness and chromanopia both cite Brettel 1997 but implement
+// the HCIRN xy confusion-point model (Wickline) under that name.
+// Brettel projects each color onto one of two half-planes anchored at
+// invariant monochromatic stimuli — the reference dichromacy model, and
+// the only correct one for tritan (S-cone LOSS, not a spectral shift).
+// Precomputed linear-RGB parameters verbatim from libDaltonLens (public
+// domain, Nicolas Burrus). Integrity is self-checked on first use.
+
+const srgbToLinear = (c: number): number =>
+  c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+const linearToSrgb = (c: number): number =>
+  c <= 0.0031308 ? c * 12.92 : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
+
+interface BrettelParams {
+  m1: readonly number[]; // half-plane 1: rgbCvd from rgb (row-major 3x3)
+  m2: readonly number[]; // half-plane 2
+  n: readonly [number, number, number]; // separation plane normal (linear RGB)
+}
+
+const BRETTEL: Record<CVDType, BrettelParams> = {
+  protan: {
+    m1: [0.1498, 1.19548, -0.34528, 0.10764, 0.84864, 0.04372, 0.00384, -0.0054, 1.00156],
+    m2: [0.1457, 1.16172, -0.30742, 0.10816, 0.85291, 0.03892, 0.00386, -0.00524, 1.00139],
+    n: [0.00048, 0.00393, -0.00441],
+  },
+  deutan: {
+    m1: [0.36477, 0.86381, -0.22858, 0.26294, 0.64245, 0.09462, -0.02006, 0.02728, 0.99278],
+    m2: [0.37298, 0.88166, -0.25464, 0.25954, 0.63506, 0.1054, -0.0198, 0.02784, 0.99196],
+    n: [-0.00281, -0.00611, 0.00892],
+  },
+  tritan: {
+    m1: [1.01277, 0.13548, -0.14826, -0.01243, 0.86812, 0.14431, 0.07589, 0.805, 0.11911],
+    m2: [0.93678, 0.18979, -0.12657, 0.06154, 0.81526, 0.1232, -0.37562, 1.12767, 0.24796],
+    n: [0.03901, -0.02788, -0.01113],
+  },
+};
+
+// Self-check: the achromatic axis must be invariant (a mathematical
+// property of the Brettel construction) and a set of golden values must
+// reproduce exactly. Guards the constant table against silent corruption.
+let brettelVerified = false;
+function assertBrettelIntegrity(): void {
+  if (brettelVerified) return;
+  brettelVerified = true; // set first — simulateCVD below re-enters
+  const golden: Array<[string, CVDType, string]> = [
+    ['#FFFFFF', 'protan', '#ffffff'],
+    ['#FFFFFF', 'deutan', '#ffffff'],
+    ['#FFFFFF', 'tritan', '#ffffff'],
+    ['#FF0000', 'protan', '#6c5c0c'],
+    ['#FF0000', 'deutan', '#a48b00'],
+    ['#0000FF', 'tritan', '#006288'],
+    ['#FFFF00', 'tritan', '#ffeef1'],
+  ];
+  for (const [input, type, expected] of golden) {
+    const got = simulateCVD(input, type);
+    const norm = (h: string) => (h.length === 4 ? '#' + [...h.slice(1)].map((c) => c + c).join('') : h).toLowerCase();
+    if (norm(got) !== norm(expected)) {
+      brettelVerified = false;
+      throw new Error(
+        `Brettel CVD self-check failed: ${type}(${input}) = ${got}, expected ${expected}. ` +
+        'The simulation constants have been corrupted — do not trust CVD results.'
+      );
+    }
+  }
+}
+
 /**
  * Simulate how a color appears to someone with color vision deficiency.
- * Uses Brettel, Viénot, and Mollon (1997) simulation model via culori.
+ * Brettel, Viénot & Mollon (1997), computed in linear RGB.
  *
  * @param hex - Color to simulate
- * @param type - Type of CVD: 'protan' (red-blind), 'deutan' (green-blind), 'tritan' (blue-blind)
- * @param severity - Severity from 0 (normal) to 1 (full dichromacy), default 1
+ * @param type - 'protan' (L-cone loss), 'deutan' (M-cone loss), 'tritan' (S-cone loss)
+ * @param severity - 0 (normal) to 1 (full dichromacy); interpolated in linear RGB
  * @returns Simulated color as hex string
  */
 export function simulateCVD(hex: string, type: CVDType, severity = 1): string {
-  const filters = {
-    protan: filterDeficiencyProt(severity),
-    deutan: filterDeficiencyDeuter(severity),
-    tritan: filterDeficiencyTrit(severity),
-  };
+  assertBrettelIntegrity();
+  const color = new Color(stripAlpha(hex)).to('srgb');
+  const rgb = color.coords.map((c) => srgbToLinear(Math.max(0, Math.min(1, c ?? 0))));
 
-  const simulated = filters[type](hex);
-  return formatHex(simulated) ?? hex;
+  const { m1, m2, n } = BRETTEL[type];
+  const dot = rgb[0] * n[0] + rgb[1] * n[1] + rgb[2] * n[2];
+  const m = dot >= 0 ? m1 : m2;
+
+  const sim = [
+    m[0] * rgb[0] + m[1] * rgb[1] + m[2] * rgb[2],
+    m[3] * rgb[0] + m[4] * rgb[1] + m[5] * rgb[2],
+    m[6] * rgb[0] + m[7] * rgb[1] + m[8] * rgb[2],
+  ];
+
+  const out = sim.map((c, i) => {
+    const blended = severity * c + (1 - severity) * rgb[i];
+    return linearToSrgb(Math.max(0, Math.min(1, blended)));
+  }) as [number, number, number];
+  return new Color('srgb', out).toString({ format: 'hex' });
 }
 
 /**
