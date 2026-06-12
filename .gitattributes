@@ -6,3 +6,5 @@
 # they drift from src.
 themes/*.json linguist-generated=true
 ports/** linguist-generated=true
+docs/SCORE-DARK.md linguist-generated=true
+docs/SCORE-LIGHT.md linguist-generated=true

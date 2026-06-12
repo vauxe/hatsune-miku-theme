@@ -24,9 +24,9 @@ jobs:
 
       - name: Generated outputs must match the committed ones
         run: |
-          if [ -n "$(git status --porcelain -- themes ports)" ]; then
-            git status --porcelain -- themes ports
-            git diff -- themes ports
+          if [ -n "$(git status --porcelain -- themes ports docs)" ]; then
+            git status --porcelain -- themes ports docs
+            git diff -- themes ports docs
             echo "::error::Generated outputs drifted from src — run 'npm run build' and commit the results."
             exit 1
           fi

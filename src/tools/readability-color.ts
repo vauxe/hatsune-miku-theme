@@ -544,6 +544,30 @@ export function analyzeLightnessUniformity(
 }
 
 // =============================================================================
+// PERCEIVED LOUDNESS (Helmholtz–Kohlrausch corrected lightness)
+// =============================================================================
+
+/**
+ * Fairchild & Pirrotta (1991) chromatic lightness L** — CIELAB lightness
+ * corrected for the Helmholtz–Kohlrausch effect: chromatic colors look
+ * lighter than achromatic colors of equal luminance, strongest near the
+ * sRGB cyan/magenta corners. Equal Jz is equal *difference*, not equal
+ * *loudness*; this metric measures what the eye actually ranks.
+ */
+export function chromaticLightness(hex: string): number | null {
+  try {
+    const [L, a, b] = new Color(stripAlpha(hex)).to('lab-d65').coords;
+    const C = Math.hypot(a ?? 0, b ?? 0);
+    let h = Math.atan2(b ?? 0, a ?? 0) * (180 / Math.PI);
+    if (h < 0) h += 360;
+    const f2 = 0.116 * Math.abs(Math.sin(((h - 90) / 2) * (Math.PI / 180))) + 0.085;
+    return (L ?? 0) + (2.5 - 0.025 * (L ?? 0)) * f2 * C;
+  } catch {
+    return null;
+  }
+}
+
+// =============================================================================
 // HUE DISTRIBUTION ANALYSIS
 // =============================================================================
 

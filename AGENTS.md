@@ -27,3 +27,13 @@ Read `docs/DESIGN.md` (dark) for all design rules: the twelve-tone hue system, t
 
 Validated by `npm run readability:dark` or `npm run readability:light` (add `-- --verbose` for full results).
 Portable palette: `npm run readability:ports` (APCA + CVD for core fg/bg pairs shared by all ports).
+
+## Numeric Truth
+
+Measured values (coordinates, hexes, Lc, ΔEz) live ONLY in the generated
+`docs/SCORE-DARK.md` / `docs/SCORE-LIGHT.md` (`npm run docs:gen`, part of
+every build). Never add measured numbers to the DESIGN documents — extend
+`src/tools/docgen.ts` instead. DESIGN docs explain intent; SCORE files are
+the measurement. The gates currently REPORT failures without failing the
+process — the recorded shortfalls of the frozen palette live in the gate
+output, not in prose.
