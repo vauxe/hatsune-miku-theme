@@ -104,7 +104,7 @@ G#     240°   treble/sop   constant · enumMember · number · boolean
 A#     300°   soprano/mez  type · typeParameter
 B      330°   mezzo        decorator · macro
 C        0°   mezzo        operator
-C#      30°   soprano      error (ui.error, C.f)
+C#      30°   ~sopranino   error (ui.error, C.f — deep strawberry)
 ```
 
 **Variable at 270° (blue).** Most frequent non-keyword token. Wide gamut (max Cz 0.115 at sopranino). Near-complementary to cream — maximum visibility. Cool on warm: temperature does the work.
@@ -160,10 +160,10 @@ Layer     Token         Hz     Register           Dyn
 Structure punctuation   210°   mezzo              p
 Whisper   comment       210°   alto               pp
           commentDoc    210°   mezzo+0.005        pp
-Signal    error          30°   soprano            f (ui.error)
+Signal    error          30°   ~sopranino         f (ui.error)
 ```
 
-Punctuation is one register and one dynamic step above comments — active connective tissue in the code flow. Comments are tonic cyan at alto — her whisper between the lines. Error is warm red at soprano/f — vivid alarm on cream.
+Punctuation is one register and one dynamic step above comments — active connective tissue in the code flow. Comments are tonic cyan at alto — her whisper between the lines. Error is deep strawberry at f — the depth is also what separates it from warning under deutan, where the two would otherwise collapse.
 
 ### Brackets
 
@@ -226,21 +226,12 @@ Warm ivory (~85° Hz, bg.void). Widget shadow at 50% opacity, scrollbar shadow a
 
 ## 6. Foreground
 
-Chocolate ink (~40° Hz) on warm cream canvas (~85° Hz) — both warm, cohesive. Readability comes from high lightness contrast (ΔJz ~0.172).
-
-```
-Role           Jz      Cz      Hz       Lc on Stage
-═══════════════════════════════════════════════════════════════
-Primary        0.038   0.018   ~40°     ~90
-Muted          0.098   0.006   ~235°    ~60
-Subtle         0.130   0.003   ~235°    ~30
-Tertiary       0.108   0.008   ~40°     ~45
-Disabled       0.133   0.005   ~40°     ~32
-Ghost          0.135   0.003   ~235°    ~25
-Placeholder    0.133   0.006   ~40°     ~32
-```
-
-Primary through disabled: warm chocolate family (~40° Hz). Ghost, Muted, and Subtle shift to cool (~235° Hz) — structural foreground that belongs to the chrome voice.
+Chocolate ink (~40° Hz) on warm cream canvas (~85° Hz) — both warm,
+cohesive; readability comes from lightness contrast, not hue. The
+diminished tiers split by temperature: warm rows (tertiary, disabled,
+placeholder) fade in the character ink hue, cool rows (muted, subtle,
+ghost) share the chrome voice (~235°). Exact coordinates and Lc:
+*Text Tiers* in `docs/SCORE-LIGHT.md`.
 
 ---
 
@@ -313,47 +304,39 @@ Overlay                  Color                         Tier
 Cursor line              Ice (~235° Hz)                light (8%)
 Selection                Ice (~235° Hz)                strong (25%)
 Inactive selection       Ice (~235° Hz)                medium (15%)
-Word highlight           Tonic (~210° Hz)              light (8%)
-Word highlight strong    Tonic (~210° Hz)              medium (15%)
+Word highlight           Tonic (~210° Hz)              strong (25%)
+Word highlight strong    Tonic (~210° Hz)              strong (25%)
 Find match               Gingerbread overlay (~70°)    strong (25%)
-Diff inserted line       Mint-green (~180°)            light (8%)
-Diff inserted text       Mint-green (~180°)            medium (15%)
-Diff removed line        Pastel pink (~27°)            light (8%)
-Diff removed text        Pastel pink (~27°)            light (8%)
-Bracket match            Tonic (~210° Hz)              light (8%)
+Diff inserted line       Mint-green (~180°)            medium (15%)
+Diff inserted text       Mint-green (~180°)            strong (25%)
+Diff removed line        Pastel pink (~27°)            medium (15%)
+Diff removed text        Pastel pink (~27°)            strong (25%)
+Bracket match            Tonic (~210° Hz)              medium (15%)
 Inline completion bg     Cool muted (~235° Hz)         subtle (3%)
 ```
 
-**Find match uses a dedicated overlay color** (Jz 0.125, Cz 0.090, Hz 70°) — lighter and less saturated than status warning, to preserve cool-token contrast on the tinted background. Status warning (Jz 0.095, Cz 0.124) is too dark/vivid for overlay use.
+**Find match uses a dedicated overlay color** — lighter and less saturated than status warning, to preserve cool-token contrast on the tinted background; status warning itself is too dark/vivid for overlay use.
 
-**Diff removed text at light (8%)** instead of medium — the pastel pink overlay at medium (15%) crushes contrast for cool syntax tokens. The removed line border and gutter provide sufficient visibility at the reduced opacity.
+**The diff pigments are tuned for their tints**: light enough that every ensemble ink clears the compound floor on the strong (25%) text tint, vivid enough that added↔removed stay clearly apart. Measured blends: *Overlay Tints* in `docs/SCORE-LIGHT.md`.
 
 ### Status & Git
 
-Status and git colors are vivid — bright enough to be clearly distinguishable on cream canvas and cool chrome backgrounds. Jz range 0.085–0.095 with high chroma (Cz 0.100–0.124).
+Status and git colors are vivid — bright enough to be clearly distinguishable on cream canvas and cool chrome backgrounds. Identities:
 
 ```
-Status level   Hz      Jz     Cz      Hex       Lc on cream
-═══════════════════════════════════════════════════════════════════
-Error          30°     0.088  0.120   #A70028   ~62
-Warning        70°     0.095  0.124   #9C4800   ~60
-Info           210°    0.090  0.100   #007C8A   ~57
-Success        180°    0.090  0.110   #008963   ~53
+Status   Error    deep strawberry 30° — depth carries the deutan
+                  gap from warning
+         Warning  gingerbread 70° — golden-brown caution
+         Info     tonic 210° — her voice, calm
+         Success  mint 180° — canonical Miku approves
+
+Git      added mint 180 · modified gingerbread 70 · deleted violet 300
+         untracked tonic 210 · conflicting rose 0 · renamed blue 270
+         ignored — disabled text
 ```
 
-```
-Git state      Hz      Jz     Cz      Source
-═══════════════════════════════════════════════════════════════════
-Added          180°    0.076  0.120   Mint — vivid growth
-Modified        70°    0.095  0.120   Gingerbread — warm change
-Deleted        300°    0.085  0.120   Violet — twilight departure
-Untracked      210°    0.088  0.110   Tonic — drifting in
-Conflict         0°    0.088  0.120   Rose — demands resolution
-Renamed        270°    0.080  0.100   Blue — reorganized
-Ignored         —      —      —       Disabled text
-```
-
-Six distinct hues at vivid chroma, easily distinguishable in the explorer panel.
+Exact coordinates, rendered hexes and Lc are generated: `docs/SCORE-LIGHT.md`.
+All status pairs are asserted ≥ ΔEz 12 under Brettel dichromat simulation.
 
 ---
 
@@ -361,20 +344,11 @@ Six distinct hues at vivid chroma, easily distinguishable in the explorer panel.
 
 ### Terminal
 
-Background matches Stage (warm cream). ANSI colors are vivid — Jz 0.082–0.098 with high chroma for clear distinction on cream. "Bright" variants are slightly darker (more contrast on light bg).
-
-```
-ANSI       Hue         Normal Jz    Bright Jz
-═══════════════════════════════════════════════════════════════
-black      ~40° Hz     0.148        0.108     Chocolate brown
-red         0° Hz      0.097        0.082     Vivid rose (soprano for CVD)
-green     120° Hz      0.091        0.085     Vivid pistachio
-yellow     60° Hz      0.076        0.072     Vivid baked peach
-blue      240° Hz      0.076        0.066     Vivid azure
-magenta   300° Hz      0.082        0.072     Vivid raspberry
-cyan      210° Hz      0.084        0.072     Vivid tonic ★
-white      ~95° Hz     0.093        0.056     Warm cream → ink
-```
+Background matches Stage (warm cream). ANSI colors are vivid inks with
+high chroma for clear distinction on cream; "bright" variants are
+slightly darker (more contrast on light bg). Magenta sits a step above
+blue — under deutan the pair separates by depth, not hue. Exact values:
+`docs/SCORE-LIGHT.md`.
 
 ### Symbol Icons
 

@@ -134,6 +134,9 @@ Red (C#)     30°        ~27°        ~3°      minimal
 Gold (D#)    90°        ~93-97°     ~3-7°    minimal
 ```
 
+(Shifts approximate — authoritative per-token rendered hues are generated:
+the `hz~` column in `docs/SCORE-DARK.md`.)
+
 Rose (0°) is the most affected — the error color reads as pink-purple, not true rose.
 
 ---
@@ -160,6 +163,9 @@ Green 150°       0.180     0.102      6
 Cyan 210°        0.184     0.077      5
 Teal 180°        0.188     0.076      5  ★ tonic
 ```
+
+(Approximate sRGB gamut geometry — a property of the color space, not a
+theme measurement.)
 
 The tonic (teal) has the narrowest gamut — 5 dynamics — and her peak sits among the highest Jz. Blue has the widest (11 dynamics) at the lowest peak. This asymmetry anchors everything: the soprano register sits at the tonic's peak, because she is the most common voice and her constraints define the system.
 
@@ -473,16 +479,16 @@ Void uses reduced chroma (×0.4) to prevent color noise at near-black lightness.
 Three text tiers sit atop this hierarchy:
 
 ```
-Tier         Color                   Lc on Stage    Usage
+Tier         Color                   Usage
 ═══════════════════════════════════════════════════════════════════════════
-Primary      Blouse white (#FCF8F0)  ~85            Body text, active labels, icon fg
-Secondary    Silver (desaturated)    ~68            Descriptions, inactive labels,
-                                                    tab titles, breadcrumbs
-Tertiary     Silver (dim)            ~50            Placeholders, ghost text,
-                                                    disabled text, line numbers
+Primary      Vest silver (#DEE8F2)   Body text, active labels, icon fg
+Secondary    Silver (desaturated)    Descriptions, inactive labels,
+                                     tab titles, breadcrumbs
+Tertiary     Silver (dim)            Placeholders, ghost text,
+                                     disabled text, line numbers
 ```
 
-One foreground hex per tier, used on all background tiers. Lc varies ±5 across tiers (e.g., ~88 on Void, ~80 on Float) — acceptable because identity comes from tier assignment, not exact contrast. The readability tool validates primary Lc ≥ 75 on all backgrounds including overlays.
+One foreground hex per tier, used on all background tiers. Lc varies a few points across tiers — acceptable because identity comes from tier assignment, not exact contrast. The readability tool validates primary Lc ≥ 75 on every solid background; measured values per tier: *Text Tiers* in `docs/SCORE-DARK.md`.
 
 Syntax is her voice. UI text is not — it is the venue, the stage directions, the house lights.
 
@@ -608,7 +614,7 @@ Stage modified  85°   Gold (muted)    Same voice, quieter — already staged
 Stage deleted  320°   Magenta (muted) Same voice, quieter — already staged
 ```
 
-CVD stagger: deutan collapses cool hues — four Jz tiers survive: added (0.190) > untracked (0.180) > renamed (0.170) > deleted (0.174). Warm pair: modified (0.185) vs conflicting (0.165). Minimum ΔEz between all primary git pairs: 22.
+CVD stagger: deutan collapses cool hues — four Jz tiers survive: added (0.190) > untracked (0.180) > renamed (0.170) > deleted (0.174). Warm pair: modified (0.186) vs conflicting (0.165). The gate asserts every primary git pair ≥ ΔEz 12 under Brettel protan/deutan/tritan simulation.
 
 #### Diff Background Colors
 
@@ -811,19 +817,19 @@ Editor rulers          Structure       Vertical guide — dim structure line
 **Tint backgrounds** use opacity of a source color over the existing surface. Compositing happens in sRGB:
 
 ```
-Source   Tier      Opacity   ΔEz on Stage    Usage
-═══════════════════════════════════════════════════════════════════════════
-Teal     light     8%        ~5              Keyboard focus
-Teal     strong    25%       ~18             Hover, drop target
-Teal     heavy     38%       ~25             Active press
-Frost    light     8%        ~5              Cursor line
-Frost    medium    15%       ~10             Inactive/unfocused selection
-Frost    strong    25%       ~16             Selection
-Rose     light     8%        ~4              Error + focus (Glass)
-Orange   light     8%        ~4              Warning + focus (Glass)
+Source   Tier      Opacity   Usage
+═══════════════════════════════════════════════════════
+Teal     light     8%        Keyboard focus
+Teal     strong    25%       Hover, drop target
+Teal     heavy     38%       Active press
+Frost    light     8%        Cursor line
+Frost    medium    15%       Inactive/unfocused selection
+Frost    strong    25%       Selection
+Rose     light     8%        Error + focus (Glass)
+Orange   light     8%        Warning + focus (Glass)
 ```
 
-The same alpha produces different ΔEz on different tiers — sRGB alpha compositing is nonlinear. The design accepts this — state identity comes from voice and channel combination, not precise ΔEz.
+The same alpha produces different ΔEz on different tiers — sRGB alpha compositing is nonlinear. The design accepts this — state identity comes from voice and channel combination, not precise ΔEz. Measured blends: *Overlay Tints* in `docs/SCORE-DARK.md`.
 
 **Borders are always solid hex** — no opacity. The hex you specify is the hex that renders, identical on every background tier. Structural borders use silver (the vest — neutral, structural). Interactive and accent borders use the character-derived hair gradient:
 
@@ -842,19 +848,19 @@ spotlight      Headphone cushion    #E05096   solo voice
 The primitive scale in `primitives.ts` defines eight opacity levels using round hex alpha bytes:
 
 ```
-Name      Hex    Opacity   ΔEz (teal on Stage)
-═══════════════════════════════════════════════════════
-subtle    08     3%        ~2
-light     15     8%        ~5
-medium    25     15%       ~10
-strong    40     25%       ~18
-heavy     60     38%       ~25
-solid     80     50%       ~32
-dense     CC     80%       ~42
-opaque    FF     100%      —
+Name      Hex    Opacity
+═══════════════════════════
+subtle    08     3%
+light     15     8%
+medium    25     15%
+strong    40     25%
+heavy     60     38%
+solid     80     50%
+dense     CC     80%
+opaque    FF     100%
 ```
 
-The scale is not mathematically uniform — it uses round hex values that produce clearly distinguishable visibility levels. Each step creates ΔEz 5+ on Stage (well above the JND of ~3), regardless of source color. Opacity sets **visibility hierarchy** (how loud). Color sets **identity** (which voice).
+The scale is not mathematically uniform — it uses round hex values that produce clearly distinguishable visibility levels. Opacity sets **visibility hierarchy** (how loud). Color sets **identity** (which voice). Measured ΔEz per step: *Overlay Tints* in `docs/SCORE-DARK.md`.
 
 Overlays and interactive states use four tiers from this scale:
 
@@ -900,7 +906,7 @@ Unicode highlight       —            Orange             medium (15%)
 
 Cursor line and selection use frost (persistent choice). Word highlight and selection highlight use teal (transient discovery — "look, this appears elsewhere"). Find match uses orange (functional — cuts through both frost and teal). Diff uses negi green and warm rose — the growth/departure pair, near-complementary when blended (~150° hue gap). Selection and find match share the same tier (strong) — you distinguish them by color, not by squinting at opacity.
 
-Overlays erode syntax contrast. The readability tool tests every primary syntax token against all overlay backgrounds (including stacked combinations like cursor line + selection). Threshold: Lc ≥ 75 on all overlays. This is why the primary syntax tier targets Lc 82–85 — the headroom is the measured cost of translucent layers.
+Overlays erode syntax contrast. The readability tool tests every primary syntax token against each overlay background individually (stacked combinations are not simulated). Overlays are transient contexts, so they carry a dedicated compound floor (Lc ≥ 55) below the primary floor — the gap between the two floors is the budget translucent layers may spend.
 
 
 ### Decorative Palettes
@@ -984,9 +990,9 @@ Special cases:
 
 - **black / brightBlack** — below soprano. Black is near-black (countertenor), brightBlack is dark gray (alto). Both sit below the soprano ensemble — black as near-background, brightBlack as comment-level text.
 - **white / brightWhite** — low chroma (pp/p, not mp/mf). White is warm (30°), brightWhite is cool (210°). The temperature contrast distinguishes them without a chroma increase. At mp/mf these would read as visibly pink (#FFADAE) and saturated cyan (#27F1FC) — not white.
-- **magenta** — uses violet (300°), not true magenta (330°). Violet doubles the ΔEz gap from rose under CVD (deutan: 19.5 vs 12.5; protan: 16.2 vs 12.5). True magenta technically passes the ≥12 threshold, but violet provides comfortable margin.
+- **magenta** — uses violet (300°), not true magenta (330°). Under Brettel deutan simulation the violet placement holds a comfortable margin over rose (ΔEz ~16 against the ≥12 floor); true magenta would sit much closer to it.
 - **blue = brightBlue** — at azure (240°), the sRGB gamut cannot deliver higher chroma at soprano lightness. Both normal and bright converge to the same rendered hex. An honest gamut limitation — blue is decorative in most CLI tools.
-- **green ≈ yellow under CVD** — green (lime 120°) and yellow (orange 60°) collapse under deuteranopia (ΔEz ~3–5, far below the 12 threshold). No amount of lightness shifting fixes this — darkening green one step improves deutan from 3.0→4.7 (still failing) while hurting protan from 12.6→9.4 (now failing). Both stay at soprano. This is an inherent limitation of the red-green CVD spectrum, not a solvable problem at the terminal palette level.
+- **green vs yellow under CVD** — green and yellow are the classic deuteranopia collision. Hue alone cannot separate them; depth can. Green plays half a step below soprano — the Jz stagger carries the pair past the ΔEz 12 floor under Brettel deutan simulation while green keeps its own Lc floor.
 
 ### Symbol Icons
 
@@ -1086,7 +1092,7 @@ A concert hall must sound good from every seat. This theme must be readable for 
 
 Four principles govern every color choice:
 
-**APCA Contrast** — Three tiers: primary (syntax melody), secondary (UI accompaniment), tertiary (ghost text). Every primary syntax color is validated against all overlay backgrounds (cursor line, selection, find match, diff, bracket match). The headroom between the design target and the floor is the measured cost of stacked translucent layers. Light text on dark backgrounds blooms when pushed too hard — an upper cap prevents halation.
+**APCA Contrast** — Three tiers: primary (syntax melody), secondary (UI accompaniment), tertiary (ghost text). Every primary syntax color is validated against each overlay background (cursor line, selection, find match, diff, bracket match) at the compound floor. There is no enforced upper cap: halation is avoided by convention — the primary foreground is vest silver, chosen below maximal white-on-black.
 
 **Distinction** — Adjacent colors must be perceptually separable. Critical pairs (error↔warning, rose↔green) need the widest gap. Common adjacencies (keyword↔variable, function↔parameter) need a clear gap. Less frequent pairs can be closer. ΔEz is the metric.
 
