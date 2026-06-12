@@ -249,6 +249,10 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
   // Most surfaces use editorBg as underlying; sidebar-related use sidebarBg
   const sidebarBg = resolveBg('sideBar.background', editorBg);
   const panelBg = resolveBg('panel.background', editorBg);
+  // Terminal overlays render over the terminal surface, not the panel —
+  // identical today (terminal.background == panel.background in both
+  // themes) but the base must be right the day they diverge.
+  const terminalBg = resolveBg('terminal.background', panelBg);
 
   return {
     bg: {
@@ -256,7 +260,7 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       sidebar: sidebarBg,
       statusBar: resolveBg('statusBar.background', editorBg),
       tabBar: resolveBg('editorGroupHeader.tabsBackground', editorBg),
-      terminal: resolveBg('terminal.background', panelBg),
+      terminal: terminalBg,
       cursorBlock: resolveBg('editorCursor.foreground', fg), // block cursor uses fg as background
       terminalCursorBlock: resolveBg('terminalCursor.foreground', fg), // terminal block cursor uses fg as background
       panel: panelBg,
@@ -316,7 +320,7 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       selectionHighlight: resolveBg('editor.selectionHighlightBackground', editorBg),
       rangeHighlight: resolveBg('editor.rangeHighlightBackground', editorBg),
       symbolHighlight: resolveBg('editor.symbolHighlightBackground', editorBg),
-      terminalSelection: resolveBg('terminal.selectionBackground', panelBg),
+      terminalSelection: resolveBg('terminal.selectionBackground', terminalBg),
       wordHighlight: resolveBg('editor.wordHighlightBackground', editorBg),
       wordHighlightStrong: resolveBg('editor.wordHighlightStrongBackground', editorBg),
       wordHighlightText: resolveBg('editor.wordHighlightTextBackground', editorBg),
@@ -325,8 +329,8 @@ export function extractColors(theme: ThemeJson): ExtractedColors {
       findRange: resolveBg('editor.findRangeHighlightBackground', editorBg),
       bracketMatch: resolveBg('editorBracketMatch.background', editorBg),
       // Terminal find
-      terminalFindMatch: resolveBg('terminal.findMatchBackground', panelBg),
-      terminalFindMatchHighlight: resolveBg('terminal.findMatchHighlightBackground', panelBg),
+      terminalFindMatch: resolveBg('terminal.findMatchBackground', terminalBg),
+      terminalFindMatchHighlight: resolveBg('terminal.findMatchHighlightBackground', terminalBg),
       // Diff editor
       diffInserted: resolveBg('diffEditor.insertedTextBackground', editorBg),
       diffRemoved: resolveBg('diffEditor.removedTextBackground', editorBg),

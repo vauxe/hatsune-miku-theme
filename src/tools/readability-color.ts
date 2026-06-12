@@ -363,12 +363,27 @@ let brettelVerified = false;
 function assertBrettelIntegrity(): void {
   if (brettelVerified) return;
   brettelVerified = true; // set first — simulateCVD below re-enters
+  try {
+    runBrettelGoldens();
+  } catch (e) {
+    brettelVerified = false; // any throw (not just mismatch) voids the check
+    throw e;
+  }
+}
+
+function runBrettelGoldens(): void {
+  // Coverage: each type exercises BOTH half-planes — red and blue sit on
+  // opposite sides of every separation plane (protan: red m1 / blue m2;
+  // deutan: red m2 / blue m1; tritan: yellow m1 / blue m2). White lies ON
+  // each plane (dot = 0) and checks the achromatic-invariance property.
   const golden: Array<[string, CVDType, string]> = [
     ['#FFFFFF', 'protan', '#ffffff'],
     ['#FFFFFF', 'deutan', '#ffffff'],
     ['#FFFFFF', 'tritan', '#ffffff'],
     ['#FF0000', 'protan', '#6c5c0c'],
     ['#FF0000', 'deutan', '#a48b00'],
+    ['#0000FF', 'protan', '#0038ff'],
+    ['#0000FF', 'deutan', '#0057fe'],
     ['#0000FF', 'tritan', '#006288'],
     ['#FFFF00', 'tritan', '#ffeef1'],
   ];
@@ -376,7 +391,6 @@ function assertBrettelIntegrity(): void {
     const got = simulateCVD(input, type);
     const norm = (h: string) => (h.length === 4 ? '#' + [...h.slice(1)].map((c) => c + c).join('') : h).toLowerCase();
     if (norm(got) !== norm(expected)) {
-      brettelVerified = false;
       throw new Error(
         `Brettel CVD self-check failed: ${type}(${input}) = ${got}, expected ${expected}. ` +
         'The simulation constants have been corrupted — do not trust CVD results.'

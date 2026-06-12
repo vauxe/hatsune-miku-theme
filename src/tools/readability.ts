@@ -464,11 +464,15 @@ function analyzeCompoundBackgroundContrast(
     for (const [overrideKey, bgNames] of Object.entries(overrideMapping)) {
       const cv = fgOverrides[overrideKey];
       if (!cv || cv.fallback || !cv.color) continue;
-      // Check that the override itself provides adequate contrast on each bg
+      // Check that the override itself provides adequate contrast on each bg.
+      // Blend, don't strip: a semi-transparent override measured as opaque
+      // would inflate Lc on a path that decides to SKIP compound checks.
       for (const bgName of bgNames) {
         const bgHex = bg[bgName];
         if (!bgHex) continue;
-        const overrideFg = stripAlpha(cv.color);
+        const ovAlpha = extractAlpha(cv.color);
+        const ovBase = stripAlpha(cv.color);
+        const overrideFg = ovAlpha < 1 ? blendAlpha(ovBase, bgHex, ovAlpha) : ovBase;
         const result = getAPCAContrast(overrideFg, bgHex);
         if (Math.abs(result.lc) >= thresholds.primary) {
           skippedOverlays.add(bgName);
@@ -1321,7 +1325,10 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // Check things users directly notice: selection visibility, cursor, etc.
 
   const uiVisibility = analyzeUIVisibility(c.bg);
-  const cursorResult = getAPCAContrast(stripAlpha(c.cursor.editor?.color ?? c.fg.color), c.bg.editor);
+  const cursorRaw = c.cursor.editor?.color ?? c.fg.color;
+  const cursorAlpha = extractAlpha(cursorRaw);
+  const cursorFg = cursorAlpha < 1 ? blendAlpha(stripAlpha(cursorRaw), c.bg.editor, cursorAlpha) : stripAlpha(cursorRaw);
+  const cursorResult = getAPCAContrast(cursorFg, c.bg.editor);
   const cursorLc = Math.round(Math.abs(cursorResult.lc) * 10) / 10;
   const cursorPass = Math.abs(cursorResult.lc) >= UI_VISIBILITY.cursorContrast;
 
