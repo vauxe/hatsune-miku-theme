@@ -15,7 +15,7 @@
  */
 
 // Semantic token system - all colors flow through design tokens
-import { withOpacity, lighten, darken, roleFromHex, opacity as op, special, type SemanticTokens } from '../tokens';
+import { withOpacity, lighten, darken, roleFromHex, opacity as op, selectionAlpha, special, type SemanticTokens } from '../tokens';
 
 export function createWorkbenchColors(t: SemanticTokens, polarity: 'dark' | 'light' = 'dark'): Record<string, string> {
 const isLight = polarity === 'light';
@@ -85,9 +85,10 @@ const alphaEditor = {
   lineHighlightBg:          op.light,
   lineHighlightBorder:      op.strong,
   inactiveLineHighlight:    op.light,
-  // Selection — light theme needs stronger tints on near-white backgrounds
-  selectionBg:              op.strong,
-  inactiveSelectionBg:      op.medium,
+  // Selection — the shared recipe (tokens/primitives selectionAlpha):
+  // ports pre-composite or re-apply this exact wash, so it lives there
+  selectionBg:              selectionAlpha.active,
+  inactiveSelectionBg:      selectionAlpha.inactive,
   // Highlights — subtle/faint tiers
   selectionHighlightBg:     op.medium,
   selectionHighlightBorder: op.medium,
@@ -122,7 +123,7 @@ const alphaChrome = {
   listInactiveFocusBg:      op.light,
 };
 const alphaTerminal = {
-  terminalSelectionBg:      op.strong,
+  terminalSelectionBg:      selectionAlpha.active,
   terminalFindMatchBg:      op.strong,
 };
 

@@ -18,6 +18,7 @@
 export {
   special,
   opacity,
+  selectionAlpha,
 } from './primitives';
 
 // Role factories and derive functions

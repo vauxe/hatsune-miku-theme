@@ -4,7 +4,7 @@
  * Generates a .sublime-color-scheme (JSON format).
  */
 
-import { withOpacity, type SemanticTokens } from '../tokens';
+import { withOpacity, selectionAlpha, type SemanticTokens } from '../tokens';
 import { createSyntaxColors, createMarkupColors } from '../theme/colors';
 
 interface Rule {
@@ -22,7 +22,7 @@ export function createSublimeTheme(t: SemanticTokens, name: string): object {
   const git = t.git;
 
   // Sublime supports alpha — use the actual VS Code wash recipe.
-  const selBg = withOpacity(t.decorative.cursorLineFrost, '40');
+  const selBg = withOpacity(t.decorative.cursorLineFrost, selectionAlpha.active);
 
   const rules: Rule[] = [
     // Comments
@@ -113,7 +113,7 @@ export function createSublimeTheme(t: SemanticTokens, name: string): object {
       selection_foreground: ui.foreground.hex,
       selection_border: withOpacity(ui.accentPrimary.hex, '40'),
       selection_border_width: '1',
-      inactive_selection: withOpacity(t.decorative.cursorLineFrost, '25'),
+      inactive_selection: withOpacity(t.decorative.cursorLineFrost, selectionAlpha.inactive),
       inactive_selection_foreground: ui.foregroundMuted.hex,
       selection_corner_style: 'round',
 

@@ -7,10 +7,15 @@
  */
 
 import type { SemanticTokens } from '../tokens/types';
-import { opacity } from '../tokens/primitives';
+import { selectionAlpha } from '../tokens/primitives';
 
-/** Composite fg over bg at the given alpha in sRGB. */
+/** Composite fg over bg at the given alpha in sRGB.
+ * Same gamma-space math as tools/readability-color blendAlpha() — kept
+ * dependency-free here so the ports layer never imports from tools. */
 function composite(fg: string, bg: string, alpha: number): string {
+  if (!/^#[0-9A-Fa-f]{6}$/.test(fg) || !/^#[0-9A-Fa-f]{6}$/.test(bg)) {
+    throw new Error(`composite() needs 6-digit hex, got ${fg} / ${bg}`);
+  }
   const ch = (h: string, i: number) => parseInt(h.slice(1 + 2 * i, 3 + 2 * i), 16);
   const mix = (i: number) =>
     Math.round(ch(fg, i) * alpha + ch(bg, i) * (1 - alpha))
@@ -38,5 +43,5 @@ export function flattenEmbeddedAlpha(color: string, base: string): string {
  * ports, never on screen — exporting the rendered surface fixes that.)
  */
 export function selectionSurface(t: SemanticTokens): string {
-  return composite(t.decorative.cursorLineFrost, t.ui.background.hex, parseInt(opacity.strong, 16) / 255);
+  return composite(t.decorative.cursorLineFrost, t.ui.background.hex, parseInt(selectionAlpha.active, 16) / 255);
 }

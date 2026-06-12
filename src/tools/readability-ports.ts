@@ -12,8 +12,7 @@
 
 import { generateVariantTokens, type ThemeVariant } from '../tokens';
 import type { SemanticTokens, SemanticRole } from '../tokens/types';
-import { getAPCAContrast, deltaEzHex, simulateCVD } from './readability-color';
-import type { CVDType } from './readability-types';
+import { getAPCAContrast, deltaEzHex, checkCVDDistinction } from './readability-color';
 import { APCA_THRESHOLDS, APCA_THRESHOLDS_LIGHT, CVD_DISTINCTION_THRESHOLD, UI_VISIBILITY } from './readability-constants';
 import { selectionSurface } from '../ports/shared';
 
@@ -127,33 +126,27 @@ function validateVariant(polarity: ThemeVariant, verbose: boolean): Failure[] {
     }
   }
 
-  // Terminal CVD distinction: simulate each dichromacy (Brettel, linear
-  // RGB) and gate the WORST post-simulation distance — same model and
-  // threshold as the VS Code gate. (A previous version compared plain
+  // Terminal CVD distinction: the worst post-simulation distance across
+  // the three dichromacies — same model (Brettel, linear RGB), threshold,
+  // and helper as the VS Code gate. (A previous version compared plain
   // normal-vision DEz against the CVD threshold: unsimulated AND weaker
   // than the normal-vision standard.)
   const termMap = tokens.terminal as unknown as Record<string, SemanticRole>;
-  const cvdTypes: CVDType[] = ['protan', 'deutan', 'tritan'];
   for (const [a, b] of terminalDistinctionPairs) {
-    let worst = Infinity;
-    let worstType = '';
-    for (const type of cvdTypes) {
-      const dez = deltaEzHex(simulateCVD(termMap[a].hex, type), simulateCVD(termMap[b].hex, type)) ?? 0;
-      if (dez < worst) { worst = dez; worstType = type; }
-    }
-    const pass = worst >= CVD_DISTINCTION_THRESHOLD;
+    const cvd = checkCVDDistinction(termMap[a].hex, termMap[b].hex);
+    const pass = cvd.worstDeltaE >= CVD_DISTINCTION_THRESHOLD;
 
     if (verbose || !pass) {
       const status = pass ? 'PASS' : 'FAIL';
       const symbol = pass ? '  ' : '! ';
-      console.log(`${symbol}${status}  CVD worst(${worstType}) DEz ${worst.toFixed(0).padStart(4)} >= ${CVD_DISTINCTION_THRESHOLD}  term.${a} vs term.${b}`);
+      console.log(`${symbol}${status}  CVD worst(${cvd.worstType}) DEz ${cvd.worstDeltaE.toFixed(0).padStart(4)} >= ${CVD_DISTINCTION_THRESHOLD}  term.${a} vs term.${b}`);
     }
 
     if (!pass) {
       failures.push({
         name: `term.${a} vs term.${b}`,
         type: 'CVD',
-        detail: `worst ${worstType} DEz ${worst.toFixed(0)} < ${CVD_DISTINCTION_THRESHOLD}`,
+        detail: `worst ${cvd.worstType} DEz ${cvd.worstDeltaE.toFixed(0)} < ${CVD_DISTINCTION_THRESHOLD}`,
       });
     }
   }
