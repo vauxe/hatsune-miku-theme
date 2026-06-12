@@ -15,6 +15,7 @@ import { writeFileSync } from 'fs';
 import { join } from 'path';
 import { generateVariantTokens, type ThemeVariant } from '../tokens/variants';
 import { parseHex } from '../tokens/role';
+import { opacity } from '../tokens/primitives';
 import type { SemanticRole } from '../tokens/types';
 import { getAPCAContrast, chromaticLightness, blendAlpha, deltaEzHex } from './readability-color';
 
@@ -182,7 +183,12 @@ function generate(variant: ThemeVariant): string {
 
   // Overlay tints: source x alpha -> blended hex on Stage -> DEz vs Stage.
   // This generates what used to be hand-maintained DEz tables in DESIGN 7.
-  const op = { subtle: 0.03, light: 0.08, medium: 0.15, strong: 0.25, heavy: 0.38, solid: 0.50, dense: 0.80 };
+  // Alphas derive from the authoritative hex opacity scale — a rounded
+  // decimal here (0.08 for 0x15 = 8.235%) would publish blends one channel
+  // off what VS Code renders.
+  const op = Object.fromEntries(
+    Object.entries(opacity).map(([k, v]) => [k, parseInt(v, 16) / 255])
+  ) as Record<keyof typeof opacity, number>;
   const tints: Array<[string, string, keyof typeof op]> = dark
     ? [
         ['engagement (teal)', t.ui.accentPrimary.hex, 'light'],
@@ -194,7 +200,7 @@ function generate(variant: ThemeVariant): string {
         ['selection (frost)', t.decorative.cursorLineFrost, 'strong'],
         ['find (orange)', t.decorative.findMatchOverlay, 'strong'],
         ['diff added (negi)', t.git.added.hex, 'medium'],
-        ['diff removed (rose)', t.decorative.diffRemoved ?? t.git.deleted.hex, 'medium'],
+        ['diff removed (rose)', t.decorative.diffRemoved, 'medium'],
       ]
     : [
         ['engagement (tonic)', t.ui.accentPrimary.hex, 'light'],

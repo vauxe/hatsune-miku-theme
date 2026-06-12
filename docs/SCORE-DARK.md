@@ -240,14 +240,14 @@ channel, visibility from the measured ΔEz below.
 ```
 voice                 alpha     blended   ΔEz vs Stage
 ════════════════════════════════════════════════════════
-engagement (teal)      8% (light ) #1C2C30    6.2
-engagement (teal)     15% (medium) #1F383B   11.5
+engagement (teal)      8% (light ) #1D2D30    6.4
+engagement (teal)     15% (medium) #1E373A   11.1
 engagement (teal)     25% (strong) #22494A   18.9
-engagement (teal)     38% (heavy ) #265E5D   27.6
-selection (frost)      8% (light ) #222D35    6.9
-selection (frost)     15% (medium) #293A44   12.9
+engagement (teal)     38% (heavy ) #265D5D   27.3
+selection (frost)      8% (light ) #222E36    7.3
+selection (frost)     15% (medium) #293943   12.5
 selection (frost)     25% (strong) #344C5A   21.4
 find (orange)         25% (strong) #3C321B   22.1
-diff added (negi)     15% (medium) #2B403A   14.7
-diff removed (rose)   15% (medium) #3C2F39   12.6
+diff added (negi)     15% (medium) #2A3F39   14.3
+diff removed (rose)   15% (medium) #3B2E38   12.2
 ```

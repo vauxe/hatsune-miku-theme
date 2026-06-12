@@ -103,6 +103,10 @@ import type {
 // ANALYSIS HELPERS
 // =============================================================================
 
+/** VS Code keys of the compound overlay backgrounds — rows measured against
+ * any of these are token-on-overlay contexts and use the compound tier. */
+const COMPOUND_BG_KEY_VALUES: ReadonlySet<string> = new Set(Object.values(COMPOUND_BACKGROUND_KEYS));
+
 /**
  * Analyze a foreground color against a background for APCA contrast.
  *
@@ -130,10 +134,15 @@ function analyze(
   const result = getAPCAContrast(effectiveColor, bg);
   const alphaStr = alpha < 1 ? `${Math.round(alpha * 100)}%` : undefined;
 
-  // Determine APCA tier based on element type
+  // Determine APCA tier based on element type. A row whose background is
+  // one of the compound overlay keys is a token-on-overlay context and gets
+  // the compound floor — the same floor analyzeCompoundBackgroundContrast
+  // applies to the identical physical pair (previously a name-prefix regex
+  // gave four contexts compound and left the rest at secondary, so the same
+  // pair was held to two different floors depending on which pass saw it).
   const isPrimary = PRIMARY_SYNTAX_ELEMENTS.has(name);
   const isExpectedDim = EXPECTED_DIM_ELEMENTS.has(name);
-  const isOverlayContext = /^(DiffRem|DiffIns|AIRemove|AIInsert):/.test(name);
+  const isOverlayContext = COMPOUND_BG_KEY_VALUES.has(bgKey);
   const apcaTier: APCATier = isOverlayContext ? 'compound' : isExpectedDim ? 'tertiary' : isPrimary ? 'primary' : 'secondary';
 
   return {
@@ -483,6 +492,10 @@ function analyzeCompoundBackgroundContrast(
     const editorFg = alpha < 1 ? blendAlpha(baseFg, editorBg, alpha) : baseFg;
     const editorResult = getAPCAContrast(editorFg, editorBg);
     const editorLc = Math.abs(editorResult.lc);
+    // Invariant: every COMPOUND_SYNTAX_TOKENS member maps to a display name
+    // in PRIMARY_SYNTAX_ELEMENTS, so the main sections hold all of them to
+    // the primary floor — which makes this skip's "already reported
+    // elsewhere" claim true for the whole set.
     const tier: APCATier = 'primary';
     const required = thresholds[tier];
 
@@ -1369,9 +1382,15 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   // Filter contrast issues
   // - Skip passed items (unless verbose)
   // - Skip fallback items (VS Code defaults work fine)
-  // - Skip expectedDim items (intentionally low contrast)
+  // - Skip expectedDim items ONLY when computeStats counted them as passing
+  //   (Large/Non-Text level). An expectedDim item below Lc 30 counts into
+  //   stats.fail and must therefore produce a diagnostic line — otherwise
+  //   the summary reports a failure no default-mode line explains.
   const contrastIssues = allSections.flatMap(s =>
-    s.results.filter(r => !r.analysis.pass && !r.fallback && !r.expectedDim)
+    s.results.filter(r =>
+      !r.analysis.pass && !r.fallback &&
+      !(r.expectedDim && (r.analysis.level === 'Large' || r.analysis.level === 'Non-Text'))
+    )
   );
 
   // Filter distinction issues (ΔE below threshold)
@@ -1553,7 +1572,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && crossRoleTooSimilar === 0 && chromaFails === 0 && cvdFails === 0 && uiVisibilityFails === 0 && compoundFails === 0 && lightnessOk && hueOk;
 
   output.push('');
-  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} too_similar=${crossRoleTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} cvd_fail=${cvdFails} ui_visible_fail=${uiVisibilityFails} compound_fail=${compoundFails} lightness=${lightnessOk ? 'ok' : 'uneven'} hue=${hueOk ? 'ok' : 'clustered'} ready=${ready}`);
+  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} missing=${total.missing} too_similar=${crossRoleTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} cvd_fail=${cvdFails} ui_visible_fail=${uiVisibilityFails} compound_fail=${compoundFails} lightness=${lightnessOk ? 'ok' : 'uneven'} hue=${hueOk ? 'ok' : 'clustered'} ready=${ready}`);
 
   // Print all output (or summary only if --issues-only and clean)
   if (options.issuesOnly && ready) {

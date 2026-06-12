@@ -251,7 +251,7 @@ export const APCA_THRESHOLDS_LIGHT: APCAThresholdConfig = {
 export const PRIMARY_SYNTAX_ELEMENTS = new Set([
   // Core tokens (appear in almost every line)
   'Variables', 'Var Language', 'Parameters', 'Properties',
-  'Keywords', 'Storage', 'Storage Mod',
+  'Keywords', 'Operators', 'Storage', 'Storage Mod',
   // Definitions
   'Functions', 'Methods', 'Classes', 'Types', 'Interfaces',
   'Namespaces', 'Enums', 'Enum Members', 'Type Params',
@@ -1192,6 +1192,8 @@ export const COMPOUND_BACKGROUND_KEYS = {
   peekViewEditor: 'peekViewEditor.background',          // Peek definition
   inlineChat: 'inlineChat.background',                  // AI chat context
   linkedEditing: 'editor.linkedEditingBackground',      // HTML tag pair editing
+  inlineChatDiffInserted: 'inlineChatDiff.inserted',    // AI-suggested addition
+  inlineChatDiffRemoved: 'inlineChatDiff.removed',      // AI-suggested removal
 } as const;
 
 export type CompoundBgKeyName = keyof typeof COMPOUND_BACKGROUND_KEYS;
