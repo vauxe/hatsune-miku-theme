@@ -1,2 +1,8 @@
 # Set default behavior to automatically normalize line endings.
 * text=auto
+
+# Generated outputs — compiled from src/ by `npm run build`.
+# Collapsed in PR diffs and excluded from language stats; CI fails if
+# they drift from src.
+themes/*.json linguist-generated=true
+ports/** linguist-generated=true

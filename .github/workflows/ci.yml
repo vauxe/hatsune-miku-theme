@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    name: Build, drift check, readability gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build (typecheck + regenerate all outputs)
+        run: npm run build
+
+      - name: Generated outputs must match the committed ones
+        run: |
+          if [ -n "$(git status --porcelain -- themes ports)" ]; then
+            git status --porcelain -- themes ports
+            git diff -- themes ports
+            echo "::error::Generated outputs drifted from src — run 'npm run build' and commit the results."
+            exit 1
+          fi
+
+      - name: Readability gate — dark
+        run: npm run readability:dark
+
+      - name: Readability gate — light
+        run: npm run readability:light
+
+      - name: Readability gate — ports
+        run: npm run readability:ports
