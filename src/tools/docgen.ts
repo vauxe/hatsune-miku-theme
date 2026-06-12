@@ -5,7 +5,7 @@
  * The design documents (docs/DESIGN.md, docs/DESIGN-LIGHT.md) explain
  * INTENT — why each voice sits where it sits. This generator emits WHAT
  * actually renders: design coordinates, rendered hex, rendered hue, APCA
- * Lc on the token's home background, and (dark) perceived loudness L**.
+ * Lc on the token's home background, and perceived loudness L**.
  * One fact, one place: hand-copied tables drift; generated tables cannot.
  *
  * Usage: npm run docs:gen   (also runs as part of npm run build)
@@ -21,11 +21,11 @@ import { getAPCAContrast, chromaticLightness, blendAlpha, deltaEzHex } from './r
 
 const ROOT = join(__dirname, '..', '..');
 
-function row(name: string, r: SemanticRole, bg: string, dark: boolean): string {
+function row(name: string, r: SemanticRole, bg: string): string {
   const d = r.jzczhz;
   const p = parseHex(r.hex);
   const lc = Math.abs(getAPCAContrast(r.hex, bg).lc).toFixed(1);
-  const loud = dark ? ` ${(chromaticLightness(r.hex)?.toFixed(1) ?? 'n/a').padStart(5)}` : '';
+  const loud = ` ${(chromaticLightness(r.hex)?.toFixed(1) ?? 'n/a').padStart(5)}`;
   return (
     `${name.padEnd(18)} ${d.Jz.toFixed(3)} ${d.Cz.toFixed(3)} ${String(Math.round(d.hz)).padStart(4)}   ` +
     `${r.hex}  ${p.hz.toFixed(0).padStart(4)}  ${lc.padStart(5)}${loud}`
@@ -36,13 +36,10 @@ function table(
   title: string,
   entries: Array<[string, SemanticRole]>,
   bg: string,
-  dark: boolean,
   note?: string
 ): string {
-  const head = dark
-    ? 'token              Jz    Cz     hz    rendered  hz~   Lc      L**'
-    : 'token              Jz    Cz     hz    rendered  hz~   Lc';
-  const lines = entries.map(([n, r]) => row(n, r, bg, dark));
+  const head = 'token              Jz    Cz     hz    rendered  hz~   Lc      L**';
+  const lines = entries.map(([n, r]) => row(n, r, bg));
   return [
     `### ${title}`,
     '',
@@ -68,7 +65,7 @@ function generate(variant: ThemeVariant): string {
     '',
     '> GENERATED — do not edit. Regenerate with `npm run docs:gen`.',
     '> Columns: design JzCzhz → rendered hex, rendered hue, APCA Lc on the',
-    `> token's home background${dark ? ', perceived loudness L** (Fairchild–Pirrotta)' : ''}.`,
+    "> token's home background, perceived loudness L** (Fairchild–Pirrotta).",
     '> Intent and rationale live in ' + (dark ? 'docs/DESIGN.md' : 'docs/DESIGN-LIGHT.md') + '.',
     '',
   ];
@@ -82,25 +79,25 @@ function generate(variant: ThemeVariant): string {
     ['number', s.number], ['boolean', s.boolean], ['enumMember', s.enumMember],
     ['type', s.type], ['typeParameter', s.typeParameter], ['macro', s.macro],
     ['operator', s.operator],
-  ], stage, dark));
+  ], stage));
 
   out.push(table('Departures', [
     ['comment', s.comment], ['commentDoc', s.commentDoc],
     ['punctuation', s.punctuation], ['variableLanguage', s.variableLanguage],
-  ], stage, dark));
+  ], stage));
 
   out.push(table('Signals', [
     ['status.error', t.status.error], ['status.warning', t.status.warning],
     ['status.info', t.status.info], ['status.success', t.status.success],
     ['errorForeground', t.ui.errorForeground],
-  ], stage, dark, 'Status hues are CVD-tuned.'));
+  ], stage, 'Status hues are CVD-tuned.'));
 
   out.push(table('Git', [
     ['added', t.git.added], ['modified', t.git.modified], ['deleted', t.git.deleted],
     ['untracked', t.git.untracked], ['conflicting', t.git.conflicting],
     ['renamed', t.git.renamed], ['stageModified', t.git.stageModified],
     ['stageDeleted', t.git.stageDeleted], ['submodule', t.git.submodule],
-  ], house, dark, 'Lc measured on House (the explorer background).'));
+  ], house, 'Lc measured on House (the explorer background).'));
 
   out.push(table('Terminal', [
     ['black', t.terminal.black], ['red', t.terminal.red], ['green', t.terminal.green],
@@ -110,13 +107,13 @@ function generate(variant: ThemeVariant): string {
     ['brightGreen', t.terminal.brightGreen], ['brightYellow', t.terminal.brightYellow],
     ['brightBlue', t.terminal.brightBlue], ['brightMagenta', t.terminal.brightMagenta],
     ['brightCyan', t.terminal.brightCyan], ['brightWhite', t.terminal.brightWhite],
-  ], stage, dark, 'Each normal/bright pair is asserted ΔEz ≥ 6 (the emphasis axis CLI tools rely on).'));
+  ], stage, 'Each normal/bright pair is asserted ΔEz ≥ 6 (the emphasis axis CLI tools rely on).'));
 
   out.push(table('Brackets', [
     ['bracket1', t.bracket.bracket1], ['bracket2', t.bracket.bracket2],
     ['bracket3', t.bracket.bracket3], ['bracket4', t.bracket.bracket4],
     ['bracket5', t.bracket.bracket5], ['bracket6', t.bracket.bracket6],
-  ], stage, dark, 'Adjacent pairs are asserted ΔEz ≥ 12 under Brettel protan/deutan/tritan.'));
+  ], stage, 'Adjacent pairs are asserted ΔEz ≥ 12 under Brettel protan/deutan/tritan.'));
 
   out.push(table('Symbol Icons', [
     ['property', t.symbol.property], ['field', t.symbol.field],
@@ -131,13 +128,13 @@ function generate(variant: ThemeVariant): string {
     ['enumMember', t.symbol.enumMember], ['typeParameter', t.symbol.typeParameter],
     ['module', t.symbol.module], ['namespace', t.symbol.namespace],
     ['operator', t.symbol.operator], ['snippet', t.symbol.snippet],
-  ], stage, dark));
+  ], stage));
 
   out.push(table('Support (built-ins)', [
     ['function', t.support.function], ['class', t.support.class],
     ['type', t.support.type], ['constant', t.support.constant],
     ['variable', t.support.variable],
-  ], stage, dark));
+  ], stage));
 
   out.push(table('Markdown', [
     ['heading', t.markdown.heading], ['headingPunct', t.markdown.headingPunctuation],
@@ -146,13 +143,13 @@ function generate(variant: ThemeVariant): string {
     ['deleted', t.markdown.deleted], ['alertImportant', t.markdown.alertImportant],
     ['alertNote', t.markdown.alertNote], ['alertTip', t.markdown.alertTip],
     ['alertWarning', t.markdown.alertWarning], ['alertCaution', t.markdown.alertCaution],
-  ], stage, dark));
+  ], stage));
 
   out.push(table('Debug', [
     ['name', t.debug.name], ['value', t.debug.value], ['string', t.debug.string],
     ['number', t.debug.number], ['boolean', t.debug.boolean],
     ['error', t.debug.error], ['type', t.debug.type],
-  ], dark ? stage : house, dark, dark ? undefined : 'Lc measured on House — light debug tokens are tuned for the sidebar.'));
+  ], dark ? stage : house, dark ? undefined : 'Lc measured on House — light debug tokens are tuned for the sidebar.'));
 
   out.push(table('Text Tiers', [
     ['foreground', t.ui.foreground], ['foregroundMuted', t.ui.foregroundMuted],
@@ -160,12 +157,12 @@ function generate(variant: ThemeVariant): string {
     ['disabled', t.ui.disabled], ['ghostText', t.ui.ghostText],
     ['placeholder', t.ui.placeholder], ['whitespace', t.ui.whitespace],
     ['ruler', t.ui.ruler],
-  ], stage, dark));
+  ], stage));
 
   out.push(table('Accents & Cursor', [
     ['accentPrimary', t.ui.accentPrimary], ['accentSecondary', t.ui.accentSecondary],
     ['cursor', t.ui.cursor], ['link', t.ui.link], ['linkActive', t.ui.linkActive],
-  ], stage, dark));
+  ], stage));
 
   // Backgrounds: coordinates and hex only — a background has no Lc of its own.
   out.push([
