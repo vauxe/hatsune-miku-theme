@@ -1,6 +1,6 @@
 /**
  * Hatsune Miku Theme - HLSL Showcase
- * All-Miku Synthesis: Every voice, one stage.
+ * No color screams. Every color sings.
  * High-Level Shading Language for DirectX
  */
 

@@ -1,5 +1,5 @@
 //! Hatsune Miku Theme - Rust Showcase
-//! All-Miku Synthesis: Every voice, one stage.
+//! No color screams. Every color sings.
 
 use std::collections::HashMap;
 use std::sync::Arc;
@@ -42,7 +42,7 @@ pub trait Synthesizer {
     /// Method signature: #00BCD4 (NT Cyan)
     fn sing(&self, song: &str) -> Result<String, SynthError>;
 
-    /// Associated type: #B2EBE7
+    /// Associated type
     type Output;
 
     /// Default implementation
@@ -51,7 +51,7 @@ pub trait Synthesizer {
     }
 }
 
-/// Error type: #B2EBE7 Bold
+/// Error type
 #[derive(Debug)]
 pub enum SynthError {
     LowEnergy(u32),
@@ -89,10 +89,10 @@ where
 
     /// Async method: #00BCD4 Italic
     pub async fn perform(&self, song: &str, bpm: u32) -> Result<(), SynthError> {
-        // Keywords: #39C5BB Bold
+        // Keywords
         let energy = self.energy.read().await;
 
-        // Operators: #39C5BB80
+        // Operators
         if *energy < 10 {
             return Err(SynthError::LowEnergy(*energy));
         }
@@ -110,7 +110,7 @@ where
     }
 
     async fn classic_voice(&self, song: &str) -> Result<(), SynthError> {
-        // Format string: #9CCC65
+        // Format string
         let message = format!("V2 Classic: {}", song);
         println!("{}", message);
         Ok(())
@@ -140,7 +140,7 @@ where
     type Output = String;
 
     fn sing(&self, song: &str) -> Result<String, SynthError> {
-        // Self keyword: #E05096 Italic
+        // Self keyword
         Ok(format!("{} sings: {}", self.name, song))
     }
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Hatsune Miku Theme - Shell/Bash Showcase
-# All-Miku Synthesis: Every voice, one stage.
+# No color screams. Every color sings.
 
 # ============================================
 # Script Configuration
@@ -11,7 +11,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # Constants: Uppercase variables
-# Variables: #4DD0E1 (Cyan)
+# Variables
 readonly CANONICAL_COLOR="#39C5BB"
 readonly DEFAULT_BPM=39
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

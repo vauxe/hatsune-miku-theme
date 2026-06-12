@@ -1,6 +1,6 @@
 /**
  * Hatsune Miku Theme - Java Showcase
- * All-Miku Synthesis: Every voice, one stage.
+ * No color screams. Every color sings.
  */
 
 package com.mikutheme.showcase;
@@ -93,7 +93,7 @@ final class Light extends StageElement {
     }
 }
 
-// Generic class: #B2EBE7 Bold (Ice Teal)
+// Generic class
 public class DigitalDiva<T> implements Synthesizer {
     // Constants: #E05096 (Magenta LED - Rhythm)
     public static final String CANONICAL_COLOR = "#39C5BB";
@@ -116,7 +116,7 @@ public class DigitalDiva<T> implements Synthesizer {
     // Method with annotation: #FFD740 Italic (Decorator)
     @Override
     public String sing(String song) throws PerformanceException {
-        // Keywords: #39C5BB Bold
+        // Keywords
         if (energy < 10) {
             throw new PerformanceException("Low energy: Please recharge with leeks");
         }

@@ -1,6 +1,6 @@
 /**
  * Hatsune Miku Theme - C++ Showcase
- * All-Miku Synthesis: Every voice, one stage.
+ * No color screams. Every color sings.
  */
 
 #include <iostream>
@@ -23,7 +23,7 @@ constexpr const char* CANONICAL_COLOR = "#39C5BB";
 constexpr int DEFAULT_BPM = 39;
 constexpr int MAX_ENERGY = 100;
 
-// Enum class: #B2EBE7 Bold, EnumMember: #E05096
+// Enum class, EnumMember
 enum class MikuVersion {
     V2_Classic,
     V3,
@@ -67,7 +67,7 @@ using FrequencyRange = std::pair<int, int>;
 using SongList = std::vector<std::string>;
 using VoiceBankPtr = std::shared_ptr<VoiceBank>;
 
-// Template class: #B2EBE7 Bold (Ice Teal)
+// Template class
 template<typename T>
 class MetadataStore {
 private:
@@ -97,7 +97,7 @@ public:
     virtual ~Synthesizer() = default;
 };
 
-// Class: #B2EBE7 Bold (Ice Teal)
+// Class
 class DigitalDiva : public Synthesizer {
 public:
     // Static member: #90B8B2 Underline
@@ -136,12 +136,12 @@ public:
 
     // Override method: #00BCD4
     std::string sing(const std::string& song) override {
-        // Keywords: #39C5BB Bold
+        // Keywords
         if (energy_ < 10) {
             throw std::runtime_error("Low energy: Please recharge with leeks");
         }
 
-        // String: #9CCC65 (Negi Green)
+        // String
         std::string message = "[MIKU] Now singing: " + song;
         std::cout << message << std::endl;
 
@@ -175,7 +175,7 @@ public:
     }
 };
 
-// Template function: #00BCD4
+// Template function
 template<Singable T>
 void performConcert(T& performer, const SongList& songs) {
     // Range-based for with structured bindings

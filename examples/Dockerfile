@@ -1,5 +1,5 @@
 # Hatsune Miku Theme - Dockerfile Showcase
-# All-Miku Synthesis: Every voice, one stage.
+# No color screams. Every color sings.
 
 # syntax=docker/dockerfile:1
 
@@ -13,15 +13,15 @@ ARG ALPINE_VERSION=3.19
 # FROM instruction: #39C5BB Bold (Keyword)
 FROM node:${NODE_VERSION}-alpine${ALPINE_VERSION} AS base
 
-# Label: #4DD0E1 Italic (Attribute)
-# String: #9CCC65 (Negi Green)
+# Label (Attribute)
+# String
 LABEL org.opencontainers.image.title="Hatsune Miku Theme"
 LABEL org.opencontainers.image.description="VS Code color theme inspired by Hatsune Miku"
 LABEL org.opencontainers.image.authors="MikuTheme <miku@example.com>"
 LABEL org.opencontainers.image.version="2.0.0"
 LABEL org.opencontainers.image.source="https://github.com/example/miku-theme"
 
-# Environment variables: #E05096
+# Environment variables
 ENV NODE_ENV=production \
     MIKU_COLOR="#39C5BB" \
     DEFAULT_BPM=39 \

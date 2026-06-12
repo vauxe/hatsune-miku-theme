@@ -1,6 +1,6 @@
 """
 Hatsune Miku Theme - Python Showcase
-All-Miku Synthesis: Every voice, one stage.
+No color screams. Every color sings.
 """
 
 import asyncio
@@ -14,9 +14,9 @@ DEFAULT_BPM: int = 39  # The sacred number
 T = TypeVar("T")  # Type Parameter: #B2EBE7 Italic (Ice Teal)
 
 
-@dataclass  # Decorator: #FFD740 Italic (Meta Amber)
+@dataclass  # Decorator (Meta Amber)
 class VoiceBank:
-    """Types/Classes: #B2EBE7 Bold (Ice Teal - Append Light)"""
+ """Types/Classes"""
 
     name: str  # Parameter type annotation: #B2EBE7
     version: str
@@ -27,30 +27,30 @@ class DigitalDiva(Generic[T]):
     """
     The primary interface for the Virtual Singer.
 
-    Keywords: #39C5BB Bold (V2 Classic Identity)
-    Functions: #00BCD4 (NT Cyan Voice)
+    Keywords
+    Functions
     """
 
     # Class constant: #E05096 Bold
     SIGNATURE_COLOR: str = "#39C5BB"
 
     def __init__(self, name: str = "Hatsune Miku") -> None:
-        self.name = name  # Property: #90B8B2
-        self._energy = 39  # Number: #E05096
+        self.name = name  # Property
+        self._energy = 39  # Number
         self._voice_banks: List[VoiceBank] = []
 
-    @staticmethod  # Decorator: #FFD740 Italic
+    @staticmethod  # Decorator
     def get_canonical_color() -> str:
         """Static method: #00BCD4 Underline"""
         return "#39C5BB"
 
     async def sing(self, song_title: str, bpm: int = 120) -> Optional[str]:
         """
-        Async function: #00BCD4 Italic
+        Async function
         Parameters: #B2EBE7 Italic
         """
 
-        # String: #9CCC65 (Negi Green - Content)
+        # String
         message = f"Now Loading: {song_title}..."
 
         # Template expression: #FF80AB (Soft Pink)
@@ -59,7 +59,7 @@ class DigitalDiva(Generic[T]):
         # Function call: #00BCD4 (NT Cyan)
         self._activate_stage_lights()
 
-        # Keywords: #39C5BB Bold (V2 Classic)
+        # Keywords
         if self._energy > 0 and bpm >= DEFAULT_BPM:
             await self._sync_tempo(bpm)
             return message
@@ -67,7 +67,7 @@ class DigitalDiva(Generic[T]):
         return None
 
     def _activate_stage_lights(self) -> None:
-        # Operators: #39C5BB60 (Ghost Layer)
+        # Operators
         total = self._energy * 2 + 100
 
         # Error: #FF5370 (Coral Warning)

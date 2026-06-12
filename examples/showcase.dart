@@ -1,5 +1,5 @@
 /// Hatsune Miku Theme - Dart Showcase
-/// All-Miku Synthesis: Every voice, one stage.
+/// No color screams. Every color sings.
 
 import 'dart:async';
 import 'dart:collection';

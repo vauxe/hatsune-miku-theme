@@ -1,6 +1,6 @@
 /**
  * Hatsune Miku Theme - TypeScript Showcase
- * All-Miku Synthesis: Every voice, one stage.
+ * No color screams. Every color sings.
  */
 
 // Types/Interfaces: #B2EBE7 Bold (Ice Teal - Append Light)
@@ -43,9 +43,9 @@ const enum VoiceQuality {
   High = "high",
 }
 
-// Class: #B2EBE7 Bold (Ice Teal)
+// Class
 class DigitalDiva implements Synthesizer<VoiceBank> {
-  // Properties: #90B8B2
+  // Properties
   readonly name: string;
   readonly voiceBank: VoiceBank;
 
@@ -53,7 +53,7 @@ class DigitalDiva implements Synthesizer<VoiceBank> {
   #energy: number = 100;
   private _stageMode: StageMode = StageMode.Idle;
 
-  // Static property: #90B8B2 Underline
+  // Static property
   static readonly MODEL_ID: string = "CV01";
 
   constructor(name: string = "Hatsune Miku", version: MikuVersion = "V2") {
@@ -80,7 +80,7 @@ class DigitalDiva implements Synthesizer<VoiceBank> {
     // Template literal: #9CCC65 with #FF80AB expressions
     const message = `Now playing: ${songTitle}`;
 
-    // Keywords: #39C5BB Bold
+    // Keywords
     if (this.#energy < 10) {
       throw new Error("Low energy");
     }
@@ -109,7 +109,7 @@ class DigitalDiva implements Synthesizer<VoiceBank> {
   }
 }
 
-// Generic function: #00BCD4
+// Generic function
 function createVoiceBank<T extends string>(
   name: T,
   version: MikuVersion

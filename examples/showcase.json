@@ -1,60 +1,52 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "_comment": "Hatsune Miku Theme - JSON Showcase",
-  "_description": "All-Miku Synthesis: Every voice, one stage.",
+  "_description": "No color screams. Every color sings.",
 
   "theme": {
-    "name": "Hatsune Miku Theme",
+    "name": "Hatsune Miku Ohime-sama Theme",
     "version": "3.9.39",
-    "type": "dark",
+    "variants": ["dark", "light"],
     "author": "Miku Fan",
     "license": "MIT"
   },
 
-  "allMikuSynthesis": {
-    "description": "Every Miku version mapped to UI layers",
+  "stageArchitecture": {
+    "description": "Four background tiers, one canonical voice",
     "canonicalColor": "#39C5BB",
 
-    "versionMapping": {
-      "identity": {
-        "version": "V2 Classic",
-        "color": "#39C5BB",
-        "year": 2007,
-        "role": "Keywords, Borders",
-        "isCanonical": true
+    "backgroundTiers": {
+      "void": {
+        "step": -1,
+        "role": "Empty groups, shadows",
+        "isDarkest": true
       },
       "stage": {
-        "version": "SEKAI",
-        "color": "#33CCBB",
-        "year": 2020,
-        "role": "Secondary cursors",
-        "isCanonical": false
+        "step": 0,
+        "role": "Editor — the performance surface",
+        "isDarkest": false
       },
-      "voice": {
-        "version": "NT",
-        "color": "#00BCD4",
-        "year": 2020,
-        "role": "Functions",
-        "isCanonical": false
+      "house": {
+        "step": 1,
+        "role": "Structural chrome — sidebar, panels",
+        "isDarkest": false
       },
-      "structure": {
-        "version": "Append Light",
-        "color": "#B2EBE7",
-        "year": 2010,
-        "role": "Types, Classes",
-        "isCanonical": false
+      "float": {
+        "step": 2,
+        "role": "Menus, hovers, notifications",
+        "isDarkest": false
       }
     },
 
-    "frequencyVisualizer": {
-      "description": "Indent guides as audio spectrum",
-      "levels": [
-        { "level": 1, "name": "bass", "color": "#1E8A82", "version": "Append Dark" },
-        { "level": 2, "name": "low", "color": "#2AA69E", "version": "Append Solid" },
-        { "level": 3, "name": "mid", "color": "#39C5BB", "version": "V2 Classic" },
-        { "level": 4, "name": "high", "color": "#3ED1C8", "version": "NT" },
-        { "level": 5, "name": "peak", "color": "#00E5D4", "version": "Append Vivid" },
-        { "level": 6, "name": "ultra", "color": "#A8EBE6", "version": "Append Light" }
+    "hueGrid": {
+      "description": "Twelve tones, thirty degrees apart — one hue family per cognitive role",
+      "tones": [
+        { "degree": 180, "tone": "tonic", "voice": "keywords" },
+        { "degree": 120, "tone": "lime", "voice": "strings" },
+        { "degree": 240, "tone": "azure", "voice": "constants" },
+        { "degree": 270, "tone": "blue", "voice": "types" },
+        { "degree": 330, "tone": "magenta", "voice": "operators" },
+        { "degree": 20, "tone": "red", "voice": "parameters" }
       ]
     }
   },
@@ -127,12 +119,11 @@
     "bracketPairColorization": true,
     "indentGuides": {
       "enabled": true,
-      "style": "frequency-visualizer"
+      "style": "voicebank-evolution"
     },
     "cursor": {
       "style": "line",
-      "blinking": "smooth",
-      "color": "#FF6B9D"
+      "blinking": "smooth"
     }
   },
 

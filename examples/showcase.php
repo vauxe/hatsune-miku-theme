@@ -1,7 +1,7 @@
 <?php
 /**
  * Hatsune Miku Theme - PHP Showcase
- * All-Miku Synthesis: Every voice, one stage.
+ * No color screams. Every color sings.
  */
 
 declare(strict_types=1);
@@ -122,19 +122,19 @@ readonly class VoiceBank implements JsonSerializable
     }
 }
 
-// Class: #B2EBE7 Bold (Ice Teal)
+// Class
 #[Vocaloid(engineName: 'VOCALOID2', releaseYear: 2007)]
 class DigitalDiva implements Synthesizer, ArrayAccess, Stringable
 {
     use EnergyManagement;
 
-    // Static property: #90B8B2 Underline
+    // Static property
     public static string $modelId = 'CV01';
 
     // Class constants
     private const VOICE_TYPES = ['dark', 'soft', 'light', 'sweet', 'vivid', 'solid'];
 
-    // Properties: #90B8B2
+    // Properties
     private StageMode $mode = StageMode::Idle;
     private array $metadata = [];
 
@@ -147,7 +147,7 @@ class DigitalDiva implements Synthesizer, ArrayAccess, Stringable
     // Method: #00BCD4 (NT Cyan)
     public function sing(string $song): string
     {
-        // Keywords: #39C5BB Bold
+        // Keywords
         if ($this->energy < 10) {
             throw new PerformanceException(
                 'Low energy: Please recharge with leeks',
@@ -155,8 +155,8 @@ class DigitalDiva implements Synthesizer, ArrayAccess, Stringable
             );
         }
 
-        // String: #9CCC65 (Negi Green)
-        // Variable in string: #FF80AB (Soft Pink)
+        // String
+        // Variable in string
         $message = "[MIKU] Now singing: {$song}";
         echo $message . PHP_EOL;
 
@@ -239,7 +239,7 @@ $miku = new DigitalDiva(
     )
 );
 
-// Arrow function: #00BCD4
+// Arrow function
 $getUpperSong = fn(string $song): string => strtoupper($song);
 
 // Closure

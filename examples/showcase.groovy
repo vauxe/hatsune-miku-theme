@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 /**
  * Hatsune Miku Theme - Groovy Showcase
- * All-Miku Synthesis: Every voice, one stage.
+ * No color screams. Every color sings.
  */
 
 package com.mikutheme.showcase

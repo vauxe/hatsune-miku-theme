@@ -1,5 +1,5 @@
 .. Hatsune Miku Theme - reStructuredText Showcase
-.. All-Miku Synthesis: Every voice, one stage.
+.. No color screams. Every color sings.
 
 ======================
 Hatsune Miku Theme

@@ -1,5 +1,5 @@
 -- Hatsune Miku Theme - SQL Showcase
--- All-Miku Synthesis: Every voice, one stage.
+-- No color screams. Every color sings.
 
 -- ============================================
 -- Database Schema for Voice Bank Management
@@ -10,7 +10,7 @@
 -- USE miku_stage;
 
 -- Enum-like table for Miku versions
--- Keywords: #39C5BB Bold
+-- Keywords
 CREATE TABLE miku_versions (
     id SERIAL PRIMARY KEY,
     version_code VARCHAR(20) NOT NULL UNIQUE,
@@ -22,8 +22,8 @@ CREATE TABLE miku_versions (
 );
 
 -- Insert version data
--- Strings: #9CCC65 (Negi Green)
--- Numbers: #E05096 (Magenta)
+-- Strings
+-- Numbers
 INSERT INTO miku_versions (version_code, version_name, release_year, canonical_color) VALUES
     ('V2_CLASSIC', 'Hatsune Miku V2', 2007, '#39C5BB'),
     ('V3', 'Hatsune Miku V3', 2013, '#3BC8BE'),
@@ -79,7 +79,7 @@ CREATE TABLE performances (
 -- Views
 -- ============================================
 
--- Aggregate view: Functions #00BCD4
+-- Aggregate view: Functions
 CREATE OR REPLACE VIEW performance_stats AS
 SELECT
     vb.name AS voice_bank_name,

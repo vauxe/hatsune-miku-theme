@@ -2,24 +2,24 @@
 
 > "The World is My Stage, and Code is My Song."
 
-## All-Miku Synthesis Edition
+## Overview
 
 This document demonstrates **Markdown syntax highlighting** with the *Hatsune Miku Theme*.
 
 ### Heading Hierarchy
 
-Headings use a color progression:
+Six heading levels, one spotlight voice:
 
-- **H1**: `#E05096` (Pink) - Main title
-- **H2**: `#4DD0E1` (Cyan) - Major sections
-- **H3**: `#FFD740` (Amber) - Subsections
-- **H4**: `#39C5BB` (Teal) - Minor sections
-- **H5**: `#9CCC65` (Green) - Details
-- **H6**: `#78909C` (Grey) - Footnotes
+- **H1** - The concert title
+- **H2** - Major sections
+- **H3** - Subsections
+- **H4** - Minor sections
+- **H5** - Details
+- **H6** - Footnotes
 
-#### Version Mapping
+#### Version Lineage
 
-The theme maps each Miku version to UI elements:
+Every voicebank kept her voice:
 
 ##### V2 Classic (2007)
 
@@ -33,9 +33,9 @@ This is the foundation of the entire color system.
 
 ### Text Formatting
 
-**Bold text** uses `#FFD740` (Amber) for emphasis.
+**Bold text** for strong emphasis.
 
-*Italic text* uses `#4DD0E1` (Cyan) for subtle emphasis.
+*Italic text* for subtle emphasis.
 
 ***Bold and italic*** combines both styles.
 
@@ -43,8 +43,8 @@ This is the foundation of the entire color system.
 
 ### Links and References
 
-- [External Link](https://vocaloid.com) - Cyan `#4DD0E1`
-- [Internal Reference](#all-miku-synthesis-edition)
+- [External Link](https://vocaloid.com)
+- [Internal Reference](#overview)
 - <https://autolinked-url.com>
 
 ### Lists
@@ -72,15 +72,15 @@ This is the foundation of the entire color system.
 
 #### Task List
 
-- [x] Implement V2 Classic identity
-- [x] Add SEKAI stage accents
-- [x] Create frequency visualizer
+- [x] Trace the character sheet
+- [x] Tune both stages
+- [x] Gate every pair
 - [ ] Add more language support
 - [ ] Create documentation
 
 ### Code
 
-Inline `code` uses monospace font with teal tint.
+Inline `code` sings in her cyan voice.
 
 #### Code Blocks
 
@@ -152,7 +152,7 @@ Nested quotes:
 
 ### Images
 
-![Theme Preview](./images/preview.png)
+![Theme Preview](../images/example-dark.jpg)
 
 ### Horizontal Rules
 
@@ -209,4 +209,4 @@ $$
 
 ---
 
-*All-Miku Synthesis: Every voice, one stage.*
+*No color screams. Every color sings.*

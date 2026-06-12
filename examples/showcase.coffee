@@ -1,5 +1,5 @@
 # Hatsune Miku Theme - CoffeeScript Showcase
-# All-Miku Synthesis: Every voice, one stage.
+# No color screams. Every color sings.
 
 # Constants
 CANONICAL_COLOR = '#39C5BB'

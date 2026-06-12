@@ -1,5 +1,5 @@
 // Hatsune Miku Theme - Unity ShaderLab Showcase
-// All-Miku Synthesis: Every voice, one stage.
+// No color screams. Every color sings.
 
 Shader "MikuTheme/Holographic"
 {

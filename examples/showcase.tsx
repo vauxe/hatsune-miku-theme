@@ -1,6 +1,6 @@
 /**
  * Hatsune Miku Theme - TypeScript/React Showcase
- * All-Miku Synthesis: Every voice, one stage.
+ * No color screams. Every color sings.
  */
 
 import React, { useState, useEffect, useCallback } from "react";
@@ -14,7 +14,7 @@ interface VoiceBank {
 
 type MikuVersion = "classic" | "append" | "nt" | "sekai";
 
-// Generic type: #B2EBE7 Italic
+// Generic type
 interface SynthesizerProps<T extends VoiceBank> {
   voiceBank: T;
   onSing: (song: string) => void;
@@ -32,14 +32,14 @@ enum StageMode {
   Holographic = 2,
 }
 
-// Class: #B2EBE7 Bold (Ice Teal)
+// Class
 class DigitalDiva implements VoiceBank {
-  // Properties: #90B8B2
+  // Properties
   readonly name: string;
   readonly version: VoiceBank["version"];
   readonly frequencyRange: [number, number] = [80, 1100];
 
-  // Static property: #90B8B2 Underline
+  // Static property
   static readonly MODEL_ID = "CV01";
 
   constructor(name: string = "Hatsune Miku", version: VoiceBank["version"] = "V2") {
@@ -73,7 +73,7 @@ const MikuSynthesizer: React.FC<SynthesizerProps<VoiceBank>> = ({
   useEffect(() => {
     // Async operation inside effect
     const initializeStage = async () => {
-      // Keywords: #39C5BB Bold
+      // Keywords
       if (isPerforming) {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setStageMode(StageMode.Holographic);
@@ -94,7 +94,7 @@ const MikuSynthesizer: React.FC<SynthesizerProps<VoiceBank>> = ({
       setIsPerforming(true);
       setCurrentSong(song);
 
-      // Try-catch: Keywords #39C5BB Bold
+      // Try-catch: Keywords
       try {
         await fetch("/api/stage/activate", {
           method: "POST",
@@ -112,7 +112,7 @@ const MikuSynthesizer: React.FC<SynthesizerProps<VoiceBank>> = ({
     [voiceBank, onSing]
   );
 
-  // JSX: Tags #39C5BB Bold, Attributes #4DD0E1 Italic
+  // JSX: Tags, Attributes
   return (
     <div className="miku-stage" data-mode={stageMode}>
       <header>

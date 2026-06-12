@@ -1,5 +1,5 @@
 // Hatsune Miku Theme - Go Showcase
-// All-Miku Synthesis: Every voice, one stage.
+// No color screams. Every color sings.
 
 package main
 
@@ -20,7 +20,7 @@ const (
 
 // Package-level variables
 var (
-	// Error types: #FF5370
+	// Error types
 	ErrLowEnergy    = errors.New("low energy: please recharge with leeks")
 	ErrStageNotReady = errors.New("stage not ready")
 )
@@ -62,7 +62,7 @@ type DigitalDiva[T any] struct {
 	mu        sync.RWMutex
 }
 
-// Constructor function: #00BCD4
+// Constructor function
 func NewDigitalDiva[T any](name string, vb VoiceBank) *DigitalDiva[T] {
 	return &DigitalDiva[T]{
 		name:      name,
@@ -79,7 +79,7 @@ func (d *DigitalDiva[T]) Sing(ctx context.Context, song string) error {
 	energy := d.energy
 	d.mu.RUnlock()
 
-	// Keywords: #39C5BB Bold
+	// Keywords
 	if energy < 10 {
 		return ErrLowEnergy
 	}
@@ -133,7 +133,7 @@ func (d *DigitalDiva[T]) defaultVoice(song string) error {
 // Method to update energy with mutex
 func (d *DigitalDiva[T]) ConsumeEnergy(amount int) {
 	d.mu.Lock()
-	defer d.mu.Unlock() // Keyword: #39C5BB Bold
+	defer d.mu.Unlock() // Keyword
 
 	d.energy -= amount
 	if d.energy < 0 {

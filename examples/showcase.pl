@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 # Hatsune Miku Theme - Perl Showcase
-# All-Miku Synthesis: Every voice, one stage.
+# No color screams. Every color sings.
 
 use strict;
 use warnings;

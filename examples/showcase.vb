@@ -1,5 +1,5 @@
 ' Hatsune Miku Theme - Visual Basic Showcase
-' All-Miku Synthesis: Every voice, one stage.
+' No color screams. Every color sings.
 
 Option Strict On
 Option Explicit On

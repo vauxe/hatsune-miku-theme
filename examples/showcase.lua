@@ -1,6 +1,6 @@
 --[[
 Hatsune Miku Theme - Lua Showcase
-All-Miku Synthesis: Every voice, one stage.
+No color screams. Every color sings.
 ]]
 
 -- Module definition

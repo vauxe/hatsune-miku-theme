@@ -1,6 +1,6 @@
 @echo off
 REM Hatsune Miku Theme - Batch Showcase
-REM All-Miku Synthesis: Every voice, one stage.
+REM No color screams. Every color sings.
 
 :: Constants
 set MIKU_COLOR=#39C5BB

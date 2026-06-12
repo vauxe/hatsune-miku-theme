@@ -1,6 +1,6 @@
 /**
  * Hatsune Miku Theme - SCSS Showcase
- * All-Miku Synthesis: Every voice, one stage.
+ * No color screams. Every color sings.
  */
 
 // Use statement (modern Sass)
@@ -15,7 +15,7 @@
   $primary-color: #39C5BB !default
 );
 
-// Variables: #E05096 (Magenta LED - Rhythm)
+// Variables (Magenta LED - Rhythm)
 $canonical-color: #39C5BB;
 $secondary-color: #FF80AB;
 $accent-color: #B388FF;
@@ -26,7 +26,7 @@ $text-primary: #E8F5F5;
 $default-bpm: 39 !default;
 $max-energy: 100 !default;
 
-// Maps: key #90B8B2, value #9CCC65
+// Maps: key, value
 $miku-colors: (
   'primary': $canonical-color,
   'secondary': $secondary-color,
@@ -48,7 +48,7 @@ $voice-types: (
 $stage-effects: hologram, particles, glow, laser;
 $breakpoints: 320px, 768px, 1024px, 1440px;
 
-// Function: #00BCD4 (NT Cyan)
+// Function
 @function get-color($name) {
   @if map.has-key($miku-colors, $name) {
     @return map.get($miku-colors, $name);
@@ -115,7 +115,7 @@ $breakpoints: 320px, 768px, 1024px, 1440px;
   box-shadow: $shadows;
 }
 
-// Placeholder selector (silent class): #B2EBE7 Bold
+// Placeholder selector (silent class)
 %flex-center {
   display: flex;
   align-items: center;
@@ -137,7 +137,7 @@ $breakpoints: 320px, 768px, 1024px, 1440px;
   --energy-level: #{$default-bpm};
 }
 
-// Nested rules with parent selector: #39C5BB Bold
+// Nested rules with parent selector
 .miku-stage {
   @extend %flex-center;
   @include stage-lighting;

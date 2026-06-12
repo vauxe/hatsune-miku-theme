@@ -1,6 +1,6 @@
 /**
  * Hatsune Miku Theme - Objective-C Showcase
- * All-Miku Synthesis: Every voice, one stage.
+ * No color screams. Every color sings.
  */
 
 #import <Foundation/Foundation.h>

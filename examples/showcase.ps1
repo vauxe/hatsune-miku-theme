@@ -3,7 +3,7 @@
     Hatsune Miku Theme - PowerShell Showcase
 
 .DESCRIPTION
-    All-Miku Synthesis: Every voice, one stage.
+    No color screams. Every color sings.
 
 .NOTES
     Author: Miku Fan

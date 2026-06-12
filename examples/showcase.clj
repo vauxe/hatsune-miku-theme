@@ -1,5 +1,5 @@
 ;; Hatsune Miku Theme - Clojure Showcase
-;; All-Miku Synthesis: Every voice, one stage.
+;; No color screams. Every color sings.
 
 (ns miku.showcase
   "Virtual Singer synthesis namespace"

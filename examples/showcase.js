@@ -1,6 +1,6 @@
 /**
  * Hatsune Miku Theme - JavaScript Showcase
- * All-Miku Synthesis: Every voice, one stage.
+ * No color screams. Every color sings.
  */
 
 // Constants: #E05096 (Magenta LED - Rhythm)
@@ -8,9 +8,9 @@ const CANONICAL_COLOR = "#39C5BB";
 const DEFAULT_BPM = 39;
 const VOICE_TYPES = ["dark", "soft", "light", "sweet", "vivid", "solid"];
 
-// Class: #B2EBE7 Bold (Ice Teal)
+// Class
 class DigitalDiva {
-  // Static property: #90B8B2 Underline
+  // Static property
   static MODEL_ID = "CV01";
 
   // Private fields (ES2022)
@@ -18,7 +18,7 @@ class DigitalDiva {
   #voiceBank;
 
   constructor(name = "Hatsune Miku", version = "V2") {
-    this.name = name; // Property: #90B8B2
+    this.name = name; // Property
     this.version = version;
     this.#voiceBank = { name, version };
   }
@@ -38,12 +38,12 @@ class DigitalDiva {
     // Template literal: #9CCC65 with #FF80AB expressions
     const message = `Now playing: ${songTitle} at ${bpm} BPM`;
 
-    // Keywords: #39C5BB Bold
+    // Keywords
     if (this.#energy < 10) {
       throw new Error("Low energy: Please recharge with leeks");
     }
 
-    // Try-catch: Keywords #39C5BB Bold
+    // Try-catch: Keywords
     try {
       await this.#activateStage();
       console.log(message);
@@ -77,7 +77,7 @@ const [dark, soft, ...otherVoices] = VOICE_TYPES;
 // Spread operator
 const extendedTypes = [...VOICE_TYPES, "power"];
 
-// Arrow function: #00BCD4
+// Arrow function
 const calculateEnergy = (base, multiplier = 1) => base * multiplier;
 
 // Higher-order function

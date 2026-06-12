@@ -1,6 +1,6 @@
 /**
  * Hatsune Miku Theme - C# Showcase
- * All-Miku Synthesis: Every voice, one stage.
+ * No color screams. Every color sings.
  */
 
 using System;
@@ -60,7 +60,7 @@ public record VoiceBank(
 // Record struct (C# 10+)
 public readonly record struct FrequencyRange(int Min, int Max);
 
-// Attribute: #FFD740 Italic (Meta Amber)
+// Attribute (Meta Amber)
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public class VocaloidAttribute : Attribute
 {
@@ -87,7 +87,7 @@ public abstract class StageElement
     }
 }
 
-// Class: #B2EBE7 Bold (Ice Teal)
+// Class
 [Vocaloid(EngineName = "VOCALOID2", ReleaseYear = 2007)]
 public class DigitalDiva : StageElement, ISynthesizer, IDisposable
 {
@@ -100,7 +100,7 @@ public class DigitalDiva : StageElement, ISynthesizer, IDisposable
     public static readonly IReadOnlyList<string> VoiceTypes =
         new[] { "dark", "soft", "light", "sweet", "vivid", "solid" };
 
-    // Properties: #90B8B2
+    // Properties
     public string Name { get; }
     public VoiceBank VoiceBank { get; }
     public MikuVersion Version => VoiceBank.Version;
@@ -139,7 +139,7 @@ public class DigitalDiva : StageElement, ISynthesizer, IDisposable
     // Async method: #00BCD4 (NT Cyan)
     public async Task<string> SingAsync(string song)
     {
-        // Keywords: #39C5BB Bold
+        // Keywords
         if (Energy < 10)
         {
             throw new PerformanceException("Low energy: Please recharge with leeks");
@@ -152,7 +152,7 @@ public class DigitalDiva : StageElement, ISynthesizer, IDisposable
         var message = $"[MIKU] Now singing: {song}";
         Console.WriteLine(message);
 
-        // Await: Keywords #39C5BB Bold
+        // Await: Keywords
         await Task.Delay(100);
 
         Energy -= 10;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   Hatsune Miku Theme - XML Showcase
-  All-Miku Synthesis: Every voice, one stage.
+  No color screams. Every color sings.
 -->
 
 <!DOCTYPE miku-config [
@@ -20,8 +20,8 @@
     xsi:schemaLocation="http://mikutheme.example.com/config miku-config.xsd"
     version="2.0">
 
-    <!-- Attribute: #4DD0E1 Italic -->
-    <!-- String value: #9CCC65 -->
+    <!-- Attribute -->
+    <!-- String value -->
 
     <!-- Metadata section -->
     <metadata>

@@ -1,26 +1,26 @@
 /**
  * Hatsune Miku Theme - CSS Showcase
- * All-Miku Synthesis: Every voice, one stage.
+ * No color screams. Every color sings.
  */
 
-/* CSS Custom Properties (Variables): #4DD0E1 */
+/* CSS Custom Properties (Variables) */
 :root {
   /* Miku Version Colors */
-  --miku-v2-classic: #39C5BB;     /* Identity */
-  --miku-sekai: #33CCBB;          /* Stage */
-  --miku-nt: #00BCD4;             /* Voice */
-  --miku-append-light: #B2EBE7;   /* Structure */
-  --miku-append-sweet: #5FCEC8;   /* Hover */
-  --miku-v4x-soft: #6DD4CD;       /* Focus */
-  --miku-v4x-hard: #2B9E96;       /* Active */
-  --miku-append-vivid: #00E5D4;   /* Electric */
+  --miku-v2-classic: #39C5BB;     /* 2007 — the canonical teal */
+  --miku-sekai: #33CCBB;          /* 2020 */
+  --miku-nt: #00BCD4;             /* 2020 */
+  --miku-append-light: #B2EBE7;   /* 2010 */
+  --miku-append-sweet: #5FCEC8;   /* 2010 */
+  --miku-v4x-soft: #6DD4CD;       /* 2016 */
+  --miku-v4x-hard: #2B9E96;       /* 2016 */
+  --miku-append-vivid: #00E5D4;   /* 2010 */
 
-  /* Accent Colors */
-  --magenta-led: #E05096;         /* Rhythm */
-  --negi-green: #9CCC65;          /* Content */
-  --meta-amber: #FFD740;          /* Meta */
-  --hologram-purple: #B388FF;     /* Feature */
-  --error-coral: #FF5370;         /* Warning */
+  /* Stage Lighting */
+  --magenta-led: #E05096;
+  --negi-green: #9CCC65;
+  --meta-amber: #FFD740;
+  --hologram-purple: #B388FF;
+  --error-coral: #FF5370;
 
   /* Background Layers */
   --bg-void: #0D1114;
@@ -34,15 +34,15 @@
   --space-md: 1rem;
   --space-lg: 2rem;
 
-  /* Numbers: #E05096 */
+  /* Numbers */
   --border-radius: 8px;
   --transition-fast: 150ms;
   --z-index-modal: 1000;
 }
 
-/* Element Selector: Tag #39C5BB Bold */
+/* Element Selector: Tag */
 body {
-  /* Property: #39C5BB, Value: #C8DCD9 */
+  /* Property, Value */
   background-color: var(--bg-base);
   color: #C8DCD9;
   font-family: "Inter", system-ui, sans-serif;
@@ -51,7 +51,7 @@ body {
   padding: 0;
 }
 
-/* Class Selector: #39C5BB */
+/* Class Selector */
 .miku-stage {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -60,7 +60,7 @@ body {
   min-height: 100vh;
 }
 
-/* ID Selector: #E05096 Bold */
+/* ID Selector */
 #main-performance {
   background: linear-gradient(
     135deg,
@@ -72,7 +72,7 @@ body {
   padding: var(--space-lg);
 }
 
-/* Pseudo-class: #4DD0E1 Italic */
+/* Pseudo-class */
 .voice-card:hover {
   background-color: var(--miku-append-sweet);
   transform: translateY(-2px);
@@ -135,7 +135,7 @@ body {
   opacity: 0.8;
 }
 
-/* Media Query: @keyword #E05096 */
+/* Media Query: @keyword */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-base: #1A1F24;
@@ -155,7 +155,7 @@ body {
   }
 }
 
-/* Keyframe Animation: @keyword #E05096 */
+/* Keyframe Animation: @keyword */
 @keyframes holographic-glow {
   0% {
     box-shadow: 0 0 5px var(--miku-v2-classic);
@@ -184,7 +184,7 @@ body {
   animation: holographic-glow 2s ease-in-out infinite;
 }
 
-/* Frequency Visualizer (matching indent guide concept) */
+/* Frequency Visualizer */
 .frequency-bar {
   display: flex;
   align-items: flex-end;

@@ -1,6 +1,6 @@
 /**
  * Hatsune Miku Theme - C Showcase
- * All-Miku Synthesis: Every voice, one stage.
+ * No color screams. Every color sings.
  */
 
 #include <stdio.h>
@@ -77,7 +77,7 @@ static const char* const VOICE_TYPES[] = {
 /* Global variable */
 static int g_performance_count = 0;
 
-/* Function prototypes: #00BCD4 (NT Cyan) */
+/* Function prototypes */
 DigitalDiva* digital_diva_create(const char* name, MikuVersion version);
 void digital_diva_destroy(DigitalDiva* diva);
 int digital_diva_sing(DigitalDiva* self, const char* song);
@@ -93,7 +93,7 @@ static inline int clamp(int value, int min, int max) {
 
 /* Version string helper */
 static const char* version_to_string(MikuVersion version) {
-    /* Switch: Keywords #39C5BB Bold */
+    /* Switch: Keywords */
     switch (version) {
         case MIKU_V2_CLASSIC: return "V2 Classic";
         case MIKU_V3:         return "V3";
@@ -105,11 +105,11 @@ static const char* version_to_string(MikuVersion version) {
     }
 }
 
-/* Constructor function: #00BCD4 */
+/* Constructor function */
 DigitalDiva* digital_diva_create(const char* name, MikuVersion version) {
     DigitalDiva* diva = (DigitalDiva*)malloc(sizeof(DigitalDiva));
 
-    /* Keywords: #39C5BB Bold */
+    /* Keywords */
     if (diva == NULL) {
         fprintf(stderr, "Error: Memory allocation failed\n");
         return NULL;
@@ -162,7 +162,7 @@ int digital_diva_sing(DigitalDiva* self, const char* song) {
         return -1;
     }
 
-    /* String: #9CCC65 (Negi Green) */
+    /* String */
     printf("[MIKU] Now singing: %s\n", song);
     printf("       Version: %s\n", version_to_string(self->voice_bank.version));
 
@@ -180,7 +180,7 @@ MikuVersion digital_diva_get_version(const DigitalDiva* self) {
     return self->voice_bank.version;
 }
 
-/* Static function: #00BCD4 Underline */
+/* Static function */
 const char* get_canonical_color(void) {
     return CANONICAL_COLOR;
 }
@@ -198,7 +198,7 @@ void log_message(const char* format, ...) {
 int process_songs(const char** songs, size_t count, SongProcessor processor, void* context) {
     int result = 0;
 
-    /* Loop: Keywords #39C5BB Bold */
+    /* Loop: Keywords */
     for (size_t i = 0; i < count; i++) {
         if (processor(songs[i], context) != 0) {
             result = -1;

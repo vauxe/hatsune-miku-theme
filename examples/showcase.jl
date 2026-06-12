@@ -1,6 +1,6 @@
 #=
 Hatsune Miku Theme - Julia Showcase
-All-Miku Synthesis: Every voice, one stage.
+No color screams. Every color sings.
 =#
 
 module MikuShowcase

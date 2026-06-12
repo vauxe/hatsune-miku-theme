@@ -1,5 +1,5 @@
 # Hatsune Miku Theme - Ruby Showcase
-# All-Miku Synthesis: Every voice, one stage.
+# No color screams. Every color sings.
 
 # frozen_string_literal: true
 
@@ -75,7 +75,7 @@ class PerformanceError < StandardError
   end
 end
 
-# Class: #B2EBE7 Bold (Ice Teal)
+# Class
 class DigitalDiva
   include MikuTheme::EnergyManagement
   include MikuTheme::Singable
@@ -103,7 +103,7 @@ class DigitalDiva
   # Constants within class
   VOICE_TYPES = %w[dark soft light sweet vivid solid].freeze
 
-  # Attributes: #90B8B2
+  # Attributes
   attr_reader :name, :voice_bank, :mode
 
   # Constructor
@@ -121,7 +121,7 @@ class DigitalDiva
 
   # Instance method: #00BCD4 (NT Cyan)
   def sing(song)
-    # Keywords: #39C5BB Bold
+    # Keywords
     if low_energy?
       raise PerformanceError.new(
         'Low energy: Please recharge with leeks',

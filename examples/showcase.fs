@@ -1,5 +1,5 @@
 // Hatsune Miku Theme - F# Showcase
-// All-Miku Synthesis: Every voice, one stage.
+// No color screams. Every color sings.
 
 namespace MikuTheme.Showcase
 
