@@ -5,6 +5,7 @@
  */
 
 import type { SemanticTokens } from '../tokens/types';
+import { selectionSurface } from './shared';
 
 export function createAlacrittyTheme(t: SemanticTokens): string {
   const term = t.terminal;
@@ -26,7 +27,7 @@ cursor = "${t.ui.accentPrimary.hex}"
 text = "${t.ui.background.hex}"
 
 [colors.selection]
-background = "${t.ui.selection.hex}"
+background = "${selectionSurface(t)}"
 text = "${t.ui.foreground.hex}"
 
 [colors.search.matches]

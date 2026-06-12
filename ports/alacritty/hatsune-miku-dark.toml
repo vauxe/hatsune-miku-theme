@@ -16,7 +16,7 @@ cursor = "#39C5BB"
 text = "#1A1F24"
 
 [colors.selection]
-background = "#39C5BB"
+background = "#344C5A"
 text = "#DEE8F2"
 
 [colors.search.matches]

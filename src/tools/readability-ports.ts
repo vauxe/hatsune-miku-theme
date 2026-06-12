@@ -12,8 +12,10 @@
 
 import { generateVariantTokens, type ThemeVariant } from '../tokens';
 import type { SemanticTokens, SemanticRole } from '../tokens/types';
-import { getAPCAContrast, deltaEzHex } from './readability-color';
-import { APCA_THRESHOLDS, APCA_THRESHOLDS_LIGHT, CVD_DISTINCTION_THRESHOLD } from './readability-constants';
+import { getAPCAContrast, deltaEzHex, simulateCVD } from './readability-color';
+import type { CVDType } from './readability-types';
+import { APCA_THRESHOLDS, APCA_THRESHOLDS_LIGHT, CVD_DISTINCTION_THRESHOLD, UI_VISIBILITY } from './readability-constants';
+import { selectionSurface } from '../ports/shared';
 
 // =============================================================================
 // PAIR DEFINITIONS
@@ -48,7 +50,19 @@ const uiPairs: ContrastPair[] = [
   { name: 'foreground on house', fg: t => t.ui.foreground.hex, bg: t => t.ui.backgroundHouse.hex, tier: 'primary' },
   { name: 'foreground on float', fg: t => t.ui.foreground.hex, bg: t => t.ui.backgroundFloat.hex, tier: 'primary' },
   { name: 'cursor', fg: t => t.ui.cursor.hex, bg: t => t.ui.background.hex, tier: 'secondary' },
-  { name: 'accent', fg: t => t.ui.accentPrimary.hex, bg: t => t.ui.background.hex, tier: 'secondary' },
+  // Accent's port uses are marks and fills — alacritty's cursor block,
+  // wezterm/sublime label and selection fills, helix hint-level signals —
+  // never sustained content text. Icon/ghost floor (45), NOT secondary:
+  // holding it to 60 would force the canonical brand teal #39C5BB
+  // (Lc 59 on the dark stage) off its hex for a tier it doesn't occupy.
+  { name: 'accent', fg: t => t.ui.accentPrimary.hex, bg: t => t.ui.background.hex, tier: 'tertiary' },
+  // Alpha-less hosts show selectionSurface() — the wash composited to
+  // what VS Code renders. Terminals set selection_foreground to the
+  // theme foreground; ANSI text may persist in some hosts — hold the
+  // red/green signal pair to the icon floor on the selection surface.
+  { name: 'foreground on selection', fg: t => t.ui.foreground.hex, bg: t => selectionSurface(t), tier: 'secondary' },
+  { name: 'term.red on selection', fg: t => t.terminal.red.hex, bg: t => selectionSurface(t), tier: 'tertiary' },
+  { name: 'term.green on selection', fg: t => t.terminal.green.hex, bg: t => selectionSurface(t), tier: 'tertiary' },
 ];
 
 const terminalPairs: ContrastPair[] = [
@@ -113,24 +127,47 @@ function validateVariant(polarity: ThemeVariant, verbose: boolean): Failure[] {
     }
   }
 
-  // Terminal CVD distinction (deltaEzHex returns values on x500 scale)
+  // Terminal CVD distinction: simulate each dichromacy (Brettel, linear
+  // RGB) and gate the WORST post-simulation distance — same model and
+  // threshold as the VS Code gate. (A previous version compared plain
+  // normal-vision DEz against the CVD threshold: unsimulated AND weaker
+  // than the normal-vision standard.)
   const termMap = tokens.terminal as unknown as Record<string, SemanticRole>;
+  const cvdTypes: CVDType[] = ['protan', 'deutan', 'tritan'];
   for (const [a, b] of terminalDistinctionPairs) {
-    const dez = deltaEzHex(termMap[a].hex, termMap[b].hex) ?? 0;
-    const pass = dez >= CVD_DISTINCTION_THRESHOLD;
+    let worst = Infinity;
+    let worstType = '';
+    for (const type of cvdTypes) {
+      const dez = deltaEzHex(simulateCVD(termMap[a].hex, type), simulateCVD(termMap[b].hex, type)) ?? 0;
+      if (dez < worst) { worst = dez; worstType = type; }
+    }
+    const pass = worst >= CVD_DISTINCTION_THRESHOLD;
 
     if (verbose || !pass) {
       const status = pass ? 'PASS' : 'FAIL';
       const symbol = pass ? '  ' : '! ';
-      console.log(`${symbol}${status}  DEz ${dez.toFixed(0).padStart(4)} >= ${CVD_DISTINCTION_THRESHOLD}  term.${a} vs term.${b}`);
+      console.log(`${symbol}${status}  CVD worst(${worstType}) DEz ${worst.toFixed(0).padStart(4)} >= ${CVD_DISTINCTION_THRESHOLD}  term.${a} vs term.${b}`);
     }
 
     if (!pass) {
       failures.push({
         name: `term.${a} vs term.${b}`,
         type: 'CVD',
-        detail: `DEz ${dez.toFixed(0)} < ${CVD_DISTINCTION_THRESHOLD}`,
+        detail: `worst ${worstType} DEz ${worst.toFixed(0)} < ${CVD_DISTINCTION_THRESHOLD}`,
       });
+    }
+  }
+
+  // Selection visibility: can you SEE the flattened selection at all?
+  {
+    const dez = deltaEzHex(selectionSurface(tokens), tokens.ui.background.hex) ?? 0;
+    const pass = dez >= UI_VISIBILITY.selectionVisibility;
+    if (verbose || !pass) {
+      const status = pass ? 'PASS' : 'FAIL';
+      console.log(`${pass ? '  ' : '! '}${status}  DEz ${dez.toFixed(1).padStart(5)} >= ${UI_VISIBILITY.selectionVisibility}  selection vs background`);
+    }
+    if (!pass) {
+      failures.push({ name: 'selection vs background', type: 'CONTRAST', detail: `DEz ${dez.toFixed(1)} < ${UI_VISIBILITY.selectionVisibility}` });
     }
   }
 

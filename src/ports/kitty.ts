@@ -5,6 +5,7 @@
  */
 
 import type { SemanticTokens } from '../tokens/types';
+import { selectionSurface } from './shared';
 
 export function createKittyTheme(t: SemanticTokens): string {
   const term = t.terminal;
@@ -16,7 +17,7 @@ background ${t.ui.background.hex}
 cursor     ${t.ui.cursor.hex}
 cursor_text_color ${t.ui.background.hex}
 selection_foreground ${t.ui.foreground.hex}
-selection_background ${t.ui.selection.hex}
+selection_background ${selectionSurface(t)}
 url_color ${t.ui.link.hex}
 
 # Window borders

@@ -21,7 +21,8 @@ export function createSublimeTheme(t: SemanticTokens, name: string): object {
   const st = t.status;
   const git = t.git;
 
-  const selBg = withOpacity(ui.selection.hex, '40');
+  // Sublime supports alpha — use the actual VS Code wash recipe.
+  const selBg = withOpacity(t.decorative.cursorLineFrost, '40');
 
   const rules: Rule[] = [
     // Comments
@@ -112,7 +113,7 @@ export function createSublimeTheme(t: SemanticTokens, name: string): object {
       selection_foreground: ui.foreground.hex,
       selection_border: withOpacity(ui.accentPrimary.hex, '40'),
       selection_border_width: '1',
-      inactive_selection: withOpacity(ui.selection.hex, '25'),
+      inactive_selection: withOpacity(t.decorative.cursorLineFrost, '25'),
       inactive_selection_foreground: ui.foregroundMuted.hex,
       selection_corner_style: 'round',
 

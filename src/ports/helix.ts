@@ -5,6 +5,7 @@
  */
 
 import { withOpacity, type SemanticTokens } from '../tokens';
+import { selectionSurface } from './shared';
 
 type Style = string | { fg?: string; bg?: string; modifiers?: string[]; underline?: { color: string; style: string } };
 
@@ -24,7 +25,8 @@ export function createHelixTheme(t: SemanticTokens): string {
   const st = t.status;
   const git = t.git;
 
-  const selBg = withOpacity(ui.selection.hex, '40');
+  // Helix runs in terminals — no alpha; use the composited surface.
+  const selBg = selectionSurface(t);
   const houseBg = ui.backgroundHouse.hex;
   const floatBg = ui.backgroundFloat.hex;
   const voidBg = ui.backgroundVoid.hex;

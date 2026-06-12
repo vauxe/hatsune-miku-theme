@@ -5,6 +5,7 @@
  */
 
 import type { SemanticTokens } from '../tokens/types';
+import { selectionSurface } from './shared';
 
 function strip(hex: string): string {
   return hex.replace('#', '').toLowerCase();
@@ -20,7 +21,7 @@ foreground=${strip(t.ui.foreground.hex)}
 background=${strip(t.ui.background.hex)}
 
 selection-foreground=${strip(t.ui.foreground.hex)}
-selection-background=${strip(t.ui.selection.hex)}
+selection-background=${strip(selectionSurface(t))}
 
 cursor=${strip(t.ui.background.hex)} ${strip(t.ui.cursor.hex)}
 urls=${strip(t.ui.link.hex)}

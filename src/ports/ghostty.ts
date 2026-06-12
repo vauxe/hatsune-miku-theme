@@ -5,6 +5,7 @@
  */
 
 import type { SemanticTokens } from '../tokens/types';
+import { selectionSurface } from './shared';
 
 export function createGhosttyTheme(t: SemanticTokens): string {
   const term = t.terminal;
@@ -23,7 +24,7 @@ background = ${t.ui.background.hex}
 foreground = ${t.ui.foreground.hex}
 cursor-color = ${t.ui.cursor.hex}
 cursor-text = ${t.ui.background.hex}
-selection-background = ${t.ui.selection.hex}
+selection-background = ${selectionSurface(t)}
 selection-foreground = ${t.ui.foreground.hex}
 
 search-foreground = ${t.ui.background.hex}

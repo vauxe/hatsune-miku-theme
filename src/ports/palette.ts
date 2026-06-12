@@ -6,6 +6,7 @@
  */
 
 import type { SemanticTokens, SemanticRole } from '../tokens/types';
+import { selectionSurface } from './shared';
 
 function hexMap(obj: Record<string, SemanticRole>): Record<string, string> {
   return Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, v.hex]));
@@ -19,7 +20,7 @@ export function createPalette(t: SemanticTokens) {
       foreground: t.ui.foreground.hex,
       background: t.ui.background.hex,
       cursor: t.ui.cursor.hex,
-      selection: t.ui.selection.hex,
+      selection: selectionSurface(t),
       accentPrimary: t.ui.accentPrimary.hex,
     },
     status: hexMap(t.status as unknown as Record<string, SemanticRole>),

@@ -8,7 +8,7 @@ return {
   cursor_bg = "#FF8CD9",
   cursor_border = "#FF8CD9",
   selection_fg = "#DEE8F2",
-  selection_bg = "#39C5BB",
+  selection_bg = "#344C5A",
   scrollbar_thumb = "#89A0A1",
   split = "#39C5BB",
 
@@ -18,7 +18,7 @@ return {
   copy_mode_active_highlight_fg = "#1A1F24",
   copy_mode_active_highlight_bg = "#95DFDB",
   copy_mode_inactive_highlight_fg = "#DEE8F2",
-  copy_mode_inactive_highlight_bg = "#39C5BB",
+  copy_mode_inactive_highlight_bg = "#344C5A",
 
   quick_select_label_fg = "#1A1F24",
   quick_select_label_bg = "#39C5BB",

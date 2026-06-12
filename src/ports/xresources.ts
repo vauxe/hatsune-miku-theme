@@ -5,6 +5,7 @@
  */
 
 import type { SemanticTokens } from '../tokens/types';
+import { selectionSurface } from './shared';
 
 export function createXresourcesTheme(t: SemanticTokens): string {
   const term = t.terminal;
@@ -22,7 +23,7 @@ export function createXresourcesTheme(t: SemanticTokens): string {
 *background: ${t.ui.background.hex}
 *foreground: ${t.ui.foreground.hex}
 *cursorColor: ${t.ui.cursor.hex}
-*highlightColor: ${t.ui.selection.hex}
+*highlightColor: ${selectionSurface(t)}
 *highlightTextColor: ${t.ui.foreground.hex}
 
 ! Bold / Underline / Italic

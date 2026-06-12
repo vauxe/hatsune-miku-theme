@@ -264,11 +264,11 @@
 		<key>Color Space</key>
 		<string>sRGB</string>
 		<key>Red Component</key>
-		<real>0.33725490196078434</real>
+		<real>0.7764705882352941</real>
 		<key>Green Component</key>
-		<real>0.5333333333333333</real>
+		<real>0.8549019607843137</real>
 		<key>Blue Component</key>
-		<real>0.6274509803921569</real>
+		<real>0.8509803921568627</real>
 	</dict>
 	<key>Selected Text Color</key>
 	<dict>

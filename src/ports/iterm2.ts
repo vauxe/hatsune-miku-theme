@@ -5,6 +5,7 @@
  */
 
 import type { SemanticTokens, SemanticRole } from '../tokens/types';
+import { selectionSurface } from './shared';
 
 function hexToComponents(hex: string): { r: number; g: number; b: number } {
   const h = hex.replace('#', '');
@@ -73,7 +74,7 @@ ${colorEntry('Cursor Color', t.ui.cursor.hex)}
 ${colorEntry('Cursor Text Color', t.ui.background.hex)}
 ${colorEntryWithAlpha('Cursor Guide Color', t.decorative.cursorLineFrost, 0.25)}
 ${colorEntry('Link Color', t.ui.link.hex)}
-${colorEntry('Selection Color', t.ui.selection.hex)}
+${colorEntry('Selection Color', selectionSurface(t))}
 ${colorEntry('Selected Text Color', t.ui.foreground.hex)}
 ${colorEntryWithAlpha('Badge Color', t.ui.accentPrimary.hex, 0.5)}
 ${colorEntry('Tab Color', t.ui.backgroundHouse.hex)}

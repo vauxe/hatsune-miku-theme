@@ -5,6 +5,7 @@
  */
 
 import type { SemanticTokens } from '../tokens/types';
+import { selectionSurface } from './shared';
 
 export function createWindowsTerminalTheme(t: SemanticTokens, name: string): object {
   const term = t.terminal;
@@ -13,7 +14,7 @@ export function createWindowsTerminalTheme(t: SemanticTokens, name: string): obj
     foreground: t.ui.foreground.hex,
     background: t.ui.background.hex,
     cursorColor: t.ui.cursor.hex,
-    selectionBackground: t.ui.selection.hex,
+    selectionBackground: selectionSurface(t),
     tabColor: t.ui.backgroundHouse.hex,
     black: term.black.hex,
     red: term.red.hex,

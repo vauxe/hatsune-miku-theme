@@ -125,8 +125,8 @@
 "ui.gutter.selected" = { bg = "#D5EAF4" }
 "ui.cursorline.primary" = { bg = "#D5EAF4" }
 "ui.cursorline.secondary" = { bg = "#D5EAF4CC" }
-"ui.selection" = { bg = "#5688A040" }
-"ui.selection.primary" = { bg = "#5688A040" }
+"ui.selection" = { bg = "#C6DAD9" }
+"ui.selection.primary" = { bg = "#C6DAD9" }
 "ui.highlight" = { bg = "#4E9CA125" }
 "ui.statusline" = { fg = "#753826", bg = "#D5EAF4" }
 "ui.statusline.inactive" = { fg = "#646A6D", bg = "#D5EAF4" }
@@ -140,7 +140,7 @@
 "ui.popup" = { fg = "#753826", bg = "#C7E1EE" }
 "ui.popup.info" = { fg = "#753826", bg = "#C7E1EE" }
 "ui.menu" = { fg = "#753826", bg = "#C7E1EE" }
-"ui.menu.selected" = { fg = "#753826", bg = "#5688A040" }
+"ui.menu.selected" = { fg = "#753826", bg = "#C6DAD9" }
 "ui.menu.scroll" = { fg = "#4E9CA1" }
 "ui.help" = { fg = "#753826", bg = "#C7E1EE" }
 "ui.picker" = { fg = "#753826", bg = "#C7E1EE" }

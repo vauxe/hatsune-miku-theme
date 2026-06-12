@@ -5,6 +5,7 @@
  */
 
 import type { SemanticTokens } from '../tokens/types';
+import { selectionSurface } from './shared';
 
 export function createWezTermTheme(t: SemanticTokens): string {
   const term = t.terminal;
@@ -18,7 +19,7 @@ return {
   cursor_bg = "${t.ui.cursor.hex}",
   cursor_border = "${t.ui.cursor.hex}",
   selection_fg = "${t.ui.foreground.hex}",
-  selection_bg = "${t.ui.selection.hex}",
+  selection_bg = "${selectionSurface(t)}",
   scrollbar_thumb = "${t.ui.foregroundSubtle.hex}",
   split = "${t.ui.border.hex}",
 
@@ -28,7 +29,7 @@ return {
   copy_mode_active_highlight_fg = "${t.ui.background.hex}",
   copy_mode_active_highlight_bg = "${t.ui.accentSecondary.hex}",
   copy_mode_inactive_highlight_fg = "${t.ui.foreground.hex}",
-  copy_mode_inactive_highlight_bg = "${t.ui.selection.hex}",
+  copy_mode_inactive_highlight_bg = "${selectionSurface(t)}",
 
   quick_select_label_fg = "${t.ui.background.hex}",
   quick_select_label_bg = "${t.ui.accentPrimary.hex}",
