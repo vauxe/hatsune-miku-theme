@@ -15,10 +15,12 @@
  */
 
 // Semantic token system - all colors flow through design tokens
-import { withOpacity, lighten, darken, roleFromHex, opacity as op, selectionAlpha, special, type SemanticTokens } from '../tokens';
+import { withOpacity, lighten, opacity as op, selectionAlpha, special, type SemanticTokens } from '../tokens';
+import { createWorkbenchAdapter } from './adapter';
 
 export function createWorkbenchColors(t: SemanticTokens, polarity: 'dark' | 'light' = 'dark'): Record<string, string> {
-const isLight = polarity === 'light';
+// Every dark/light divergence lives in the adapter — one dispatch, no branches here
+const A = createWorkbenchAdapter(t, polarity);
 // ============================================================================
 // DESIGN SYSTEM CONSTANTS
 // ============================================================================
@@ -50,10 +52,10 @@ const text = {
 const accent = {
   primary: t.ui.accentPrimary.hex,
   secondary: t.ui.accentSecondary.hex,  // dark: brighter teal fg; light: darker teal fg
-  muted: isLight ? t.ui.tertiary.hex : t.ui.accentTertiary.hex,  // dark: pale teal hint; light: warm tertiary hint
+  muted: A.accentMuted,
   link: t.ui.linkActive.hex,           // vibrant teal link color (Lc 78)
   cursor: t.ui.cursor.hex,            // lightened cushion — Lc≥60 for caret visibility
-  focus: isLight ? t.ui.cursor.hex : t.ui.activeBorder.hex, // attention/focus signal — necktie pink (light) / cushion (dark)
+  focus: A.accentFocus,
 };
 
 // Semantic colors (APCA Lc 80+ for readability) - marathon coding optimized
@@ -75,7 +77,7 @@ const bracket = {
 };
 
 // ============================================================================
-// POLARITY CONSTANTS — isLight decisions centralized (one-offs remain in body)
+// POLARITY CONSTANTS — per-variant values come from the adapter (A.*)
 // ============================================================================
 
 // Alpha — opacity per polarity (base color stays the same, opacity shifts)
@@ -128,75 +130,52 @@ const alphaTerminal = {
 
 // Chrome — structural surface backgrounds per polarity
 const chrome = {
-  activityBar:    isLight ? t.decorative.topMain : bg.house,
-  sidebar:        isLight ? t.decorative.armWarmersBase : bg.house,
-  sectionHeader:  isLight ? t.decorative.topMain : bg.house,
-  statusBar:      isLight ? t.decorative.topMain : bg.house,
-  tabHeader:      isLight ? t.decorative.armWarmersBase : bg.house,
-  panel:          bg.base,  // Stage tier (content surface, same as terminal/editor)
+  ...A.chrome,
+  panel: bg.base,  // Stage tier (content surface, same as terminal/editor)
 };
 
 // Badge — repeated across activity bar, panel, extension, profile
-const badge = {
-  bg: isLight ? t.ui.cursor.hex : t.decorative.sekaiHair,
-  fg: isLight ? t.decorative.blouseWhite : t.decorative.darkForeground,
-};
+const badge = A.badge;
 
 // Tint — polarity-dependent overlay hues (the base color itself changes)
 const tint = {
-  border: isLight ? t.decorative.tieShadow : accent.primary,  // cool blue ~235° (light) vs teal ~180° (dark)
+  border: A.tintBorder,
   hover:  accent.primary,   // engagement voice: cyan (~210°) for all hover tints
-  toast:  isLight ? withOpacity(t.decorative.skinBlush, op.medium) : withOpacity(t.decorative.skinBase, op.medium),
+  toast:  A.tintToast,
 };
 
 // Foreground demotions — polarity shifts which text tier is used
 const polarFg = {
-  surface:     isLight ? text.primary : text.secondary,     // chrome panels + list inactive selections
+  surface:     A.surfaceFg,       // chrome panels + list inactive selections
   description: text.secondary,    // widget status, peek descriptions
-  debugLabel:  isLight ? t.decorative.blouseWhite : text.primary,
-  scmLabel:    isLight ? t.decorative.blouseWhite : t.decorative.darkForeground,
+  debugLabel:  A.debugLabelFg,
+  scmLabel:    A.scmLabelFg,
 };
 
 // Icon swaps — polarity-dependent symbol/icon colors
 const polarIcon = {
-  symbolicLink:  isLight ? t.syntax.class.hex : t.symbol.enum.hex,
-  multiCursor:   isLight ? accent.focus : t.decorative.multiCursorSecondary,
-  preRelease:    isLight ? t.syntax.type.hex : t.decorative.commitIcon,
-  commentGlyph:  isLight ? semantic.info : t.decorative.commentGlyph,
-  notifyInfo:    isLight ? semantic.info : accent.primary,
-  starIcon:      t.decorative.starIcon,
-  symbolClass:   isLight ? t.syntax.class.hex : t.symbol.class.hex,
+  ...A.icon,
+  starIcon: t.decorative.starIcon,
 };
 
 // Polarity one-offs — single-use surface/state swaps (no shared role)
 const polarMisc = {
   suggestSelectedBg: withOpacity(t.decorative.cursorLineFrost, op.light),
-  inputBg:              isLight ? bg.base : bg.float,
-  actionBarToggled:     isLight ? withOpacity(accent.primary, op.medium) : t.interactive.toggle.background.selected,
-  testingErrored:       isLight ? t.syntax.type.hex : darken(t.status.info, 0.055),
-  breakpointUnverified: isLight ? withOpacity(semantic.error, op.heavy) : darken(t.status.error, 0.03),
-  exceptionLabelBg:     isLight ? t.status.error.hex : darken(t.status.error, 0.19),
-  stateLabelBg:         isLight ? t.status.success.hex : darken(t.status.success, 0.14),
+  inputBg:              A.inputBg,
+  actionBarToggled:     A.actionBarToggled,
+  testingErrored:       A.testingErrored,
+  breakpointUnverified: A.breakpointUnverified,
+  exceptionLabelBg:     A.exceptionLabelBg,
+  stateLabelBg:         A.stateLabelBg,
 };
 
-// StatusItem — status bar item colors per polarity
+// StatusItem — status bar item colors per polarity (fg constants shared)
 const statusItem = {
-  debugBg:          isLight ? lighten(roleFromHex('', t.decorative.eyeIris), 0.09) : darken(roleFromHex('', accent.focus), 0.03),
-  debugFg:          isLight ? text.primary : t.decorative.blouseWhite,
-  errorBg:          darken(t.status.error, isLight ? 0.03 : 0.10),
-  errorHoverBg:     darken(t.status.error, isLight ? 0.01 : 0.08),
-  remoteBg:         isLight ? t.ui.buttonBackground.hex : lighten(roleFromHex('', accent.primary), 0.02),
-  remoteFg:         isLight ? t.decorative.blouseWhite : t.decorative.darkForeground,
-  remoteHoverBg:    isLight ? darken(roleFromHex('', t.ui.buttonBackground.hex), 0.02) : accent.secondary,
-  remoteHoverFg:    isLight ? t.decorative.blouseWhite : t.decorative.darkForeground,
-  errorFg:          t.decorative.blouseWhite,
-  warningBg:        darken(t.status.warning, isLight ? 0.00 : 0.10),
-  warningFg:        t.decorative.blouseWhite,
-  warningHoverBg:   isLight ? lighten(t.status.warning, 0.02) : darken(t.status.warning, 0.08),
-  offlineBg:        isLight ? t.ui.buttonBackground.hex : withOpacity(text.tertiary, op.dense),
-  offlineFg:        t.decorative.blouseWhite,
-  offlineHoverBg:   isLight ? darken(t.ui.buttonBackground, 0.01) : withOpacity(text.tertiary, op.dense),
-  offlineHoverFg:   t.decorative.blouseWhite,
+  ...A.statusItem,
+  errorFg:        t.decorative.blouseWhite,
+  warningFg:      t.decorative.blouseWhite,
+  offlineFg:      t.decorative.blouseWhite,
+  offlineHoverFg: t.decorative.blouseWhite,
 };
 
 return {
@@ -237,7 +216,7 @@ return {
   // Find & Replace
   // Balance: visible enough for ΔE≥12, low enough for syntax contrast
   // Light: use lighter gingerbread overlay (not status warning) to preserve cool-token contrast
-  'editor.findMatchBackground': withOpacity(isLight ? t.decorative.findMatchOverlay : semantic.warning, alphaEditor.findMatchBg),
+  'editor.findMatchBackground': withOpacity(A.findMatchPigment, alphaEditor.findMatchBg),
   'editor.findMatchForeground': text.primary,
   'editor.findMatchBorder': withOpacity(semantic.warning, op.solid),
   'editor.findMatchHighlightBackground': withOpacity(accent.secondary, alphaEditor.findHighlightBg),
@@ -246,7 +225,7 @@ return {
   'editor.findRangeHighlightBorder': withOpacity(accent.primary, op.medium),
   'search.resultsInfoForeground': text.secondary,
   // Darken slightly for comment readability in Search Editor
-  'searchEditor.findMatchBackground': withOpacity(isLight ? t.decorative.findMatchOverlay : semantic.warning, op.medium),
+  'searchEditor.findMatchBackground': withOpacity(A.findMatchPigment, op.medium),
   'searchEditor.findMatchBorder': withOpacity(semantic.warning, op.heavy),
   'searchEditor.textInputBorder': withOpacity(accent.primary, op.strong),
 
@@ -743,7 +722,7 @@ return {
   'terminal.selectionBackground': withOpacity(t.decorative.cursorLineFrost, alphaTerminal.terminalSelectionBg),
   'terminal.selectionForeground': text.primary,
   'terminal.inactiveSelectionBackground': withOpacity(t.decorative.cursorLineFrost, op.medium),
-  'terminal.findMatchBackground': withOpacity(isLight ? t.decorative.findMatchOverlay : semantic.warning, alphaTerminal.terminalFindMatchBg),
+  'terminal.findMatchBackground': withOpacity(A.findMatchPigment, alphaTerminal.terminalFindMatchBg),
   'terminal.findMatchBorder': withOpacity(semantic.warning, op.solid),
   'terminal.findMatchHighlightBackground': withOpacity(accent.secondary, op.medium),
   'terminal.findMatchHighlightBorder': withOpacity(accent.secondary, op.heavy),
