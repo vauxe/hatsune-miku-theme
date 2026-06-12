@@ -30,13 +30,14 @@
     "theme": "dark"
   },
   "scripts": {
-    "build": "tsc && node dist/generator.js",
-    "build:vscode": "tsc && node dist/generator.js vscode",
-    "build:ports": "tsc && node dist/generator.js ports",
+    "build": "tsc && tsx src/generator.ts",
+    "build:vscode": "tsc && tsx src/generator.ts vscode",
+    "build:ports": "tsc && tsx src/generator.ts ports",
     "prepublishOnly": "npm run build",
     "readability:dark": "tsx src/tools/readability.ts --theme themes/hatsune-miku-theme-color-theme.json",
     "readability:light": "tsx src/tools/readability.ts --theme themes/hatsune-miku-snow-color-theme.json",
-    "readability:ports": "tsx src/tools/readability-ports.ts"
+    "readability:ports": "tsx src/tools/readability-ports.ts",
+    "vscode:prepublish": "npm run build"
   },
   "devDependencies": {
     "@types/node": "^25.0.9",
