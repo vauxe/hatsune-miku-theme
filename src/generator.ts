@@ -2,7 +2,7 @@
  * Hatsune Miku Theme - Generator
  *
  * Compiles TypeScript source into VS Code theme JSON and
- * portable ports (terminals, editors, palette).
+ * portable ports (Web, terminals, editors, palette).
  */
 
 import * as fs from 'fs';
@@ -26,6 +26,12 @@ import { createNeovimTheme } from './ports/neovim';
 import { createHelixTheme } from './ports/helix';
 import { createZedTheme } from './ports/zed';
 import { createSublimeTheme } from './ports/sublime';
+import { createWebPreview } from './ports/web-preview';
+import {
+  WEB_THEME_ARTIFACTS,
+  createWebCss,
+  createWebTokenDocument,
+} from './ports/web';
 
 // =============================================================================
 // VARIANT DEFINITIONS
@@ -69,6 +75,12 @@ const ports: Port[] = [
     dir: 'palette',
     filename: (s) => `hatsune-miku${s}.json`,
     generate: (t) => JSON.stringify(createPalette(t), null, 2),
+  },
+  // Web design tokens (DTCG 2025.10)
+  {
+    dir: 'web',
+    filename: (s) => `${WEB_THEME_ARTIFACTS.basename}${s}.tokens.json`,
+    generate: (t, v) => `${JSON.stringify(createWebTokenDocument(t, v.type), null, 2)}\n`,
   },
   // Terminal emulators
   {
@@ -197,4 +209,15 @@ for (const variant of variants) {
     }
     console.log(`Ports: ${variant.name} (${ports.length} files)`);
   }
+}
+
+if (!mode || mode === 'ports') {
+  const webDir = path.join(portsDir, 'web');
+  fs.mkdirSync(webDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(webDir, WEB_THEME_ARTIFACTS.css),
+    createWebCss(generateVariantTokens('dark'), generateVariantTokens('light')),
+  );
+  fs.writeFileSync(path.join(webDir, 'preview.html'), createWebPreview());
+  console.log('Web: CSS custom properties + DTCG tokens + preview');
 }

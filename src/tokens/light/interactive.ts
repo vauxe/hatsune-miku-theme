@@ -144,7 +144,7 @@ export function createInteractiveTokens(
     },
 
     // =========================================================================
-    // METAL (secondary) -- solid teal fills (hair gradient registers)
+    // METAL (secondary) -- solid hair-gradient fills; quiet when disabled
     // =========================================================================
     buttonSecondary: {
       background: {
@@ -152,7 +152,7 @@ export function createInteractiveTokens(
         hover: char.hair.highlight,
         active: char.hair.base,
         focus: char.hair.bright,
-        disabled: char.hair.tip,
+        disabled: borderQuiet,
         selected: char.hair.highlight,
       },
       foreground: {

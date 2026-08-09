@@ -2,6 +2,8 @@
 
 ## [3.9.39] - 2026-03-19
 
+- Web port with semantic CSS, DTCG 2025.10 tokens, system or scoped themes, and a live preview
+- Surface-aware text, opaque action pairs, a stable `--hm-*` interface, and WCAG 2.2 gates
 - Multi-editor support: Neovim, Helix, Zed, Sublime Text
 - Terminal themes: Alacritty, kitty, WezTerm, Ghostty, foot, iTerm2, Windows Terminal, Konsole, Warp, Xresources
 - Portable palette JSON for external consumers

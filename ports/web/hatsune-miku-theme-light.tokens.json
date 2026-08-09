@@ -1,0 +1,1144 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "color": {
+    "$type": "color",
+    "surface": {
+      "page": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.996078431372549,
+            0.9803921568627451,
+            0.9411764705882353
+          ],
+          "hex": "#FEFAF0"
+        },
+        "$description": "Page background outside primary content."
+      },
+      "content": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9607843137254902,
+            0.9411764705882353,
+            0.8862745098039215
+          ],
+          "hex": "#F5F0E2"
+        },
+        "$description": "Primary content surface."
+      },
+      "chrome": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8352941176470589,
+            0.9176470588235294,
+            0.9568627450980393
+          ],
+          "hex": "#D5EAF4"
+        },
+        "$description": "Navigation and structural chrome surface."
+      },
+      "overlay": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7803921568627451,
+            0.8823529411764706,
+            0.9333333333333333
+          ],
+          "hex": "#C7E1EE"
+        },
+        "$description": "Floating menus, popovers, and elevated surfaces."
+      }
+    },
+    "text": {
+      "primary": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4588235294117647,
+            0.2196078431372549,
+            0.14901960784313725
+          ],
+          "hex": "#753826"
+        },
+        "$description": "Primary body and control text."
+      },
+      "secondary": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.39215686274509803,
+            0.41568627450980394,
+            0.42745098039215684
+          ],
+          "hex": "#646A6D"
+        },
+        "$description": "Secondary descriptions and labels on page and content surfaces."
+      },
+      "subtle": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.39215686274509803,
+            0.41568627450980394,
+            0.42745098039215684
+          ],
+          "hex": "#646A6D"
+        },
+        "$description": "Lowest-emphasis text that remains readable on the content surface."
+      },
+      "disabled": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5882352941176471,
+            0.5607843137254902,
+            0.5568627450980392
+          ],
+          "hex": "#968F8E"
+        },
+        "$description": "Text for disabled controls."
+      },
+      "placeholder": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.39215686274509803,
+            0.41568627450980394,
+            0.42745098039215684
+          ],
+          "hex": "#646A6D"
+        },
+        "$description": "Placeholder text in form fields."
+      },
+      "onChrome": {
+        "secondary": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4588235294117647,
+              0.2196078431372549,
+              0.14901960784313725
+            ],
+            "hex": "#753826"
+          },
+          "$description": "Secondary descriptions and labels on navigation and structural chrome."
+        }
+      },
+      "onOverlay": {
+        "secondary": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4588235294117647,
+              0.2196078431372549,
+              0.14901960784313725
+            ],
+            "hex": "#753826"
+          },
+          "$description": "Secondary descriptions and labels on floating and elevated surfaces."
+        }
+      }
+    },
+    "syntax": {
+      "keyword": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.4470588235294118,
+            0.5176470588235295
+          ],
+          "hex": "#007284"
+        },
+        "$description": "Tonic cyan 210° — her hair on every line, the first color you see"
+      },
+      "keywordControl": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.4470588235294118,
+            0.5176470588235295
+          ],
+          "hex": "#007284"
+        },
+        "$description": "Tonic cyan 210° — directing flow: if, for, while, return"
+      },
+      "keywordAlt": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.4470588235294118,
+            0.5176470588235295
+          ],
+          "hex": "#007284"
+        },
+        "$description": "Tonic cyan 210° — secondary keywords, same voice"
+      },
+      "storage": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.4470588235294118,
+            0.5176470588235295
+          ],
+          "hex": "#007284"
+        },
+        "$description": "Tonic cyan 210° — declarations share the tonic"
+      },
+      "storageModifier": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.4470588235294118,
+            0.5176470588235295
+          ],
+          "hex": "#007284"
+        },
+        "$description": "Tonic cyan 210° — modifiers share the tonic"
+      },
+      "variable": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.34509803921568627,
+            0.28627450980392155,
+            0.796078431372549
+          ],
+          "hex": "#5849CB"
+        },
+        "$description": "Blue 270° — display case glass, data in motion"
+      },
+      "parameter": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6666666666666666,
+            0.25882352941176473,
+            0
+          ],
+          "hex": "#AA4200"
+        },
+        "$description": "Orange 60° — baked peach, warmth entering from outside"
+      },
+      "property": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6666666666666666,
+            0.25882352941176473,
+            0
+          ],
+          "hex": "#AA4200"
+        },
+        "$description": "Orange 60° — the world reaching in with warm hands"
+      },
+      "function": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5372549019607843,
+            0.403921568627451,
+            0
+          ],
+          "hex": "#896700"
+        },
+        "$description": "Gold 90° — butter croissant, warm action from the oven"
+      },
+      "method": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5372549019607843,
+            0.403921568627451,
+            0
+          ],
+          "hex": "#896700"
+        },
+        "$description": "Gold 90° — callable warmth, same voice as function"
+      },
+      "tag": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5372549019607843,
+            0.403921568627451,
+            0
+          ],
+          "hex": "#896700"
+        },
+        "$description": "Gold 90° — element invocation, structural"
+      },
+      "attribute": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6666666666666666,
+            0.25882352941176473,
+            0
+          ],
+          "hex": "#AA4200"
+        },
+        "$description": "Orange 60° — HTML attributes, element properties"
+      },
+      "class": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.20392156862745098,
+            0.4117647058823529,
+            0
+          ],
+          "hex": "#346900"
+        },
+        "$description": "Lime 120° — pistachio cream, organized garnish"
+      },
+      "struct": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.20392156862745098,
+            0.4117647058823529,
+            0
+          ],
+          "hex": "#346900"
+        },
+        "$description": "Lime 120° — same family as class, same organized energy"
+      },
+      "enum": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.20392156862745098,
+            0.4117647058823529,
+            0
+          ],
+          "hex": "#346900"
+        },
+        "$description": "Lime 120° — a defined set, same voice"
+      },
+      "interface": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.48627450980392156,
+            0.33725490196078434
+          ],
+          "hex": "#007C56"
+        },
+        "$description": "Canonical teal 180° — one breath from tonic (hair below sopranino: compound floor on findMatch)"
+      },
+      "string": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.4745098039215686,
+            0.10588235294117647
+          ],
+          "hex": "#00791B"
+        },
+        "$description": "Green 150° — mint leaf, someone's truth fresh from the garden"
+      },
+      "stringTemplate": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.4745098039215686,
+            0.10588235294117647
+          ],
+          "hex": "#00791B"
+        },
+        "$description": "Green 150° — structured expression, same cool voice"
+      },
+      "regex": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.4745098039215686,
+            0.10588235294117647
+          ],
+          "hex": "#00791B"
+        },
+        "$description": "Green 150° — a pattern demands attention"
+      },
+      "constant": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.34509803921568627,
+            0.6392156862745098
+          ],
+          "hex": "#0058A3"
+        },
+        "$description": "Azure 240° — shopfront blue, named and immutable"
+      },
+      "number": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.34509803921568627,
+            0.6392156862745098
+          ],
+          "hex": "#0058A3"
+        },
+        "$description": "Azure 240° — a literal value"
+      },
+      "boolean": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.34509803921568627,
+            0.6392156862745098
+          ],
+          "hex": "#0058A3"
+        },
+        "$description": "Azure 240° — truth at its simplest"
+      },
+      "enumMember": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.34509803921568627,
+            0.6392156862745098
+          ],
+          "hex": "#0058A3"
+        },
+        "$description": "Azure 240° — one possibility, chosen from the set"
+      },
+      "type": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5450980392156862,
+            0.07058823529411765,
+            0.7294117647058823
+          ],
+          "hex": "#8B12BA"
+        },
+        "$description": "Violet 300° — twilight through the shop window, the shape beneath"
+      },
+      "typeParameter": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4823529411764706,
+            0.3254901960784314,
+            0.5764705882352941
+          ],
+          "hex": "#7B5393"
+        },
+        "$description": "Violet 300° — a type waiting to become, muted for distinction from type"
+      },
+      "macro": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6627450980392157,
+            0,
+            0.5843137254901961
+          ],
+          "hex": "#A90095"
+        },
+        "$description": "Magenta 330° — raspberry macaron, code changing code"
+      },
+      "operator": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7215686274509804,
+            0,
+            0.403921568627451
+          ],
+          "hex": "#B80067"
+        },
+        "$description": "Rose 0° — strawberry glaze, connecting rhythm"
+      },
+      "comment": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.39215686274509803,
+            0.41568627450980394,
+            0.42745098039215684
+          ],
+          "hex": "#646A6D"
+        },
+        "$description": "Syntax comment foreground; uses the secondary text fallback to meet Web AA on the content surface."
+      },
+      "commentDoc": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.39215686274509803,
+            0.41568627450980394,
+            0.42745098039215684
+          ],
+          "hex": "#646A6D"
+        },
+        "$description": "Syntax comment doc foreground; uses the secondary text fallback to meet Web AA on the content surface."
+      },
+      "punctuation": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.39215686274509803,
+            0.41568627450980394,
+            0.42745098039215684
+          ],
+          "hex": "#646A6D"
+        },
+        "$description": "Syntax punctuation foreground; uses the secondary text fallback to meet Web AA on the content surface."
+      },
+      "variableLanguage": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.4470588235294118,
+            0.5176470588235295
+          ],
+          "hex": "#007284"
+        },
+        "$description": "Tonic cyan 210° — tonic like keywords, italic \"it's me\""
+      }
+    },
+    "accent": {
+      "primary": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3058823529411765,
+            0.611764705882353,
+            0.6313725490196078
+          ],
+          "hex": "#4E9CA1"
+        },
+        "$description": "Primary brand and engagement accent."
+      },
+      "secondary": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.44313725490196076,
+            0.4980392156862745
+          ],
+          "hex": "#00717F"
+        },
+        "$description": "Emphasized brand accent."
+      },
+      "tertiary": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.12941176470588237,
+            0.07450980392156863,
+            0.06666666666666667
+          ],
+          "hex": "#211311"
+        },
+        "$description": "Pressed or supporting accent."
+      }
+    },
+    "border": {
+      "default": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.43529411764705883,
+            0.5176470588235295,
+            0.5568627450980392
+          ],
+          "hex": "#6F848E"
+        },
+        "$description": "Default structural border."
+      },
+      "subtle": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6431372549019608,
+            0.6980392156862745,
+            0.7254901960784313
+          ],
+          "hex": "#A4B2B9"
+        },
+        "$description": "Quiet structural separator."
+      },
+      "focus": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7019607843137254,
+            0.32941176470588235,
+            0.396078431372549
+          ],
+          "hex": "#B35465"
+        },
+        "$description": "Keyboard focus indicator."
+      }
+    },
+    "focus": {
+      "ring": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7019607843137254,
+            0.32941176470588235,
+            0.396078431372549
+          ],
+          "hex": "#B35465"
+        },
+        "$description": "Keyboard focus ring on any theme surface."
+      }
+    },
+    "link": {
+      "default": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.4,
+            0.4745098039215686
+          ],
+          "hex": "#006679"
+        },
+        "$description": "Default link foreground."
+      },
+      "active": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.3607843137254902,
+            0.43529411764705883
+          ],
+          "hex": "#005C6F"
+        },
+        "$description": "Active or pressed link foreground."
+      }
+    },
+    "caret": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9607843137254902,
+          0.4196078431372549,
+          0.5254901960784314
+        ],
+        "hex": "#F56B86"
+      },
+      "$description": "Text insertion caret."
+    },
+    "selection": {
+      "background": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.23137254901960785,
+            0.592156862745098,
+            0.7529411764705882
+          ],
+          "hex": "#3B97C0",
+          "alpha": 0.25098039215686274
+        },
+        "$description": "Persistent text and item selection wash."
+      },
+      "foreground": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4588235294117647,
+            0.2196078431372549,
+            0.14901960784313725
+          ],
+          "hex": "#753826"
+        },
+        "$description": "Text shown over the selection wash."
+      }
+    },
+    "status": {
+      "success": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.4745098039215686,
+            0.32941176470588235
+          ],
+          "hex": "#007954"
+        },
+        "$description": "Successful or positive status foreground on the content surface."
+      },
+      "warning": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6901960784313725,
+            0.2980392156862745,
+            0
+          ],
+          "hex": "#B04C00"
+        },
+        "$description": "Warning or caution status foreground on the content surface."
+      },
+      "error": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.6392156862745098,
+            0,
+            0.0784313725490196
+          ],
+          "hex": "#A30014"
+        },
+        "$description": "Error or destructive status foreground on the content surface."
+      },
+      "info": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0,
+            0.44313725490196076,
+            0.4980392156862745
+          ],
+          "hex": "#00717F"
+        },
+        "$description": "Informational status foreground on the content surface."
+      }
+    },
+    "interaction": {
+      "background": {
+        "hover": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3058823529411765,
+              0.611764705882353,
+              0.6313725490196078
+            ],
+            "hex": "#4E9CA1",
+            "alpha": 0.25098039215686274
+          },
+          "$description": "Transient hover wash."
+        },
+        "active": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3058823529411765,
+              0.611764705882353,
+              0.6313725490196078
+            ],
+            "hex": "#4E9CA1",
+            "alpha": 0.3764705882352941
+          },
+          "$description": "Pressed interaction wash."
+        },
+        "selected": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.33725490196078434,
+              0.5333333333333333,
+              0.6274509803921569
+            ],
+            "hex": "#5688A0",
+            "alpha": 0.25098039215686274
+          },
+          "$description": "Persistent selected-item wash."
+        }
+      },
+      "foreground": {
+        "disabled": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5882352941176471,
+              0.5607843137254902,
+              0.5568627450980392
+            ],
+            "hex": "#968F8E"
+          },
+          "$description": "Disabled interactive foreground."
+        }
+      },
+      "border": {
+        "focus": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7019607843137254,
+              0.32941176470588235,
+              0.396078431372549
+            ],
+            "hex": "#B35465"
+          },
+          "$description": "Focused interactive border."
+        }
+      }
+    },
+    "action": {
+      "primary": {
+        "background": {
+          "default": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.9098039215686274,
+                0.5176470588235295,
+                0.5764705882352941
+              ],
+              "hex": "#E88493"
+            },
+            "$description": "Surface-independent default action background."
+          },
+          "hover": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.8392156862745098,
+                0.4392156862745098,
+                0.5058823529411764
+              ],
+              "hex": "#D67081"
+            },
+            "$description": "Surface-independent hovered action background."
+          },
+          "active": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.8,
+                0.3803921568627451,
+                0.4549019607843137
+              ],
+              "hex": "#CC6174"
+            },
+            "$description": "Surface-independent pressed action background."
+          },
+          "disabled": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.6431372549019608,
+                0.6980392156862745,
+                0.7254901960784313
+              ],
+              "hex": "#A4B2B9"
+            },
+            "$description": "Surface-independent disabled action background."
+          }
+        },
+        "foreground": {
+          "default": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.12941176470588237,
+                0.07450980392156863,
+                0.06666666666666667
+              ],
+              "hex": "#211311"
+            },
+            "$description": "Default action text."
+          },
+          "hover": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.12941176470588237,
+                0.07450980392156863,
+                0.06666666666666667
+              ],
+              "hex": "#211311"
+            },
+            "$description": "Hovered action text."
+          },
+          "active": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.12941176470588237,
+                0.07450980392156863,
+                0.06666666666666667
+              ],
+              "hex": "#211311"
+            },
+            "$description": "Pressed action text."
+          },
+          "disabled": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.39215686274509803,
+                0.41568627450980394,
+                0.42745098039215684
+              ],
+              "hex": "#646A6D"
+            },
+            "$description": "Disabled action text."
+          }
+        },
+        "border": {
+          "default": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.43529411764705883,
+                0.5176470588235295,
+                0.5568627450980392
+              ],
+              "hex": "#6F848E"
+            },
+            "$description": "Default action boundary."
+          },
+          "focus": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.7019607843137254,
+                0.32941176470588235,
+                0.396078431372549
+              ],
+              "hex": "#B35465"
+            },
+            "$description": "Focused action border."
+          }
+        }
+      },
+      "secondary": {
+        "background": {
+          "default": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.611764705882353,
+                0.8313725490196079,
+                0.9568627450980393
+              ],
+              "hex": "#9CD4F4"
+            },
+            "$description": "Surface-independent default action background."
+          },
+          "hover": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.47058823529411764,
+                0.7764705882352941,
+                0.9411764705882353
+              ],
+              "hex": "#78C6F0"
+            },
+            "$description": "Surface-independent hovered action background."
+          },
+          "active": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.3058823529411765,
+                0.611764705882353,
+                0.6313725490196078
+              ],
+              "hex": "#4E9CA1"
+            },
+            "$description": "Surface-independent pressed action background."
+          },
+          "disabled": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.6431372549019608,
+                0.6980392156862745,
+                0.7254901960784313
+              ],
+              "hex": "#A4B2B9"
+            },
+            "$description": "Surface-independent disabled action background."
+          }
+        },
+        "foreground": {
+          "default": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.4588235294117647,
+                0.2196078431372549,
+                0.14901960784313725
+              ],
+              "hex": "#753826"
+            },
+            "$description": "Default action text."
+          },
+          "hover": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.4588235294117647,
+                0.2196078431372549,
+                0.14901960784313725
+              ],
+              "hex": "#753826"
+            },
+            "$description": "Hovered action text."
+          },
+          "active": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.12941176470588237,
+                0.07450980392156863,
+                0.06666666666666667
+              ],
+              "hex": "#211311"
+            },
+            "$description": "Pressed action text."
+          },
+          "disabled": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.5882352941176471,
+                0.5607843137254902,
+                0.5568627450980392
+              ],
+              "hex": "#968F8E"
+            },
+            "$description": "Disabled action text."
+          }
+        },
+        "border": {
+          "default": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.43529411764705883,
+                0.5176470588235295,
+                0.5568627450980392
+              ],
+              "hex": "#6F848E"
+            },
+            "$description": "Default action boundary."
+          },
+          "focus": {
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.7019607843137254,
+                0.32941176470588235,
+                0.396078431372549
+              ],
+              "hex": "#B35465"
+            },
+            "$description": "Focused action border."
+          }
+        }
+      }
+    },
+    "field": {
+      "background": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9607843137254902,
+            0.9411764705882353,
+            0.8862745098039215
+          ],
+          "hex": "#F5F0E2"
+        },
+        "$description": "Form field surface."
+      },
+      "foreground": {
+        "default": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4588235294117647,
+              0.2196078431372549,
+              0.14901960784313725
+            ],
+            "hex": "#753826"
+          },
+          "$description": "Form field text."
+        },
+        "disabled": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5882352941176471,
+              0.5607843137254902,
+              0.5568627450980392
+            ],
+            "hex": "#968F8E"
+          },
+          "$description": "Disabled form field text."
+        }
+      },
+      "border": {
+        "default": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.43529411764705883,
+              0.5176470588235295,
+              0.5568627450980392
+            ],
+            "hex": "#6F848E"
+          },
+          "$description": "Default form field border."
+        },
+        "hover": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.43529411764705883,
+              0.5176470588235295,
+              0.5568627450980392
+            ],
+            "hex": "#6F848E"
+          },
+          "$description": "Hovered form field border."
+        },
+        "focus": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7019607843137254,
+              0.32941176470588235,
+              0.396078431372549
+            ],
+            "hex": "#B35465"
+          },
+          "$description": "Focused form field border."
+        },
+        "disabled": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6431372549019608,
+              0.6980392156862745,
+              0.7254901960784313
+            ],
+            "hex": "#A4B2B9"
+          },
+          "$description": "Disabled form field border."
+        }
+      }
+    }
+  }
+}

@@ -19,6 +19,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Test (Web contracts + WCAG 2.2 pairs)
+        run: npm test
+
       - name: Build (typecheck + regenerate all outputs)
         run: npm run build
 

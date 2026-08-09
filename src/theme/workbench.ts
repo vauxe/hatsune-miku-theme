@@ -1414,12 +1414,11 @@ return {
   'textBlockQuote.background': withOpacity(accent.primary, op.light),
   'textBlockQuote.border': withOpacity(accent.primary, op.strong),
   'textCodeBlock.background': withOpacity(bg.house, op.solid),
-  'textLink.activeForeground': accent.link,
-  'textLink.foreground': accent.secondary,
+  'textLink.activeForeground': t.ui.linkActive.hex,
+  'textLink.foreground': t.ui.link.hex,
   'textPreformat.foreground': accent.secondary,
   'textPreformat.background': withOpacity(bg.house, op.heavy),
   'textPreformat.border': withOpacity(accent.primary, op.medium),
   'textSeparator.foreground': withOpacity(accent.primary, op.strong),
 };
 }
-
