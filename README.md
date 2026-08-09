@@ -33,7 +33,7 @@ Portable ports are available in the repository source tree.
 
 ### Web
 
-Open [`ports/web/preview.html`](ports/web/preview.html) to inspect live token values in System, Light, and Dark modes. Run `npm run build:ports` after changing the source.
+Open the [live Web preview](https://vauxe.github.io/hatsune-miku-theme/ports/web/preview.html) to inspect token values in System, Light, and Dark modes. Run `npm run build:ports` after changing the source.
 
 Most sites only need `ports/web/hatsune-miku-theme.css`:
 
