@@ -26,20 +26,15 @@ return {
   compose_cursor = "${t.status.warning.hex}",
   visual_bell = "${t.status.warning.hex}",
 
-  copy_mode_active_highlight_fg = "${t.ui.background.hex}",
-  copy_mode_active_highlight_bg = "${t.ui.accentSecondary.hex}",
-  copy_mode_inactive_highlight_fg = "${t.ui.foreground.hex}",
-  copy_mode_inactive_highlight_bg = "${selectionSurface(t)}",
+  copy_mode_active_highlight_fg = { Color = "${t.ui.background.hex}" },
+  copy_mode_active_highlight_bg = { Color = "${t.ui.accentSecondary.hex}" },
+  copy_mode_inactive_highlight_fg = { Color = "${t.ui.foreground.hex}" },
+  copy_mode_inactive_highlight_bg = { Color = "${selectionSurface(t)}" },
 
-  quick_select_label_fg = "${t.ui.background.hex}",
-  quick_select_label_bg = "${t.ui.accentPrimary.hex}",
-  quick_select_match_fg = "${t.ui.background.hex}",
-  quick_select_match_bg = "${t.ui.accentSecondary.hex}",
-
-  input_selector_label_fg = "${t.ui.background.hex}",
-  input_selector_label_bg = "${t.ui.accentPrimary.hex}",
-  launcher_label_fg = "${t.ui.background.hex}",
-  launcher_label_bg = "${t.ui.accentPrimary.hex}",
+  quick_select_label_fg = { Color = "${t.ui.background.hex}" },
+  quick_select_label_bg = { Color = "${t.ui.accentPrimary.hex}" },
+  quick_select_match_fg = { Color = "${t.ui.background.hex}" },
+  quick_select_match_bg = { Color = "${t.ui.accentSecondary.hex}" },
 
   ansi = {
     "${term.black.hex}",

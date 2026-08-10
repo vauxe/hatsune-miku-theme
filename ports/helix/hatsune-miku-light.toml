@@ -124,10 +124,10 @@
 "ui.gutter" = { bg = "#F5F0E2" }
 "ui.gutter.selected" = { bg = "#D5EAF4" }
 "ui.cursorline.primary" = { bg = "#D5EAF4" }
-"ui.cursorline.secondary" = { bg = "#D5EAF4CC" }
+"ui.cursorline.secondary" = { bg = "#DBEBF0" }
 "ui.selection" = { bg = "#C6DAD9" }
 "ui.selection.primary" = { bg = "#C6DAD9" }
-"ui.highlight" = { bg = "#4E9CA125" }
+"ui.highlight" = { bg = "#DDE4D9" }
 "ui.statusline" = { fg = "#753826", bg = "#D5EAF4" }
 "ui.statusline.inactive" = { fg = "#646A6D", bg = "#D5EAF4" }
 "ui.statusline.normal" = { fg = "#F5F0E2", bg = "#4E9CA1", modifiers = ["bold"] }

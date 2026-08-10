@@ -1,10 +1,12 @@
 /**
  * Port Readability Review
  *
- * Validates APCA contrast for the core fg/bg pairs shared by all ports.
+ * Validates APCA contrast for the core fg/bg pairs shared by all ports and
+ * target-specific format contracts for generated ports.
  * The full readability tool validates VS Code-specific keys; this validates
- * the portable palette that terminal and editor ports consume. This is a
- * CI gate: reported failures set a non-zero exit code.
+ * the portable palette that terminal and editor ports consume. Format checks
+ * call the generators directly. This is a CI gate: reported failures set a
+ * non-zero exit code.
  *
  * Usage:
  *   npx tsx src/tools/readability-ports.ts [--verbose]
@@ -15,6 +17,7 @@ import type { SemanticTokens, SemanticRole } from '../tokens/types';
 import { getAPCAContrast, deltaEzHex, checkCVDDistinction } from './readability-color';
 import { APCA_THRESHOLDS, APCA_THRESHOLDS_LIGHT, CVD_DISTINCTION_THRESHOLD, UI_VISIBILITY } from './readability-constants';
 import { selectionSurface } from '../ports/shared';
+import { validatePortContracts } from './port-contracts';
 
 // =============================================================================
 // PAIR DEFINITIONS
@@ -89,7 +92,7 @@ function getThreshold(tier: 'primary' | 'secondary' | 'tertiary', polarity: Them
 
 interface Failure {
   name: string;
-  type: 'CONTRAST' | 'CVD';
+  type: 'CONTRAST' | 'CVD' | 'FORMAT';
   detail: string;
 }
 
@@ -159,6 +162,11 @@ function validateVariant(polarity: ThemeVariant, verbose: boolean): Failure[] {
     }
   }
 
+  for (const failure of validatePortContracts(tokens)) {
+    failures.push({ ...failure, type: 'FORMAT' });
+    console.log(`! FAIL  ${failure.name}: ${failure.detail}`);
+  }
+
   return failures;
 }
 
@@ -184,5 +192,5 @@ if (total > 0) {
   console.log('\nReview complete; inspect the failing pairs above.');
   process.exitCode = 1;
 } else {
-  console.log('\nAll port palette pairs pass.');
+  console.log('\nAll port palette pairs and registered format contracts pass.');
 }

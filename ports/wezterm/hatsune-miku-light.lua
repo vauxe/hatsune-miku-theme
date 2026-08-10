@@ -15,20 +15,15 @@ return {
   compose_cursor = "#B04C00",
   visual_bell = "#B04C00",
 
-  copy_mode_active_highlight_fg = "#F5F0E2",
-  copy_mode_active_highlight_bg = "#00717F",
-  copy_mode_inactive_highlight_fg = "#753826",
-  copy_mode_inactive_highlight_bg = "#C6DAD9",
+  copy_mode_active_highlight_fg = { Color = "#F5F0E2" },
+  copy_mode_active_highlight_bg = { Color = "#00717F" },
+  copy_mode_inactive_highlight_fg = { Color = "#753826" },
+  copy_mode_inactive_highlight_bg = { Color = "#C6DAD9" },
 
-  quick_select_label_fg = "#F5F0E2",
-  quick_select_label_bg = "#4E9CA1",
-  quick_select_match_fg = "#F5F0E2",
-  quick_select_match_bg = "#00717F",
-
-  input_selector_label_fg = "#F5F0E2",
-  input_selector_label_bg = "#4E9CA1",
-  launcher_label_fg = "#F5F0E2",
-  launcher_label_bg = "#4E9CA1",
+  quick_select_label_fg = { Color = "#F5F0E2" },
+  quick_select_label_bg = { Color = "#4E9CA1" },
+  quick_select_match_fg = { Color = "#F5F0E2" },
+  quick_select_match_bg = { Color = "#00717F" },
 
   ansi = {
     "#AB9894",

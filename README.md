@@ -105,8 +105,8 @@ Pre-built configs for both dark and light variants:
 | [Alacritty](ports/alacritty/) | `~/.config/alacritty/` (import in `alacritty.toml`) |
 | [kitty](ports/kitty/) | `~/.config/kitty/` (include in `kitty.conf`) |
 | [WezTerm](ports/wezterm/) | Reference in `wezterm.lua` config |
-| [Ghostty](ports/ghostty/) | `~/.config/ghostty/` |
-| [foot](ports/foot/) | `~/.config/foot/` |
+| [Ghostty](ports/ghostty/) | `~/.config/ghostty/themes/` (`theme = hatsune-miku-dark` or `hatsune-miku-light`) |
+| [foot](ports/foot/) | Copy to `~/.config/foot/themes/`; add `include=~/.config/foot/themes/hatsune-miku-dark.ini` at the top of `foot.ini` (or use light) |
 | [iTerm2](ports/iterm2/) | Import via Preferences → Profiles → Colors |
 | [Windows Terminal](ports/windows-terminal/) | Add to `settings.json` schemes array |
 | [Konsole](ports/konsole/) | `~/.local/share/konsole/` |
@@ -122,7 +122,7 @@ npm run build:vscode       # VS Code themes only
 npm run build:ports        # Web + terminal/editor ports
 npm run readability:dark   # Inspect dark theme readability
 npm run readability:light  # Inspect light theme readability
-npm run readability:ports  # Inspect portable palette contrast
+npm run readability:ports  # Validate portable colors and port contracts
 npm run readability:web    # Inspect Web contracts and WCAG 2.2 pairs
 ```
 

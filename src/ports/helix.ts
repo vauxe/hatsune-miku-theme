@@ -5,7 +5,7 @@
  */
 
 import { withOpacity, type SemanticTokens } from '../tokens';
-import { selectionSurface } from './shared';
+import { flattenEmbeddedAlpha, selectionSurface } from './shared';
 
 type Style = string | { fg?: string; bg?: string; modifiers?: string[]; underline?: { color: string; style: string } };
 
@@ -32,6 +32,8 @@ export function createHelixTheme(t: SemanticTokens): string {
   const voidBg = ui.backgroundVoid.hex;
   const bg = ui.background.hex;
   const fg = ui.foreground.hex;
+  const cursorlineSecondaryBg = flattenEmbeddedAlpha(withOpacity(houseBg, 'CC'), bg);
+  const highlightBg = flattenEmbeddedAlpha(withOpacity(ui.accentPrimary.hex, '25'), bg);
 
   const entries: Record<string, Style> = {
     // =========================================================================
@@ -182,12 +184,12 @@ export function createHelixTheme(t: SemanticTokens): string {
 
     // UI — Cursorline
     'ui.cursorline.primary': { bg: houseBg },
-    'ui.cursorline.secondary': { bg: withOpacity(houseBg, 'CC') },
+    'ui.cursorline.secondary': { bg: cursorlineSecondaryBg },
 
     // UI — Selection / highlights
     'ui.selection': { bg: selBg },
     'ui.selection.primary': { bg: selBg },
-    'ui.highlight': { bg: withOpacity(ui.accentPrimary.hex, '25') },
+    'ui.highlight': { bg: highlightBg },
 
     // UI — Statusline
     'ui.statusline': { fg: fg, bg: houseBg },

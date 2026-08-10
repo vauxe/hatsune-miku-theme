@@ -124,10 +124,10 @@
 "ui.gutter" = { bg = "#1A1F24" }
 "ui.gutter.selected" = { bg = "#23282D" }
 "ui.cursorline.primary" = { bg = "#23282D" }
-"ui.cursorline.secondary" = { bg = "#23282DCC" }
+"ui.cursorline.secondary" = { bg = "#21262B" }
 "ui.selection" = { bg = "#344C5A" }
 "ui.selection.primary" = { bg = "#344C5A" }
-"ui.highlight" = { bg = "#39C5BB25" }
+"ui.highlight" = { bg = "#1E373A" }
 "ui.statusline" = { fg = "#DEE8F2", bg = "#23282D" }
 "ui.statusline.inactive" = { fg = "#BDD7D9", bg = "#23282D" }
 "ui.statusline.normal" = { fg = "#1A1F24", bg = "#39C5BB", modifiers = ["bold"] }
