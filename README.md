@@ -29,23 +29,25 @@ Available for VS Code, the Web, Neovim, Helix, Zed, Sublime Text, and popular te
 3. Select the downloaded file
 4. Choose **Hatsune Miku Theme** (dark) or **Hatsune Miku Theme (Snow Miku)** (light)
 
-Portable ports are available in the repository source tree.
-
 ### Web
 
-Open the [live Web preview](https://vauxe.github.io/hatsune-miku-theme/ports/web/preview.html) to inspect token values in System, Light, and Dark modes. Run `npm run build:ports` after changing the source.
-
-Most sites only need `ports/web/hatsune-miku-theme.css`:
+For websites, download [`hatsune-miku-theme.css`](ports/web/hatsune-miku-theme.css), copy it into the site's static assets, and load it:
 
 ```html
 <link rel="stylesheet" href="/styles/hatsune-miku-theme.css">
 ```
+
+No build step or token JSON is required. Open the [live Web preview](https://vauxe.github.io/hatsune-miku-theme/ports/web/preview.html) to inspect every token in System, Light, and Dark modes.
 
 Use the semantic custom properties in components instead of copying color values:
 
 ```css
 body {
   color: var(--hm-color-text-primary);
+  background: var(--hm-color-surface-page);
+}
+
+main {
   background: var(--hm-color-surface-content);
 }
 
@@ -55,18 +57,13 @@ body {
   border: 1px solid var(--hm-color-action-primary-border-default);
 }
 
-.primary-action:hover {
-  color: var(--hm-color-action-primary-foreground-hover);
-  background: var(--hm-color-action-primary-background-hover);
-}
-
 .primary-action:focus-visible {
   outline: 2px solid var(--hm-color-focus-ring);
   outline-offset: 2px;
 }
 ```
 
-Without `data-hm-theme`, the CSS follows `prefers-color-scheme` with a light fallback. Set `data-hm-theme="light"` or `"dark"` on `<html>` or a container to override it.
+Without `data-hm-theme`, the CSS follows `prefers-color-scheme` with a light fallback. Set `data-hm-theme="light"` or `"dark"` on `<html>` or a container to override it; remove the attribute to follow the system again.
 
 Choose the secondary-text token that matches its surface:
 
@@ -76,59 +73,62 @@ Choose the secondary-text token that matches its surface:
 | Navigation or structural chrome | `--hm-color-text-on-chrome-secondary` |
 | Floating or elevated overlay | `--hm-color-text-on-overlay-secondary` |
 
-`--hm-color-text-primary` works on every exported surface; subtle text and status foregrounds are content-only, and placeholder text is field-only. Action backgrounds are opaque, so their foreground/background pairs are surface-independent. `npm test` enforces WCAG 2.2 AA for documented pairs and enabled action states; disabled contrast is excluded. Pair status colors with text or icons, never color alone.
+Usage rules:
 
-DTCG tooling can use the adjacent light and dark token JSON files.
+- `--hm-color-text-primary` works on every surface; subtle text and status colors are content-only, and placeholder text is field-only.
+- Keep action foregrounds paired with their matching backgrounds and states. Pair status colors with text or icons, never color alone.
+
+The adjacent `.tokens.json` files use the Design Tokens Community Group (DTCG) format for design-token tools.
 
 ### Neovim
 
-Copy `ports/neovim/hatsune-miku-dark.lua` (or `-light`) to `~/.config/nvim/colors/`, then `:colorscheme hatsune-miku-dark`.
+Copy the [dark](ports/neovim/hatsune-miku-dark.lua) or [light](ports/neovim/hatsune-miku-light.lua) file to `~/.config/nvim/colors/`, then run `:colorscheme hatsune-miku-dark` or `:colorscheme hatsune-miku-light`.
 
 ### Helix
 
-Copy `ports/helix/hatsune-miku-dark.toml` (or `-light`) to `~/.config/helix/themes/`, then set `theme = "hatsune-miku-dark"` in `config.toml`.
+Copy the [dark](ports/helix/hatsune-miku-dark.toml) or [light](ports/helix/hatsune-miku-light.toml) file to `~/.config/helix/themes/`, then set `theme = "hatsune-miku-dark"` or `theme = "hatsune-miku-light"` in `config.toml`.
 
 ### Zed
 
-Copy `ports/zed/hatsune-miku-dark.json` (or `-light`) to `~/.config/zed/themes/`.
+Copy the [dark](ports/zed/hatsune-miku-dark.json) or [light](ports/zed/hatsune-miku-light.json) file to `~/.config/zed/themes/`.
 
 ### Sublime Text
 
-Copy `ports/sublime/hatsune-miku-dark.sublime-color-scheme` (or `-light`) to `Packages/User/`.
+Copy the [dark](ports/sublime/hatsune-miku-dark.sublime-color-scheme) or [light](ports/sublime/hatsune-miku-light.sublime-color-scheme) file to `Packages/User/`.
 
 ### Terminal Emulators
 
 Pre-built configs for both dark and light variants:
 
-| Terminal | Port | Install location |
-|---|---|---|
-| Alacritty | `ports/alacritty/` | `~/.config/alacritty/` (import in `alacritty.toml`) |
-| kitty | `ports/kitty/` | `~/.config/kitty/` (include in `kitty.conf`) |
-| WezTerm | `ports/wezterm/` | Reference in `wezterm.lua` config |
-| Ghostty | `ports/ghostty/` | `~/.config/ghostty/` |
-| foot | `ports/foot/` | `~/.config/foot/` |
-| iTerm2 | `ports/iterm2/` | Import via Preferences → Profiles → Colors |
-| Windows Terminal | `ports/windows-terminal/` | Add to `settings.json` schemes array |
-| Konsole | `ports/konsole/` | `~/.local/share/konsole/` |
-| Warp | `ports/warp/` | `~/.warp/themes/` (macOS) or `~/.local/share/warp-terminal/themes/` (Linux) |
-| Xresources | `ports/xresources/` | Merge into `~/.Xresources` |
+| Terminal | Setup |
+|---|---|
+| [Alacritty](ports/alacritty/) | `~/.config/alacritty/` (import in `alacritty.toml`) |
+| [kitty](ports/kitty/) | `~/.config/kitty/` (include in `kitty.conf`) |
+| [WezTerm](ports/wezterm/) | Reference in `wezterm.lua` config |
+| [Ghostty](ports/ghostty/) | `~/.config/ghostty/` |
+| [foot](ports/foot/) | `~/.config/foot/` |
+| [iTerm2](ports/iterm2/) | Import via Preferences → Profiles → Colors |
+| [Windows Terminal](ports/windows-terminal/) | Add to `settings.json` schemes array |
+| [Konsole](ports/konsole/) | `~/.local/share/konsole/` |
+| [Warp](ports/warp/) | `~/.warp/themes/` (macOS) or `~/.local/share/warp-terminal/themes/` (Linux) |
+| [Xresources](ports/xresources/) | Merge into `~/.Xresources` |
 
 ## Development
 
 ```bash
 npm install                # Setup
-npm test                   # Web token contract + WCAG 2.2 pairs
 npm run build              # Full build: VS Code + all ports
 npm run build:vscode       # VS Code themes only
 npm run build:ports        # Web + terminal/editor ports
 npm run readability:dark   # Inspect dark theme readability
 npm run readability:light  # Inspect light theme readability
 npm run readability:ports  # Inspect portable palette contrast
+npm run readability:web    # Inspect Web contracts and WCAG 2.2 pairs
 ```
 
 ## License
 
-MIT
+[MIT](LICENSE)
 
 ---
 
