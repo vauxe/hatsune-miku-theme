@@ -2,12 +2,13 @@
 
 Snow Miku 2026 — Shiawase Patisserie.
 Costume design by **cold_air**. Main visual by **booota**.
+Theme song: SHIAWASE FOR YOU! by **いよわ**.
 
 ---
 
 ## 1. The Scene
 
-A pastel-blue patisserie shopfront in winter. She steps out in cream and cyan — cream dress, cyan-blue cape with pink and cyan snowflakes, chocolate beret with roll-cake spiral, chocolate boots and suspender straps, pastel-pink necktie. Pastries glow golden behind arched glass. Mint-green awning, snow on the ground, a wrought-iron chair, Yukine drawn in chalk on the chalkboard.
+A pastel-blue patisserie shopfront in winter. She steps out in cream and cyan — cream dress, cyan-blue cape dusted with white snowflakes, its cream fur trim sprinkled pink and blue like nonpareil icing, chocolate beret with roll-cake spiral, chocolate boots and suspender straps, pastel-pink necktie. Cookie music notes bake in the third motif — a treble-clef biscuit in one twin tail, an eighth note in the other — the designer's stated fusion of notes, snowflakes, and sweets. Yukine floats beside her hoisting a candy key with a heart-shaped lock, and appears again in chalk on the menu board. Pastries glow golden behind arched glass. Mint-green awning, snow on the ground, a wrought-iron chair, a snowman borrowing her beret and necktie.
 
 You code inside the patisserie. The editor is warm cream — her dress, the tablecloth, the light through the window. The sidebar and menus are the cool blue shopfront framing the warmth. Her hair is every keyword. Frost crystallizes on cream when you select.
 
@@ -15,7 +16,9 @@ You code inside the patisserie. The editor is warm cream — her dress, the tabl
 
 ## 2. Source Colors
 
-All hue angles are **JzCzhz** (0° = rose, 180° = teal).
+All hue angles are **JzCzhz** (0° = rose, 180° = teal). These hexes are
+artwork samples (main-visual provenance, ambient-corrected) — they live
+only in this document; the derived tokens live in `src/tokens/light/`.
 
 ```
 Element                  Corrected    Hz       Grid       Role
@@ -44,7 +47,7 @@ Chalkboard               #3E4651      ~254°    ~250°      Dark anchor, shadows
 
 **Chocolate → Ink.** Boots and straps → foreground text. Warm brown ink at ~40° Hz on warm cream canvas.
 
-**Necktie → Identity.** Delicate pastel salmon-pink. Cursor, buttons, badges, and focus borders darken this hue while preserving Hz=27°.
+**Necktie → Identity.** Delicate pastel salmon-pink. Cursor, buttons, badges, and focus borders darken this voice while preserving the necktie's Hz=27°; the caret alone dips deeper to hold its Lc floor.
 
 ---
 
@@ -56,7 +59,7 @@ Chalkboard               #3E4651      ~254°    ~250°      Dark anchor, shadows
 
 3. **Pastel softness.** Canvas Jz ~0.186–0.210, Cz 0.008–0.020. Chromatic backgrounds corrected for ambient light — warm cream paper and cool frosted glass, matching the main visual's true surface colors.
 
-4. **Per-hue gamut optimization.** Each syntax hue uses the register nearest its sRGB peak-chroma Jz. Cool hues peak dark (sopranino/treble), warm hues peak light (need darker registers for contrast).
+4. **Two-tier ensemble.** Syntax sits on two registers: sopranino (0.079) carries the 120°–240° arc — lime through azure — and soprano (0.100) carries the rest. One dynamic (mp) for all; hex clipping delivers each hue's peak usable sRGB chroma automatically. The original score seated each hue at its peak-chroma register; the gates flattened it to two tiers.
 
 5. **Transposition from dark.** Tonic shifts from F# (180°) to G (210°). Main syntax intervals preserved: variable +2, function +6, class +7, string +8, type +3. Signal tokens (error, operator) stay at fixed absolute hue positions.
 
@@ -66,72 +69,63 @@ Chalkboard               #3E4651      ~254°    ~250°      Dark anchor, shadows
 
 ### Registers
 
-In a light theme, lower Jz = darker foreground = higher contrast. Each hue is assigned to the register nearest its sRGB peak-chroma Jz, darkened to target Lc ≥ 75.
+In a light theme, lower Jz = darker foreground = higher contrast. The ensemble sits on two tiers; the remaining registers serve departures, UI text, and icons.
 
 ```
 Register       Jz      Role
 ═══════════════════════════════════════════════════════
-sopranino      0.074   Blue/azure peak — keywords, tonic, string, interface
-treble         0.088   Lime/azure peak — constants, classes
-soprano        0.097   Violet/orange/gold — parameter, function, type
-mezzo          0.110   Rose/magenta peak — operator, macro, decorator
-alto           0.130   Comments
+sopranino      0.079   Ensemble, cool arc (120°–240°) — compound-safe
+treble         0.093   Reserve tier — no ensemble tokens
+soprano        0.100   Ensemble, warm arc + blue/violet/magenta
+mezzo          0.107   Punctuation, commentDoc
+alto           0.130   Comments (at −0.010), symbol-icon midline
 countertenor   0.148   Ghost, soft syntax
-tenor          0.165   Punctuation
+tenor          0.165
 baritone       0.180
 bass           0.192
 contrabass     0.200   Barely visible on cream
 ```
 
-Each hue uses the register nearest its sRGB peak-chroma Jz — displayed at maximum vividness automatically.
+Two tiers, one dynamic — mp (0.120) clips to the sRGB boundary per hue, so every voice arrives at its own maximum usable chroma.
 
 ### Twelve Hues
 
-Tonic at G = 210° Hz. Twelve hues at 30° intervals. Canvas Δ measured from warm Stage canvas (~85° Hz). Each hue uses the register nearest its peak-chroma Jz.
+Tonic at G = 210° Hz. Twelve hues at 30° intervals, seated on the two-tier ensemble.
 
 ```
 Note   Hz     Register     Tokens
 ═══════════════════════════════════════════════════════════════════════════
 G      210°   sopranino    keyword · keywordControl · storage
                             · storageModifier · variableLanguage
-A      270°   sopranino    variable
+A      270°   soprano      variable
 D       60°   soprano      parameter · property · attribute
 D#      90°   soprano      function · method · tag
-E      120°   treble       class · struct · enum
+E      120°   sopranino    class · struct · enum
 F      150°   sopranino    string · stringTemplate · regex
 F#     180°   sopranino    interface
-G#     240°   treble/sop   constant · enumMember · number · boolean
-A#     300°   soprano/mez  type · typeParameter
-B      330°   mezzo        decorator · macro
-C        0°   mezzo        operator
-C#      30°   ~sopranino   error (ui.error, C.f — deep strawberry)
+G#     240°   sopranino    constant · enumMember · number · boolean
+A#     300°   soprano      type · typeParameter (at p)
+B      330°   soprano      macro
+C        0°   soprano      operator
+C#      30°   ~sopranino   error (ui.error, ~f — deep strawberry)
 ```
 
-**Variable at 270° (blue).** Most frequent non-keyword token. Wide gamut (max Cz 0.115 at sopranino). Near-complementary to cream — maximum visibility. Cool on warm: temperature does the work.
+**Variable at 270° (blue).** Most frequent non-keyword token, seated at soprano. Near-complementary to cream — maximum visibility. Cool on warm: temperature does the work.
 
 **Function at 90° (gold).** Only 5° from canvas hue, but at soprano register with mp chroma it reads clearly. Gold text on cream paper — warm, natural, like handwriting in amber ink.
 
-**Constant at 240° (azure).** 155° from warm canvas — excellent temperature contrast. At treble register, cool azure pops strongly on cream.
+**Constant at 240° (azure).** 155° from warm canvas — excellent temperature contrast. At sopranino, cool azure pops strongly on cream.
 
 ### Instrument Chart
 
-Max Cz at each hue's assigned register in sRGB. mp (Cz 0.120) clips to the gamut boundary automatically.
+One dynamic — mp (0.120) — clipped to the sRGB boundary at each hue's tier, so vividness varies naturally by hue instead of by hand. Rendered chroma per token: `docs/SCORE-LIGHT.md`.
 
 ```
-Hue             Register     Peak Cz
-═══════════════════════════════════════════
-Rose (0°)       mezzo        ~0.121
-Red (30°)       soprano      ~0.121
-Orange (60°)    soprano      ~0.133
-Gold (90°)      soprano      ~0.179
-Lime (120°)     treble       ~0.179
-Green (150°)    sopranino    ~0.157
-Teal (180°)     sopranino    ~0.152
-Cyan (210°)     sopranino    ~0.138  ★ tonic
-Azure (240°)    treble       ~0.097
-Blue (270°)     sopranino    ~0.091
-Violet (300°)   soprano      ~0.109
-Magenta (330°)  mezzo        ~0.155
+Tier        Seats                       Voices
+═══════════════════════════════════════════════════════════════════
+sopranino   120° 150° 180° 210° ★ 240°  lime · green · teal · cyan · azure
+soprano     0° 60° 90° 270° 300° 330°   rose · orange · gold · blue
+                                        · violet · magenta
 ```
 
 ### Dynamics
@@ -158,9 +152,9 @@ fff       0.180    Extreme (only blue delivers)
 Layer     Token         Hz     Register           Dyn
 ═══════════════════════════════════════════════════════════════
 Structure punctuation   210°   mezzo              p
-Whisper   comment       210°   alto               pp
-          commentDoc    210°   mezzo+0.005        pp
-Signal    error          30°   ~sopranino         f (ui.error)
+Whisper   comment       210°   alto−0.010         pp+0.005
+          commentDoc    210°   mezzo              pp+0.005
+Signal    error          30°   ~sopranino         ~f (Cz 0.140, ui.error)
 ```
 
 Punctuation is one register and one dynamic step above comments — active connective tissue in the code flow. Comments are tonic cyan at alto — her whisper between the lines. Error is deep strawberry at f — the depth is also what separates it from warning under deutan, where the two would otherwise collapse.
@@ -260,12 +254,12 @@ Register   JzCzhz                             Role
 deep       Jz 0.025  Cz 0.015  Hz ~40°       Pressed, shadow
 dark       Jz 0.088  Cz 0.070  Hz ~215°      Active, links
 accent     Jz 0.128  Cz 0.045  Hz ~210°      Primary accent (tonic)
-cursor     Jz 0.130  Cz 0.070  Hz ~27°       Cursor, focus, icons
-button     Jz 0.115  Cz 0.075  Hz ~27°       Primary button bg
-badge      Jz 0.108  Cz 0.078  Hz ~27°       Badge bg, notifications
+cursor     Jz 0.148  Cz 0.090  Hz ~27°       Cursor, focus, icons — candy
+button     Jz 0.155  Cz 0.065  Hz ~27°       Primary button bg
+badge      Jz 0.115  Cz 0.070  Hz ~27°       Badge bg, notifications
 ```
 
-The necktie pink family (Hz=27°) serves all identity/action roles: cursor, buttons, badges, focus borders, active borders. Derived by darkening the sampled pastel (#FDC2C4) proportionally.
+The necktie family (Hz=27°, the sampled ribbon) serves all identity/action roles: cursor, buttons, badges, focus borders, active borders — deepened in Jz only; the cursor sings candy-bright, a hair darker to hold the caret's Lc floor.
 
 ### Opacity Scale
 
@@ -292,7 +286,7 @@ opaque    FF     100%
 
 **Glass** — inputs, search boxes. Editor cream bg + cool border at rest → accent border on hover → necktie border on focus. Validation states tint the fill; focus always takes the border (identity wins).
 
-**Architecture** — tabs, bars, panel titles. House tier at rest. Active tab drops to Stage (warm cream, merges with editor). Status bar overrides: normal=House, debugging=eye iris, remote=cape cyan.
+**Architecture** — tabs, bars, panel titles. House tier at rest. Active tab drops to Stage (warm cream, merges with editor). Status bar overrides: normal=House, debugging=eye iris, remote=necktie pink — her identity marks the remote session.
 
 **Air** — scrollbars, minimap sliders. Tonic tint at strong (25%) → heavy (38%) → solid (50%).
 
@@ -361,11 +355,11 @@ property         60°   sopranino       ff     Orange — baked peach
 field            60°   alto            mp     Orange — deeper warmth
 function         90°   sopranino       ff     Gold — croissant glow
 method           90°   mezzo           mp     Gold — DEz≥15 from function
-constructor      90°   countertenor    f      Gold — DEz≥15 from method
+constructor      90°   alto+0.010      f      Gold — DEz≥15 from method
 class           120°   sopranino       f      Lime — pistachio
 struct          120°   mezzo           ff     Lime — DEz≥15 from class
-enum            120°   alto            f      Lime — DEz≥15 from struct
-package         120°   alto            f      Lime — same as enum
+enum            120°   alto+0.010      f      Lime — DEz≥15 from struct
+package         120°   alto+0.010      f      Lime — same as enum
 string          150°   soprano         f      Green — mint leaf
 reference       150°   sopranino       mp     Green — link
 interface       180°   sopranino       mp     Teal — canonical
@@ -374,8 +368,8 @@ array           210°   soprano         mp     Tonic — ordered
 variable        270°   soprano         ff     Blue — vivid data
 constant        240°   mezzo           f      Azure — deep truth
 number          240°   treble          ff     Azure — quantity
-boolean         240°   countertenor    mp     Azure — truth
-enumMember      240°   countertenor    f      Azure — one choice
+boolean         240°   alto+0.010      mp     Azure — truth
+enumMember      240°   alto+0.010      f      Azure — one choice
 typeParameter   300°   soprano         mp     Violet — shape
 module          300°   sopranino       f      Violet — boundary
 namespace       300°   alto            mp     Violet — distant scope
@@ -385,7 +379,7 @@ snippet           0°   soprano+0.006   mp     Rose — template
 
 ### Support Tokens
 
-Library and built-in tokens share their syntax hue, one dynamic step louder (f instead of mp). Same register — distinction comes from chroma alone.
+Library and built-in tokens share their syntax hue and all sit at sopranino. Where the syntax counterpart is also sopranino (class, constant), the louder dynamic or nothing distinguishes; where it sits at soprano (function, type, variable), register does the work too.
 
 ```
 Token            Hz     Register     Dyn    Syntax counterpart
@@ -399,7 +393,7 @@ support.variable 270°   sopranino    mp     variable (mp) — same
 
 ### Indent Guides
 
-Six hues from the patisserie palette. Tonic leads (the first stripe is her hair), then five contrasting hues for maximum distinction between levels. Alto register, p dynamic — gentle pastry-case stripes at the margin.
+Six hues from the patisserie palette. Tonic leads (the first stripe is her hair), then five contrasting hues for maximum distinction between levels. Tuned per guide around alto at a soft near-p chroma — gentle pastry-case stripes at the margin.
 
 ```
 Guide   Hz     Source
@@ -422,7 +416,7 @@ Inlay hints sit inside the editor canvas at reduced prominence. Three voices:
 Hint type     Hz      Source             Role
 ═══════════════════════════════════════════════════════════════
 Default       235°    foregroundMuted     Cool chrome — structural annotation
-Type          210°    accentMuted         Tonic — type information whispered
+Type          ~40°    tertiary            Warm chocolate — type info whispered
 Parameter     270°    inlayParameter      Blue — data name echoed faintly
 ```
 

@@ -66,7 +66,7 @@ export const hue = {
   // ═══════════════════════════════════════════════════════════════════════════
 
   // F# - Teal (180°) - Unison — she sings
-  mikuTeal: 180,       // Keywords, comments, info
+  mikuTeal: 180,       // Keywords, comments
 
   // G  - Cyan (210°) - Minor 2nd — almost her, shifting
   minor2nd: 210,       // Variables
@@ -168,7 +168,7 @@ export const selectionAlpha = {
 
 export const special = {
   void: '#0A0D10',       // Deepest black (near-zero luminance)
-  foreground: '#DEE8F2', // Primary text — vest silver, Lc ~90 (anti-bloom)
+  foreground: '#DEE8F2', // Primary text — ice white, Lc ~90 (anti-bloom)
   nearWhite: '#EAF6E8',  // Negi white — softest green light (matches char.negi.white)
   transparent: '#00000000',
   frost: '#81D4FA',      // Snow Miku ice prism — persistent selection tint

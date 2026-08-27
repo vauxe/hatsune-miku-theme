@@ -151,8 +151,8 @@ export function createStatusTokens(p: Primitives): StatusTokens {
   // Four-quadrant status: 0 error, 90 warning, 180 success, 270 info.
   // Maximum hue separation (90 apart) -- CVD-safe by geometry.
   // Four-quadrant hues +-15, Jz shaped to each hue's sRGB gamut ceiling:
-  //   teal(170) bright at high Jz; rose(345) vivid at low Jz.
-  // Under deutan, 345/170/260 all project blue -- DJz 0.015 + DCz backup.
+  //   teal(170) bright at high Jz; magenta(330) vivid at low Jz.
+  // Under deutan, 330/170/260 all project blue -- DJz 0.015 + DCz backup.
   // Info shares Jz tier with success (90 apart = CVD-safe by hue).
   // Hues are CVD-tuned off-grid (170/85/330/260) -- hardcoded, not from H.*.
   return {

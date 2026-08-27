@@ -1,7 +1,7 @@
 /**
  * Light Terminal ANSI Color Token Definitions — Snow Miku 2026
  *
- * Warm cream canvas ANSI palette — soprano for normal, treble for bright.
+ * Warm cream canvas ANSI palette — per-color registers, tuned individually.
  * Tonic at 210° cyan, hues derived from the patisserie palette.
  * mp target dynamic for the ensemble.
  *

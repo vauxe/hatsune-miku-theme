@@ -1,7 +1,7 @@
 /**
  * Dark Theme Primitives
  *
- * Canonical Miku (KEI V3/V4X) character palette + standard primitives.
+ * Canonical Miku core palette (V2 by KEI; V3/V4X-era by iXima) + standard primitives.
  */
 
 import { character as mikuCharacter } from '../../palette/core';

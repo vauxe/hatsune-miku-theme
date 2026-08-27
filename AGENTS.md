@@ -29,7 +29,7 @@ Web compatibility rules:
 - `--hm-*` plus `data-hm-theme="light"` and `"dark"` are public. `WEB_THEME_CUSTOM_PROPERTIES` locks names; renames or removals require migration.
 - Sites use CSS; DTCG 2025.10 JSON is for tooling. Keep surface-specific text, opaque action pairs, and `npm run readability:web` green.
 
-Read `docs/DESIGN.md` (dark) for all design rules: the twelve-tone hue system, the score (hue → token mapping), ensemble rule (soprano/mp), departures, composition principles, four voices, five materials, background tiers, brackets, terminal, symbol icons, overlays, and accessibility principles. Read `docs/DESIGN-LIGHT.md` (light — Snow Miku 2026) for the warm cream/cool blue spatial split, per-hue register system, and patisserie-derived palette.
+Read `docs/DESIGN.md` (dark) for all design rules: the twelve-tone hue system, the score (hue → token mapping), ensemble rule (soprano/mp), departures, composition principles, four voices, five materials, background tiers, brackets, terminal, symbol icons, overlays, and accessibility principles. Read `docs/DESIGN-LIGHT.md` (light — Snow Miku 2026) for the warm cream/cool blue spatial split, per-hue register system, and patisserie-derived palette. `docs/DESIGN-SNOW-2024.md` is the design draft for a planned Snow Miku 2024 light variant (not yet implemented).
 
 ## Readability Thresholds
 

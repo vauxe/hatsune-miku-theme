@@ -11,8 +11,8 @@
  * from the tonic at G=210°. No tunings — the warm/cool spatial split
  * provides all the distinction the theme needs.
  *
- * Two-tier lightness: sopranino (0.079) for cool hues, soprano (0.100)
- * for warm hues. Spread 0.021. C.mp (0.120) clips to the gamut
+ * Two-tier lightness: sopranino (0.079) for the 120°–240° arc,
+ * soprano (0.100) for the remaining hues. Spread 0.021. C.mp (0.120) clips to the gamut
  * boundary per hue, delivering peak sRGB chroma automatically.
  * Lc range 67–77 on cream. Compound-safe on all overlays.
  *

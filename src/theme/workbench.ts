@@ -851,11 +851,6 @@ return {
   // ==========================================================================
   // Same bright character colors everywhere — minimap, editor, gutter.
   // Opacity tints the editor background so the hue matches the minimap exactly.
-  //
-  //   Inserted — MORE MORE JUMP! green (#88DD44), idol energy
-  //   Removed  — Sakura Miku vivid candy sakura (#FF6BCA), lovely departure
-  //
-  // Line = 20%, text = 25% (~5% step), minimap = solid.
   'diffEditor.insertedLineBackground':        withOpacity(t.decorative.diffInserted, alphaDiff.diffInsertedLine),
   'diffEditor.insertedTextBackground':         withOpacity(t.decorative.diffInserted, alphaDiff.diffInsertedText),
   'diffEditor.insertedTextBorder':             special.transparent,
