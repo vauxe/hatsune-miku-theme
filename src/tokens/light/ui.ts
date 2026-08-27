@@ -111,10 +111,10 @@ export function createUITokens(p: Primitives): UITokens {
     // =========================================================================
     cursor: (() => {
       const cushion = parseHex(char.headphones.cushion);
-      // Chroma carries the caret floor (Lc >= 45) — vivid, barely darker
+      // Chroma carries the caret floor (Lc >= 45) — vivid, a touch darker
       return role(
-        'Candy pink cursor — sampled necktie Hz≈20°, where she points you type',
-        cushion.Jz - 0.004, cushion.Cz + 0.035, cushion.hz
+        'Candy pink cursor — sampled necktie Hz≈27°, where she points you type',
+        cushion.Jz - 0.007, cushion.Cz + 0.035, cushion.hz
       );
     })(),
 

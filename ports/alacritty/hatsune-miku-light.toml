@@ -8,7 +8,7 @@ dim_foreground = "#646A6D"
 bright_foreground = "#211311"
 
 [colors.cursor]
-cursor = "#F56B86"
+cursor = "#F06B79"
 text = "#F5F0E2"
 
 [colors.vi_mode_cursor]

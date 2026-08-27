@@ -9,7 +9,7 @@
       "style": {
         "accents": [
           "#4E9CA1ff",
-          "#F56B86ff",
+          "#F06B79ff",
           "#008A63ff",
           "#B04C00ff",
           "#A30014ff",
@@ -21,7 +21,7 @@
         "elevated_surface.background": "#C7E1EEff",
         "surface.background": "#D5EAF4ff",
         "panel.background": "#D5EAF4ff",
-        "panel.focused_border": "#F56B86CC",
+        "panel.focused_border": "#F06B79CC",
         "panel.indent_guide": "#7B7170ff",
         "panel.indent_guide_active": "#646A6Dff",
         "panel.indent_guide_hover": "#646A6Dff",
@@ -77,11 +77,11 @@
         "ignored.border": "#A4B2B9ff",
         "border": "#6F848Eff",
         "border.variant": "#A4B2B9ff",
-        "border.focused": "#F56B86CC",
+        "border.focused": "#F06B79CC",
         "border.selected": "#4E9CA1ff",
         "border.transparent": "#6F848E00",
         "border.disabled": "#968F8Eff",
-        "pane.focused_border": "#F56B86CC",
+        "pane.focused_border": "#F06B79CC",
         "pane_group.border": "#A4B2B9ff",
         "element.background": "#F5F0E2ff",
         "element.hover": "#4E9CA140",
@@ -167,8 +167,8 @@
         "terminal.ansi.dim_white": "#6E6B5080",
         "players": [
           {
-            "cursor": "#F56B86ff",
-            "background": "#F56B86ff",
+            "cursor": "#F06B79ff",
+            "background": "#F06B79ff",
             "selection": "#3B97C040"
           },
           {

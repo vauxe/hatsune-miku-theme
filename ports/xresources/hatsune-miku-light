@@ -3,7 +3,7 @@
 
 *background: #F5F0E2
 *foreground: #753826
-*cursorColor: #F56B86
+*cursorColor: #F06B79
 *highlightColor: #C6DAD9
 *highlightTextColor: #753826
 
@@ -16,7 +16,7 @@
 *borderColor: #6F848E
 
 ! Pointer
-*pointerColor: #F56B86
+*pointerColor: #F06B79
 *pointerColor2: #F5F0E2
 
 *color0: #AB9894

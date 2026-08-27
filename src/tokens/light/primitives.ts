@@ -40,31 +40,19 @@ import {
  * Light theme lightness values — Snow Miku 2026
  *
  * Inverted scale: lower Jz = darker text = more prominent on cream.
- * Per-hue register assignment: each hue uses the register nearest its
- * sRGB peak-chroma Jz. Blue/azure peak dark (sopranino/treble), warm
- * hues peak light (alto). Uniform 0.015 step.
- *
- * Peak-chroma Jz per hue (sRGB):
- *   270° blue:    ~0.091  → sopranino (0.080)
- *   240° azure:   ~0.097  → treble (0.095)
- *   300° violet:  ~0.109  → soprano (0.110)
- *   0° rose:      ~0.121  → mezzo (0.125)
- *   210° tonic:   ~0.138  → mezzo (0.125)
- *   60° orange:   ~0.133  → mezzo (0.125)
- *   150° green:   ~0.157  → alto (0.140)
- *   180° teal:    ~0.152  → alto (0.140)
- *   330° magenta: ~0.155  → alto (0.140)
- *   90° gold:     ~0.179  → alto (0.140)
- *   120° lime:    ~0.179  → alto (0.140)
+ * The syntax ensemble is two-tier (see syntax.ts): sopranino carries
+ * the 120°–240° arc, soprano the remaining hues. The other registers
+ * serve departures, UI text, and icons. hex() clips each voice to the
+ * sRGB boundary, so peak usable chroma per hue falls out automatically.
  */
 export const lightLightness: LightnessValues = {
-  sopranino: 0.079,    // +4  cool hues — compound-safe, max sRGB chroma
-  treble: 0.093,       // +3  class/string/interface — cool-mid hues (120°, 150°, 180°)
-  soprano: 0.100,      // +2  variable/function/constant — warm-mid hues (90°, 240°, 270°)
-  mezzo: 0.107,        // +1  parameter — warm hues (60°)
+  sopranino: 0.079,    // +4  ensemble, cool arc (120°–240°) — compound-safe
+  treble: 0.093,       // +3  reserve tier — no ensemble tokens
+  soprano: 0.100,      // +2  ensemble, warm arc + 270°/300°/330°
+  mezzo: 0.107,        // +1  punctuation, commentDoc
   alto: 0.130,         //  0  comments — departure register
   countertenor: 0.148, // -1  soft syntax, ghost
-  tenor: 0.165,        // -2  punctuation
+  tenor: 0.165,        // -2
   baritone: 0.180,     // -3
   bass: 0.192,         // -4
   contrabass: 0.200,   // -5  barely visible on cream
@@ -183,7 +171,7 @@ export const lightCharacter: CharacterColors = {
   // Necktie mapped to cushion slot — coral-pink identity voice
   headphones: {
     frame: '#CAD4EA',       // Silver-white headband
-    cushion: hex({ Jz: 0.155, Cz: 0.055, hz: 20 }),  // Pastel pink — sampled from visual necktie
+    cushion: hex({ Jz: 0.155, Cz: 0.055, hz: lightHue.mikuPink }),  // Pastel pink — necktie hz 27 (sampled #FDC2C4)
     display: hex({ Jz: 0.118, Cz: 0.045, hz: 210 }), // Tonic cyan ornament
   },
   hairTies: {

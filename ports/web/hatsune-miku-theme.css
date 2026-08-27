@@ -52,11 +52,11 @@
   --hm-color-accent-tertiary: #211311;
   --hm-color-border-default: #6F848E;
   --hm-color-border-subtle: #A4B2B9;
-  --hm-color-border-focus: #B35465;
-  --hm-color-focus-ring: #B35465;
+  --hm-color-border-focus: #B3575E;
+  --hm-color-focus-ring: #B3575E;
   --hm-color-link-default: #006679;
   --hm-color-link-active: #005C6F;
-  --hm-color-caret: #F56B86;
+  --hm-color-caret: #F06B79;
   --hm-color-selection-background: #3B97C040;
   --hm-color-selection-foreground: #753826;
   --hm-color-status-success: #007954;
@@ -67,17 +67,17 @@
   --hm-color-interaction-background-active: #4E9CA160;
   --hm-color-interaction-background-selected: #5688A040;
   --hm-color-interaction-foreground-disabled: #968F8E;
-  --hm-color-interaction-border-focus: #B35465;
-  --hm-color-action-primary-background-default: #E88493;
-  --hm-color-action-primary-background-hover: #D67081;
-  --hm-color-action-primary-background-active: #CC6174;
+  --hm-color-interaction-border-focus: #B3575E;
+  --hm-color-action-primary-background-default: #E8868C;
+  --hm-color-action-primary-background-hover: #D67279;
+  --hm-color-action-primary-background-active: #CC646C;
   --hm-color-action-primary-background-disabled: #A4B2B9;
   --hm-color-action-primary-foreground-default: #211311;
   --hm-color-action-primary-foreground-hover: #211311;
   --hm-color-action-primary-foreground-active: #211311;
   --hm-color-action-primary-foreground-disabled: #646A6D;
   --hm-color-action-primary-border-default: #6F848E;
-  --hm-color-action-primary-border-focus: #B35465;
+  --hm-color-action-primary-border-focus: #B3575E;
   --hm-color-action-secondary-background-default: #9CD4F4;
   --hm-color-action-secondary-background-hover: #78C6F0;
   --hm-color-action-secondary-background-active: #4E9CA1;
@@ -87,13 +87,13 @@
   --hm-color-action-secondary-foreground-active: #211311;
   --hm-color-action-secondary-foreground-disabled: #968F8E;
   --hm-color-action-secondary-border-default: #6F848E;
-  --hm-color-action-secondary-border-focus: #B35465;
+  --hm-color-action-secondary-border-focus: #B3575E;
   --hm-color-field-background: #F5F0E2;
   --hm-color-field-foreground-default: #753826;
   --hm-color-field-foreground-disabled: #968F8E;
   --hm-color-field-border-default: #6F848E;
   --hm-color-field-border-hover: #6F848E;
-  --hm-color-field-border-focus: #B35465;
+  --hm-color-field-border-focus: #B3575E;
   --hm-color-field-border-disabled: #A4B2B9;
 }
 
