@@ -3,7 +3,8 @@ import { describe, it } from 'node:test';
 import Color from 'colorjs.io';
 
 import { createWorkbenchColors } from '../theme';
-import { generateVariantTokens, opacity, selectionAlpha } from '../tokens';
+import { flagship } from '../registry';
+import { opacity, selectionAlpha, type Polarity } from '../tokens';
 import { flattenEmbeddedAlpha } from './shared';
 import { createWebPreview } from './web-preview';
 import {
@@ -12,13 +13,14 @@ import {
 } from './web';
 
 const variants = ['dark', 'light'] as const;
+const tokensFor = (polarity: Polarity) => flagship(polarity).tokens;
 const actionKinds = ['primary', 'secondary'] as const;
 const enabledActionStates = ['default', 'hover', 'active'] as const;
 const surfaces = ['page', 'content', 'chrome', 'overlay'] as const;
 
 describe('web design token port', () => {
   it('exports DTCG 2025.10 sRGB tokens with semantic web paths', () => {
-    const tokens = generateVariantTokens('dark');
+    const tokens = tokensFor('dark');
     const document = createWebTokenDocument(tokens, 'dark');
 
     assert.equal(document.color.$type, 'color');
@@ -47,7 +49,7 @@ describe('web design token port', () => {
 
   it('describes the source used by every resolved Web syntax color', () => {
     for (const variant of variants) {
-      const tokens = generateVariantTokens(variant);
+      const tokens = tokensFor(variant);
       const syntax = createWebTokenDocument(tokens, variant).color.syntax;
 
       for (const name of Object.keys(tokens.syntax) as Array<keyof typeof tokens.syntax>) {
@@ -66,8 +68,8 @@ describe('web design token port', () => {
   });
 
   it('preserves dark translucent borders and light opaque borders', () => {
-    const darkTokens = generateVariantTokens('dark');
-    const lightTokens = generateVariantTokens('light');
+    const darkTokens = tokensFor('dark');
+    const lightTokens = tokensFor('light');
     const dark = createWebTokenDocument(darkTokens, 'dark').color;
     const light = createWebTokenDocument(lightTokens, 'light').color;
 
@@ -87,7 +89,7 @@ describe('web design token port', () => {
 
   it('uses the same link colors as VS Code', () => {
     for (const variant of variants) {
-      const tokens = generateVariantTokens(variant);
+      const tokens = tokensFor(variant);
       const web = createWebTokenDocument(tokens, variant).color;
       const vscode = createWorkbenchColors(tokens, variant);
 
@@ -98,7 +100,7 @@ describe('web design token port', () => {
 
   it('exports surface-independent action backgrounds', () => {
     for (const variant of variants) {
-      const tokens = generateVariantTokens(variant);
+      const tokens = tokensFor(variant);
       const web = createWebTokenDocument(tokens, variant).color;
 
       for (const kind of actionKinds) {
@@ -123,8 +125,8 @@ describe('web design token port', () => {
   });
 
   it('generates framework-neutral CSS with system and explicit theme selection', () => {
-    const dark = generateVariantTokens('dark');
-    const light = generateVariantTokens('light');
+    const dark = tokensFor('dark');
+    const light = tokensFor('light');
     const css = createWebCss(dark, light);
 
     assert.match(css, /:root,\n\[data-hm-theme='light'\]/);
@@ -143,8 +145,8 @@ describe('web design token port', () => {
   });
 
   it('generates an accessible, self-contained preview with valid public links', () => {
-    const dark = generateVariantTokens('dark');
-    const light = generateVariantTokens('light');
+    const dark = tokensFor('dark');
+    const light = tokensFor('light');
     const css = createWebCss(dark, light);
     const preview = createWebPreview();
 
@@ -196,7 +198,7 @@ describe('web design token port', () => {
 
   it('keeps Web text, syntax, action, boundary, and focus pairs at WCAG 2.2 AA', () => {
     for (const variant of variants) {
-      const tokens = generateVariantTokens(variant);
+      const tokens = tokensFor(variant);
       const web = createWebTokenDocument(tokens, variant).color;
 
       assertContrastPairs(variant, [

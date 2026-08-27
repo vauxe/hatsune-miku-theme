@@ -12,7 +12,8 @@
  *   npx tsx src/tools/readability-ports.ts [--verbose]
  */
 
-import { generateVariantTokens, type ThemeVariant } from '../tokens';
+import { themes, type Theme } from '../registry';
+import type { Polarity } from '../tokens';
 import type { SemanticTokens, SemanticRole } from '../tokens/types';
 import { getAPCAContrast, deltaEzHex, checkCVDDistinction } from './readability-color';
 import { APCA_THRESHOLDS, APCA_THRESHOLDS_LIGHT, CVD_DISTINCTION_THRESHOLD, UI_VISIBILITY } from './readability-constants';
@@ -85,7 +86,7 @@ const terminalDistinctionPairs = [
 // ANALYSIS
 // =============================================================================
 
-function getThreshold(tier: 'primary' | 'secondary' | 'tertiary', polarity: ThemeVariant): number {
+function getThreshold(tier: 'primary' | 'secondary' | 'tertiary', polarity: Polarity): number {
   const thresholds = polarity === 'dark' ? APCA_THRESHOLDS : APCA_THRESHOLDS_LIGHT;
   return thresholds[tier];
 }
@@ -96,12 +97,12 @@ interface Failure {
   detail: string;
 }
 
-function validateVariant(polarity: ThemeVariant, verbose: boolean): Failure[] {
-  const tokens = generateVariantTokens(polarity);
+function validateTheme(theme: Theme, verbose: boolean): Failure[] {
+  const tokens = theme.tokens;
   const failures: Failure[] = [];
   const allPairs = [...syntaxPairs, ...uiPairs, ...terminalPairs];
 
-  console.log(`\n=== ${polarity.toUpperCase()} ===`);
+  console.log(`\n=== ${theme.slug.toUpperCase()} ===`);
 
   // APCA contrast
   for (const pair of allPairs) {
@@ -109,7 +110,7 @@ function validateVariant(polarity: ThemeVariant, verbose: boolean): Failure[] {
     const bg = pair.bg(tokens);
     const result = getAPCAContrast(fg, bg);
     const lc = Math.abs(result.lc);
-    const threshold = getThreshold(pair.tier, polarity);
+    const threshold = getThreshold(pair.tier, theme.polarity);
     const pass = lc >= threshold;
 
     if (verbose || !pass) {
@@ -176,17 +177,17 @@ function validateVariant(polarity: ThemeVariant, verbose: boolean): Failure[] {
 
 const verbose = process.argv.includes('--verbose');
 
-const darkFailures = validateVariant('dark', verbose);
-const lightFailures = validateVariant('light', verbose);
-const total = darkFailures.length + lightFailures.length;
+const results = themes.map((theme) => ({ theme, failures: validateTheme(theme, verbose) }));
+const total = results.reduce((sum, r) => sum + r.failures.length, 0);
 
 console.log(`\n=== SUMMARY ===`);
-console.log(`Dark:  ${darkFailures.length} failures`);
-console.log(`Light: ${lightFailures.length} failures`);
+for (const { theme, failures } of results) {
+  console.log(`${`${theme.slug[0].toUpperCase()}${theme.slug.slice(1)}:`.padEnd(6)} ${failures.length} failures`);
+}
 
 if (total > 0) {
   console.log('\nFailing pairs:');
-  for (const f of [...darkFailures, ...lightFailures]) {
+  for (const f of results.flatMap((r) => r.failures)) {
     console.log(`  ${f.type}  ${f.name}: ${f.detail}`);
   }
   console.log('\nReview complete; inspect the failing pairs above.');

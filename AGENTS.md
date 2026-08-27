@@ -21,7 +21,7 @@ src/palette/ → src/tokens/ → src/theme/   → src/generator.ts → themes/*.
                             (portable)                          (Web, terminals, editors, palette)
 ```
 
-Three-layer token system: **Primitives** (`primitives.ts`) → **Semantic Tokens** (`dark/`, `light/` sub-modules) → **Variants** (`variants.ts`). All theme files (`src/theme/`) import from `tokens` — no direct palette imports.
+Three-layer token system: **Primitives** (`primitives.ts`) → **Semantic Tokens** (`dark/`, `light/` sub-modules) → **Theme Registry** (`src/registry.ts`). The registry is the narrow waist: every shipped theme is a `Theme` value (identity + polarity + `SemanticTokens`); every output is an `Artifact` produced by an `Emitter` in `src/generator.ts` (VS Code, ports, web CSS, SCORE docs). Adding a theme = one registry entry; adding a target = one emitter. All theme files (`src/theme/`) import from `tokens` — no direct palette imports.
 
 Web compatibility rules:
 
@@ -33,7 +33,7 @@ Read `docs/DESIGN.md` (dark) for all design rules: the twelve-tone hue system, t
 
 ## Readability Thresholds
 
-Validated by `npm run readability:dark` or `npm run readability:light` (add `-- --verbose` for full results).
+Validated by `npm run readability` (every registered theme), or `npm run readability:dark` / `npm run readability:light` individually (add `-- --verbose` for full results).
 Portable palette: `npm run readability:ports` (APCA + CVD for core fg/bg pairs shared by all ports).
 Web semantic pairs: `npm run readability:web` (WCAG text, syntax, action, boundary, and focus checks).
 

@@ -120,6 +120,7 @@ npm install                # Setup
 npm run build              # Full build: VS Code + all ports
 npm run build:vscode       # VS Code themes only
 npm run build:ports        # Web + terminal/editor ports
+npm run readability        # Validate every registered theme
 npm run readability:dark   # Inspect dark theme readability
 npm run readability:light  # Inspect light theme readability
 npm run readability:ports  # Validate portable colors and port contracts

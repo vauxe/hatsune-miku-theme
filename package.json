@@ -30,15 +30,16 @@
     "theme": "dark"
   },
   "scripts": {
-    "build": "tsc && tsx src/generator.ts && tsx src/tools/docgen.ts",
-    "build:vscode": "tsc && tsx src/generator.ts vscode && tsx src/tools/docgen.ts",
-    "build:ports": "tsc && tsx src/generator.ts ports && tsx src/tools/docgen.ts",
+    "build": "tsc && tsx src/generator.ts",
+    "build:vscode": "tsc && tsx src/generator.ts vscode",
+    "build:ports": "tsc && tsx src/generator.ts ports",
+    "readability": "tsx src/tools/readability.ts",
     "readability:dark": "tsx src/tools/readability.ts --theme themes/hatsune-miku-theme-color-theme.json",
     "readability:light": "tsx src/tools/readability.ts --theme themes/hatsune-miku-snow-color-theme.json",
     "readability:ports": "tsx src/tools/readability-ports.ts",
     "readability:web": "node --import tsx src/ports/web.test.ts",
     "vscode:prepublish": "npm run build",
-    "docs:gen": "tsx src/tools/docgen.ts"
+    "docs:gen": "tsx src/generator.ts docs"
   },
   "devDependencies": {
     "@types/node": "^25.0.9",

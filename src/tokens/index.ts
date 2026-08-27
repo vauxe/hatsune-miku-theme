@@ -10,8 +10,8 @@
  *   Meaningful roles: syntax.keyword, ui.background, status.error
  *   Each variant directory contains its own token creators.
  *
- * Layer 3: Variants (variants.ts)
- *   Theme variations: dark, light
+ * Layer 3: Themes (src/registry.ts)
+ *   Each shipped theme composes these tokens into a Theme value.
  */
 
 // Layer 1: Primitives
@@ -20,6 +20,7 @@ export {
   opacity,
   selectionAlpha,
 } from './primitives';
+export type { Polarity } from './primitives';
 
 // Role factories and derive functions
 export {
@@ -54,9 +55,3 @@ export type {
   SliderStateTokens,
   DecorativeTokens,
 } from './types';
-
-// Layer 3: Variants
-export {
-  generateVariantTokens,
-  type ThemeVariant,
-} from './variants';

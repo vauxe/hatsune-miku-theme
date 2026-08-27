@@ -264,8 +264,10 @@ export interface OpacityScale {
   opaque: string;
 }
 
+export type Polarity = 'dark' | 'light';
+
 export interface Primitives {
-  polarity: 'dark' | 'light';
+  polarity: Polarity;
   lightness: LightnessValues;
   chroma: ChromaValues;
   hue: HueValues;

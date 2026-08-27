@@ -18,6 +18,7 @@
 
 import * as path from 'path';
 
+import { themes } from '../registry';
 import {
   BG_KEYS,
   LABELS,
@@ -2014,11 +2015,19 @@ if (args[0] === '--help' || args[0] === '-h') {
     }
     testColor(test.fg, test.bg, test.name);
   } else {
-    // Default to theme analysis
-    if (!themePath) {
-      console.error('Error: --theme <path> is required.\n\nAvailable themes:\n  themes/hatsune-miku-theme-color-theme.json  (dark)\n  themes/hatsune-miku-snow-color-theme.json   (light)');
-      process.exit(1);
+    // Theme analysis: a single --theme path, or every registered theme
+    // when none is given — any failing theme fails the run.
+    if (themePath) {
+      runAnalysis(themePath, { issuesOnly, verbose });
+    } else {
+      let failed = false;
+      for (const theme of themes) {
+        console.log(`\n═══ ${theme.name} — themes/${theme.vscodeFilename} ═══`);
+        runAnalysis(path.resolve(__dirname, '../../themes', theme.vscodeFilename), { issuesOnly, verbose });
+        if (process.exitCode) failed = true;
+        process.exitCode = 0;
+      }
+      if (failed) process.exitCode = 1;
     }
-    runAnalysis(themePath, { issuesOnly, verbose });
   }
 }

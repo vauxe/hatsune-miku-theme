@@ -11,15 +11,11 @@
  * Usage: npm run docs:gen   (also runs as part of npm run build)
  */
 
-import { writeFileSync } from 'fs';
-import { join } from 'path';
-import { generateVariantTokens, type ThemeVariant } from '../tokens/variants';
+import type { Theme, Emitter } from '../registry';
 import { parseHex } from '../tokens/role';
 import { opacity } from '../tokens/primitives';
 import type { SemanticRole } from '../tokens/types';
 import { getAPCAContrast, chromaticLightness, blendAlpha, deltaEzHex } from './readability-color';
-
-const ROOT = join(__dirname, '..', '..');
 
 function row(name: string, r: SemanticRole, bg: string): string {
   const d = r.jzczhz;
@@ -53,9 +49,9 @@ function table(
   ].join('\n');
 }
 
-function generate(variant: ThemeVariant): string {
-  const t = generateVariantTokens(variant);
-  const dark = variant === 'dark';
+function generate(theme: Theme): string {
+  const t = theme.tokens;
+  const dark = theme.polarity === 'dark';
   const stage = t.ui.background.hex;
   const house = t.ui.backgroundHouse.hex;
   const s = t.syntax;
@@ -226,8 +222,8 @@ function generate(variant: ThemeVariant): string {
   return out.join('\n').trimEnd();
 }
 
-for (const variant of ['dark', 'light'] as ThemeVariant[]) {
-  const file = join(ROOT, 'docs', `SCORE-${variant.toUpperCase()}.md`);
-  writeFileSync(file, generate(variant) + '\n');
-  console.log(`Score: docs/SCORE-${variant.toUpperCase()}.md`);
-}
+export const createScoreDocs: Emitter = (themes) =>
+  themes.map((theme) => ({
+    path: `docs/SCORE-${theme.slug.toUpperCase()}.md`,
+    content: generate(theme) + '\n',
+  }));

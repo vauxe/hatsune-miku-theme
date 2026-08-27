@@ -9,7 +9,7 @@ import {
   opacity,
   selectionAlpha,
   withOpacity,
-  type ThemeVariant,
+  type Polarity,
 } from '../tokens';
 import type { SemanticTokens } from '../tokens/types';
 import Color from 'colorjs.io';
@@ -150,7 +150,7 @@ function color(value: string, description: string): WebColorSource {
   return { value, description };
 }
 
-function createWebColorContract(t: SemanticTokens, variant: ThemeVariant) {
+function createWebColorContract(t: SemanticTokens, variant: Polarity) {
   const focusRing = accessibleAcrossSurfaces(
     'focus.ring',
     [
@@ -509,7 +509,7 @@ function toDtcgGroup<T>(group: T): DtcgGroup<T> {
   ) as DtcgGroup<T>;
 }
 
-export function createWebTokenDocument(t: SemanticTokens, variant: ThemeVariant) {
+export function createWebTokenDocument(t: SemanticTokens, variant: Polarity) {
   return {
     $schema: 'https://www.designtokens.org/schemas/2025.10/format.json' as const,
     color: {
@@ -556,7 +556,7 @@ function assertPublicCssContract(colors: FlatWebColor[]): void {
 
 function renderCssDeclarations(
   t: SemanticTokens,
-  variant: ThemeVariant,
+  variant: Polarity,
 ): string {
   const colors = flattenWebColors(createWebColorContract(t, variant));
   assertPublicCssContract(colors);

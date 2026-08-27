@@ -1,16 +1,20 @@
 /**
  * Hatsune Miku Theme - Generator
  *
- * Compiles TypeScript source into VS Code theme JSON and
- * portable ports (Web, terminals, editors, palette).
+ * The backend of the build: folds every registered Theme through every
+ * Emitter and writes the resulting Artifacts. Themes live in registry.ts;
+ * this file only knows how to turn a Theme into output files.
+ *
+ * Usage: tsx src/generator.ts [vscode|ports|docs]
+ *   (no mode = everything; SCORE docs are emitted in every mode)
  */
 
 import * as fs from 'fs';
 import * as path from 'path';
 
+import { themes, flagship, type Theme, type Artifact, type Emitter } from './registry';
 import { createWorkbenchColors, createTokenColors, createSemanticTokenColors } from './theme';
-import { generateVariantTokens, type ThemeVariant } from './tokens';
-import type { SemanticTokens } from './tokens/types';
+import { createScoreDocs } from './tools/docgen';
 import { createPalette } from './ports/palette';
 import { createAlacrittyTheme } from './ports/alacritty';
 import { createKittyTheme } from './ports/kitty';
@@ -34,190 +38,94 @@ import {
 } from './ports/web';
 
 // =============================================================================
-// VARIANT DEFINITIONS
+// EMITTERS
 // =============================================================================
 
-interface VariantDefinition {
-  name: string;
-  type: ThemeVariant;
-  suffix: string;        // file suffix: '-dark' | '-light'
-  vscodeFilename: string;
-}
+/** Lift a per-theme renderer into an Emitter. */
+const perTheme = (emit: (theme: Theme) => Artifact): Emitter =>
+  (all) => all.map(emit);
 
-const variants: VariantDefinition[] = [
-  {
-    name: 'Hatsune Miku',
-    type: 'dark',
-    suffix: '-dark',
-    vscodeFilename: 'hatsune-miku-theme-color-theme.json',
-  },
-  {
-    name: 'Hatsune Miku (Snow Miku)',
-    type: 'light',
-    suffix: '-light',
-    vscodeFilename: 'hatsune-miku-snow-color-theme.json',
-  },
-];
+const json = (value: unknown) => JSON.stringify(value, null, 2);
 
-// =============================================================================
-// PORT TABLE
-// =============================================================================
+// VS Code theme JSON
+const vscode: Emitter = perTheme((theme) => ({
+  path: `themes/${theme.vscodeFilename}`,
+  content: JSON.stringify({
+    $schema: 'vscode://schemas/color-theme',
+    name: theme.name,
+    type: theme.polarity,
+    semanticHighlighting: true,
+    colors: createWorkbenchColors(theme.tokens, theme.polarity),
+    tokenColors: createTokenColors(theme.tokens),
+    semanticTokenColors: createSemanticTokenColors(theme.tokens),
+  }, null, '\t'),
+}));
 
+// Per-theme ports. Filename: `${base ?? 'hatsune-miku'}-${slug}${ext ?? ''}`.
 interface Port {
   dir: string;
-  filename: (suffix: string) => string;
-  generate: (tokens: SemanticTokens, variant: VariantDefinition) => string;
+  ext?: string;
+  base?: string;
+  render: (theme: Theme) => string;
 }
 
-const ports: Port[] = [
-  // Palette (bridge for external consumers)
-  {
-    dir: 'palette',
-    filename: (s) => `hatsune-miku${s}.json`,
-    generate: (t) => JSON.stringify(createPalette(t), null, 2),
-  },
-  // Web design tokens (DTCG 2025.10)
-  {
-    dir: 'web',
-    filename: (s) => `${WEB_THEME_ARTIFACTS.basename}${s}.tokens.json`,
-    generate: (t, v) => `${JSON.stringify(createWebTokenDocument(t, v.type), null, 2)}\n`,
-  },
+const portTable: Port[] = [
+  // Palette bridge + Web design tokens (DTCG 2025.10)
+  { dir: 'palette', ext: '.json', render: ({ tokens }) => json(createPalette(tokens)) },
+  { dir: 'web', base: WEB_THEME_ARTIFACTS.basename, ext: '.tokens.json', render: ({ tokens, polarity }) => `${json(createWebTokenDocument(tokens, polarity))}\n` },
   // Terminal emulators
-  {
-    dir: 'alacritty',
-    filename: (s) => `hatsune-miku${s}.toml`,
-    generate: (t) => createAlacrittyTheme(t),
-  },
-  {
-    dir: 'kitty',
-    filename: (s) => `hatsune-miku${s}.conf`,
-    generate: (t) => createKittyTheme(t),
-  },
-  {
-    dir: 'wezterm',
-    filename: (s) => `hatsune-miku${s}.lua`,
-    generate: (t) => createWezTermTheme(t),
-  },
-  {
-    dir: 'windows-terminal',
-    filename: (s) => `hatsune-miku${s}.json`,
-    generate: (t, v) => JSON.stringify(createWindowsTerminalTheme(t, v.name), null, 2),
-  },
-  {
-    dir: 'iterm2',
-    filename: (s) => `hatsune-miku${s}.itermcolors`,
-    generate: (t) => createITerm2Theme(t),
-  },
-  {
-    dir: 'ghostty',
-    filename: (s) => `hatsune-miku${s}`,
-    generate: (t) => createGhosttyTheme(t),
-  },
-  {
-    dir: 'foot',
-    filename: (s) => `hatsune-miku${s}.ini`,
-    generate: (t) => createFootTheme(t),
-  },
-  {
-    dir: 'xresources',
-    filename: (s) => `hatsune-miku${s}`,
-    generate: (t) => createXresourcesTheme(t),
-  },
-  {
-    dir: 'konsole',
-    filename: (s) => `hatsune-miku${s}.colorscheme`,
-    generate: (t, v) => createKonsoleTheme(t, v.name),
-  },
-  {
-    dir: 'warp',
-    filename: (s) => `hatsune-miku${s}.yaml`,
-    generate: (t, v) => createWarpTheme(t, v.type),
-  },
+  { dir: 'alacritty', ext: '.toml', render: ({ tokens }) => createAlacrittyTheme(tokens) },
+  { dir: 'kitty', ext: '.conf', render: ({ tokens }) => createKittyTheme(tokens) },
+  { dir: 'wezterm', ext: '.lua', render: ({ tokens }) => createWezTermTheme(tokens) },
+  { dir: 'windows-terminal', ext: '.json', render: ({ tokens, name }) => json(createWindowsTerminalTheme(tokens, name)) },
+  { dir: 'iterm2', ext: '.itermcolors', render: ({ tokens }) => createITerm2Theme(tokens) },
+  { dir: 'ghostty', render: ({ tokens }) => createGhosttyTheme(tokens) },
+  { dir: 'foot', ext: '.ini', render: ({ tokens }) => createFootTheme(tokens) },
+  { dir: 'xresources', render: ({ tokens }) => createXresourcesTheme(tokens) },
+  { dir: 'konsole', ext: '.colorscheme', render: ({ tokens, name }) => createKonsoleTheme(tokens, name) },
+  { dir: 'warp', ext: '.yaml', render: ({ tokens, polarity }) => createWarpTheme(tokens, polarity) },
   // Editors
-  {
-    dir: 'neovim',
-    filename: (s) => `hatsune-miku${s}.lua`,
-    generate: (t, v) => createNeovimTheme(t, v.type),
-  },
-  {
-    dir: 'helix',
-    filename: (s) => `hatsune-miku${s}.toml`,
-    generate: (t) => createHelixTheme(t),
-  },
-  {
-    dir: 'zed',
-    filename: (s) => `hatsune-miku${s}.json`,
-    generate: (t, v) => JSON.stringify(createZedTheme(t, v.type, v.name), null, 2),
-  },
-  {
-    dir: 'sublime',
-    filename: (s) => `hatsune-miku${s}.sublime-color-scheme`,
-    generate: (t, v) => JSON.stringify(createSublimeTheme(t, v.name), null, 2),
-  },
+  { dir: 'neovim', ext: '.lua', render: ({ tokens, polarity }) => createNeovimTheme(tokens, polarity) },
+  { dir: 'helix', ext: '.toml', render: ({ tokens }) => createHelixTheme(tokens) },
+  { dir: 'zed', ext: '.json', render: ({ tokens, polarity, name }) => json(createZedTheme(tokens, polarity, name)) },
+  { dir: 'sublime', ext: '.sublime-color-scheme', render: ({ tokens, name }) => json(createSublimeTheme(tokens, name)) },
 ];
 
-// =============================================================================
-// VS CODE THEME GENERATION
-// =============================================================================
+const ports: Emitter[] = portTable.map((port) =>
+  perTheme((theme) => ({
+    path: `ports/${port.dir}/${port.base ?? 'hatsune-miku'}-${theme.slug}${port.ext ?? ''}`,
+    content: port.render(theme),
+  })),
+);
 
-function generateVSCodeTheme(tokens: SemanticTokens, variant: VariantDefinition) {
-  return {
-    $schema: 'vscode://schemas/color-theme',
-    name: variant.name,
-    type: variant.type,
-    semanticHighlighting: true,
-    colors: createWorkbenchColors(tokens, variant.type),
-    tokenColors: createTokenColors(tokens),
-    semanticTokenColors: createSemanticTokenColors(tokens),
-  };
-}
+// Web CSS + preview: one artifact spanning themes. The public contract
+// (`data-hm-theme="dark"/"light"`) is pinned to the flagship theme of
+// each polarity (explicit `flagship` flag, validated by the registry).
+const webShared: Emitter = () => [
+  { path: `ports/web/${WEB_THEME_ARTIFACTS.css}`, content: createWebCss(flagship('dark').tokens, flagship('light').tokens) },
+  { path: 'ports/web/preview.html', content: createWebPreview() },
+];
 
 // =============================================================================
 // MAIN
 // =============================================================================
 
-const mode = process.argv[2]; // 'vscode', 'ports', or undefined (all)
-const themesDir = path.resolve(__dirname, '../themes');
-const portsDir = path.resolve(__dirname, '../ports');
+const mode = process.argv[2]; // 'vscode' | 'ports' | 'docs' | undefined (all)
+const ROOT = path.resolve(__dirname, '..');
 
-for (const variant of variants) {
-  // Generate tokens once per variant
-  const tokens = generateVariantTokens(variant.type);
+const emitters: Emitter[] = [
+  ...(!mode || mode === 'vscode' ? [vscode] : []),
+  ...(!mode || mode === 'ports' ? [...ports, webShared] : []),
+  createScoreDocs, // SCORE docs regenerate with every build mode
+];
 
-  // VS Code
-  if (!mode || mode === 'vscode') {
-    const outputFile = path.join(themesDir, variant.vscodeFilename);
-    const theme = generateVSCodeTheme(tokens, variant);
-    const json = JSON.stringify(theme, null, '\t');
-
-    fs.mkdirSync(path.dirname(outputFile), { recursive: true });
-    fs.writeFileSync(outputFile, json, 'utf-8');
-
-    const colorCount = Object.keys(theme.colors).length;
-    const tokenCount = theme.tokenColors.length;
-    const semanticCount = Object.keys(theme.semanticTokenColors).length;
-    console.log(`VS Code: ${variant.name} (${colorCount} colors, ${tokenCount} token rules, ${semanticCount} semantic rules)`);
-  }
-
-  // Portable ports
-  if (!mode || mode === 'ports') {
-    for (const port of ports) {
-      const dir = path.join(portsDir, port.dir);
-      fs.mkdirSync(dir, { recursive: true });
-      const filename = port.filename(variant.suffix);
-      fs.writeFileSync(path.join(dir, filename), port.generate(tokens, variant));
-    }
-    console.log(`Ports: ${variant.name} (${ports.length} files)`);
-  }
+const artifacts = emitters.flatMap((emit) => emit(themes));
+for (const artifact of artifacts) {
+  const file = path.join(ROOT, artifact.path);
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, artifact.content);
 }
 
-if (!mode || mode === 'ports') {
-  const webDir = path.join(portsDir, 'web');
-  fs.mkdirSync(webDir, { recursive: true });
-  fs.writeFileSync(
-    path.join(webDir, WEB_THEME_ARTIFACTS.css),
-    createWebCss(generateVariantTokens('dark'), generateVariantTokens('light')),
-  );
-  fs.writeFileSync(path.join(webDir, 'preview.html'), createWebPreview());
-  console.log('Web: CSS custom properties + DTCG tokens + preview');
-}
+console.log(
+  `Build${mode ? ` (${mode})` : ''}: ${themes.map((t) => t.name).join(', ')} → ${artifacts.length} artifacts`,
+);
