@@ -17,7 +17,7 @@
  * these details reward those who look closely.
  */
 
-import { role, roleFromHex, darken, hex } from '../role';
+import { role, roleFromHex, darken, hex, parseHex } from '../role';
 import type {
   SymbolTokens,
   BracketTokens,
@@ -194,12 +194,19 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     diffMoveBorder: digitalStars.y2021_mg.outfit.gradient,
     diffMoveActiveBorder: digitalStars.y2021_mg.outfit.gradient,
 
-    // Terminal/SCM icons
+    // Terminal/SCM icons — remote things wear the necktie (no flagship
+    // pink on this cream canvas)
     commitIcon: digitalStars.y2021.outfit.gradient,
     commentGlyph: wonderlandsShowtime.hair.highlight,
-    multiCursorSecondary: leoNeed.hair.highlight,
-    pullRequestIcon: leoNeed.hair.highlight,
-    scmRemoteRef: leoNeed.hair.highlight,
+    multiCursorSecondary: p.character.hair.base,      // Matches the word-highlight wash it marks on the ruler
+    pullRequestIcon: (() => {
+      const cushion = parseHex(p.character.headphones.cushion);
+      return hex({ Jz: cushion.Jz, Cz: cushion.Cz + 0.010, hz: cushion.hz }); // = the remote chip's necktie
+    })(),
+    scmRemoteRef: (() => {
+      const cushion = parseHex(p.character.headphones.cushion);
+      return hex({ Jz: cushion.Jz, Cz: cushion.Cz + 0.010, hz: cushion.hz }); // = the remote chip's necktie
+    })(),
 
     // Character palette utility colors — cream and chocolate
     blouseWhite: p.character.top.blouse,
