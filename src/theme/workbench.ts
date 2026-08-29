@@ -663,7 +663,8 @@ return {
   // ==========================================================================
   // MINIMAP
   // ==========================================================================
-  'minimap.background': special.transparent,
+  // Alpha 00, but section headers repaint the RGB at 70% as their backdrop
+  'minimap.background': `${bg.base}00`,
   'minimap.foregroundOpacity': t.ui.minimapOpacity,
   'minimap.selectionHighlight': withOpacity(accent.primary, op.heavy),
   'minimap.selectionOccurrenceHighlight': withOpacity(accent.primary, op.strong),

@@ -343,7 +343,7 @@
 		"tree.inactiveIndentGuidesStroke": "#8FBF6815",
 		"tree.tableColumnsBorder": "#39C5BB25",
 		"tree.tableOddRowsBackground": "#39C5BB08",
-		"minimap.background": "#00000000",
+		"minimap.background": "#1A1F2400",
 		"minimap.foregroundOpacity": "#0A0D10DD",
 		"minimap.selectionHighlight": "#39C5BB60",
 		"minimap.selectionOccurrenceHighlight": "#39C5BB40",
