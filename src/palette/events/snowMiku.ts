@@ -258,20 +258,49 @@ export const snowMiku = {
   },
 
   y2024: {
-    // Winter Delicacy - Feast/Hokkaido Food
-    hair: '#609E9F',       // Muted Turquoise
-    eyes: '#376F70',       // Deep Teal
+    // Winter Delicacy (冬のごちそう) — Hokkaido winter feast
+    // Costume designer: shiro (piapro web voting); Rabbit Yukine concept: nekosumi
+    // Main visual artist: 裕 (Yuu)
+    // Colors sampled from the main visual, verified in JzCzhz. The
+    // snow-2024 theme's painted surfaces reference these directly
+    // (docs/DESIGN-SNOW-2024.md §2 is the measurement record).
+    hair: {
+      base: '#BFC6BE',     // Milky sage, lit strand
+      mass: '#A0AAA5',     // The tails' body tone
+      shadow: '#6D918C',   // Inner shadow — the hue anchor (~192°)
+      mint: '#B2CCC5',     // Mint highlight painted into eyes and braids
+      coil: '#95A8A0',     // Braid-coil pale ends
+    },
+    eyes: {
+      iris: '#859D94',     // Sage iris
+      highlight: '#B2CCC5',
+      pupil: '#241511',    // Deepest line in the painting
+    },
     outfit: {
-      kimono: '#FFF3E0',   // Cream/Bisque Base
-      apron: '#FFFFFF',    // White Salon Apron
-      obi: '#D84315',      // Spicy Orange/Red Ribbon
-      skirt: '#5D4037',    // Dark Brown Hem
+      apron: '#FEEDDC',        // Warm cream apron, lit face
+      apronShadow: '#E8CFBF',  // Apron frill in shadow
+      haori: '#EAB59A',        // Apricot haori, lit edge
+      haoriMid: '#DB9673',     // Haori mid tone
+      haoriShadow: '#AB6848',  // Haori in shadow
+      checker: '#A06C63',      // Dusty-russet checker cloth
+      checkerShadow: '#9A645C',
+      skirt: '#532B24',        // Chocolate pleated skirt, lit face
+      skirtShadow: '#47221D',  // Pleat shadow
+      boots: '#472D24',        // Chocolate lace-up boots
+      collar: '#CB7B6C',       // Kimono collar, dusty vermilion
     },
     accessories: {
-      headband: '#D7CCC8', // Beige/Napkin
-      shrimp: '#FF8A65',   // Shrimp Motif Accent
-      accents: '#8D6E63',  // Brown Food Themes
-    }
+      hairBow: '#F1DBCB',  // Cream hair bow / apron frill
+      bow: '#E67663',      // Coral bows at the twin tails and hem
+      bowShadow: '#B64C3E',
+      egg: '#E19A73',      // Soft-boiled egg brooch
+      leafPrint: '#555B2F',// Olive leaf print on the skirt
+      parsley: '#748C5A',  // Parsley in the soup-curry pot
+    },
+    mascot: {
+      // Rabbit Yukine as the chef — bread-loaf toque, ladle raised
+      body: '#F7EEE5',     // Warm white plush
+    },
   },
 
   y2025: {

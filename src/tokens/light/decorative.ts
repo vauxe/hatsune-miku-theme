@@ -220,6 +220,7 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     // Cursor line frost — ice at ~235° Hz
     cursorLineFrost: hex({ Jz: 0.128, Cz: 0.070, hz: 235 }),   // Ice — cool shopfront
     findMatchOverlay: hex({ Jz: 0.125, Cz: 0.090, hz: 70 }),  // Gingerbread cookie — overlay tint (Cz tuned for ΔE≥12)
+    findHighlightPigment: p.character.hair.shadow,             // Same value as ui.accentSecondary — veil unchanged
 
     // Boots — terminal lives inside the warm cream space
     bootsBase: p.character.boots.base,
@@ -229,7 +230,6 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
 
     // Status bar state colors — Snow Miku 2026 costume elements
     eyeIris: p.character.eyes.iris,               // Her gaze — debug status
-    cape: hex({ Jz: 0.100, Cz: 0.060, hz: 220 }), // Cyan-blue cape — unused; remote stays necktie pink
 
     // Star icon — butter croissant gold, bright for icon visibility (no text contrast)
     starIcon: hex({ Jz: 0.150, Cz: 0.115, hz: 80 }),

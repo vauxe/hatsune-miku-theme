@@ -1,46 +1,8 @@
-# VS Code / Dev
-.vscode/**
-.vscode-test/**
-.claude/**
-.codex/**
-.codex
-.grammars/**
-
-# Git
-.git/**
-.gitignore
-.gitattributes
-.npmignore
-
-# Documentation (keep README, LICENSE, CHANGELOG)
-vsc-extension-quickstart.md
-AGENTS.md
-CLAUDE.md
-docs/**
-
-# Ports (non-VS Code themes)
-ports/**
-
-# Source (only themes/ JSON needed)
-src/**
-tsconfig.json
-*.ts
-
-# Dependencies
-node_modules/**
-package-lock.json
-
-# Build artifacts
-**/*.vsix
-**/*.map
-release.sh
-
-# Assets (keep icon only — images are for GitHub README, not runtime)
-images/**
-examples/**
-
-# Temp
-tmp/**
-
-# Environment
-.env*
+# Allowlist: exclude everything, ship only what the extension needs.
+# (package.json is always included by vsce.)
+**
+!icon.png
+!README.md
+!LICENSE
+!CHANGELOG.md
+!themes/*.json

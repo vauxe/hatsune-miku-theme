@@ -239,13 +239,21 @@ export function createGitTokens(p: Primitives): GitTokens {
   //   Conflicting 0° Rose — demands resolution
   //   Renamed 270°   Blue — reorganized, same content
   // Jz/Cz are per-hue gamut-optimized — hardcoded, not from L/C registers.
+  const added = role('Mint added — vivid growth on cream',
+    0.076, 0.120, 180);
+  const modified = role('Gingerbread modified — warm golden change',
+    0.095, 0.120, 70);
+  const deleted = role('Violet deleted — twilight departure',
+    0.085, 0.120, H.minor3rd);
+
   return {
-    added: role('Mint added — vivid growth on cream',
-      0.076, 0.120, 180),
-    modified: role('Gingerbread modified — warm golden change',
-      0.095, 0.120, 70),
-    deleted: role('Violet deleted — twilight departure',
-      0.085, 0.120, H.minor3rd),
+    added,
+    modified,
+    deleted,
+    // Gutter marks share the label pigments — already chromatic on cream
+    gutterAdded: added,
+    gutterModified: modified,
+    gutterDeleted: deleted,
     untracked: role('Tonic untracked — her hair, drifting in',
       0.088, 0.110, H.mikuTeal),
     conflicting: role('Rose conflicting — demands resolution',

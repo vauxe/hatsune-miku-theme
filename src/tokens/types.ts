@@ -119,6 +119,11 @@ export interface GitTokens {
   stageModified: SemanticRole;
   stageDeleted: SemanticRole;
   submodule: SemanticRole;
+  /** Gutter/minimap decoration pigments — non-text duty (3:1 floor), so a
+   *  theme whose label colors must run ink-dark can keep chromatic marks. */
+  gutterAdded: SemanticRole;
+  gutterModified: SemanticRole;
+  gutterDeleted: SemanticRole;
 }
 
 // =============================================================================
@@ -320,6 +325,10 @@ export interface DecorativeTokens {
   cursorLineFrost: string;
   /** Find match overlay — gingerbread 70° optimized for bg tint, not text */
   findMatchOverlay: string;
+  /** Find-match HIGHLIGHT (all matches) tint pigment — historically the
+   *  secondary accent; its own slot so a theme whose accent must run dark
+   *  (for chrome text) can still keep this veil light over syntax. */
+  findHighlightPigment: string;
   /** Inlay hint parameter foreground (character skin.shadow) */
   inlayParameter: string;
 
@@ -338,8 +347,6 @@ export interface DecorativeTokens {
   topShadow: string;
   /** Eye iris — her gaze, debug status (character.eyes.iris) */
   eyeIris: string;
-  /** Cape — her outerwear, remote status (cyan-blue) */
-  cape: string;
 
   // --- Accent & warmth ---
   /** Her "01" tattoo mark — identity red (character marks.tattoo) */

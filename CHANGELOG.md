@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+- Light theme: Snow Miku 2024 — Winter Delicacy (VS Code + all ports)
+- Per-theme gutter/minimap git pigments (`git.gutter*`) — non-text register, chromatic marks on any chrome
+- Registry-driven readability gating everywhere: per-theme script aliases removed; CI runs `npm run readability` so every registered theme is gated automatically
+
 ## [3.9.39] - 2026-03-19
 
 - Web port with semantic CSS, DTCG 2025.10 tokens, system or scoped themes, and a live preview

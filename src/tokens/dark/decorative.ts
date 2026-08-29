@@ -230,6 +230,12 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     // Snow Miku -- icy cursor line frost
     cursorLineFrost: snowMiku.y2025.accessories.crystal, // 2025 Sparkling Snow ice prism #81D4FA
     findMatchOverlay: hex({ Jz: 0.110, Cz: 0.135, hz: 85 }), // Dark theme: warning-adjacent gold for find overlay
+    // Same value as ui.accentSecondary (hair highlight +0.015) — kept
+    // expression-identical so the findMatchHighlight veil is unchanged.
+    findHighlightPigment: (() => {
+      const hl = parseHex(p.character.hair.highlight);
+      return hex({ Jz: hl.Jz + 0.015, Cz: hl.Cz, hz: hl.hz });
+    })(),
 
     // Boots -- terminal lives inside her thigh-highs
     bootsBase: p.character.boots.base,
@@ -239,7 +245,6 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
 
     // Status bar state colors — not used in dark theme, passthrough
     eyeIris: p.character.eyes.iris,
-    cape: p.character.hair.shadow,  // Dark theme uses hair shadow for remote
 
     // Star icon — concert wand gold, same as warning (already bright on dark)
     starIcon: hex({ Jz: p.lightness.soprano, Cz: p.chroma.mf, hz: 85 }),

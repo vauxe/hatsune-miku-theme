@@ -12,6 +12,7 @@
 
 import { createDarkSemanticTokens } from './tokens/dark';
 import { createLightSemanticTokens } from './tokens/light';
+import { createSnow2024SemanticTokens } from './tokens/snow-2024';
 import type { Polarity } from './tokens';
 import type { SemanticTokens } from './tokens/types';
 
@@ -33,6 +34,19 @@ export interface Theme {
    * Exactly one flagship per polarity — validated below.
    */
   flagship?: boolean;
+  /** SCORE doc metadata (docgen): header title, design doc pointer, and
+   *  the theme's names for the overlay tint voices. */
+  score: {
+    title: string;
+    designDoc: string;
+    voices: {
+      engagement: string;
+      selection: string;
+      find: string;
+      diffAdded?: string;
+      diffRemoved?: string;
+    };
+  };
   tokens: SemanticTokens;
 }
 
@@ -72,6 +86,11 @@ export const themes: readonly Theme[] = validate([
     slug: 'dark',
     vscodeFilename: 'hatsune-miku-theme-color-theme.json',
     flagship: true,
+    score: {
+      title: 'Dark (Hatsune Miku)',
+      designDoc: 'docs/DESIGN.md',
+      voices: { engagement: 'teal', selection: 'frost', find: 'orange', diffAdded: 'negi', diffRemoved: 'rose' },
+    },
     tokens: createDarkSemanticTokens(),
   },
   {
@@ -81,7 +100,25 @@ export const themes: readonly Theme[] = validate([
     slug: 'light',
     vscodeFilename: 'hatsune-miku-snow-color-theme.json',
     flagship: true,
+    score: {
+      title: 'Light (Snow Miku 2026)',
+      designDoc: 'docs/DESIGN-LIGHT.md',
+      voices: { engagement: 'tonic', selection: 'ice', find: 'gingerbread' },
+    },
     tokens: createLightSemanticTokens(),
+  },
+  {
+    id: 'snow-2024',
+    name: 'Hatsune Miku (Snow Miku 2024)',
+    polarity: 'light',
+    slug: 'snow-2024',
+    vscodeFilename: 'hatsune-miku-snow-2024-color-theme.json',
+    score: {
+      title: 'Light (Snow Miku 2024)',
+      designDoc: 'docs/DESIGN-SNOW-2024.md',
+      voices: { engagement: 'sage', selection: 'haori', find: 'turmeric' },
+    },
+    tokens: createSnow2024SemanticTokens(),
   },
 ]);
 

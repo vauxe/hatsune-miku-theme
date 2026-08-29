@@ -57,12 +57,12 @@ function generate(theme: Theme): string {
   const s = t.syntax;
 
   const out: string[] = [
-    `# The Score — ${dark ? 'Dark (Hatsune Miku)' : 'Light (Snow Miku 2026)'}`,
+    `# The Score — ${theme.score.title}`,
     '',
     '> GENERATED — do not edit. Regenerate with `npm run docs:gen`.',
     '> Columns: design JzCzhz → rendered hex, rendered hue, APCA Lc on the',
     "> token's home background, perceived loudness L** (Fairchild–Pirrotta).",
-    '> Intent and rationale live in ' + (dark ? 'docs/DESIGN.md' : 'docs/DESIGN-LIGHT.md') + '.',
+    '> Intent and rationale live in ' + theme.score.designDoc + '.',
     '',
   ];
 
@@ -180,26 +180,27 @@ function generate(theme: Theme): string {
   const op = Object.fromEntries(
     Object.entries(opacity).map(([k, v]) => [k, parseInt(v, 16) / 255])
   ) as Record<keyof typeof opacity, number>;
+  const v = theme.score.voices;
   const tints: Array<[string, string, keyof typeof op]> = dark
     ? [
-        ['engagement (teal)', t.ui.accentPrimary.hex, 'light'],
-        ['engagement (teal)', t.ui.accentPrimary.hex, 'medium'],
-        ['engagement (teal)', t.ui.accentPrimary.hex, 'strong'],
-        ['engagement (teal)', t.ui.accentPrimary.hex, 'heavy'],
-        ['selection (frost)', t.decorative.cursorLineFrost, 'light'],
-        ['selection (frost)', t.decorative.cursorLineFrost, 'medium'],
-        ['selection (frost)', t.decorative.cursorLineFrost, 'strong'],
-        ['find (orange)', t.decorative.findMatchOverlay, 'strong'],
-        ['diff added (negi)', t.git.added.hex, 'medium'],
-        ['diff removed (rose)', t.decorative.diffRemoved, 'medium'],
+        [`engagement (${v.engagement})`, t.ui.accentPrimary.hex, 'light'],
+        [`engagement (${v.engagement})`, t.ui.accentPrimary.hex, 'medium'],
+        [`engagement (${v.engagement})`, t.ui.accentPrimary.hex, 'strong'],
+        [`engagement (${v.engagement})`, t.ui.accentPrimary.hex, 'heavy'],
+        [`selection (${v.selection})`, t.decorative.cursorLineFrost, 'light'],
+        [`selection (${v.selection})`, t.decorative.cursorLineFrost, 'medium'],
+        [`selection (${v.selection})`, t.decorative.cursorLineFrost, 'strong'],
+        [`find (${v.find})`, t.decorative.findMatchOverlay, 'strong'],
+        [`diff added (${v.diffAdded})`, t.git.added.hex, 'medium'],
+        [`diff removed (${v.diffRemoved})`, t.decorative.diffRemoved, 'medium'],
       ]
     : [
-        ['engagement (tonic)', t.ui.accentPrimary.hex, 'light'],
-        ['engagement (tonic)', t.ui.accentPrimary.hex, 'medium'],
-        ['selection (ice)', t.decorative.cursorLineFrost, 'light'],
-        ['selection (ice)', t.decorative.cursorLineFrost, 'medium'],
-        ['selection (ice)', t.decorative.cursorLineFrost, 'strong'],
-        ['find (gingerbread)', t.decorative.findMatchOverlay, 'strong'],
+        [`engagement (${v.engagement})`, t.ui.accentPrimary.hex, 'light'],
+        [`engagement (${v.engagement})`, t.ui.accentPrimary.hex, 'medium'],
+        [`selection (${v.selection})`, t.decorative.cursorLineFrost, 'light'],
+        [`selection (${v.selection})`, t.decorative.cursorLineFrost, 'medium'],
+        [`selection (${v.selection})`, t.decorative.cursorLineFrost, 'strong'],
+        [`find (${v.find})`, t.decorative.findMatchOverlay, 'strong'],
       ];
   out.push([
     '### Overlay Tints (composited on Stage)',

@@ -1,0 +1,23 @@
+{
+  "name": "Hatsune Miku (Snow Miku 2024)",
+  "foreground": "#532B24",
+  "background": "#FEEDDC",
+  "cursorColor": "#BF4736",
+  "selectionBackground": "#F5D7C2",
+  "black": "#AA9893",
+  "red": "#B30060",
+  "green": "#467E00",
+  "yellow": "#6C4B00",
+  "blue": "#00589C",
+  "purple": "#921EC2",
+  "cyan": "#00826F",
+  "white": "#7E764C",
+  "brightBlack": "#6D5E5A",
+  "brightRed": "#9C004F",
+  "brightGreen": "#407700",
+  "brightYellow": "#6A4900",
+  "brightBlue": "#004C8E",
+  "brightPurple": "#6C0095",
+  "brightCyan": "#007360",
+  "brightWhite": "#47342F"
+}

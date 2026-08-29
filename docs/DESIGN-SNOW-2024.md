@@ -1,15 +1,13 @@
-# Hatsune Miku Theme — Snow Miku 2024 Variant (Design Draft)
+# Hatsune Miku Theme — Snow Miku 2024
 
 Snow Miku 2024 — 冬のごちそう (Winter Delicacy Ver.).
 Costume design by **shiro** (Rabbit Yukine original concept: **nekosumi**).
 Main visual by **裕 (Yuu)**. Theme song: ハッピーチートデー by **れるりり**.
 
-> **Status: design draft — not yet implemented.** This document records
-> the intent for a planned light-polarity theme. Sampled values below are
-> provisional (taken from the main visual with the project's JzCzhz
-> converter); implementation re-samples official art into
-> `src/palette/`, and `docs/SCORE-SNOW-2024.md` will hold rendered truth
-> once the theme is registered.
+> **Status: implemented** — registered as `snow-2024` (light,
+> `src/tokens/snow-2024/`). Samples below are from the main visual,
+> measured with the project's JzCzhz converter and verified against
+> the artwork; `docs/SCORE-SNOW-2024.md` holds rendered truth.
 
 ---
 
@@ -18,113 +16,178 @@ Main visual by **裕 (Yuu)**. Theme song: ハッピーチートデー by **れ�
 A soup-curry shop in Sapporo, deep winter, fifteen years of snow. The
 official theme is 「北海道の冬をイメージした『ごちそう』」 — the winter
 feast of Hokkaido — and shiro's costume serves it 和洋折衷: a chic,
-subdued Japanese base (persimmon haori, chocolate pleats, vermilion
-collar) under a Western waitress apron of peach cream. Salmon-colored
-ribbon fish swim through her twin tails; a soft-boiled egg and a slice
-of lotus root sit at her chest like brooches; a fork gleams in her
-bangs. Yukine is the chef — bread-loaf toque with a melting pat of
-butter, russet neckerchief, ladle raised, hoisting a bowl of soup curry
-loaded with everything good.
+subdued Japanese base (apricot haori, chocolate pleats, vermilion
+collar) under a Western waitress apron of warm cream. Coral bows tie
+her twin tails into shrimp-tail fins; a soft-boiled egg and a slice
+of lotus root sit at her chest like brooches; a silver spoon-and-fork
+pair is pinned in her bangs. Yukine is the chef — bread-loaf toque
+with a melting pat of butter, russet neckerchief, ladle raised,
+hoisting a bowl of soup curry loaded with everything good: parsley
+green, salmon pink, a soft egg in cream broth.
 
-You code at the wooden table. The editor is the apron — peach cream,
-lit by the kitchen. The sidebar and menus are the haori and the room —
-the same warmth, more pigment. The ink is chocolate. The cursor is the
-salmon ribbon. Her sage-celadon hair is the only cool thing in the
-whole warm room — and that is exactly why it speaks every keyword.
+The fifteenth winter of Snow Miku, voted in by fans worldwide through
+piapro; her main stage was Wing Bay Otaru, February 2024. The figma
+casts her as a slightly clumsy waitress, cloche and menu in hand.
+shiro's wish for the design: *may this child, like soup curry, warm
+your heart through the winter.*
 
-The main visual's illustrator noted that where every previous Snow Miku
-was blue, this one is sepia — very fresh. The theme takes that
-seriously: this is the all-warm variant.
+**The costume's color chord is the theme's identity.** What makes
+this outfit recognizable at a glance is the chord: cream apron ×
+apricot haori × chocolate pleats × coral bows, with her sage hair as
+the one cool thread through the warm cloth. The screen keeps the
+chord visible all at once, each color at its share and in its place:
+the editor is the apron (center, dominant); the sidebar and tabs are
+the apron's own trim — the hair bow's cream, the frilled hem; the
+activity bar, status bar and section headers are the haori — the
+narrow warm strips that edge the apron in the painting edge the
+window on screen; the text and borders are the chocolate linework;
+the cursor and badges are the coral bows, pinned exactly where the
+painting pins them (on the haori, at the hair); selection is the
+haori again, laid over the apron as a veil.
+
+**Her hair never paints a wall.** The sage is a voice, not a
+surface: it speaks the keywords and comments, tints the hovers,
+colors the links, fills the buttons and the remote chip — the
+register the painting gives it, cool thread through warm cloth. The main visual's illustrator noted that where
+every previous Snow Miku was blue, this one is sepia — very fresh.
+The theme takes that seriously: every large surface is warm, and the
+cool arrives only where she speaks.
 
 ---
 
 ## 2. Source Colors
 
-Provisional samples from the main visual, measured with the project's
-JzCzhz converter (0° = rose, 180° = teal). Implementation re-samples
-from official art packs.
+Samples from the main visual, measured with the project's JzCzhz
+converter (0° = rose, 180° = teal) and verified against the artwork.
+The painting is milky, not vivid: the lit hair carries almost no
+chroma (Cz ≈ 0.01), and the theme's surfaces keep that restraint.
 
 ```
 Element                  Sampled      Hz      Grid        Role
 ═══════════════════════════════════════════════════════════════════════════
-Hair (sage, lit)         #8FAEA5      ~180°   F# (180°)   Tonic — keywords, accent
-Hair (sage, shadow)      #6D958F      ~192°   F#          Tonic depth
-Eyes (iris)              #859D94      ~173°   F#          Same voice, watching
-Apron cream              #FDE4D3      ~62°    ~60°        Canvas — editor, content
-Apron highlight          #FFEFDD      ~72°    ~65°        Void — warm ivory
-Haori (burnt sienna)     #AF6B46      ~58°    ~60°        Chrome — sidebar, menus
-Checker (cocoa)          #8B534F      ~36°    ~40°        Warm neutral, secondary chrome
-Skirt (chocolate)        #61352D      ~42°    ~40°        Ink family
-Boots                    #503328      ~51°    ~50°        Ink family
-Chest ribbon             #3C1711      ~41°    ~40°        Deepest ink anchor
-Ribbon fish (salmon)     #E57662      ~44°    ~40°        Identity — cursor, focus
-Ribbon fish (deep)       #B54B3F      ~41°    ~40°        Identity pressed, error depth
-Kimono collar            #C0483A      ~42°    ~30–40°     Error — vermilion signal
-Cuff stripe (pink)       #E7A9A0      ~39°    ~40°        Identity tint, diff removed
-Egg brooch (apricot)     #F1AC82      ~60°    D (60°)     Parameter family
-Bread toque (tan)        #CC9978      ~61°    ~60°        Warning/find family source
-Leaf print (olive)       #555B2F      ~105°   ~90–120°    Success, diff added
-Frill (dusty pink)       #C6978C      ~44°    ~40°        Soft warm neutral
+Apron (lit face)         #FEEDDC      ~70°    ~60°        Stage — editor, terminal (as painted)
+Apron frill (shadow)     #E8CFBF      ~63°    ~60°        Float — menus, overlays (as painted)
+Hair (mint highlight)    #B2CCC5      ~180°   F# family   Accent family datum
+Hair (lit strand)        #BFC6BE      ~150°*  F# family   The tails toward grey
+Hair (mass tone)         #A0AAA5      ~165°*  F# family   The tails' body
+Hair (shadow)            #6D918C      ~192°   F#          Engagement wash source
+Hair bow / frill cream   #F1DBCB      ~64°    ~60°        House — sidebar, tabs (as painted)
+Eyes (iris)              #859D94      ~180°   F#          Same voice, watching
+Haori (lit edge)         #EAB59A      ~57°    ~60°        Edge — activity bar, status bar, headers (as painted)
+Haori (apricot, lit)     #DB9673      ~57°    ~60°        Selection — the cloth over the apron
+Haori (shadow)           #AB6848      ~55°    ~60°        Warm depth
+Checker (dusty russet)   #A06C63      ~41°    ~40°        Warm cloth datum (the checker)
+Checker (shadow)         #9A645C      ~41°    ~40°        Warm cloth datum
+Skirt (chocolate, lit)   #532B24      ~42°    ~40°        Ink family — the linework itself
+Skirt (pleat shadow)     #47221D      ~39°    ~40°        Ink anchor
+Boots                    #472D24      ~49°    ~50°        Ink family
+Eye pupil / deep line    #241511      ~45°    ~40°        Deepest ink anchor
+Coral bow (lit)          #E67663      ~43°    ~40°        Identity — cursor, focus, badge
+Coral bow (shadow)       #B64C3E      ~42°    ~40°        Buttons (as painted), identity pressed
+Kimono collar            #CB7B6C      ~43°    ~40°        Error family — vermilion signal
+Egg brooch (apricot)     #E19A73      ~58°    D (60°)     Parameter family
+Leaf print (olive)       #555B2F      ~105°   ~90–120°    Green family datum
+Parsley (in the pot)     #748C5A      ~118°   E (120°)    Class-family anchor
 Yukine (warm white)      #F7EEE5      ~70°    —           Reference white
-Yukine scarf (russet)    #793F2B      ~50°    ~50°        Deep warm accent
 ```
+
+\* The lit hair is near-neutral; at Cz ≈ 0.01 the nominal hue angle
+wanders and carries no perceptual weight. The hair *family* — lit
+strand, mass, shadow — reads as one milky sage that resolves to ~180°–192°
+where the shadow gives it enough chroma to speak.
 
 ### Key Derivations
 
-**Hair → Tonic, at home.** Sage celadon sits at Hz ~180° — the canonical
-Miku hue, where the dark variant's tonic lives. 2026 transposed the
-tonic to G (210°); 2024 brings it home to F# (180°), voiced matcha-soft
-in chrome and full-strength in syntax.
+**Apron → Stage.** The apron's lit face (#FEEDDC) is the editor,
+byte for byte. It is the largest cloth in the painting and the
+lightest working surface on screen.
 
-**Apron → Canvas.** Peach cream at ~62° — warmer and pinker than 2026's
-cream (~85°). The whole lightness ladder re-derives on this canvas.
+**Hair bow → House.** The sidebar and tabs wear the hair bow's cream
+(#F1DBCB), as painted — the apron's own trim carries the frame, so
+the whole page stays one warm cloth, seamed by the linework and the
+haori edges rather than by temperature.
 
-**Haori → Chrome.** Burnt sienna at ~58° — *the same hue as the canvas*.
-Content and structure are one wood; they separate by lightness and
-pigment load, not temperature. This is the defining constraint of the
-variant (see Principles).
+**Haori → Edge.** In the painting the apricot haori is the warm band
+between the hair and the apron — the sleeves edging the figure. On
+screen it is the warm band edging the window: activity bar, status
+bar, and section headers wear the haori's lit face (#EAB59A), as
+painted. Narrow strips, roughly the haori's share of the figure —
+warmth as trim, never as walls. The apricot section headers striping
+the cream sidebar are the sleeve's candy stripes, apricot over cream
+exactly as painted.
 
-**Chocolate → Ink.** Skirt, boots, ribbon: ~40–50°, continuous with the
-2026 chocolate-ink tradition. Text is dark roast on peach cream.
+**Apron frill → Float.** Menus and overlays are cloths laid over the
+frame; they wear the frill's shadowed cream (#E8CFBF), as painted.
 
-**Ribbon fish → Identity.** Salmon-vermilion (~40°) marks cursor,
-buttons, badges, focus. The deep end of the same family (collar
-vermilion, deepened) is the error voice — same-hue coexistence
-separated by depth, exactly as 2026 ran necktie pink (27°) beside
-strawberry error (30°).
+**Hair → the voice.** Her hair takes no wall. It is the tonic —
+keywords, comments, punctuation — the engagement washes on hover,
+the links, ANSI cyan, the primary buttons and the remote chip: the
+cool thread stitched through every warm surface, never the surface
+itself.
+
+**Chocolate → Ink and lines.** 裕 draws the entire figure in warm
+chocolate outlines. Body text is that ink (#532B24 as painted);
+control borders (inputs, selected rows, secondary buttons) are the
+same pen one stroke lighter (cocoa, low chroma); quiet borders are a
+crease in the cream, barely drawn. Panel seams are her sage at low
+opacity — stitching from an existing family, never a new mid-warm
+color competing with the coral and the apricot.
+
+**Coral bows → Attention.** The bows (#E67663) mark cursor, focus
+and badges — the pure "look here" roles. Action answers in her
+voice: primary buttons and the remote chip wear deep sage (§7).
+
+**Haori → Selection.** The apricot haori is the one cloth the
+painting drapes over the apron — so it is the one veil the theme
+drapes over the editor: selection, cursor line, chosen rows.
+
+**Hair (shadow) → Tonic.** Sage celadon at ~180°–192° — the canonical
+Miku hue, home. Keywords speak it in the syntax; hovers wash it over
+lists; links take its darker registers.
 
 ---
 
 ## 3. Principles
 
-1. **All-warm sepia.** 2026 separated content from chrome by
-   temperature (warm cream vs cool blue). 2024 has no cool structure to
-   spend — canvas and chrome share one warm hue family. Separation
-   comes from the lightness step, the pigment step (Cz ladder), and
-   boundary borders. This is the variant's central readability risk and
-   its central character; the gates own the verdict.
+1. **The chord is the identity; proportion is the layout.** The
+   costume's chord — cream, apricot, chocolate, coral, sage — stays
+   visible simultaneously, each family at roughly its garment's share
+   and place (§1). No garment is promoted beyond its share: the haori
+   edges and tints, it never paints the large walls — and the hair
+   paints no wall at all.
 
-2. **The tonic is the only cool voice.** Sage celadon (180°) against a
-   uniformly warm room — ~120° of hue separation from canvas. In the
-   artwork her hair is the coolest object in the frame; in the editor,
-   keywords are. Cool syntax hues (azure, blue, violet) remain available
-   for data tokens: syntax is the plated food, allowed vivid.
+2. **Milky, not vivid.** The artwork keeps its largest color masses
+   near-neutral (lit hair Cz ≈ 0.01). Surfaces and washes stay that
+   soft; only the plated food (syntax) and the bows (identity) arrive
+   at full voice — 和洋折衷: the subdued base, the vivid garnish.
 
-3. **和洋折衷 — restrained base, vivid garnish.** Surfaces stay chic
-   and subdued (the 和 base: low-chroma warm tiers, never chroma-boosted
-   chrome). Signals carry the gochisou colors (the 洋 service: salmon,
-   turmeric, matcha, vermilion) at full voice.
+3. **The cool belongs to her and to the data.** In the artwork her
+   hair is the coolest object in the frame; on screen the tonic
+   family (keywords, comments, punctuation) and the winter-blue data
+   tokens (azure, blue, violet) carry all the cool. Syntax is the
+   plated food, allowed vivid.
 
-4. **The two-tier ensemble re-derives on peach.** The light-variant
-   discipline carries over: two syntax registers (2026 seats its
-   120°–240° arc at sopranino, the rest at soprano) with one clipped
-   dynamic. Tier memberships and values re-derive because the canvas
-   is peachier and slightly deeper than 2026's cream.
+4. **The two-tier ensemble re-derives on cream.** The light-variant
+   discipline carries over: two syntax registers (the 120°–240° arc at
+   sopranino, the rest at soprano) with one clipped dynamic. Tier
+   memberships and values re-derive because the canvas is warmer and
+   slightly lighter than 2026's cream.
 
-5. **Minimal transposition.** Only two seats change relative to the
-   2026 grammar: the tonic returns 210° → 180°, and interface (2026's
-   180°) takes the vacated 210°. Every other assignment carries over.
-   Signal tokens keep fixed absolute positions.
+5. **Minimal transposition.** Three moves relative to the 2026
+   grammar: the tonic returns 210° → 180°; interface (2026's 180°)
+   takes the vacated 210°; and the warning/find family lifts 70° → 90°
+   — 2026's gingerbread seat sits 8° from this cream canvas and would
+   vanish into it (§7). Every other assignment carries over. Operator
+   keeps its absolute 0°; error keeps its C# seat but renders at the
+   collar's sampled hue (§4).
+
+6. **Hue is sampled, depth is designed.** Surfaces take the artwork's
+   own values — byte for byte where a painted value fits its role —
+   and gate shortfalls tune depth or chroma on the ink side, never
+   rotate hue and never wash the walls. The sage House asks more of
+   its ink than a near-white chrome would, and the ink answers: text
+   tiers, the git wheel and the watch-view tokens all sit a step
+   deeper than their 2026 counterparts.
 
 ---
 
@@ -132,8 +195,8 @@ strawberry error (30°).
 
 ### Twelve Hues
 
-Tonic at F# = 180°. Canvas Δ measured from the peach Stage (~62°).
-Registers re-derived at implementation; the seating below is the design.
+Tonic at F# = 180°. Registers re-derived at implementation; the
+seating below is the design.
 
 ```
 Note   Hz     Tokens
@@ -146,27 +209,32 @@ G#     240°   constant · enumMember · number · boolean
 A#     300°   type · typeParameter
 B      330°   decorator · macro
 C        0°   operator
-C#      30°   error (deep vermilion, C.f)
+C#      30°   error (collar vermilion — renders ~42°, C.f)
 D       60°   parameter · property · attribute
 D#      90°   function · method · tag
 E      120°   class · struct · enum
 F      150°   string · stringTemplate · regex
 ```
 
-**Parameter at 60° (apricot).** Two degrees from the canvas hue — the
-egg-yolk brooch on the peach apron. The 2026 precedent (function gold
-5° from cream canvas) says register and chroma do the work; this is the
-tightest such pairing in the family and gets first scrutiny at the
-gates.
+**Parameter at 60° (apricot).** A few degrees from the canvas hue —
+the egg-yolk brooch on the cream apron. The 2026 precedent (function
+gold 5° from cream canvas) says register and chroma do the work; this
+is the tightest such pairing in the family and gets first scrutiny at
+the gates.
 
 **Function at 90° (turmeric).** Curry gold — the pot itself. Reads as
 warm handwriting on the apron, one register down from parameter.
 
 **Variable at 270° (blue).** Kept from 2026: the most frequent token
-takes the widest cool gamut, near-complementary to peach.
+takes the widest cool gamut, near-complementary to cream. Seated a
+step below the warm ensemble — chat file labels borrow this token on
+the sage House, which asks the extra depth.
 
 **String at 150° (matcha).** Green tea over rice; also the success
 family's home.
+
+**Class at 120° (wasabi).** Anchored by the pot's parsley — the
+sampled 118° is the truest green she wears.
 
 ### Departures
 
@@ -176,12 +244,14 @@ Layer     Token         Hz     Voice
 Structure punctuation   180°   tonic, one step above comments
 Whisper   comment       180°   celadon at alto — steam between lines
           commentDoc    180°   slightly deeper steam
-Signal    error          30°   deep vermilion at f — the collar
+Signal    error         ~42°   collar vermilion at f — sampled hue
 ```
 
 Comments whisper in the tonic, as in both existing variants. Error
-rides depth below the salmon identity family — the deutan separation
-from warning is carried by lightness, not hue (the 2026 lesson).
+keeps the collar's sampled ~42° (Principle 6) — its C# seat is
+nominal — and rides depth below the coral identity family; the
+deutan separation from warning is carried by lightness, not hue (the
+2026 lesson).
 
 ### Brackets
 
@@ -209,43 +279,48 @@ variant (ΔEz ≥ 12 under Brettel, all pairs).
 
 ### Tiers
 
-All four tiers are warm — the room has no cold corner. Start from the
-established light-variant ladders (Jz steps and the Cz ladder
-0.008/0.012/0.016/0.020) and re-tune on peach; House and Float drift
-toward the haori's sienna hue while staying inside the chrome-chroma
-discipline (structural surfaces are never chroma-boosted).
+Every tier is a painted cloth. The ladder is what the painting says
+it is — the apron above the bow's cream above the hair — and the
+seams are strong because the cloths are distinct in temperature, not
+because a ladder prescribed them.
 
 ```
-Tier       Intent
+Tier       Cloth                              Intent
 ═══════════════════════════════════════════════════════════════════
-Void       Warm ivory — the lit kitchen behind everything
-Stage      Apron peach-cream — editor, terminal
-House      Kinako latte — sienna-tinted structure: sidebar, tabs
-Float      Deeper latte — menus, hovers over the frame
+Void       Apron at full light                The page behind her
+Stage      Apron, lit face (as painted)       Editor, terminal
+House      Hair-bow cream (as painted)        Sidebar, tabs
+Float      Apron frill, shadow (as painted)   Menus, hovers, widgets
+Edge       Haori, lit (as painted)            Activity bar, status bar,
+                                              section headers
 ```
 
-Without a temperature boundary, the Stage/House seam leans harder on
-the Jz step, the Cz step, and boundary borders than 2026 did. If the
-gates find the seam too soft, the correction is more pigment within
-the ladder and stronger borders — not a cool House.
+One warm cloth, four folds of it, edged in apricot — the apron with
+its trim, worn as a window. The seams are drawn, not shaded: cocoa
+control borders, sage hairline stitching, and the haori strips carry
+the boundaries. Readability corrections darken the ink; they never
+wash the walls.
 
 ### Nesting
 
 Mirrors the light variant: inputs drop to Stage inside House
 containers; active tabs drop to Stage and merge with the editor;
-inactive tabs recede into House; floating widgets take Float. Shadows
-are warm ivory, never grey.
+inactive tabs recede into House; floating widgets take Float — a
+cream cloth laid over whatever it covers, articulated by russet
+borders. Shadows are warm ivory, never grey.
 
 ---
 
 ## 6. Foreground
 
-Chocolate ink (~40–50°, the skirt-boots-ribbon family) on peach cream —
-the darkest anchor is the chest ribbon. Both surfaces and ink are warm;
-readability comes from lightness contrast alone, which the peach canvas
-must grant at every text tier. The diminished tiers split between the
-ink family (warm rows: tertiary, disabled, placeholder) and the sienna
-chrome voice (structural rows: muted, subtle, ghost).
+Chocolate ink (~40–50°, the skirt-boots-linework family) on the
+cream tiers — the skirt's lit face (#532B24), as painted. The
+apricot Edge is the demanding surface — a mid-tone strip that asks
+its text to commit — so the diminished tiers (muted, disabled) and
+the label colors that appear on chrome (the git wheel, the watch-view
+tokens, the deep sage accents) all run a step deeper than their 2026
+counterparts. The warm rows stay in the ink family; the structural
+rows (muted, subtle, ghost) speak the russet linework voice (~58°).
 
 ---
 
@@ -256,69 +331,89 @@ chrome voice (structural rows: muted, subtle, ghost).
 ```
 Voice       Source              Hz       Mechanism      Role
 ═══════════════════════════════════════════════════════════════════
-Structure   Haori sienna        ~60°     Solid Jz       Where am I?
-Engagement  Celadon hair        ~180°    Opacity tint   Hover, active (transient)
-Selection   Steam sage          ~190°    Opacity tint   Selected, cursor line (persistent)
-Identity    Ribbon-fish salmon  ~40°     Solid border   Focus, keyboard target
+Structure   Cocoa line (ink)    ~42°     Solid border   Where am I?
+Engagement  Hair-shadow sage    ~190°    Opacity tint   Hover, active (transient)
+Selection   Haori apricot       ~57°     Opacity tint   Selected, cursor line (persistent)
+Identity    Coral bow           ~43°     Solid border   Focus, keyboard target
 ```
 
-**Steam on the window.** Selection is the greyer, softer sage — steam
-condensing on warm glass — while Engagement is the tonic celadon, more
-chromatic. The two cool tints separate by chroma, mirroring how 2026
-separated cyan engagement from ice selection.
+Structure is not a fifth color: control borders are the ink family
+serving as line, and panel seams are the sage voice at low opacity.
+The frame resolves to five families, one per garment role — cream
+cloth (surfaces), chocolate (text and lines), apricot (edges and
+selection), coral (attention), sage (the voice).
 
-**Identity rides depth.** Salmon (~40°) and celadon (~180°) sit ~140°
-apart; under deutan both drift toward neutrals, so the identity family
-keeps a firm lightness gap from the engagement tints. Gates own the
-final word.
+**The haori over the apron.** Selection is warm where engagement is
+cool: the two tints separate by temperature, the same axis that
+separates Stage from House. Selecting text lays the haori's apricot
+over the apron — the exact gesture of the painting.
+
+**Identity rides depth.** Coral (~43°) shares its warmth with the
+selection veil, so the identity family keeps a firm lightness gap and
+a solid-border mechanism where selection is always a translucent
+wash. Gates own the final word.
 
 ### Accent Hierarchy
 
-The ribbon-fish family (~40°) serves all identity and action roles —
-cursor, primary buttons, badges, focus and active borders — darkening
-through salmon → deep salmon → vermilion for hover/active/pressed.
-Button text is warm cream on deep salmon. Links take the tonic's
-darker registers.
+Two clean groups. The coral-bow family (~43°) keeps the pure
+attention roles — cursor, badges, focus and active borders: "look
+here." Her sage answers action — primary buttons wear the hair
+shadow deepened for cream text and darken into the roots on
+hover/press; secondary buttons are the pale mint; links, hovers and
+checked states speak the same voice; the remote chip inherits the
+button sage, a single cold solid on the warm status bar. (The dark
+flagship makes the same two moves with its teal.) Debug wears pale
+salmon — warm against the remote's cool, never confusable.
 
 ### Materials
 
-**Fabric** — lists, trees, menus: transparent at rest → celadon tint on
-hover → steam tint selected → salmon border on focus. **Metal** —
-buttons, badges: salmon solid, deepening on interaction. **Glass** —
-inputs: Stage fill with sienna border → tonic border on hover → salmon
+**Fabric** — lists, trees, menus: transparent at rest → sage tint on
+hover → apricot tint selected → coral border on focus. **Metal** —
+buttons: deep sage solid, darkening into the roots; badges: coral,
+attention only. **Glass** —
+inputs: Stage fill with cocoa border → sage border on hover → coral
 on focus; validation tints the fill, focus always takes the border.
-**Architecture** — tabs and bars at House; active tab drops to Stage;
-status bar: normal = House, debugging = deep salmon, remote = celadon.
-**Air** — scrollbars and minimap ride tonic tints.
+**Architecture** — tabs at House (the bow cream), the frame's edges
+at Edge (the haori): activity bar left, status bar below, section
+headers striping the sidebar like the haori's sleeve stripes; active
+tab drops to Stage (the apron's lit face shows through); status bar:
+normal = haori apricot; debugging wears pale salmon under chocolate
+ink; remote wears the button sage under cream — her voice marks the
+live session, exactly as the dark flagship's teal remote does.
+**Air** — scrollbars and minimap ride sage tints.
 
 ### Overlays
 
 ```
 Overlay                  Voice                    Intent
 ═══════════════════════════════════════════════════════════════════
-Cursor line              Steam sage               light tint
-Selection                Steam sage               strong tint
-Word highlight           Tonic celadon            strong tint
+Cursor line              Haori apricot            light tint
+Selection                Haori apricot            strong tint
+Word highlight           Tonic sage               strong tint
 Find match               Turmeric (~90°)          dedicated overlay pigment
+Find highlight (all)     Light celadon            veil over syntax
 Diff inserted            Matcha (~150°)           line light, text stronger
 Diff removed             Salmon-pink (~40°)       line light, text stronger
-Bracket match            Tonic celadon            medium tint
+Bracket match            Tonic sage               medium tint
 ```
 
-Find match takes turmeric rather than anything near the canvas hue —
-a 60°-family overlay would vanish into peach. As in 2026, the find
-overlay is its own pigment, lighter and less saturated than status
-warning, tuned so every ensemble ink clears the compound floor on the
-tinted background.
+Find match takes turmeric rather than anything near the selection
+hue — golden against the apricot veil, never mistaken for it. As in
+2026, the find overlay is its own pigment, lighter and less saturated
+than status warning, tuned so every ensemble ink clears the compound
+floor on the tinted background.
 
 ### Status & Git
 
 ```
-Status   Error    deep vermilion 30° — the collar; depth carries the
-                  deutan gap from warning
-         Warning  turmeric 90° — the curry, golden caution
+Status   Error    collar vermilion ~42° — sampled hue; depth carries
+                  the deutan gap from warning
+         Warning  turmeric 90° — the curry, dulled and deepened to
+                  read on the sage House
          Info     tonic celadon 180° — her voice, calm
-         Success  matcha 150° — the leaf print approves
+         Success  matcha 150° — one seat above the sampled greens
+                  (105–118°): the lift buys deutan distance from
+                  turmeric warning
 
 Git      added matcha 150 · modified turmeric 90 · deleted violet 300
          untracked celadon 180 · conflicting rose 0 · renamed blue 270
@@ -326,22 +421,32 @@ Git      added matcha 150 · modified turmeric 90 · deleted violet 300
 ```
 
 Same seat assignments as the light variant except where the tonic
-moved; all pairs re-asserted ≥ ΔEz 12 under Brettel dichromat
-simulation at implementation.
+moved. The label wheel runs deeper than 2026's (it reads on chrome);
+gutter and minimap marks keep their own lighter chromatic register —
+non-text duty, so green/gold/violet stay recognizable as color. The
+CVD geometry (protan gap added↔modified, tritan gap
+modified↔deleted, deutan gap error↔warning) is carried by the
+re-derived depths and re-asserted ≥ ΔEz 12 under Brettel dichromat
+simulation.
 
 ---
 
 ## 8. Extras
 
-**Terminal.** Stage background (peach cream), vivid inks, brights
+**Terminal.** Stage background (apron cream), vivid inks, brights
 slightly darker than normals for emphasis on light ground. The
-magenta-above-blue depth stagger and the deutan discipline carry over;
-exact values are the implementation's problem and SCORE's record.
+magenta-above-blue depth stagger and the deutan discipline carry over.
+ANSI cyan wears the steam-sage hue (~190°, the hair shadow) rather
+than the tonic: 10° of blue buys the protan residual against the
+toasted-cream white that 2026's bluer cyan got for free. Exact values
+are the implementation's problem and SCORE's record.
 
 **Symbol icons, support tokens, debug, markdown.** Follow the
 light-variant grammar transposed to the 2024 seats (tonic 180°,
-interface 210°), with per-icon registers re-derived on peach. Same-hue
-icon pairs keep the ΔEz ≥ 12 discipline.
+interface 210°), with per-icon registers re-derived on cream. The
+debug expression tokens run deeper than the syntax registers — the
+watch view lives on the sage House. Same-hue icon pairs keep the
+ΔEz ≥ 12 discipline.
 
 **Indent guides.** Six pastry-case stripes, her hair first:
 
@@ -355,44 +460,3 @@ Guide   Hz     Source
   5      90°   Turmeric — the curry
   6     270°   Blue — winter window
 ```
-
----
-
-## 9. Implementation Notes
-
-- **Registry entry** (the whole public wiring):
-  `{ id: 'snow-2024', name: 'Hatsune Miku (Snow Miku 2024)', polarity: 'light', slug: 'snow-2024', vscodeFilename: 'hatsune-miku-snow-2024-color-theme.json' }` —
-  not a flagship; the web `dark`/`light` aliases stay pinned to the
-  flagship pair. Web exposure is additive:
-  `data-hm-theme="snow-2024"` selectors only.
-- **Tokens**: `src/tokens/snow-2024/` starting from the light
-  composition with its own primitives; palette source
-  `src/palette/snow2024.ts`, re-sampled from official art (this
-  document's samples are provisional main-visual reads).
-- **Docgen**: first third theme — docgen's per-theme title/prose
-  branches must move into theme metadata (the planned abstraction
-  point).
-- **Gates**: `npm run readability` covers the theme the moment it is
-  registered. Watch list, in order: the all-warm Stage/House seam;
-  parameter (60°) on peach (62°); identity-vs-error same-hue depth
-  split; find-match visibility over peach.
-
----
-
-## References
-
-- SNOW MIKU 2024 official site — theme, dates, credits:
-  https://snowmiku.com/2024/
-- Official blog, main visual reveal (shiro's soup-curry comment, 裕's
-  sepia comment): https://blog.piapro.net/2023/09/b2309071.html
-- Official blog, figma 冬のごちそうver. (waitress motif, parts):
-  https://blog.piapro.net/2024/10/w241003-1.html
-- Good Smile Company, ねんどろいど 雪ミク 冬のごちそうVer. (costume
-  design shiro, Yukine concept nekosumi):
-  https://www.goodsmile.info/ja/product/15329
-- Good Smile Company (EN), figma Snow Miku: Winter Delicacy ver.:
-  https://www.goodsmile.com/en/product/60102
-- Theme song「ハッピーチートデー」/ れるりり feat. 初音ミク (MV):
-  https://blog.piapro.net/2023/12/e2312201.html
-- Official CD『Yukifull Kitchen feat. 初音ミク』:
-  https://www.crypton.co.jp/cfm/news/2024/01/24sm24cd

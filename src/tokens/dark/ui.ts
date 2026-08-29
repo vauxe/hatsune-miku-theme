@@ -171,13 +171,21 @@ export function createGitTokens(p: Primitives): GitTokens {
   //   > renamed(0.170) > deleted(0.174). Warm pair: modified(0.186) vs conflicting(0.165).
   // Primary trio vivid (Cz 0.065-0.080), secondary trio quieter (Cz 0.045-0.070).
   // All Jz/Cz/Hz are CVD-tuned off-grid -- hardcoded, not from L/C/H registers.
+  const added = role('Negi green -- new life in the code tree',
+    0.190, 0.065, 150);
+  const modified = role('Concert gold -- Magical Mirai stage light, she painted the change',
+    0.186, 0.075, 85);
+  const deleted = role('Nightcord magenta -- silence where code once lived',
+    0.178, 0.080, 320);
+
   return {
-    added: role('Negi green -- new life in the code tree',
-      0.190, 0.065, 150),
-    modified: role('Concert gold -- Magical Mirai stage light, she painted the change',
-      0.186, 0.075, 85),
-    deleted: role('Nightcord magenta -- silence where code once lived',
-      0.178, 0.080, 320),
+    added,
+    modified,
+    deleted,
+    // Gutter marks share the label pigments -- already chromatic on the dark stage
+    gutterAdded: added,
+    gutterModified: modified,
+    gutterDeleted: deleted,
     untracked: role('Frost cyan -- unknown files drifting in like snow',
       0.180, 0.045, 210),
     conflicting: role('Rose conflict -- her tattoo mark, demands resolution',

@@ -31,11 +31,8 @@ jobs:
             exit 1
           fi
 
-      - name: Readability gate — dark
-        run: npm run readability:dark
-
-      - name: Readability gate — light
-        run: npm run readability:light
+      - name: Readability gate — every registered theme
+        run: npm run readability
 
       - name: Readability gate — ports
         run: npm run readability:ports
