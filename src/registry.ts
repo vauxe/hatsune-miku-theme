@@ -13,6 +13,7 @@
 import { createDarkSemanticTokens } from './tokens/dark';
 import { createLightSemanticTokens } from './tokens/light';
 import { createSnow2024SemanticTokens } from './tokens/snow-2024';
+import { createMm2025SemanticTokens } from './tokens/mm-2025';
 import type { Polarity } from './tokens';
 import type { SemanticTokens } from './tokens/types';
 
@@ -119,6 +120,19 @@ export const themes: readonly Theme[] = validate([
       voices: { engagement: 'sage', selection: 'haori', find: 'turmeric' },
     },
     tokens: createSnow2024SemanticTokens(),
+  },
+  {
+    id: 'mm-2025',
+    name: 'Hatsune Miku (Magical Mirai 2025)',
+    polarity: 'dark',
+    slug: 'mm-2025',
+    vscodeFilename: 'hatsune-miku-mm-2025-color-theme.json',
+    score: {
+      title: 'Dark (Magical Mirai 2025)',
+      designDoc: 'docs/DESIGN-MM-2025.md',
+      voices: { engagement: 'star-mist', selection: 'denim', find: 'first-star', diffAdded: 'bamboo', diffRemoved: 'crimson' },
+    },
+    tokens: createMm2025SemanticTokens(),
   },
 ]);
 

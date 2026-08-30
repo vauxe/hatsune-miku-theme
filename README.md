@@ -7,7 +7,7 @@
 *Not a breath, not a heartbeat — just a voice.*
 *Ten thousand songs gave her a soul. A lifetime of love made it real.*
 
-A color theme traced from Hatsune Miku's character design. Dark and light variants, built with perceptual color science for readability and color vision accessibility. Full rationale in [`docs/DESIGN.md`](docs/DESIGN.md) (dark), [`docs/DESIGN-LIGHT.md`](docs/DESIGN-LIGHT.md) (light — Snow Miku 2026), and [`docs/DESIGN-SNOW-2024.md`](docs/DESIGN-SNOW-2024.md) (light — Snow Miku 2024).
+A color theme traced from Hatsune Miku's character design. Dark and light variants, built with perceptual color science for readability and color vision accessibility. Full rationale in [`docs/DESIGN.md`](docs/DESIGN.md) (dark), [`docs/DESIGN-LIGHT.md`](docs/DESIGN-LIGHT.md) (light — Snow Miku 2026), [`docs/DESIGN-SNOW-2024.md`](docs/DESIGN-SNOW-2024.md) (light — Snow Miku 2024), and [`docs/DESIGN-MM-2025.md`](docs/DESIGN-MM-2025.md) (dark — Magical Mirai 2025).
 
 Available for VS Code, the Web, Neovim, Helix, Zed, Sublime Text, and popular terminal emulators.
 
@@ -27,7 +27,7 @@ Available for VS Code, the Web, Neovim, Helix, Zed, Sublime Text, and popular te
 1. Download the latest `.vsix` from [Releases](https://github.com/vauxe/hatsune-miku-theme/releases/latest)
 2. `Ctrl+Shift+P` → **Extensions: Install from VSIX...**
 3. Select the downloaded file
-4. Choose **Hatsune Miku Theme** (dark), **Hatsune Miku Theme (Snow Miku)** (light), or **Hatsune Miku Theme (Snow Miku 2024)** (light)
+4. Choose **Hatsune Miku Theme** (dark), **Hatsune Miku Theme (Snow Miku)** (light), **Hatsune Miku Theme (Snow Miku 2024)** (light), or **Hatsune Miku Theme (Magical Mirai 2025)** (dark)
 
 ### Web
 
@@ -82,23 +82,23 @@ The adjacent `.tokens.json` files use the Design Tokens Community Group (DTCG) f
 
 ### Neovim
 
-Copy the [dark](ports/neovim/hatsune-miku-dark.lua), [light](ports/neovim/hatsune-miku-light.lua), or [Snow Miku 2024](ports/neovim/hatsune-miku-snow-2024.lua) file to `~/.config/nvim/colors/`, then run `:colorscheme hatsune-miku-dark` (or the matching name).
+Copy the [dark](ports/neovim/hatsune-miku-dark.lua), [light](ports/neovim/hatsune-miku-light.lua), [Snow Miku 2024](ports/neovim/hatsune-miku-snow-2024.lua), or [Magical Mirai 2025](ports/neovim/hatsune-miku-mm-2025.lua) file to `~/.config/nvim/colors/`, then run `:colorscheme hatsune-miku-dark` (or the matching name).
 
 ### Helix
 
-Copy the [dark](ports/helix/hatsune-miku-dark.toml), [light](ports/helix/hatsune-miku-light.toml), or [Snow Miku 2024](ports/helix/hatsune-miku-snow-2024.toml) file to `~/.config/helix/themes/`, then set `theme = "hatsune-miku-dark"` (or the matching name) in `config.toml`.
+Copy the [dark](ports/helix/hatsune-miku-dark.toml), [light](ports/helix/hatsune-miku-light.toml), [Snow Miku 2024](ports/helix/hatsune-miku-snow-2024.toml), or [Magical Mirai 2025](ports/helix/hatsune-miku-mm-2025.toml) file to `~/.config/helix/themes/`, then set `theme = "hatsune-miku-dark"` (or the matching name) in `config.toml`.
 
 ### Zed
 
-Copy the [dark](ports/zed/hatsune-miku-dark.json), [light](ports/zed/hatsune-miku-light.json), or [Snow Miku 2024](ports/zed/hatsune-miku-snow-2024.json) file to `~/.config/zed/themes/`.
+Copy the [dark](ports/zed/hatsune-miku-dark.json), [light](ports/zed/hatsune-miku-light.json), [Snow Miku 2024](ports/zed/hatsune-miku-snow-2024.json), or [Magical Mirai 2025](ports/zed/hatsune-miku-mm-2025.json) file to `~/.config/zed/themes/`.
 
 ### Sublime Text
 
-Copy the [dark](ports/sublime/hatsune-miku-dark.sublime-color-scheme), [light](ports/sublime/hatsune-miku-light.sublime-color-scheme), or [Snow Miku 2024](ports/sublime/hatsune-miku-snow-2024.sublime-color-scheme) file to `Packages/User/`.
+Copy the [dark](ports/sublime/hatsune-miku-dark.sublime-color-scheme), [light](ports/sublime/hatsune-miku-light.sublime-color-scheme), [Snow Miku 2024](ports/sublime/hatsune-miku-snow-2024.sublime-color-scheme), or [Magical Mirai 2025](ports/sublime/hatsune-miku-mm-2025.sublime-color-scheme) file to `Packages/User/`.
 
 ### Terminal Emulators
 
-Pre-built configs for the dark, light, and Snow Miku 2024 variants:
+Pre-built configs for the dark, light, Snow Miku 2024, and Magical Mirai 2025 variants:
 
 | Terminal | Setup |
 |---|---|

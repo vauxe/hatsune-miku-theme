@@ -369,6 +369,23 @@ export interface DecorativeTokens {
   markupInserted: string;
   /** Star icon — golden rating star (no text contrast needed) */
   starIcon: string;
+
+  /**
+   * Optional dark-variant chrome overrides — for themes whose Edge is a
+   * painted cloth distinct from House (mm-2025's denim strips). When
+   * absent, the dark adapter keeps its defaults: chrome on House, debug
+   * status derived from focus, find pigment from status warning. The
+   * light adapter ignores this (light chrome already routes through the
+   * decorative surface slots).
+   */
+  chromeOverride?: {
+    activityBar: string;
+    statusBar: string;
+    sectionHeader: string;
+    statusDebugBg: string;
+    statusDebugFg: string;
+    findMatchPigment: string;
+  };
 }
 
 // =============================================================================

@@ -63,6 +63,11 @@
         "label": "Hatsune Miku Theme (Snow Miku 2024)",
         "uiTheme": "vs",
         "path": "./themes/hatsune-miku-snow-2024-color-theme.json"
+      },
+      {
+        "label": "Hatsune Miku Theme (Magical Mirai 2025)",
+        "uiTheme": "vs-dark",
+        "path": "./themes/hatsune-miku-mm-2025-color-theme.json"
       }
     ]
   }

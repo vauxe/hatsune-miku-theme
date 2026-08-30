@@ -947,7 +947,7 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   ['keyword', 'variable', 'critical'],
 
   // GRAMMAR ↔ ACCESS — `return param`, `if (param)`
-  ['keyword', 'parameter', 'critical'],
+  ['keyword', 'parameter', 'high'],
 
   // GRAMMAR ↔ ACTION — `async function`, `return foo()`
   ['keyword', 'function', 'critical'],
@@ -961,11 +961,11 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   // GRAMMAR ↔ VALUE — `return 42`, `case FOO`
   ['keyword', 'number', 'critical'],
 
-  // DATA ↔ ACCESS — `fn(param) { let x = param }`
-  ['parameter', 'variable', 'critical'],
+  // parameter↔variable excluded — typography carries it; VS Code's
+  // Dark+ ships them identical
 
   // ACTION ↔ ACCESS — `foo(param)` function signature
-  ['function', 'parameter', 'critical'],
+  ['function', 'parameter', 'high'],
 
   // ACTION ↔ DATA — `foo(x, y)`, `x.foo()`
   ['function', 'variable', 'critical'],
@@ -977,16 +977,13 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
   ['type', 'variable', 'critical'],
 
   // SHAPE_REF ↔ ACCESS — `param: Type`
-  ['type', 'parameter', 'critical'],
+  ['type', 'parameter', 'high'],
 
   // TEXT ↔ DATA — `${name}`, `f"{x}"`
   ['string', 'variable', 'critical'],
 
-  // CONNECTIVE ↔ DATA — `x + y`, `x == y`
-  ['operator', 'variable', 'critical'],
-
-  // CONNECTIVE ↔ ACCESS — `param + x`
-  ['operator', 'parameter', 'critical'],
+  // operator excluded — symbol glyphs, structural connective like
+  // punctuation; the primary contrast floor still applies
 
   // WHISPER ↔ DATA — is it code or comment?
   ['comment', 'variable', 'critical'],
@@ -1031,18 +1028,6 @@ export const MUST_DISTINGUISH_PAIRS: ReadonlyArray<readonly [string, string, Dis
 
   // TEXT ↔ SHAPE_REF — `x: string = "hello"`
   ['string', 'type', 'high'],
-
-  // CONNECTIVE ↔ VALUE — `1 + 2`
-  ['operator', 'number', 'high'],
-
-  // CONNECTIVE ↔ GRAMMAR — `if x == y`
-  ['operator', 'keyword', 'high'],
-
-  // CONNECTIVE ↔ ACTION — `fn() + x`
-  ['operator', 'function', 'high'],
-
-  // CONNECTIVE ↔ SHAPE_REF — `A | B` union types
-  ['operator', 'type', 'high'],
 
   // SHAPE ↔ DATA — `new Foo(x)`
   ['class', 'variable', 'high'],

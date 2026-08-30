@@ -79,15 +79,18 @@ function dark(t: SemanticTokens): WorkbenchAdapter {
   const house = t.ui.backgroundHouse.hex;
   const focus = t.ui.activeBorder.hex;
   const darkFg = t.decorative.darkForeground;
+  // Edge cloth (mm-2025 denim): absent on the flagship, whose chrome
+  // stays on House — every `?? fallback` below is the original expression.
+  const edge = t.decorative.chromeOverride;
 
   return {
     accentMuted: t.ui.accentTertiary.hex,
     accentFocus: focus,
     chrome: {
-      activityBar: house,
+      activityBar: edge?.activityBar ?? house,
       sidebar: house,
-      sectionHeader: house,
-      statusBar: house,
+      sectionHeader: edge?.sectionHeader ?? house,
+      statusBar: edge?.statusBar ?? house,
       tabHeader: house,
     },
     badge: { bg: t.decorative.sekaiHair, fg: darkFg },
@@ -111,8 +114,8 @@ function dark(t: SemanticTokens): WorkbenchAdapter {
     exceptionLabelBg: darken(t.status.error, 0.19),
     stateLabelBg: darken(t.status.success, 0.14),
     statusItem: {
-      debugBg: darken(roleFromHex('', focus), 0.03),
-      debugFg: t.decorative.blouseWhite,
+      debugBg: edge?.statusDebugBg ?? darken(roleFromHex('', focus), 0.03),
+      debugFg: edge?.statusDebugFg ?? t.decorative.blouseWhite,
       errorBg: darken(t.status.error, 0.10),
       errorHoverBg: darken(t.status.error, 0.08),
       remoteBg: lighten(roleFromHex('', t.ui.accentPrimary.hex), 0.02),
@@ -124,7 +127,7 @@ function dark(t: SemanticTokens): WorkbenchAdapter {
       offlineBg: withOpacity(t.ui.tertiary.hex, op.dense),
       offlineHoverBg: withOpacity(t.ui.tertiary.hex, op.dense),
     },
-    findMatchPigment: t.status.warning.hex,
+    findMatchPigment: edge?.findMatchPigment ?? t.status.warning.hex,
   };
 }
 

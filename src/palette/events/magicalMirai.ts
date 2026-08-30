@@ -357,32 +357,84 @@ export const magicalMirai = {
   },
 
   y2025: {
-    // by Tiv - CMY / Starry
-    // Theme: "Starry River in the Sky" / CMY
-    // Palette extracted from 2025 Main Visual by Tiv
-    hair: '#4DD0E1',       // Bright Turquoise
-    hairGradient: '#80DEEA', // Lighter Tips
-    eyes: '#1A237E',       // Deep Indigo
-    skin: '#FFF3E0',       // Light Skin Tone
+    // 星河一天 (Seiga Itten — "Starry River in the Sky")
+    // Main visual & costume design: Tiv. Theme song: ラストラス
+    // (Lustrous) by *Luna. 13th Magical Mirai — Sendai/Osaka/Tokyo.
+    // Colors sampled from the main visual (figure + stage background)
+    // and the official site stylesheet, measured in JzCzhz and
+    // cross-verified against the full-resolution character art in two
+    // independent passes. docs/DESIGN-MM-2025.md §2 is the measurement
+    // record; the mm-2025 theme's painted surfaces reference these.
+    hair: {
+      lit: '#53E4CE',      // Ring-braid loops, lit (~187°) — the river's source
+      body: '#34C7C3',     // Twin-tail body (~201°) — tonic mass tone
+      braid: '#419C9B',    // Braid shade (~203°)
+      shadow: '#1D96B7',   // Inner shadow (~229°) — the river turning blue
+      ice: '#76D4DB',      // Pale ice tips (~211°)
+    },
+    eyes: {
+      iris: '#1AB1F8',     // Bright cerulean ring (~239°)
+      rim: '#193168',      // Deep indigo rim — the sky inside her eyes
+      highlight: '#E9FEFE',
+    },
+    skin: { cheek: '#FCECDE' },  // Warm sand (~67°) — the painting's only warm neutral
     outfit: {
-      jacket: '#81D4FA',   // Light Blue Shimmer/Sheer Jacket
-      jacketInner: '#E1F5FE', // Pale Blue/White Inner Jacket
-      top: '#1A237E',      // Dark Indigo/Navy Crop Top
-      topStar: '#FFFFFF',  // White Star Motif
-      skirt: '#0D47A1',    // Deep Blue Skirt
-      skirtGradient: '#1A237E', // Darker Galaxy Gradient
-      shorts: '#1565C0',   // Blue Shorts (Under Skirt)
-      socks: '#0D47A1',    // Dark Blue Thigh Highs
-      sockTrim: '#E0F7FA', // Light Teal/White Trim
-      shoes: '#FFFFFF',    // White Platform Sandals
-      shoeSole: '#81D4FA', // Light Blue Soles
+      jacket: '#4984E8',       // Cobalt denim jacket, lit (~255°)
+      top: '#1852AF',          // Royal halter (~255°)
+      skirt: '#0B2870',        // Denim skirt, deepest (~259°)
+      tulle: '#142876',        // Sheer indigo tulle underlayer (~261°)
+      galaxyBand: '#4E629F',   // Sparkling galaxy hem band (~262°)
+      thighHigh: '#33518D',    // Deep-cobalt thigh-high (~257°)
+      auroraLining: '#9497CF', // Aurora-fabric lining (~271°) — the aurora worn as cloth
+      legwarmer: '#85A8DB',    // Sheer checked ruffle (~254°)
+      sock: '#DCDDEF',         // Starlight white, lavender cast (~273°)
     },
     accessories: {
-      hairKnots: '#006064', // Dark Teal Hair Knots
-      pouch: '#00E676',    // Neon Mint Green Pouch (Distinctive)
-      pouchStrap: '#B2DFDB', // Pale Teal Strap
-      mic: '#4FC3F7',      // Light Blue Mic
-      ribbons: '#B3E5FC',  // Light Blue Ribbons
+      earring: '#F994F6',    // Candy-pink heart (~321°) — the painting's one warm spark
+      hairpin: '#5494F6',    // Periwinkle star pin (~254°)
+      garter: '#6D9AE3',     // Periwinkle garter (~255°)
+      clasp: '#A1A7BF',      // Silver cord clasp / chains (~267°)
+      kinchaku: '#4979CC',   // Drawstring pouch denim (~255°)
+      ribbon: '#5F95DF',     // Kinchaku ribbon (~253°)
+      mascot: '#75F1D7',     // Mint mascot charm (~183°)
+      mintBead: '#1DF9BF',   // Mint ear-drop bead (~169°)
+      patch2025: '#41BDC1',  // "2025" shoulder patch (~208°) — the year speaks the tonic
+    },
+    stage: {
+      skyDeep: '#052963',    // Deepest visible sky (~257°) — Stage hue datum
+      skyDeep2: '#09245B',
+      nebula: '#314D93',     // Nebula cloud (~259°) — Float depth datum
+      skyMid: '#3E90D9',     // Sky brightening toward the horizon (~247°)
+      milkyWay: '#9EBCDC',   // Star-mist (~249°) — comments, muted fg, seams
+      milkyWayBright: '#8EC1EC',
+      auroraLavender: '#C0C0F8', // Aurora horizon (~274°)
+      auroraPale: '#D4D6F7',
+      floorDeep: '#153163',  // Water-mirror stage floor (~257°) — House datum
+      floorLit: '#386091',
+      lantern: '#BDCBDC',    // Wire-frame star lantern
+      flare: '#F6F2F9',      // Shooting-star flare core — brightest starlight
+      ampDenim: '#285CA5',   // Denim-wrapped guitar amp (~253°) — Edge cloth
+      starTrail: '#9382C0',  // Shooting-star trail (~284°) — constellation mauve
+    },
+    site: {
+      // magicalmirai.com/2025 stylesheet — the identity's own UI-grade
+      // derivations of the same artwork (night pages, accents, signals)
+      night: '#000821',      // Page night (~259°) — Void
+      indigo: '#021C49',     // Deep indigo (~257°) — Stage depth datum
+      navy: '#06172C',       // Section navy (~254°)
+      slate: '#252E48',      // Slate indigo (~263°)
+      white: '#FDFDFD',      // Text white — starlight ceiling
+      cyan: '#17DDDD',       // Interactive cyan (~204°) — links, buttons
+      cyanDeep: '#00C3C3',   // Pressed cyan
+      lavender: '#BFABFF',   // Aurora lavender, UI-grade (~282°)
+      periwinkle: '#708FFF', // Periwinkle (~261°)
+      pink: '#CD4E9E',       // Identity pink, deep (~345°)
+      pinkPale: '#FFA2DC',
+      starYellow: '#FFF078', // Star sparkle (~96°) — string/warning family
+      gold: '#AD9552',       // Antique gold (~87°)
+      crimson: '#D6004F',    // Alert crimson (~23°) — error family
+      coral: '#FF7E7E',      // Alert coral (~34°)
+      notice: '#F3961A',     // Notice orange (~72°)
     },
   },
 } as const;

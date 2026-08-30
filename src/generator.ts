@@ -107,11 +107,41 @@ const webShared: Emitter = () => [
 ];
 
 // =============================================================================
+// DOC POINTERS
+// =============================================================================
+
+/**
+ * Code cites design docs for rationale (a docs/<NAME>.md path, plus an
+ * optional §N section) — the one edge in the artifact graph nothing
+ * else verifies. Fail the build when a cited file or numbered section
+ * is gone.
+ */
+const validateDocPointers = (root: string) => {
+  const srcDir = path.join(root, 'src');
+  const files = (fs.readdirSync(srcDir, { recursive: true }) as string[]).filter((f) => f.endsWith('.ts'));
+  const errors: string[] = [];
+  for (const rel of files) {
+    const text = fs.readFileSync(path.join(srcDir, rel), 'utf8');
+    for (const m of text.matchAll(/docs\/[A-Za-z0-9._-]+\.md(?:\s*§\s*(\d+))?/g)) {
+      const docPath = m[0].split(/\s*§/)[0];
+      const doc = path.join(root, docPath);
+      if (!fs.existsSync(doc)) {
+        errors.push(`src/${rel}: ${docPath} does not exist`);
+      } else if (m[1] && !new RegExp(`^#+ ${m[1]}\\.`, 'm').test(fs.readFileSync(doc, 'utf8'))) {
+        errors.push(`src/${rel}: ${docPath} has no section §${m[1]}`);
+      }
+    }
+  }
+  if (errors.length) throw new Error(`doc pointers:\n  ${errors.join('\n  ')}`);
+};
+
+// =============================================================================
 // MAIN
 // =============================================================================
 
 const mode = process.argv[2]; // 'vscode' | 'ports' | 'docs' | undefined (all)
 const ROOT = path.resolve(__dirname, '..');
+validateDocPointers(ROOT);
 
 const emitters: Emitter[] = [
   ...(!mode || mode === 'vscode' ? [vscode] : []),

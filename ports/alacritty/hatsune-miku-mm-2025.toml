@@ -1,0 +1,74 @@
+# Hatsune Miku Theme — Alacritty
+# Generated — do not edit
+
+[colors.primary]
+background = "#021C49"
+foreground = "#DCDDEF"
+dim_foreground = "#ADCBEB"
+bright_foreground = "#F6F2F9"
+
+[colors.cursor]
+cursor = "#FF9EF8"
+text = "#021C49"
+
+[colors.vi_mode_cursor]
+cursor = "#17DDDD"
+text = "#021C49"
+
+[colors.selection]
+background = "#143671"
+text = "#DCDDEF"
+
+[colors.search.matches]
+foreground = "#021C49"
+background = "#60F1F0"
+
+[colors.search.focused_match]
+foreground = "#021C49"
+background = "#E0CD76"
+
+[colors.line_indicator]
+foreground = "None"
+background = "None"
+
+[colors.footer_bar]
+foreground = "#DCDDEF"
+background = "#153163"
+
+[colors.hints.start]
+foreground = "#021C49"
+background = "#60F1F0"
+
+[colors.hints.end]
+foreground = "#60F1F0"
+background = "#021C49"
+
+[colors.normal]
+black   = "#8994A7"
+red     = "#FF9DA0"
+green   = "#BAE88E"
+yellow  = "#FFFBBE"
+blue    = "#9BBBFF"
+magenta = "#FFC6FF"
+cyan    = "#6CFFFE"
+white   = "#C3C4D7"
+
+[colors.bright]
+black   = "#93ABC3"
+red     = "#FF9AA3"
+green   = "#CDFBA5"
+yellow  = "#FFFDC8"
+blue    = "#A0C3FF"
+magenta = "#FFD5FF"
+cyan    = "#7AFFFF"
+white   = "#E4E5F4"
+
+[colors.dim]
+black   = "#8994A7"
+red     = "#FF9DA0"
+green   = "#BAE88E"
+yellow  = "#FFFBBE"
+blue    = "#9BBBFF"
+magenta = "#FFC6FF"
+cyan    = "#6CFFFE"
+white   = "#C3C4D7"

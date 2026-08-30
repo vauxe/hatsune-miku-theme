@@ -1,0 +1,37 @@
+# Hatsune Miku Theme — Ghostty
+# Generated — do not edit
+
+background = #021C49
+foreground = #DCDDEF
+cursor-color = #FF9EF8
+cursor-text = #021C49
+selection-background = #143671
+selection-foreground = #DCDDEF
+
+search-foreground = #021C49
+search-background = #60F1F0
+search-selected-foreground = #021C49
+search-selected-background = #E0CD76
+
+split-divider-color = #60759F
+unfocused-split-fill = #000821
+
+window-titlebar-background = #153163
+window-titlebar-foreground = #DCDDEF
+
+palette = 0=#8994A7
+palette = 1=#FF9DA0
+palette = 2=#BAE88E
+palette = 3=#FFFBBE
+palette = 4=#9BBBFF
+palette = 5=#FFC6FF
+palette = 6=#6CFFFE
+palette = 7=#C3C4D7
+palette = 8=#93ABC3
+palette = 9=#FF9AA3
+palette = 10=#CDFBA5
+palette = 11=#FFFDC8
+palette = 12=#A0C3FF
+palette = 13=#FFD5FF
+palette = 14=#7AFFFF
+palette = 15=#E4E5F4

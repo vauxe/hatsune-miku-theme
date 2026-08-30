@@ -1,0 +1,23 @@
+{
+  "name": "Hatsune Miku (Magical Mirai 2025)",
+  "foreground": "#DCDDEF",
+  "background": "#021C49",
+  "cursorColor": "#FF9EF8",
+  "selectionBackground": "#143671",
+  "black": "#8994A7",
+  "red": "#FF9DA0",
+  "green": "#BAE88E",
+  "yellow": "#FFFBBE",
+  "blue": "#9BBBFF",
+  "purple": "#FFC6FF",
+  "cyan": "#6CFFFE",
+  "white": "#C3C4D7",
+  "brightBlack": "#93ABC3",
+  "brightRed": "#FF9AA3",
+  "brightGreen": "#CDFBA5",
+  "brightYellow": "#FFFDC8",
+  "brightBlue": "#A0C3FF",
+  "brightPurple": "#FFD5FF",
+  "brightCyan": "#7AFFFF",
+  "brightWhite": "#E4E5F4"
+}

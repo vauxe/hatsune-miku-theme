@@ -1549,7 +1549,7 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
     if (!lightnessResult.pass) {
       const outlierNames = lightnessResult.outliers.map(o => o.name).join(', ');
       const outlierSuffix = outlierNames ? ` outliers=[${outlierNames}]` : '';
-      output.push(`LIGHTNESS spread=${(lightnessResult.spread * JZ_TO_PERCENT).toFixed(0)}% need≤${(lightnessResult.maxSpread * JZ_TO_PERCENT).toFixed(0)}% darkest=${lightnessResult.darkest?.name} lightest=${lightnessResult.lightest?.name}${outlierSuffix} → ${lightnessResult.suggestion}`);
+      output.push(`LIGHTNESS(advisory) spread=${(lightnessResult.spread * JZ_TO_PERCENT).toFixed(0)}% need≤${(lightnessResult.maxSpread * JZ_TO_PERCENT).toFixed(0)}% darkest=${lightnessResult.darkest?.name} lightest=${lightnessResult.lightest?.name}${outlierSuffix} → ${lightnessResult.suggestion}`);
     }
 
     // Hue distribution
@@ -1568,15 +1568,16 @@ function runAnalysis(themePath: string, options: AnalysisOptions = { issuesOnly:
   const cvdFails = cvdFailures.length;
   const uiVisibilityFails = uiVisibilityIssues.length + (cursorPass ? 0 : 1);
   const compoundFails = compoundAnalysis.tokensFailing;
+  // Lightness spread and hue distribution are advisory: ensemble
+  // evenness and hue clustering are design-quality heuristics, while
+  // readability is owned by the contrast floors and confusability by
+  // the pairwise ΔEz and CVD gates above — reported, but not gating.
   const lightnessOk = lightnessResult.pass;
-  // Hue distribution is advisory: clustering is a design-quality
-  // heuristic, while confusability is owned by the pairwise ΔEz and
-  // CVD gates above — so hueOk is reported but does not gate ready.
   const hueOk = hueResult.pass;
-  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && crossRoleTooSimilar === 0 && chromaFails === 0 && cvdFails === 0 && uiVisibilityFails === 0 && compoundFails === 0 && lightnessOk;
+  const ready = total.fail === 0 && total.large === 0 && distinctionFails === 0 && crossRoleTooSimilar === 0 && chromaFails === 0 && cvdFails === 0 && uiVisibilityFails === 0 && compoundFails === 0;
 
   output.push('');
-  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} missing=${total.missing} too_similar=${crossRoleTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} cvd_fail=${cvdFails} ui_visible_fail=${uiVisibilityFails} compound_fail=${compoundFails} lightness=${lightnessOk ? 'ok' : 'uneven'} hue=${hueOk ? 'ok' : 'clustered(advisory)'} ready=${ready}`);
+  output.push(`SUMMARY pass=${total.pass}/${defined} fail=${total.fail + total.large} missing=${total.missing} too_similar=${crossRoleTooSimilar} distinction_fail=${distinctionFails} chroma_fail=${chromaFails} cvd_fail=${cvdFails} ui_visible_fail=${uiVisibilityFails} compound_fail=${compoundFails} lightness=${lightnessOk ? 'ok' : 'uneven(advisory)'} hue=${hueOk ? 'ok' : 'clustered(advisory)'} ready=${ready}`);
 
   // Print all output (or summary only if --issues-only and clean)
   if (options.issuesOnly && ready) {

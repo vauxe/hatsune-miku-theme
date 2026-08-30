@@ -1,0 +1,37 @@
+! Hatsune Miku Theme — Xresources
+! Generated — do not edit
+
+*background: #021C49
+*foreground: #DCDDEF
+*cursorColor: #FF9EF8
+*highlightColor: #143671
+*highlightTextColor: #DCDDEF
+
+! Bold / Underline / Italic
+*colorBD: #F6F2F9
+*colorUL: #4EDDDD
+*colorIT: #76D4DB
+
+! Border
+*borderColor: #60759F
+
+! Pointer
+*pointerColor: #FF9EF8
+*pointerColor2: #021C49
+
+*color0: #8994A7
+*color1: #FF9DA0
+*color2: #BAE88E
+*color3: #FFFBBE
+*color4: #9BBBFF
+*color5: #FFC6FF
+*color6: #6CFFFE
+*color7: #C3C4D7
+*color8: #93ABC3
+*color9: #FF9AA3
+*color10: #CDFBA5
+*color11: #FFFDC8
+*color12: #A0C3FF
+*color13: #FFD5FF
+*color14: #7AFFFF
+*color15: #E4E5F4
