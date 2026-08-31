@@ -3,7 +3,7 @@ import { describe, it } from 'node:test';
 import Color from 'colorjs.io';
 
 import { createWorkbenchColors } from '../theme';
-import { flagship } from '../registry';
+import { flagship, themes } from '../registry';
 import { opacity, selectionAlpha, type Polarity } from '../tokens';
 import { flattenEmbeddedAlpha } from './shared';
 import { createWebPreview } from './web-preview';
@@ -12,7 +12,6 @@ import {
   createWebTokenDocument,
 } from './web';
 
-const variants = ['dark', 'light'] as const;
 const tokensFor = (polarity: Polarity) => flagship(polarity).tokens;
 const actionKinds = ['primary', 'secondary'] as const;
 const enabledActionStates = ['default', 'hover', 'active'] as const;
@@ -48,9 +47,9 @@ describe('web design token port', () => {
   });
 
   it('describes the source used by every resolved Web syntax color', () => {
-    for (const variant of variants) {
-      const tokens = tokensFor(variant);
-      const syntax = createWebTokenDocument(tokens, variant).color.syntax;
+    for (const theme of themes) {
+      const tokens = theme.tokens;
+      const syntax = createWebTokenDocument(tokens, theme.polarity).color.syntax;
 
       for (const name of Object.keys(tokens.syntax) as Array<keyof typeof tokens.syntax>) {
         const source = tokens.syntax[name];
@@ -88,10 +87,10 @@ describe('web design token port', () => {
   });
 
   it('uses the same link colors as VS Code', () => {
-    for (const variant of variants) {
-      const tokens = tokensFor(variant);
-      const web = createWebTokenDocument(tokens, variant).color;
-      const vscode = createWorkbenchColors(tokens, variant);
+    for (const theme of themes) {
+      const tokens = theme.tokens;
+      const web = createWebTokenDocument(tokens, theme.polarity).color;
+      const vscode = createWorkbenchColors(tokens, theme.polarity);
 
       assert.equal(web.link.default.$value.hex, vscode['textLink.foreground']);
       assert.equal(web.link.active.$value.hex, vscode['textLink.activeForeground']);
@@ -99,9 +98,9 @@ describe('web design token port', () => {
   });
 
   it('exports surface-independent action backgrounds', () => {
-    for (const variant of variants) {
-      const tokens = tokensFor(variant);
-      const web = createWebTokenDocument(tokens, variant).color;
+    for (const theme of themes) {
+      const tokens = theme.tokens;
+      const web = createWebTokenDocument(tokens, theme.polarity).color;
 
       for (const kind of actionKinds) {
         const action = web.action[kind];
@@ -112,12 +111,12 @@ describe('web design token port', () => {
           assert.equal(
             action.background[state].$value.alpha,
             undefined,
-            `${variant} action.${kind}.${state} must not inherit its host surface`,
+            `${theme.slug} action.${kind}.${state} must not inherit its host surface`,
           );
           assert.equal(
             action.background[state].$value.hex,
             flattenEmbeddedAlpha(source.background[state], tokens.ui.background.hex),
-            `${variant} action.${kind}.${state} must preserve its VS Code content-surface appearance`,
+            `${theme.slug} action.${kind}.${state} must preserve its VS Code content-surface appearance`,
           );
         }
       }
@@ -127,7 +126,7 @@ describe('web design token port', () => {
   it('generates framework-neutral CSS with system and explicit theme selection', () => {
     const dark = tokensFor('dark');
     const light = tokensFor('light');
-    const css = createWebCss(dark, light);
+    const css = createWebCss(themes);
 
     assert.match(css, /:root,\n\[data-hm-theme='light'\]/);
     assert.match(css, /@media \(prefers-color-scheme: dark\)/);
@@ -144,11 +143,23 @@ describe('web design token port', () => {
     assert.match(css, /--hm-color-selection-background: #[0-9A-F]{8}/);
   });
 
+  it('exports an explicit CSS selector for every registered theme', () => {
+    const css = createWebCss(themes);
+
+    for (const theme of themes) {
+      assert.match(css, new RegExp(`\\[data-hm-theme='${theme.slug}'\\]`));
+      assert.match(
+        css,
+        new RegExp(
+          `\\[data-hm-theme='${theme.slug}'\\] \\{[\\s\\S]*?color-scheme: ${theme.polarity};[\\s\\S]*?--hm-color-surface-content: ${theme.tokens.ui.background.hex}`,
+        ),
+      );
+    }
+  });
+
   it('generates an accessible, self-contained preview with valid public links', () => {
-    const dark = tokensFor('dark');
-    const light = tokensFor('light');
-    const css = createWebCss(dark, light);
-    const preview = createWebPreview();
+    const css = createWebCss(themes);
+    const preview = createWebPreview(themes);
 
     assert.match(preview, /<html lang="en">/);
     assert.match(
@@ -196,10 +207,26 @@ describe('web design token port', () => {
     );
   });
 
+  it('offers every registered theme in the preview and token downloads', () => {
+    const preview = createWebPreview(themes);
+
+    for (const theme of themes) {
+      assert.match(
+        preview,
+        new RegExp(`type="radio" name="theme" value="${theme.slug}"`),
+      );
+      assert.match(
+        preview,
+        new RegExp(`href="\\./hatsune-miku-theme-${theme.slug}\\.tokens\\.json"`),
+      );
+    }
+  });
+
   it('keeps Web text, syntax, action, boundary, and focus pairs at WCAG 2.2 AA', () => {
-    for (const variant of variants) {
-      const tokens = tokensFor(variant);
-      const web = createWebTokenDocument(tokens, variant).color;
+    for (const theme of themes) {
+      const variant = theme.slug;
+      const tokens = theme.tokens;
+      const web = createWebTokenDocument(tokens, theme.polarity).color;
 
       assertContrastPairs(variant, [
         ['text.secondary on content', web.text.secondary.$value, web.surface.content.$value, 4.5],

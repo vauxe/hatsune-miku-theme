@@ -12,7 +12,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { themes, flagship, type Theme, type Artifact, type Emitter } from './registry';
+import { themes, type Theme, type Artifact, type Emitter } from './registry';
 import { createWorkbenchColors, createTokenColors, createSemanticTokenColors } from './theme';
 import { createScoreDocs } from './tools/docgen';
 import { createPalette } from './ports/palette';
@@ -98,12 +98,12 @@ const ports: Emitter[] = portTable.map((port) =>
   })),
 );
 
-// Web CSS + preview: one artifact spanning themes. The public contract
-// (`data-hm-theme="dark"/"light"`) is pinned to the flagship theme of
-// each polarity (explicit `flagship` flag, validated by the registry).
+// Web CSS + preview: shared artifacts spanning every registered theme.
+// The published `dark`/`light` values and automatic system choice remain
+// pinned to the flagship of each polarity; other themes use their slugs.
 const webShared: Emitter = () => [
-  { path: `ports/web/${WEB_THEME_ARTIFACTS.css}`, content: createWebCss(flagship('dark').tokens, flagship('light').tokens) },
-  { path: 'ports/web/preview.html', content: createWebPreview() },
+  { path: `ports/web/${WEB_THEME_ARTIFACTS.css}`, content: createWebCss(themes) },
+  { path: 'ports/web/preview.html', content: createWebPreview(themes) },
 ];
 
 // =============================================================================

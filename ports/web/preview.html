@@ -652,12 +652,6 @@
     }
 
     @media (min-width: 48rem) {
-      .header-layout {
-        grid-template-columns: minmax(0, 1fr) auto;
-        align-items: end;
-        padding-block: 3rem;
-      }
-
       .intro-grid {
         grid-template-columns: minmax(0, 1.5fr) minmax(16rem, 0.75fr);
         align-items: start;
@@ -691,6 +685,14 @@
       }
     }
 
+    @media (min-width: 64rem) {
+      .header-layout {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        padding-block: 3rem;
+      }
+    }
+
     @media (forced-colors: active) {
       .theme-option input:checked + span,
       .demo-nav a[aria-current="page"] {
@@ -720,16 +722,24 @@
           <legend>Theme</legend>
           <div class="theme-options">
             <label class="theme-option">
-              <input type="radio" name="theme" value="system" checked>
+              <input type="radio" name="theme" value="system" data-theme-label="System" checked>
               <span>System</span>
             </label>
             <label class="theme-option">
-              <input type="radio" name="theme" value="light">
+              <input type="radio" name="theme" value="light" data-theme-label="Light">
               <span>Light</span>
             </label>
             <label class="theme-option">
-              <input type="radio" name="theme" value="dark">
+              <input type="radio" name="theme" value="dark" data-theme-label="Dark">
               <span>Dark</span>
+            </label>
+            <label class="theme-option">
+              <input type="radio" name="theme" value="snow-2024" data-theme-label="Snow Miku 2024">
+              <span>Snow Miku 2024</span>
+            </label>
+            <label class="theme-option">
+              <input type="radio" name="theme" value="mm-2025" data-theme-label="Magical Mirai 2025">
+              <span>Magical Mirai 2025</span>
             </label>
           </div>
         </fieldset>
@@ -743,7 +753,7 @@
       <div class="intro-copy">
         <p class="eyebrow">Use tokens, not hex values</p>
         <h2 id="reuse-title">Build with semantic roles.</h2>
-        <p>Load <code>hatsune-miku-theme.css</code> and use its semantic custom properties for surfaces, text, actions, fields, and syntax. It follows the system color scheme by default. Set <code>data-hm-theme="light"</code> or <code>data-hm-theme="dark"</code> on <code>&lt;html&gt;</code> or a container to choose or scope a theme.</p>
+        <p>Load <code>hatsune-miku-theme.css</code> and use its semantic custom properties for surfaces, text, actions, fields, and syntax. It follows the system color scheme by default. Set <code>data-hm-theme</code> to one of <code>light</code>, <code>dark</code>, <code>snow-2024</code>, <code>mm-2025</code> on <code>&lt;html&gt;</code> or a container to choose or scope a theme.</p>
         <p><strong>Match secondary text to its surface:</strong> use <code>--hm-color-text-secondary</code> on page or content, <code>--hm-color-text-on-chrome-secondary</code> on chrome, and <code>--hm-color-text-on-overlay-secondary</code> on overlays. Action foreground and background pairs are surface-independent.</p>
       </div>
 
@@ -754,6 +764,8 @@
           <li><a href="./hatsune-miku-theme.css">CSS custom properties</a></li>
           <li><a href="./hatsune-miku-theme-light.tokens.json">Light DTCG tokens</a></li>
           <li><a href="./hatsune-miku-theme-dark.tokens.json">Dark DTCG tokens</a></li>
+          <li><a href="./hatsune-miku-theme-snow-2024.tokens.json">Snow Miku 2024 DTCG tokens</a></li>
+          <li><a href="./hatsune-miku-theme-mm-2025.tokens.json">Magical Mirai 2025 DTCG tokens</a></li>
         </ul>
       </aside>
     </section>
@@ -786,7 +798,7 @@
             <div class="demo-grid">
               <section class="component-panel" aria-labelledby="controls-title">
                 <h3 id="controls-title">Release settings</h3>
-                <p>Check real interface roles across both variants before using the theme on another site.</p>
+                <p>Check real interface roles across every registered theme before using one on another site.</p>
 
                 <div class="button-row">
                   <button class="button button-primary" type="button">Primary action</button>
@@ -1198,6 +1210,13 @@
         return systemPreference.matches ? 'dark' : 'light';
       }
 
+      function themeLabel(choice) {
+        var radio = radios.find(function (candidate) {
+          return candidate.value === choice;
+        });
+        return radio ? radio.getAttribute('data-theme-label') : choice;
+      }
+
       function refreshSwatches() {
         var styles = getComputedStyle(root);
         swatches.forEach(function (swatch) {
@@ -1222,15 +1241,17 @@
 
         var resolved = resolvedTheme(choice);
         themeStatus.textContent = choice === 'system'
-          ? 'System preference, currently ' + resolved + '.'
-          : choice.charAt(0).toUpperCase() + choice.slice(1) + ' override.';
+          ? 'System preference, currently ' + themeLabel(resolved) + '.'
+          : themeLabel(choice) + ' override.';
 
         window.requestAnimationFrame(refreshSwatches);
-        if (announce) actionStatus.textContent = 'Preview changed to ' + resolved + '.';
+        if (announce) actionStatus.textContent = 'Preview changed to ' + themeLabel(resolved) + '.';
       }
 
       var requestedTheme = new URLSearchParams(window.location.search).get('theme');
-      var initialTheme = requestedTheme === 'light' || requestedTheme === 'dark'
+      var initialTheme = radios.some(function (radio) {
+        return radio.value === requestedTheme;
+      })
         ? requestedTheme
         : 'system';
       applyTheme(initialTheme, false);

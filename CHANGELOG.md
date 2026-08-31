@@ -2,7 +2,7 @@
 
 ## [3.9.39] - 2026-08-31
 
-- Dark theme: Magical Mirai 2025 — 星河一天 / Starry River (VS Code + all ports); design doc `docs/DESIGN-MM-2025.md`
+- Dark theme: Magical Mirai 2025 — 星河一天 / Starry River (VS Code + all ports); design doc `docs/DESIGN-MM-2025.md`; Web CSS and the live preview now expose Snow Miku 2024 and Magical Mirai 2025 through `data-hm-theme="snow-2024"` and `data-hm-theme="mm-2025"`, with Web WCAG gates covering every registered theme
 - Dark workbench adapter learned an optional `chromeOverride` (decorative tokens) so dark variants can dress the activity/status bars and section headers in their own cloth — the flagship's output is byte-identical
 - Readability gates: operator distinction pairs removed (connective exemption, like punctuation), parameter↔variable removed, remaining parameter pairs demoted critical→high; contrast and CVD floors unchanged. MM 2025's operator returns to its designed starlight seat
 - Lightness-spread check demoted to advisory (readability is owned by the contrast floors); the build now verifies code→doc pointers — a cited design-doc file or §section that disappears fails the build

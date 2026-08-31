@@ -31,7 +31,8 @@ export interface Theme {
   /** VS Code theme JSON filename — locked by the published extension. */
   vscodeFilename: string;
   /**
-   * Carries the public web contract (`data-hm-theme="dark"/"light"`).
+   * Carries the automatic Web preference and the published `dark`/`light`
+   * values. Other themes remain explicitly selectable by their slug.
    * Exactly one flagship per polarity — validated below.
    */
   flagship?: boolean;
@@ -63,8 +64,8 @@ export type Emitter = (themes: readonly Theme[]) => Artifact[];
  * Registry invariants, enforced at construction so a bad entry fails the
  * build (and every tool) loudly instead of silently overwriting artifacts:
  * `id`/`slug`/`vscodeFilename` are filename components — duplicates would
- * clobber another theme's output; the web contract needs exactly one
- * flagship of each polarity.
+ * clobber another theme's output; the automatic Web contract needs exactly
+ * one flagship of each polarity.
  */
 const validate = (all: readonly Theme[]): readonly Theme[] => {
   for (const key of ['id', 'slug', 'vscodeFilename'] as const) {

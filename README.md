@@ -37,7 +37,7 @@ For websites, download [`hatsune-miku-theme.css`](ports/web/hatsune-miku-theme.c
 <link rel="stylesheet" href="/styles/hatsune-miku-theme.css">
 ```
 
-No build step or token JSON is required. Open the [live Web preview](https://vauxe.github.io/hatsune-miku-theme/ports/web/preview.html) to inspect every token in System, Light, and Dark modes.
+No build step or token JSON is required. Open the [live Web preview](https://vauxe.github.io/hatsune-miku-theme/ports/web/preview.html) to inspect every token in System mode or any of the four explicit themes.
 
 Use the semantic custom properties in components instead of copying color values:
 
@@ -63,7 +63,14 @@ main {
 }
 ```
 
-Without `data-hm-theme`, the CSS follows `prefers-color-scheme` with a light fallback. Set `data-hm-theme="light"` or `"dark"` on `<html>` or a container to override it; remove the attribute to follow the system again.
+Without `data-hm-theme`, the CSS follows `prefers-color-scheme` with Snow Miku 2026 as the light fallback and the original Hatsune Miku theme as the dark fallback. Set `data-hm-theme` on `<html>` or a container to choose or scope a theme; remove the attribute to follow the system again.
+
+| `data-hm-theme` value | Theme |
+|---|---|
+| `light` | Snow Miku 2026 |
+| `dark` | Original Hatsune Miku |
+| `snow-2024` | Snow Miku 2024 |
+| `mm-2025` | Magical Mirai 2025 |
 
 Choose the secondary-text token that matches its surface:
 
@@ -78,7 +85,7 @@ Usage rules:
 - `--hm-color-text-primary` works on every surface; subtle text and status colors are content-only, and placeholder text is field-only.
 - Keep action foregrounds paired with their matching backgrounds and states. Pair status colors with text or icons, never color alone.
 
-The adjacent `.tokens.json` files use the Design Tokens Community Group (DTCG) format for design-token tools.
+The adjacent `.tokens.json` file for each theme uses the Design Tokens Community Group (DTCG) format for design-token tools.
 
 ### Neovim
 
