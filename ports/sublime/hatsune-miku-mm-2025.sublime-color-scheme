@@ -102,7 +102,7 @@
     {
       "name": "Class",
       "scope": "entity.name.class, entity.other.inherited-class",
-      "foreground": "#FFB9FF"
+      "foreground": "#F5BEFF"
     },
     {
       "name": "Type",
@@ -117,17 +117,17 @@
     {
       "name": "Struct",
       "scope": "entity.name.struct",
-      "foreground": "#EEC3FF"
+      "foreground": "#F5BEFF"
     },
     {
       "name": "Enum",
       "scope": "entity.name.enum",
-      "foreground": "#FEBDFF"
+      "foreground": "#F5BEFF"
     },
     {
       "name": "Enum Member",
       "scope": "variable.other.enummember, constant.other.enum",
-      "foreground": "#FFB8FF"
+      "foreground": "#BAE9EB"
     },
     {
       "name": "Type Parameter",
@@ -162,7 +162,7 @@
     {
       "name": "Constant",
       "scope": "variable.other.constant, support.constant",
-      "foreground": "#FFB8FF"
+      "foreground": "#BAE9EB"
     },
     {
       "name": "Language Variable",
@@ -183,12 +183,12 @@
     {
       "name": "Number",
       "scope": "constant.numeric",
-      "foreground": "#FFBDFF"
+      "foreground": "#BAE9EB"
     },
     {
       "name": "Boolean",
       "scope": "constant.language.boolean, constant.language.true, constant.language.false",
-      "foreground": "#FFBDFF"
+      "foreground": "#BAE9EB"
     },
     {
       "name": "Regex",

@@ -169,7 +169,7 @@ lists; links take its darker registers.
 
 4. **The two-tier ensemble re-derives on cream.** The light-variant
    discipline carries over: two syntax registers (the 120°–240° arc at
-   sopranino, the rest at soprano) with one clipped dynamic. Tier
+   sopranino, the rest at soprano) with chroma tuned per role. Tier
    memberships and values re-derive because the canvas is warmer and
    slightly lighter than 2026's cream.
 
@@ -197,6 +197,12 @@ lists; links take its darker registers.
 
 Tonic at F# = 180°. Registers re-derived at implementation; the
 seating below is the design.
+
+Keywords use a muted blue-green hair-shadow color within the tonic family.
+Variables, types, type parameters, macros and operators use restrained
+chroma, while the food families retain stronger color. This balances the
+cool hair voice against the warm cream frame. Rendered values are recorded
+in `docs/SCORE-SNOW-2024.md`.
 
 ```
 Note   Hz     Tokens

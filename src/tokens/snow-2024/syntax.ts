@@ -1,25 +1,16 @@
 /**
  * Snow Miku 2024 Syntax Token Definitions — Winter Delicacy
  *
- * The Score on Peach.
+ * Warm cream and chocolate carry the frame; frequent keywords bring
+ * back the hair's muted blue-green counterweight. Cool data colors
+ * remain distinct without pushing every hue to the sRGB boundary.
  *
- * Tonic at 180° sage celadon — her hair, come home. Against a uniformly
- * warm room the tonic is the only cool voice: ~120° of hue separation
- * from the peach canvas. In the artwork her hair is the coolest object
- * in the frame; in the editor, keywords are.
- *
- * The 12-tone chromatic scale places hues at standard 30° intervals
- * from the tonic at F#=180° — the dark theme's grid, voiced light.
- * Cool syntax hues stay available for data tokens: syntax is the
- * plated food, allowed vivid (和洋折衷 — restrained base, vivid garnish).
- *
- * Two-tier lightness carries over from the light grammar: sopranino
- * (0.079) for the 120°–240° arc, soprano (0.100) for the rest.
- * C.mp (0.120) clips to the gamut boundary per hue, delivering peak
- * sRGB chroma automatically.
+ * The light grammar keeps its register ladder. Keyword, variable,
+ * type, macro and operator use quieter chroma than the food colors;
+ * the exact rendered values and contrast live in SCORE-SNOW-2024.
  *
  * Each hue maps to a gochisou element:
- *   - Keywords: 180° celadon (her hair — the coolest thing in the room)
+ *   - Keywords: hair-shadow celadon (the cool counterweight)
  *   - Variables: 270° blue (the winter window — widest cool gamut)
  *   - Parameters: 60° apricot (the egg-yolk brooch on the apron)
  *   - Functions: 90° turmeric (curry gold — the pot itself)
@@ -39,50 +30,37 @@ import type { Primitives } from '../primitives';
 export function createSyntaxTokens(p: Primitives): SyntaxTokens {
   const { lightness: L, chroma: C, hue: H } = p;
 
-  // ===================================================================
-  // TWO-TIER ENSEMBLE — uniform mp dynamic, natural gamut variation
-  //
-  //   sopranino 0.079 — 120° 150° 180° 210° 240° — the cool arc
-  //   soprano   0.100 — 0° 60° 90° 270° 300° 330° — the warm arc + blue/violet/magenta
-  //
-  // All ensemble tokens at mp (0.120).
-  // Departures (comment, punctuation) keep their own registers.
-  //
-  // The tonic family sits a hair below sopranino: the celadon
-  // findMatchHighlight tint is same-hue, and the dip holds the
-  // compound floor there (2026 precedent — interface at sopranino−0.001
-  // for the same reason).
-  // ===================================================================
-
-  const tonicJz = L.sopranino - 0.0085;
+  // Keep the celadon inside sRGB so clipping cannot turn it into grass
+  // green. Its depth preserves contrast on the editor and overlay surfaces.
+  const tonicJz = L.sopranino + 0.0035;
 
   return {
-    // === TONIC (180°) — Her Hair — sopranino−0.002/mp ===
+    // === TONIC — Her Hair — muted hair-shadow register ===
     keyword: role(
-      'Celadon 180° — her hair on every line, the only cool thing in the room',
-      tonicJz, C.mp, H.mikuTeal
+      'Hair-shadow celadon — her hair on every line, the cool counterweight to the warm cloth',
+      tonicJz, 0.035, 190
     ),
     keywordControl: role(
-      'Celadon 180° — directing flow: if, for, while, return',
-      tonicJz, C.mp, H.mikuTeal
+      'Hair-shadow celadon — directing flow: if, for, while, return',
+      tonicJz, 0.035, 190
     ),
     keywordAlt: role(
-      'Celadon 180° — secondary keywords, same voice',
-      tonicJz, C.mp, H.mikuTeal
+      'Hair-shadow celadon — secondary keywords, same voice',
+      tonicJz, 0.035, 190
     ),
     storage: role(
-      'Celadon 180° — declarations share the tonic',
-      tonicJz, C.mp, H.mikuTeal
+      'Hair-shadow celadon — declarations share the tonic',
+      tonicJz, 0.035, 190
     ),
     storageModifier: role(
-      'Celadon 180° — modifiers share the tonic',
-      tonicJz, C.mp, H.mikuTeal
+      'Hair-shadow celadon — modifiers share the tonic',
+      tonicJz, 0.035, 190
     ),
 
-    // === BLUE (270°) — The Winter Window — soprano/mp ===
+    // === BLUE (270°) — The Winter Window — muted data ===
     variable: role(
-      'Blue 270° — the winter window, data in motion, near-complementary to cream (deepened a step: chat file labels read on the sage House)',
-      L.soprano - 0.012, C.mp, H.minor3rd
+      'Muted blue — data on cream, deep enough for chat file labels on House',
+      L.soprano - 0.012, 0.065, H.minor3rd
     ),
 
     // === APRICOT (60°) — Egg-Yolk Brooch — soprano/mp ===
@@ -165,26 +143,26 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
       L.sopranino, C.mp, H.major2nd
     ),
 
-    // === VIOLET (300°) — Twilight Plum — soprano/mp, typeParam soprano/p ===
+    // === VIOLET (300°) — Twilight Plum — restrained inks ===
     type: role(
       'Violet 300° — twilight plum, the shape beneath',
-      L.soprano, C.mp, H.major3rd
+      L.soprano, 0.075, H.major3rd
     ),
     typeParameter: role(
       'Violet 300° — a type waiting to become, muted for distinction from type',
-      L.soprano, C.p, H.major3rd
+      L.soprano, 0.035, H.major3rd
     ),
 
-    // === MAGENTA (330°) — Azuki — soprano/mp ===
+    // === MAGENTA (330°) — Azuki — muted ink ===
     macro: role(
       'Magenta 330° — azuki, code changing code',
-      L.soprano, C.mp, H.perfect4th
+      L.soprano, 0.055, H.perfect4th
     ),
 
-    // === ROSE (0°) — Connecting Rhythm — soprano/mp ===
+    // === ROSE (0°) — Connecting Rhythm — dusty ink ===
     operator: role(
       'Rose 0° — connecting rhythm between the notes',
-      L.soprano, C.mp, H.tritone
+      L.soprano, 0.035, H.tritone
     ),
 
     // === DEPARTURES — comments and punctuation ===
@@ -205,8 +183,8 @@ export function createSyntaxTokens(p: Primitives): SyntaxTokens {
 
     // === TONIC — variableLanguage ===
     variableLanguage: role(
-      'Celadon 180° — tonic like keywords, italic "it\'s me"',
-      tonicJz, C.mp, H.mikuTeal
+      'Hair-shadow celadon — tonic like keywords, italic "it\'s me"',
+      tonicJz, 0.035, 190
     ),
   };
 }

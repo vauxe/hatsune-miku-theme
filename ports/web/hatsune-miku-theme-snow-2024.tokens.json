@@ -147,73 +147,73 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0,
-            0.43529411764705883,
-            0.29411764705882354
+            0.1568627450980392,
+            0.3843137254901961,
+            0.35294117647058826
           ],
-          "hex": "#006F4B"
+          "hex": "#28625A"
         },
-        "$description": "Celadon 180° — her hair on every line, the only cool thing in the room"
+        "$description": "Hair-shadow celadon — her hair on every line, the cool counterweight to the warm cloth"
       },
       "keywordControl": {
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0,
-            0.43529411764705883,
-            0.29411764705882354
+            0.1568627450980392,
+            0.3843137254901961,
+            0.35294117647058826
           ],
-          "hex": "#006F4B"
+          "hex": "#28625A"
         },
-        "$description": "Celadon 180° — directing flow: if, for, while, return"
+        "$description": "Hair-shadow celadon — directing flow: if, for, while, return"
       },
       "keywordAlt": {
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0,
-            0.43529411764705883,
-            0.29411764705882354
+            0.1568627450980392,
+            0.3843137254901961,
+            0.35294117647058826
           ],
-          "hex": "#006F4B"
+          "hex": "#28625A"
         },
-        "$description": "Celadon 180° — secondary keywords, same voice"
+        "$description": "Hair-shadow celadon — secondary keywords, same voice"
       },
       "storage": {
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0,
-            0.43529411764705883,
-            0.29411764705882354
+            0.1568627450980392,
+            0.3843137254901961,
+            0.35294117647058826
           ],
-          "hex": "#006F4B"
+          "hex": "#28625A"
         },
-        "$description": "Celadon 180° — declarations share the tonic"
+        "$description": "Hair-shadow celadon — declarations share the tonic"
       },
       "storageModifier": {
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0,
-            0.43529411764705883,
-            0.29411764705882354
+            0.1568627450980392,
+            0.3843137254901961,
+            0.35294117647058826
           ],
-          "hex": "#006F4B"
+          "hex": "#28625A"
         },
-        "$description": "Celadon 180° — modifiers share the tonic"
+        "$description": "Hair-shadow celadon — modifiers share the tonic"
       },
       "variable": {
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.27450980392156865,
-            0.19607843137254902,
-            0.6901960784313725
+            0.2901960784313726,
+            0.2980392156862745,
+            0.5294117647058824
           ],
-          "hex": "#4632B0"
+          "hex": "#4A4C87"
         },
-        "$description": "Blue 270° — the winter window, data in motion, near-complementary to cream (deepened a step: chat file labels read on the sage House)"
+        "$description": "Muted blue — data on cream, deep enough for chat file labels on House"
       },
       "parameter": {
         "$value": {
@@ -423,11 +423,11 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.5176470588235295,
-            0,
-            0.6941176470588235
+            0.47058823529411764,
+            0.2627450980392157,
+            0.5803921568627451
           ],
-          "hex": "#8400B1"
+          "hex": "#784394"
         },
         "$description": "Violet 300° — twilight plum, the shape beneath"
       },
@@ -435,11 +435,11 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.4549019607843137,
-            0.2980392156862745,
-            0.5450980392156862
+            0.42745098039215684,
+            0.34509803921568627,
+            0.4823529411764706
           ],
-          "hex": "#744C8B"
+          "hex": "#6D587B"
         },
         "$description": "Violet 300° — a type waiting to become, muted for distinction from type"
       },
@@ -447,11 +447,11 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.6274509803921569,
-            0,
-            0.5529411764705883
+            0.5176470588235295,
+            0.27450980392156865,
+            0.47058823529411764
           ],
-          "hex": "#A0008D"
+          "hex": "#844678"
         },
         "$description": "Magenta 330° — azuki, code changing code"
       },
@@ -459,11 +459,11 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.6862745098039216,
-            0,
-            0.3764705882352941
+            0.5019607843137255,
+            0.3215686274509804,
+            0.38823529411764707
           ],
-          "hex": "#AF0060"
+          "hex": "#805263"
         },
         "$description": "Rose 0° — connecting rhythm between the notes"
       },
@@ -507,13 +507,13 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0,
-            0.43529411764705883,
-            0.29411764705882354
+            0.1568627450980392,
+            0.3843137254901961,
+            0.35294117647058826
           ],
-          "hex": "#006F4B"
+          "hex": "#28625A"
         },
-        "$description": "Celadon 180° — tonic like keywords, italic \"it's me\""
+        "$description": "Hair-shadow celadon — tonic like keywords, italic \"it's me\""
       }
     },
     "accent": {

@@ -1063,7 +1063,7 @@
 				"entity.name.class"
 			],
 			"settings": {
-				"foreground": "#FFB9FF"
+				"foreground": "#F5BEFF"
 			}
 		},
 		{
@@ -1072,7 +1072,7 @@
 				"entity.name.type.struct"
 			],
 			"settings": {
-				"foreground": "#EEC3FF"
+				"foreground": "#F5BEFF"
 			}
 		},
 		{
@@ -1110,7 +1110,7 @@
 				"entity.name.enum"
 			],
 			"settings": {
-				"foreground": "#FEBDFF"
+				"foreground": "#F5BEFF"
 			}
 		},
 		{
@@ -1203,7 +1203,7 @@
 				"constant.language"
 			],
 			"settings": {
-				"foreground": "#FFB8FF"
+				"foreground": "#BAE9EB"
 			}
 		},
 		{
@@ -1287,7 +1287,7 @@
 				"constant.numeric"
 			],
 			"settings": {
-				"foreground": "#FFBDFF"
+				"foreground": "#BAE9EB"
 			}
 		},
 		{
@@ -1298,7 +1298,7 @@
 				"constant.language.false"
 			],
 			"settings": {
-				"foreground": "#FFBDFF"
+				"foreground": "#BAE9EB"
 			}
 		},
 		{
@@ -1308,7 +1308,7 @@
 				"constant.language.undefined"
 			],
 			"settings": {
-				"foreground": "#FFBDFF"
+				"foreground": "#BAE9EB"
 			}
 		},
 		{
@@ -1525,7 +1525,7 @@
 				"constant.other.timestamp.yaml"
 			],
 			"settings": {
-				"foreground": "#FFBDFF"
+				"foreground": "#BAE9EB"
 			}
 		},
 		{
@@ -1587,7 +1587,7 @@
 				"constant.other.table-name.sql"
 			],
 			"settings": {
-				"foreground": "#FFB9FF"
+				"foreground": "#F5BEFF"
 			}
 		},
 		{
@@ -1636,7 +1636,7 @@
 				"keyword.other.unit.css"
 			],
 			"settings": {
-				"foreground": "#FFBDFF"
+				"foreground": "#BAE9EB"
 			}
 		},
 		{
@@ -1706,7 +1706,7 @@
 				"support.class.php"
 			],
 			"settings": {
-				"foreground": "#FFB9FF"
+				"foreground": "#F5BEFF"
 			}
 		},
 		{
@@ -1716,7 +1716,7 @@
 				"punctuation.definition.symbol.ruby"
 			],
 			"settings": {
-				"foreground": "#FFB8FF"
+				"foreground": "#BAE9EB"
 			}
 		},
 		{
@@ -1734,7 +1734,7 @@
 				"variable.other.readwrite.class.ruby"
 			],
 			"settings": {
-				"foreground": "#FFB9FF"
+				"foreground": "#F5BEFF"
 			}
 		},
 		{
@@ -1743,7 +1743,7 @@
 				"variable.other.readwrite.global.ruby"
 			],
 			"settings": {
-				"foreground": "#FFB8FF"
+				"foreground": "#BAE9EB"
 			}
 		},
 		{
@@ -2033,7 +2033,7 @@
 				"entity.name.variable.constant"
 			],
 			"settings": {
-				"foreground": "#FFB8FF"
+				"foreground": "#BAE9EB"
 			}
 		},
 		{
@@ -2042,7 +2042,7 @@
 				"entity.name.section.group-title.ini"
 			],
 			"settings": {
-				"foreground": "#FFB9FF"
+				"foreground": "#F5BEFF"
 			}
 		},
 		{
@@ -2167,8 +2167,8 @@
 		"method.declaration": "#99F0FF",
 		"method.static": "#99F0FF",
 		"method.defaultLibrary": "#00F9D6",
-		"class": "#FFB9FF",
-		"class.declaration": "#FFB9FF",
+		"class": "#F5BEFF",
+		"class.declaration": "#F5BEFF",
 		"class.defaultLibrary": "#74FFE9",
 		"interface": "#9BF7BC",
 		"interface.declaration": "#9BF7BC",
@@ -2177,35 +2177,35 @@
 		"type.defaultLibrary": "#FFDDFF",
 		"typeParameter": "#F1DEFF",
 		"typeParameter.declaration": "#F1DEFF",
-		"struct": "#EEC3FF",
-		"struct.declaration": "#EEC3FF",
-		"enum": "#FEBDFF",
-		"enum.declaration": "#FEBDFF",
-		"enumMember": "#FFB8FF",
-		"enumMember.readonly": "#FFB8FF",
+		"struct": "#F5BEFF",
+		"struct.declaration": "#F5BEFF",
+		"enum": "#F5BEFF",
+		"enum.declaration": "#F5BEFF",
+		"enumMember": "#BAE9EB",
+		"enumMember.readonly": "#BAE9EB",
 		"namespace": "#FFDDFF",
 		"namespace.declaration": "#FFDDFF",
 		"module": "#FFDDFF",
 		"module.declaration": "#FFDDFF",
 		"variable": "#C7CCFF",
 		"variable.declaration": "#C7CCFF",
-		"variable.readonly": "#FFB8FF",
-		"variable.constant": "#FFB8FF",
+		"variable.readonly": "#BAE9EB",
+		"variable.constant": "#BAE9EB",
 		"variable.defaultLibrary": "#6BFFF3",
 		"variable.local": "#C7CCFF",
 		"property": "#FFD8B4",
 		"property.declaration": "#FFD8B4",
-		"property.readonly": "#FFB8FF",
+		"property.readonly": "#BAE9EB",
 		"property.static": "#FFD8B4",
 		"property.defaultLibrary": "#FFD8B4",
 		"parameter": "#FFD6B5",
 		"parameter.declaration": "#FFD6B5",
-		"parameter.readonly": "#FFB8FF",
+		"parameter.readonly": "#BAE9EB",
 		"string": "#E7DB8E",
 		"string.regexp": "#B8EA89",
 		"regexp": "#B8EA89",
-		"number": "#FFBDFF",
-		"boolean": "#FFBDFF",
+		"number": "#BAE9EB",
+		"boolean": "#BAE9EB",
 		"operator": "#DBDDF1",
 		"operator.controlFlow": "#00F3E4",
 		"comment": {
@@ -2221,9 +2221,9 @@
 		"annotation": "#FFDFAE",
 		"macro": "#FFDFAE",
 		"label": "#00F3E4",
-		"event": "#FFB9FF",
+		"event": "#F5BEFF",
 		"*.readonly": {
-			"foreground": "#FFB8FF"
+			"foreground": "#BAE9EB"
 		},
 		"*.deprecated": {
 			"fontStyle": "strikethrough"

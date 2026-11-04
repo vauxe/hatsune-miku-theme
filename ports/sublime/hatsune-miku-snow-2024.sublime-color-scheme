@@ -62,27 +62,27 @@
     {
       "name": "Keyword",
       "scope": "keyword",
-      "foreground": "#006F4B"
+      "foreground": "#28625A"
     },
     {
       "name": "Control Keyword",
       "scope": "keyword.control",
-      "foreground": "#006F4B"
+      "foreground": "#28625A"
     },
     {
       "name": "Operator",
       "scope": "keyword.operator, punctuation.accessor",
-      "foreground": "#AF0060"
+      "foreground": "#805263"
     },
     {
       "name": "Storage",
       "scope": "storage.type",
-      "foreground": "#006F4B"
+      "foreground": "#28625A"
     },
     {
       "name": "Storage Modifier",
       "scope": "storage.modifier",
-      "foreground": "#006F4B"
+      "foreground": "#28625A"
     },
     {
       "name": "Function",
@@ -107,7 +107,7 @@
     {
       "name": "Type",
       "scope": "entity.name.type, support.type",
-      "foreground": "#8400B1"
+      "foreground": "#784394"
     },
     {
       "name": "Interface",
@@ -132,12 +132,12 @@
     {
       "name": "Type Parameter",
       "scope": "entity.name.type.parameter",
-      "foreground": "#744C8B"
+      "foreground": "#6D587B"
     },
     {
       "name": "Namespace",
       "scope": "entity.name.namespace, entity.name.module",
-      "foreground": "#8400B1"
+      "foreground": "#784394"
     },
     {
       "name": "Support Class",
@@ -147,7 +147,7 @@
     {
       "name": "Variable",
       "scope": "variable, variable.other.readwrite",
-      "foreground": "#4632B0"
+      "foreground": "#4A4C87"
     },
     {
       "name": "Parameter",
@@ -167,7 +167,7 @@
     {
       "name": "Language Variable",
       "scope": "variable.language",
-      "foreground": "#006F4B",
+      "foreground": "#28625A",
       "font_style": "italic"
     },
     {
@@ -223,12 +223,12 @@
     {
       "name": "Decorator",
       "scope": "meta.annotation, punctuation.definition.annotation",
-      "foreground": "#A0008D"
+      "foreground": "#844678"
     },
     {
       "name": "Macro",
       "scope": "entity.name.function.macro, support.function.macro",
-      "foreground": "#A0008D"
+      "foreground": "#844678"
     },
     {
       "name": "Heading",

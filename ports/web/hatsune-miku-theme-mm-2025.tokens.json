@@ -303,35 +303,35 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            1,
-            0.7254901960784313,
+            0.9607843137254902,
+            0.7450980392156863,
             1
           ],
-          "hex": "#FFB9FF"
+          "hex": "#F5BEFF"
         },
-        "$description": "Constellation, vivid — the figure the stars are drawn from"
+        "$description": "Constellation mauve — the figure the stars are drawn from"
       },
       "struct": {
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.9333333333333333,
-            0.7647058823529411,
+            0.9607843137254902,
+            0.7450980392156863,
             1
           ],
-          "hex": "#EEC3FF"
+          "hex": "#F5BEFF"
         },
-        "$description": "Constellation — same family as class, mid register"
+        "$description": "Constellation — the same shape family as class"
       },
       "enum": {
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.996078431372549,
-            0.7411764705882353,
+            0.9607843137254902,
+            0.7450980392156863,
             1
           ],
-          "hex": "#FEBDFF"
+          "hex": "#F5BEFF"
         },
         "$description": "Constellation — a defined set of possibilities"
       },
@@ -351,49 +351,49 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            1,
-            0.7411764705882353,
-            1
+            0.7294117647058823,
+            0.9137254901960784,
+            0.9215686274509803
           ],
-          "hex": "#FFBDFF"
+          "hex": "#BAE9EB"
         },
-        "$description": "Candy, pale — a fixed value sparkling as text"
+        "$description": "Hair-tip ice — a fixed value, distinct from constellation shapes"
       },
       "boolean": {
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            1,
-            0.7411764705882353,
-            1
+            0.7294117647058823,
+            0.9137254901960784,
+            0.9215686274509803
           ],
-          "hex": "#FFBDFF"
+          "hex": "#BAE9EB"
         },
-        "$description": "Candy, pale — truth at its simplest"
+        "$description": "Hair-tip ice — truth at its simplest"
       },
       "constant": {
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            1,
-            0.7215686274509804,
-            1
+            0.7294117647058823,
+            0.9137254901960784,
+            0.9215686274509803
           ],
-          "hex": "#FFB8FF"
+          "hex": "#BAE9EB"
         },
-        "$description": "Candy — named immutable, one register warmer"
+        "$description": "Hair-tip ice — named immutable, the same family as literal values"
       },
       "enumMember": {
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            1,
-            0.7215686274509804,
-            1
+            0.7294117647058823,
+            0.9137254901960784,
+            0.9215686274509803
           ],
-          "hex": "#FFB8FF"
+          "hex": "#BAE9EB"
         },
-        "$description": "Candy — one possibility, chosen"
+        "$description": "Hair-tip ice — one possibility, chosen"
       },
       "macro": {
         "$value": {

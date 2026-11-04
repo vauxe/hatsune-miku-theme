@@ -212,7 +212,7 @@
             "color": "#FFDFAEff"
           },
           "boolean": {
-            "color": "#FFBDFFff"
+            "color": "#BAE9EBff"
           },
           "comment": {
             "color": "#94ABC1ff",
@@ -223,13 +223,13 @@
             "font_style": "italic"
           },
           "constant": {
-            "color": "#FFB8FFff"
+            "color": "#BAE9EBff"
           },
           "constant.builtin": {
             "color": "#89E9D3ff"
           },
           "constructor": {
-            "color": "#FFB9FFff"
+            "color": "#F5BEFFff"
           },
           "diff.plus": {
             "color": "#BCE697ff"
@@ -241,7 +241,7 @@
             "color": "#E7DB8Eff"
           },
           "enum": {
-            "color": "#FEBDFFff"
+            "color": "#F5BEFFff"
           },
           "function": {
             "color": "#99F0FFff"
@@ -265,7 +265,7 @@
             "color": "#00F3E4ff"
           },
           "number": {
-            "color": "#FFBDFFff"
+            "color": "#BAE9EBff"
           },
           "operator": {
             "color": "#DBDDF1ff"
@@ -317,7 +317,7 @@
             "color": "#E7DB8Eff"
           },
           "string.special.symbol": {
-            "color": "#FFB8FFff"
+            "color": "#BAE9EBff"
           },
           "tag": {
             "color": "#B9F7FFff"
@@ -352,7 +352,7 @@
             "font_style": "italic"
           },
           "variant": {
-            "color": "#FFB8FFff"
+            "color": "#BAE9EBff"
           },
           "preproc": {
             "color": "#FFDFAEff"

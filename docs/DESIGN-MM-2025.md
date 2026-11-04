@@ -240,7 +240,7 @@ resize grips. Metal, not cloth.
    only where attention is demanded (cursor, focus, badge, current
    find). Ambient UI never borrows it. Star gold and the signal
    palette are text- and status-register voices, never frame colors,
-   and the warm text families (gold, sand, candy) hold low chroma so
+   and the warm text families (gold and sand) hold low chroma so
    that literal-dense files keep the night's balance.
 
 4. **Pink looks, cyan acts.** Two accent groups, both the identity's
@@ -284,8 +284,8 @@ G#     240°   function · method · tag                 the eye iris
 A      270°   variable                                aurora lavender
 A#     300°   type · typeParameter · class · struct
               · enum                                  the constellation
-B      330°   number · boolean · constant
-              · enumMember                            candy pink
+G      210°   number · boolean · constant
+              · enumMember                            hair-tip ice
 C        0°   error (renders at site crimson ~24°)    the signal
 C#      30°   deprecated · invalid                    coral, sparse
 D       60°   property · attribute · parameter        warm sand
@@ -323,10 +323,10 @@ still calm.
 drawn between the stars — the shooting-star trail's mauve (#9382C0)
 lifted to text duty.
 
-**Number at 330° (the candy).** Small, sweet populations of fixed
-values sparkle in the earring's family at text register — pink as
-*text* is allowed to be quiet; pink as *attention* (Principle 3) is
-always the saturated spark, a register apart.
+**Fixed values in hair-tip ice.** Numbers, booleans, constants and
+enum members use pale blue-green, keeping literal-heavy code within the
+cool river. Class, struct and enum names share a soft mauve family;
+type references remain its paler register. Pink stays a small attention accent.
 
 **String at 90° (the wish).** Written words glint star gold —
 the one warm text family, the tanzaku ink. Warnings share the hue at
@@ -378,8 +378,8 @@ hue rotated:
   hue toward one pale island — type, variable and operator leave no
   room for a fourth near-starlight blue.
 - *Interface → F (spring green).* The violet band holds a pale
-  ladder (type, typeParameter, struct) plus one vivid family (class,
-  enum); no third register survives.
+  ladder (type, typeParameter) plus one mauve family (class,
+  struct, enum); no third register survives.
 - *Decorator/macro → pale amber (~76°).* Same shelf arithmetic.
 - *Tonic renders ~195°* (syntax only) — within the hair's sampled
   span; the action cyan stays at the site's 204°.

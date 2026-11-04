@@ -1,11 +1,11 @@
 {
   "syntax": {
-    "keyword": "#006F4B",
-    "keywordControl": "#006F4B",
-    "keywordAlt": "#006F4B",
-    "storage": "#006F4B",
-    "storageModifier": "#006F4B",
-    "variable": "#4632B0",
+    "keyword": "#28625A",
+    "keywordControl": "#28625A",
+    "keywordAlt": "#28625A",
+    "storage": "#28625A",
+    "storageModifier": "#28625A",
+    "variable": "#4A4C87",
     "parameter": "#A23B00",
     "property": "#A23B00",
     "function": "#826000",
@@ -23,14 +23,14 @@
     "number": "#00559F",
     "boolean": "#00559F",
     "enumMember": "#00559F",
-    "type": "#8400B1",
-    "typeParameter": "#744C8B",
-    "macro": "#A0008D",
-    "operator": "#AF0060",
+    "type": "#784394",
+    "typeParameter": "#6D587B",
+    "macro": "#844678",
+    "operator": "#805263",
     "comment": "#569383",
     "commentDoc": "#488374",
     "punctuation": "#008870",
-    "variableLanguage": "#006F4B"
+    "variableLanguage": "#28625A"
   },
   "terminal": {
     "black": "#AA9893",

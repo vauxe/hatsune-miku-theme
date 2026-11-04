@@ -68,7 +68,7 @@ export function createSyntaxTokens(_p: Primitives): SyntaxTokens {
       0.198, 0.042, 64
     ),
 
-    // === THE CONSTELLATION — the A# band, pale ladder + one vivid ===
+    // === THE CONSTELLATION — mauve shapes, separate from ice values ===
     type: role(
       'Constellation, palest — the named shape drawn between stars',
       0.211, 0.040, 300
@@ -78,38 +78,38 @@ export function createSyntaxTokens(_p: Primitives): SyntaxTokens {
       0.205, 0.026, 297
     ),
     class: role(
-      'Constellation, vivid — the figure the stars are drawn from',
-      0.196, 0.058, 316
+      'Constellation mauve — the figure the stars are drawn from',
+      0.195, 0.060, 302
     ),
     struct: role(
-      'Constellation — same family as class, mid register',
-      0.194, 0.050, 300
+      'Constellation — the same shape family as class',
+      0.195, 0.060, 302
     ),
     enum: role(
       'Constellation — a defined set of possibilities',
-      0.196, 0.055, 312
+      0.195, 0.060, 302
     ),
     interface: role(
       'Spring — a promise of a shape',
       0.192, 0.055, 150
     ),
 
-    // === THE CANDY — fixed values sparkle in the earring's family ===
+    // === THE ICE — fixed values take the pale blue-green hair tips ===
     number: role(
-      'Candy, pale — a fixed value sparkling as text',
-      0.204, 0.058, 333
+      'Hair-tip ice — a fixed value, distinct from constellation shapes',
+      0.195, 0.025, 210
     ),
     boolean: role(
-      'Candy, pale — truth at its simplest',
-      0.204, 0.058, 333
+      'Hair-tip ice — truth at its simplest',
+      0.195, 0.025, 210
     ),
     constant: role(
-      'Candy — named immutable, one register warmer',
-      0.199, 0.058, 330
+      'Hair-tip ice — named immutable, the same family as literal values',
+      0.195, 0.025, 210
     ),
     enumMember: role(
-      'Candy — one possibility, chosen',
-      0.199, 0.058, 330
+      'Hair-tip ice — one possibility, chosen',
+      0.195, 0.025, 210
     ),
     macro: role(
       'Pale amber — annotations pinned on definitions',
