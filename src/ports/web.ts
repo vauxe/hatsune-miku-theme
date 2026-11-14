@@ -11,7 +11,8 @@ import {
   withOpacity,
   type Polarity,
 } from '../tokens';
-import type { SemanticTokens } from '../tokens/types';
+import type { SemanticRole, SemanticTokens } from '../tokens/types';
+import { hex } from '../tokens/role';
 import Color from 'colorjs.io';
 
 import { flattenEmbeddedAlpha } from './shared';
@@ -239,7 +240,7 @@ function createWebColorContract(t: SemanticTokens, variant: Polarity) {
         ),
       },
     },
-    syntax: createWebSyntaxColors(t),
+    syntax: createWebSyntaxColors(t, variant),
     accent: {
       primary: color(t.ui.accentPrimary.hex, 'Primary brand and engagement accent.'),
       secondary: color(t.ui.accentSecondary.hex, 'Emphasized brand accent.'),
@@ -344,8 +345,33 @@ function createWebColorContract(t: SemanticTokens, variant: Polarity) {
   };
 }
 
+function huePreservingSyntaxColor(
+  role: SemanticRole,
+  label: string,
+  background: string,
+  polarity: Polarity,
+  minimum: number,
+): WebColorSource | undefined {
+  if (contrastRatio(role.hex, background) >= minimum) return undefined;
+  const step = polarity === 'light' ? -0.0005 : 0.0005;
+  let jz = role.jzczhz.Jz;
+  for (let i = 0; i < 400; i++) {
+    jz = Math.min(0.220, Math.max(0.005, jz + step));
+    const candidate = hex({ Jz: jz, Cz: role.jzczhz.Cz, hz: role.jzczhz.hz });
+    if (contrastRatio(candidate, background) >= minimum) {
+      return color(
+        candidate,
+        `Syntax ${label} foreground; hue-preserving lightness adjustment to meet Web AA on the content surface.`,
+      );
+    }
+    if (jz === 0.005 || jz === 0.220) break;
+  }
+  return undefined;
+}
+
 function createWebSyntaxColors(
   t: SemanticTokens,
+  polarity: Polarity,
 ): { [K in keyof SemanticTokens['syntax']]: WebColorSource } {
   type SyntaxName = keyof SemanticTokens['syntax'];
   type SyntaxRole = SemanticTokens['syntax'][SyntaxName];
@@ -354,12 +380,14 @@ function createWebSyntaxColors(
       const label = String(name)
         .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
         .toLowerCase();
+      const tuned = huePreservingSyntaxColor(role, label, t.ui.background.hex, polarity, 4.5);
       return [
         name,
         accessibleCandidate(
           `syntax.${String(name)}`,
           [
             color(role.hex, role.description),
+            ...(tuned ? [tuned] : []),
             color(
               t.ui.foregroundMuted.hex,
               `Syntax ${label} foreground; uses the secondary text fallback to meet Web AA on the content surface.`,

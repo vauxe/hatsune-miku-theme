@@ -28,7 +28,7 @@
         "editor.background": "#021C49ff",
         "editor.foreground": "#DCDDEFff",
         "editor.gutter.background": "#021C49ff",
-        "editor.subheader.background": "#153163ff",
+        "editor.subheader.background": "#3A4C85ff",
         "editor.active_line.background": "#4984E815",
         "editor.highlighted_line.background": "#4984E815",
         "editor.line_number": "#A0B8D1ff",
@@ -43,7 +43,7 @@
         "editor.document_highlight.read_background": "#17DDDD40",
         "editor.document_highlight.write_background": "#17DDDD40",
         "drop_target.background": "#17DDDD40",
-        "status_bar.background": "#153163ff",
+        "status_bar.background": "#153F80ff",
         "title_bar.background": "#153163ff",
         "title_bar.inactive_background": "#153163ff",
         "tab_bar.background": "#153163ff",
@@ -364,7 +364,7 @@
             "color": "#CDD7FFff"
           },
           "namespace": {
-            "color": "#FFDDFFff"
+            "color": "#8AF4DCff"
           },
           "emphasis": {
             "font_style": "italic"

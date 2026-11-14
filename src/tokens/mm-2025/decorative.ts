@@ -110,6 +110,7 @@ export function createSupportTokens(p: Primitives): SupportTokens {
     type: role('Support type — mascot mint, mid', 0.191, 0.048, H.mikuTeal),
     constant: role('Support constant — mascot mint, quiet', 0.184, 0.045, H.mikuTeal),
     variable: role('Support variable — mascot mint, lit', 0.207, 0.065, H.mikuTeal),
+    namespace: role('Support namespace — mascot mint, module scope', 0.191, 0.048, H.mikuTeal),
   };
 }
 
@@ -211,8 +212,8 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     markupInserted: p.character.negi.bright,
     tattooMark: p.character.marks.tattoo,
 
-    // Badge duty — the First Star: badges are candy pinned on the
-    // chrome (slot named for the SEKAI hair; repainted per theme).
+    // Decorative hair slot (legacy badge hook; primary badge uses ui.badgeBackground
+    // — the First Star: badges are candy pinned on the chrome)
     sekaiHair: hex({ Jz: 0.150, Cz: 0.085, hz: 330 }),
 
     walletChain: p.character.skirt.accessory,

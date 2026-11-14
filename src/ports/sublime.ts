@@ -4,8 +4,10 @@
  * Generates a .sublime-color-scheme (JSON format).
  */
 
-import { withOpacity, selectionAlpha, type SemanticTokens } from '../tokens';
+import { opacity, withOpacity, selectionAlpha, type SemanticTokens } from '../tokens';
+import { createWorkbenchAdapter } from '../theme/adapter';
 import { createSyntaxColors, createMarkupColors } from '../theme/colors';
+import { inferPolarity } from './shared';
 
 interface Rule {
   name: string;
@@ -22,6 +24,8 @@ export function createSublimeTheme(t: SemanticTokens, name: string): object {
   const git = t.git;
 
   // Sublime supports alpha — use the actual VS Code wash recipe.
+  const polarity = inferPolarity(t);
+  const A = createWorkbenchAdapter(t, polarity);
   const selBg = withOpacity(t.decorative.cursorLineFrost, selectionAlpha.active);
 
   const rules: Rule[] = [
@@ -106,7 +110,7 @@ export function createSublimeTheme(t: SemanticTokens, name: string): object {
       invisibles: ui.whitespace.hex,
       caret: ui.cursor.hex,
       block_caret: withOpacity(ui.cursor.hex, '40'),
-      line_highlight: ui.backgroundHouse.hex,
+      line_highlight: withOpacity(t.decorative.cursorLineFrost, opacity.light),
 
       // Selection
       selection: selBg,
@@ -118,8 +122,8 @@ export function createSublimeTheme(t: SemanticTokens, name: string): object {
       selection_corner_style: 'round',
 
       // Find
-      find_highlight: withOpacity(syn.function, '60'),
-      find_highlight_foreground: ui.background.hex,
+      find_highlight: withOpacity(A.findMatchPigment, opacity.strong),
+      find_highlight_foreground: ui.foreground.hex,
       scroll_highlight: withOpacity(ui.accentPrimary.hex, '60'),
       scroll_selected_highlight: withOpacity(ui.cursor.hex, '80'),
       highlight: withOpacity(ui.accentPrimary.hex, '40'),
@@ -152,7 +156,7 @@ export function createSublimeTheme(t: SemanticTokens, name: string): object {
       misspelling: st.error.hex,
       fold_marker: ui.foregroundSubtle.hex,
       accent: ui.accentPrimary.hex,
-      shadow: withOpacity('#000000', '40'),
+      shadow: withOpacity(ui.backgroundVoid.hex, opacity.heavy),
       shadow_width: '4',
 
       // Popups

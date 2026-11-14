@@ -117,6 +117,7 @@ export function createSupportTokens(p: Primitives): SupportTokens {
     type: role('Support type -- violet 300°, built-in architecture', L.sopranino, C.mp, H.major3rd),
     constant: role('Support constant -- azure 240°, deep truth', L.sopranino, C.mp, H.major2nd),
     variable: role('Support variable -- blue 270°, built-in data', L.sopranino, C.mp, H.minor3rd),
+    namespace: role('Support namespace -- violet 300°, module scope', L.soprano, 0.075, H.major3rd),
   };
 }
 
@@ -176,9 +177,9 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     scmGraph: [
       darken(roleFromHex('Virtual Singer darkened', virtualSinger.imageColor), 0.06),
       leoNeed.unitColor,                // LEO/NEED — royal blue, already dark enough
-      darken(roleFromHex('MORE MORE JUMP! darkened', moreMoreJump.unitColor), 0.16),  // deep enough for the sage House
+      darken(roleFromHex('MORE MORE JUMP! darkened', moreMoreJump.unitColor), 0.16),  // deep enough for the bow-cream House
       vividBadSquad.unitColor,          // VIVID BAD SQUAD — vivid pink, already dark enough
-      darken(roleFromHex('Wonderlands darkened', wonderlandsShowtime.unitColor), 0.13),  // deep enough for the sage House
+      darken(roleFromHex('Wonderlands darkened', wonderlandsShowtime.unitColor), 0.13),  // deep enough for the bow-cream House
     ],
 
     // Charts -- Magical Mirai concert memories, darkened for peach canvas
@@ -235,7 +236,7 @@ export function createDecorativeTokens(p: Primitives): DecorativeTokens {
     // Status bar state colors — Winter Delicacy costume elements
     eyeIris: hex({ Jz: 0.102, Cz: 0.075, hz: 44 }),  // Salmon base — debug status bar (adapter lightens it; ink Lc≥55)
 
-    // Star icon — turmeric gold, deep enough to read on the sage House
+    // Star icon — turmeric gold, deep enough to read on the bow-cream House
     starIcon: hex({ Jz: 0.110, Cz: 0.115, hz: 85 }),
   };
 }

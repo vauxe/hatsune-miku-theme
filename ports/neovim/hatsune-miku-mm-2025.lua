@@ -7,7 +7,7 @@ end
 
 vim.o.termguicolors = true
 vim.o.background = "dark"
-vim.g.colors_name = "hatsune-miku-dark"
+vim.g.colors_name = "hatsune-miku-mm-2025"
 
 local groups = {
   ["Normal"] = { fg = "#DCDDEF", bg = "#021C49" },
@@ -32,12 +32,12 @@ local groups = {
   ["Folded"] = { fg = "#ADCBEB", bg = "#153163" },
   ["VertSplit"] = { fg = "#60759F" },
   ["WinSeparator"] = { fg = "#60759F" },
-  ["StatusLine"] = { fg = "#DCDDEF", bg = "#153163" },
+  ["StatusLine"] = { fg = "#DCDDEF", bg = "#153F80" },
   ["StatusLineNC"] = { fg = "#ADCBEB", bg = "#153163" },
   ["TabLine"] = { fg = "#ADCBEB", bg = "#000821" },
   ["TabLineFill"] = { bg = "#000821" },
   ["TabLineSel"] = { fg = "#DCDDEF", bg = "#021C49", bold = true },
-  ["WinBar"] = { fg = "#DCDDEF", bg = "#153163" },
+  ["WinBar"] = { fg = "#DCDDEF", bg = "#3A4C85" },
   ["WinBarNC"] = { fg = "#ADCBEB", bg = "#153163" },
   ["Pmenu"] = { fg = "#DCDDEF", bg = "#233C78" },
   ["PmenuSel"] = { fg = "#DCDDEF", bg = "#143671" },
@@ -52,9 +52,9 @@ local groups = {
   ["FloatBorder"] = { fg = "#60759F", bg = "#233C78" },
   ["FloatTitle"] = { fg = "#17DDDD", bg = "#233C78", bold = true },
   ["FloatFooter"] = { fg = "#ADCBEB", bg = "#233C78" },
-  ["Search"] = { fg = "#021C49", bg = "#99F0FF" },
-  ["IncSearch"] = { fg = "#021C49", bg = "#17DDDD" },
-  ["CurSearch"] = { fg = "#021C49", bg = "#FF9EF8" },
+  ["Search"] = { fg = "#DCDDEF", bg = "#3A3B6D" },
+  ["IncSearch"] = { fg = "#01102A", bg = "#FF9EF8" },
+  ["CurSearch"] = { fg = "#01102A", bg = "#FF9EF8" },
   ["Substitute"] = { fg = "#021C49", bg = "#E0CD76" },
   ["Visual"] = { bg = "#143671" },
   ["VisualNOS"] = { bg = "#143671" },
@@ -144,8 +144,8 @@ local groups = {
   ["@constant"] = { fg = "#BAE9EB" },
   ["@constant.builtin"] = { fg = "#BAE9EB" },
   ["@constant.macro"] = { fg = "#FFDFAE" },
-  ["@module"] = { fg = "#FFDDFF" },
-  ["@module.builtin"] = { fg = "#FFDDFF", italic = true },
+  ["@module"] = { fg = "#8AF4DC" },
+  ["@module.builtin"] = { fg = "#8AF4DC", italic = true },
   ["@label"] = { fg = "#00F3E4" },
   ["@string"] = { fg = "#E7DB8E" },
   ["@string.documentation"] = { fg = "#9DB9D1" },
@@ -213,7 +213,7 @@ local groups = {
   ["@tag.builtin"] = { fg = "#B9F7FF" },
   ["@tag.attribute"] = { fg = "#FFD8B4" },
   ["@tag.delimiter"] = { fg = "#8ECDD1" },
-  ["@lsp.type.namespace"] = { fg = "#FFDDFF" },
+  ["@lsp.type.namespace"] = { fg = "#8AF4DC" },
   ["@lsp.type.type"] = { fg = "#FFDDFF" },
   ["@lsp.type.class"] = { fg = "#F5BEFF" },
   ["@lsp.type.enum"] = { fg = "#F5BEFF" },

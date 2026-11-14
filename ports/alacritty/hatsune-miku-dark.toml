@@ -20,12 +20,12 @@ background = "#344C5A"
 text = "#DEE8F2"
 
 [colors.search.matches]
-foreground = "#1A1F24"
-background = "#95DFDB"
+foreground = "#DEE8F2"
+background = "#394F52"
 
 [colors.search.focused_match]
-foreground = "#1A1F24"
-background = "#F0CD7B"
+foreground = "#0D1114"
+background = "#FF8CD9"
 
 [colors.line_indicator]
 foreground = "None"

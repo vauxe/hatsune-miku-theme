@@ -4,7 +4,7 @@ import Color from 'colorjs.io';
 
 import { createWorkbenchColors } from '../theme';
 import { flagship, themes } from '../registry';
-import { opacity, selectionAlpha, type Polarity } from '../tokens';
+import { opacity, parseHex, selectionAlpha, type Polarity } from '../tokens';
 import { flattenEmbeddedAlpha } from './shared';
 import { createWebPreview } from './web-preview';
 import {
@@ -56,12 +56,42 @@ describe('web design token port', () => {
         const resolved = syntax[name];
         if (resolved.$value.hex === source.hex) {
           assert.equal(resolved.$description, source.description);
+        } else if (/hue-preserving lightness adjustment/.test(resolved.$description)) {
+          assert.notEqual(resolved.$value.hex, source.hex);
+          assert.notEqual(resolved.$value.hex, tokens.ui.foregroundMuted.hex);
+          const sourceHue = parseHex(source.hex).hz;
+          const resolvedHue = parseHex(resolved.$value.hex).hz;
+          const hueDiff = Math.abs(((resolvedHue - sourceHue + 540) % 360) - 180);
+          assert.ok(hueDiff < 5, `${theme.slug} syntax.${name} shifted hue by ${hueDiff.toFixed(1)}°`);
         } else if (resolved.$value.hex === tokens.ui.foregroundMuted.hex) {
           assert.match(resolved.$description, /secondary text fallback/);
         } else {
           assert.equal(resolved.$value.hex, tokens.ui.foreground.hex);
           assert.match(resolved.$description, /primary text fallback/);
         }
+      }
+    }
+  });
+
+  it('preserves chromatic tonic hue for light comments and punctuation in Web CSS', () => {
+    for (const slug of ['light', 'snow-2024'] as const) {
+      const theme = themes.find(entry => entry.slug === slug);
+      assert.ok(theme, `missing theme ${slug}`);
+      const web = createWebTokenDocument(theme.tokens, theme.polarity).color;
+
+      for (const name of ['comment', 'commentDoc', 'punctuation'] as const) {
+        const token = web.syntax[name];
+        assert.notEqual(
+          token.$value.hex,
+          web.text.secondary.$value.hex,
+          `${slug} syntax.${name} collapsed to neutral text.secondary`,
+        );
+        const parsed = parseHex(token.$value.hex);
+        assert.ok(
+          parsed.Cz >= 0.02,
+          `${slug} syntax.${name} lost chromatic saturation (Cz=${parsed.Cz.toFixed(4)})`,
+        );
+        assertContrast(`${slug} syntax.${name}`, token.$value, web.surface.content.$value, 4.5);
       }
     }
   });

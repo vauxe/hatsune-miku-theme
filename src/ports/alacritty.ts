@@ -5,10 +5,16 @@
  */
 
 import type { SemanticTokens } from '../tokens/types';
-import { selectionSurface } from './shared';
+import {
+  selectionSurface,
+  statusBarSurface,
+  findHighlightSurface,
+  focusedMatchColors,
+} from './shared';
 
 export function createAlacrittyTheme(t: SemanticTokens): string {
   const term = t.terminal;
+  const focused = focusedMatchColors(t);
   return `# Hatsune Miku Theme — Alacritty
 # Generated — do not edit
 
@@ -31,12 +37,12 @@ background = "${selectionSurface(t)}"
 text = "${t.ui.foreground.hex}"
 
 [colors.search.matches]
-foreground = "${t.ui.background.hex}"
-background = "${t.ui.accentSecondary.hex}"
+foreground = "${t.ui.foreground.hex}"
+background = "${findHighlightSurface(t)}"
 
 [colors.search.focused_match]
-foreground = "${t.ui.background.hex}"
-background = "${t.status.warning.hex}"
+foreground = "${focused.fg}"
+background = "${focused.bg}"
 
 [colors.line_indicator]
 foreground = "None"
@@ -44,7 +50,7 @@ background = "None"
 
 [colors.footer_bar]
 foreground = "${t.ui.foreground.hex}"
-background = "${t.ui.backgroundHouse.hex}"
+background = "${statusBarSurface(t)}"
 
 [colors.hints.start]
 foreground = "${t.ui.background.hex}"

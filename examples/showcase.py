@@ -7,18 +7,18 @@ import asyncio
 from dataclasses import dataclass
 from typing import List, Optional, TypeVar, Generic
 
-# Constants: #E05096 (Magenta LED - Rhythm)
+# Constants
 MODEL_VERSION: str = "V2_CLASSIC"
 DEFAULT_BPM: int = 39  # The sacred number
 
-T = TypeVar("T")  # Type Parameter: #B2EBE7 Italic (Ice Teal)
+T = TypeVar("T")  # Type Parameter
 
 
-@dataclass  # Decorator (Meta Amber)
+@dataclass  # Decorator
 class VoiceBank:
- """Types/Classes"""
+    """Types/Classes"""
 
-    name: str  # Parameter type annotation: #B2EBE7
+    name: str  # Parameter type annotation
     version: str
     frequency_range: tuple[int, int] = (80, 1100)
 
@@ -31,7 +31,7 @@ class DigitalDiva(Generic[T]):
     Functions
     """
 
-    # Class constant: #E05096 Bold
+    # Class constant
     SIGNATURE_COLOR: str = "#39C5BB"
 
     def __init__(self, name: str = "Hatsune Miku") -> None:
@@ -41,22 +41,22 @@ class DigitalDiva(Generic[T]):
 
     @staticmethod  # Decorator
     def get_canonical_color() -> str:
-        """Static method: #00BCD4 Underline"""
+        """Static method"""
         return "#39C5BB"
 
     async def sing(self, song_title: str, bpm: int = 120) -> Optional[str]:
         """
         Async function
-        Parameters: #B2EBE7 Italic
+        Parameters
         """
 
         # String
         message = f"Now Loading: {song_title}..."
 
-        # Template expression: #FF80AB (Soft Pink)
+        # Template expression
         formatted = f"BPM: {bpm} | Energy: {self._energy}"
 
-        # Function call: #00BCD4 (NT Cyan)
+        # Function call
         self._activate_stage_lights()
 
         # Keywords
@@ -70,25 +70,25 @@ class DigitalDiva(Generic[T]):
         # Operators
         total = self._energy * 2 + 100
 
-        # Error: #FF5370 (Coral Warning)
+        # Error
         if self._energy < 10:
             raise SystemError("Low Energy: Please recharge with Leeks.")
 
     async def _sync_tempo(self, bpm: int) -> None:
-        # Magic method call: #00BCD4 Bold
+        # Magic method call
         await asyncio.sleep(60 / bpm)
         self.__update_state()
 
     def __update_state(self) -> None:
-        """Magic/dunder method: #00BCD4 Bold"""
+        """Magic/dunder method"""
         self._energy -= 1
 
 
 class AppendVoice(DigitalDiva[VoiceBank]):
     """
     Inherited class demonstrating:
-    - Class inheritance: #B2EBE7 Bold
-    - Generic type parameter: #B2EBE7 Italic
+    - Class inheritance
+    - Generic type parameter
     """
 
     # Class attributes
@@ -99,7 +99,7 @@ class AppendVoice(DigitalDiva[VoiceBank]):
         self.voice_type = voice_type
 
 
-# RegEx: #B388FF (Hologram Purple)
+# Regular expression
 import re
 MIKU_PATTERN = re.compile(r"(?P<name>Miku)[-_]?(?P<version>V\d+)?")
 

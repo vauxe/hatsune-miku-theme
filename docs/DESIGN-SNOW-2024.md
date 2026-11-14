@@ -184,7 +184,7 @@ lists; links take its darker registers.
 6. **Hue is sampled, depth is designed.** Surfaces take the artwork's
    own values — byte for byte where a painted value fits its role —
    and gate shortfalls tune depth or chroma on the ink side, never
-   rotate hue and never wash the walls. The sage House asks more of
+   rotate hue and never wash the walls. The bow-cream House and apricot Edge ask more of
    its ink than a near-white chrome would, and the ink answers: text
    tiers, the git wheel and the watch-view tokens all sit a step
    deeper than their 2026 counterparts.
@@ -234,7 +234,7 @@ warm handwriting on the apron, one register down from parameter.
 **Variable at 270° (blue).** Kept from 2026: the most frequent token
 takes the widest cool gamut, near-complementary to cream. Seated a
 step below the warm ensemble — chat file labels borrow this token on
-the sage House, which asks the extra depth.
+the bow-cream House, which asks the extra depth.
 
 **String at 150° (matcha).** Green tea over rice; also the success
 family's home.
@@ -415,7 +415,7 @@ floor on the tinted background.
 Status   Error    collar vermilion ~42° — sampled hue; depth carries
                   the deutan gap from warning
          Warning  turmeric 90° — the curry, dulled and deepened to
-                  read on the sage House
+                  read on the bow-cream House
          Info     tonic celadon 180° — her voice, calm
          Success  matcha 150° — one seat above the sampled greens
                   (105–118°): the lift buys deutan distance from
@@ -451,7 +451,7 @@ are the implementation's problem and SCORE's record.
 light-variant grammar transposed to the 2024 seats (tonic 180°,
 interface 210°), with per-icon registers re-derived on cream. The
 debug expression tokens run deeper than the syntax registers — the
-watch view lives on the sage House. Same-hue icon pairs keep the
+watch view lives on the bow-cream House. Same-hue icon pairs keep the
 ΔEz ≥ 12 discipline.
 
 **Indent guides.** Six pastry-case stripes, her hair first:

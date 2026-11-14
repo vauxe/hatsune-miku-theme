@@ -1151,7 +1151,7 @@
 				"entity.name.type.module"
 			],
 			"settings": {
-				"foreground": "#FFDDFF"
+				"foreground": "#8AF4DC"
 			}
 		},
 		{
@@ -1161,7 +1161,7 @@
 				"support.module.node"
 			],
 			"settings": {
-				"foreground": "#FFDDFF"
+				"foreground": "#8AF4DC"
 			}
 		},
 		{
@@ -1790,7 +1790,7 @@
 				"entity.name.package.go"
 			],
 			"settings": {
-				"foreground": "#FFDDFF"
+				"foreground": "#8AF4DC"
 			}
 		},
 		{
@@ -1865,7 +1865,7 @@
 				"entity.name.type.namespace.cs"
 			],
 			"settings": {
-				"foreground": "#FFDDFF"
+				"foreground": "#8AF4DC"
 			}
 		},
 		{
@@ -2183,10 +2183,10 @@
 		"enum.declaration": "#F5BEFF",
 		"enumMember": "#BAE9EB",
 		"enumMember.readonly": "#BAE9EB",
-		"namespace": "#FFDDFF",
-		"namespace.declaration": "#FFDDFF",
-		"module": "#FFDDFF",
-		"module.declaration": "#FFDDFF",
+		"namespace": "#8AF4DC",
+		"namespace.declaration": "#8AF4DC",
+		"module": "#8AF4DC",
+		"module.declaration": "#8AF4DC",
 		"variable": "#C7CCFF",
 		"variable.declaration": "#C7CCFF",
 		"variable.readonly": "#BAE9EB",

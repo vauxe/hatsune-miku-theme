@@ -13,6 +13,7 @@
 import { role, roleFromHex, parseHex } from '../role';
 import type { UITokens, StatusTokens, GitTokens } from '../types';
 import type { Primitives } from '../primitives';
+import { virtualSinger } from '../../palette';
 
 export function createUITokens(p: Primitives): UITokens {
   const { lightness: L, chroma: C, hue: H, character: char } = p;
@@ -134,13 +135,10 @@ export function createUITokens(p: Primitives): UITokens {
         hairShadow.Jz - 0.012, hairShadow.Cz, hairShadow.hz
       );
     })(),
-    badgeBackground: (() => {
-      const cushion = parseHex(char.headphones.cushion);
-      return role(
-        'Her headphone cushion -- darkened for badge readability',
-        cushion.Jz - 0.050, cushion.Cz, cushion.hz
-      );
-    })(),
+    badgeBackground: roleFromHex(
+      'Project SEKAI Virtual Singer hair -- teal badge background',
+      virtualSinger.hair.base
+    ),
     activeBorder: roleFromHex('Her headphone cushion -- canonical magenta for active borders', char.headphones.cushion),
   };
 }

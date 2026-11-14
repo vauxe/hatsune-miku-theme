@@ -37,7 +37,7 @@ export function createSyntaxColors(t: SemanticTokens) {
     enum: t.syntax.enum.hex,
     enumMember: t.syntax.enumMember.hex,
     struct: t.syntax.struct.hex,
-    namespace: t.syntax.type.hex, // namespaces share the type hue
+    namespace: t.support.namespace.hex, // per-theme namespace voice (type hue, or mascot mint in mm-2025)
     supportClass: t.support.class.hex,
     supportType: t.support.type.hex,
     supportConstant: t.support.constant.hex,

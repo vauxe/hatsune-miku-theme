@@ -471,37 +471,37 @@
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.39215686274509803,
-            0.41568627450980394,
-            0.42745098039215684
+            0.25098039215686274,
+            0.4627450980392157,
+            0.4745098039215686
           ],
-          "hex": "#646A6D"
+          "hex": "#407679"
         },
-        "$description": "Syntax comment foreground; uses the secondary text fallback to meet Web AA on the content surface."
+        "$description": "Syntax comment foreground; hue-preserving lightness adjustment to meet Web AA on the content surface."
       },
       "commentDoc": {
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.39215686274509803,
-            0.41568627450980394,
-            0.42745098039215684
+            0.25098039215686274,
+            0.4627450980392157,
+            0.4745098039215686
           ],
-          "hex": "#646A6D"
+          "hex": "#407679"
         },
-        "$description": "Syntax comment doc foreground; uses the secondary text fallback to meet Web AA on the content surface."
+        "$description": "Syntax comment doc foreground; hue-preserving lightness adjustment to meet Web AA on the content surface."
       },
       "punctuation": {
         "$value": {
           "colorSpace": "srgb",
           "components": [
-            0.39215686274509803,
-            0.41568627450980394,
-            0.42745098039215684
+            0,
+            0.47843137254901963,
+            0.5019607843137255
           ],
-          "hex": "#646A6D"
+          "hex": "#007A80"
         },
-        "$description": "Syntax punctuation foreground; uses the secondary text fallback to meet Web AA on the content surface."
+        "$description": "Syntax punctuation foreground; hue-preserving lightness adjustment to meet Web AA on the content surface."
       },
       "variableLanguage": {
         "$value": {

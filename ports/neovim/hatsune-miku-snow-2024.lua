@@ -7,7 +7,7 @@ end
 
 vim.o.termguicolors = true
 vim.o.background = "light"
-vim.g.colors_name = "hatsune-miku-light"
+vim.g.colors_name = "hatsune-miku-snow-2024"
 
 local groups = {
   ["Normal"] = { fg = "#532B24", bg = "#FEEDDC" },
@@ -32,12 +32,12 @@ local groups = {
   ["Folded"] = { fg = "#4D4845", bg = "#F1DBCB" },
   ["VertSplit"] = { fg = "#83655F" },
   ["WinSeparator"] = { fg = "#83655F" },
-  ["StatusLine"] = { fg = "#532B24", bg = "#F1DBCB" },
+  ["StatusLine"] = { fg = "#532B24", bg = "#EAB59A" },
   ["StatusLineNC"] = { fg = "#4D4845", bg = "#F1DBCB" },
   ["TabLine"] = { fg = "#4D4845", bg = "#FFF1E4" },
   ["TabLineFill"] = { bg = "#FFF1E4" },
   ["TabLineSel"] = { fg = "#532B24", bg = "#FEEDDC", bold = true },
-  ["WinBar"] = { fg = "#532B24", bg = "#F1DBCB" },
+  ["WinBar"] = { fg = "#532B24", bg = "#EAB59A" },
   ["WinBarNC"] = { fg = "#4D4845", bg = "#F1DBCB" },
   ["Pmenu"] = { fg = "#532B24", bg = "#E8CFBF" },
   ["PmenuSel"] = { fg = "#532B24", bg = "#F5D7C2" },
@@ -52,9 +52,9 @@ local groups = {
   ["FloatBorder"] = { fg = "#83655F", bg = "#E8CFBF" },
   ["FloatTitle"] = { fg = "#658A85", bg = "#E8CFBF", bold = true },
   ["FloatFooter"] = { fg = "#4D4845", bg = "#E8CFBF" },
-  ["Search"] = { fg = "#FEEDDC", bg = "#826000" },
-  ["IncSearch"] = { fg = "#FEEDDC", bg = "#658A85" },
-  ["CurSearch"] = { fg = "#FEEDDC", bg = "#BF4736" },
+  ["Search"] = { fg = "#532B24", bg = "#D1DAC9" },
+  ["IncSearch"] = { fg = "#FFF3E0", bg = "#AF4533" },
+  ["CurSearch"] = { fg = "#FFF3E0", bg = "#AF4533" },
   ["Substitute"] = { fg = "#FEEDDC", bg = "#574B1A" },
   ["Visual"] = { bg = "#F5D7C2" },
   ["VisualNOS"] = { bg = "#F5D7C2" },

@@ -6,9 +6,11 @@
  * verifies that committed artifacts match the generators.
  */
 
+import type { Polarity } from '../tokens';
 import type { SemanticTokens } from '../tokens/types';
 import { createHelixTheme } from '../ports/helix';
-import { selectionSurface } from '../ports/shared';
+import { createNeovimTheme } from '../ports/neovim';
+import { inferPolarity, selectionSurface } from '../ports/shared';
 import { createWezTermTheme } from '../ports/wezterm';
 import { createWindowsTerminalTheme } from '../ports/windows-terminal';
 
@@ -137,9 +139,45 @@ function validateWindowsTerminal(t: SemanticTokens): PortContractFailure[] {
   }];
 }
 
-export function validatePortContracts(t: SemanticTokens): PortContractFailure[] {
+const NEOVIM_OPAQUE_HEX = /^#[0-9A-Fa-f]{6}$/;
+
+function validateNeovim(
+  t: SemanticTokens,
+  polarity: Polarity = inferPolarity(t),
+  slug: string = polarity,
+): PortContractFailure[] {
+  const theme = createNeovimTheme(t, polarity, slug);
+  const failures: PortContractFailure[] = [];
+
+  const expectedColorsName = `vim.g.colors_name = "hatsune-miku-${slug}"`;
+  if (!theme.includes(expectedColorsName)) {
+    failures.push({
+      name: 'Neovim colors_name',
+      detail: `expected ${expectedColorsName}`,
+    });
+  }
+
+  const invalid = [...theme.matchAll(/"(#[^"]+)"/g)]
+    .map(match => match[1])
+    .filter(color => !NEOVIM_OPAQUE_HEX.test(color));
+  if (invalid.length > 0) {
+    failures.push({
+      name: 'Neovim colors',
+      detail: `non-opaque hex values: ${[...new Set(invalid)].join(', ')}`,
+    });
+  }
+
+  return failures;
+}
+
+export function validatePortContracts(
+  t: SemanticTokens,
+  polarity?: Polarity,
+  slug?: string,
+): PortContractFailure[] {
   return [
     ...validateHelix(t),
+    ...validateNeovim(t, polarity, slug),
     ...validateWezTerm(t),
     ...validateWindowsTerminal(t),
   ];

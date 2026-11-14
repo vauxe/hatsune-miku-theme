@@ -20,12 +20,12 @@ background = "#F5D7C2"
 text = "#532B24"
 
 [colors.search.matches]
-foreground = "#FEEDDC"
-background = "#004339"
+foreground = "#532B24"
+background = "#D1DAC9"
 
 [colors.search.focused_match]
-foreground = "#FEEDDC"
-background = "#574B1A"
+foreground = "#FFF3E0"
+background = "#AF4533"
 
 [colors.line_indicator]
 foreground = "None"
@@ -33,7 +33,7 @@ background = "None"
 
 [colors.footer_bar]
 foreground = "#532B24"
-background = "#F1DBCB"
+background = "#EAB59A"
 
 [colors.hints.start]
 foreground = "#FEEDDC"

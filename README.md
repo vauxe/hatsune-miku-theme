@@ -15,10 +15,12 @@ Available for VS Code, the Web, Neovim, Helix, Zed, Sublime Text, and popular te
 
 <div align="center">
   <img src="images/example-dark.jpg" alt="Hatsune Miku Theme — Dark" width="800">
-  <p><strong>Dark</strong></p>
-  <img src="images/example-light.jpg" alt="Hatsune Miku Theme — Light (Snow Miku)" width="800">
-  <p><strong>Light</strong></p>
+  <p><strong>Dark — Hatsune Miku</strong></p>
+  <img src="images/example-light.jpg" alt="Hatsune Miku Theme — Light (Snow Miku 2026)" width="800">
+  <p><strong>Light — Snow Miku 2026</strong></p>
 </div>
+
+Explore all four themes — **Dark**, **Snow Miku 2026**, **Snow Miku 2024**, and **Magical Mirai 2025** — side-by-side in the [live Web preview](https://vauxe.github.io/hatsune-miku-theme/ports/web/preview.html) ([`ports/web/preview.html`](ports/web/preview.html)).
 
 ## Install
 
@@ -112,8 +114,8 @@ Pre-built configs for the dark, light, Snow Miku 2024, and Magical Mirai 2025 va
 | [Alacritty](ports/alacritty/) | `~/.config/alacritty/` (import in `alacritty.toml`) |
 | [kitty](ports/kitty/) | `~/.config/kitty/` (include in `kitty.conf`) |
 | [WezTerm](ports/wezterm/) | Reference in `wezterm.lua` config |
-| [Ghostty](ports/ghostty/) | `~/.config/ghostty/themes/` (`theme = hatsune-miku-dark` or `hatsune-miku-light`) |
-| [foot](ports/foot/) | Copy to `~/.config/foot/themes/`; add `include=~/.config/foot/themes/hatsune-miku-dark.ini` at the top of `foot.ini` (or use light) |
+| [Ghostty](ports/ghostty/) | `~/.config/ghostty/themes/` (`theme = hatsune-miku-dark`, `hatsune-miku-light`, `hatsune-miku-snow-2024`, or `hatsune-miku-mm-2025`) |
+| [foot](ports/foot/) | Copy to `~/.config/foot/themes/`; add `include=~/.config/foot/themes/hatsune-miku-dark.ini` (or `-light`, `-snow-2024`, `-mm-2025`) at the top of `foot.ini` |
 | [iTerm2](ports/iterm2/) | Import via Preferences → Profiles → Colors |
 | [Windows Terminal](ports/windows-terminal/) | Add to `settings.json` schemes array |
 | [Konsole](ports/konsole/) | `~/.local/share/konsole/` |

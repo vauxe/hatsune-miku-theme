@@ -93,7 +93,7 @@ function dark(t: SemanticTokens): WorkbenchAdapter {
       statusBar: edge?.statusBar ?? house,
       tabHeader: house,
     },
-    badge: { bg: t.decorative.sekaiHair, fg: darkFg },
+    badge: { bg: t.ui.badgeBackground.hex, fg: darkFg },
     tintBorder: t.ui.accentPrimary.hex, // teal ~180°
     tintToast: withOpacity(t.decorative.skinBase, op.medium),
     surfaceFg: t.ui.foregroundMuted.hex,
@@ -145,7 +145,7 @@ function light(t: SemanticTokens): WorkbenchAdapter {
       statusBar: t.decorative.topMain,
       tabHeader: t.decorative.armWarmersBase,
     },
-    badge: { bg: cursor, fg: blouse },
+    badge: { bg: t.ui.badgeBackground.hex, fg: blouse },
     tintBorder: t.decorative.tieShadow, // cool blue ~235°
     tintToast: withOpacity(t.decorative.skinBlush, op.medium),
     surfaceFg: t.ui.foreground.hex,

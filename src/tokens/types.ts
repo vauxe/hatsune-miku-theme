@@ -203,6 +203,7 @@ export interface SupportTokens {
   type: SemanticRole;
   constant: SemanticRole;
   variable: SemanticRole;
+  namespace: SemanticRole;
 }
 
 // =============================================================================

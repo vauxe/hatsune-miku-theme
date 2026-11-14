@@ -58,7 +58,7 @@
 "function.special" = "#FFDFAE"
 "tag" = "#B9F7FF"
 "tag.builtin" = "#B9F7FF"
-"namespace" = "#FFDDFF"
+"namespace" = "#8AF4DC"
 "special" = "#FFD6B5"
 "markup.heading" = { fg = "#8FF8B6", modifiers = ["bold"] }
 "markup.heading.1" = { fg = "#8FF8B6", modifiers = ["bold"] }
@@ -128,7 +128,7 @@
 "ui.selection" = { bg = "#143671" }
 "ui.selection.primary" = { bg = "#143671" }
 "ui.highlight" = { bg = "#05385E" }
-"ui.statusline" = { fg = "#DCDDEF", bg = "#153163" }
+"ui.statusline" = { fg = "#DCDDEF", bg = "#153F80" }
 "ui.statusline.inactive" = { fg = "#ADCBEB", bg = "#153163" }
 "ui.statusline.normal" = { fg = "#021C49", bg = "#17DDDD", modifiers = ["bold"] }
 "ui.statusline.insert" = { fg = "#021C49", bg = "#C1EB9B", modifiers = ["bold"] }

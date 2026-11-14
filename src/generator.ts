@@ -85,7 +85,7 @@ const portTable: Port[] = [
   { dir: 'konsole', ext: '.colorscheme', render: ({ tokens, name }) => createKonsoleTheme(tokens, name) },
   { dir: 'warp', ext: '.yaml', render: ({ tokens, polarity }) => createWarpTheme(tokens, polarity) },
   // Editors
-  { dir: 'neovim', ext: '.lua', render: ({ tokens, polarity }) => createNeovimTheme(tokens, polarity) },
+  { dir: 'neovim', ext: '.lua', render: ({ tokens, polarity, slug }) => createNeovimTheme(tokens, polarity, slug) },
   { dir: 'helix', ext: '.toml', render: ({ tokens }) => createHelixTheme(tokens) },
   { dir: 'zed', ext: '.json', render: ({ tokens, polarity, name }) => json(createZedTheme(tokens, polarity, name)) },
   { dir: 'sublime', ext: '.sublime-color-scheme', render: ({ tokens, name }) => json(createSublimeTheme(tokens, name)) },

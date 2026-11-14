@@ -241,10 +241,10 @@ const snow2024Special: SpecialColors = {
 /**
  * Create primitives for Snow Miku 2024 — Winter Delicacy.
  *
- * Cream Stage inside a milky-sage House, chocolate ink, checker-russet
- * borders, coral-bow identity, haori-apricot selection. The Stage/House
- * seam is a temperature seam — warm apron against cool hair — exactly
- * the painting's own strongest edge.
+ * Apron-cream Stage inside a bow-cream House with haori-apricot Edge,
+ * chocolate ink, cocoa borders with sage seams, coral-bow identity,
+ * and haori-apricot selection. The hair stays in the voice roles, never
+ * painting a wall.
  */
 export function createSnow2024Primitives(): Primitives {
   return {

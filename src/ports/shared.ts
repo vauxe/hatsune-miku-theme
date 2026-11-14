@@ -7,7 +7,7 @@
  */
 
 import type { SemanticTokens } from '../tokens/types';
-import { selectionAlpha } from '../tokens/primitives';
+import { opacity, selectionAlpha, type Polarity } from '../tokens/primitives';
 
 /** Composite fg over bg at the given alpha in sRGB.
  * Same gamma-space math as tools/readability-color blendAlpha() — kept
@@ -42,4 +42,38 @@ export function flattenEmbeddedAlpha(color: string, base: string): string {
  */
 export function selectionSurface(t: SemanticTokens): string {
   return composite(t.decorative.cursorLineFrost, t.ui.background.hex, parseInt(selectionAlpha.active, 16) / 255);
+}
+
+/** Infer theme polarity from the Stage (editor) background lightness. */
+export function inferPolarity(t: SemanticTokens): Polarity {
+  return t.ui.background.jzczhz.Jz < 0.1 ? 'dark' : 'light';
+}
+
+/** Structural Edge surface for status bars / footers (falls back to House on flagship dark). */
+export function statusBarSurface(t: SemanticTokens, polarity: Polarity = inferPolarity(t)): string {
+  return polarity === 'light'
+    ? t.decorative.topMain
+    : (t.decorative.chromeOverride?.statusBar ?? t.ui.backgroundHouse.hex);
+}
+
+/** Structural Edge surface for section headers / winbars (falls back to House on flagship dark). */
+export function sectionHeaderSurface(t: SemanticTokens, polarity: Polarity = inferPolarity(t)): string {
+  return polarity === 'light'
+    ? t.decorative.topMain
+    : (t.decorative.chromeOverride?.sectionHeader ?? t.ui.backgroundHouse.hex);
+}
+
+/** Flattened find-match highlight veil composited over Stage for alpha-less hosts. */
+export function findHighlightSurface(t: SemanticTokens): string {
+  return composite(t.decorative.findHighlightPigment, t.ui.background.hex, parseInt(opacity.strong, 16) / 255);
+}
+
+/** Attention voice foreground/background pair for the active/focused search match. */
+export function focusedMatchColors(
+  t: SemanticTokens,
+  polarity: Polarity = inferPolarity(t),
+): { fg: string; bg: string } {
+  return polarity === 'light'
+    ? { fg: t.decorative.blouseWhite, bg: t.ui.badgeBackground.hex }
+    : { fg: t.decorative.darkForeground, bg: t.ui.cursor.hex };
 }

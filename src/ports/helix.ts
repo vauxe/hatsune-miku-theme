@@ -5,7 +5,7 @@
  */
 
 import { withOpacity, type SemanticTokens } from '../tokens';
-import { flattenEmbeddedAlpha, selectionSurface } from './shared';
+import { flattenEmbeddedAlpha, selectionSurface, statusBarSurface } from './shared';
 
 type Style = string | { fg?: string; bg?: string; modifiers?: string[]; underline?: { color: string; style: string } };
 
@@ -96,7 +96,7 @@ export function createHelixTheme(t: SemanticTokens): string {
     'function.special': syn.macro.hex,
     'tag': syn.tag.hex,
     'tag.builtin': syn.tag.hex,
-    'namespace': syn.type.hex,
+    'namespace': t.support.namespace.hex,
     'special': syn.parameter.hex,
 
     // =========================================================================
@@ -192,7 +192,7 @@ export function createHelixTheme(t: SemanticTokens): string {
     'ui.highlight': { bg: highlightBg },
 
     // UI — Statusline
-    'ui.statusline': { fg: fg, bg: houseBg },
+    'ui.statusline': { fg: fg, bg: statusBarSurface(t) },
     'ui.statusline.inactive': { fg: ui.foregroundMuted.hex, bg: houseBg },
     'ui.statusline.normal': { fg: bg, bg: ui.accentPrimary.hex, modifiers: ['bold'] },
     'ui.statusline.insert': { fg: bg, bg: st.success.hex, modifiers: ['bold'] },

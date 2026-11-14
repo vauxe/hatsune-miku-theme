@@ -129,7 +129,7 @@ function generate(theme: Theme): string {
   out.push(table('Support (built-ins)', [
     ['function', t.support.function], ['class', t.support.class],
     ['type', t.support.type], ['constant', t.support.constant],
-    ['variable', t.support.variable],
+    ['variable', t.support.variable], ['namespace', t.support.namespace],
   ], stage));
 
   out.push(table('Markdown', [

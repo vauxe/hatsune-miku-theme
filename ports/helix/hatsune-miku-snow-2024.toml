@@ -128,7 +128,7 @@
 "ui.selection" = { bg = "#F5D7C2" }
 "ui.selection.primary" = { bg = "#F5D7C2" }
 "ui.highlight" = { bg = "#E8DFCF" }
-"ui.statusline" = { fg = "#532B24", bg = "#F1DBCB" }
+"ui.statusline" = { fg = "#532B24", bg = "#EAB59A" }
 "ui.statusline.inactive" = { fg = "#4D4845", bg = "#F1DBCB" }
 "ui.statusline.normal" = { fg = "#FEEDDC", bg = "#658A85", modifiers = ["bold"] }
 "ui.statusline.insert" = { fg = "#FEEDDC", bg = "#00872C", modifiers = ["bold"] }

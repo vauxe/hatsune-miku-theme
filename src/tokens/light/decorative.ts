@@ -117,6 +117,7 @@ export function createSupportTokens(p: Primitives): SupportTokens {
     type: role('Support type -- violet 300°, built-in architecture', L.sopranino, C.mp, H.minor3rd),
     constant: role('Support constant -- azure 240°, deep truth', L.sopranino, C.mp, H.minor2nd),
     variable: role('Support variable -- blue 270°, built-in data', L.sopranino, C.mp, H.major2nd),
+    namespace: role('Support namespace -- violet 300°, module scope', L.soprano, C.mp, H.minor3rd),
   };
 }
 

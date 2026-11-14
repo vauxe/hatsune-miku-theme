@@ -43,9 +43,9 @@
   --hm-color-syntax-type-parameter: #7B5393;
   --hm-color-syntax-macro: #A90095;
   --hm-color-syntax-operator: #B80067;
-  --hm-color-syntax-comment: #646A6D;
-  --hm-color-syntax-comment-doc: #646A6D;
-  --hm-color-syntax-punctuation: #646A6D;
+  --hm-color-syntax-comment: #407679;
+  --hm-color-syntax-comment-doc: #407679;
+  --hm-color-syntax-punctuation: #007A80;
   --hm-color-syntax-variable-language: #007284;
   --hm-color-accent-primary: #4E9CA1;
   --hm-color-accent-secondary: #00717F;
@@ -327,9 +327,9 @@
   --hm-color-syntax-type-parameter: #6D587B;
   --hm-color-syntax-macro: #844678;
   --hm-color-syntax-operator: #805263;
-  --hm-color-syntax-comment: #4D4845;
-  --hm-color-syntax-comment-doc: #4D4845;
-  --hm-color-syntax-punctuation: #4D4845;
+  --hm-color-syntax-comment: #3D7769;
+  --hm-color-syntax-comment-doc: #3D7769;
+  --hm-color-syntax-punctuation: #007C66;
   --hm-color-syntax-variable-language: #28625A;
   --hm-color-accent-primary: #658A85;
   --hm-color-accent-secondary: #004339;

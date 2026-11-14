@@ -137,7 +137,7 @@ export function createUITokens(p: Primitives): UITokens {
       0.096, 0.008, 45
     ),
     disabled: role(
-      'Disabled — light chocolate, deep enough for ignored files on the sage House',
+      'Disabled — light chocolate, deep enough for ignored files on the bow-cream House',
       0.090, 0.006, 45
     ),
     disabledSubtle: role(
@@ -211,7 +211,7 @@ export function createStatusTokens(p: Primitives): StatusTokens {
   // Jz/Cz are per-hue gamut-optimized — hardcoded, not from L/C registers.
   return {
     success: role('Matcha success — green tea over rice, fresh growth', 0.090, 0.115, 150),
-    warning: role('Turmeric warning — the curry, dulled and deepened to read on the sage House', 0.071, 0.055, 90),
+    warning: role('Turmeric warning — the curry, dulled and deepened to read on the bow-cream House', 0.071, 0.055, 90),
     error: role('Vermilion error — the collar, deepened (depth carries the deutan gap from warning)', 0.037, 0.135, H.perfect5th),
     info: role('Celadon info — her voice, calm and steady', 0.091, 0.110, H.mikuTeal),
   };
@@ -233,11 +233,11 @@ export function createGitTokens(p: Primitives): GitTokens {
   return {
     added: role('Matcha added — deep growth on cream (depth carries the protan gap from modified)',
       0.024, 0.130, 150),
-    modified: role('Turmeric modified — warm golden change, deepened for the sage House',
+    modified: role('Turmeric modified — warm golden change, deepened for the bow-cream House',
       0.070, 0.085, 90),
     deleted: role('Violet deleted — twilight departure (deepened for tritan DJz vs modified)',
       0.050, 0.120, H.major3rd),
-    untracked: role('Celadon untracked — her hair, drifting in (deepened for the sage House)',
+    untracked: role('Celadon untracked — her hair, drifting in (deepened for the bow-cream House)',
       0.055, 0.085, H.mikuTeal),
     conflicting: role('Rose conflicting — demands resolution',
       0.058, 0.110, H.tritone),

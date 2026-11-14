@@ -31,6 +31,10 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
   const panelBg = wb('panel.background', ui.background.hex);
   const floatBg = wb('editorWidget.background', ui.backgroundFloat.hex);
   const tabBarBg = wb('editorGroupHeader.tabsBackground', ui.backgroundHouse.hex);
+  const statusBarBg = wb('statusBar.background', ui.backgroundHouse.hex);
+  const sectionHeaderBg = wb('sideBarSectionHeader.background', ui.backgroundHouse.hex);
+  const titleBarBg = wb('titleBar.activeBackground', ui.backgroundHouse.hex);
+  const titleBarInactiveBg = wb('titleBar.inactiveBackground', ui.backgroundHouse.hex);
   const accent = solid(ui.accentPrimary.hex);
   const focus = wb('focusBorder', polarity === 'light' ? ui.cursor.hex : ui.activeBorder.hex);
   const cursor = wb('editorCursor.foreground', ui.cursor.hex);
@@ -100,7 +104,7 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
           'editor.background': bg,
           'editor.foreground': fg,
           'editor.gutter.background': bg,
-          'editor.subheader.background': houseBg,
+          'editor.subheader.background': sectionHeaderBg,
           'editor.active_line.background': activeLineBg,
           'editor.highlighted_line.background': activeLineBg,
           'editor.line_number': subtle,
@@ -117,9 +121,9 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
           'drop_target.background': dropTargetBg,
 
           // Status / Title / Tab / Toolbar bars
-          'status_bar.background': houseBg,
-          'title_bar.background': houseBg,
-          'title_bar.inactive_background': houseBg,
+          'status_bar.background': statusBarBg,
+          'title_bar.background': titleBarBg,
+          'title_bar.inactive_background': titleBarInactiveBg,
           'tab_bar.background': tabBarBg,
           'tab.active_background': bg,
           'tab.inactive_background': houseBg,
@@ -348,7 +352,7 @@ export function createZedTheme(t: SemanticTokens, polarity: 'dark' | 'light', na
             preproc: { color: solid(syn.macro.hex) },
             link_text: { color: solid(ui.link.hex) },
             link_uri: { color: solid(t.markdown.linkUrl.hex) },
-            namespace: { color: solid(syn.type.hex) },
+            namespace: { color: solid(t.support.namespace.hex) },
             emphasis: { font_style: 'italic' },
             'emphasis.strong': { font_weight: 700 },
           },

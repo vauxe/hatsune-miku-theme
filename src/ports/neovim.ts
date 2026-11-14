@@ -7,7 +7,14 @@
  */
 
 import { withOpacity, type SemanticTokens } from '../tokens';
-import { selectionSurface, flattenEmbeddedAlpha } from './shared';
+import {
+  selectionSurface,
+  flattenEmbeddedAlpha,
+  statusBarSurface,
+  sectionHeaderSurface,
+  findHighlightSurface,
+  focusedMatchColors,
+} from './shared';
 
 type HlDef = {
   fg?: string;
@@ -39,7 +46,7 @@ function luaVal(def: HlDef): string {
   return `{ ${parts.join(', ')} }`;
 }
 
-export function createNeovimTheme(t: SemanticTokens, polarity: 'dark' | 'light'): string {
+export function createNeovimTheme(t: SemanticTokens, polarity: 'dark' | 'light', slug: string = polarity): string {
   const syn = t.syntax;
   const ui = t.ui;
   const st = t.status;
@@ -51,6 +58,10 @@ export function createNeovimTheme(t: SemanticTokens, polarity: 'dark' | 'light')
   const floatBg = ui.backgroundFloat.hex;
   const houseBg = ui.backgroundHouse.hex;
   const voidBg = ui.backgroundVoid.hex;
+  const statusBg = statusBarSurface(t, polarity);
+  const headerBg = sectionHeaderSurface(t, polarity);
+  const searchBg = findHighlightSurface(t);
+  const curSearch = focusedMatchColors(t, polarity);
   const bg = ui.background.hex;
   const fg = ui.foreground.hex;
 
@@ -80,12 +91,12 @@ export function createNeovimTheme(t: SemanticTokens, polarity: 'dark' | 'light')
     Folded: { fg: ui.foregroundMuted.hex, bg: houseBg },
     VertSplit: { fg: ui.border.hex },
     WinSeparator: { fg: ui.border.hex },
-    StatusLine: { fg, bg: houseBg },
+    StatusLine: { fg, bg: statusBg },
     StatusLineNC: { fg: ui.foregroundMuted.hex, bg: houseBg },
     TabLine: { fg: ui.foregroundMuted.hex, bg: voidBg },
     TabLineFill: { bg: voidBg },
     TabLineSel: { fg, bg, bold: true },
-    WinBar: { fg, bg: houseBg },
+    WinBar: { fg, bg: headerBg },
     WinBarNC: { fg: ui.foregroundMuted.hex, bg: houseBg },
 
     // Popup menu
@@ -106,9 +117,9 @@ export function createNeovimTheme(t: SemanticTokens, polarity: 'dark' | 'light')
     FloatFooter: { fg: ui.foregroundMuted.hex, bg: floatBg },
 
     // Search
-    Search: { fg: bg, bg: syn.function.hex },
-    IncSearch: { fg: bg, bg: ui.accentPrimary.hex },
-    CurSearch: { fg: bg, bg: ui.cursor.hex },
+    Search: { fg, bg: searchBg },
+    IncSearch: { fg: curSearch.fg, bg: curSearch.bg },
+    CurSearch: { fg: curSearch.fg, bg: curSearch.bg },
     Substitute: { fg: bg, bg: st.warning.hex },
 
     // Selection
@@ -226,8 +237,8 @@ export function createNeovimTheme(t: SemanticTokens, polarity: 'dark' | 'light')
     '@constant.macro': { fg: syn.macro.hex },
 
     // Modules
-    '@module': { fg: syn.type.hex },
-    '@module.builtin': { fg: syn.type.hex, italic: true },
+    '@module': { fg: t.support.namespace.hex },
+    '@module.builtin': { fg: t.support.namespace.hex, italic: true },
 
     // Labels
     '@label': { fg: syn.keywordControl.hex },
@@ -329,7 +340,7 @@ export function createNeovimTheme(t: SemanticTokens, polarity: 'dark' | 'light')
     // =========================================================================
     // LSP SEMANTIC TOKENS
     // =========================================================================
-    '@lsp.type.namespace': { fg: syn.type.hex },
+    '@lsp.type.namespace': { fg: t.support.namespace.hex },
     '@lsp.type.type': { fg: syn.type.hex },
     '@lsp.type.class': { fg: syn.class.hex },
     '@lsp.type.enum': { fg: syn.enum.hex },
@@ -859,7 +870,7 @@ end
 
 vim.o.termguicolors = true
 vim.o.background = "${polarity}"
-vim.g.colors_name = "hatsune-miku-${polarity}"
+vim.g.colors_name = "hatsune-miku-${slug}"
 
 local groups = {
 ${hlLines}

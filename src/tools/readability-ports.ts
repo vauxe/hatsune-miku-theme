@@ -163,7 +163,7 @@ function validateTheme(theme: Theme, verbose: boolean): Failure[] {
     }
   }
 
-  for (const failure of validatePortContracts(tokens)) {
+  for (const failure of validatePortContracts(tokens, theme.polarity, theme.slug)) {
     failures.push({ ...failure, type: 'FORMAT' });
     console.log(`! FAIL  ${failure.name}: ${failure.detail}`);
   }

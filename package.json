@@ -2,7 +2,7 @@
   "name": "hatsune-miku-ohime-sama-theme",
   "displayName": "Hatsune Miku Ohime-sama Theme",
   "publisher": "vauxe",
-  "description": "A VS Code color theme traced from Hatsune Miku's character design. Dark and light variants, built with perceptual color science.",
+  "description": "Four color themes traced from Hatsune Miku's character designs (Original Dark, Snow Miku 2026, Snow Miku 2024, Magical Mirai 2025), built with perceptual color science.",
   "version": "3.9.39",
   "license": "MIT",
   "icon": "icon.png",
@@ -22,6 +22,8 @@
     "light",
     "miku",
     "hatsune-miku",
+    "snow-miku",
+    "magical-mirai",
     "vocaloid",
     "color-theme"
   ],

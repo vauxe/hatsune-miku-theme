@@ -111,6 +111,7 @@ export function createSupportTokens(p: Primitives): SupportTokens {
     type: role('Support type -- blue depth, built-in architecture', L.soprano + 0.008, C.mp, H.minor3rd),  // +Jz: blue gamut comp
     constant: role('Support constant -- azure, built-in truth', L.soprano + 0.004, C.mp, H.major2nd),  // +Jz: azure compound margin
     variable: role('Support variable -- cyan, built-in data', L.soprano, C.mp, H.minor2nd),
+    namespace: role('Support namespace -- blue depth, module scope', L.soprano + 0.008, C.mp, H.minor3rd),
   };
 }
 

@@ -927,7 +927,7 @@ export const ROLE_DISTINCTION_THRESHOLDS = {
  *   string   = stringTemplate
  *   constant = enumMember
  *   number   = boolean
- *   type     (namespace same color)
+ *   type     (namespace shares hue except mm-2025 mascot mint)
  *   decorator = macro
  *
  * Unique colors also tested: tag, enum, interface, typeParameter,
